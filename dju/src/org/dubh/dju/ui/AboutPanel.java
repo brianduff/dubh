@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AboutPanel.java,v 1.5 1999-11-11 21:24:35 briand Exp $
+//   $Id: AboutPanel.java,v 1.6 2000-08-19 21:17:38 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -32,29 +32,20 @@ import java.awt.event.*;
 import org.javalobby.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 
-import org.javalobby.dju.misc.ReadOnlyVersion;
-import org.javalobby.dju.misc.VersionManager;
-
 /**
  * A generic about dialog that can display information about the versions
- * of this product and any dependent products that follow the dubh versioning
- * system. In future, support will be added for Java 2 style versioning.
- * Version History: <UL>
- * <LI>0.01 [21/04/98]: Initial Revision
- * <LI>0.02 [23/11/98]: And a mere 7 months later, I actually get round to
- *    finishing it... :) 
- * <LI>0.03 [12/12/98]: Ported over from NewsAgent. Changed to a panel and
- *    added static dialog invoker.
- *</UL>
- @author Brian Duff
- @version 0.03 [12/12/98]
+ * of this product and any dependent products that use the versioning support
+ * in Java 2.
+ *
+ * @author Brian Duff
+ * @version $Id: AboutPanel.java,v 1.6 2000-08-19 21:17:38 briand Exp $
  */
 public class AboutPanel extends JPanel {
    private JButton     m_cmdOK;
    private JLabel      m_labIcon;
    private JLabel      m_labAppName;
    private JLabel      m_labVersion;
-   private JLabel      m_labCopyright;
+   private JLabel      m_labVendor;
    private JList       m_lstDepVersions;
    private JScrollPane m_scrDepVersions;
 
@@ -67,7 +58,7 @@ public class AboutPanel extends JPanel {
       m_labIcon        = new JLabel();
       m_labAppName     = new JLabel();
       m_labVersion     = new JLabel();
-      m_labCopyright   = new JLabel();
+      m_labVendor   = new JLabel();
       m_lstDepVersions = new JList();
       m_scrDepVersions = new JScrollPane(m_lstDepVersions);     
       
@@ -82,19 +73,19 @@ public class AboutPanel extends JPanel {
          0, 0
       ));
       
-      add(m_labAppName, new GridBagConstraints2(
+      add(m_labVendor, new GridBagConstraints2(
          1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
       
-      add(m_labVersion, new GridBagConstraints2(
+      add(m_labAppName, new GridBagConstraints2(
          1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
 
-      add(m_labCopyright, new GridBagConstraints2(
+      add(m_labVersion, new GridBagConstraints2(
          1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
@@ -117,40 +108,73 @@ public class AboutPanel extends JPanel {
 
    /**
    * Set the version information for the main product.
+   *
+   * @param mainPackage the main package for the product. Versioning information
+   * for this product should be stored in the JAR manifest.
    */
-   public void setProductVersion(ReadOnlyVersion rov)
+   public void setProductVersion(String mainPackageName)
    {
-      m_labAppName.setText(rov.getProductName());
-      m_labVersion.setText(rov.getVersionDescription(
-         "Version {3}.{4}.{5} build {6} [{2}] - {7}"
-      ));
-      m_labCopyright.setText(rov.getProductCopyright());
+      Package mainPackage = Package.getPackage(mainPackageName);
+
+      if (mainPackage != null)
+      {
+         m_labVendor.setText(mainPackage.getImplementationVendor());
+         m_labAppName.setText(mainPackage.getImplementationTitle());
+         m_labVersion.setText(mainPackage.getImplementationVersion());
+      }
+      else
+      {
+         m_labAppName.setText(mainPackage.toString());
+         m_labVersion.setText("Unknown Version");
+      }
    }
   
    /**
    * Add a version information for a product on which this
    * product is dependent.
    */
-   public void setDependencies(ReadOnlyVersion[] rov)
+   public void setDependencies(String[] pkglist)
    {
-      m_lstDepVersions.setModel(new DependenciesListModel(rov));
+      m_lstDepVersions.setModel(new DependenciesListModel(pkglist));
    }
   
   
    class DependenciesListModel extends AbstractListModel
    {
-      private ReadOnlyVersion[] m_versions;
+      private String[] m_versions;
    
-      public DependenciesListModel(ReadOnlyVersion[] rov)
+      public DependenciesListModel(String[] pkglist)
       {
-         m_versions = rov;
+         m_versions = pkglist;
       }
       
       public Object getElementAt(int index)
       {
-         return m_versions[index].getVersionDescription(
-            "{0} {3}.{4}.{5} build {6} [{2}]"
-         );
+         Package pck = Package.getPackage(m_versions[index]);
+
+         if (pck == null)
+         {
+            return "Unrecognized Package: "+m_versions[index];
+         }
+         String specVendor = pck.getImplementationVendor();
+         String specTitle = pck.getImplementationTitle();
+         String specVersion = pck.getImplementationVersion();
+
+         if (specVendor == null)
+            specVendor = "Unknown Vendor";
+
+         if (specVersion == null)
+            specVersion = "Unknown Version";
+
+         if (specTitle == null)
+         {
+            specTitle = pck.getSpecificationTitle();
+            if (specTitle == null)
+            {
+               specTitle = m_versions[index];
+            }
+         }
+         return specVendor+" "+specTitle+" version "+specVersion;
       }
 
       public int getSize()
@@ -159,19 +183,19 @@ public class AboutPanel extends JPanel {
       }
    }
    
-   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product, 
-      ReadOnlyVersion[] dependencies)
+   public static AboutPanel doDialog(JFrame parent, String product,
+      String[] dependencies)
    {
       return doDialog(parent, product, dependencies, null);
    }
    
-   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product)
+   public static AboutPanel doDialog(JFrame parent, String product)
    {
       return doDialog(parent, product, null);
    }            
    
-   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product,
-      ReadOnlyVersion[] dependencies, Icon icon)
+   public static AboutPanel doDialog(JFrame parent, String product,
+      String[] dependencies, Icon icon)
    {
       AboutPanel ap = new AboutPanel();
       if (icon != null) ap.setIcon(icon);
@@ -200,12 +224,6 @@ public class AboutPanel extends JPanel {
          super(parent, "About", true);
          setButtonVisible(DubhOkCancelDialog.s_CANCEL_BUTTON, false);
       }
-   }
-   
-
-   public static void main(String[] args)
-   {
-       AboutPanel.doDialog(new JFrame(), VersionManager.getInstance().getVersion("org.javalobby.dju"));
    }
    
 }
