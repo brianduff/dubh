@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2000-08-23 21:57:44 briand Exp $ -->
+<!-- $Id: build.xml,v 1.2 2000-08-23 22:03:42 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -83,10 +83,6 @@
   <!-- grabs the latest built Dubh Java Utilities -->
   <target name="grabdeps" depends="init">
     <copydir src="dju/lib"
-             dest="${jardir}"
-             includes="**/*.jar"
-    />
-    <copydir src="dmp/lib"
              dest="${jardir}"
              includes="**/*.jar"
     />
