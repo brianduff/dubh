@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: MessageComposer.java,v 1.7 2001-02-11 02:50:59 briand Exp $
+//   $Id: MessageComposer.java,v 1.8 2001-02-11 15:43:47 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -53,7 +53,7 @@ import org.dubh.apps.newsagent.dialog.preferences.IdentityOptionsPanel;
 /**
  * User interface for composing messages to post.
  * @author Brian Duff
- * @version $Id: MessageComposer.java,v 1.7 2001-02-11 02:50:59 briand Exp $
+ * @version $Id: MessageComposer.java,v 1.8 2001-02-11 15:43:47 briand Exp $
  */
 public class MessageComposer extends JFrame implements IUpdateableClass {
 
@@ -311,8 +311,8 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
            " (" + p.getPreference(PreferenceKeys.IDENTITY_REALNAME) + ")");
      h.setField("Organization", p.getPreference(PreferenceKeys.IDENTITY_ORGANISATION));
      if (p.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true)) {
-        h.setField("X-Mailer", GlobalState.xmailer); // !!!!
-        h.setField("X-Mailer-URL", GlobalState.appURL); // !!!
+//        h.setField("X-Mailer", GlobalState.xmailer); // !!!!
+//        h.setField("X-Mailer-URL", GlobalState.appURL); // !!!
      }
      if (m_replyto!=null) {
         if (m_replyto.hasField("References"))
@@ -326,14 +326,14 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
      }
      GlobalState.getStorageManager().connectIfNeeded(m_server);
      try {
-        if (GlobalState.getAgentManager().callSendAgents(h, b)) {
+        //if (GlobalState.getAgentManager().callSendAgents(h, b)) {
            // Fcc if the header exists
            if (h.hasField("Fcc"))
               fccMessage(h, b);
            m_server.postArticle(h, b);
            return true;
-        } else
-           return false;
+        //} else
+        //   return false;
      } catch (NNTPServerException nntp) {
         GlobalState.getStorageManager().nntpException(nntp,
         GlobalState.getRes().getString("Action.Posting"), m_server);
@@ -358,7 +358,7 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 
    String em = GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_EMAIL, "");
    if (em.equals("")) {
-     if (ErrorReporter.yesNo("MessageComposer.NoIdentity", new String[] {GlobalState.appName})) {
+     if (ErrorReporter.yesNo("MessageComposer.NoIdentity", new String[] {GlobalState.getApplicationInfo().getName()})) {
        // user wants to edit their identity options.
         NewsAgentPreferences.showDialog(IdentityOptionsPanel.ID);
      }
@@ -514,6 +514,9 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2001/02/11 02:50:59  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.6  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
