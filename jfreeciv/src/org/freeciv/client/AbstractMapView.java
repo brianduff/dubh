@@ -1,5 +1,7 @@
 package org.freeciv.client;
 
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.awt.geom.AffineTransform;
@@ -37,6 +39,7 @@ abstract class AbstractMapView implements MapView, Constants
 
   private Client m_client;
   private BufferedImage m_introImage;
+  private Graphics2D m_bufferGraphics;
   private int m_introImageHeight = 0;
   private int m_introImageWidth = 0;
   private MapComponent m_component;
@@ -48,8 +51,8 @@ abstract class AbstractMapView implements MapView, Constants
    * excessive lookups on repaints. It is (re)allocated each time the view port 
    * changes size (in paint)
    */
-  private BufferedImage m_bufferedImage;
-
+  private BufferedImage m_bufferedImage;  
+  
   private static final Color SPLASH_TAGLINE_COLOR = new Color( 45, 113, 227 );
   private static final Font SPLASH_TAGLINE_FONT = 
     new Font( "Dialog", Font.BOLD, 16 );
@@ -66,16 +69,10 @@ abstract class AbstractMapView implements MapView, Constants
   private int m_y0;
 
   /**
-   * The number of tiles that can be displayed horizontally on the map canvas
-   */
-  private int m_canvasWidthTiles;
-
-
-  /**
    * The map "container" component, which consists of the scrollbars and
    * the actual map component itself.
    */
-  private JComponent m_scrollPane;
+  private JScrollPane m_scrollPane;
 
   private int NORMAL_TILE_WIDTH;
   private int NORMAL_TILE_HEIGHT;
@@ -83,9 +80,8 @@ abstract class AbstractMapView implements MapView, Constants
   /**
    * The number of tiles that can be stored on the map canvas store horizontally
    */
-  private int m_bufferTileWidth = 0;
-
-  private int m_bufferTileHeight = 0;
+  private int m_bufferTileWidth = 0; // Corresponds to map_canvas_store_twidth
+  private int m_bufferTileHeight = 0; // Corresponds to map_canvas_store_theight
 
 
   /**
@@ -109,22 +105,72 @@ abstract class AbstractMapView implements MapView, Constants
     m_component = new MapComponent();
 
     m_scrollPane = new JScrollPane( m_component );
+    ScrollBarListener sbl = new ScrollBarListener();
+    m_scrollPane.getHorizontalScrollBar().addAdjustmentListener( sbl );
+    m_scrollPane.getVerticalScrollBar().addAdjustmentListener( sbl );
     
     //intro.paintIcon( m_component, m_splashScreen.getGraphics(), 0, 0 );
     //paintSplashTagline( );
   }
 
-  public void refreshTileMapCanvas( int x, int y )
+  public final void refreshTileMapCanvas( int x, int y )
   {
-    // TODO
+    x = getMap().adjustX( x );
+    y = getMap().adjustY( y );
+
+    if ( isTileVisible( x, y ) )
+    {
+      updateMapBuffer(x, y, 1, 1, true);
+    }
   }
 
-  public JComponent getComponent()
+  public final void initialize()
+  {
+  
+    // Unsure about this
+    m_component.setPreferredSize( new Dimension(
+      // Hmm. This **seems** to be what the Gtk client does to allow the horizontal scrollbar
+      // to wrap properly, but I'm not certain.
+      getNormalTileWidth() * getMap().getWidth() * 2, 
+      getNormalTileHeight() * getMap().getHeight()
+    ) );
+    m_component.getParent().invalidate();
+    m_component.getParent().validate();
+  }
+
+  public final JComponent getComponent()
   {
     return m_scrollPane;
   }
 
 
+  public final void centerOnTile( int tilex, int tiley )
+  {
+    // center_tile_mapcanvas
+    centerOnTileImpl( tilex, tiley );
+    
+    updateScrollbars();
+    updateVisibleMap(); // right way round?    
+    // hover stuff
+  }
+
+  protected final void updateMapBuffer( int x, int y, int width, int height,
+    boolean writeToScreen )
+  {
+    updateMapBufferImpl( x, y, width, height );
+
+    if ( writeToScreen )
+    {
+      // TODO: Only repaint the affected region
+      m_component.repaint();
+    }
+  }
+
+
+  protected Graphics2D getGraphicsBuffer()
+  {
+    return m_bufferGraphics;
+  }
   /**
    * Get the client
    */
@@ -150,10 +196,16 @@ abstract class AbstractMapView implements MapView, Constants
    * @return a dimension that indicates the width and height of the visible
    *    part of the map in the scrollpane (the viewport)
    */
-  private Dimension getViewArea()
+  protected Dimension getViewArea()
   {
     return ((JScrollPane)m_scrollPane).getViewport().getExtentSize();
   }
+
+  protected Point getViewOffset()
+  {
+    return ((JScrollPane)m_scrollPane).getViewport().getViewPosition();
+  }
+
 
   /**
    * Get the number of tiles that are displayed on the map horizontally
@@ -188,17 +240,75 @@ abstract class AbstractMapView implements MapView, Constants
   }
 
   /**
+   * Set the x index of the first tile visible in the viewrect. You must
+   * call updateScrollbars() after calling this to ensure that the 
+   * scrollpane's viewport is shifted to the correct location
+   *
+   * @param x the new x tile origin
+   */
+  protected final void setViewTileOriginX( int x )
+  {
+    m_x0 = x;
+  }
+
+  /**
+   * Set the y index of the first tile visible in the viewrect. You must
+   * call updateScrollbars() after calling this to ensure that the 
+   * scrollpane's viewport is shifted to the correct location
+   *
+   * @param y the new y tile origin
+   */
+  protected final void setViewTileOriginY( int y )
+  {
+    m_y0 = y;
+  }
+
+  protected final int getNormalTileWidth()
+  {
+    return NORMAL_TILE_WIDTH;
+  }
+
+  protected final int getNormalTileHeight()
+  {
+    return NORMAL_TILE_HEIGHT;
+  }
+
+  /**
    * Update the map buffer for the tiles at the specified locations.
    *
    * @param x the x-coord
    * @param y the y-coord
    * @param width the width
    * @param height the height
-   * @param writeToScreen whether to actually write to screen or just update
-   *    the in-memory buffer
    */
-  protected abstract void updateMapBuffer( int x, int y, int width, int height,
-    boolean writeToScreen );
+  protected abstract void updateMapBufferImpl( int x, int y, int width, int height );
+
+  /**
+   * Is the specified tile visible in the viewrect?
+   *
+   * @param x the tile x-coord
+   * @param y the tile y-coord
+   *
+   * @return true if the specified tile is visible or partially visible
+   *    in the view rectangle, false otherwise
+   */
+  protected abstract boolean isTileVisible( int x, int y );
+
+  /**
+   * Find the pixel co-ordinates of a tile.
+   *
+   * @param map_x the x-coordinate of the tile
+   * @param map_y the y-coordinate of the tile
+   * @param canvasPos on exit, contains the pixel co-ordinates of the tile.
+   * @return true if the specified tile is inside the visible map
+   */
+  protected abstract boolean getCanvasPosition( int map_x, int map_y, 
+    Point canvasPos );
+
+  /**
+   * Center on the specified tile
+   */
+  protected abstract void centerOnTileImpl( int tilex, int tiley );
 
   /**
    * Get a new BufferedImage containing the specified icon, scaled  to the
@@ -250,18 +360,24 @@ abstract class AbstractMapView implements MapView, Constants
 
 
   /**
-   * Update the visible map canvas. Called on paint events on the map 
-   * component when the map has been resized.
+   * Update the visible map canvas. 
    */
   protected abstract void updateVisibleMap();
 
   /**
-   * Update the scrollbars of the scrollpane. Called on paint events on the
-   * map component when the map has been resized.
+   * Update the scrollbars of the scrollpane. The scrollpane is scrolled
+   * so that the origin tile is fully in view. This is probably completely
+   * wrong, but we'll give it a shot.
    */
   private void updateScrollbars()
   {
-    // TODO
+    // Figure out prospective pixel coordinates on the map
+    int spX = getViewTileOriginX() * getNormalTileWidth();
+    int spY = getViewTileOriginY() * getNormalTileHeight();
+
+    // Now adjust these values so as to avoid falling off the end of the map
+    // Not sure if we should alias to a tile boundary here... <ulp>
+    m_scrollPane.getViewport().setViewPosition( new Point( spX, spY ) );
   }
 
   /**
@@ -318,6 +434,9 @@ abstract class AbstractMapView implements MapView, Constants
       // cpu cycles.
       if ( m_bufferTileWidth != tile_width || m_bufferTileHeight != tile_height )
       {
+        System.out.println( "RESIZE DETECTED" );
+        // The map has been resized, reallocate the buffered image. Ugh
+        // resizing will be sloowwww
         m_bufferTileWidth = tile_width;
         m_bufferTileHeight = tile_height;
 
@@ -329,6 +448,7 @@ abstract class AbstractMapView implements MapView, Constants
         gbi.setColor( Color.black );
         gbi.fillRect( 0, 0, NORMAL_TILE_WIDTH * m_bufferTileWidth,
           NORMAL_TILE_HEIGHT * m_bufferTileHeight );
+        m_bufferGraphics = (Graphics2D)gbi;
 
         // gtk updates its scrollbars here. I think we don't need to do this
         // (JScrollPane takes care of it)
@@ -384,7 +504,7 @@ abstract class AbstractMapView implements MapView, Constants
           else
           {
             // Cool. Simply dump the buffer into the graphics context.
-            g.drawImage( m_bufferedImage, null, 0, 0 );   // Maybe this should be the x, y of the viewrect rather than 0,0?
+            g.drawImage( m_bufferedImage, null, getViewOffset().x, getViewOffset().y );
             showCityDescriptions();
           }
         }
@@ -393,4 +513,24 @@ abstract class AbstractMapView implements MapView, Constants
       }
     }
   }  
+
+
+  /**
+   * Listen for the scrollbar moving. Adjust and update the buffered image
+   * and repaint the canvas.
+   */
+  private class ScrollBarListener implements AdjustmentListener
+  {
+    public void adjustmentValueChanged( AdjustmentEvent ae )
+    {
+      boolean isHorizontal = 
+        (ae.getAdjustable() == m_scrollPane.getHorizontalScrollBar() );
+
+      int value = ae.getValue();
+
+      String hv = (isHorizontal ? "Horizontal" : "Vertical" );
+      System.out.println( hv + " adjustment by "+value  );
+
+    }
+  }
 }
