@@ -2,8 +2,8 @@
 <%
 /**
  * $RCSfile: viewMessage.jsp,v $
- * $Revision: 1.2 $
- * $Date: 2001-06-11 20:44:53 $
+ * $Revision: 1.3 $
+ * $Date: 2001-06-11 20:46:00 $
  */
 %>
 
@@ -333,7 +333,7 @@
             } %>
 
             <%= displayName %>
-         } %>
+        <% } %>
       </b>
       </font>
    </td>
