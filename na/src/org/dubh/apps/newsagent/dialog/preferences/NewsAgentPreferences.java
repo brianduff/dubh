@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: NewsAgentPreferences.java,v 1.4 2001-02-11 02:51:00 briand Exp $
+//   $Id: NewsAgentPreferences.java,v 1.5 2001-02-11 15:45:27 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -39,7 +39,7 @@ import org.dubh.dju.ui.preferences.*;
 /**
  * The NewsAgent Preferences dialog.
  * @author Brian Duff
- * @version $Id: NewsAgentPreferences.java,v 1.4 2001-02-11 02:51:00 briand Exp $
+ * @version $Id: NewsAgentPreferences.java,v 1.5 2001-02-11 15:45:27 briand Exp $
  */
 public class NewsAgentPreferences extends PreferencesDialog {
 
@@ -47,7 +47,7 @@ public class NewsAgentPreferences extends PreferencesDialog {
 
    private NewsAgentPreferences()
    {
-      super(GlobalState.appName+" "+GlobalState.getRes().getString("OptionsFrame.Preferences"),
+      super(GlobalState.getApplicationInfo().getName()+" "+GlobalState.getRes().getString("OptionsFrame.Preferences"),
             "naprefs", GlobalState.getMainFrame(), GlobalState.getPreferences());
 
       GeneralOptionsPanel general = new GeneralOptionsPanel();
@@ -98,6 +98,9 @@ public class NewsAgentPreferences extends PreferencesDialog {
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2001/02/11 02:51:00  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.3  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
