@@ -895,7 +895,7 @@
                         <clearLogBeforeRun>false</clearLogBeforeRun>
                         <compileBeforeRun>true</compileBeforeRun>
                         <connectionName/>
-                        <javaOptions>-XOd -Dfreeciv.datadir=c:\cvswork\jfreeciv_bak\data</javaOptions>
+                        <javaOptions>-XOd</javaOptions>
                         <logCommand>true</logCommand>
                         <logError>true</logError>
                         <logExit>true</logExit>

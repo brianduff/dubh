@@ -1,20 +1,12 @@
-<!-- $Id: build.xml,v 1.14 2001-11-26 01:06:23 briand Exp $ -->
+<!-- $Id: build.xml,v 1.15 2001-12-15 23:25:38 briand Exp $ -->
 
-<!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
-
 
 
 <project name="jfreeciv" default="src" basedir=".">
   <target name="init">
     <tstamp/>
-
-
-    <!-- The buildnumber task is in the devtools CVS module. It must be in -->
-    <!-- the classpath before building any other module -
-    <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
-    -->
 
     <!-- The name and main version number of this project. -->
     <property name="product" value="JFreeciv" />
@@ -33,6 +25,10 @@
     <property name="moduleshort" value="${cvsmodule}-${majorversion}.${minorversion}" />
     <property name="modulelong" value="${moduleshort}" />
     <property name="jarfile" value="${jardir}/${moduleshort}.jar" />
+    <property name="jarmanifest" value="manifest.txt" />
+    <property name="podir" value="po" />
+    <property name="javapodir" value="po_java" />
+    <property name="datadir" value="data" />
 
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
     <property name="classpath" value="" />
@@ -50,31 +46,34 @@
   </target>
   
   
-  <!-- Pull source code from CVS and set up initial dirs -->
-  <target name="pullsrc" depends="init" if="cvsroot">
-    <cvs  cvsRoot="${cvsroot}"
-          command="export"
-          package="${cvsmodule}"
-          dest="."
-          date="now"
-          quiet="true"
-          failonerror="true"
-    />
-  </target>
-
-
   <!-- Copy files from the source tree to the output path -->
-  <target name="copyfiles" depends="pullsrc">
+  <target name="copyfiles" depends="init" >
+  
+    <!-- Images etc from inside the source tree -->
     <copy todir="${classdir}">
       <fileset dir="${srcdir}" includes="${copypatterns}" />
     </copy>
-   
+  
+    <!-- Internationalized .po files --> 
+    <copy todir="${classdir}/org/freeciv/util/po">
+      <fileset dir="${podir}" />
+    </copy>
+    <copy todir="${classdir}/org/freeciv/util/poja">
+      <fileset dir="${javapodir}" />
+    </copy>
+    
+    <!-- Data files -->
+    <copy todir="${classdir}/org/freeciv/common/data">
+      <fileset dir="${datadir}" />
+    </copy>
+
+    
   </target>
 
 
   
   <!-- Compile all source code -->
-  <target name="src" depends="pullsrc,copyfiles">
+  <target name="src" depends="copyfiles">
     <mkdir dir="${classdir}" />
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
@@ -87,12 +86,13 @@
   <!-- Create the JAR file -->
   <target name="jar" depends="src">
     <mkdir dir="${jardir}" />
-    <jar  jarfile="${jarfile}" basedir="${classdir}" />
+    <jar  jarfile="${jarfile}" basedir="${classdir}" compress="true"
+      manifest="${jarmanifest}" />
   </target>
 
 
   <!-- Create javadoc -->
-  <target name="javadoc" depends="pullsrc">
+  <target name="javadoc" depends="init">
     <mkdir dir="${javadocdir}" />
 
     <javadoc  sourcepath="${srcdir}"
@@ -117,19 +117,7 @@
       <fileset dir="${jardir}" includes="*.jar" />
     </copy>
 
-    <!--
-    <mkdir dir="${distdir}/src" />
-    <copy todir="${distdir}/src">
-      <fileset dir="${srcdir}" />
-    </copy>
-    -->
 
-    <!--
-    <mkdir dir="${distdir}/doc/api" />
-    <copy todir="${distdir}/doc/api">
-      <fileset dir="${javadocdir}" />
-    </copy>
-    -->
 
     <copy todir="${distdir}">
       <fileset dir=".">

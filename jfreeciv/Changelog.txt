@@ -1,3 +1,10 @@
+15.12.01 [bduff]
+
+JARified the data and translation stuff, and rearranged the
+code so that it's URL capable. The nice thing about this
+is that the client no longer relies on the file system at
+all, so could potentially be used as an applet (scary).
+
 04.11.01 [bduff]
 
 The unit stack and unit info displays now work.

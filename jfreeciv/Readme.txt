@@ -25,12 +25,6 @@ What Do I Need to Run JFreeCiv?
 You'll need to install the Java Development Kit or Java Runtime Environment 
 1.3 or 1.4. You can download these from http://java.sun.com.
 
-You'll also need to download the data files used by Freeciv. These currently 
-aren't part of either the source or binary distributions of JFreeCiv. You 
-can download them at:
-
-http://balveda.dubh.org/build/jfreeciv/jfreeciv-data.tar.gz [914 KB]
-
 JFreeCiv is only a client; you'll need a freeciv server to connect to. Visit 
 http://www.freeciv.org to get the binaries for your platform.
 
@@ -43,7 +37,17 @@ How Do I Run JFreeCiv?
 
 If you downloaded the binary distribution:
 
-o Make sure java.exe is in your PATH (if you installed JDK or JRE, this will
+o Try double clicking or running the lib/jfreeciv-1.0.jar file. If your
+java runtime is set up properly on a platform that supports executable
+jars (e.g. Windows, Solaris), this should be all you need to do.
+
+
+It Didn't Work!!
+----------------
+
+If you're having problems running jfreeciv:
+
+o Make sure java is in your PATH (if you installed JDK or JRE, this will
 already be the case on most operating systems)
 
 o Run a command prompt (DOS prompt), or bring up a UNIX shell.
@@ -52,11 +56,23 @@ o Change into the top directory (the directory containing this readme file)
 
 o Type:
 
-java -cp lib/jfreeciv-1.0.jar -Dfreeciv.datadir=path/to/datadir org.freeciv.client.Client
+java -jar lib/jfreeciv-1.0.jar
 
-That's all one line, and you need to replace path/to/datadir with the 
-directory you downloaded the data files to ( see "What Do I Need to Run 
-JFreeCiv?" above )
+
+If there are error messages, take note of them. If you see something along
+the lines of:
+
+Unrecognized option: -jar
+
+You're using an old version of java that does not support executable jar
+files and most likely won't work with JFreeciv. If this is the case, check
+which version of java you are using:
+
+java -version
+
+If the version is less than 1.3, you need to make sure your PATH is set
+up properly so that java 1.3 or 1.4 is in your PATH before any other Java
+runtime.
 
 How Do I Build JFreeCiv?
 ------------------------
