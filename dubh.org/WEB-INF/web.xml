@@ -15,7 +15,7 @@
    <servlet-name>oracle-xsql-servlet</servlet-name>
    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
- <!--
+
  <welcome-file-list>
    <welcome-file>index.xml</welcome-file>
  </welcome-file-list>
@@ -32,7 +32,7 @@
       <url-pattern> *.xsql </url-pattern>     
  </servlet-mapping>
  
-  
+   <!--
    brian/bookmark/secure is a secure zone (it updates the database) 
   <security-constraint>
     <web-resource-collection>
