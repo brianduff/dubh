@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ValidationChangeEvent.java,v 1.3 1999-03-22 23:37:17 briand Exp $
+//   $Id: ValidationChangeEvent.java,v 1.4 1999-11-02 19:52:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 //   This program is free software; you can redistribute it and/or modify
@@ -25,29 +25,40 @@
 //   See bottom of file for revision history
 
 package dubh.utils.event;
+
 import java.util.EventObject;
 /**
  * ValidationChangeEvents are fired by ValidatorPanels when the valid
  * state of the panel changes.</P>
- * <B>Revision History:</B><UL>
- * <LI>0.1 [29/06/98]: Initial Revision
- * </UL>
- @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
- @version 0.1 [29/06/98]
- @see dubh.utils.ui.ValidatorPanel
+ * @author Brian Duff (dubh@btinternet.com)
+ * @version $Id: ValidationChangeEvent.java,v 1.4 1999-11-02 19:52:46 briand Exp $
+ * @see dubh.utils.ui.ValidatorPanel
  */
-public class ValidationChangeEvent extends EventObject {
+public class ValidationChangeEvent extends EventObject 
+{
    private boolean m_valid;
    
-   public ValidationChangeEvent(Object source, boolean state)
-   {
+   public ValidationChangeEvent(Object source, boolean state)   {
       super(source);
       m_valid = state;
    }
-   
+
+
    public boolean isValid()
    {
       return m_valid;
    }
+   
+
   
 }
+
+/*
+ * <B>Revision History:</B><UL>
+ * <LI>0.1 [29/06/98]: Initial Revision
+ * </UL>
+ */
+
+//
+// $Log
+//
