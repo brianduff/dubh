@@ -16,6 +16,6 @@ public class ACTTaxRates extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+    getClient().getDialogManager().getTaxRatesDialog().display();
   }
 }

@@ -138,7 +138,7 @@ public class ClientPacketDispacher
     new PHGameState(), /*GAME_STATE*/ 
     null, /*NUKE_TILE*/ 
     null, /*DIPLOMAT_ACTION*/ 
-    null, /*PAGE_MSG*/ 
+    new PHPageMsg(), /*PAGE_MSG*/ 
     null, /*REPORT_REQUEST*/ 
     null, /*DIPLOMACY_INIT_MEETING*/ 
     null, /*DIPLOMACY_CREATE_CLAUSE*/ 
@@ -179,7 +179,7 @@ public class ClientPacketDispacher
     null, /* PACKET_ADVANCE_FOCUS */ 
     new PHRulesetGame(), /*PACKET_RULESET_GAME*/ 
     new PHConnInfo(), /* PACKET_CONN_INFO */ 
-    null, /* PACKET_SHORT_CITY*/ 
+    new PHShortCity(), /* PACKET_SHORT_CITY*/ 
     null, /* PACKET_PLAYER_REMOVE_VISION */ 
     null, /* PACKET_GOTO_ROUTE*/ 
     null, /* PACKET_PATROL_ROUTE*/ 

@@ -238,6 +238,9 @@ public interface CommonConstants
   public static final int GAME_DEFAULT_SKILL_LEVEL = 3;
   public static final int GAME_OLD_DEFAULT_SKILL_LEVEL = 5;
   public static final String GAME_DEFAULT_DEMOGRAPHY = "NASRLPEMOqrb";
+  public static final int GAME_DEFAULT_REPUTATION = 1000;
+  public static final int GAME_MAX_REPUTATION = 1000;
+  public static final int GAME_REPUTATION_INCR = 2;
   public static final int LOG_FATAL = Enum.start();
   public static final int LOG_NORMAL = Enum.get();
   public static final int LOG_VERBOSE = Enum.get();

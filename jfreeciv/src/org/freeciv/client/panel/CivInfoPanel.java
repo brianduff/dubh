@@ -80,7 +80,7 @@ public class CivInfoPanel extends VerticalFlowPanel
 
   public void setTax( int tax, int science, int luxury )
   {
-    setAndValidate( m_labTax, "Tax: " + tax + " Lux: " + luxury + " Sci: " + science );
+    setAndValidate( m_labTax, "Tax: " + tax + " Sci: " + science + " Lux: " + luxury );
   }
 
   public void setPop( int pop )

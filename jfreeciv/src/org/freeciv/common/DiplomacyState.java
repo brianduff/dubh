@@ -1,5 +1,6 @@
 package org.freeciv.common;
 
+import org.freeciv.client.Localize;
 import org.freeciv.util.Enum;
 
 
@@ -51,5 +52,15 @@ public final class DiplomacyState
   {
     return m_reasonToCancel;
   }
-
+  /**
+   * Return a diplomatic state as a human-readable string
+   * 
+   * player.c:diplstate_text()
+   */
+  public String getName()
+  {
+    final String[] ds_names = { "Neutral", "War", "Cease-fire",
+                              "Peace", "Alliance", "No Contact" };
+    return ds_names[ getType() ];
+  }
 }

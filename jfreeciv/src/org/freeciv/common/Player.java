@@ -306,7 +306,34 @@ public class Player implements GameObject, CommonConstants
   {
     return m_reputation;
   }
-
+  
+  /**
+   * Return a reputation level as an (untranslated) human-readable string
+   */
+  public String getReputationName()
+  {
+    if( m_reputation == -1 )
+    {
+      return "-";
+    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.95)    {
+      return "Spotless";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.85)    {
+      return "Excellent";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.75)    {
+      return "Honorable";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.55)    {
+      return "Questionable";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.30)    {
+      return "Dishonorable";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.15)    {
+      return "Poor";    }
+    else if (m_reputation > GAME_MAX_REPUTATION * 0.07)    {
+      return "Despicable";    }
+    else    {
+      return "Atrocious";    }
+  }
+  
   public WorkList getWorkList( int idx )
   {
     return m_worklists[ idx ];
@@ -425,8 +452,30 @@ public class Player implements GameObject, CommonConstants
     return m_foundCity;
 
   }
+  
+  /**
+   * Returns true if this player has an embasy with the specified player
+   */
+  public boolean hasEmbassyWith( Player p )
+  {
+    // player.c:player_has_embassy()
+    return ( getEmbassy() & ( 1 << p.getId() ) ) != 0 ||
+           ( ownsActiveWonder( B_MARCO ) && getId() != p.getId() &&
+             !p.getAI().isBarbarian() );
+  }
 
-
+  /**
+   * Returns true if one of the player's cities has the specified wonder,
+   * and it is not obsolete.
+   */
+  public boolean ownsActiveWonder( int bldId )
+  {
+    // player.c:player_owns_active_wonder()
+    
+    //TODO: check if bldId exists, is a wonder and that it's not obsolete
+    return 
+      getCity( m_playerFactory.getParent().getGame().getGlobalWonder( bldId ) ) != null;
+  }
 
 
 

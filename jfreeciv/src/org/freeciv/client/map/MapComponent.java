@@ -39,8 +39,6 @@ class MapComponent extends JComponent implements Scrollable
   private int m_tileWidth;
   private int m_tileHeight;
 
-  private MapLayer m_singleLayer = null;
-
   /**
    * Construct the map component.
    *
@@ -58,15 +56,33 @@ class MapComponent extends JComponent implements Scrollable
   }
 
   /**
-   * Request a repaint of only one layer
-   */
-  public void repaintOneLayer( MapLayer l )
-  {
-    m_singleLayer = l;
-    repaint();
-    m_singleLayer = null;
-  }
+   * update the tile at the specified grid co-ordinates
+   *
+   void updateTileAt( int tilex, int tiley, int width, int height,
+    boolean repaint )
+  { // DOES NOT BELONG HERE
+    Point p = new Point();
+
+    for ( int i=tilex; i < tilex + width; i++ )
+    {
+      for ( int j=tiley; j < tiley + height; j++ )
+      {
+        p.x = i;
+        p.y = j;
+
+        m_painter.updateTile( p );
+      }
+    }
+
+    if ( repaint )
+    {
+      // Make this more efficient by only repainting the affected region
+      repaint();
+      
+    }
+  } */
   
+
   /**
    * Paint the map component. We simply request that all layers paint
    * themselves.
@@ -76,12 +92,6 @@ class MapComponent extends JComponent implements Scrollable
     Graphics2D g2 = (Graphics2D)g;
     Rectangle r = getVisibleRect();
     //Rectangle r = g.getClipRect();
-
-    if ( m_singleLayer != null )
-    {
-      m_singleLayer.paint( g2, r, m_mvi );
-    }
-    
     Iterator layerIter = m_layers.iterator();
 
     while ( layerIter.hasNext() )

@@ -1,13 +1,8 @@
 package org.freeciv.client.dialog;
-
 import org.freeciv.client.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-
-import java.io.IOException;
-import org.freeciv.common.Logger;
-
 class ImplProgress extends JPanel implements DlgProgress
 {
   private Client m_client;
@@ -33,17 +28,8 @@ class ImplProgress extends JPanel implements DlgProgress
     {
       public void actionPerformed( ActionEvent e )
       {
-        try
-        {
-          m_client.disconnect();
-        }
-        catch (IOException ioe)
-        {
-          m_client.getDialogManager().showMessageDialog(
-            "An error occurred disconnecting from the server"
-          );
-          Logger.log( Logger.LOG_ERROR, ioe );
-        }
+        m_client.disconnect();
+        m_client.getDialogManager().hideAllDialogs();
       }
     } );
   }

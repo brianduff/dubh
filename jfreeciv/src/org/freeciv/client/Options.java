@@ -27,7 +27,7 @@ public class Options implements Constants
   // View options
   public boolean drawMapGrid = false;
   public boolean drawCityNames = true;
-  public boolean drawCityProductions = true;
+  public boolean drawCityProductions = false;
   public boolean drawTerrain = true;
   public boolean drawCoastline = false;
   public boolean drawRoadsRails = true;

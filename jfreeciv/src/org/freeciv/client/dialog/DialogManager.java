@@ -14,7 +14,11 @@ public class DialogManager
   ImplLogin m_login;
   ImplNation m_nation;
   ImplProgress m_progress;
+  ImplNotify m_notify;
+  ImplTaxRates m_taxRates;
+  ImplFindCity m_findCity;
   ImplCityReport m_cityReport;
+  ImplPlayers m_players;
   ArrayList m_alVisibleDialogs;
   public DialogManager( Client c )
   {
@@ -114,6 +118,30 @@ public class DialogManager
     }
     return m_progress;
   }
+  public DlgNotify getNotifyDialog()
+  {
+    if( m_notify == null )
+    {
+      m_notify = new ImplNotify( this, m_client );
+    }
+    return m_notify;
+  }
+  public DlgTaxRates getTaxRatesDialog()
+  {
+    if( m_taxRates == null )
+    {
+      m_taxRates = new ImplTaxRates( this, m_client );
+    }
+    return m_taxRates;
+  }
+  public DlgFindCity getFindCityDialog()
+  {
+    if( m_findCity == null )
+    {
+      m_findCity = new ImplFindCity( this, m_client );
+    }
+    return m_findCity;
+  }
   public DlgCityReport getCityReport()
   {
     if( m_cityReport == null )
@@ -121,6 +149,14 @@ public class DialogManager
       m_cityReport = new ImplCityReport( m_client );
     }
     return m_cityReport;
+  }
+  public DlgPlayers getPlayersDialog()
+  {
+    if( m_players == null )
+    {
+      m_players = new ImplPlayers( this, m_client );
+    }
+    return m_players;
   }
   class MessageDialogRunnable implements Runnable
   {
@@ -133,44 +169,17 @@ public class DialogManager
     public void run()
     {
       JOptionPane.showMessageDialog(
-        m_client.getMainWindow(), m_title, m_message, JOptionPane.WARNING_MESSAGE
+        m_client.getMainWindow(), m_title, m_message, JOptionPane.ERROR_MESSAGE
       );
     }
   }
-
-  /**
-   * Display a message dialog, and return immediately
-   *
-   * @param message the message to display in the dialog
-   */
-  public void showMessageDialogNonBlocking( String message )
-  {
-    showMessageDialogNonBlocking( m_client.APP_NAME, message );
-  }
-
-  /**
-   * Display a message dialog. Block until the user dismisses the dialog
-   *
-   * @param message the message to display
-   */
-  public void showMessageDialog( String message )
-  {
-    showMessageDialogBlocking( m_client.APP_NAME, message );
-  }
-
-  /**
-   * @deprecated use showMessageDialogNonBlocking( String )
-   */
   public void showMessageDialogNonBlocking( String title, String message )
   {
     SwingUtilities.invokeLater( new MessageDialogRunnable( title, message ) );
   }
-  /**
-   * @deprecated use showMessageDialog( String )
-   */
   public void showMessageDialogBlocking( String title, String message )
   {
     JOptionPane.showMessageDialog(
-      m_client.getMainWindow(), message, title, JOptionPane.WARNING_MESSAGE );
+      m_client.getMainWindow(), title, message, JOptionPane.ERROR_MESSAGE );
   }
 }

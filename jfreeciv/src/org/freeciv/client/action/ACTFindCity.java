@@ -15,6 +15,6 @@ public class ACTFindCity extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+    getClient().getDialogManager().getFindCityDialog().display();
   }
 }

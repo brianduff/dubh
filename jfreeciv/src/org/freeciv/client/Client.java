@@ -14,7 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
 
 package org.freeciv.client;
 
@@ -49,7 +48,6 @@ import org.freeciv.client.dialog.DlgLogin;
 import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.net.InStream;
 import org.freeciv.net.OutStream;
-import org.freeciv.net.NetworkProtocolException;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
@@ -61,7 +59,7 @@ import org.freeciv.net.PktReqJoinGame;
  * @author Artur Biesiadowski
  * @author Brian Duff
  */
-public final class Client implements Constants
+public class Client implements Constants
 {
 
   // The tile spec holds all the images that the client uses
@@ -497,22 +495,15 @@ public final class Client implements Constants
   /**
    * Actually disconnect
    */
-  public synchronized void disconnect() throws IOException
+  public synchronized void disconnect()
   {
 
-    sendMessage( "remove "+ m_userName ); // ? is this right?
-
+    sendMessage( "remove "+ m_userName );// Should it remove the player? Make it
+                                    // ai?  JR
     out.close();
     in.close();
-    out = null;
-    in = null;
 
     setConnected( false );
-
-    
-
-    getDialogManager().hideAllDialogs();
-
   }
   /**
    * The runnable object that receives incoming packets from the server.
@@ -562,15 +553,14 @@ public final class Client implements Constants
         {
           if ( m_client.isConnected() )
           {
-            Logger.log( Logger.LOG_ERROR, "Server IO Exception" );
-            Logger.log( Logger.LOG_ERROR, e );
+            System.err.println( "Server io exception" + e );
+            e.printStackTrace();
+            // Need to do these in an invokeLater
+            //JOptionPane.showMessageDialog(c,
+            //   e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
+            //c.hideAllWindows();
             return ;
           }
-        }
-        catch ( NetworkProtocolException nep )
-        {
-          Logger.log( Logger.LOG_ERROR, "Network protocol exception" );
-          Logger.log( Logger.LOG_ERROR, nep );
         }
       }
     }
@@ -838,7 +828,7 @@ public final class Client implements Constants
           getMainWindow().getCivInfo().setYear( getGame().getYear() );
           getMainWindow().getCivInfo().setGold( p.getEconomy().getGold() );
           getMainWindow().getCivInfo().setTax( p.getEconomy().getTax(),
-            p.getEconomy().getLuxury(), p.getEconomy().getScience() );
+            p.getEconomy().getScience(), p.getEconomy().getLuxury() );
         }
       });
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.freeciv.net.PktCityInfo;
+import org.freeciv.net.PktShortCity;
 import org.freeciv.net.WorkList;
 
 /**
@@ -15,10 +16,6 @@ public final class City implements CommonConstants
 {
   private static HashMap s_cities = new HashMap();
 
-  private static final int 
-    TYPE_UNIT = 0,
-    TYPE_NORMAL_IMPROVEMENT = 1,
-    TYPE_WONDER = 2;
 
   private List m_presentUnits;
   private int m_id;
@@ -315,13 +312,6 @@ public final class City implements CommonConstants
       m_game.getFactories().getBuildingFactory().findById( buildingId );
   }
 
-  private UnitType getUnitType( int unitId )
-  {
-    return (UnitType) 
-      m_game.getFactories().getUnitTypeFactory().findById( unitId );
-  }
-
-
   /**
    * Returns true if either this city has city walls, or the city is affected
    * by a wonder that provides it with city walls
@@ -377,132 +367,6 @@ public final class City implements CommonConstants
   public int getCurrentlyBuildingId()
   {
     return m_currentlyBuilding;
-  }
-
-  /**
-   * Compute the change production penalty for the given production change
-   * (target, is_unit) in this city.
-   *
-   */
-  private int getChangeProductionCharge( int target, boolean isUnit )
-  {
-    int shieldStockAfterAdjustment;
-    int origClass;
-    int newClass;
-    boolean putPenalty;
-
-    if ( m_changedFromIsUnit )
-    {
-      origClass = TYPE_UNIT;
-    }
-    else if ( getBuilding( m_changedFromId ).isWonder() )
-    {
-      origClass = TYPE_WONDER;
-    }
-    else
-    {
-      origClass = TYPE_NORMAL_IMPROVEMENT;
-    }
-
-    if ( isUnit )
-    {
-      newClass = TYPE_UNIT;
-    }
-    else if ( getBuilding( target ).isWonder() )
-    {
-      newClass = TYPE_WONDER;
-    }
-    else
-    {
-      newClass = TYPE_NORMAL_IMPROVEMENT;
-    }
-
-    putPenalty = ( origClass != newClass &&
-      m_game.nextYear( m_turnLastBuilt ) < m_game.getYear() );
-
-    if ( putPenalty )
-    {
-      shieldStockAfterAdjustment = 
-        m_beforeChangeShields / 2;
-    }
-    else
-    {
-      shieldStockAfterAdjustment = 
-        m_beforeChangeShields;
-    }
-
-    shieldStockAfterAdjustment += m_disbandedShields;
-
-    if ( newClass == TYPE_WONDER )
-    {
-      shieldStockAfterAdjustment 
-        += m_caravanShields;
-    }
-    else
-    {
-      shieldStockAfterAdjustment += 
-        m_caravanShields / 2;
-    }
-
-    return shieldStockAfterAdjustment;
-    
-  }
-
-  /**
-   * Get the number of turns before the unit or building being built will 
-   * be complete
-   *
-   * @return the number of turns until the building is complete
-   */
-  public int getTurnsToBuild()
-  {
-
-    int improvement_cost = isBuildingUnit() ? 
-      getUnitType( getCurrentlyBuildingId() ).getBuildCost() :
-      getBuilding( getCurrentlyBuildingId() ).getBuildCost();
-
-    if ( m_shieldStock >= improvement_cost )
-    {
-      return 1;
-    }
-  
-    int city_shield_surplus = m_shieldSurplus;
-    int city_shield_stock = getChangeProductionCharge( 
-      getCurrentlyBuildingId(), isBuildingUnit()
-    );
-
-    if ( city_shield_surplus > 0 )
-    {
-      return
-        (improvement_cost - city_shield_stock + 
-          city_shield_surplus - 1 ) /
-            city_shield_surplus;
-    }
-    else
-    {
-      return 999;
-    }
-  
-  }
-
-  /**
-   * Get a description of what is currently being built in this city
-   */
-  public String getCurrentlyBuildingDescription()
-  {
-    if ( isBuildingUnit() )
-    {
-      UnitType ut = 
-        (UnitType)m_game.getFactories().getUnitTypeFactory().findById( getCurrentlyBuildingId() );
-
-      return ut.getName();
-    }
-    else
-    {
-      Building b = 
-        (Building) m_game.getFactories().getBuildingFactory().findById( getCurrentlyBuildingId() );
-      return b.getName();
-    }
   }
 
   /**
@@ -586,7 +450,101 @@ public final class City implements CommonConstants
     }
   }
 
+  /**
+   * Unpackage a city info packet into this object
+   */
+  public void unpackage( PktShortCity pkt, boolean newCity )
+  {
+    m_owner = pkt.owner;
+    m_x = pkt.x;
+    m_y = pkt.y;
+    m_name = pkt.name;
+    
+    m_size = pkt.size;
+    
+    if( pkt.happy )
+    {
+      m_pplHappy[4] = m_size;
+      m_pplUnhappy[4] = 0;
+    }
+    else
+    {
+      m_pplUnhappy[4] = m_size;
+      m_pplHappy[4] = 0;
+    }
+    
+    m_improvements[B_PALACE] = pkt.capital;
+    m_improvements[B_CITY] = pkt.walls;
+    
+    if( newCity ) 
+    {
+      m_worklist = null; // is this valid?
+    }
+    
+    // just set dummy values for everything else, to be on the safe side
+    m_pplElvis = m_size;
+    m_pplScientist = 0;
+    m_pplTaxman = 0;
 
+    m_cityOptions = 0;
+
+    for ( int i=0; i < 4; i++ )
+    {
+      m_trade[i] = 0;
+      m_tradeValue[i] = 0;
+    }
+
+    m_foodProduction = 0;
+    m_foodSurplus = 0;
+    m_shieldProduction = 0;
+    m_shieldSurplus = 0;
+    m_tradeProduction = 0;
+    m_corruption = 0;
+
+    m_luxuryTotal = 0;
+    m_taxTotal = 0;
+    m_scienceTotal = 0;
+
+    m_foodStock = 0;
+    m_shieldStock = 0;
+    m_pollution = 0;
+
+    m_isBuildingUnit = false;
+    m_currentlyBuilding = 0;
+
+    //m_worklist = pkt.worklist;
+    m_didBuy = false;
+    m_didSell = false;
+    m_wasHappy = false;
+    m_airlift = false;
+
+    m_turnLastBuilt = 0;
+    m_turnChangedTarget = 0;
+    m_changedFromId = 0;
+    m_changedFromIsUnit = false;
+    m_beforeChangeShields = 0;
+    m_disbandedShields = 0;
+    m_caravanShields = 0;
+
+    int i= 0;
+    for ( int y = 0; y < CITY_MAP_SIZE; y++ )
+    {
+      for ( int x = 0; x < CITY_MAP_SIZE; x++ )
+      {
+          m_cityMap[x][y] = C_TILE_EMPTY;
+      }
+    }
+
+    for ( i=0; i < m_game.getNumberOfImprovementTypes(); i++ )
+    {
+      if( i != B_PALACE && i != B_CITY )
+      {
+        m_improvements[i] = false;
+      }
+    }
+    // end dummy values
+  }
+  
   private void setWorkerCity( int x, int y, char type )
   {
     int map_x = getX() + x - CITY_MAP_SIZE/2;

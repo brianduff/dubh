@@ -79,7 +79,8 @@ public class PHCityInfo extends AbstractHandler implements Constants
   }
 
   // Unsure where else this is used...
-  private void handleCityPacketCommon( Client client, City city, boolean isNew, 
+  // It's also called by PHShortCity -- BenM
+  static void handleCityPacketCommon( Client client, City city, boolean isNew, 
     boolean popup, boolean investigate )
   {
     int i;
