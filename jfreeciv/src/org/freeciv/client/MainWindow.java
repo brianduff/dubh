@@ -1,10 +1,13 @@
 package org.freeciv.client;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -23,6 +26,18 @@ import org.freeciv.client.dialog.util.VerticalFlowPanel;
 
 /**
  * The main Window for FreeCiv4J.
+ * <p>
+ * The main window consists of a number of "dockable" panels containing
+ * information or controls, and a central area.
+ * <p>
+ * The contents of the central area depend on the setting of the
+ * SingleMapViewMode property, and can be changed by calling the
+ * setSingleMapViewMode() method. 
+ * <p>
+ * The default mode is to display the main map view in the central area.
+ * However, if single map view mode is switched off, the central area changes
+ * to a desktop pane, which can contain one or more MDI child windows, each
+ * with a separate view on the map.
  *
  * @author Brian.Duff@dubh.org
  */
@@ -39,6 +54,12 @@ public final class MainWindow extends JFrame
   
   private Client m_client;
 
+  private MapViewManager m_viewManager;
+  private Map m_internalFrames;
+  private JInternalFrame m_mainInternalFrame;
+
+  private boolean m_singleMapViewMode = true;
+
   MainWindow( Client c )
   {
     m_desktop = new JDesktopPane();
@@ -50,9 +71,75 @@ public final class MainWindow extends JFrame
     
     m_client = c;
 
+    m_viewManager = new MapViewManager( m_client );
+    m_internalFrames = new HashMap();
+
     setTitle( m_client.APP_NAME );
 
     setupComponents();
+    getContentPane().add( m_viewManager.getMainMapView().getComponent(), 
+      BorderLayout.CENTER );
+  }
+
+  /** 
+   * The main window can be configured to be fully MDI, and therefore support
+   * multiple map view MDI windows, or SDI, and only have a single map view
+   */
+  void setSingleMapViewMode( boolean singleMapViewMode )
+  {
+    if ( singleMapViewMode != m_singleMapViewMode )
+    {
+      if ( singleMapViewMode )
+      {
+        getContentPane().remove( m_desktop );
+        // Find the internal frame which is hosting the main view
+        JInternalFrame mainIF = (JInternalFrame) m_internalFrames.get( 
+          getMapViewManager().getMainMapView()
+        );
+
+        if ( mainIF != null )
+        {
+          m_mainInternalFrame = mainIF;
+          // And rip the main view component out of its content pane
+          m_mainInternalFrame.getContentPane().remove( 
+            getMapViewManager().getMainMapView().getComponent()
+          );
+        }
+
+        // .. add the main view to the centre of the main window
+        getContentPane().add( 
+          getMapViewManager().getMainMapView().getComponent(),
+          BorderLayout.CENTER
+        );
+      }
+      else
+      {
+        getContentPane().remove( 
+          getMapViewManager().getMainMapView().getComponent() 
+        );
+        getContentPane().add( m_desktop, BorderLayout.CENTER );
+
+        // If there is a saved internal frame for the main view...
+        if ( m_mainInternalFrame != null )
+        {
+          // Put the main view back in it..
+          m_mainInternalFrame.getContentPane().add( 
+            getMapViewManager().getMainMapView().getComponent()
+          );
+          // If not, we should probably create one...
+          m_mainInternalFrame = null;
+        }
+      }
+    }
+  }
+
+  /**
+   * Get the map view manager, this provides access to the map views available
+   * in the main window
+   */
+  MapViewManager getMapViewManager()
+  {
+    return m_viewManager;
   }
 
   /**
@@ -218,8 +305,6 @@ public final class MainWindow extends JFrame
     pan.addSpacerRow( new JPanel() );
 
     getContentPane().add( pan, BorderLayout.EAST );
-    
-    getContentPane().add( m_desktop, BorderLayout.CENTER );
     
     //setupMessagesPanel();
     //setupMiniMapPanel();
