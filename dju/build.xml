@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.3 2000-08-20 18:34:14 briand Exp $ -->
+<!-- $Id: build.xml,v 1.4 2000-08-20 18:38:39 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -32,12 +32,12 @@
           failonerror="true"
     />
       
-    <mkdir dir="${classdir}" />
       
   </target>
   
   <!-- Compile all source code -->
   <target name="src" depends="pullsrc">
+    <mkdir dir="${classdir}" />
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
             classpath="${classpath}">
@@ -50,6 +50,7 @@
 
   <!-- Create the JAR file -->
   <target name="jar" depends="src">
+    <mkdir dir="${jardir}" />
     <jar  jarfile="${jarfile}" basedir="${classdir}" />
   </target>
 
