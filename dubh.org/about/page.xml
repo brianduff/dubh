@@ -43,6 +43,16 @@
         <a href="http://www.dell.com">Dell</a> did a 
         great job with both computers.
       </p>
+      <p>
+        My home PC is connected to the internet via a Terayon Cable Modem
+        with a fast 512Kbps connection provided by <a href="http://www.ntl.com">
+        NTL</a>. Although the IP is dynamic, it tends to stay relatively
+        static, so I've aliased the host name sma.dubh.org to my home PC. If
+        it's switched on, you can visit the dubh.org "staging" area, which will
+        have stuff I'm in the middle of working on, on 
+        <a href="http://sma.dubh.org">http://sma.dubh.org</a> (it generally
+        won't look too different from www.dubh.org).
+      </p>
     </html>
   </section>
   
@@ -169,13 +179,13 @@
 
   <cvs-info>
     <date>
-      $Date: 2001-04-16 03:18:17 $
+      $Date: 2001-05-18 18:14:29 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.4 $
+      $Revision: 1.5 $
     </revision>
   </cvs-info> 
 
