@@ -36,13 +36,53 @@ public class ClientPacketDispacher
    */
   private static final ClientPacketHandler[] PACKET_HANDLERS = 
   {
-    null, /* REQUEST_JOIN_GAME*/ new PHJoinGameReply(), /* JOIN_GAME_REPLY*/ new PHServerShutdown(), /* SERVER_SHUTDOWN*/ 
-    null, /* UNIT_INFO*/ null, /* MOVE_UNIT*/ null, /* TURN_DONE*/ null, /* NEW_YEAR*/ new PHTileInfo(), /* TILE_INFO*/ new PHSelectNation(), /* SELECT_NATION*/ 
-    null, /* ALLOC_NATION*/ null, /* SHOW_MESSAGE*/ new PHPlayerInfo(), /* PLAYER_INFO*/ new PHGameInfo(), /* GAME_INFO*/ new PHMapInfo(), /* MAP_INFO*/ 
-    new PHChatMsg(), /* CHAT_MESSAGE*/ null, /*CITY_INFO 15*/ null, /*CITY_SELL*/ null, /*CITY_BUY*/ null, /*CITY_CHANGE*/ null, /*CITY_WORKLIST*/ null, /*CITY_MAKE_SPECIALIST*/ 
-    null, /*CITY_MAKE_WORKER*/ null, /*CITY_CHANGE_SPECIALIST*/ null, /*CITY_RENAME*/ null, /*PLAYER_RATES*/ null, /*PLAYER_REVOLUTION*/ null, /*PLAYER_GOVERNMENT*/ null, /*PLAYER_RESEARCH*/ null, /*PLAYER_WORKLIST*/ null, /*UNIT_BUILD_CITY*/ 
-    null, /*UNIT_DISBAND 30*/ null, /*REMOVE_UNIT*/ null, /*REMOVE_CITY*/ null, /*UNIT_CHANGE_HOMECITY*/ null, /*UNIT_COMBAT*/ null, /*UNIT_ESTABLISH_TRADE*/ null, /*UNIT_HELP_BUILD_WONDER*/ null, /*UNIT_GOTO_TILE*/ null, /*GAME_STATE*/ 
-    null, /*NUKE_TILE*/ null, /*DIPLOMAT_ACTION*/ null, /*PAGE_MSG*/ null, /*REPORT_REQUEST*/ null, /*DIPLOMACY_INIT_MEETING*/ null, /*DIPLOMACY_CREATE_CLAUSE*/ null, /*DIPLOMACY_REMOVE_CLAUSE 45*/ null, /*DIPLOMACY_CANCEL_MEETING*/ null, /*DIPLOMACY_ACCEPT_TREATY*/ 
+    null, /* REQUEST_JOIN_GAME*/ 
+    new PHJoinGameReply(), /* JOIN_GAME_REPLY*/ 
+    new PHServerShutdown(), /* SERVER_SHUTDOWN*/ 
+    null, /* UNIT_INFO*/ 
+    null, /* MOVE_UNIT*/ 
+    null, /* TURN_DONE*/ 
+    null, /* NEW_YEAR*/ 
+    new PHTileInfo(), /* TILE_INFO*/ 
+    new PHSelectNation(), /* SELECT_NATION*/ 
+    null, /* ALLOC_NATION*/ 
+    null, /* SHOW_MESSAGE*/ 
+    new PHPlayerInfo(), /* PLAYER_INFO*/ 
+    new PHGameInfo(), /* GAME_INFO*/ 
+    new PHMapInfo(), /* MAP_INFO*/ 
+    new PHChatMsg(), /* CHAT_MESSAGE*/
+    null, /*CITY_INFO 15*/ 
+    null, /*CITY_SELL*/ 
+    null, /*CITY_BUY*/
+    null, /*CITY_CHANGE*/ 
+    null, /*CITY_WORKLIST*/ 
+    null, /*CITY_MAKE_SPECIALIST*/ 
+    null, /*CITY_MAKE_WORKER*/ 
+    null, /*CITY_CHANGE_SPECIALIST*/ 
+    null, /*CITY_RENAME*/ 
+    null, /*PLAYER_RATES*/ 
+    null, /*PLAYER_REVOLUTION*/ 
+    null, /*PLAYER_GOVERNMENT*/ 
+    null, /*PLAYER_RESEARCH*/ 
+    null, /*PLAYER_WORKLIST*/ 
+    null, /*UNIT_BUILD_CITY*/ 
+    null, /*UNIT_DISBAND 30*/ 
+    null, /*REMOVE_UNIT*/ 
+    null, /*REMOVE_CITY*/ 
+    null, /*UNIT_CHANGE_HOMECITY*/ 
+    null, /*UNIT_COMBAT*/ 
+    null, /*UNIT_ESTABLISH_TRADE*/ 
+    null, /*UNIT_HELP_BUILD_WONDER*/ 
+    null, /*UNIT_GOTO_TILE*/ 
+    new PHGameState(), /*GAME_STATE*/ 
+    null, /*NUKE_TILE*/ 
+    null, /*DIPLOMAT_ACTION*/ 
+    null, /*PAGE_MSG*/ 
+    null, /*REPORT_REQUEST*/ 
+    null, /*DIPLOMACY_INIT_MEETING*/ 
+    null, /*DIPLOMACY_CREATE_CLAUSE*/ 
+    null, /*DIPLOMACY_REMOVE_CLAUSE 45*/ 
+    null, /*DIPLOMACY_CANCEL_MEETING*/ null, /*DIPLOMACY_ACCEPT_TREATY*/ 
     null, /*DIPLOMACY_SIGN_TREATY*/ null, /*UNIT_AUTO*/ null, /*BEFORE_NEW_YEAR*/ null, /*REMOVE_PLAYER*/ null, /*UNITTYPE_UPGRADE*/ null, /*UNIT_UNLOAD*/ null, /*PLAYER_TECH_GOAL*/ null, /*CITY_REFRESH*/ null, /*INCITE_INQ*/ 
     null, /*INCITE_COST*/ null, /*UNIT_UPGRADE*/ null, /*PACKET_PLAYER_CANCEL_PACT*/ new PHRulesetTech(), /*RULESET_TECH*/ new PHRulesetUnit(), /*RULESET_UNIT             */ 
     new PHRulesetBuilding(), /*RULESET_BUILDING*/ null, /*CITY_OPTIONS*/ null, /*SPACESHIP_INFO*/ null, /*SPACESHIP_ACTION*/ null, /*UNIT_NUKE*/ new PHRulesetTerrain(), /*RULESET_TERRAIN*/ 
