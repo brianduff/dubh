@@ -3,7 +3,8 @@
  
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
+  <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
+    doctype-system="http://www.w3.org/TR/html4/loose.dtd" />
 
   
   <!-- The URL of the default CSS stylesheet to use if none is specified -->
