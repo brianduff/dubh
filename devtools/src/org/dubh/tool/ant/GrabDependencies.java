@@ -1,10 +1,11 @@
-// $Id: GrabDependencies.java,v 1.6 2000-08-24 00:06:04 briand Exp $
+// $Id: GrabDependencies.java,v 1.7 2000-08-24 00:17:59 briand Exp $
 package org.dubh.tool.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copydir;
+import org.apache.tools.ant.taskdefs.Property;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -104,7 +105,11 @@ public class GrabDependencies extends Task
             cp.append(":");
          }
       }
-      getProject().setProperty("classpath", cp.toString());
+      //getProject().setProperty("classpath", cp.toString());
+      Property p = (Property) getProject().createTask("property");
+      p.setName("classpath");
+      p.setValue(cp.toString());
+      p.execute();
       log("Set classpath to "+cp.toString());
    }
 
