@@ -108,7 +108,7 @@ public class InStream
   {
     if( inPtr >= inputPacketLength )
     {
-      throw new RuntimeException();
+      throw new RuntimeException( "Fell off the end of the packet. Check the network code" );
     }
     int s = ( ( inData[ inPtr++ ] << 8 ) & 0xff00 ) | ( inData[ inPtr++ ] & 0xff );
     if( Logger.DEBUG )
@@ -121,7 +121,7 @@ public class InStream
   {
     if( inPtr >= inputPacketLength )
     {
-      throw new RuntimeException();
+      throw new RuntimeException( "Fell off the end of the packet. Check the network code" );
     }
     int i = ( ( inData[ inPtr++ ] << 24 ) & 0xff000000 ) | ( ( inData[ inPtr++ ] << 16 ) & 0xff0000 ) | ( ( inData[ inPtr++ ] << 8 ) & 0xff00 ) | ( inData[ inPtr++ ] & 0xff );
     if( Logger.DEBUG )
