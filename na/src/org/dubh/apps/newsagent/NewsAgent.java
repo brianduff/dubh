@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.10 1999-12-12 03:04:57 briand Exp $
+//   $Id: NewsAgent.java,v 1.11 1999-12-16 21:55:52 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -26,6 +26,8 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
+
+// Test Delta for builder
 package org.javalobby.apps.newsagent;
 import java.io.*;
 import java.net.*;
@@ -43,7 +45,7 @@ import org.javalobby.dju.ui.*;
  *
  * @author Brian Duff
  * @see org.javalobby.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.10 1999-12-12 03:04:57 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.11 1999-12-16 21:55:52 briand Exp $
  */
  public class NewsAgent {
 
@@ -253,6 +255,10 @@ import org.javalobby.dju.ui.*;
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  1999/12/12 03:04:57  briand
+// Changed hard-coded image filename to point to new jfa directory. (splash
+// screen)
+//
 // Revision 1.9  1999/11/09 22:34:40  briand
 // Move NewsAgent source to Javalobby.
 //
