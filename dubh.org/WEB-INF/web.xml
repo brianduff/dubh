@@ -16,14 +16,19 @@
    <welcome-file>index.xml</welcome-file>
  </welcome-file-list>
 
+ <!-- 
+      Use the Oracle XSQL Servlet to process documents with the .xsql and .xml
+      Extensions
+ -->
+     
  <servlet>
-  <servlet-name>org.apache.cocoon.Cocoon</servlet-name>
-  <servlet-class>org.apache.cocoon.Cocoon</servlet-class>
-  <init-param>
-   <param-name>properties</param-name>
-   <param-value>WEB-INF/cocoon.properties</param-value>
-  </init-param>
+   <servlet-name>oracle-xsql-servlet</servlet-name>
+   <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
+ <servlet-mapping>
+     <servlet-name>oracle-xsql-servlet</servlet-name>
+     <url-pattern> *.xml </url-pattern>     
+ </servlet-mapping>
  
  <servlet>
    <servlet-name>jcvs</servlet-name>
@@ -34,8 +39,10 @@
    </init-param>
  </servlet>
  
+ <!-- Tara, cocoon!
  <servlet-mapping>
   <servlet-name>org.apache.cocoon.Cocoon</servlet-name>
   <url-pattern>*.xml</url-pattern>
  </servlet-mapping>
+ -->
 </web-app>
