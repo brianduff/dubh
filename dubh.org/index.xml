@@ -2,7 +2,7 @@
 <?cocoon-process type="xsp"?>
 
 <!-- Copyright (C) 2000 Brian Duff / Dubh.Org -->
-<!-- Test -->
+<!-- Testing JCVS -->
 
 <xsp:page 
   language="java"
