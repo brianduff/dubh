@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: DubhOkCancelDialog.java,v 1.3 1999-03-22 23:37:18 briand Exp $
+//   $Id: DubhOkCancelDialog.java,v 1.4 1999-11-02 19:53:14 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 //   This program is free software; you can redistribute it and/or modify
@@ -28,24 +28,23 @@ package dubh.utils.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 
 import dubh.utils.event.*;
 import dubh.utils.misc.ResourceManager;
+
+import dubh.utils.error.ErrorManager;
+
 /**
  * A dialog that can be dismissed using the ok or cancel buttons. You can
  * subclass this class and add a panel to it (the layout manager is
  * BorderLayout, and the two buttons are in the SOUTH location), or just
  * use the setPanel() method with an instance of this class.
- * Version History: <UL>
- * <LI>0.1 [18/06/98]: Initial Revision
- * <LI>0.2 [28/06/98]: Added setPanel()
- * <LI>0.3 [08/12/98]: Internationalised
- * <LI>0.4 [12/12/98]: Add support for validated panel.
- *</UL>
- @author Brian Duff
- @version 0.4 [12/12/98]
+ * @author Brian Duff
+ * @version $Id: DubhOkCancelDialog.java,v 1.4 1999-11-02 19:53:14 briand Exp $
  */
-public class DubhOkCancelDialog extends DubhDialog {
+public class DubhOkCancelDialog extends DubhDialog 
+{
 
   protected JButton cmdOk = new JButton();
   protected JButton cmdCancel = new JButton();
@@ -163,10 +162,35 @@ public class DubhOkCancelDialog extends DubhDialog {
    /**
     * Override this method in a subclass to do extra work before
     * the dialog is dismissed. If you return false, the dialog
-    * will not be dismissed.
+    * will not be dismissed. If you are using validator
+    * panels, make sure you call super.okClicked() and only
+    * do your additional work if it returns true.
     */
    public boolean okClicked()
-   {
+   {      
+      if (getPanel() instanceof ValidatorPanel)
+      {
+         Vector messageValidators = ((ValidatorPanel)getPanel()).getMessageValidators();
+         for (int i=0; i < messageValidators.size(); i++)
+         {
+            ValidatorPanel.MessageValidator mv = (ValidatorPanel.MessageValidator)messageValidators.elementAt(i);
+            
+            if (!mv.isValid())
+            {
+               Object[] subst = mv.getSubstitutions();
+               if (subst != null)
+               {
+                  ErrorManager.display(getPanel(), mv.getErrorMessage(), subst);
+                  return false;
+               }
+               else
+               {
+                  ErrorManager.display(getPanel(), mv.getErrorMessage());
+                  return false;               
+               }
+            }
+         }
+      }
       return true;
    }
    /**
@@ -199,3 +223,19 @@ public class DubhOkCancelDialog extends DubhDialog {
  
 
 }
+
+
+
+/*
+ * Version History: <UL>
+ * <LI>0.1 [18/06/98]: Initial Revision
+ * <LI>0.2 [28/06/98]: Added setPanel()
+ * <LI>0.3 [08/12/98]: Internationalised
+ * <LI>0.4 [12/12/98]: Add support for validated panel.
+ *</UL>
+ */
+
+
+// 
+// $Log: not supported by cvs2svn $
+//

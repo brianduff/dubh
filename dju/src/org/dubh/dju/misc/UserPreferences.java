@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: UserPreferences.java,v 1.6 1999-10-24 00:39:11 briand Exp $
+//   $Id: UserPreferences.java,v 1.7 1999-11-02 19:53:14 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -36,7 +36,7 @@ import java.awt.*;
  * <br>
  * <b>The event handling for this class is not thread safe.</b>
  * @author Brian Duff
- * @version $Id: UserPreferences.java,v 1.6 1999-10-24 00:39:11 briand Exp $
+ * @version $Id: UserPreferences.java,v 1.7 1999-11-02 19:53:14 briand Exp $
  */
 public class UserPreferences implements Serializable {
 
@@ -240,7 +240,7 @@ public class UserPreferences implements Serializable {
    /**
     * Add to a multi key list
     */
-   public void addToMultiKeyList(String baseKey, Object o)
+   public int addToMultiKeyList(String baseKey, Object o)
    {
       getMultiKeyList(baseKey).add(o);
       // Get the indices for this key
@@ -250,6 +250,23 @@ public class UserPreferences implements Serializable {
       // Store the new item at highest_index+1
       Integer newIndex = new Integer(biggest.intValue()+1);
       indices.add(newIndex);
+      return newIndex.intValue();
+   }
+  
+   /**
+    * Returns the index of the specified item in the multi
+    * key list
+    */
+   public int getMultiKeyListIndex(String baseKey, Object o)
+   {
+      // First, get the lists
+      ArrayList mkl = getMultiKeyList(baseKey);
+      // and the index maps
+      ArrayList indices = (ArrayList)m_hashListIndices.get(baseKey);
+      
+      // Now get the index of o
+      int index = mkl.indexOf(o);
+      return ((Integer)indices.get(index)).intValue();
    }
   
    /**
@@ -647,6 +664,9 @@ public class UserPreferences implements Serializable {
 // New Log
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/10/24 00:39:11  briand
+// Add MultiKeyList support.
+//
 // Revision 1.5  1999/06/01 17:56:55  briand
 // Fix font / color preference methods; added two private encoders
 // to convert fonts & colors into strings that Font.decode() and

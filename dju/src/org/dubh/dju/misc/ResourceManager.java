@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.6 1999-06-01 00:18:34 briand Exp $
+//   $Id: ResourceManager.java,v 1.7 1999-11-02 19:53:13 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -317,10 +317,10 @@ public class ResourceManager {
      }
      catch (Throwable t)
      {
-        if (Debug.TRACE_LEVEL_1)
-        {
-           Debug.println(1, this, "Resource key "+prefix+"."+property+" isn't defined");
-        }
+       // if (Debug.TRACE_LEVEL_1)
+       // {
+       //    Debug.println(1, this, "Resource key "+prefix+"."+property+" isn't defined");
+       // }
      }
   
      prefix.setLength(oldLength);

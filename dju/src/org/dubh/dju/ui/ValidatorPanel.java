@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ValidatorPanel.java,v 1.3 1999-03-22 23:37:19 briand Exp $
+//   $Id: ValidatorPanel.java,v 1.4 1999-11-02 19:53:14 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -58,6 +58,7 @@ public class ValidatorPanel extends JPanel
    
    private Vector m_validators;
    private Vector m_listeners;
+   private Vector m_messageValidators;
    private boolean m_valid;
 
    
@@ -66,6 +67,7 @@ public class ValidatorPanel extends JPanel
       super();
       m_validators = new Vector();
       m_listeners  = new Vector();
+      m_messageValidators = new Vector();
       m_valid = true;
    }
 
@@ -99,6 +101,21 @@ public class ValidatorPanel extends JPanel
       m_validators.removeElement(v);
    }
    
+   public void registerMessageValidator(MessageValidator v)
+   {
+      m_messageValidators.addElement(v);
+   }
+   
+   public void unregisterMessageValidator(MessageValidator v)
+   {
+      m_messageValidators.removeElement(v);
+   }
+
+   Vector getMessageValidators()
+   {
+      return m_messageValidators;
+   }
+
    public void checkValid()
    {
       m_valid = true;
@@ -120,9 +137,23 @@ public class ValidatorPanel extends JPanel
       return m_valid;
    }   
 
-   
+   /**
+    * Validators should implement this interface. If 
+    * you return null from getErrorCode, the DubhOkCancelDialog
+    * will disable the Ok button until all validators are
+    * happy. If you return an error code, your validator
+    * is not used to affect the buttons, but if your
+    * validator fails when the user clicks Ok, your error
+    * message is displayed.
+    */
    public interface Validator 
    {
-      public boolean isValid();
+      public boolean isValid();   
+   }
+   
+   public interface MessageValidator extends Validator
+   {
+      public String getErrorMessage();
+      public Object[] getSubstitutions();
    }
 }
