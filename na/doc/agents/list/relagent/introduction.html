@@ -1,77 +1,77 @@
-<html>
-<head>
-<title>Relevance Agent: Introduction</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="../../../newsagent.css"></head>
-
-<body bgcolor="#FFFFCC">
-<table border="0" width="100%">
-  <tr> 
-    <td width="81%" height="38"> 
-      <h1>Introduction</h1>
-    </td>
-    <td width="19%" valign="BOTTOM" height="38"><a href="index.html"><img border=0 src="../../../images/up.gif" width="32" height="30" alt="Up: Relevance Agent"></a><a href="configuration.html"><img src="../../../images/fwd.gif" width="32" height="30" alt="Next: Relevance Agent Configuration Dialogue" border="0"></a></td>
-  </tr>
-</table>
-<h2>Setting Up the Relevance Agent<a name="SettingUpTheRelevanceAgent"></a></h2>
-<p>The Relevance Agent is an agent that lets you change the appearance of message 
-  headers based on how relevant you think they are. </p>
-<p>To switch on the Relevance Agent, go to the <a href="../../../dialogs/prefslistagents.html" target="">List 
-  Agents Panel</a> of the Preferences Dialogue (<a href="../../../menus/editmenu.html#EditPreferences" target="" class="menucommand">Edit:Preferences</a>). 
-  Locate &quot;Relevance Agent&quot; in the list of available agents, and double 
-  click the list item to check the checkbox next to it. Click on the Configure... 
-  button at the bottom right of the panel to configure the behaviour of the agent.</p>
-<h2>Relevance Rules<a name="RelevanceRules"></a></h2>
-<p>The Relevance Agent uses a set of relevance rules to change your message headers. 
-  Each rule has a descriptive name and a set of associated newsgroups. When you 
-  first click on the Configure... button to configure the Relevance Agent, you 
-  will be presented with the <a href="configuration.html">Relevance Agent Configuration 
-  Dialogue</a>. This dialogue has a list of all the relevance rules you have set 
-  up, and the newsgroups that each one affects. You can add, remove, edit or change 
-  the order of the rules from this dialogue.</p>
-<p>Each rule is composed of a list of Scoring Conditions and Action Conditions.</p>
-<h2>Scoring Conditions<a name="ScoringConditions"></a></h2>
-<p>Each Relevance Rule has an associated set of scoring conditions. Each message 
-  header that passes through the agent starts with an initial score of zero. Scoring 
-  conditions alter that score, depending on the contents of the header fields. 
-  Some examples of scoring conditions are:</p>
-<ul>
-  <li><i>&quot;If the <b>From</b> header <b>contains</b> <b>Brian</b> then <b>subtract 
-    100 from </b>its score.&quot;</i></li>
-  <li><i>&quot;If the <b>Subject</b> header <b>starts with</b> <b>Re:</b> then 
-    <b>add 50 to</b> its score.&quot;</i></li>
-</ul>
-<p>As you can see, each scoring condition has four main configurable parts (in 
-  bold):</p>
-<ul>
-  <li>A header field to check (e.g. From, Subject)</li>
-  <li>How to compare the header (contains, starts with, ends with or equals)</li>
-  <li>Text to compare the header with (e.g. Brian, Re:)</li>
-  <li>A value to add or subtract from its score (e.g. +100, -50)</li>
-</ul>
-<p>Scoring conditions are added to relevance rules using the Scoring Condition 
-  Editor. This dialogue is displayed when you use the <a href="wiz1.html">Add 
-  / Edit Relevance Rule Wizard</a>. </p>
-<h2>Action Conditions<a name="ActionConditions"></a></h2>
-<p>Once a message header has been passed through all your scoring conditions, 
-  it will have a final score. The next step is to alter the message in some way 
-  (perform an action) based on that score. Some examples of action conditions 
-  are:</p>
-<ul>
-  <li><i>&quot;If the score is <b>less than -100</b> then <b>delete the message</b>.&quot;</i></li>
-  <li><i>&quot;If the score is <b>between -99 and 99</b> then <b>display the message 
-    header in bold, red text.</b>&quot;</i></li>
-</ul>
-<p>There are two main configurable parts to action conditions:</p>
-<ul>
-  <li>A range and value(s) to compare the score to (less than x, equal to x, greater 
-    than x or between x and y)</li>
-  <li>An action to take if the condition is true (delete the message or change 
-    the font, size and colour of its header)</li>
-</ul>
-<p>Action conditions are added to relevance rules using the Action Condition Editor. 
-  This dialogue is displayed when you use the <a href="wiz1.html">Add / Edit Relevance 
-  Rule Wizard</a>.</p>
-<p><b>Next Topic: <a href="configuration.html">Relevance Agent Configuration Dialogue</a></b></p>
-</body>
-</html>
+<html> 
+<head> 
+<title>Relevance Agent: Introduction</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<link rel="stylesheet" href="../../../newsagent.css"></head> 
+ 
+<body bgcolor="#FFFFCC"> 
+<table border="0" width="100%"> 
+  <tr>  
+    <td width="81%" height="38">  
+      <h1>Introduction</h1> 
+    </td> 
+    <td width="19%" valign="BOTTOM" height="38"><a href="index.html"><img border=0 src="../../../images/up.gif" width="32" height="30" alt="Up: Relevance Agent"></a><a href="configuration.html"><img src="../../../images/fwd.gif" width="32" height="30" alt="Next: Relevance Agent Configuration Dialogue" border="0"></a></td> 
+  </tr> 
+</table> 
+<h2>Setting Up the Relevance Agent<a name="SettingUpTheRelevanceAgent"></a></h2> 
+<p>The Relevance Agent is an agent that lets you change the appearance of message  
+  headers based on how relevant you think they are. </p> 
+<p>To switch on the Relevance Agent, go to the <a href="../../../dialogs/prefslistagents.html" target="">List  
+  Agents Panel</a> of the Preferences Dialogue (<a href="../../../menus/editmenu.html#EditPreferences" target="" class="menucommand">Edit:Preferences</a>).  
+  Locate &quot;Relevance Agent&quot; in the list of available agents, and double  
+  click the list item to check the checkbox next to it. Click on the Configure...  
+  button at the bottom right of the panel to configure the behaviour of the agent.</p> 
+<h2>Relevance Rules<a name="RelevanceRules"></a></h2> 
+<p>The Relevance Agent uses a set of relevance rules to change your message headers.  
+  Each rule has a descriptive name and a set of associated newsgroups. When you  
+  first click on the Configure... button to configure the Relevance Agent, you  
+  will be presented with the <a href="configuration.html">Relevance Agent Configuration  
+  Dialogue</a>. This dialogue has a list of all the relevance rules you have set  
+  up, and the newsgroups that each one affects. You can add, remove, edit or change  
+  the order of the rules from this dialogue.</p> 
+<p>Each rule is composed of a list of Scoring Conditions and Action Conditions.</p> 
+<h2>Scoring Conditions<a name="ScoringConditions"></a></h2> 
+<p>Each Relevance Rule has an associated set of scoring conditions. Each message  
+  header that passes through the agent starts with an initial score of zero. Scoring  
+  conditions alter that score, depending on the contents of the header fields.  
+  Some examples of scoring conditions are:</p> 
+<ul> 
+  <li><i>&quot;If the <b>From</b> header <b>contains</b> <b>Brian</b> then <b>subtract  
+    100 from </b>its score.&quot;</i></li> 
+  <li><i>&quot;If the <b>Subject</b> header <b>starts with</b> <b>Re:</b> then  
+    <b>add 50 to</b> its score.&quot;</i></li> 
+</ul> 
+<p>As you can see, each scoring condition has four main configurable parts (in  
+  bold):</p> 
+<ul> 
+  <li>A header field to check (e.g. From, Subject)</li> 
+  <li>How to compare the header (contains, starts with, ends with or equals)</li> 
+  <li>Text to compare the header with (e.g. Brian, Re:)</li> 
+  <li>A value to add or subtract from its score (e.g. +100, -50)</li> 
+</ul> 
+<p>Scoring conditions are added to relevance rules using the Scoring Condition  
+  Editor. This dialogue is displayed when you use the <a href="wiz1.html">Add  
+  / Edit Relevance Rule Wizard</a>. </p> 
+<h2>Action Conditions<a name="ActionConditions"></a></h2> 
+<p>Once a message header has been passed through all your scoring conditions,  
+  it will have a final score. The next step is to alter the message in some way  
+  (perform an action) based on that score. Some examples of action conditions  
+  are:</p> 
+<ul> 
+  <li><i>&quot;If the score is <b>less than -100</b> then <b>delete the message</b>.&quot;</i></li> 
+  <li><i>&quot;If the score is <b>between -99 and 99</b> then <b>display the message  
+    header in bold, red text.</b>&quot;</i></li> 
+</ul> 
+<p>There are two main configurable parts to action conditions:</p> 
+<ul> 
+  <li>A range and value(s) to compare the score to (less than x, equal to x, greater  
+    than x or between x and y)</li> 
+  <li>An action to take if the condition is true (delete the message or change  
+    the font, size and colour of its header)</li> 
+</ul> 
+<p>Action conditions are added to relevance rules using the Action Condition Editor.  
+  This dialogue is displayed when you use the <a href="wiz1.html">Add / Edit Relevance  
+  Rule Wizard</a>.</p> 
+<p><b>Next Topic: <a href="configuration.html">Relevance Agent Configuration Dialogue</a></b></p> 
+</body> 
+</html> 

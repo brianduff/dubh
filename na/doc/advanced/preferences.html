@@ -1,209 +1,209 @@
-<html>
-<head>
-<title>Editing Preference Files</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" type="text/css" href="../newsagent.css">
-</head>
-
-<body bgcolor="#FFFFCC">
-<h1>Editing Preference Files</h1>
-<h2>How NewsAgent Stores Your Preferences<a name="HowNewsAgentStoresYourPrefs"></a></h2>
-<p>The preferences system in NewsAgent uses a standard Java practice of storing 
-  preferences in a file with the extension <code>properties</code>, 
-  and keeping this file in your &quot;home directory&quot;. The main preferences 
-  file for NewsAgent is <code>user.properties</code>. NewsAgent 
-  stores this in a subdirectory of your home, called <span class="codefixed">.newsagent</span>. 
-  The definition of &quot;home directory&quot; differs from system to system. 
-  Some examples of where to find the file are given below:</p>
-<ul>
-  <li><b>UNIX<br>
-    </b><code>~/.newsagent/user.properties</code></li>
-  <li><b>Windows 95<br>
-    </b> <code>C:\Program Files\JDK\.newsagent\user.properties</code></li>
-  <li><b>Windows NT (no home directory)<br>
-    </b><code>C:\.newsagent\user.properties</code></li>
-  <li><b>Windows NT (home directory in profiles)<br>
-    </b><code>C:\WINNT\Profiles\Cairndubh\.newsagent\user.properties</code></li>
-</ul>
-<p>If you open this file in any text editor, you will see that each line is of 
-  the form:</p>
-<pre>newsagent.something.somethingelse=Something, possibly with spaces in it
-  </pre>
-<p>This line sets the property newsagent.something.somethingelse (the left hand 
-  side) to the value (on the right hand side). The property (left hand side) is 
-  <i>case sensitive<b>.</b></i> The NewsAgent preferences aren't consistent in 
-  their capitalisation, so check the property keys carefully.</p>
-<div align="LEFT">
-  <h2>A Cautionary Note<a name="CautionaryNote"></a> </h2>
-</div>
-<p>There are absolutely no guarantees as to how NewsAgent will behave if you set 
-  some of its properties to unusual values. In most cases, there is a reasonable 
-  degree of bounds checking, but it's always possible to find a case which might 
-  cause problems. <b>You should therefore make a backup of your properties file 
-  before editing it by hand.</b> </p>
-<p>If the worst happens, and you break NewsAgent, just delete the properties file 
-  and NewsAgent will revert to its defaults.</p>
-<p>Editing the properties file while NewsAgent is running is pointless, as NewsAgent 
-  will more than likely overwrite your changes.</p>
-<p>The order of properties in the preference file is completely arbitrary, and 
-  will change whenever NewsAgent writes your preference file.</p>
-<h2>NewsAgent Properties<a name="NewsAgentProperties"></a></h2>
-<p class="new">NEW: There are a number of new properties in version 1.02, and 
-  some preferences have been removed.</p>
-<p>The following properties are available in this version of NewsAgent. You may 
-  find properties other than these in the properties file, such properties should 
-  be considered as non-finalised and subject to change in future versions.</p>
-<dl> 
-  <dt><b>newsagent.agents.send.active</b></dt>
-  <dd>A (space separated) list of full classnames of all Send Agents that are 
-    switched on, in the order they will be executed when a message is posted. 
-    Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send 
-    Agents Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.agents.send.alwayspreview</b></dt>
-  <dd>Send Agents are allowed to modify your outgoing message, for example add 
-    extra headers or change the message text in some way. By default, if a Send 
-    Agent has modified your message in some way, the message will be displayed 
-    to you before it is sent, and you will be asked to confirm that you really 
-    want to send the message. You can disable this preview by setting the newsagent.agent.send.alwayspreview 
-    preference to no. There is also a checkbox on the preview dialogue box that 
-    you can uncheck to prevent future previews. If you want to stop Send Agents 
-    from modifying your messages, you should use the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send 
-    Agents Panel</a> of the Preferences Dialogue to disable offending Agents. 
-    Acceptible values = <code>yes</code> or <code>no</code>. Default value = <code>yes</code>.</dd>
-  <dt><b>newsagent.agents.send.ignoreerrors <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>Send Agents can warn you about problems with your outgoing messages. If 
-    a Send Agent considers a problem to be particularly severe, it will display 
-    an error message and you will not be able to post the message until you have 
-    fixed the error. You can disable this behaviour by setting the newsagent.agent.send.ignoreerrors 
-    property to yes. Send Agents will no longer display any errors. Acceptible 
-    values = <code>yes</code> or <code>no</code>. Default value = <code>no</code>.</dd>
-  <dt><b>newsagent.agents.send.ignorewarnings <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>Send Agents can warn you about problems with your outgoing messages. If 
-    you try to post a message that has warnings, the warnings will be displayed 
-    and you will be asked if you really want to send the message. If you set the 
-    newsagent.agent.send.ignorewarnings property to yes, all Send Agent warnings 
-    will be suppressed, and you will never be asked to confirm that you really 
-    want to post a message. Acceptible values = <code>yes</code> or <code>no</code>. 
-    Default value = <code>no</code>.</dd>
-  <dt><b>newsagent.agents.send.installed</b></dt>
-  <dd>A (space separated) list of full classnames of Send Agents that the user 
-    has installed manually. Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send 
-    Agents Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.agents.list.active</b></dt>
-  <dd>A (space separated) list of full classnames of all List Agents that are 
-    switched on, in the order they will be executed when a message is read. Normally 
-    configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefslistagents.html" target="">List 
-    Agents Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.agents.list.installed</b></dt>
-  <dd>A (space separated) list of full classnames of List Agents that the user 
-    has installed manually. Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefslistagents.html" target="">List 
-    Agents Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.composer.AdditionalHeaders <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>The <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/messagecomposer.html">message 
-    composer</a> contains the two headers &quot;Newsgroups&quot; and &quot;Subject&quot; 
-    by default. Using the popup menu over the headers area, you can add and remove 
-    additional headers. This property contains the names of all additional headers 
-    you are using, separated by spaces. </dd>
-  <dt><b>newsagent.debug.Console <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>Whether to use a windowed console for debugging output produced if you have 
-    the DebugMessages or ServerDump properties set (yes or no). This is provided 
-    for users who don't have a command line to read debugging output from (e.g. 
-    in NewsAgent v1.02 under Windows 32bit with the launcher .exe). You can also 
-    use the command line flag <b>-console</b> to enable the debugging console 
-    windows. </dd>
-  <dt><b>newsagent.debug.DebugMessages <span class="new">[Updated Since 1.02]</span></b></dt>
-  <dd>Whether to produce debug output (yes or no). You can also use the command 
-    line flag <b>-debug</b> to enable debug output.</dd>
-  <dt><b>newsagent.debug.ServerDump <span class="new">[Updated Since 1.02]</span></b></dt>
-  <dd>Whether to dump all status and command I/O to and from News Servers to the 
-    console (yes or no). May or may not be enabled in a release version. You can 
-    also use the command line flag <b>-debugnet</b> to enable network debugging.</dd>
-  <dt><b>newsagent.general.AutoUpdate</b></dt>
-  <dd>Whether to update the list of messages in a newsgroup periodicaly (yes or 
-    no). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.general.HelpBrowserApp <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>The path to your favourite WWW browser. If this property is set, an external 
-    browser of your choice is always used for help. The property should be of 
-    the form &quot;path/to/command {0}&quot;. {0} is replaced by the path to the 
-    HTML file that is being displayed. For instance &quot;C:\progra~1\plus!\micros~1\iexplore.exe 
-    {0}&quot;. If this preference is not set (default), the internal browser is 
-    used. </dd>
-  <dt><b>newsagent.general.NewsgroupNotify</b></dt>
-  <dd>Whether to check for new newsgroups whenever you start NewsAgent (yes or 
-    no). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General 
-    Panel</a> of the Preferences Dialogue. </dd>
-  <dt><b>newsagent.general.UpdateInterval</b></dt>
-  <dd>The time in minutes between updates of the list of messages in a newsgroup. 
-    Normally configurable from the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General 
-    Panel</a> of the Preferences Dialogue. </dd>
-  <dt><b>newsagent.identity.email</b></dt>
-  <dd>Your email address. Normally configured with the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.identity.organisation</b></dt>
-  <dd>Your organisation. Normally configured with the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.identity.realname</b></dt>
-  <dd>Your real name. Normally configured with the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.msgviewer.Headers <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>You can now customise the headers that are displayed in the message display 
-    panel of the main NewsAgent window using this property. The property should 
-    be set to a space separated ordered list of header field names. (e.g. &quot;<code>From 
-    Subject Newsgroups Message-Id</code>&quot;). Message headers are case insensitive.</dd>
-  <dt><b>newsagent.send.AddNewsAgentHeaders</b> <b><span class="new">[NEW Since 
-    1.02]</span></b></dt>
-  <dd>NewsAgent adds the two headers X-Mailer and X-Mailer-Url to all outgoing 
-    messages by default. Setting this property to <code>no</code> will disable 
-    this behaviour.</dd>
-  <dt><b>newsagent.send.HardBreaks <span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>Some Newsreaders use message viewers that don't wrap text to word boundaries. 
-    To ensure that messages appear correctly in such applications, this option 
-    ensures there is a carriage return at the end of each line of text in your 
-    outgoing messages. If this option is switched off, each paragraph is sent 
-    as a line of unbroken text, which will be formatted as the recieving newsreader 
-    sees fit. Default value = <code>yes</code>. Acceptable values = <code>yes</code> 
-    or <code>no</code>.</dd>
-  <dt><b>newsagent.send.IncludeBehaviour</b> <b><span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>Determines whether and how NewsAgent inserts quoted text from the original 
-    message into replies. Can be one of the following three values (case insensitive): 
-    <code>all</code> - quote the entire post in the reply (default), <code>selected</code> 
-    - quote only text that is currently selected in the message viewer window 
-    in the reply, <code>none</code> - do not quote from the original post.</dd>
-  <dt><b>newsagent.send.IncludeHeading</b> <b><span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>The text to add at the start of quoted text in reply messages. Use the wildcard 
-    {header-name} to insert any header from the original message. Header field 
-    names are case insensitive. The default value is <code>&quot;In message {message-id}, 
-    {x-na-realname} wrote:&quot;</code>. The special field &quot;<code>x-na-realname</code>&quot; 
-    inserts just the real name of the sender, extracted from the From header</dd>
-  <dt><b>newsagent.send.IncludeMessages <span class="new">[deprecated since 1.02]</span></b></dt>
-  <dd>Whether to include the original message in replies (yes or no). Normally 
-    configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefssend.html" target="">Send 
-    Panel</a> of the Preferences Dialogue. This preference has been deprecated. 
-    It will still work, but you should use the newsagent.send.IncludeBehaviour 
-    preference instead. If you have <code>newsagent.send.IncludeMessages = yes</code>, 
-    it will behave like <code>newsagent.send.IncludeBehaviour=all</code>.</dd>
-  <dt><b>newsagent.send.IncludePrefix</b> <b><span class="new">[NEW Since 1.02]</span></b></dt>
-  <dd>The character(s) to prefix included messages with. The default (and recommended) 
-    value is &quot;<code>&gt; </code>&quot;. Bear in mind that long prefix Strings 
-    might cause lines to wrap badly on some Newsreaders.</dd>
-  <dt><b>newsagent.send.StorePosts</b></dt>
-  <dd>Whether to store copies of the user's messages in a special folder (<code>yes</code> 
-    or <code>no</code>). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefssend.html" target="">Send 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.servers.SMTPHostName</b></dt>
-  <dd>The hostname of your outgoing mail server. Normally configured with the 
-    <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsservers.html">Servers 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.servers.SMTPPort</b></dt>
-  <dd>The port number of your outgoing mail server. Normally configured with the 
-    <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsservers.html">Servers 
-    Panel</a> of the Preferences Dialogue.</dd>
-  <dt><b>newsagent.ui.LookAndFeel</b></dt>
-  <dd>The Swing look and feel to use. Will be supported in future versions of 
-    NewsAgent (not yet)</dd>
-  <dt>&nbsp;</dt>
-</dl>
-  
-
-</body></html>
+<html> 
+<head> 
+<title>Editing Preference Files</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<link rel="stylesheet" type="text/css" href="../newsagent.css"> 
+</head> 
+ 
+<body bgcolor="#FFFFCC"> 
+<h1>Editing Preference Files</h1> 
+<h2>How NewsAgent Stores Your Preferences<a name="HowNewsAgentStoresYourPrefs"></a></h2> 
+<p>The preferences system in NewsAgent uses a standard Java practice of storing  
+  preferences in a file with the extension <code>properties</code>,  
+  and keeping this file in your &quot;home directory&quot;. The main preferences  
+  file for NewsAgent is <code>user.properties</code>. NewsAgent  
+  stores this in a subdirectory of your home, called <span class="codefixed">.newsagent</span>.  
+  The definition of &quot;home directory&quot; differs from system to system.  
+  Some examples of where to find the file are given below:</p> 
+<ul> 
+  <li><b>UNIX<br> 
+    </b><code>~/.newsagent/user.properties</code></li> 
+  <li><b>Windows 95<br> 
+    </b> <code>C:\Program Files\JDK\.newsagent\user.properties</code></li> 
+  <li><b>Windows NT (no home directory)<br> 
+    </b><code>C:\.newsagent\user.properties</code></li> 
+  <li><b>Windows NT (home directory in profiles)<br> 
+    </b><code>C:\WINNT\Profiles\Cairndubh\.newsagent\user.properties</code></li> 
+</ul> 
+<p>If you open this file in any text editor, you will see that each line is of  
+  the form:</p> 
+<pre>newsagent.something.somethingelse=Something, possibly with spaces in it 
+  </pre> 
+<p>This line sets the property newsagent.something.somethingelse (the left hand  
+  side) to the value (on the right hand side). The property (left hand side) is  
+  <i>case sensitive<b>.</b></i> The NewsAgent preferences aren't consistent in  
+  their capitalisation, so check the property keys carefully.</p> 
+<div align="LEFT"> 
+  <h2>A Cautionary Note<a name="CautionaryNote"></a> </h2> 
+</div> 
+<p>There are absolutely no guarantees as to how NewsAgent will behave if you set  
+  some of its properties to unusual values. In most cases, there is a reasonable  
+  degree of bounds checking, but it's always possible to find a case which might  
+  cause problems. <b>You should therefore make a backup of your properties file  
+  before editing it by hand.</b> </p> 
+<p>If the worst happens, and you break NewsAgent, just delete the properties file  
+  and NewsAgent will revert to its defaults.</p> 
+<p>Editing the properties file while NewsAgent is running is pointless, as NewsAgent  
+  will more than likely overwrite your changes.</p> 
+<p>The order of properties in the preference file is completely arbitrary, and  
+  will change whenever NewsAgent writes your preference file.</p> 
+<h2>NewsAgent Properties<a name="NewsAgentProperties"></a></h2> 
+<p class="new">NEW: There are a number of new properties in version 1.02, and  
+  some preferences have been removed.</p> 
+<p>The following properties are available in this version of NewsAgent. You may  
+  find properties other than these in the properties file, such properties should  
+  be considered as non-finalised and subject to change in future versions.</p> 
+<dl>  
+  <dt><b>newsagent.agents.send.active</b></dt> 
+  <dd>A (space separated) list of full classnames of all Send Agents that are  
+    switched on, in the order they will be executed when a message is posted.  
+    Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send  
+    Agents Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.agents.send.alwayspreview</b></dt> 
+  <dd>Send Agents are allowed to modify your outgoing message, for example add  
+    extra headers or change the message text in some way. By default, if a Send  
+    Agent has modified your message in some way, the message will be displayed  
+    to you before it is sent, and you will be asked to confirm that you really  
+    want to send the message. You can disable this preview by setting the newsagent.agent.send.alwayspreview  
+    preference to no. There is also a checkbox on the preview dialogue box that  
+    you can uncheck to prevent future previews. If you want to stop Send Agents  
+    from modifying your messages, you should use the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send  
+    Agents Panel</a> of the Preferences Dialogue to disable offending Agents.  
+    Acceptible values = <code>yes</code> or <code>no</code>. Default value = <code>yes</code>.</dd> 
+  <dt><b>newsagent.agents.send.ignoreerrors <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>Send Agents can warn you about problems with your outgoing messages. If  
+    a Send Agent considers a problem to be particularly severe, it will display  
+    an error message and you will not be able to post the message until you have  
+    fixed the error. You can disable this behaviour by setting the newsagent.agent.send.ignoreerrors  
+    property to yes. Send Agents will no longer display any errors. Acceptible  
+    values = <code>yes</code> or <code>no</code>. Default value = <code>no</code>.</dd> 
+  <dt><b>newsagent.agents.send.ignorewarnings <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>Send Agents can warn you about problems with your outgoing messages. If  
+    you try to post a message that has warnings, the warnings will be displayed  
+    and you will be asked if you really want to send the message. If you set the  
+    newsagent.agent.send.ignorewarnings property to yes, all Send Agent warnings  
+    will be suppressed, and you will never be asked to confirm that you really  
+    want to post a message. Acceptible values = <code>yes</code> or <code>no</code>.  
+    Default value = <code>no</code>.</dd> 
+  <dt><b>newsagent.agents.send.installed</b></dt> 
+  <dd>A (space separated) list of full classnames of Send Agents that the user  
+    has installed manually. Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Send  
+    Agents Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.agents.list.active</b></dt> 
+  <dd>A (space separated) list of full classnames of all List Agents that are  
+    switched on, in the order they will be executed when a message is read. Normally  
+    configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefslistagents.html" target="">List  
+    Agents Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.agents.list.installed</b></dt> 
+  <dd>A (space separated) list of full classnames of List Agents that the user  
+    has installed manually. Normally configured from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefslistagents.html" target="">List  
+    Agents Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.composer.AdditionalHeaders <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>The <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/messagecomposer.html">message  
+    composer</a> contains the two headers &quot;Newsgroups&quot; and &quot;Subject&quot;  
+    by default. Using the popup menu over the headers area, you can add and remove  
+    additional headers. This property contains the names of all additional headers  
+    you are using, separated by spaces. </dd> 
+  <dt><b>newsagent.debug.Console <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>Whether to use a windowed console for debugging output produced if you have  
+    the DebugMessages or ServerDump properties set (yes or no). This is provided  
+    for users who don't have a command line to read debugging output from (e.g.  
+    in NewsAgent v1.02 under Windows 32bit with the launcher .exe). You can also  
+    use the command line flag <b>-console</b> to enable the debugging console  
+    windows. </dd> 
+  <dt><b>newsagent.debug.DebugMessages <span class="new">[Updated Since 1.02]</span></b></dt> 
+  <dd>Whether to produce debug output (yes or no). You can also use the command  
+    line flag <b>-debug</b> to enable debug output.</dd> 
+  <dt><b>newsagent.debug.ServerDump <span class="new">[Updated Since 1.02]</span></b></dt> 
+  <dd>Whether to dump all status and command I/O to and from News Servers to the  
+    console (yes or no). May or may not be enabled in a release version. You can  
+    also use the command line flag <b>-debugnet</b> to enable network debugging.</dd> 
+  <dt><b>newsagent.general.AutoUpdate</b></dt> 
+  <dd>Whether to update the list of messages in a newsgroup periodicaly (yes or  
+    no). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.general.HelpBrowserApp <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>The path to your favourite WWW browser. If this property is set, an external  
+    browser of your choice is always used for help. The property should be of  
+    the form &quot;path/to/command {0}&quot;. {0} is replaced by the path to the  
+    HTML file that is being displayed. For instance &quot;C:\progra~1\plus!\micros~1\iexplore.exe  
+    {0}&quot;. If this preference is not set (default), the internal browser is  
+    used. </dd> 
+  <dt><b>newsagent.general.NewsgroupNotify</b></dt> 
+  <dd>Whether to check for new newsgroups whenever you start NewsAgent (yes or  
+    no). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General  
+    Panel</a> of the Preferences Dialogue. </dd> 
+  <dt><b>newsagent.general.UpdateInterval</b></dt> 
+  <dd>The time in minutes between updates of the list of messages in a newsgroup.  
+    Normally configurable from the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsgeneral.html">General  
+    Panel</a> of the Preferences Dialogue. </dd> 
+  <dt><b>newsagent.identity.email</b></dt> 
+  <dd>Your email address. Normally configured with the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.identity.organisation</b></dt> 
+  <dd>Your organisation. Normally configured with the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.identity.realname</b></dt> 
+  <dd>Your real name. Normally configured with the<a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsidentity.html">Identity  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.msgviewer.Headers <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>You can now customise the headers that are displayed in the message display  
+    panel of the main NewsAgent window using this property. The property should  
+    be set to a space separated ordered list of header field names. (e.g. &quot;<code>From  
+    Subject Newsgroups Message-Id</code>&quot;). Message headers are case insensitive.</dd> 
+  <dt><b>newsagent.send.AddNewsAgentHeaders</b> <b><span class="new">[NEW Since  
+    1.02]</span></b></dt> 
+  <dd>NewsAgent adds the two headers X-Mailer and X-Mailer-Url to all outgoing  
+    messages by default. Setting this property to <code>no</code> will disable  
+    this behaviour.</dd> 
+  <dt><b>newsagent.send.HardBreaks <span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>Some Newsreaders use message viewers that don't wrap text to word boundaries.  
+    To ensure that messages appear correctly in such applications, this option  
+    ensures there is a carriage return at the end of each line of text in your  
+    outgoing messages. If this option is switched off, each paragraph is sent  
+    as a line of unbroken text, which will be formatted as the recieving newsreader  
+    sees fit. Default value = <code>yes</code>. Acceptable values = <code>yes</code>  
+    or <code>no</code>.</dd> 
+  <dt><b>newsagent.send.IncludeBehaviour</b> <b><span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>Determines whether and how NewsAgent inserts quoted text from the original  
+    message into replies. Can be one of the following three values (case insensitive):  
+    <code>all</code> - quote the entire post in the reply (default), <code>selected</code>  
+    - quote only text that is currently selected in the message viewer window  
+    in the reply, <code>none</code> - do not quote from the original post.</dd> 
+  <dt><b>newsagent.send.IncludeHeading</b> <b><span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>The text to add at the start of quoted text in reply messages. Use the wildcard  
+    {header-name} to insert any header from the original message. Header field  
+    names are case insensitive. The default value is <code>&quot;In message {message-id},  
+    {x-na-realname} wrote:&quot;</code>. The special field &quot;<code>x-na-realname</code>&quot;  
+    inserts just the real name of the sender, extracted from the From header</dd> 
+  <dt><b>newsagent.send.IncludeMessages <span class="new">[deprecated since 1.02]</span></b></dt> 
+  <dd>Whether to include the original message in replies (yes or no). Normally  
+    configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefssend.html" target="">Send  
+    Panel</a> of the Preferences Dialogue. This preference has been deprecated.  
+    It will still work, but you should use the newsagent.send.IncludeBehaviour  
+    preference instead. If you have <code>newsagent.send.IncludeMessages = yes</code>,  
+    it will behave like <code>newsagent.send.IncludeBehaviour=all</code>.</dd> 
+  <dt><b>newsagent.send.IncludePrefix</b> <b><span class="new">[NEW Since 1.02]</span></b></dt> 
+  <dd>The character(s) to prefix included messages with. The default (and recommended)  
+    value is &quot;<code>&gt; </code>&quot;. Bear in mind that long prefix Strings  
+    might cause lines to wrap badly on some Newsreaders.</dd> 
+  <dt><b>newsagent.send.StorePosts</b></dt> 
+  <dd>Whether to store copies of the user's messages in a special folder (<code>yes</code>  
+    or <code>no</code>). Normally configurable from the <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefssend.html" target="">Send  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.servers.SMTPHostName</b></dt> 
+  <dd>The hostname of your outgoing mail server. Normally configured with the  
+    <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsservers.html">Servers  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.servers.SMTPPort</b></dt> 
+  <dd>The port number of your outgoing mail server. Normally configured with the  
+    <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsservers.html">Servers  
+    Panel</a> of the Preferences Dialogue.</dd> 
+  <dt><b>newsagent.ui.LookAndFeel</b></dt> 
+  <dd>The Swing look and feel to use. Will be supported in future versions of  
+    NewsAgent (not yet)</dd> 
+  <dt>&nbsp;</dt> 
+</dl> 
+   
+ 
+</body></html> 

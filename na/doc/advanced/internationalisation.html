@@ -1,46 +1,46 @@
-<html>
-<head>
-<title>Customising NewsAgent for Internationalisation</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" type="text/css" href="../newsagent.css">
-</head>
-
-<body bgcolor="#FFFFCC">
-<h1>Customising NewsAgent for Internationalisation</h1>
-<h2>Internationalisation<a name="Internationalisation"></a></h2>
-<p>NewsAgent is designed to be system and language independent (with the obvious 
-  exception of the user documentation). However, I am not a linguist, so the provision 
-  of foreign language support with the current release of NewsAgent is somewhat 
-  limited. </p>
-<p>Nevertheless, NewsAgent supports internationalisation, and it is possible for 
-  the user to edit NewsAgent's string tables and convert it into another language.</p>
-<p>At the moment, some basic translations are provided, for instance Organisation 
-  becomes Organization if the program is being run using Java in the US.</p>
-<div align="LEFT">
-  <h2>Digging Into the Jar<a name="DiggingIntoTheJar"></a> </h2>
-</div>
-<p>All of NewsAgent's strings are stored in some files in the <span class="codefixed">newsagent.jar</span> 
-  file distributed with NewsAgent. This file is really just a PKZip file: you 
-  can decompress it with pkunzip or<a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://www.winzip.com">Winzip</a>.</p>
-<p>Inside the JAR file, you will notice two files called <span class="codefixed">Strings.properties</span> 
-  and <span class="codefixed">Menus.properties</span>. The Strings file contains 
-  all strings used in dialogue boxes and window titles, and the Menus file contains 
-  the order, layout and labels for menus.</p>
-<p>To Internationalise NewsAgent, <b>you should not edit these files directly</b>. 
-  Instead, make a copy of them, renaming them to <span class="codefixed">Strings_XX.properties</span> 
-  and <span class="codefixed">Menus_XX.properties</span>, where <span class="codefixed">XX</span> 
-  is the two letter country code of your locale, for instance this is uk for Great 
-  Britain, us for the United States, fr for France, de for Germany and so on.</p>
-<p>You can now edit these files and translate them as you wish, add them to the 
-  Jar file, and NewsAgent will automatically use your translations (provided your 
-  computer is set up properly for your locale). </p>
-<h2>Other Customisations<a name="OtherCustomisations"></a></h2>
-<p>As mentioned above, you can also change the order and layout of menus and toolbars 
-  in NewsAgent by editing the Menus.properties file. You can even change the images 
-  NewsAgent uses for its toolbars by adding or replacing files in the images subdirectory 
-  of the JAR file.</p>
-<p>More information on customising the toolbar is available in the <a href="../menus/toolbar.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Toolbar</a> 
-  topic in <a href="../menus/index.html"><img src="../images/hlpBook.gif" width="16" height="16" border="0">Menus 
-  &amp; Dialogues.</a></p>
-</body>
-</html>
+<html> 
+<head> 
+<title>Customising NewsAgent for Internationalisation</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<link rel="stylesheet" type="text/css" href="../newsagent.css"> 
+</head> 
+ 
+<body bgcolor="#FFFFCC"> 
+<h1>Customising NewsAgent for Internationalisation</h1> 
+<h2>Internationalisation<a name="Internationalisation"></a></h2> 
+<p>NewsAgent is designed to be system and language independent (with the obvious  
+  exception of the user documentation). However, I am not a linguist, so the provision  
+  of foreign language support with the current release of NewsAgent is somewhat  
+  limited. </p> 
+<p>Nevertheless, NewsAgent supports internationalisation, and it is possible for  
+  the user to edit NewsAgent's string tables and convert it into another language.</p> 
+<p>At the moment, some basic translations are provided, for instance Organisation  
+  becomes Organization if the program is being run using Java in the US.</p> 
+<div align="LEFT"> 
+  <h2>Digging Into the Jar<a name="DiggingIntoTheJar"></a> </h2> 
+</div> 
+<p>All of NewsAgent's strings are stored in some files in the <span class="codefixed">newsagent.jar</span>  
+  file distributed with NewsAgent. This file is really just a PKZip file: you  
+  can decompress it with pkunzip or<a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://www.winzip.com">Winzip</a>.</p> 
+<p>Inside the JAR file, you will notice two files called <span class="codefixed">Strings.properties</span>  
+  and <span class="codefixed">Menus.properties</span>. The Strings file contains  
+  all strings used in dialogue boxes and window titles, and the Menus file contains  
+  the order, layout and labels for menus.</p> 
+<p>To Internationalise NewsAgent, <b>you should not edit these files directly</b>.  
+  Instead, make a copy of them, renaming them to <span class="codefixed">Strings_XX.properties</span>  
+  and <span class="codefixed">Menus_XX.properties</span>, where <span class="codefixed">XX</span>  
+  is the two letter country code of your locale, for instance this is uk for Great  
+  Britain, us for the United States, fr for France, de for Germany and so on.</p> 
+<p>You can now edit these files and translate them as you wish, add them to the  
+  Jar file, and NewsAgent will automatically use your translations (provided your  
+  computer is set up properly for your locale). </p> 
+<h2>Other Customisations<a name="OtherCustomisations"></a></h2> 
+<p>As mentioned above, you can also change the order and layout of menus and toolbars  
+  in NewsAgent by editing the Menus.properties file. You can even change the images  
+  NewsAgent uses for its toolbars by adding or replacing files in the images subdirectory  
+  of the JAR file.</p> 
+<p>More information on customising the toolbar is available in the <a href="../menus/toolbar.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0">Toolbar</a>  
+  topic in <a href="../menus/index.html"><img src="../images/hlpBook.gif" width="16" height="16" border="0">Menus  
+  &amp; Dialogues.</a></p> 
+</body> 
+</html> 

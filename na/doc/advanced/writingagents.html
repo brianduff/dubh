@@ -1,97 +1,97 @@
-<html>
-<head>
-<title>Writing Agents</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" type="text/css" href="../newsagent.css">
-</head>
-
-<body bgcolor="#FFFFCC">
-<h1>Writing Agents</h1>
-<h2>About Agents<a name="AboutAgents"></a></h2>
-<p>There are two types of Agent in NewsAgent. The SendAgent can modify or examine 
-  message text before it is posted to a Newsgroup and the ListAgent can examine 
-  message headers before they are listed in the Message Header List Panel in NewsAgent's 
-  main window.</p>
-<p>A number of Agents are provided with NewsAgent. Documentation for them is provided 
-  here. The idea is that NewsAgent can be easily extended by the addition of more 
-  agents.</p>
-<p>Agents are actually classes of Java code, which have a specific interface that 
-  NewsAgent can use when messages are sent or listed.</p>
-<p>This topic gives a brief overview of what is required to write your own Agents. 
-  More information is available on the NewsAgent Developers page at:</p>
-<p align="CENTER"><a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/developer/" target="_top"><b>http://st-and.compsoc.org.uk/~briand/newsagent/developer/</b></a></p>
-<div align="LEFT">
-  <h2>Before You Begin<a name="BeforeYouBegin"></a> </h2>
-</div>
-<p>There are a number of requirements before you can write your own Agents. You 
-  will have to make sure your computer is configured so that:</p>
-<ul>
-  <li>JDK 1.1.5 or above is installed on your system. You <i>must</i> have a Java 
-    compiler, so the JRE is not enough to develop your own Agents.</li>
-  <li>The <span class="codefixed">newsagent.jar</span> file distributed with NewsAgent 
-    is in your CLASSPATH environment variable. Under most systems, this <i>is 
-    not done</i> by the installation program for NewsAgent, and you will have 
-    to add it manually.</li>
-</ul>
-<p>In addition, you should be fairly familiar with Java programming and using 
-  <span class="codefixed">javac</span>, the Java compiler.</p>
-<h2>An Example Agent: DemoSendAgent<a name="AnExampleAgent"></a></h2>
-<p>An example Send Agent is supplied with NewsAgent. This Agent is not installed 
-  by default, but is contained inside the <span class="codefixed">newsagent.jar</span> 
-  file. The source code is not distributed with NewsAgent, but is available on 
-  the NewsAgent Web Site [link]. You have permission to modify the<span class="codefixed"> 
-  DemoSendAgent.java</span> file in any way you like to create your own Agents.</p>
-<h2>The ISendAgent &amp; IListAgent Interfaces<a name="Interfaces"></a></h2>
-<p>Near the start of the DemoSendAgent.java source file, you will see the lines:</p>
-<pre>import uk.ac.st_and.dcs.newsagent.MessageHeader;
-import uk.ac.st_and.dcs.newsagent.MessageBody;
-import uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage;
-import uk.ac.st_and.dcs.newsagent.agent.ISendAgent;
-...
-public class DemoSendAgent implements ISendAgent {
-...</pre>
-<p>The classes <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.MessageHeader.html" target="">MessageHeader</a>, 
-  <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.MessageBody.html" target="">MessageBody</a> 
-  <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage.html" target="">SendAgentMessage</a> 
-  and interface <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.ISendAgent.html" target="">ISendAgent</a> 
-  define the way in which your Agents communicate with NewsAgent. Documentation 
-  for these three classes is available on the NewsAgent web site (the hyperlinks 
-  will take you there). </p>
-<p>All Send Agents must implement the ISendAgent interface and all List Agents 
-  must implement the IListAgent interface.</p>
-<p>The documentation on the web site explains more comprehensively what each of 
-  the methods in these interfaces must do. </p>
-<p>The most important method in the ISendAgent interface is <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.ISendAgent.html#checkMessage(uk.ac.st_and.dcs.newsagent.MessageHeader,%20uk.ac.st_and.dcs.newsagent.MessageBody)">checkMessage(...)</a>. 
-  This method is called when the user clicks on the Post button in the <a href="../dialogs/messagecomposer.html">Message 
-  Composer</a>. It may process the header and body passed in to it any any way, 
-  and then return a <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage.html" target="">SendAgentMessage</a> 
-  telling NewsAgent what to do next.</p>
-<p>Similarly, in the IListAgent interface, [blah, blah...]</p>
-<h2>Agent Configuration<a name="AgentConfiguration"></a></h2>
-<p>Each agent can be configured. The configuration system works using the following 
-  methods (which are included in both the ISendAgent and IListAgent interfaces):</p>
-<ul>
-  <li><b>void applyConfiguration(JPanel)<br>
-    </b>Called by NewsAgent when the user chooses to apply the changes they've 
-    made to your configuration panel. The panel is returned back to your Agent.<b> 
-    </b></li>
-  <li><b>JPanel getConfigurationPanel()<br>
-    </b>Called by NewsAgent when the user wants to configure your Agent. You should 
-    return a JPanel or a subclass of JPanel that provides user interface features 
-    to set your Agent's properties. You should return null from this method if 
-    your Agent doesn't have a configuration user interface.</li>
-  <li><b>Properties getProperties()<br>
-    </b>Called by NewsAgent when it needs to know your properties. NewsAgent doesn't 
-    care what properties you actually have, but will call this method when the 
-    user saves his/her properties to disk, so that agent preferences stay the 
-    same from session to session. <i>This means you don't have to worry about 
-    saving your agent's properties unless you are doing something unusual.</i> 
-    You should not return null from this method, use <span class="codefixed">return 
-    new Properties();</span> if you don't want to provide any properties. </li>
-  <li><b>setProperties(Properties)<br>
-    </b>Called by NewsAgent when it reads the users Agent properties in from disk. 
-    This is usually at startup, when NewsAgent is creating and instantiating all 
-    its Agents.</li>
-</ul>
-</body>
-</html>
+<html> 
+<head> 
+<title>Writing Agents</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<link rel="stylesheet" type="text/css" href="../newsagent.css"> 
+</head> 
+ 
+<body bgcolor="#FFFFCC"> 
+<h1>Writing Agents</h1> 
+<h2>About Agents<a name="AboutAgents"></a></h2> 
+<p>There are two types of Agent in NewsAgent. The SendAgent can modify or examine  
+  message text before it is posted to a Newsgroup and the ListAgent can examine  
+  message headers before they are listed in the Message Header List Panel in NewsAgent's  
+  main window.</p> 
+<p>A number of Agents are provided with NewsAgent. Documentation for them is provided  
+  here. The idea is that NewsAgent can be easily extended by the addition of more  
+  agents.</p> 
+<p>Agents are actually classes of Java code, which have a specific interface that  
+  NewsAgent can use when messages are sent or listed.</p> 
+<p>This topic gives a brief overview of what is required to write your own Agents.  
+  More information is available on the NewsAgent Developers page at:</p> 
+<p align="CENTER"><a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/developer/" target="_top"><b>http://st-and.compsoc.org.uk/~briand/newsagent/developer/</b></a></p> 
+<div align="LEFT"> 
+  <h2>Before You Begin<a name="BeforeYouBegin"></a> </h2> 
+</div> 
+<p>There are a number of requirements before you can write your own Agents. You  
+  will have to make sure your computer is configured so that:</p> 
+<ul> 
+  <li>JDK 1.1.5 or above is installed on your system. You <i>must</i> have a Java  
+    compiler, so the JRE is not enough to develop your own Agents.</li> 
+  <li>The <span class="codefixed">newsagent.jar</span> file distributed with NewsAgent  
+    is in your CLASSPATH environment variable. Under most systems, this <i>is  
+    not done</i> by the installation program for NewsAgent, and you will have  
+    to add it manually.</li> 
+</ul> 
+<p>In addition, you should be fairly familiar with Java programming and using  
+  <span class="codefixed">javac</span>, the Java compiler.</p> 
+<h2>An Example Agent: DemoSendAgent<a name="AnExampleAgent"></a></h2> 
+<p>An example Send Agent is supplied with NewsAgent. This Agent is not installed  
+  by default, but is contained inside the <span class="codefixed">newsagent.jar</span>  
+  file. The source code is not distributed with NewsAgent, but is available on  
+  the NewsAgent Web Site [link]. You have permission to modify the<span class="codefixed">  
+  DemoSendAgent.java</span> file in any way you like to create your own Agents.</p> 
+<h2>The ISendAgent &amp; IListAgent Interfaces<a name="Interfaces"></a></h2> 
+<p>Near the start of the DemoSendAgent.java source file, you will see the lines:</p> 
+<pre>import uk.ac.st_and.dcs.newsagent.MessageHeader; 
+import uk.ac.st_and.dcs.newsagent.MessageBody; 
+import uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage; 
+import uk.ac.st_and.dcs.newsagent.agent.ISendAgent; 
+... 
+public class DemoSendAgent implements ISendAgent { 
+...</pre> 
+<p>The classes <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.MessageHeader.html" target="">MessageHeader</a>,  
+  <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.MessageBody.html" target="">MessageBody</a>  
+  <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage.html" target="">SendAgentMessage</a>  
+  and interface <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.ISendAgent.html" target="">ISendAgent</a>  
+  define the way in which your Agents communicate with NewsAgent. Documentation  
+  for these three classes is available on the NewsAgent web site (the hyperlinks  
+  will take you there). </p> 
+<p>All Send Agents must implement the ISendAgent interface and all List Agents  
+  must implement the IListAgent interface.</p> 
+<p>The documentation on the web site explains more comprehensively what each of  
+  the methods in these interfaces must do. </p> 
+<p>The most important method in the ISendAgent interface is <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.ISendAgent.html#checkMessage(uk.ac.st_and.dcs.newsagent.MessageHeader,%20uk.ac.st_and.dcs.newsagent.MessageBody)">checkMessage(...)</a>.  
+  This method is called when the user clicks on the Post button in the <a href="../dialogs/messagecomposer.html">Message  
+  Composer</a>. It may process the header and body passed in to it any any way,  
+  and then return a <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/jdocs/uk.ac.st_and.dcs.newsagent.agent.SendAgentMessage.html" target="">SendAgentMessage</a>  
+  telling NewsAgent what to do next.</p> 
+<p>Similarly, in the IListAgent interface, [blah, blah...]</p> 
+<h2>Agent Configuration<a name="AgentConfiguration"></a></h2> 
+<p>Each agent can be configured. The configuration system works using the following  
+  methods (which are included in both the ISendAgent and IListAgent interfaces):</p> 
+<ul> 
+  <li><b>void applyConfiguration(JPanel)<br> 
+    </b>Called by NewsAgent when the user chooses to apply the changes they've  
+    made to your configuration panel. The panel is returned back to your Agent.<b>  
+    </b></li> 
+  <li><b>JPanel getConfigurationPanel()<br> 
+    </b>Called by NewsAgent when the user wants to configure your Agent. You should  
+    return a JPanel or a subclass of JPanel that provides user interface features  
+    to set your Agent's properties. You should return null from this method if  
+    your Agent doesn't have a configuration user interface.</li> 
+  <li><b>Properties getProperties()<br> 
+    </b>Called by NewsAgent when it needs to know your properties. NewsAgent doesn't  
+    care what properties you actually have, but will call this method when the  
+    user saves his/her properties to disk, so that agent preferences stay the  
+    same from session to session. <i>This means you don't have to worry about  
+    saving your agent's properties unless you are doing something unusual.</i>  
+    You should not return null from this method, use <span class="codefixed">return  
+    new Properties();</span> if you don't want to provide any properties. </li> 
+  <li><b>setProperties(Properties)<br> 
+    </b>Called by NewsAgent when it reads the users Agent properties in from disk.  
+    This is usually at startup, when NewsAgent is creating and instantiating all  
+    its Agents.</li> 
+</ul> 
+</body> 
+</html> 
