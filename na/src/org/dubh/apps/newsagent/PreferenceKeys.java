@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: PreferenceKeys.java,v 1.2 1999-03-22 23:47:42 briand Exp $
+//   $Id: PreferenceKeys.java,v 1.3 1999-06-01 00:26:31 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -41,8 +41,8 @@ import dubh.utils.misc.Debug;
 * strings when referring to preference file keys.
 *  
 * @author Brian Duff
-* @since 1.1.0
-* @version 1.1
+* @since NewsAgent 1.1.0
+* @version $Id: PreferenceKeys.java,v 1.3 1999-06-01 00:26:31 briand Exp $
 */
 public class PreferenceKeys
 {
@@ -77,10 +77,16 @@ public class PreferenceKeys
       GENERAL_HELPBROWSERAPP    = "newsagent.general.HelpBrowserApp",     // since 1.0.2
       GENERAL_NEWSGROUPNOTIFY   = "newsagent.general.NewsgroupNotify",    // since 1.0.1
       GENERAL_UPDATEINTERVAL    = "newsagent.general.UpdateInterval",     // since 1.0.1
+      GENERAL_NEWSRC            = "newsagent.general.NewsRc",             // since 1.1.0
       
       IDENTITY_EMAIL            = "newsagent.identity.Email",             // since 1.0.0 [*]
+      IDENTITY_REPLYTO          = "newsagent.identity.ReplyTo",           // since 1.1.0
       IDENTITY_ORGANISATION     = "newsagent.identity.Organisation",      // since 1.0.0 [*]
       IDENTITY_REALNAME         = "newsagent.identity.RealName",          // since 1.0.0 [*]
+      
+      SIGNATURE_TEXT            = "newsagent.signature.Text",             // since 1.1.0
+      SIGNATURE_FILENAME        = "newsagent.signature.FileName",         // since 1.1.0
+      SIGNATURE_ECARD           = "newsagent.signature.ECard",            // since 1.1.0
       
       MSGVIEWER_HEADERS         = "newsagent.msgviewer.Headers",          // since 1.0.2
       
@@ -94,8 +100,25 @@ public class PreferenceKeys
       SERVERS_SMTPHOSTNAME      = "newsagent.servers.SMTPHostName",       // since 1.0.1
       SERVERS_SMTPPORT          = "newsagent.servers.SMTPPort",           // since 1.0.1
       
-      UI_LOOKANDFEEL            = "newsagent.ui.LookAndFeel";             // since 1.0.2
+      UI_LOOKANDFEEL            = "newsagent.ui.LookAndFeel",             // since 1.0.2
+      UI_METALTHEME             = "newsagent.ui.MetalTheme",              // since 1.1.0 nyi
+      
+      SCRIPTING_ENABLED         = "newsagent.scripting.Enabled",          // since 1.1.0 nyi
+      SCRIPTING_INITSCRIPTS     = "newsagent.scripting.InitScripts",      // since 1.1.0 nyi
+      SCRIPTING_EXITSCRIPTS     = "newsagent.scripting.ExitScripts",      // since 1.1.0 nyi
     
+      VIEWER_DISPLAYEDHEADERS   = "newsagent.viewer.DisplayedHeaders",    // since 1.1.0
+      VIEWER_NORMALFONT         = "newsagent.viewer.NormalFont",          // since 1.1.0
+      VIEWER_NORMALCOLOR        = "newsagent.viewer.NormalColor",         // since 1.1.0
+      VIEWER_QUOTEDFONT         = "newsagent.viewer.QuotedFont",          // since 1.1.0
+      VIEWER_QUOTEDCOLOR        = "newsagent.viewer.QuotedColor",         // since 1.1.0
+      VIEWER_SIGFONT            = "newsagent.viewer.SigFont",             // since 1.1.0
+      VIEWER_SIGCOLOR           = "newsagent.viewer.SigColor",            // since 1.1.0
+      VIEWER_WRAPPING           = "newsagent.viewer.Wrapping",            // since 1.1.0
+      VIEWER_HIDESIG            = "newsagent.viewer.HideSig",             // since 1.1.0
+      VIEWER_HYPERLINKS         = "newsagent.viewer.Hyperlinks";          // since 1.1.0
+      
+      
    /**
     * Convert an old preferences file to one that works with the current
     * version of NewsAgent.
@@ -172,3 +195,7 @@ public class PreferenceKeys
    
 
 }
+
+//
+// $Log: not supported by cvs2svn $
+//
