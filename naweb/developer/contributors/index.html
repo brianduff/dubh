@@ -25,6 +25,45 @@ Welcome to Contributor Central.
 
 <h2>News</h2>
 
+
+<h3>[23 February 2000]: Client NNTP implementation</h3>
+<p>
+Checked in a wodge of code I've been working on since my project at work
+got temporarily shelved and I stopped doing Java professionally for a while (cool, free
+time :)).</p>
+<p>
+I had a bit of an idea about how to make the NNTP implementation flexible
+enough to support offline access and caching. I've basically split the
+real (networking) client code from NNTPStore and created an interface called
+NewsClient. The new NNTP javamail provider NewsStore uses any object that impl$
+NewsClient and delegates any required protocol calls to it. I wrote two
+classes that implement NewsClient, NetworkNewsClient (which actually talks to
+a real NNTP server) and TestNewsClient (which pretends to be a client and is
+useful for testing other client code without a network connection).
+</p>
+<p>
+In theory, the offline stuff will work by supplying a "client router" that
+implements NewsClient and delegates to a NetworkNewsClient if we are in
+online mode and to another class to retrieve locally stored data if we are
+offline.
+</p>
+<p>
+I'm not quite sure how to make this work for other protocols yet, since we
+don't have access to the source. It might be possible to write a client
+wrapper round the other javamail providers (e.g. pop3, imap) and use a
+similar mechanism to the above. This needs some more thought though.
+</p>
+<p>
+Anyway, the code is in the org/javalobby/javamail package on the (new)
+CVS server. It builds, but NewsAgent is most likely still broken. There is
+some test code in org.javalobby.javamail.news.test.NewsTest.
+</p>
+<p>
+Thanks to martin for reminding me that this was an issue a while back,
+and putting the seed of the solution in my head. Sorry for taking so long
+to realise this had to be done.
+</p>
+
 <h3>[23 October 1999]: Navigator &amp; Command System</h3>
 <p>Another massive coding session today. Good news is that the navigator is working, 
   and is all funky and dynamic. I even felt so confident that I put it in the 
