@@ -12,20 +12,27 @@
   </xsl:template>
   
   <xsl:template match="section">
-    <tr>
-      <td background="/images/dubh.codebg_purple.gif">
-        <font size="+1" face="tahoma,arial,helvetica,sans-serif">
-          <b>
-            <a name="@id"><xsl:value-of select="@name" /></a>
-          </b>
-        </font>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <xsl:apply-templates select="html" />
-      </td>
-    </tr>
+    
+    <div class="sectionheading">
+    <h2>
+      <xsl:if test="boolean(@id)">
+        <a name="{@id}" />
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="boolean(@link)">
+          <a href="{@link}">
+            <xsl:value-of select="@name" />
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="@name" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </h2>
+    </div>
+
+    <xsl:apply-templates select="html" />
+
   </xsl:template>
   
   <xsl:template match="html">
