@@ -1,0 +1,23 @@
+<?xml version="1.0"?> 
+<?xml-stylesheet type="text/xsl" href="xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+<!-- Hacky "generic page" that can display a nicely 
+  formatted XML document passed in
+-->
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org</title>
+   
+  <xsql:include-xml href="trail.xml" />     
+   
+  <navigator>
+    <xsql:include-xsql href="navigator.xml?me=home" />   
+  </navigator>
+  
+  <content>
+    <xsql:include-xml href="{@pagename}"  />   
+  </content>
+    
+</dubhpage>
