@@ -1,5 +1,5 @@
 /* 
- * $Id: styles.css,v 1.11 2001-05-07 02:17:59 briand Exp $
+ * $Id: styles.css,v 1.12 2001-05-13 17:26:24 briand Exp $
  *
  * Defines common styles that apply to all pages on dubh.org
  *  
@@ -83,14 +83,14 @@ pre.code {
    
 }
 
-div.codecaption {
+div.caption {
    border-left: darkgray 1px solid;
    border-right: darkgray 1px solid;
    border-bottom: darkgray 1px solid;
 
    width: 85%;
 
-   background-color: #ffffff;
+   background-color: #d0f0d0;
    color: #505050;
 
    text-align: center;
@@ -104,6 +104,20 @@ div.codecaption {
    padding-top: 2px;  
    
    
+}
+
+.thinborder {
+   border-left: darkgray 1px solid;
+   border-right: darkgray 1px solid;
+   border-bottom: darkgray 1px solid;
+   border-top: darkgray 1px solid;   
+   
+   padding-left: 2px;
+   padding-right: 2px;  
+   padding-bottom: 2px;  
+   padding-top: 2px; 
+   
+   width: 85%;
 }
 
 th {
