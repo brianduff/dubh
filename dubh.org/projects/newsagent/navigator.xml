@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!-- Copyright (C) 2000 Brian Duff / Dubh.Org -->
+<!-- The navigator for NewsAgent -->
+
+
+<navigator 
+  title="NewsAgent"
+  titleimg="/images/dubh.org.tiny.gif" 
+  bgimg="/images/dubh.codebg_green.gif">
+
+
+
+  
+  <group>
+    <entry id="newsagent" title="NewsAgent" href="/projects/newsagent/index.xml" />
+  </group>
+ 
+  
+  <group>
+    <entry id="screenshots" title="Screenshots" href="/projects/newsagent/screenshots.xml" />
+    <entry id="downloads" title="Downloads" href="/projects/newsagent/downloads.xml" />
+  </group>
+  
+  <group>
+    <entry id="documentation" title="Documentation" href="/projects/newsagent/documentation.xml">
+      <entry id="userdoc" title="User Doc" href="/projects/newsagent/documentation/user/index.html" />
+      <entry id="apidoc" title="API Doc" href="/projects/newsagent/documentation/javadoc/index.html" />
+      <entry id="designs" title="Design Docs" href="/projects/newsagent/documentation/design/index.html" />
+    </entry>
+  </group>  
+
+  <group>
+    <entry id="development" title="Development" href="/projects/newsagent/dev/index.xml">
+      <entry id="maillists" title="Mailing Lists" href="/projects/newsagent/dev/mail.xml" />
+      <entry id="srcsnap" title="Source Snapshots" href="/projects/newsagent/dev/source.xml" />
+      <entry id="cvs" title="CVS Repository" href="/projects/newsagent/dev/cvs.xml" />
+    </entry>
+  </group>
+    
+
+  <group>
+    <entry id="projects" title="Other Projects" href="/projects/index.xml" />
+  </group>
+
+</navigator>
