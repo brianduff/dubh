@@ -427,4 +427,8 @@ public interface CommonConstants
   public static final int PATCH_VERSION = 7;
   public static final String VERSION_LABEL = "-devel";
   public static final int IS_DEVEL_VERSION = 1;    
+
+  public static final int TILE_UNKNOWN = Enum.start( 0 );
+  public static final int TILE_KNOWN_FOGGED = Enum.get();
+  public static final int TILE_KNOWN = Enum.get();
 }
