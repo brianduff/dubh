@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPStore.java,v 1.4 1999-10-16 16:47:07 briand Exp $
+//   $Id: NNTPStore.java,v 1.5 1999-10-17 17:07:42 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -46,7 +46,7 @@ import dubh.utils.misc.StringUtils;
  * defined in RFC 977.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPStore.java,v 1.4 1999-10-16 16:47:07 briand Exp $
+ * @version $Id: NNTPStore.java,v 1.5 1999-10-17 17:07:42 briand Exp $
  */
 public class NNTPStore extends Store
 {
@@ -545,9 +545,9 @@ public class NNTPStore extends Store
       // The group reply message contains a string of the form:
       // 211 <count> <first> <last> <newsgroup-name>
       String lastReply = getLastResponse();
-      g.setArticleCount(StringUtils.stringToInt(StringUtils.getWord(lastReply, 2)));
-      g.setFirstArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 3)));
-      g.setLastArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 4)));
+      g.setArticleCount(StringUtils.stringToInt(StringUtils.getWord(lastReply, 1)));
+      g.setFirstArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 2)));
+      g.setLastArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 3)));
   
    }
    
@@ -768,6 +768,8 @@ public class NNTPStore extends Store
          String display = m_hostName + (toServer ? "<<" : ">>") + s;
          m_debugStream.println(display);
       }
+      System.err.println(m_hostName + (toServer ? "<<" : ">>") + s);
+      System.err.flush();
    }
    
    
@@ -779,6 +781,9 @@ public class NNTPStore extends Store
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  1999/10/16 16:47:07  briand
+// Add lots more code; can now list groups on the server (woo).
+//
 // Revision 1.3  1999/08/03 19:15:41  briand
 // More work on filling out missing method bodies.
 //
