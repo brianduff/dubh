@@ -2,8 +2,8 @@
 <%
 /**
  * $RCSfile: post.jsp,v $
- * $Revision: 1.2 $
- * $Date: 2001-06-11 20:27:08 $
+ * $Revision: 1.3 $
+ * $Date: 2001-06-11 20:31:08 $
  */
 %>
 
@@ -249,6 +249,23 @@
             <p>
 
             <table>
+
+            <% // show name and email textfields if the user is a guest
+               if( user.isAnonymous() ) {
+                  // try to retrieve persisted values of name and email
+                  String storedName = SkinUtils.retrieve(request,response,"jive.post.name");
+                  String storedEmail = SkinUtils.retrieve(request,response,"jive.post.email");
+            %>
+            <tr>
+               <td valign="top">Name</td>
+               <td><input name="name" value="<%= (storedName!=null)?storedName:"" %>" size="30" maxlength="100"></td>
+            </tr>
+            <tr>
+               <td valign="top">Email</td>
+               <td><input name="email" value="<%= (storedEmail!=null)?storedEmail:"" %>" size="30" maxlength="100"></td>
+            </tr>
+            <% } %>
+
             <tr>
                <td><font face="verdana" size="2"><b>Subject</b></font></td>
                <% String parentSubject = "";
