@@ -51,7 +51,7 @@
     </p>
     
     <p>
-      NEW: <a href="http://balveda.dubh.org/build/jfreeciv/javadoc">Javadoc APIs</a>
+      NEW: <a href="http://www.dubh.org/build/jfreeciv/javadoc">Javadoc APIs</a>
       (generated nightly)
     </p>
     
@@ -182,13 +182,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-12-09 03:48:11 $
+      $Date: 2002-04-01 06:33:30 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.12 $
+      $Revision: 1.13 $
     </revision>
   </cvs-info>  
   
