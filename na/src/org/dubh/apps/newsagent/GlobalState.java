@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.4 1999-03-22 23:47:56 briand Exp $
+//   $Id: GlobalState.java,v 1.5 1999-03-23 01:29:59 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -43,35 +43,8 @@ import dubh.utils.misc.*;
 
 /**
  * Describes the global state of the application
- * Version History: <UL>
- * <LI>0.1 [03/03/98]: Initial Revision
- * <LI>0.2 [05/03/98]: Added getResource, getResString
- * <LI>0.3 [06/03/98]: Added signatures preferences
- * <LI>0.4 [07/03/98]: Added getImage
- * <LI>0.5 [22/03/98]: Added support for StorageManager
- * <LI>0.6 [23/03/98]: Added support for getMainFrame()
- * <LI>0.7 [31/03/98]: Included initialisation for servers directory [initStorage]
- * <LI>0.8 [04/04/98]: Added xmailer, appURL.
- * <LI>0.9 [14/04/98]: Added agentDir and agents initialisation, getAgentManager
- * <LI>0.10 [23/04/98]: Removed some defunct methods (for final release)
- * <LI>0.11 [29/04/98]: Added debug support
- * <LI>0.12 [08/05/98]: Added getResStringBasic, getResString with subst.
- * <LI>0.13 [08/06/98]: Sent the main window to the back when it is first
- *   created so that the splash screen stays on top. Changed the way debugging
- *   works slightly. Added support for help.
- * <LI>0.14 [10/06/98]: Removed the final remnants of debuggging support from
- *   this class (it's all in NewsAgent.java now)
- * <LI>0.15 [13/06/98]: Changed to use the UserPreferences dubh utility class
- *   for preferences, and deprecated all old preference methods. Added
- *   getPreferences().
- * <LI>0.16 [30/06/98]: Changed to use the new ResourceManager dubh utility
- *   class for bundle resources, and deprecated old resource methods. Added
- *   getRes()
- * <LI>0.17 [23/11/98]: Added support for new VersionManager dubh utility for
- *   program information.
- *</UL>
  * @author Brian Duff
- * @version 1.3
+ * @version $Id: GlobalState.java,v 1.5 1999-03-23 01:29:59 briand Exp $
  */
 public class GlobalState {
 
@@ -576,3 +549,53 @@ public class GlobalState {
   }
 
 }
+
+//
+// Old Log:
+// 0.1 [03/03/98]: Initial Revision
+// 0.2 [05/03/98]: Added getResource, getResString
+// 0.3 [06/03/98]: Added signatures preferences
+// 0.4 [07/03/98]: Added getImage
+// 0.5 [22/03/98]: Added support for StorageManager
+// 0.6 [23/03/98]: Added support for getMainFrame()
+// 0.7 [31/03/98]: Included initialisation for servers directory [initStorage]
+// 0.8 [04/04/98]: Added xmailer, appURL.
+// 0.9 [14/04/98]: Added agentDir and agents initialisation, getAgentManager
+// 0.10 [23/04/98]: Removed some defunct methods (for final release)
+// 0.11 [29/04/98]: Added debug support
+// 0.12 [08/05/98]: Added getResStringBasic, getResString with subst.
+// 0.13 [08/06/98]: Sent the main window to the back when it is first
+// created so that the splash screen stays on top. Changed the way debugging
+// works slightly. Added support for help.
+// 0.14 [10/06/98]: Removed the final remnants of debuggging support from
+// this class (it's all in NewsAgent.java now)
+// 0.15 [13/06/98]: Changed to use the UserPreferences dubh utility class
+// for preferences, and deprecated all old preference methods. Added
+// getPreferences().
+// 0.16 [30/06/98]: Changed to use the new ResourceManager dubh utility
+// class for bundle resources, and deprecated old resource methods. Added
+// getRes()
+// 0.17 [23/11/98]: Added support for new VersionManager dubh utility for
+// program information.
+//
+//
+// New (CVS) Log:
+//
+//
+// $Log: not supported by cvs2svn $
+//
+// Revision 1.4  1999/3/22 23:47:56  briand
+// Ill fated attempt to appletize.
+//
+// Revision 1.3  1999/3/13 1:26:42  briand
+// Removed some commented out old code for restoring mainframe location.
+//
+// Revision 1.2  1999/3/7 22:56:25  briand
+// Changed to use bundled version rather than serialised. Added
+// support for look and feel user preference. N.b. This changes the
+// default look and feel to the system look and feel if the user
+// doesn't have a preference set (i.e. Windows LAF will now be the
+// default under Windows).
+//
+// Revision 1.1 1999/3/1 23:57:45  briand
+// Initial revision
