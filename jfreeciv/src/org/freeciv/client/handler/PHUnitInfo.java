@@ -300,7 +300,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
     if ( packet.select_it && ( unit.isOwner( c.getGame().getCurrentPlayer() ) ) )
     {
-      // c.setUnitFocusAndSelect( unit );
+      c.setUnitFocusAndSelect( unit );
     }
     else
     {

@@ -2,11 +2,14 @@ package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
+import org.freeciv.common.Assert;
+import org.freeciv.common.City;
 import org.freeciv.common.Game;
 import org.freeciv.common.Map;
 import org.freeciv.common.MapPosition;
 import org.freeciv.common.MapPositionIterator;
 import org.freeciv.common.Tile;
+import org.freeciv.common.Unit;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericInteger;
 
@@ -45,43 +48,75 @@ public class PHGameState extends AbstractHandler implements Constants
     if (c.getGameState() == CLIENT_GAME_RUNNING_STATE)
     {
       c.getMainWindow().getMapOverview().refresh();
+
+      c.getAction( "ACTEndTurn" ).setEnabled( true );
+      c.getGame().getCurrentPlayer().initUnitFocusStatus();
+
       c.updateInfoLabel();
+      c.updateUnitFocus();
+      c.updateUnitInfoLabel( c.getUnitInFocus() );
 
-
-      // TODO: Clever tile centering algorithm, as per handle_game_state..
-      // Until normal service is resumed, however, find any old known tile...
-      int hx = c.getGame().getMap().getWidth() / 2;
-      int hy = c.getGame().getMap().getHeight() / 2;
-      c.getGame().getMap().iterateOutwards( hx, hy, Math.max( hx, hy ), 
-        new MapPositionIterator() 
+      // First, try centering on the focussed unit
+      Unit u = c.getUnitInFocus();
+      City city;
+      if ( u != null )
+      {
+        c.getMainWindow().getMapViewManager().centerOnTile(
+          u.getX(), u.getY()
+        );
+      }
+      else if ( (city = c.getGame().getCurrentPlayer().findPalace()) != null )
+      {
+        // Focus on the capital
+        if ( city != null )
         {
-          public void iteratePosition( MapPosition pos )
+          c.getMainWindow().getMapViewManager().centerOnTile(
+            city.getX(), city.getY()
+          );
+        }
+      }
+      else if ( c.getGame().getCurrentPlayer().getCityCount() > 0 )
+      {
+        // focus on any city
+        city = (City)c.getGame().getCurrentPlayer().getCities().next();
+        Assert.that( city != null );
+        c.getMainWindow().getMapViewManager().centerOnTile(
+          city.getX(), city.getY()
+        );
+      }
+      else if ( c.getGame().getCurrentPlayer().getUnitCount() > 0 )
+      {
+        // focus on any unit
+        u= (Unit)c.getGame().getCurrentPlayer().getUnits().next();
+        Assert.that( u != null );
+        c.getMainWindow().getMapViewManager().centerOnTile(
+          u.getX(), u.getY()
+        );
+      }
+      else
+      {
+        // Any old tile near the center of the map
+        int hx = c.getGame().getMap().getWidth() / 2;
+        int hy = c.getGame().getMap().getHeight() / 2;
+        c.getGame().getMap().iterateOutwards( hx, hy, Math.max( hx, hy ), 
+          new MapPositionIterator() 
           {
-            Game g = c.getGame();
-            Map m = g.getMap();
-            Tile t = m.getTile( pos.x, pos.y );
-            if ( t.isKnown() )
+            public void iteratePosition( MapPosition pos )
             {
-              c.getMainWindow().getMapViewManager().centerOnTile(
-                pos.x, pos.y
-              );
-              setFinished( true );
+              Game g = c.getGame();
+              Map m = g.getMap();
+              Tile t = m.getTile( pos.x, pos.y );
+              if ( t.isKnown() )
+              {
+                c.getMainWindow().getMapViewManager().centerOnTile(
+                  pos.x, pos.y
+                );
+                setFinished( true );
+              }
             }
           }
-        }
-      );
-
-      
-      //c.getMainWindow().getMapViewManager().centerOnTile( 40, 25 );  //TODO
-      // enable_turn_done_button()
-      // player_set_unit_focus_status()
-
-
-
-      // update_unit_focus()
-      // update_unit_info_label();
-
-      /* Find something interesting to display - see packhand.c */
+        );
+      }
     }
   }
 }
