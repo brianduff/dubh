@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: NewsAgentApplet.java,v 1.4 2001-02-11 02:50:58 briand Exp $
+//   $Id: NewsAgentApplet.java,v 1.5 2001-02-11 15:45:04 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -35,59 +35,21 @@ import java.awt.BorderLayout;
 
 import java.applet.Applet;
 /**
- * NewsAgent applet. This brings up NewsAgent configured for an applet.
- * The applet version of NewsAgent will need to take certain preferences
- * on the command line. This is yet to be specified.
- *
- * NewsAgent can't currently be appletized because of applet restrictions
- * in reading resources. I've yet to test this with the Java plugin or
- * Internet Explorer.
+ * THIS CLASS IS OBSOLETE
  *
  * @author Brian Duff
- * @since NewsAgent 1.1.0
- * @version $Id: NewsAgentApplet.java,v 1.4 2001-02-11 02:50:58 briand Exp $
+ * @deprecated
+ * @version $Id: NewsAgentApplet.java,v 1.5 2001-02-11 15:45:04 briand Exp $
  */
 public class NewsAgentApplet extends JApplet
-{
-   private JLabel m_label;
-   private JProgressBar m_progress;
-
-   public void start()
-   {
-
-   }
-
-   public void stop()
-   {
-
-   }
-
-   public void init()
-   {
-      GlobalState.setApplet(true);
-      GlobalState.appInit();
-   }
-
-
-   private void initProgress()
-   {
-      // TODO: Display splash
-      setLayout(new BorderLayout());
-      add(m_label, BorderLayout.NORTH);
-      add(m_progress, BorderLayout.SOUTH);
-      repaint();
-   }
-
-   private void removeProgress()
-   {
-      remove(m_progress);
-      m_label.setText("NewsAgent has initialised");
-      repaint();
-   }
+{ 
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2001/02/11 02:50:58  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.3  1999/11/09 22:34:40  briand
 // Move NewsAgent source to Javalobby.
 //
