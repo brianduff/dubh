@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>The Message Composer Dialogue</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+</head>
+
+<body bgcolor="#FFFFCC">
+<table border="0" width="100%">
+  <tr>
+    <td width="83%" height="32"> 
+      <h1>The Message Composer Dialogue</h1>
+    </td>
+    <td width="17%" valign="BOTTOM" height="32"><a href="addeditserverprops.html"><img src="../images/back.gif" width="32" height="30" border="0" alt="Back: Add / Edit Server Properties Dialogue"></a><a href="index.html"><img border=0 src="../images/up.gif" width="32" height="30" alt="Up: Dialogues"></a><a href="signatures.html"><img border=0 src="../images/fwd.gif" width="32" height="30" alt="Next: The Signatures Dialogue"></a></td>
+  </tr>
+</table>
+<h2>Accessing the Message Composer Dialogue<a name="Accessing"></a></h2>
+<p>There are two ways to display the Message Composer:</p>
+<ul>
+  <li><b>Post a new message to a group<br>
+    </b>Select a server, then a newsgroup in the Folders &amp; Servers Tree Panel, 
+    then use the <a href="../menus/messagesmenu.html#MessagesPostMessage" target="" class="menucommand">Messages: 
+    Post Message</a> menu item.</li>
+  <li><b>Reply to an existing message<br>
+    </b>Select a server, then a newsgroup in the Folders &amp; Servers Tree Panel, 
+    then select a message you want to reply to in the Message Header List Panel, 
+    then invoke the <a href="../menus/messagesmenu.html#MessagesReplyByPosting" target="" class="menucommand">Messages: 
+    Reply by Posting</a> menu item.</li>
+</ul>
+<p align="CENTER"><img src="../images/dlg_composer.gif" width="450" height="404" alt="NewsAgent Message Composer (this is a clickable imagemap)" border="0" usemap="#ComposerMap"></p>
+<p align="CENTER"><i>Note: some of the toolbar icons had yet to be finalised at 
+  the time of producing this documentation.</i></p>
+<div align="CENTER">
+  <h2 align="LEFT">Cut<a name="Cut"></a> </h2>
+</div>
+<p>Cuts the current selection in the editor pane into the system clipboard so 
+  that it can be pasted into other applications.</p>
+<center>
+  <h2 align="LEFT">Copy<a name="Copy"></a></h2>
+</center>
+<div align="LEFT">
+  <p>Copies the current selection in the editor pane without modifying the selection, 
+    into the system clipboards so that it can be pasted into other applications. 
+  </p>
+</div>
+<h2>Paste<a name="Paste"></a></h2>
+<p>Pastes the current contents of the system clipboard, provided they are plain 
+  text, into the editor pane at the current point of insertion, or replacing the 
+  current selection.</p>
+<h2>Insert File / Signature<a name="InsertFileSignature"></a></h2>
+<p>These items are not currently implemented.</p>
+<h2>Post<a name="Post"></a></h2>
+<p>Connects to your News Server and posts the message. If you have not configured 
+  your email address in the <a href="prefsidentity.html">Identity Panel of the 
+  Preferences Dialogue</a>, you will be asked to do so before you can post the 
+  message. </p>
+<p>If an error occurs, this is displayed after posting.</p>
+<p>In addition, output from any Send Agents you have installed is displayed after 
+  clicking on the Send button.</p>
+<h2>Cancel<a name="Cancel"></a></h2>
+<p>Aborts composition and closes the dialogue.</p>
+<h2>Newsgroups<a name="Newsgroups"></a></h2>
+<p>A comma separated list of all the Newsgroups you wish to post this message 
+  to. You should take care when editing this field, as your article will be rejected 
+  by the server if any of the Newsgroups are invalid or don't exist on the server.</p>
+<p>The small icon to the left of this text field will eventually let you set this 
+  value using a dialogue box, but is currently unimplemented.</p>
+<h2>Subject<a name="Subject"></a></h2>
+<p>The subject of the message you are posting.</p>
+<p>If this is an original post, the subject will be blank initially.</p>
+<p>If this message is a reply, the subject will consist of the original subject 
+  with &quot;Re: &quot; prepended to it, if it doesn't already begin with those 
+  characters. It is good practice to only change this in replies if the subject 
+  has changed from the original thread. For instance, if you are replying to a 
+  message which has the subject:</p>
+<p align="CENTER" class="codefixed">Re: Swing Redraw Problems</p>
+<p align="LEFT">But the subject has changed to a discussion about general AWT 
+  redraw issues, you might change the subject to:</p>
+<p align="CENTER" class="codefixed">AWT Redraw Issues [was Re: Swing Redraw Problems]</p>
+<p>The actual contents of this field are not the primary means of threading messages 
+  in most Newsreader programs, which is why you should take care to use <a href="../menus/messagesmenu.html#MessagesReplyByPosting" class="menucommand">Messages: 
+  Reply by Posting</a> when you want to reply to an existing article and only 
+  use <a href="../menus/messagesmenu.html#MessagesPostMessage" class="menucommand">Messages: 
+  Post Message</a> if you are posting a completely new article.</p>
+<h2>Editor Pane<a name="EditorPane"></a></h2>
+<p>This area is actually used to compose your message.</p>
+<p>Right clicking over this pane brings up a context menu with all of the Composer's 
+  commands in it.</p>
+<p><b>Next Page: <a href="signatures.html" target="">Signatures Dialogue</a></b></p>
+<map name="SubscriptionsMap">
+  <area shape="rect" coords="397,264,529,290" href="#OkCancel">
+  <area shape="rect" coords="416,176,525,251" href="#AllSubscribedNew">
+  <area shape="rect" coords="419,142,525,164" href="#Reset">
+  <area shape="rect" coords="419,82,521,135" href="#SubscribeUnsubscribe">
+  <area shape="rect" coords="126,81,402,253" href="#NewsgroupsList">
+  <area shape="rect" coords="123,24,530,73" href="#DisplayNewsgroupsWhichContain">
+  <area shape="rect" coords="1,23,119,256" href="#NewsServers">  
+
+
+
+</map> <map name="ComposerMap">
+  <area shape="rect" coords="103,25,164,54" href="#InsertFileSignature">
+  <area shape="rect" coords="6,82,438,100" href="#Subject">
+  <area shape="rect" coords="5,63,440,80" href="#Newsgroups">
+  <area shape="rect" coords="10,110,439,358" href="#ComposerPane">
+  <area shape="rect" coords="234,372,292,393" href="#Post">
+  <area shape="rect" coords="154,372,226,392" href="#Cancel">
+  <area shape="rect" coords="202,26,231,55" href="#Cancel">
+  <area shape="rect" coords="171,26,200,54" href="#Post">
+  <area shape="rect" coords="69,25,95,55" href="#Paste">
+  <area shape="rect" coords="37,26,65,55" href="#Copy">
+  <area shape="rect" coords="7,26,34,54" href="#Cut">  
+</map>
+</body>
+</html>

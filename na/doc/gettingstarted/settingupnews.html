@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Overview</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+</head>
+
+<body bgcolor="#FFFFCC">
+<table border="0" width="100%">
+  <tr>
+    <td width="83%" height="32"> 
+      <h1>Setting Up A News Server</h1>
+    </td>
+    <td width="17%" valign="BOTTOM" height="32"><a href="index.html"><img border=0 src="../images/up.gif" width="32" height="30" alt="Up"></a><a href="settingupsubscriptions.html"><img border=0 src="../images/fwd.gif" width="32" height="30" alt="Next"></a></td>
+  </tr>
+</table>
+<h2>About Network News Servers<a name="aboutnetworknewsservers"></a></h2>
+<p>One of the many uses of the Internet is for sending and receiving email. Similarly, 
+  posting messages to common groups (called Newsgroups) is a popular use of the 
+  network. The technology involved is sometimes referred to as Network (or USENET) 
+  News.</p>
+<p>To use Network News, your computer must be able to connect to a News Server. 
+  A News Server is a computer running a special program which receives news from 
+  clients and other servers, forwards news onto other servers and stores news.</p>
+<p>In order to use NewsAgent, you will have to know the Internet host name of 
+  a News Server. If you are unsure about this, ask your system administrator.</p>
+<div align="CENTER">
+  <table border="0" width="75%" align="CENTER">
+    <tr> 
+      <td width="6%" valign="MIDDLE" height="179"><img src="../images/tip.gif" width="31" height="30" alt="Tip:"></td>
+      <td width="94%" bgcolor="#99FF99" bordercolor="#000000" valign="TOP" class="hint" height="179"> 
+        <div align="LEFT">
+          <p><font color="#000000" class="hint">As well as local news servers, 
+            run by your ISP (Internet Service Provider) or system administration, 
+            there are some public News Servers which anyone with a connection 
+            to the Internet can access. One popular public server is run by Microsoft. 
+            Its host name is:</font></p>
+          <pre><font color="#000000">public.microsoft.com</font></pre>
+          <p><font color="#000000" class="hint">Similarly, Borland run a server 
+            called:</font></p>
+          <pre><font color="#000000">forums.borland.com</font><font color="#000000" class="hint"></font></pre>
+          </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<p align="CENTER">&nbsp;</p>
+<h2>Configuring NewsAgent for a News Server<a name="configuringnewsagentforanewsserver"></a></h2>
+<p>It is relatively easy to tell NewsAgent about News Servers you wish to use. 
+  To add a News Server:</p>
+<ul>
+  <li>Invoke the<a href="../menus/serversmenu.html#ServersAddServer" target=""><span class="menucommand"> 
+    Servers: Add Server</span></a> menu command. You will see the following <a href="../dialogs/addeditserverprops.html">dialogue 
+    box</a>:</li>
+</ul>
+<p align="CENTER"><a href="../dialogs/addeditserverprops.html"><img src="../images/dlg_add_edit_serverprops.gif" width="328" height="226" border="0"></a></p>
+<ul>
+  <li>Enter the details in the dialogue box.</li>
+</ul>
+<div align="CENTER">
+<table border="1" width="70%" align="CENTER">
+  <tr>
+      <td><i class="tablelabel">Server 'Nice' Name</i></td>
+    <td>Anything you like: NewsAgent will use this name to refer to the server 
+      in future. E.g. Borland Forums</td>
+  </tr>
+  <tr>
+      <td><i class="tablelabel">Server Hostname</i></td>
+    <td>The Internet hostname for your News Server. E.g. forums.borland.com</td>
+  </tr>
+  <tr>
+      <td><i class="tablelabel">Server Port</i></td>
+    <td>The TCP port on which the server is running. Press the <i>Default</i> 
+      button to set this to the default value (119), which will normally work 
+      correctly. </td>
+  </tr>
+  <tr>
+      <td><i class="tablelabel">My Server Requires Me to Log In</i></td>
+    <td>Check this box if your server needs a username and password for any reason. 
+      The administrator of your news server will be able to tell you if this is 
+      the case.</td>
+  </tr>
+  <tr>
+      <td><i class="tablelabel">Login</i></td>
+    <td>If your server requires you to log in, enter your login name here.</td>
+  </tr>
+  <tr>
+      <td><i class="tablelabel">Password</i></td>
+    <td>If your server requires you to log in, enter your password here. The password 
+      will not be echoed to the screen.</td>
+  </tr>
+</table>
+
+</div>
+<ul>
+  <li>Click on the OK button.</li>
+</ul>
+<p>You should now be able to see the News Server in the tree on the left side 
+  of NewsAgent's main window.</p>
+<p align="CENTER"><img src="../images/FolderTreePane_borlandforums.gif" width="183" height="120" alt="The Servers &amp; Folders Tree Panel showing Borland Forums"></p>
+<p>[ See Also: <a href="../dialogs/addeditserverprops.html">The Add / Edit Server 
+  Properties Dialogue Box</a> | <a href="../menus/serversmenu.html#ServersRemove" target="" class="menucommand">Servers: 
+  Remove</a> | <a href="../menus/serversmenu.html#ServersProperties" target="" class="menucommand">Servers: 
+  Properties</a> | <a href="../dialogs/prefsservers.html">The Servers Panel of 
+  the Preferences Dialogue Box</a> ]</p>
+<p><b>Next Page: <a href="settingupsubscriptions.html" target="">Setting Up Newsgroup 
+  Subscriptions</a></b></p>
+</body>
+</html>

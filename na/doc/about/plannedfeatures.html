@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>NewsAgent Help: Future Plans</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+<style type="text/css">
+<!--
+-->
+</style></head>
+
+<body bgcolor="#FFFFCC">
+<h1>Future Plans for NewsAgent</h1>
+<h2>Plans for the Next Version (1.03)<a name="1.03"></a></h2>
+<p>I'm about to start a new job with <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://www.oracle.co.uk" target="_top">Oracle 
+  UK</a>, and will be moving to the other end of the UK and training for seven 
+  weeks. Because of this, it might be a while before I have enough free time to 
+  work on the next version of NewsAgent. I'll estimate the next release date as 
+  being sometime in September or October 1998... When I do have time, these are 
+  the features I will be working on:</p>
+<ul>
+  <li>Support for mime types, HTML encoded messages.</li>
+  <li>Email support, both outgoing and incoming (POP3). Please drop me a line 
+    (at <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="mailto:bd@dcs.st-and.ac.uk">bd@dcs.st-and.ac.uk</a>) 
+    and let me know if it would be better to release a separate application for 
+    email, or if an integrated newsreader and email reader would be preferrable.</li>
+  <li><i>Big</i> improvements to the networking code. It's the oldest and most 
+    shaky part of NewsAgent, and was written when I didn't know much about Java. 
+    As a result, it's really messy and pretty buggy. Somewhat connected with this 
+    is the caching code (part of the StorageManager in NewsAgent). Message bodies 
+    are not cached at all, and there are numerous problems with header caching 
+    too (speed being amongst the most prominent). If I change these portions of 
+    NewsAgent drastically, I'll make the next version a major release (NewsAgent 
+    2.0). </li>
+  <li>Improvements to the subscriptions dialogue. It's a bit messy just now, and 
+    difficult to find specific newsgroups. An improved version should have been 
+    part of version 1.02, but I was still bug fixing the code at the release date. 
+    I'll keep working on it and incorporate the changes into 1.03.</li>
+  <li>More agents</li>
+  <li>Better agent integration: facilities for agents to add context menu items 
+    and toolbar icons etc.</li>
+  <li>Improvements to the relevance agent. It's riddled with bugs. The most severe 
+    is the fact that it loses all your scoring and action conditions when you 
+    quit NewsAgent. The code was hastily written in a few days before my SH Project 
+    deadline, and released undocumented in version 1.01. Version 1.02 has documentation 
+    for the agent, but I haven't touched the code. This will be fixed in 1.03.</li>
+  <li>More internationalised dialogue boxes. About half the dialogues still use 
+    hard-coded strings in UK English.</li>
+</ul>
+<h2>Long Term Plans (1.04 or 2.01 and beyond...)</h2>
+<p>After that lot is done, I'll be fairly satisfied with NewsAgent. To stop me 
+  from becoming complacent, why not suggest some features or bugs you really want 
+  to see fixed by emailing me at <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="mailto:bd@dcs.st-and.ac.uk">bd@dcs.st-and.ac.uk</a>.</p>
+</body>
+</html>

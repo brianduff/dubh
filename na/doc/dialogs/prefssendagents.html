@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>The Preferences Dialogue: Send Agents Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+</head>
+
+<body bgcolor="#FFFFCC">
+<table border="0" width="100%">
+  <tr>
+    <td width="83%" height="32"> 
+      <h1>The Preferences Dialog: Send Agents Panel</h1>
+    </td>
+    <td width="17%" valign="BOTTOM" height="32"><a href="prefsidentity.html"><img src="../images/back.gif" width="32" height="30" border="0" alt="Back: Identity Panel"></a><a href="index.html"><img border=0 src="../images/up.gif" width="32" height="30" alt="Up: Dialogues"></a><a href="prefslistagents.html"><img border=0 src="../images/fwd.gif" width="32" height="30" alt="Next: List Agents Panel"></a></td>
+  </tr>
+</table>
+<h2>Accessing the Preferences Dialog Send Agents Panel<a name="Accessing"></a></h2>
+<p>You can access the preferences dialog from the <a href="../menus/editmenu.html#EditPreferences" target="" class="menucommand">Edit: 
+  Preferences</a> menu item, then by clicking on the Send Agents tab. </p>
+<p align="CENTER"><img src="../images/dlg_prefs_sendagents.gif" width="474" height="471" usemap="#SendAgentsMap" alt="NewsAgent Preferences Dialog: Send Agents Panel (this is a clickable imagemap)" border="0"></p>
+<p align="LEFT">The Send Agents Panel displays information about all Send Agents 
+  you have installed for your copy of NewsAgent and allows you to enable, disable 
+  and configure them.</p>
+<div align="CENTER">
+  <h2 align="LEFT">Available Agents List<a name="AvailableAgentsList"></a> </h2>
+</div>
+<p>This list contains all the Send Agents that are currently installed. This is 
+  a combination of the user property <span class="codefixed">newsagent.agents.send.installed</span> 
+  and a list of internal agents which are supplied with NewsAgent.</p>
+<p>You can set whether an agent is enabled or disabled by double clicking on the 
+  item in the list. The checkbox to the left of each item shows whether it is 
+  currently enabled.</p>
+<p>Enabled send agents are stored in the <span class="codefixed">newsagent.agents.send.active</span> 
+  property, in the same order as they appear in this list.</p>
+<p>When you select an agent in the list (by single clicking on it), its details 
+  appear in the half of the panel.</p>
+<h2 align="LEFT">Move Up / Move Down<a name="MoveUpMoveDown"></a></h2>
+<p>These buttons change the order in which agents are activated at the time your 
+  message is sent. Agents at the top of the list get the first chance to modify 
+  or check your message, and then the message (with any modifications) is passed 
+  to the next agent in the list until the last one is reached, at which point 
+  the message is sent, unless one of the Agents reported a problem.</p>
+<h2>Add...<a name="Add"></a></h2>
+<center>
+<table border="0" width="75%" align="CENTER">
+  <tr> 
+      <td width="6%" valign="MIDDLE" height="90"><img src="../images/tip.gif" width="31" height="30" alt="Tip:"></td>
+      <td width="94%" bgcolor="#99FF99" bordercolor="#000000" valign="TOP" class="hint" height="90"> 
+        <div align="LEFT">
+          <p><font color="#000000" class="hint">Adding new Agents is an advanced 
+            operation, you should only try this if you are an experienced user 
+            or a developer. </font></p>
+          <p><font color="#000000" class="hint">More information on developing 
+            your own Agents is available in the advanced topics [link] section 
+            of this user manual.</font></p>
+          </div>
+    </td>
+  </tr>
+</table>
+  <p align="LEFT">This button allows you to add a new Send Agent to NewsAgent. 
+    It displays a dialogue prompting you for the <i>full classname</i> of the 
+    Agent you wish to install. </p>
+  <p align="CENTER"><img src="../images/dlg_agentinstall.gif" width="397" height="174" alt="Install an Agent Dialogue"></p>
+  <p align="LEFT">For instance, if you have created an Agent called MyTestAgent 
+    in a Java package called myagents, you should have a compiled Java file called 
+    <span class="codefixed">MyTestAgent.class</span> in a subdirectory <span class="codefixed">myagents</span> 
+    of your Java CLASSPATH. In this case, the full classname you should enter 
+    into the dialogue is:</p>
+  <p align="CENTER">myagents.MyTestAgent</p>
+  <p align="LEFT">If for any reason your Agent can't be found or instantiated, 
+    an error dialogue will be displayed. You should check your typing and your 
+    CLASSPATH carefully if this happens. In addition, make sure your Agent class 
+    subclasses <span class="codefixed">uk.ac.st_and.dcs.newsagent.agent.ISendAgent</span>. 
+  </p>
+</center>
+<div align="LEFT">
+  <h2>Description<a name="Description"></a> </h2>
+</div>
+<p>Contains a description of the currently selected NewsAgent.</p>
+<p>This text field is empty if no agent is currently selected.</p>
+<h2>Configure...<a name="Configure"></a></h2>
+<p>Displays a dialogue you can use to customise the selected Agent. This dialog 
+  is defined by the Agent programmer, and you should consult the documentation 
+  for the Agent for more information.</p>
+<p><i>In the current version, NewsAgent doesn't disable this button if the Agent 
+  doesn't have a configuration dialogue. If you click on the button for such an 
+  Agent, nothing will happen, but the button will become disabled. This will be 
+  fixed in a future version of NewsAgent.</i></p>
+<h2>OK / Cancel<a name="OkCancel"></a></h2>
+<p>Save or abort changes to preferences.</p>
+<p><b>Next Page: <a href="prefslistagents.html" target="">List Agents Panel</a></b></p>
+<map name="SendAgentsMap">
+  <area shape="rect" coords="336,442,463,465" href="#OkCancel">
+  <area shape="rect" coords="357,340,454,363" href="#Configure">
+  <area shape="rect" coords="17,324,349,422" href="#Description">
+  <area shape="rect" coords="357,135,454,158" href="#Add">
+  <area shape="rect" coords="357,76,454,126" href="#MoveUpMoveDown">
+  <area shape="rect" coords="17,76,349,283" href="#AvailableAgentsList">
+  <area shape="rect" coords="158,28,209,48" href="prefsidentity.html">
+  <area shape="rect" coords="103,28,156,48" href="prefsservers.html">  
+</map>
+</body>
+</html>

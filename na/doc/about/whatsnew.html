@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>NewsAgent Help: What's New?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+<style type="text/css">
+<!--
+-->
+</style></head>
+
+<body bgcolor="#FFFFCC">
+<h1>What's New?</h1>
+<h2>Version 1.02 [08 July 1998]<a name="Version1.02"></a></h2>
+<p>This version of NewsAgent contains a number of enhancements and bug fixes from 
+  the previous release.</p>
+<ul>
+  <li><b>Documentation Updates<br>
+    </b>The documentation of NewsAgent hadn't been updated since before the 1.0 
+    release (April 1998). It contained many inaccuracies, missing information, 
+    bad links and other atrocities. Version 1.02 includes updated documentation 
+    that is hopefully an improvement over the last version.</li>
+  <li><b>Windows Release Improvement<br>
+    </b>The Windows 32-bit release of NewsAgent has been substantially improved. 
+    It now has a proper installation program, adds a Start Menu shortcut for the 
+    program and can be uninstalled. Additionally, the batch file from previous 
+    versions has been replaced by a proper binary .exe file (called the launcher 
+    stub). This binary file checks for the location of Java on your system and 
+    runs Java with the correct CLASSPATH and arguments to start NewsAgent. This 
+    should help prevent the fiddly installation problems that many people complained 
+    about in the previous releases.</li>
+  <li><b>Help System Inside NewsAgent<br>
+    </b>The <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/menus/helpmenu.html#HelpHelpContents" class="menucommand" target="_top">Help:Contents</a> 
+    menu item actually works now, and brings up a browser window. NewsAgent can 
+    also be configured to use your favourite web browser instead of its own internal 
+    browser (which is rather crap).</li>
+  <li><b>Splash Screen</b><br>
+    This was added to help placate users during the lengthy startup that has to 
+    be endured before the NewsAgent main window appears.</li>
+  <li><b>Signatures [TBD]<br>
+    </b>Although some of the dialogues for adding signatures to outgoing messages 
+    have been present since the first release of NewsAgent, it has never been 
+    properly implemented. You can now automatically insert signatures into outgoing 
+    messages, or maintain a number of signatures for outgoing messages and decide 
+    which one to use from the composition window. Signatures are now implemented 
+    as a Send Agent, so the signature configuration has moved from the &quot;Send&quot; 
+    tab of the options dialogue to the Signature Agent Configuration in the &quot;Send 
+    Agents&quot; tab.</li>
+  <li><b>Send Agents<br>
+    </b>Send Agents were unimplemented in the previous release of NewsAgent. They 
+    are now fully supported.</li>
+  <li><b>Debugging </b><br>
+    In case anyone out there is actually beta testing NewsAgent (I've had hardly 
+    any bug reports, which is highly suspicious given the dodgy nature of the 
+    program and the large number of people who have downloaded it), this will 
+    be a useful feature. Because the new Win32 startup program no longer launches 
+    from a DOS (or Command) Prompt, debug messages have nowhere to go. A debugging 
+    console window has been added, which you can enable by specifying the <font face="Courier New, Courier, mono">-console</font> 
+    command line option. To actually switch debugging on, you need to use the 
+    <font face="Courier New, Courier, mono">-debug</font> command line option 
+    (introduced in 1.01). A new additional flag (<font face="Courier New, Courier, mono">-debugnet</font>) 
+    is supported that echoes all TCP socket traffic between NewsAgent and your 
+    NNTP servers.
+  <li><b>Message Composer Improvements</b><br>
+    The <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/dialogs/messagecomposer.html" target="_top">Message 
+    Composer dialogue</a> has been improved in a few ways. You can save the contents 
+    of the editor and load or insert text files. When replying to a message, you 
+    can choose to quote all of the message, or just a selected portion. You can 
+    customise the text that quoted messages begin with, and the text that is prepended 
+    to each quoted line. The editor now wraps properly and can't be resized horizontally 
+    greater than 80 characters (this needs Swing 1.0.2). There are options to 
+    send messages with hard line breaks after each line of 80 characters, or to 
+    send each paragraph on a single line. <br>
+    You can now add some common NNTP message headers to your compositions (Reply-To, 
+    Followup-To etc.), and also add any customised headers you want to the composition 
+    dialogue. There is also support for file carbon copy (Fcc).<br>
+    A few bugs have been fixed too: if something goes wrong when you try to send 
+    the message, the message composition dialogue no longer disappears (taking 
+    your beloved composition with it). The message composer will no longer let 
+    you send a message with no subject.
+</ul>
+
+<h2>Version 1.01 [19 May 1998]<a name="Version1.01"></a></h2>
+<h3>Bug Fixes</h3>
+<ul>
+  <li><b>Removed reliance on NNTP DATE command<br>
+    </b>The previous version of NewsAgent relied on your NNTP Server having the 
+    DATE command. This command is used on some servers, but is not part of the 
+    NNTP RFC specification. Subsequently, many users reported problems when downloading 
+    the list of newsgroups from their news server.<br>
+    The DATE command is now only used if the News Server supports it. Otherwise, 
+    the client's system date is used.</li>
+  <li><b>Fixed NumberFormatException bug in the Add Server... dialogue</b><br>
+    If you failed to specify a port in the<a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/dialogs/addeditserverprops.html"> 
+    </a><a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/dialogs/addeditserverprops.html" target="_top">Add 
+    Server.. dialogue</a>, NewsAgent displayed an error message and threw an exception. 
+    This has now been fixed. Additionally, the Port: input box now displays 119 
+    by default and is wider than one character.</li>
+  <li><b>Fixed column header bug in message thread panel</b><br>
+    The message thread panel's column header was badly implemented in the previous 
+    version, and didn't scroll horizontally when the rest of the panel was scrolled. 
+    This has now been fixed.</li>
+  <li><b>Made OK / Cancel buttons consistent<br>
+    </b>The order of OK and Cancel buttons in dialogue boxes was inconsistent 
+    in the last version. OK is now always to the left of Cancel in dialogue boxes.</li>
+  <li><b>Fixed scrollbar update bug in Subscriptions dialogue</b><br>
+    The scrollbar on the newsgroup list in the Subscriptions dialogue didn't update 
+    properly when the contents of the list were changed. This has now been fixed.</li>
+  <li><b>Fixed message display panel clearing</b><br>
+    The message display panel should be cleared when a message is not selected. 
+    In the previous version, it continued to contain text even when a different 
+    server (or nothing at all) was selected in the folders & servers tree panel. 
+    Now it is cleared on all selection events, unless a message has been selected.</li>
+</ul>
+<h3>Added Features</h3>
+<ul>
+  <li><b>List Agents</b><br>
+    List Agents are now properly supported. These are &quot;plugin&quot; code 
+    modules that affect the way message headers are displayed depending on the 
+    contents of the headers. More information is available in <a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/advanced/writingagents.html" target="_top"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0">advanced 
+    topics</a> in the <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/index.html" target="_top">user 
+    manual</a>.</li>
+  <li><b>Debugging Support<br>
+    </b>To help track down bugs and other problems in NewsAgent, debugging support 
+    has been switched back on. It is enabled by specifying the -debug option on 
+    the command line, or adding the newsagent.debug.DebugMessages preference to 
+    your preference file (see the <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/advanced/preferences.html" target="_top">Editing 
+    Preference Files</a> topic in <a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a><a href="http://st-and.compsoc.org.uk/%7Ebriand/newsagent/userdoc/advanced/index.html" target="_top">Advanced 
+    Topics</a> in the<a href="http://st-and.compsoc.org.uk/~briand/newsagent/userdoc/advanced/writingagents.html"><img src="../images/hlpWebSite.gif" width="16" height="16" border="0"></a> 
+    <a href="../userdoc/index.html" target="_top">User Manual</a>). When switched 
+    on, more detailed information about any errors that occur is displayed on 
+    the console (sent to stderr).</li>
+  <li><b>RelevanceAgent added</b><br>
+    This is a List Agent that allows you to assign scoring conditions on message 
+    headers. The headers are then formatted differently depending on their scores, 
+    or optionally deleted.</li>
+  <li><b>Unread Message Highlight Agent Added</b><br>
+    This agent marks messages which haven't been read yet differently from read 
+    messages. You can configure the colour, font and size of such messages, and 
+    switch the automatic formatting on or off.</li>
+  <li><b>Updated Swing distribution</b><br>
+    The distribution including Swing now contains the latest version of Swing 
+    (1.0.2). This has resulted in a minor change to the way split panes are drawn 
+    in the Java look and feel. N.b. NewsAgent will still work perfectly well with 
+    Swing 1.0.1.</li>
+  <li><b>Edit->Copy menu item enabled</b><br>
+    Edit/Copy can now be used to copy text from the currently selected message 
+    into the clipboard.</li>
+  <li><b>Customisable Headers in Message Display</b><br>
+    The headers shown above the message body can now be customised to show any 
+    number of headers in any order. The default headers have been extended from 
+    just From: and Subject: to (pending). In the current version, there is no 
+    user access to this customisation (sorry), but this will be added in the next 
+    version.</li>
+</ul>
+<p>&nbsp;</p>
+</body>
+</html>

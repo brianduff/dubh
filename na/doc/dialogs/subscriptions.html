@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>The Subscriptions Dialogue</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+</head>
+
+<body bgcolor="#FFFFCC">
+<table border="0" width="100%">
+  <tr>
+    <td width="83%" height="32"> 
+      <h1>The Subscriptions Dialogue</h1>
+    </td>
+    <td width="17%" valign="BOTTOM" height="32"><a href="signatures.html"><img src="../images/back.gif" width="32" height="30" border="0" alt="Back: Signatures Dialogue"></a><a href="index.html"><img border=0 src="../images/up.gif" width="32" height="30" alt="Up: Dialogues"></a><a href="prefsgeneral.html"><img border=0 src="../images/fwd.gif" width="32" height="30" alt="Next: Preferences Dialogue General Panel"></a></td>
+  </tr>
+</table>
+<h2>Accessing the Subscriptions Dialogue<a name="Accessing"></a></h2>
+<p>You can access the preferences dialog from the <a href="../menus/serversmenu.html#ServersSubscriptions" target="" class="menucommand">Servers: 
+  Subscriptions </a>menu item.</p>
+<p align="CENTER"><img src="../images/dlg_subscriptions.gif" width="538" height="296" border="0" alt="NewsAgent Subscriptions Dialogue (this is a clickable imagemap)" usemap="#SubscriptionsMap"></p>
+<p align="LEFT">The Subscriptions dialogue controls which Newsgroups you are subscribed 
+  to on your News Servers.</p>
+<p align="LEFT">Before you display this dialogue, you should add a new server. 
+  See the <a href="../menus/serversmenu.html#ServersAddServer" target="" class="menucommand">Servers: 
+  Add Server</a> menu item for more information.</p>
+<div align="CENTER">
+  <h2 align="LEFT">News Servers<a name="NewsServers"></a> </h2>
+</div>
+<p>This contains a list of all News Servers you are using. When you click on any 
+  server, a connection is established with the server and the list of new newsgroups 
+  is downloaded.</p>
+<p>If this is the first time you have connected to the News Server, all Newsgroups 
+  on the server are downloaded, and listed as new groups. In future, only the 
+  list of new Newsgroups since you last checked are downloaded.</p>
+<center>
+</center>
+<h2 align="LEFT">Display Newsgroups Which Contain<a name="DisplayNewsgroupsWhichContain"></a></h2>
+<p>This user interface item is currently disabled due to performance problems 
+  with servers offering many thousands of Newsgroups.</p>
+<h2>Newsgroups List<a name="NewsgroupsList"></a></h2>
+<p>The list of all, subscribed or new newsgroups on the currently selected server, 
+  depending on which of the <a href="#AllSubscribedNew">radiobuttons</a> is selected.</p>
+<p>You can select multiple items in this list by using your system specific multiple 
+  item selecting action (e.g. on Windows or UNIX, Ctrl-Left click, on the Mac, 
+  Shift-Click each item).</p>
+<h2>Subscribe / Unsubscribe<a name="SubscribeUnsubscribe"></a></h2>
+<p>Subscribes you to or unsubscribes you from the <a href="#NewsgroupsList">currently 
+  selected newsgroup</a> or groups. </p>
+<h2>Reset<a name="Reset"></a></h2>
+<p>Forces NewsAgent to reconnect to the server and download the list of New Newsgroups 
+  since the last time it checked.</p>
+<h2>All / Subscribed / New<a name="AllSubscribedNew"></a></h2>
+<p>Determines which list of Newsgroups to display in the <a href="#NewsgroupsList">Newsgroups 
+  list</a>.</p>
+<ul>
+  <li><b>All:</b> All the Newsgroups available on the currently selected server.</li>
+  <li><b>Subscribed: </b>Just the Newsgroups you have subscribed to on the currently 
+    selected server.</li>
+  <li><b>New: </b>Just the Newsgroups which have been added since the last time 
+    you checked for new Newsgroups.</li>
+</ul>
+<h2>OK / Cancel<a name="OkCancel"></a></h2>
+<p>Save or abort.</p>
+<p><b>Next Page: <a href="prefsgeneral.html" target="">Preferences Dialogue General 
+  Panel </a></b></p>
+<map name="SubscriptionsMap">
+  <area shape="rect" coords="397,264,529,290" href="#OkCancel">
+  <area shape="rect" coords="416,176,525,251" href="#AllSubscribedNew">
+  <area shape="rect" coords="419,142,525,164" href="#Reset">
+  <area shape="rect" coords="419,82,521,135" href="#SubscribeUnsubscribe">
+  <area shape="rect" coords="126,81,402,253" href="#NewsgroupsList">
+  <area shape="rect" coords="123,24,530,73" href="#DisplayNewsgroupsWhichContain">
+  <area shape="rect" coords="1,23,119,256" href="#NewsServers">  
+</map>
+</body>
+</html>

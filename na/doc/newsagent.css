@@ -1,0 +1,19 @@
+h1 {  font-family: Tahoma, Arial, Helvetica; font-size:22pt; font-weight: bold; text-align:left}
+h2 {  font-family: Tahoma, Arial, Helvetica; font-size: 14pt; font-weight: bold; width: 100%; border-color: black black #000000; border-style: solid; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+p {  font-family:Georgia, "Times New Roman", Times, serif; font-size: 10pt}
+li {  font-family: Georgia, "Times New Roman", Times, serif; font-size: 10pt; color: #000066}
+.hint {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt}td {  font-family:Georgia, "Times New Roman", Times, serif; font-size: 10pt}
+.tablelabel {  font-weight: bold; color: #003399}
+.menucommand {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt; font-style: italic; font-weight: bold; color: #009900}
+.codefixed {  font-family: "Courier New", Courier, mono; font-size: 10pt}
+.new {  font-family: Tahoma, Arial, Helvetica, sans-serif; font-size: 8pt; font-style: italic; color:#FF9900}
+dd { font-family:Georgia, "Times New Roman", Times, serif; font-size: 10pt }
+dt { font-family:Georgia, "Times New Roman", Times, serif; font-size: 10pt }
+li.dhTopic { list-style-image: url(images/hlpTopic.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+li.dhNewTopic { list-style-image: url(images/hlpNewTopic.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+li.dhFolder { list-style-image: url(images/hlpBook.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+li.dhNewFolder { list-style-image: url(images/hlpNewBook.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+li.dhWebLink { list-style-image: url(images/hlpWebSite.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+li.dhNewWebLink { list-style-image: url(images/hlpNewWebSite.gif); font-size: 8pt; font-family: Tahoma, Arial, Helvetica;}
+ul.dh { margin-left: 20px;  }
+a.tahoma { font-family: Tahoma, Arial, Helvetica; font-size:8pt; }

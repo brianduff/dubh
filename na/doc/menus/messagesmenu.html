@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>The Messages Menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../newsagent.css">
+</head>
+
+<body bgcolor="#FFFFCC">
+<h1>The Messages Menu</h1>
+<h2>Messages Menu Contents<a name="Servers"></a></h2>
+<p>The Messages Menu contains commands for manipulating individual messages in 
+  a newsgroup.</p>
+<p align="CENTER"><img src="../images/menus_messages.gif" width="242" height="170" alt="The Messages Menu" usemap="#MessagesMap" border="0"></p>
+<div align="LEFT">
+  <h2>Messages: Refresh Group<a name="MessagesRefresh"></a> </h2>
+</div>
+<table border="1" width="32%">
+  <tr>
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%">F5</td>
+  </tr>
+  <tr>
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19">&nbsp;</td>
+  </tr>
+</table>
+<p>Forces NewsAgent to connect to the News Server and download any new messages 
+  in the current Newsgroup. During the download process, you will not be able 
+  to change the current message. The progress bar to the right of the status bar 
+  at the bottom of the main window shows how long this process will take.</p>
+<p>This menu command is only enabled if you are currently connected to a News 
+  Server and a Newsgroup is selected in the folders &amp; servers tree panel.</p>
+<h2>Messages: Post New Message...<a name="MessagesPostMessage"></a><a name="MessagesPostNewMessage"></a></h2>
+<table border="1" width="32%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%">Ctrl+Shift+P</td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19"><img src="../images/tb_post.gif" width="24" height="24"></td>
+  </tr>
+</table>
+<p>Posts a new message to the current Newsgroup. The <a href="../dialogs/messagecomposer.html">Message 
+  Composer</a> dialogue is displayed. If you wish to <i>reply</i> to a message, 
+  you should use the <a href="#MessagesReplyByPosting" class="menucommand" target="">Messages: 
+  Reply by Posting</a> menu command instead, as this ensures that other Newsreaders 
+  can see which message you are replying to and thread messages properly. </p>
+<p>This menu command is only enabled when a Newsgroup is selected in the servers 
+  &amp; folders tree panel. </p>
+<h2>Messages: Reply by Posting...<a name="MessagesReplyByPosting"></a></h2>
+<table border="1" width="37%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%">Ctrl+R</td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19"><img src="../images/tb_postreply.gif" width="24" height="24"></td>
+  </tr>
+</table>
+<p align="LEFT">Posts a reply to the currently selected message. The <a href="../dialogs/messagecomposer.html">Message 
+  Composer</a> dialogue is displayed.</p>
+<p align="LEFT">This menu command is only enabled when a Newsgroup is selected 
+  in the servers &amp; folders tree panel and a message is selected in the message 
+  header list panel.</p>
+<p align="LEFT">When you reply to a post, you can quote text from the original 
+  post to help clarify what you are commenting on. There are a number of options 
+  for configuring the way in which text from the original message is quoted in 
+  the <a href="../dialogs/">Send Tab of the Preferences Dialogue</a>.</p>
+<h2 align="LEFT">Messages: Reply by Email...<a name="MessagesReplyByEmail"></a></h2>
+<table border="1" width="32%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%"><i>None</i></td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19"><img src="../images/tb_email.gif" width="24" height="24"></td>
+  </tr>
+</table>
+<p align="LEFT">Sends a reply to the author of the currently selected message 
+  through electronic mail. The <a href="../dialogs/messagecomposer.html">Message 
+  Composer</a> dialogue is displayed.</p>
+<p align="LEFT">This menu command is only enabled when a Newsgroup is selected 
+  in the servers &amp; folders tree panel and a message is selected in the message 
+  header list panel.</p>
+<p align="LEFT"><i><font color="#FF0000">This menu command is currently unimplemented.</font></i></p>
+<h2>Messages: Copy to Folder...<a name="MessagesCopyToFolder"></a></h2>
+<table border="1" width="32%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%"><i>None</i></td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19"><img src="../images/tb_copytofolder.gif" width="24" height="24"></td>
+  </tr>
+</table>
+<p>Copies a message to a folder. You can copy messages from Newsgroups and from 
+  other folders. This command displays the following dialogue:</p>
+<p align="CENTER"><img src="../images/dlg_copytofolder.gif" width="256" height="173" alt="Copy to Folder"></p>
+<p>You should select a folder and press enter or click OK. Clicking Cancel aborts 
+  the copy. Clicking New... has the same effect as invoking <a href="filemenu.html#FileNewFolder" target="" class="menucommand">File: 
+  New Folder...</a></p>
+<p>This menu command is only enabled if you are currently connected to a News 
+  Server, a Newsgroup is selected in the folders &amp; servers tree panel and 
+  a message is currently selected in the message header panel.</p>
+<p>In the current version, there is no support for hierarchical folders and drag 
+  &amp; drop is not supported. Drag and drop will be added when it becomes part 
+  of the (final) release of Java 1.2.</p>
+<h2>Messages: Export Message...<a name="MessagesExportMessage"></a></h2>
+<table border="1" width="32%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%"><i>None</i></td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19">&nbsp;</td>
+  </tr>
+</table>
+<p>Allows you to export the currently selected message to a text file.</p>
+<h2 align="LEFT">Messages: Unsubscribe from Newsgroup<a name="MessagesUnsubscribe"></a></h2>
+<table border="1" width="32%">
+  <tr> 
+    <td width="75%">Keyboard Shortcut:</td>
+    <td width="25%"><i>None</i></td>
+  </tr>
+  <tr> 
+    <td valign="TOP" width="75%" height="19">Toolbar Button:</td>
+    <td valign="TOP" bgcolor="#c0c0c0" width="25%" align="CENTER" height="19">&nbsp;</td>
+  </tr>
+</table>
+<p>Unsubscribes from the current Newsgroup.</p>
+<p>This menu command is only enabled when a Newsgroup is selected in the folders 
+  &amp; servers tree panel.</p>
+<p align="LEFT">&nbsp;</p>
+<map name="MessagesMap">
+  <area shape="rect" coords="1,125,241,144" href="#MessagesExportMessage">
+  <area shape="rect" coords="79,0,119,19" href="helpmenu.html">
+  <area shape="rect" coords="0,147,195,166" href="#MessagesUnsubscribe">
+  <area shape="rect" coords="2,85,197,102" href="#MessagesReplyByEmail">
+  <area shape="rect" coords="2,63,197,81" href="#MessagesReplyByPosting">
+  <area shape="rect" coords="1,42,196,62" href="#MessagesPostMessage">
+  <area shape="rect" coords="2,105,197,123" href="#MessagesCopyToFolder">
+  <area shape="rect" coords="1,21,195,42" href="#MessagesRefresh">  
+</map>
+</body>
+</html>
