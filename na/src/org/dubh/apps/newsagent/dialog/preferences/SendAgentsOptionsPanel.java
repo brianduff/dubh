@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: SendAgentsOptionsPanel.java,v 1.3 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -30,6 +36,8 @@ import dubh.apps.newsagent.agent.ISendAgent;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.agent.AgentManager;
 import dubh.apps.newsagent.dialog.ErrorReporter;
+import dubh.utils.ui.preferences.PreferencePage;
+import dubh.utils.misc.UserPreferences;
 
 /**
  * Send agents options panel for the send agents tab in the options dialog:<P>
@@ -39,7 +47,7 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
  @author Brian Duff
  @version 0.2 [08/05/98]
  */
-public class SendAgentsOptionsPanel extends JPanel {
+public class SendAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
    GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
   public TitledBorder borderAgent= new TitledBorder(new EtchedBorder(),
@@ -59,16 +67,19 @@ public class SendAgentsOptionsPanel extends JPanel {
   JScrollPane scrollDesc = new JScrollPane(taDescription);
   JButton cmdConfigure = new JButton();
   DefaultListModel lmAgents = new DefaultListModel();
-
+   JPanel panMain;
 
 
   public SendAgentsOptionsPanel() {
+    super("Send Agents", "Configure agents that affect outgoing messages",
+       null);
     try {
       jbInit();
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+    setContent(panMain);
   }
 
   public void jbInit() throws Exception{
@@ -84,7 +95,7 @@ public class SendAgentsOptionsPanel extends JPanel {
     cmdAdd.addActionListener(new SendAgentsOptionsPanel_cmdAdd_actionAdapter(this));
     panAgent.setLayout(gridBagLayout3);
     panAvailableAgents.setLayout(gridBagLayout2);
-    this.setSize(new Dimension(350, 330));
+  //  this.setSize(new Dimension(350, 330));
     panAvailableAgents.setBorder(borderAvailable);
     panAgent.setBorder(borderAgent);
     listAgents.addMouseListener(new SendAgentsOptionsPanel_listAgents_mouseAdapter(this));
@@ -92,8 +103,9 @@ public class SendAgentsOptionsPanel extends JPanel {
     listAgents.setModel(lmAgents);
     listAgents.setCellRenderer(new SendAgentsListRenderer());
     taDescription.setEditable(false);
-    this.setLayout(gridBagLayout1);
-    this.add(panAvailableAgents, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.35
+    panMain = new JPanel();
+    panMain.setLayout(gridBagLayout1);
+    panMain.add(panAvailableAgents, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.35
             ,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     panAvailableAgents.add(scrollAgents, new GridBagConstraints2(0, 0, 1, 3, 1.0, 1.0
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
@@ -103,7 +115,7 @@ public class SendAgentsOptionsPanel extends JPanel {
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 5, 5), 0, 0));
     panAvailableAgents.add(cmdAdd, new GridBagConstraints2(1, 2, 1, 1, 0.0, 0.0
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 0, 5), 0, 0));
-    this.add(panAgent, new GridBagConstraints2(0, 1, 1, 1, 1.0, 0.65
+    panMain.add(panAgent, new GridBagConstraints2(0, 1, 1, 1, 1.0, 0.65
             ,GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     panAgent.add(labDescription, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 1, 5), 0, 0));
@@ -111,7 +123,7 @@ public class SendAgentsOptionsPanel extends JPanel {
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 5, 5, 5), 0, 0));
     panAgent.add(cmdConfigure, new GridBagConstraints2(1, 1, 1, 1, 0.0, 1.0
             ,GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(1, 1, 5, 5), 0, 0));
-     revertPreferences();
+  //   revertPreferences();
      /*
       * No initial selection
       */
@@ -122,7 +134,7 @@ public class SendAgentsOptionsPanel extends JPanel {
        taDescription.setText("");
   }
 
-  public void applyPreferences() {
+  public void save(UserPreferences s) {
    Vector installedNames = new Vector();
    Hashtable allAgents   = new Hashtable();
 
@@ -151,7 +163,7 @@ public class SendAgentsOptionsPanel extends JPanel {
     GlobalState.getAgentManager().saveSendAgents();
   }
 
-  public void revertPreferences() {
+  public void revert(UserPreferences s) {
    populateAgentsList();
   }
 

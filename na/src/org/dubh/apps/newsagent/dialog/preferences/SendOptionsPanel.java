@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: SendOptionsPanel.java,v 1.5 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -32,7 +38,8 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.utils.ui.*;
 import dubh.utils.misc.StringUtils;
 import dubh.utils.misc.ResourceManager;
-
+import dubh.utils.misc.UserPreferences;
+import dubh.utils.ui.preferences.PreferencePage;
 
 
 /**
@@ -50,7 +57,7 @@ import dubh.utils.misc.ResourceManager;
  @author Brian Duff
  @version 1.0 [10/06/98]
  */
-public class SendOptionsPanel extends JPanel {
+public class SendOptionsPanel extends PreferencePage {
   private TitledBorder borderQuoting = new TitledBorder(new EtchedBorder(),
    GlobalState.getResString("SendOptionsPanel.Quoting"));
   private JPanel panQuoting = new JPanel();
@@ -71,13 +78,16 @@ public class SendOptionsPanel extends JPanel {
 
 
   public SendOptionsPanel() {
+     super("Send", "Determine how your replies quote from the original message",
+        null);
     try {
       jbInit();
-      revertPreferences();
+     // revertPreferences();
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+    setContent(panQuoting);
   }
 
   private void jbInit() throws Exception{
@@ -106,9 +116,9 @@ public class SendOptionsPanel extends JPanel {
     taPrefix.setLineWrap(true);
     taPrefix.setWrapStyleWord(true);
     taPrefix.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-    this.setLayout(layoutMain);
-    this.add(panQuoting, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
-            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+   // this.setLayout(layoutMain);
+    //this.add(panQuoting, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
+    //        ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     panQuoting.add(labWhenReply, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
     panQuoting.add(optNothing, new GridBagConstraints2(0, 1, 2, 1, 1.0, 0.0
@@ -137,7 +147,7 @@ public class SendOptionsPanel extends JPanel {
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-  public void applyPreferences() {
+  public void save(UserPreferences p) {
      GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEHEADING, taPrefix.getText());
      GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEPREFIX, tfPrefixLine.getText());
      if (optNothing.isSelected())
@@ -153,7 +163,7 @@ public class SendOptionsPanel extends JPanel {
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-  public void revertPreferences() {
+  public void revert(UserPreferences s) {
      optAll.setSelected(false);
      optSelection.setSelected(false);
      optNothing.setSelected(false);

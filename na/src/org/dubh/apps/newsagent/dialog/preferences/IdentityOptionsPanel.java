@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: IdentityOptionsPanel.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -25,7 +31,8 @@ import dubh.utils.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.border.*;
 import dubh.apps.newsagent.GlobalState;
-
+import dubh.utils.ui.preferences.*;
+import dubh.utils.misc.*;
 import dubh.apps.newsagent.PreferenceKeys;
 
 /**
@@ -51,7 +58,7 @@ import dubh.apps.newsagent.PreferenceKeys;
  @author Brian Duff
  @version 0.2 [20/04/98]
  */
-public class IdentityOptionsPanel extends JPanel {
+public class IdentityOptionsPanel extends PreferencePage {
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JLabel labRealName = new JLabel();
   JTextField tfRealName = new JTextField();
@@ -65,9 +72,10 @@ public class IdentityOptionsPanel extends JPanel {
   BorderLayout borderLayout1 = new BorderLayout();
 
   public IdentityOptionsPanel() {
+     super("Identity", "Information about you and your address", null);
     try {
       jbInit();
-      revertPreferences();
+      setContent(panIdentity);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -75,9 +83,6 @@ public class IdentityOptionsPanel extends JPanel {
   }
 
   public void jbInit() throws Exception{
-    labRealName.setText(GlobalState.getResString("IdentityOptionsPanel.RealName"));
-    labEmail.setText(GlobalState.getResString("IdentityOptionsPanel.Email"));
-    labOrganisation.setText(GlobalState.getResString("IdentityOptionsPanel.Organisation"));
     panIdentity.setLayout(gridBagLayout1);
     panIdentity.add(labRealName, new GridBagConstraints2(0, 0, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 1, 1), 0, 0));
@@ -92,8 +97,7 @@ public class IdentityOptionsPanel extends JPanel {
     panIdentity.add(tfOrganisation, new GridBagConstraints2(1, 2, 1, 1, 1.0, 1.0
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 1, 5), 0, 0));
     panIdentity.setBorder(borderIdentity);
-    this.setLayout(borderLayout1);
-    this.add(panIdentity, BorderLayout.CENTER);
+
   }
 
   /**
@@ -101,7 +105,7 @@ public class IdentityOptionsPanel extends JPanel {
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-  public void revertPreferences() {
+  public void revert(UserPreferences p) {
    tfRealName.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_REALNAME, ""));
    tfEmail.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL, ""));
    tfOrganisation.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_ORGANISATION, ""));
@@ -111,7 +115,7 @@ public class IdentityOptionsPanel extends JPanel {
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-  public void applyPreferences() {
+  public void save(UserPreferences p) {
    GlobalState.setPreference(PreferenceKeys.IDENTITY_REALNAME, tfRealName.getText());
    GlobalState.setPreference(PreferenceKeys.IDENTITY_EMAIL, tfEmail.getText());
    GlobalState.setPreference(PreferenceKeys.IDENTITY_ORGANISATION, tfOrganisation.getText());

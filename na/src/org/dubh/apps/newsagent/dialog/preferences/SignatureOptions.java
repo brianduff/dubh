@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bduff@uk.oracle.com
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: SignatureOptions.java,v 1.3 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -196,7 +202,7 @@ public class SignatureOptions extends JFrame {
    * newsagent.signature.default to determine the default sig.
    */
   private void populateList() {
-    Properties p = GlobalState.getSignatures();
+ /*   Properties p = GlobalState.getSignatures();
     String defSig = GlobalState.getPreference("newsagent.signature.default", "NONE");
     sigEntries.clear();
     // Enter all the signatures
@@ -208,8 +214,8 @@ public class SignatureOptions extends JFrame {
         newentry.isDefault = true; 
       sigEntries.addElement(newentry);
       if (me.equals(defSig))  // And set the list default too.
-        sigList.setDefault(sigEntries.indexOf(newentry));
-    }
+        sigList.setDefault(sigEntries.indexOf(newentry)); 
+    } */
 
   }
 
@@ -232,8 +238,8 @@ public class SignatureOptions extends JFrame {
         GlobalState.setPreference("newsagent.signature.default", itemName);
       GlobalState.savePreferences();
     }
-    GlobalState.setSignatures(p);
-    GlobalState.saveSignatures();
+//    GlobalState.setSignatures(p);
+//    GlobalState.saveSignatures();
   }
 
   void jButton1_actionPerformed(ActionEvent e) {

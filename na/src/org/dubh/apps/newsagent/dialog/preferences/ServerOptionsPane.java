@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: ServerOptionsPane.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import javax.swing.*;
@@ -34,7 +40,8 @@ import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
 import dubh.apps.newsagent.dialog.ErrorReporter;
-
+import dubh.utils.misc.UserPreferences;
+import dubh.utils.ui.preferences.PreferencePage;
 /**
  * Server Options Panel for the Servers Tab in the Options dialog box <P>
  * The following options are available from this panel:<P>
@@ -63,7 +70,7 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
  @author Brian Duff
  @version 0.4 [06/06/98]
  */
-public class ServerOptionsPane extends JPanel {
+public class ServerOptionsPane extends PreferencePage {
   public TitledBorder borderNews = new TitledBorder(new EtchedBorder(),
    "News");
   public TitledBorder borderMail = new TitledBorder(new EtchedBorder(),
@@ -83,6 +90,7 @@ public class ServerOptionsPane extends JPanel {
   JTextField tfMailPort = new JTextField();
   JButton cmdPortDefault = new JButton();
   DefaultListModel listItems = new DefaultListModel();
+  JPanel panMain = new JPanel();
   private static final String defaultPort = "25";
   JFrame parent;
 
@@ -92,18 +100,17 @@ public class ServerOptionsPane extends JPanel {
   GridBagLayout gridBagLayout3 = new GridBagLayout();
   GridBagLayout gridBagLayout4 = new GridBagLayout();
   public ServerOptionsPane() {
+     super("Server", "Set the hostname of your internet servers",
+        null);
     try {
       jbInit();
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+    setContent(panMain);
   }
 
-  public ServerOptionsPane(JFrame parent) {
-   this();
-    this.parent = parent;
-  }
 
   public void jbInit() throws Exception{
    panNews.setBorder(borderNews);
@@ -138,8 +145,8 @@ public class ServerOptionsPane extends JPanel {
     cmdProperties.setText("Properties...");
     cmdProperties.setToolTipText("Allows you to edit the properties of the selected server");
     cmdProperties.addActionListener(new ServerOptionsPane_cmdProperties_actionAdapter(this));
-    this.setLayout(gridBagLayout1);
-    this.add(panNews, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
+    panMain.setLayout(gridBagLayout1);
+    panMain.add(panNews, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 0, 5), 22, 0));
     panNews.add(lstScroll, new GridBagConstraints2(0, 0, 1, 2, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 0), 100, 0));
@@ -151,7 +158,7 @@ public class ServerOptionsPane extends JPanel {
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 5), 22, 0));
     panNewsButtons.add(cmdProperties, new GridBagConstraints2(0, 2, 1, 1, 1.0, 1.0
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 5), 0, 0));
-    this.add(panMail, new GridBagConstraints2(0, 1, 1, 1, 1.0, 1.0
+    panMain.add(panMail, new GridBagConstraints2(0, 1, 1, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 5, 5, 5), 130, 0));
     panMail.add(panMailServer, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 26, 5), 0, 0));
@@ -159,14 +166,14 @@ public class ServerOptionsPane extends JPanel {
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 155, 0));
     cmdRemove.setEnabled(false);
     cmdProperties.setEnabled(false);
-   revertPreferences();
+  // revertPreferences();
   }
 
   /**
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-  public void applyPreferences() {
+  public void save(UserPreferences p) {
  /*   String allServers = "";
     Enumeration e = listItems.elements();
     while (e.hasMoreElements()) {
@@ -190,7 +197,7 @@ public class ServerOptionsPane extends JPanel {
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-  public void revertPreferences() {
+  public void revert(UserPreferences p) {
       // Get the list of NNTP Servers and populate the list.
       refreshServerList();
 
@@ -231,7 +238,7 @@ public class ServerOptionsPane extends JPanel {
   }
 
   void cmdAdd_actionPerformed(ActionEvent e) {
-    NewsServerPropsDlg test = new NewsServerPropsDlg(parent, true);
+    NewsServerPropsDlg test = new NewsServerPropsDlg(new JFrame(), true);
     test.pack();
     test.show();
     //listItems.addElement(new ServerListItem(test.getServerHost(), test.getServerName()));

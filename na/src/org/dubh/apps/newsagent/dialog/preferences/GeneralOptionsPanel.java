@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: GeneralOptionsPanel.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -25,10 +31,13 @@ import java.awt.event.*;
 import dubh.utils.ui.GridBagConstraints2;
 import dubh.utils.misc.ResourceManager;
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.*; 
 import java.beans.*;
 import javax.swing.event.*;
 
+import dubh.utils.ui.preferences.*;
+import dubh.utils.misc.UserPreferences;
+import dubh.utils.misc.Debug;
 import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 
@@ -66,8 +75,7 @@ import dubh.apps.newsagent.GlobalState;
  @version 0.7 [05/10/98]
  */
 
-// To edit in JBuilder, change JPanel to BevelPanel
-public class GeneralOptionsPanel extends JPanel {
+public class GeneralOptionsPanel extends PreferencePage {
   JPanel jPanel1 = new JPanel();
  
   public TitledBorder borderGeneral = new TitledBorder(new EtchedBorder(),
@@ -85,21 +93,29 @@ public class GeneralOptionsPanel extends JPanel {
   GridBagLayout gridBagLayout3 = new GridBagLayout();
 
   public GeneralOptionsPanel() {
+     super("General", "General options", null);
     try {
       jbInit();
-      revertPreferences();
+      setContent(jPanel1);
+      //revert(null);
     }
     catch (Exception e) {
-      e.printStackTrace();
+      Debug.printException(1, this, e);
     }
   }
+  
+  public Container getContent()
+  {
+     return jPanel1;
+  }
+  
 
   /**
    * Set all controls to the values from the user preferences. If the preferences
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-  public void revertPreferences() {
+  public void revert(UserPreferences p) {
     jCheckBox1.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_AUTOUPDATE, true));
     jCheckBox2.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, true));
     String update = GlobalState.getPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL,"5");
@@ -114,7 +130,7 @@ public class GeneralOptionsPanel extends JPanel {
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-  public void applyPreferences() {
+  public void save(UserPreferences p) {
    GlobalState.setPreference(PreferenceKeys.GENERAL_AUTOUPDATE, jCheckBox1.isSelected());
     GlobalState.setPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, jCheckBox2.isSelected());
     GlobalState.setPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL, valLabel.getText().substring(0,2));
@@ -153,8 +169,6 @@ public class GeneralOptionsPanel extends JPanel {
     jPanel3.setLayout(gridBagLayout3);
     jCheckBox2.setHorizontalAlignment(SwingConstants.LEFT);
     jPanel1.setLayout(gridBagLayout1);
-    this.setLayout(borderLayout1);
-    this.add(jPanel1, BorderLayout.CENTER);
     jPanel1.add(jPanel3, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.0
             ,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
     jPanel3.add(jCheckBox1, new GridBagConstraints2(0, 0, 1, 1, 0.0, 0.0

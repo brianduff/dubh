@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: ListAgentsOptionsPanel.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
@@ -31,7 +37,8 @@ import dubh.apps.newsagent.agent.AgentConfigDialogue;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.agent.AgentManager;
 import dubh.apps.newsagent.dialog.ErrorReporter;
-
+import dubh.utils.ui.preferences.PreferencePage;
+import dubh.utils.misc.UserPreferences;
 import dubh.apps.newsagent.PreferenceKeys;
 /**
  * List agents options panel for the list agents tab in the options dialog:<P>
@@ -41,7 +48,7 @@ import dubh.apps.newsagent.PreferenceKeys;
  @author Brian Duff
  @version 0.1 [28/04/98]
  */
-public class ListAgentsOptionsPanel extends JPanel {
+public class ListAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
    GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
   public TitledBorder borderAgent= new TitledBorder(new EtchedBorder(),
@@ -62,11 +69,14 @@ public class ListAgentsOptionsPanel extends JPanel {
   JButton cmdConfigure = new JButton();
   DefaultListModel lmAgents = new DefaultListModel();
 
-
+   JPanel panTop = new JPanel();
 
   public ListAgentsOptionsPanel() {
+    super("List Agents", "Configure agents that affect the display of messages",
+          null);
     try {
       jbInit();
+      setContent(panTop);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -86,7 +96,8 @@ public class ListAgentsOptionsPanel extends JPanel {
     cmdAdd.addActionListener(new ListAgentsOptionsPanel_cmdAdd_actionAdapter(this));
     panAgent.setLayout(gridBagLayout3);
     panAvailableAgents.setLayout(gridBagLayout2);
-    this.setSize(new Dimension(350, 330));
+    panTop = new JPanel();
+   // this.setSize(new Dimension(350, 330));
     panAvailableAgents.setBorder(borderAvailable);
     panAgent.setBorder(borderAgent);
     listAgents.addMouseListener(new ListAgentsOptionsPanel_listAgents_mouseAdapter(this));
@@ -94,8 +105,8 @@ public class ListAgentsOptionsPanel extends JPanel {
     listAgents.setModel(lmAgents);
     listAgents.setCellRenderer(new ListAgentsListRenderer());
     taDescription.setEditable(false);
-    this.setLayout(gridBagLayout1);
-    this.add(panAvailableAgents, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.35
+    panTop.setLayout(gridBagLayout1);
+    panTop.add(panAvailableAgents, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.35
             ,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     panAvailableAgents.add(scrollAgents, new GridBagConstraints2(0, 0, 1, 3, 1.0, 1.0
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
@@ -105,7 +116,7 @@ public class ListAgentsOptionsPanel extends JPanel {
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 5, 5), 0, 0));
     panAvailableAgents.add(cmdAdd, new GridBagConstraints2(1, 2, 1, 1, 0.0, 0.0
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(1, 1, 0, 5), 0, 0));
-    this.add(panAgent, new GridBagConstraints2(0, 1, 1, 1, 1.0, 0.65
+    panTop.add(panAgent, new GridBagConstraints2(0, 1, 1, 1, 1.0, 0.65
             ,GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     panAgent.add(labDescription, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 1, 5), 0, 0));
@@ -113,7 +124,6 @@ public class ListAgentsOptionsPanel extends JPanel {
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 5, 5, 5), 0, 0));
     panAgent.add(cmdConfigure, new GridBagConstraints2(1, 1, 1, 1, 0.0, 1.0
             ,GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(1, 1, 5, 5), 0, 0));
-     revertPreferences();
      /*
       * No initial selection
       */
@@ -124,7 +134,7 @@ public class ListAgentsOptionsPanel extends JPanel {
        taDescription.setText("");
   }
 
-  public void applyPreferences() {
+  public void save(UserPreferences s) {
    Vector installedNames = new Vector();
    Hashtable allAgents   = new Hashtable();
 
@@ -153,7 +163,7 @@ public class ListAgentsOptionsPanel extends JPanel {
     GlobalState.getAgentManager().saveListAgents();
   }
 
-  public void revertPreferences() {
+  public void revert(UserPreferences s) {
    populateAgentsList();
   }
 
