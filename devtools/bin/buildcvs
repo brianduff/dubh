@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# $Id: buildcvs,v 1.1 2000-08-23 22:40:27 briand Exp $
+#
+# Runs the Jakarta ANT tool to build a specified module.
+# (C) 2000 Brian Duff / www.dubh.org
+#
+# Params:
+#   1 The module name
+#   2 The build target
+#
+# This version requires CVS and pulls the code before building
+
+BUILD_DIR=~admin/build
+CVSROOT=/usr/local/cvsroot
+
+
+DT=devtools/lib
+# All this stuff is needed to build Dubh tools - most of it is for the XSLT
+# transformations for UI and RTS.
+EXTRA_CLASSPATH=$DT/devtools-1.0.jar:$DT/jaxp.jar:$DT/parser.jar:$DT/ant.jar:$DT/xalan_1_0_1.jar:$DT/optional.jar:$DT/xerces_1_0_3.jar
+ANT_HOME=/usr/local/javalib-distrib/jakarta-ant
+ANT_MAIN=org.apache.tools.ant.Main
+
+#ANT_OPTIONS="-logfile $1.build.log"
+
+cd $BUILD_DIR
+rm -rf $1
+cvs -d /usr/local/cvsroot checkout $1/build.xml
+CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
+java -Dant.home=$ANT_HOME -Dcvsroot=$CVSROOT $ANT_MAIN $ANT_OPTIONS -buildfile $1/build.xml $2
+
+# TODO: add logging etc.
