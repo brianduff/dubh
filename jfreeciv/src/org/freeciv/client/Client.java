@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import com.sixlegs.image.png.PngImage;
 import org.freeciv.net.*;
 import org.freeciv.tile.*;
 import org.gjt.abies.SystemInfoPanel;

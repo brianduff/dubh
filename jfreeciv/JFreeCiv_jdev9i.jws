@@ -2,14 +2,14 @@
 <!DOCTYPE workspace>
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <workspace class="oracle.ide.model.Workspace">
-   <activeProjectURL path="abiesutils_jdev9i.jpr" id="0"/>
+   <activeProjectURL path="freeciv_jdev9i.jpr" id="0"/>
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.ide.model.Reference">
-         <URL idref="0"/>
+         <URL path="abiesutils_jdev9i.jpr"/>
          <nodeClass id="1">oracle.jdeveloper.model.JProject</nodeClass>
       </Item>
       <Item class="oracle.ide.model.Reference">
-         <URL path="freeciv_jdev9i.jpr"/>
+         <URL idref="0"/>
          <nodeClass idref="1"/>
       </Item>
    </listOfChildren>

@@ -5,7 +5,6 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.swing.*;
-import com.sixlegs.image.png.PngImage;
 public class ImageSplitter implements ImageConsumer
 {
   int width;

@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;
-import com.sixlegs.image.png.PngImage;
 
 
 /*
@@ -564,100 +563,7 @@ public class HexMap extends TileMap
       throw new RuntimeException( "Assertion failed" );
     }
   }
-  public static void main( String argv[] )
-                      throws IOException
-  {
-    JFrame jf = new JFrame( "Map test" );
-    final HexMap map = new HexMap( 50, 50, 15, false, false, true, 0, -15, 0 );
-    final JLabel jl = new JLabel( "XXXXXX" );
-    final Icon[] icons = new Icon[]
-    {
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/grass.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/tree.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/lunar.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/hillsin.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/hillsout.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/desert.png" ) ) ), 
-      new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/ocean.png" ) ) )
-    };
-    final Icon columns = new ImageIcon( Toolkit.getDefaultToolkit().createImage( new PngImage( "data/hexes/columns.png" ) ) );
-    final Random rnd = new Random();
-    map.setGridlineColor( Color.gray );
-    for( int x = 0;x < 50;x++ )
-    {
-      for( int y = 0;y < 50;y++ )
-      {
-        ArrayList l = new ArrayList();
-        l.add( icons[ 0 ] );
-        l.add( null );
-        l.add( new HCoordIcon( x, y ) );
-        TripletCoords tc = new TripletCoords();
-        map.coordsToTriplet( x, y, tc );
-        l.add( new HTripletIcon( tc.a, tc.b, tc.c ) );
-        /*				Coords co = new Coords();
-        map.tripletToCoords(tc.a,tc.b,tc.c,co);
-        l.add(new HTripletIcon(co.x,co.y,-1));
-        */
-        map.tiles[ x ][ y ] = l;
-      }
-    }
-    map.addMouseListener( new MouseAdapter() 
-    {
-      public void mouseClicked( MouseEvent e )
-      {
-        if( ( e.getModifiers() & InputEvent.BUTTON3_MASK ) != 0 )
-        {
-          int x = e.getX() + map.upperLeftX;
-          int y = e.getY() + map.upperLeftY;
-          map.setUpperLeftX( x - ( map.getWidth() / 2 ) );
-          map.setUpperLeftY( y - ( map.getHeight() / 2 ) );
-          e.consume();
-          map.repaint();
-        }
-        else
-        {
-          if( ( e.getModifiers() & InputEvent.BUTTON1_MASK ) != 0 )
-          {
-            Coords p = map.toTileCoordinates( e.getX(), e.getY() );
-            String str = "Outside map";
-            if( p != null )
-            {
-              str = "X=" + p.x + "   Y=" + p.y;
-              List l = map.getTileList( p.x, p.y );
-              l.set( 0, icons[ rnd.nextInt( icons.length ) ] );
-              if( rnd.nextBoolean() )
-              {
-                l.set( 1, null );
-              }
-              else
-              {
-                l.set( 1, columns );
-              }
-              map.repaintOneTile( p.x, p.y );
-            }
-            jl.setText( str );
-            if( e.getClickCount() == 2 )
-            {
-              if( map.getGridlineColor() != null )
-              {
-                map.setGridlineColor( null );
-              }
-              else
-              {
-                map.setGridlineColor( Color.gray );
-              }
-              map.repaint();
-            }
-          }
-        }
-      }
-    } );
-    jf.getContentPane().setLayout( new BorderLayout() );
-    jf.getContentPane().add( BorderLayout.NORTH, jl );
-    jf.getContentPane().add( BorderLayout.CENTER, map );
-    jf.pack();
-    jf.show();
-  }
+
   static class HCoordIcon implements Icon
   {
     int aa;
