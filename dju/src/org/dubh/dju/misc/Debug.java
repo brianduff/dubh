@@ -25,32 +25,71 @@ import dubh.utils.ui.OutputStreamFrame;
 /**
  * Class containing static methods for displaying debug strings on the console.
  * The output can be switched on or off.<P>
+ * You should construct all calls to Debug like this:
+ * <PRE>
+ *    if (Debug.TRACE_LEVEL_X)
+ *    {
+ *       Debug.println(x, this, "Message");
+ *    }
+ * </PRE>
+ * or: <PRE>
+ *    if (Debug.ASSERT)
+ *    {
+ *       Debug.assert(condition, this, "Message");
+ *    }
+ * </PRE>
+ * This will make sure debugging is stripped out in release versions.
  * Version History: <UL>
  * <LI>0.1 [05/06/98]: Initial Revision
  * <LI>0.2 [08/06/98]: Added support for windowed stream
+ * Version history from 07 March 1999 is in the CVS logs.
  *</UL>
  @author Brian Duff
- @version 0.2 [08/06/98]
+ @version 1.2
  */
 public class Debug {
 
-  private static boolean m_showmessage = true;
-  private static PrintWriter m_outstream = new PrintWriter(System.err);
-  private static String m_outputprefix = "";
-  private static boolean m_usingFrame = false;
+   /**
+    * Level 3 is for low level, unimportant debug (e.g. diagnostics)
+    */
+   public static final boolean TRACE_LEVEL_3 = true;
+   /**
+    * Level 2 is for information that might affect the user, but not
+    * adversely
+    */
+   public static final boolean TRACE_LEVEL_2 = true;
+   /**
+    * Level 1 is for when something has gone horribly wrong.
+    */
+   public static final boolean TRACE_LEVEL_1 = true;
 
-  /**
-   * Sets whether debugging is currently enabled.
-   @param enabled if true, debuggging messages are displayed. If false, all
-     debugging output is suppressed.
+   /**
+    * Are asserts on?
+    */
+   public static final boolean ASSERT = true;
+
+   private static boolean m_showmessage = true;
+   private static PrintWriter m_outstream = new PrintWriter(System.err);
+   private static String m_outputprefix = "";
+   private static boolean m_usingFrame = false;
+
+   private static int m_traceLevel = 3;
+
+   private static final String ASSERT_FAILED_MSG = "ASSERTION FAILED: ";
+
+   /**
+   * Sets whether debugging is currently enabled. This has no effect if the 
+   * TRACE_LEVEL_X constants are all false.
+   * @param enabled if true, debuggging messages are displayed. If false, all
+   *  debugging output is suppressed.
    */
-  public static void setEnabled(boolean enabled) { m_showmessage = enabled; }
+   public static void setEnabled(boolean enabled) { m_showmessage = enabled; }
 
-  /**
+   /**
    * Determine whether debugging is currently enabled.
-   @return true if debugging messages are currently being displayed
+   * @return true if debugging messages are currently being displayed
    */
-  public static boolean isEnabled() { return m_showmessage; }
+   public static boolean isEnabled() { return TRACE_LEVEL_1 && TRACE_LEVEL_2 && TRACE_LEVEL_3 && m_showmessage; }
 
   /**
    * Sets the debug output to use a window for output messages. The Debug
@@ -63,6 +102,16 @@ public class Debug {
      m_usingFrame = true;
      m_outstream = new PrintWriter(new OutputStreamFrame(title));
   }
+
+   /**
+    * Set the current trace level. You should use this to change the level of
+    * output at runtime. 
+    * @param trace all messages of level <= trace are displayed.
+    */
+   public static void setTraceLevel(int trace)
+   {
+      m_traceLevel = trace;
+   }
 
 
   /**
@@ -99,7 +148,8 @@ public class Debug {
   /**
    * Display a debug message (if debugging is enabled) followed by a carriage
    * return and flush the buffer.
-   @param mess The message to display
+   * @param mess The message to display
+   * @deprecated See the class description for more information
    */
   public static void println(String mess) {
      if (m_showmessage) {
@@ -109,13 +159,88 @@ public class Debug {
      }
   }
 
+
+  /**
+   * Display a debug message followed by a carriage return and flush the 
+   * buffer.
+   * @param trace The trace level to use
+   * @param mess The message to display
+   */
+   public static void println(int trace, Class caller, Object mess)
+   {
+      if (trace <= m_traceLevel)
+      {
+         println(getClassName(caller)+": "+mess.toString());
+      }
+   }
+
+  /**
+   * Display a debug message followed by a carriage return and flush the 
+   * buffer.
+   * @param trace The trace level to use
+   * @param mess The message to display
+   */
+   public static void println(int trace, Object caller, Object mess)
+   {
+      println(trace, caller.getClass(), mess);
+   }
+   
+   public static void printException(int trace, Object caller, Throwable t)
+   {
+      println(trace, caller.getClass(), "Caught exception "+t);
+      t.printStackTrace(getWriter());
+   }
+
+  /**
+   * Display a debug message (if debugging is enabled) followed by a carriage
+   * return and flush the buffer.
+   * @param mess The message to display
+   * @deprecated See the class description for more information
+   */
   public static void print(String mess) {
      if (m_showmessage) {
         m_outstream.print(mess);
         m_outstream.flush();
      }
   }
-
+  
+  /**
+   * Do an assertion. If the assertion fails, your message will be displayed.
+   * See the class description for details on how to call this method.
+   */
+  public static void assert(boolean condition, Class caller, String message)
+  {
+     if (!condition)
+     {
+        String oldPrefix = m_outputprefix;
+        m_outputprefix = ASSERT_FAILED_MSG;
+        println(getClassName(caller)+": "+message);
+        m_outputprefix = oldPrefix;
+     }
+  }
+  
+  /**
+   * Do an assertion. If the assertion fails, your message will be displayed.
+   * See the class description for details on how to call this method.
+   */
+  public static void assert(boolean condition, Object caller, String message)
+  {
+     assert(condition, caller.getClass(), message);
+  }  
+  
+  private static String getClassName(Class c)
+  {
+     String fullName = c.getName();
+     
+     int lastDot = fullName.lastIndexOf('.');
+     
+     if (lastDot > 0)
+     {
+        return fullName.substring(lastDot+1);
+     }
+     return fullName;
+  }
+  
   public static PrintWriter getWriter() {
      return m_outstream;
   }
