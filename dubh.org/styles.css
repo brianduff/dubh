@@ -53,3 +53,8 @@ body {
   font-size: 10pt;
   background-color: #ffffff;
 }
+
+p.dubhPageFooter {
+   font-size: 8pt;
+   color: #505050;
+}
