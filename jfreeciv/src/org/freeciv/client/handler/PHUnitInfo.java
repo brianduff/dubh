@@ -14,11 +14,15 @@ import org.freeciv.net.PktUnitInfo;
  */
 public class PHUnitInfo extends AbstractHandler implements Constants
 {
+  // Check these
+  private static final int UNIT_INFO_CITY_SUPPORTED = 0;
+  private static final int UNIT_INFO_CITY_PRESENT = 1;
+
   public String getPacketClass()
   {
     return "org.freeciv.net.PktUnitInfo";
   }
-  
+
   /**
    */
   public void handleOnCurrentThread( final Client c, Packet pkt )
@@ -109,7 +113,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
         if (city != null)
         {
           city.removeSupportedUnit( unit );
-        
+
           // c.refreshCityDialog( city );
         }
         unit.setHomeCity( packet.homecity );
@@ -183,7 +187,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
           // packhand.c has a chunk of duplicate code here :)
 
-          if ( unit.isFlagSet( F_CARAVAN ) 
+          if ( unit.isFlagSet( F_CARAVAN )
             && ( !c.getGame().getCurrentPlayer().getAI().isControlled()  || c.getOptions().aiPopupWindows )
             && unit.getOwner() == c.getGame().getCurrentPlayer()
             && ( unit.getActivity() != ACTIVITY_GOTO || ( unit.getGotoDestX() == city.getX() && unit.getGotoDestY() == city.getY() ))
@@ -271,7 +275,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
     {
       // c.updateUnitInfoLabel( unit );
     }
-    else if ( c.getUnitInFocus() != null && 
+    else if ( c.getUnitInFocus() != null &&
               c.getUnitInFocus().getX() == unit.getX() &&
               c.getUnitInFocus().getY() == unit.getY() )
     {
@@ -291,6 +295,6 @@ public class PHUnitInfo extends AbstractHandler implements Constants
     {
       // c.updateUnitFocus();
     }
-    
+
   }
 }
