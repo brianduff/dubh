@@ -29,7 +29,11 @@
      <servlet-name>oracle-xsql-servlet</servlet-name>
      <url-pattern> *.xml </url-pattern>     
  </servlet-mapping>
- 
+  <servlet-mapping>
+      <servlet-name>oracle-xsql-servlet</servlet-name>
+      <url-pattern> *.xsql </url-pattern>     
+ </servlet-mapping>
+ <!-- Disable JCVS for now - trying to hunt down CPU overdrive
  <servlet>
    <servlet-name>jcvs</servlet-name>
    <servlet-class>com.ice.jcvslet.JCVSlet</servlet-class>
@@ -38,11 +42,5 @@
     <param-value>/home/sites/www.dubh.org/cvs_web/WEB-INF/jcvslet</param-value>
    </init-param>
  </servlet>
- 
- <!-- Tara, cocoon!
- <servlet-mapping>
-  <servlet-name>org.apache.cocoon.Cocoon</servlet-name>
-  <url-pattern>*.xml</url-pattern>
- </servlet-mapping>
  -->
 </web-app>
