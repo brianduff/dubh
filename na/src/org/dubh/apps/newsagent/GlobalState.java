@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.10 1999-12-13 22:32:43 briand Exp $
+//   $Id: GlobalState.java,v 1.11 2000-08-19 21:20:39 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -46,7 +46,7 @@ import org.javalobby.dju.misc.*;
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.10 1999-12-13 22:32:43 briand Exp $
+ * @version $Id: GlobalState.java,v 1.11 2000-08-19 21:20:39 briand Exp $
  */
 public class GlobalState {
 
@@ -67,7 +67,6 @@ public class GlobalState {
      new ResourceManager(ResourceBundle.getBundle(stringBundle));
 
 
-   private static ReadOnlyVersion m_myVersion;
 
 // Public Attributes
  
@@ -132,6 +131,8 @@ public class GlobalState {
 
   /** The application HelpSystem */
   private static HelpSystem m_helpSystem;
+
+  private static String m_myVersion;
     
     
    private static boolean m_isApplet = false;    
@@ -150,7 +151,7 @@ public class GlobalState {
    /**
     * Get the current version
     */
-   public static ReadOnlyVersion getVersion()
+   public static String getVersion()
    {
       return m_myVersion;
    }
@@ -191,18 +192,13 @@ public class GlobalState {
          setApplet(true);
       }
       m_myVersion = null;
-      try
-      {
-         m_myVersion =
-            VersionManager.getInstance().getBundleVersion("org.javalobby.apps.newsagent");
-        appName = m_myVersion.getProductName();
-        appVersion = m_myVersion.getShortDescription();
-        appVersionLong = m_myVersion.getLongDescription();
-      } catch (Throwable e) {
-        appName="Unversioned NewsAgent";
-        appVersion="X.X.X";
-        appVersionLong="Unversioned (Early dev)";
-      }
+
+      Package p = Package.getPackage("org.javalobby.apps.newsagent");
+
+      m_myVersion =  p.getSpecificationVersion();
+      appName = p.getSpecificationTitle();
+      appVersion = p.getSpecificationVersion();
+      appVersionLong = p.getSpecificationVersion() + p.getImplementationVersion();
 
       if (!isApplet())
       {
@@ -453,6 +449,12 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  1999/12/13 22:32:43  briand
+// Move to Javalobby changed the paths to various resources. Added fixes to that
+// most things work again. Also patched the PropertyFileResolver to create parent
+// directories properly. Managed to get NewsAgent to run with the brand new JRE
+// 1.2.2 for Linux!!
+//
 // Revision 1.9  1999/12/12 03:31:51  briand
 // More bugfixes necessary due to move to javalobby. Mostly changing path from
 // dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: PreferenceKeys.java,v 1.5 1999-11-09 22:34:40 briand Exp $
+//   $Id: PreferenceKeys.java,v 1.6 2000-08-19 21:21:23 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -31,7 +31,6 @@ package org.javalobby.apps.newsagent;
 
 import java.io.IOException;
 
-import org.javalobby.dju.misc.ReadOnlyVersion;
 import org.javalobby.dju.misc.UserPreferences;
 import org.javalobby.dju.misc.Debug;
 
@@ -45,7 +44,7 @@ import org.javalobby.dju.misc.Debug;
 *  
 * @author Brian Duff
 * @since NewsAgent 1.1.0
-* @version $Id: PreferenceKeys.java,v 1.5 1999-11-09 22:34:40 briand Exp $
+* @version $Id: PreferenceKeys.java,v 1.6 2000-08-19 21:21:23 briand Exp $
 */
 public class PreferenceKeys
 {
@@ -133,11 +132,8 @@ public class PreferenceKeys
    public static void convertPreferences(UserPreferences up)
    {
       String pref = up.getPreference(PREFERENCES_VERSION, "?.?.?");
-      ReadOnlyVersion v = GlobalState.getVersion();
-      String version;
-      if (v == null) version="UNKNOWN";
-      else version = GlobalState.getVersion().getVersionDescription("{3}.{4}.{5}");
-      
+      String version = GlobalState.getVersion();
+
       //
       // In future, will need to check version for other versions.
       //
@@ -205,6 +201,9 @@ public class PreferenceKeys
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 17:58:12  briand
 // Add new preference keys required by Viewer preferences panel.
 //

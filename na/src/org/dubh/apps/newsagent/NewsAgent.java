@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.14 2000-06-14 21:36:45 briand Exp $
+//   $Id: NewsAgent.java,v 1.15 2000-08-19 21:21:02 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -46,7 +46,7 @@ import org.javalobby.javamail.client.ClientRegistry;
  *
  * @author Brian Duff
  * @see org.javalobby.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.14 2000-06-14 21:36:45 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.15 2000-08-19 21:21:02 briand Exp $
  */
  public class NewsAgent {
 
@@ -127,6 +127,16 @@ import org.javalobby.javamail.client.ClientRegistry;
    public static void main(String[] args) throws Exception {
 
     NewsAgent newsAgent = new NewsAgent();
+
+    Package naPackage = Package.getPackage("org.javalobby.apps.newsagent");
+    if (naPackage != null)
+    {
+      System.out.println("This is "+naPackage.getSpecificationTitle()+" version "+naPackage.getSpecificationVersion()+" "+naPackage.getImplementationVersion());
+    }
+    else
+    {
+      System.err.println("Couldn't find package org.javalobby.apps.newsagent");
+    }
      try {
         displaySplashScreen();
         checkCommandLine(args);
@@ -261,6 +271,10 @@ import org.javalobby.javamail.client.ClientRegistry;
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2000/06/14 21:36:45  briand
+// OK, a bit suspicious; cvs diff is finding files that I don't think I've
+// modified. But I'm gonna checkin anyway, and keep a backup.
+//
 // Revision 1.13  1999/12/16 22:09:11  briand
 // Yet another delta to test JFABuilder.
 //

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.10 2000-06-14 21:36:45 briand Exp $
+//   $Id: MainFrame.java,v 1.11 2000-08-19 21:22:25 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -58,14 +58,12 @@ import org.javalobby.apps.newsagent.navigator.PropertiesService;
 import org.javalobby.apps.newsagent.navigator.PropertyFileResolver;
 
 import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.misc.ReadOnlyVersion;
-import org.javalobby.dju.misc.VersionManager;
 import org.javalobby.dju.misc.ResourceManager;
 
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.10 2000-06-14 21:36:45 briand Exp $
+ * @version $Id: MainFrame.java,v 1.11 2000-08-19 21:22:25 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -505,37 +503,35 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public void helpAbout() {
 
-     ResourceManager rm = ResourceManager.getManagerFor("Menus");
+     ResourceManager rm = ResourceManager.getManagerFor("org.javalobby.apps.newsagent.res.Menus");
      Icon i = rm.getImage("imgAbout");
 
-     ReadOnlyVersion verDubhUtils;
-     ReadOnlyVersion verSwing;
-     ReadOnlyVersion[] dependencies = new ReadOnlyVersion[2];
 
+     String pckNewsAgent = "org.javalobby.apps.newsagent";
+
+
+     // Evil hack. This will force the classloader to get stuff from JavaMail
+     // so that we can get info about its packages.
+     ClassLoader cl = ClassLoader.getSystemClassLoader();
      try
      {
-       verDubhUtils = VersionManager.getInstance().getVersion("org.javalobby.dju");
+      cl.loadClass("javax.mail.Folder");
+      cl.loadClass("javax.activation.ActivationDataFlavor");
      }
-     catch (IllegalArgumentException e)
+     catch (Throwable t)
      {
-        verDubhUtils = new DummyVersion("Dubh Java Utilities");
+         System.err.println("Couldn't find javax.mail.Folder. Check the classpath");
      }
 
-     try
-     {
-       verSwing = VersionManager.getInstance().getVersion("javax.swing");
-     }
-     catch (IllegalArgumentException e)
-     {
-        verSwing = new DummyVersion("Swing");
-     }
+     String[] deps = new String[5];
+     deps[0] = "org.javalobby.dju";
+     deps[1] = "org.javalobby.javamail.client";    // Shouldn't have to do this, but can't get package info otherwise
+     deps[2] = "java.lang";
+     deps[3] = "javax.mail";
+     deps[4] = "javax.activation";
 
 
-     dependencies[0] = verDubhUtils;
-     dependencies[1] = verSwing;
-
-
-     AboutPanel.doDialog(this, GlobalState.getVersion(), dependencies, i);
+     AboutPanel.doDialog(this, pckNewsAgent, deps, i);
 
   }
 
@@ -718,30 +714,6 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      }
   }
 
-
-    class DummyVersion implements ReadOnlyVersion
-    {
-        private String m_name;
-
-        public DummyVersion(String name)
-        {
-           m_name = name;
-        }
-
-        public int    getMajorVersion() { return 0; }
-        public int    getMinorVersion() { return 0; }
-        public int    getMicroVersion() { return 0; }
-        public int    getBuildNumber()  { return 0; }
-        public String getBuildLabel()   { return ""; }
-        public String getProductName() { return m_name; }
-        public String getProductCopyright() { return ""; }
-        public Date   getReleaseDate() { return new Date(); }
-        public String getVersionDescription(String format) { return m_name + " - unknown version"; }
-        public String getShortDescription() { return "unknown version"; }
-        public String getLongDescription() { return getVersionDescription(""); }
-
-   }
-
 }
 
 //
@@ -789,6 +761,10 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2000/06/14 21:36:45  briand
+// OK, a bit suspicious; cvs diff is finding files that I don't think I've
+// modified. But I'm gonna checkin anyway, and keep a backup.
+//
 // Revision 1.9  1999/12/12 03:31:51  briand
 // More bugfixes necessary due to move to javalobby. Mostly changing path from
 // dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
