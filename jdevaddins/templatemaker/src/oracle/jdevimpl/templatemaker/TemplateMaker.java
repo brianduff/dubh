@@ -35,6 +35,7 @@ import java.util.Iterator;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JMenu;
 
 import oracle.ide.ContextMenu;
 import oracle.ide.Ide;
@@ -80,11 +81,14 @@ import oracle.jdevimpl.templatemaker.velocity.VelocityTemplateCaster;
  * Apache Jakarta Velocity template engine.
  *
  * @author Brian.Duff@oracle.com
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TemplateMaker extends BaseController
   implements Addin, ContextMenuListener, Observer
 {
+
+  private static final String TEMPLATE_URL = 
+    "oracle.jdevimpl.templatemaker.TemplateMaker.TemplateURL";
 
   /**
    * The name of the template directory. This is a subdirectory of the 
@@ -430,6 +434,35 @@ public class TemplateMaker extends BaseController
     Ide.getSystem().add( m_templatesFolder );
     UpdateMessage.fireChildAdded( Ide.getSystem(), m_templatesFolder );
   }  
+
+  private JMenu createNewFromTemplateMenu( ContextMenu contextMenu )
+  {
+    JMenu menu = null;
+    
+    Iterator i = getTemplateURLs();
+    while ( i.hasNext() )
+    {
+      if ( menu == null )
+      {
+        menu = 
+          contextMenu.createSubMenu( "New From Template", new Integer( 0 ) );
+      }
+      URL u = (URL) i.next();
+      String name = URLFileSystem.getName( u );
+      IdeAction act = IdeAction.get( Ide.newCmd( name ), name, new Integer( 0 ) );
+      act.setController( this );
+      act.putValue( TEMPLATE_URL, u );
+      if ( s_templateIcon != null )
+      {
+        act.putValue( act.SMALL_ICON, s_templateIcon );
+      }
+      contextMenu.add( contextMenu.createMenuItem( act ), menu );
+    }
+
+    return menu;
+    
+    
+  }
   
 // ----------------------------------------------------------------------------
 // Addin implementation 
@@ -466,7 +499,7 @@ public class TemplateMaker extends BaseController
 
   public float version()
   {
-    return 0.3f;
+    return 0.4f;
   }
 
   public float ideVersion()
@@ -489,6 +522,12 @@ public class TemplateMaker extends BaseController
     if ( isValidSaveContext( contextMenu.getContext() ) )
     {
       contextMenu.add( contextMenu.createMenuItem( m_saveAsTemplateAction ) );
+    }
+
+    JMenu menu = createNewFromTemplateMenu( contextMenu );
+    if ( menu != null )
+    {
+      contextMenu.insert( createNewFromTemplateMenu( contextMenu ), 0 ); 
     }
   }
 
@@ -520,6 +559,14 @@ public class TemplateMaker extends BaseController
     {
       saveAsTemplate( context );
       return true;
+    }
+
+    if ( action.getValue( TEMPLATE_URL ) != null )
+    {
+      URL u = (URL) action.getValue( TEMPLATE_URL );
+      TemplateWizard wiz = new TemplateWizard( u, URLFileSystem.getName( u ) );
+      wiz.setTemplateCaster( m_caster );
+      wiz.invoke( context, null );
     }
 
     return super.handleEvent( action, context );

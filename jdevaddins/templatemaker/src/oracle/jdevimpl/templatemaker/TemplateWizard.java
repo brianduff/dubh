@@ -53,7 +53,7 @@ import oracle.jdeveloper.model.JProject;
  * The "wizard" (i.e. gallery dialog) that is used to instantiate a template
  *
  * @author Brian.Duff@oracle.com
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 class TemplateWizard implements Wizard
 {
@@ -347,7 +347,15 @@ class TemplateWizard implements Wizard
       {
         directoryURL = URLFactory.newURL( utd.getDirectoryName() );
       }
-      URL u = URLFactory.newURL( directoryURL, utd.getFileName() );
+      // If the user missed the extension off the filename, we can default
+      // it based on the extension of the template.
+      String fileName = utd.getFileName();
+      int lastDot = fileName.lastIndexOf( '.' );
+      if ( lastDot == -1 )
+      {
+        fileName = fileName + URLFileSystem.getSuffix( m_url );
+      }
+      URL u = URLFactory.newURL( directoryURL, fileName );
 
       // We should really do this validation in response to the click on the
       // ok button rather than after the dialog is gone...

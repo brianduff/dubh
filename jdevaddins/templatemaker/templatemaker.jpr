@@ -63,15 +63,19 @@
       </Item>
       <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
          <URL path="InstallInfo/InstallInfo.html"/>
+         <encoding/>
       </Item>
       <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
          <URL path="UsageInfo/UsageInfo.html"/>
+         <encoding/>
       </Item>
       <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
          <URL path="ProjectInfo/ProjectInfo.html"/>
+         <encoding/>
       </Item>
       <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
          <URL path="index.html"/>
+         <encoding/>
       </Item>
    </listOfChildren>
    <ownerMap/>
@@ -156,7 +160,7 @@
                         <additionalClassPath>
                            <entries class="[Ljava.net.URL;"/>
                         </additionalClassPath>
-                        <outputDirectory path="../../../JDeveloper Debugee/jdev/classes/"/>
+                        <outputDirectory path="/C:/jdev-builds/9.0.2.7.59/jdev/classes/"/>
                      </Value>
                   </Item>
                   <Item>
