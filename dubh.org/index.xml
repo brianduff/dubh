@@ -11,57 +11,72 @@
     <xsql:include-xsql href="navigator.xml?me=home" />   
   </navigator>
   
-  <content>
-    <p align="center">
-      <img src="images/dubh.org.small.gif" />
-    </p>
-    <h2>
-      Welcome to Dubh.Org!
-    </h2>
-    <p>
-      Hi, this is <code>dubh.org</code>. It's kind of a mish-mash of 
-      various techy bits and bobs, maintained by Brian Duff.
-    </p>
-    <p>
-      This site is currently under construction. In other words, most
-      of those inviting looking links on the left don't actually go
-      anywhere yet.
-    </p>
-    <p>
-      The ones that work at the moment are:
-    </p>
-    <ul>
-      <li>Projects</li>
-      <li>Browse CVS</li>
-      <li>About Dubh.Org</li>
-      <li>Better Bites and Leaping Frogs</li>
-    </ul>
-    <p>
-      Come back soon, and hopefully more stuff will be here.
-    </p>
+  <content type="columns">
+    <header>Welcome to Dubh.Org</header>
+    <column>
+      <box title="What is Dubh.Org?">
+
+        <p>
+          This is <code>dubh.org</code>. It's kind of a mish-mash of 
+          various techy bits and bobs, maintained by Brian Duff.
+        </p>
+        <p>
+          This site is currently under construction. In other words, most
+          of those inviting looking links on the left don't actually go
+          anywhere yet.
+        </p>
+        <p>
+          The ones that work at the moment are:
+        </p>
+        <ul>
+          <li>Projects</li>
+          <li>Browse CVS</li>
+          <li>About Dubh.Org</li>
+          <li>Better Bites and Leaping Frogs</li>
+        </ul>
+        <p>
+          Come back soon, and hopefully more stuff will be here.
+        </p>        
+      </box>
+    </column>
     
-    <h2>
-      What's New?
-    </h2>
-  
-    <h3>07 May 2001</h3>
-    
-    <p>
-    <a href="projects/marco/index.xml">Project Marco</a> aims to provide a 
-    hosted bookmarks service for multiple users. An initial draft of the
-    requirements are now online
-    </p>
-    </content>
+    <column>
+      <box title="What's New?">
+        
+        <h3>13 May 2001</h3>
+        
+        <p>
+          Added the Project Marco <a href="projects/marco/docs/database-design.xml">
+          Database Design</a> document.
+        </p>
+        <p>
+          New <a href="tech/xml/index.xml">XML Technology</a> page, with live
+          newsfeeds!
+        </p>
+        <p>
+          New layout for dubh.org index page.
+        </p>
+
+        <h3>07 May 2001</h3>
+
+        <p>
+        <a href="projects/marco/index.xml">Project Marco</a> aims to provide a 
+        hosted bookmarks service for multiple users. An initial draft of the
+        requirements are now online
+        </p>
+      </box>
+    </column>
+  </content>
     
     <cvs-info>
       <date>
-        $Date: 2001-05-07 02:26:57 $
+        $Date: 2001-05-13 17:26:44 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.10 $
+        $Revision: 1.11 $
       </revision>
     </cvs-info>
     
