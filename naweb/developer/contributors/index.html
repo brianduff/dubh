@@ -14,15 +14,35 @@ Welcome to Contributor Central.
   <li><a href="forms/application.html">Contributor application form</a></li>
   <li><a href="detailed.html">Detailed information for contributors</a></li>
   <li><a href="../../bugs/req.cgi?list">Bug database</a></li>
-  <li><a href="forms/checkin.html">Checkin Report</a></b></li>
-  <li><a href="http://www.egroups.com/list/dubh-contributors">Contributors forum</a> (includes build reports)</li>
-  <li><a href="../download/dubhsnapshots.cgi">Source Code snapshots / JARs from autobuild</a> (includes CVS log of most recent changes)</li>
-  <li><a href="dates.html">Release Schedules & Milestone Feature Lists</a> [NEW]</li>
+  <li><a href="forms/checkin.html">Checkin Report</a></li>
+  <li><a href="http://www.egroups.com/list/dubh-contributors">Contributors forum</a> 
+    (includes build reports)</li>
+  <li><a href="../download/dubhsnapshots.cgi">Source Code snapshots / JARs from 
+    autobuild</a> (includes CVS log of most recent changes)</li>
+  <li><a href="dates.html">Release Schedules & Milestone Feature Lists</a></li>
 </ul>
 
 
 <h2>News</h2>
 
+<h3>[16 October 1999]: I'm back!</h3>
+<p>After a long absence, I've started writing code for NewsAgent again. &quot;Real&quot; 
+  work has been (and continues to be) quite hectic (we're fast approaching beta), 
+  so although I can't promise that I'll be spending more time on NewsAgent, I'll 
+  see what I can do.</p>
+<p>Checked in some code today in the dmp module. The new networking code can now 
+  be partially tested; it successfully retrieves the list of newsgroups from the 
+  server as JavaMail Folder objects. There are still performance problems, and 
+  support has to be added for NNTP extensions, but it's nice to see the networking 
+  code ... er. .working again.</p>
+<p>Changes can be picked up in tomorrow morning's DMP autobuild. Configure and 
+  run <tt>dubh.mail.nntp.test.NNTPTest</tt> to see it in action.</p>
+<p>The wired.dcs.st-and.ac.uk domain name has been discontinued. If you're using 
+  this domain name, use st-and.compsoc.org.uk (or wired.st-and.ac.uk) instead. 
+  You may need to re-checkout any CVS files if you had been using the old name.</p>
+<p>Had some thoughts about the UI and possibly using XUL (see <a href="http://www.mozilla.org">www.mozilla.org</a>) 
+  or something similar. This might require a large amount of work though. Anyone 
+  interested in helping???</p>
 <h3>[09 June 1999 (later)]: Release dates for NewsAgent 1.1.0</h3>
 <p>
    OK, not promising anything, but... I thought I'd set some possible
