@@ -1,0 +1,89 @@
+<!-- Computing Pages CSS (C) 1998 Brian Duff -->
+
+H1 {
+	font-size:25pt;
+	font-weight:bold;
+	color:white;
+	font-family: Garamond, Times;
+	background-color:#008080;
+	text-align: center;
+	width:100%;
+}
+
+H2 {
+	background-color:#C0F0C0; font-weight:bold; font-size:12pt;
+	font-family: Tahoma, Arial, Helvetica;
+	padding-top: 0px;
+	width:100%;
+; border-color: #000000 black black; border-style: solid; border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px}
+
+H3 {
+	font-family: Tahoma, Arial, Helvetica;
+	font-size: 10pt;
+}
+ TD {
+	font-size:10pt; font-family: Arial, Helvetica;
+}
+
+P.noindent {
+        font-size:10pt; font-family: Arial, Helvetica;
+	margin-left:0px;
+}
+
+TABLE {
+;
+}
+
+UL {
+	font-size:10pt; font-family: Arial, Helvetica;
+}
+
+LI {
+;
+}
+
+BLOCKQUOTE {
+	width: 35%; border: solid 1px #000000;
+	background-color:#dddddd;
+}
+
+
+
+
+A {
+	text-decoration: none;
+}
+
+ADDRESS {
+
+	font-size: 10pt; font-family: Arial, Helvetica;
+	font-style: normal;
+	background: #008000;
+	color: #ffffff;
+	align: center;
+}
+
+A:link {
+	color: #0000aa
+}
+
+A:hover {
+	text-decoration: underline; color: blue;
+}
+
+A:active {
+	color: red;
+}
+h1 {  font-family:Georgia, "Times New Roman", Times, serif; font-size:24pt; font-weight: bold; background-color: #009900; text-align: center; width: 100%}
+.threedee {  border-color:#FFFFFF #808080 #808080 #FFFFFF; margin-top:0px; margin-right:1px; margin-bottom:0px; margin-left:1px; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; cursor:
+
+
+
+
+
+ hand}
+
+P { 	font-size:10pt; font-family: Arial, Helvetica;
+ } .wee {  font-family: Tahoma, Arial, Helvetica, sans-serif; font-size: 8pt}
+.weeselected {  font-family: Tahoma, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: bold; color: #FF9900}
+.codesnippet {  font-family: "Courier New", Courier, mono; background-color: #c0c0c0; margin-right: 20px; margin-left: 20px}

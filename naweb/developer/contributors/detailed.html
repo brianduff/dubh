@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Contributor Central: Detailed Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../style/newsagent.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<h1>NewsAgent Contributors Information</h1>
+<h2>How to Become a Contributor</h2>
+<p>To become a contributor, fill out the short <a href="forms/application.html">application form</a>. Submit this, 
+  and I'll email you with details of your CVS account within a few days. You should 
+  have an idea about an area of NewsAgent you would like to work on or improve.</p>
+<h2>How to Access the Source</h2>
+<p>The source code is held on a CVS server on st-and.compsoc.org. CVS (concurrent 
+  version system) is a revision control system that keeps track of old versions 
+  of files and is useful in a development project involving lots of people. More 
+  information on CVS is available at <a href="http://www.cyclic.com">http://www.cyclic.com</a>. You will need to download 
+  some kind of CVS client for your machine to be able to access the NewsAgent 
+  source repository. If you want a graphical client, I recommend WinCVS, a free 
+  CVS client written for Windows and released under the GNU GPL.</p>
+<p>When your register as a contributor, you'll be given a username and password. 
+  You should then point your CVS client at the server; it has the following details:</p>
+<p>CVS Server: <b>st-and.compsoc.org.uk<br>
+  </b>CVS repository: <b>/home/briand/cvsroot</b><br>
+  Connection method: <b>Pserver</b></p>
+<p>The following CVS modules are available:</p>
+<p><b>najava:</b> CVS module for NewsAgent java source code.<br>
+  <b>dju:</b> CVS module for common code<br>
+  <b>naweb: </b>CVS module for the main NewsAgent web site<br>
+  <b>nawin32: </b>CVS module for NewsAgent windows launcher C files &amp; installshield 
+  files<br>
+  <b>dubhbuild: </b>Nightly build scripts<br>
+  <b>nareadme: </b>Readme files for NewsAgent distributions<br>
+  <b>nawininstall: </b>NewsAgent InstallShield files<br>
+
+</p>
+<p>The most useful ones to most contributors will be najava and dju. </p>
+<h2>Checking Out</h2>
+<p>To check out NewsAgent and begin to make some changes, you should connect your 
+  client to the CVS server and perform a checkout of the relevant modules. To 
+  work on NewsAgent, you will probably need both the najava and dju modules, unless 
+  you have a recent dju JAR file in your CLASSPATH. More information on how to 
+  check out files is available in the documentation for your client. For detailed 
+  CVS documentation, see <a href="http://www.loria.fr/~molli/cvs">http://www.loria.fr/~molli/cvs/</a>.</p>
+<h2>Making Changes</h2>
+<p>Please use a consistent coding style when making changes. There are no hard 
+  and fast rules here, but in general, it's a good idea to try to keep things 
+  consistent for maintainability.</p>
+<h3>End of Line Format</h3>
+<p>Files should be UNIX style text files. If any existing files use MSDOS eol 
+  characters, feel free to convert them.</p>
+<h3>Tabs</h3>
+<p>Generally, it's a bad idea to use hard tabs (i.e. ASCII 9, proper tab characters), 
+  because the way in which these are represented varies from platform to platform. 
+  Instead, try to use space characters. Although the current source isn't consistent, 
+  I'd recommend using three space characters for indenting.</p>
+<h3>Curly Braces</h3>
+<p>The current code is completely inconsistent with regard to curly braces. I've 
+  been conditioned at my place of work into using the following style, which I 
+  now prefer. However, I'm not too bothered by this issue, provided the code is 
+  readable...</p>
+<pre>if ( something )
+{
+   doSomething();
+} </pre>
+<h3>Comments</h3>
+<p>Comment your code. Use Javadoc comments whenever possible before methods, fields 
+  or classes. Use comments inside methods to describe tricky implementations. 
+  Don't overcomment (e.g. this is a loop that counts from 1 to 10). Use /**...*/ 
+  style comments for Javadoc comments only, use // for all other comments (this 
+  allows blocks of code to be commented out more easily). </p>
+<p>Some source files have version histories in comments at the top. There is no 
+  longer any need to add information to these histories, since CVS now logs changes. 
+  Please do not remove these histories. Please don't modify the licence at the 
+  top of the source files, except to add your name as a contributor. <br>
+</p>
+<h2>Checking In</h2>
+<p>Before checking any code into the repository, please <b>make sure it builds 
+  </b>and ideally works too. I recommend you use the same compiler as the build 
+  process to make sure that your checkins are not going to break the build (see 
+  below).</p>
+<p>Again, consult your CVS client documentation on how to check files in. You 
+  should make sure you provide suitable comments for the log on what has changed.</p>
+<p>Whenever you make changes, I also ask that you fill out a <a href="forms/checkin.html">checkin report</a>. 
+  The contents of this form will be mailed to all contributors.</p>
+<h2>Build Process</h2>
+<p>A full build of all Java based components (both NewsAgent and the DJU) is performed 
+  every night, and the results are mailed out to all contributors and displayed 
+  from the contributors web site at http://st-and.compsorc.org.uk/~briand/newsagent/developer/contributors/. 
+  You may wish to download the nightly build scripts to verify that your source 
+  builds locally before checking in. These scripts are written for bash (a UNIX 
+  shell) and can be found in the build module.</p>
+<p>The build process uses Jikes for Linux as the compiler with the Java 1.2 rt.jar 
+  in the CLASSPATH. For NewsAgent, mail.jar (JavaMail) and activation.jar (JavaBeans 
+  Activation Framework, required by JavaMail) are also included in the CLASSPATH. 
+  To make sure that your code builds properly, please check that it compiles cleanly 
+  with Jikes (available from http://www.alphaworks.ibm.com). Jikes is stricter 
+  than javac, so will sometimes throw errors with things that javac lets by. </p>
+<h2>Mailing List</h2>
+<p>
+  All mail to contributors is sent to the dubh-contributors mailing list on
+  egroups. To join this mailing list, enter your email address below. This
+  list recieves nightly build reports (only if code has actually changed) and
+  checkin reports, as well as general contributor discussions. You can send
+  messages to the list by emailing <a href=mailto:dubh-contributors@egroups.com>
+  dubh-contributors@egroups.com</a>. You can also view all past messages,
+  subscribe and unsubscribe on the web at <a href=http://www.egroups.com/list/dubh-contributors>
+  http://www.egroups.com/list/dubh-contributors</a>.
+</p>
+<p>
+<form method=GET action="http://www.egroups.com/subscribe">
+                 <input type=hidden name="listname" value="dubh-contributors">
+                 <input type=hidden name="SubmitAction" value="Subscribe">
+                 <table width=200 cellspacing=0 cellpadding=2 border=0 bgcolor=#E0E0E0>
+                 <tr>
+                  <td colspan=2 align=center>
+                    <b>Subscribe to Dubh Contributors</b>
+                  </td>
+                 </tr><tr>
+                  <td>
+                    <input type=text name="emailaddr" value="enter e-mail" size=21>
+                  </td><td>
+                    <input type=image border=0 alt="Click here to join dubh-contributors"
+                    name="Click here to join dubh-contributors" SRC="http://www.egroups.com/gifs/bevel.gif">
+                  </td>
+                 </tr><tr>
+                  <td>
+                    <a href="http://www.egroups.com/list/dubh-contributors/">dubh-contributors
+                    archive</a>
+                  </td><td>
+                    <small>Hosted by 
+                    <a href="http://www.egroups.com/">eGroups.com</A></small>
+                  </td>
+                 </tr>
+                 </TABLE>
+                 </form>
+</p>
+<h2>Bug Database</h2>
+<p>
+There is a bug database at <a href="../../bugs/">http://st-and.compsoc.org.uk/~briand/newsagent/bugs</a>.
+<!--#include virtual="../../../footer.html" -->
+</body>
+</html>

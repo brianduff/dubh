@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>NewsAgent: Download Registration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  
+<style type="text/css">
+<!--
+-->
+</style><link rel="stylesheet" href="../style/newsagent.css"></head>
+
+<body bgcolor="#FFFFFF">
+<h1>NewsAgent Platform Independent Files</h1>
+
+<table border="0" width="95%">
+  <tr> 
+    <td width="25%" bgcolor="#FFFFCC" valign="TOP" align="LEFT" height="579"> 
+      <p>&nbsp;</p>
+      <p><span class="wee"><a href="../index.html">Main Page</a></span></p>
+      <p><span class="wee"><a href="../screenshots.html">Screenshots</a></span></p>
+      <p><span class="wee"><a href="../download.html">Downloads</a></span></p>
+      <p class="weeselected"> File List</p>
+      <p><span class="wee"><a href="../userdoc/index.html">User Documentation</a></span></p>
+      <p><span class="wee"><a href="../bugs/index.html">Bug Information</a></span></p>
+      <p><span class="wee"><a href="../developer/index.html">Developer</a></span></p>
+      <p><span class="wee"><a href="../links.html" target="">Links</a></span><br>
+      </p>
+      <p><br>
+      </p>
+    </td>
+    <td width="75%" valign="TOP" height="579"> 
+      <h2>About the Platform Independent Files</h2>
+      <p>NewsAgent is written in Java. You can run NewsAgent on any platform that 
+        can run Java 1.1.5 or greater (Java 2 is not currently supported). Before 
+        you install NewsAgent, you must download and install the Java Runtime 
+        Environment (or development kit) from JavaSoft: <a href="http://java.sun.com/products/jre">http://java.sun.com/products/jre</a>.</p>
+      <h2>File Descriptions</h2>
+      <ul>
+        <li><a href="../../nadownloads/dubhna.1.0.2.jar.zip">NewsAgent 1.0.2 Build 
+          110 JAR</a></li>
+      </ul>
+      <p>This JAR (Java archive) contains the latest version of the NewsAgent 
+        executable Java files. </p>
+      <ul>
+        <li><a href="../../nadownloads/dubhju.1.0.1.jar.zip">Dubh Java Utilities 1.0.1 
+          Build 10 JAR</a></li>
+      </ul>
+      <p>This JAR contains the latest version of the Dubh Java Utilities. These 
+        are common utilities shared by all my applications, and this JAR is required 
+        for NewsAgent to work.</p>
+      <ul>
+        <li><a href="../../nadownloads/swingall.jar.zip">Swing 1.0.2 JAR </a></li>
+      </ul>
+      <p>This JAR is the Swing (Java Foundation Classes) user interface toolkit. 
+        NewsAgent requires Swing 1.0.2 and <b>will not work</b> with an older 
+        or newer version. The next major release of NewsAgent will use Swing 1.1 
+        (part of Java 2).</p>
+      <ul>
+        <li><a href="../../nadownloads/na_doc_1_0_2_110.zip">Zipped HTML User 
+          documentation</a> 1.0.2 Build 110 [255 Kb]</li>
+      </ul>
+      <p>This ZIP file contains the HTML user documentation that is bundled with 
+        the Windows distribution and <a href="../userdoc/index.html">available</a> 
+        on this web site. The web site version is usually the most up to date.</p>
+      <ul>
+        <li>Windows .exe update</li>
+      </ul>
+      <p>This will be provided when the next build is released to make upgrading 
+        easier.</p>
+      <h2>Using NewsAgent on Your Platform</h2>
+      <p>These instructions assume you are using a UNIX-like platform. I welcome 
+        instructions from users of other platforms on how to make NewsAgent work, 
+        these will be added to this web site and credited. Please email <a href="bduff@uk.oracle.com">bduff@uk.oracle.com</a>. 
+        It is also possible to use the platform independent distribution under 
+        Windows, which might save some download time.</p>
+      <ol>
+        <li>Download the Java runtime environment 1.1.x or development environment 
+          if you do not already have it. Add the bin directory to your PATH environment 
+          variable. Type<code> java -version</code> at the prompt to verify it 
+          is accessible (the version should be 1.1.5 or greater, but less than 
+          1.2). </li>
+        <li>Create a directory for NewsAgent (e.g. <code>~/newsagent</code>). 
+          Download the Dubh Java Utilities and NewsAgent JAR files above. Download 
+          Swing 1.0.2 if you do not already have it. Unzip these files. You should now have a directory 
+          containing three items like so:<br>
+          <ul>
+            <li><code>dubhju.1.0.1.jar</code></li>
+            <li><code>dubhna.1.0.2.jar</code></li>
+            <li><code>swingall.jar</code> </li>
+          </ul>
+        </li>
+        <li>Set up your CLASSPATH environment variable so that it includes at 
+          least these three files and the java runtime JAR file. E.g.:<br>
+          <code>set CLASSPATH=~/newsagent/dubhju.1.0.1.jar; ~/newsagent/dubhna.1.0.2.jar; 
+          ~/newsagent/swingall.jar; /local/packages/java/lib/classes.zip; .<br>
+          </code>(The above is all one line with no spaces).</li>
+        <li>Run NewsAgent from the prompt:<br>
+          <code>java dubh.apps.newsagent.NewsAgent</code></li>
+      </ol>
+      <h2>Upgrading an Existing Installation</h2>
+      <p>If you have NewsAgent 1.0.2 build 110 or later installed on your machine, 
+        you can upgrade it using the platform independent files. This also applies 
+        to the Windows installation, saving you from downloading the full installation 
+        program each time. Follow these steps to upgrade your installation:</p>
+      <ol>
+        <li>Check which version of NewsAgent (and its libraries) you are currently 
+          using. Run NewsAgent and click on About in the help menu. The version 
+          numbers are given as major.minor.micro buildnumber [date].</li>
+        <li>Check the version of each component. If newer versions of the component 
+          are available here, download them. If you have up to date components, 
+          there is no need to download them.</li>
+        <li><b>For windows:</b> download the Windows .exe update, and copy it 
+          into the directory in which you installed NewsAgent (c:\program files\dubh\newsagent 
+          by default). Copy the JAR files into the lib subdirectory, overwriting 
+          any existing files.<br>
+          <b>Other platforms: </b>copy the JAR files into the directory in which 
+          you installed NewsAgent, overwriting any existing files. You may need 
+          to alter your CLASSPATH if the names of the JAR files has changed.</li>
+      </ol>
+      <p><i>N.b. You can't upgrade from 1.0.1 to 1.0.2, because NewsAgent has 
+        changed substantially (i.e. all three JARs have changed completely). Please 
+        do a full download and install.</i></p>
+    </td>
+  </tr>
+</table>
+<!-- #BeginLibraryItem "/Library/Footer.lbi" --><!--#include virtual="/~briand/footer.html" --><!-- #EndLibraryItem --> 
+</body>
+</html>
+
