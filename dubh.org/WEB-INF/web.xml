@@ -16,10 +16,11 @@
    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
 
+<!--
  <welcome-file-list>
    <welcome-file>index.xml</welcome-file>
  </welcome-file-list>
-
+-->
 
  
  
@@ -27,7 +28,7 @@
      <servlet-name>oracle-xsql-servlet</servlet-name>
      <url-pattern> *.xml </url-pattern>     
  </servlet-mapping>
-  <servlet-mapping>
+ <servlet-mapping>
       <servlet-name>oracle-xsql-servlet</servlet-name>
       <url-pattern> *.xsql </url-pattern>     
  </servlet-mapping>
