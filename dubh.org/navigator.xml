@@ -57,6 +57,7 @@
   
   <group>
     <entry id="about" title="About Dubh.Org" href="/about/index.xml" />
+    <entry id="links" title="Bookmarks" href="/brian/bookmarks/showbookmarks.xsql?editmode=false" />
   </group>
   
   <group>
