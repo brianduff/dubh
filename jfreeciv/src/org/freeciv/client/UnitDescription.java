@@ -27,6 +27,7 @@ public class UnitDescription extends JComponent
   }
   public void paintComponent( Graphics g )
   {
+    /*
     ( (Graphics2D)g ).setComposite( client.getComponentAlpha() );
     g.setColor( client.getComponentColor() );
     Rectangle r = g.getClipBounds();
@@ -57,5 +58,6 @@ public class UnitDescription extends JComponent
     ux = mx - ( f.stringWidth( str ) ) / 2;
     uy += f.getHeight();
     g.drawString( str, ux, uy );
+    */
   }
 }
