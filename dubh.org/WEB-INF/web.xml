@@ -25,6 +25,8 @@
    <servlet-name>oracle-xsql-servlet</servlet-name>
    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
+ 
+ 
  <servlet-mapping>
      <servlet-name>oracle-xsql-servlet</servlet-name>
      <url-pattern> *.xml </url-pattern>     
@@ -33,7 +35,8 @@
       <servlet-name>oracle-xsql-servlet</servlet-name>
       <url-pattern> *.xsql </url-pattern>     
  </servlet-mapping>
- <!-- Disable JCVS for now - trying to hunt down CPU overdrive
+ 
+ 
  <servlet>
    <servlet-name>jcvs</servlet-name>
    <servlet-class>com.ice.jcvslet.JCVSlet</servlet-class>
@@ -42,5 +45,27 @@
     <param-value>/home/sites/www.dubh.org/cvs_web/WEB-INF/jcvslet</param-value>
    </init-param>
  </servlet>
- -->
+
+  
+  <!-- brian/bookmark/secure is a secure zone (it updates the database) -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Bookmark Secure Zone</web-resource-name>
+      <url-pattern>/brian/bookmarks/secure/*</url-pattern>
+      <http-method>DELETE</http-method>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>bookmarks</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>Bookmark Secure Zone</realm-name>
+  </login-config>  
+  
+
 </web-app>
