@@ -42,8 +42,6 @@ public class DubhUtilsPreferences extends UserPreferences {
    /** The default properties file for DubhUtils' preferences */
    public static final String s_DJUPROPS = 
       System.getProperty("user.home") + File.separator + "dubhutils.properties";
-   private static final String s_DJUDLGKEY    = 
-      "DialogLocation.";
    
    private static DubhUtilsPreferences m_instance = null;
 
