@@ -52,6 +52,7 @@ public final class Map implements CommonConstants
 
   Map( Game game )
   {
+    m_game = game;
     m_startPositions = new MapPosition[ MAX_NUM_NATIONS ];
     m_voidTile = new Tile( m_game );
   }

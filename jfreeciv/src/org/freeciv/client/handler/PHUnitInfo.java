@@ -14,9 +14,9 @@ import org.freeciv.net.PktUnitInfo;
  */
 public class PHUnitInfo extends AbstractHandler implements Constants
 {
-  private static final int UNIT_INFO_IDENTITY = 0;
-  private static final int UNIT_INFO_CITY_SUPPORTED = 1;
-  private static final int UNIT_INFO_CITY_PRESENT = 2;
+  public static final int UNIT_INFO_IDENTITY = 0;
+  public static final int UNIT_INFO_CITY_SUPPORTED = 1;
+  public static final int UNIT_INFO_CITY_PRESENT = 2;
 
   public Class getPacketClass()
   {

@@ -320,13 +320,10 @@ public final class Unit implements CommonConstants
     return getUnitType().getTransportCapacity();
   }
 
-
-  
-
   public boolean isFlagSet( int flag )
   {
     Assert.that( flag >= 0 && flag < F_LAST );
-    return ((m_type &  ( 1 << flag )) != 0);
+    return ((getUnitType().getFlags() &  ( 1 << flag )) != 0);
   }
 
   public boolean canHelpBuildWonderHere()
@@ -346,6 +343,22 @@ public final class Unit implements CommonConstants
       c.getShieldStock() < c.getCurrentlyBuilding().getValue();
     */
   }
+  
+  public boolean canBuildCity()
+  {
+    if ( !isFlagSet( F_CITIES ) )
+    {
+      return false;
+    }
+    if ( getMovesLeft() == 0 )
+    {
+      return false;
+    }
+    //TODO
+    // check city_can_be_built_here( getX(), getY() )
+    
+    return true;
+  }
 
   public boolean canSetTraderouteHere()
   {
@@ -356,6 +369,54 @@ public final class Unit implements CommonConstants
   public boolean isConnecting()
   {
     // toDO 
+    return false;
+  }
+  
+  public boolean canDoActivity( int activity )
+  {
+    return canDoActivity( activity, 0 );
+  }
+
+  /**
+   * Checks whether the unit can perform an activity.  See ACTIVITY_ flags
+   * in CommonConstants.
+   * 
+   * unit.c:can_unit_do_activity_targeted()
+   * 
+   * @return true if the unit can perform the specified activity
+   */
+  public boolean canDoActivity( int activity, int target )
+  {
+    Tile tile = m_game.getMap().getTile( getX(), getY() );
+    
+    //TODO
+    if( activity == ACTIVITY_IDLE || activity == ACTIVITY_GOTO
+       || activity == ACTIVITY_PATROL )
+    {
+      return true;
+    }
+    if( activity == ACTIVITY_POLLUTION )
+    {
+      return isFlagSet( F_SETTLERS ) 
+        && ( tile.getSpecial() & CommonConstants.S_POLLUTION ) != 0;
+    }
+    if( activity == ACTIVITY_FALLOUT )
+    {
+      return isFlagSet( F_SETTLERS )
+        && ( tile.getSpecial() & CommonConstants.S_FALLOUT ) != 0;
+    }
+    if( activity == ACTIVITY_ROAD )
+    {
+      return m_game.getTerrainRules().isRoadAllowed()
+        && isFlagSet( F_SETTLERS )
+        && ( tile.getSpecial() & CommonConstants.S_ROAD ) == 0
+        && tile.getTerrainType().getRoadTime() != 0
+        && ( ( tile.getTerrain() != CommonConstants.T_RIVER 
+              || ( tile.getSpecial() & CommonConstants.S_RIVER ) != 0 )
+            //|| getOwner().knowsTechsWithFlag( TF_BRIDGE )
+            );
+    }
+    
     return false;
   }
 

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -43,6 +44,7 @@ import org.freeciv.common.ErrorHandler;
 import org.freeciv.common.City;
 import org.freeciv.common.Unit;
 import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.action.AbstractUnitAction;
 import org.freeciv.client.action.Actions;
 import org.freeciv.client.action.ACTDisconnect;
 import org.freeciv.client.dialog.DialogManager;
@@ -304,8 +306,29 @@ public final class Client implements Constants
     unitActions.add( act );
   }
 
+  /**
+   * Go thru the orders menu and de/activate the items based on whether
+   * the currently focused unit can perform them.
+   * 
+   * It is sort of painful associating the UnitAction with the MenuItem this
+   * way.  Is there a better way? --Ben
+   */
   public void updateOrdersMenu( Unit u )
   {
+    final int ORDERS_MENU = 3;
+    // go thru menu definitions...
+    for( int i = 1 ; i < MenuDefinitions.MENUS[ ORDERS_MENU ].length; i++ )
+    {
+      if( MenuDefinitions.MENUS[ ORDERS_MENU ][ i ] != null )
+      {
+        // retrieve appropriate class...
+        AbstractUnitAction aua = (AbstractUnitAction)getAction( (Class)MenuDefinitions.MENUS[ 3 ][ i ] );
+        
+        // set menu item dis/enabled
+        JMenuItem item = m_mainWindow.getJMenuBar().getMenu( ORDERS_MENU ).getItem( i - 1 );
+        item.setEnabled( aua.isEnabledFor( u ) ); 
+      }
+    }
   }
 
   /**
@@ -420,7 +443,6 @@ public final class Client implements Constants
    */
   public void changedActiveUnit( Unit u )
   {
-
 
 
   /*      unitDescription.setUnit(u);
@@ -891,14 +913,6 @@ public final class Client implements Constants
   }
 
   /**
-   * Enable or disable unit actions
-   */
-  private void updateUnitActions( org.freeciv.common.Unit u )
-  {
-    // TODO
-  }
-
-  /**
    * Focus and select the specified unit
    */
   public void setUnitFocusAndSelect( org.freeciv.common.Unit u )
@@ -934,7 +948,7 @@ public final class Client implements Constants
     }
 
     updateUnitInfoLabel( u );
-    updateUnitActions( u );
+    updateOrdersMenu( u );
   }
 
 

@@ -81,6 +81,7 @@ public class PktUnitInfo extends AbstractPacket
   {
     out.setType( PACKET_UNIT_INFO );
     out.writeShort( id );
+    out.writeUnsignedByte( owner );
     out.writeUnsignedByte( ( veteran ? 0x10 : 0 ) | ( ai ? 0x20 : 0 ) | ( paradropped ? 0x40 : 0 ) | ( connecting ? 0x80 : 0 ) | ( carried ? 0x08 : 0 ) | ( select_it ? 0x04 : 0 ) );
     out.writeUnsignedByte( x );
     out.writeUnsignedByte( y );

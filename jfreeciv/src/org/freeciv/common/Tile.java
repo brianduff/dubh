@@ -155,12 +155,12 @@ public final  class Tile
 
   public boolean isPolluted()
   {
-    return false;
+    return ( getSpecial() & CommonConstants.S_POLLUTION ) != 0;
   }
 
   public boolean hasFallout()
   {
-    return false;
+    return ( getSpecial() & CommonConstants.S_FALLOUT ) != 0;
   }
 
   /**
