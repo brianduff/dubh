@@ -28,6 +28,10 @@
     </entry>
   </group>
   
+  <group>
+    <entry id="cvs" title="Browse CVS" href="/servlet/jcvs/index.html" />
+  </group>
+  
   <group>  
     <entry id="dnet" title="DubhNET" href="net/index.html">
       <entry id="music" title="Music" href="net/music/index.html" />
