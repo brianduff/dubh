@@ -1,31 +1,32 @@
-<!-- $Id: build.xml,v 1.2 2000-08-21 00:29:47 briand Exp $ -->
+<!-- $Id: build.xml,v 1.3 2000-08-23 22:28:26 briand Exp $ -->
   
 <project name="devtools" default="all" basedir=".">
   <target name="init">
     <tstamp/>
     
-    <echo message="Devtools Build Started at ${TODAY} ${TSTAMP}" />
-    
+
+
     <property name="product" value="Dubh Development Tools" />
     <property name="version" value="1.0" />
-    
+
     <property name="cvsmodule" value="devtools" />
     <property name="srcdir" value="${cvsmodule}/src" />
     <property name="classdir" value="${cvsmodule}/class" />
     <property name="jardir" value="${cvsmodule}/lib" />
     <property name="jarfile" value="${jardir}/${cvsmodule}-${version}.jar" />
-    <property name="cvsroot" value=":pserver:briand@dubh.org:/usr/local/cvsroot" />
     <property name="classpath" value="${cvsmodule}/lib/ant.jar" />
     <property name="snapshot" value="${cvsmodule}/src.zip" />
-    <property name="docdir" value="${cvsmodule}/doc" />    
+    <property name="docdir" value="${cvsmodule}/doc" />
     <property name="javadocdir" value="${docdir}/api" />
     <property name="javadocpkg" value="org.dubh.tool.*" />
     <property name="javadoctitle" value="${product} ${version}" />
+
+    <echo message="${product} Build Started at ${TODAY} ${TSTAMP}" />
   </target>
-  
+
   
   <!-- Pull source code from CVS and set up initial dirs -->
-  <target name="pullsrc" depends="init">
+  <target name="pullsrc" depends="init" if="cvsroot">
     <cvs  cvsRoot="${cvsroot}"
           command="export"
           package="${cvsmodule}"
