@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MessageHeaderFields.java,v 1.2 1999-11-09 22:34:40 briand Exp $
+//   $Id: MessageHeaderFields.java,v 1.3 1999-12-12 01:47:12 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -26,22 +26,6 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-** Copyright (c) 1998 by the Java Lobby
-** <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-** 
-** This program is free software.
-** 
-** You may redistribute it and/or modify it under the terms of the JFA
-** license as described in the LICENSE file included with this 
-** distribution.  If the license is not included with this distribution,
-** you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
-**
-** THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
-** NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
-** OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
-** CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-** REDISTRIBUTION OF THIS SOFTWARE. 
-
 package org.javalobby.apps.newsagent;
 
 /**
@@ -49,7 +33,7 @@ package org.javalobby.apps.newsagent;
 *  
 * @author Brian Duff
 * @since NewsAgent 1.1.0
-* @version $Id: MessageHeaderFields.java,v 1.2 1999-11-09 22:34:40 briand Exp $
+* @version $Id: MessageHeaderFields.java,v 1.3 1999-12-12 01:47:12 briand Exp $
 */
 public class MessageHeaderFields
 {
@@ -113,6 +97,9 @@ public class MessageHeaderFields
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/06/01 17:58:51  briand
 // Static constants for message header fields. The message
 // composer will need to be upgraded to use these soon (it currently

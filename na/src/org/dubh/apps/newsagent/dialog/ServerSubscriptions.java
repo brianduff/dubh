@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ServerSubscriptions.java,v 1.5 1999-11-09 22:34:41 briand Exp $
+//   $Id: ServerSubscriptions.java,v 1.6 1999-12-12 01:47:12 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -46,7 +46,7 @@ import org.javalobby.dju.misc.Debug;
 /**
  * Displays a dialog allowing the user to select newsgroups to subscribe to.
  * @author Brian Duff
- * @version $Id: ServerSubscriptions.java,v 1.5 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: ServerSubscriptions.java,v 1.6 1999-12-12 01:47:12 briand Exp $
  */
 public class ServerSubscriptions extends DubhOkCancelDialog {
   JPanel panMain = new JPanel();
@@ -174,7 +174,7 @@ public class ServerSubscriptions extends DubhOkCancelDialog {
   {
      GlobalState.getStorageManager().serializeServers();
      // Update the folder tree on the main frame.
-     GlobalState.getMainFrame().getFolderTreePanel().treeUpdate(); 
+     //GlobalState.getMainFrame().getFolderTreePanel().treeUpdate();
      return true;    
   }
 
@@ -507,6 +507,9 @@ class ServerSubscriptions_listGroups_listSelectionAdapter implements javax.swing
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:23:40  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog.
 //

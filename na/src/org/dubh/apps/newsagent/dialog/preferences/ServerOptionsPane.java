@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ServerOptionsPane.java,v 1.6 1999-11-09 22:34:41 briand Exp $
+//   $Id: ServerOptionsPane.java,v 1.7 1999-12-12 01:47:12 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -61,7 +61,7 @@ import org.javalobby.dju.ui.preferences.PreferencePage;
  * </TR>
  * </TABLE>
  @author Brian Duff
- @version $Id: ServerOptionsPane.java,v 1.6 1999-11-09 22:34:41 briand Exp $
+ @version $Id: ServerOptionsPane.java,v 1.7 1999-12-12 01:47:12 briand Exp $
  */
 public class ServerOptionsPane extends PreferencePage {
   public TitledBorder borderNews = new TitledBorder(new EtchedBorder(),
@@ -182,7 +182,7 @@ public class ServerOptionsPane extends PreferencePage {
     // Serialise NNTPServers
     GlobalState.getStorageManager().serializeServers();
     // Update User Interface.
-    GlobalState.getMainFrame().getFolderTreePanel().treeUpdate();
+    //GlobalState.getMainFrame().getFolderTreePanel().treeUpdate();
   }
 
   /**
@@ -399,6 +399,9 @@ class ServerListItem {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.5  1999/06/01 00:34:09  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: StorageManager.java,v 1.4 1999-11-09 22:34:43 briand Exp $
+//   $Id: StorageManager.java,v 1.5 1999-12-12 01:47:12 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -45,7 +45,7 @@ import org.javalobby.dju.misc.Debug;
  * storage manager, it is initialised at startup, and can be obtained using
  * GlobalState.getStorageManager().<P>
  @author Brian Duff
- @version $Id: StorageManager.java,v 1.4 1999-11-09 22:34:43 briand Exp $
+ @version $Id: StorageManager.java,v 1.5 1999-12-12 01:47:12 briand Exp $
  */
 public class StorageManager {
 
@@ -175,7 +175,7 @@ public class StorageManager {
                try {
                  innerServer.openConnection();
                  // redraw the folder tree panel.
-                 GlobalState.getMainFrame().getFolderTreePanel().repaint();
+                 //GlobalState.getMainFrame().getFolderTreePanel().repaint();
                  // Enable the GoOffline Action.
                  // Disabled line below 19990116: Breaking stuff.
                  //GlobalState.getMainFrame().getAction("gooffline").setEnabled(true);
@@ -656,6 +656,9 @@ public class StorageManager {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  1999/11/09 22:34:43  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.3  1999/06/01 00:39:11  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 // This NNTP implementation is soon to be removed, it's only still
