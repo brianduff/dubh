@@ -62,8 +62,8 @@ import dubh.utils.misc.*;
  * <LI>0.17 [23/11/98]: Added support for new VersionManager dubh utility for
  *   program information.
  *</UL>
- @author Brian Duff
- @version 0.17 [23/11/98]
+ * @author Brian Duff
+ * @version 1.3
  */
 public class GlobalState {
 
@@ -315,7 +315,7 @@ public class GlobalState {
       try
       {
          m_myVersion =
-            VersionManager.getInstance().getVersion("dubh.apps.newsagent");
+            VersionManager.getInstance().getBundleVersion("dubh.apps.newsagent");
         appName = m_myVersion.getProductName();
         appVersion = m_myVersion.getShortDescription();
         appVersionLong = m_myVersion.getLongDescription();
@@ -516,10 +516,10 @@ public class GlobalState {
    * Initialise the preferences. If no preferences file exists, create a new
    * prefs object and use defaults for everything. the preferences will be
    * stored on the next call to savePreferences.
+   * If a preference file already exists, check it is up to date with the
+   * current version of NewsAgent and upgrade it if necessary.
    */
   private static void initPreferences() {
-
-
 
      File pf = new File(prefFile);
     // setPreferences(new Properties());
@@ -528,6 +528,7 @@ public class GlobalState {
      }
      try {
         m_userprefs = new UserPreferences(pf, new Properties());
+        if (pf.exists()) PreferenceKeys.convertPreferences(m_userprefs);
      } catch (IOException e) {
         ErrorReporter.error("CantReadProps");
      }
@@ -567,17 +568,26 @@ public class GlobalState {
   /**
    * Initialises the Swing User Interface
    */
-  private static void initLookAndFeel() {
-//   try {
-      // Set the look & feel to the correct L&F for this OS.
-      // Nb. This uses the Generic metal L&F under OS which it doesn't
-      // know (particularly Digital UNIX). Can set it to motif manually,
-      // but Metal L&F is actually pretty nice... :)
-      // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-     // UIManager.setLookAndFeel("javax.swing.plaf.motif.MotifLookAndFeel");
-//    } catch (Exception  e) {
-//      ErrorReporter.debug("Unknown Platform for Swing Look&Feel. Using Java Look & Feel.");
-//    }
+  private static void initLookAndFeel() 
+  {
+     String laf="";
+     try
+     {
+        laf = getPreferences().getPreference(PreferenceKeys.UI_LOOKANDFEEL);
+        if (laf == null) 
+           laf = UIManager.getSystemLookAndFeelClassName();   
+        
+        UIManager.setLookAndFeel(laf);
+        
+     }
+     catch (Exception e)
+     {
+        if (Debug.TRACE_LEVEL_2)
+        {
+           Debug.println(2, GlobalState.class, "Unable to set look and feel to "+laf);
+           Debug.printException(2, GlobalState.class, e);
+        }
+     } 
 
   }
 
