@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.5 1999-03-23 01:29:59 briand Exp $
+//   $Id: GlobalState.java,v 1.6 1999-06-01 00:30:25 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -44,7 +44,7 @@ import dubh.utils.misc.*;
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.5 1999-03-23 01:29:59 briand Exp $
+ * @version $Id: GlobalState.java,v 1.6 1999-06-01 00:30:25 briand Exp $
  */
 public class GlobalState {
 
@@ -160,76 +160,6 @@ public class GlobalState {
      return m_helpSystem;
   }
 
-   /**
-   * Return a user preference.
-   @param prefname the name of the preference
-   @returns a string containing the preference
-   @deprecated use getPreferences().getPreference(prefname) instead.
-   */
-   public static String getPreference(String prefname) {
-   return getPreferences().getPreference(prefname);
-  }
-
-  /**
-   * Return a user preference.
-   @param prefname the name of the preference
-   @param defaultValue the default value if the preference doesn't exist
-   @returns a string containing the preference
-   @deprecated use getPreferences().getPreference(prefname, default) instead.
-   */
-  public static String getPreference(String prefname, String defaultValue) {
-   return getPreferences().getPreference(prefname, defaultValue);
-  }
-
-  /**
-   * Return a boolean user preference.
-   @param prefname the name of the preference.
-   @returns a boolean value
-   @deprecated use getPreferences().getBoolPreference(prefName) instead.
-   */
-  public static boolean getBoolPreference(String prefname) {
-   return getPreferences().getBoolPreference(prefname);
-   }
-
-  /**
-   * Return a boolean user preference.
-   @param prefname the name of the preference.
-   @param defVal the default value if the preference doesn't exist
-   @returns a boolean value
-   @deprecated use getPreferences().getBoolPreference(prefName) instead.
-   */
-  public static boolean getBoolPreference(String prefname, boolean defVal) {
-   return getPreferences().getBoolPreference(prefname, defVal);
-  }
-
-  /**
-   * Change or set a user preference.
-   @param prefname the name of the preference.
-   @param value the value to set
-   @deprecated use getPreferences().setPreference(prefname, value) instead.
-   */
-  public static void setPreference(String prefname, String value) {
-   getPreferences().setPreference(prefname, value);
-  }
-
-  /**
-   * Change or set a boolean user preference.
-   @param prefname the name of the preference.
-   @param value the value to set
-   @deprecated use getPreferences().setBoolPreference() instead.
-   */
-  public static void setPreference(String prefname, boolean value) {
-   getPreferences().setBoolPreference(prefname, value);
-  }
-
-  /**
-   * Sets the properties object from which user preferences are taken.
-   @param p a Properties object contiaining user preferences.
-   @deprecated since newsagent 1.02
-   */
-  private static void setPreferences(Properties p) {
-   
-  }
 
   /**
    * Get the user preferences instance for this application. In
@@ -241,27 +171,7 @@ public class GlobalState {
         return m_userprefs;
   }
 
-  /**
-   * Saves the user's preferences. Will display an error dialog if the prefs
-   * file could not be opened for writing.
-   @returns false if the preferences couldn't be saved. The user will already
-      have been notified.
-   @deprecated use getPreferences().save() instead.
-   */
-  public static boolean savePreferences() {
-     if (!isApplet())
-     {
-        try {
-           getPreferences().save();
-           return true;
-        } catch (IOException e) {
-            ErrorReporter.error("CantWriteProps");
-           Debug.println(e.toString());
-           return false;
-        }
-     }
-     return true;
-  }
+
 
    public static void appInit()
    {
@@ -333,30 +243,6 @@ public class GlobalState {
    return m_agentManager;
   }
 
-  /**
-   * Gets a "resource" from the classpath (usually inside the application JAR
-   * file). Useful for reading in images which are stored in the JAR file, for
-   * example.
-   @param key The name of the resource to fetch. can include a directory.
-   @returns a URL object corresponding to the resource, or null if the resource
-   doesn't exist.
-   @deprecated since NewsAgent 1.02, move to the new ResourceManager class
-  */
-  public static URL getResource(String key) {
-       URL url = ClassLoader.getSystemResource(key);
-       return url;
-  }
-
-  /**
-   * Gets an image resource from the classpath.
-   @param key the filename of the image to load.
-   @returns a URL object corresponding to that image, or null
-   @deprecated since NewsAgent 1.02, move to the new ResourceManager class
-
-   */
-  public static URL getImage(String key) {
-   return getResource(imgDir+key);
-  }
 
   /**
    * Get the resource manager
@@ -365,47 +251,6 @@ public class GlobalState {
      return m_resManager;
   }
 
-  /**
-   * Gets a string from the application wide Strings bundle. This allows
-   * internationalisation.
-   @param key The name of the string to fetch.
-   @returns the value of the string from the bundle, or the key if there was
-   a problem.
-   @deprecated since version 1.02, use getRes().getString(key) instead.
-  */
-  public static String getResString(String key) {
-   //ResourceBundle b = ResourceBundle.getBundle(stringBundle, Locale.FRENCH);
-   // ResourceBundle b = ResourceBundle.getBundle(stringBundle);
-    try {
-      return getRes().getString(key);
-    } catch (MissingResourceException e) {
-      return key;
-    }
-  }
-
-  /**
-   * Gets a string from the application wide Strings bundle. This allows
-   * internationalisation. This version of the function substitutes text
-   * into the message.
-   @param key The name of the string to fetch.
-   @param subst An array of values to substitute into the string
-   @returns the value of the string from the bundle, or the key if there was
-   a problem.
-  */
-  public static String getResString(String key, Object[] subst) {
-     return java.text.MessageFormat.format(getResString(key), subst);
-  }
-
-  /**
-   * Gets the resource string directly: doesn't catch any exceptions.
-   @param key The key to look up
-   @returns the value of the string from the internationalised bundle.
-   @throws MissingResourceException if the key is missing
-   */
-  public static String getResStringBasic(String key) throws MissingResourceException {
-   // ResourceBundle b = ResourceBundle.getBundle(stringBundle);
-     return m_resManager.getString(key);
-  }
 
   /**
    * Set the application default Locale (Locale.setDefault() doesn't work).
@@ -453,14 +298,14 @@ public class GlobalState {
         // Check the storage folder exists. If not, create it.
         File storageDir = new File(foldersDir);
         if (!storageDir.exists()) {
-           ErrorReporter.debug("Storage folder doesn't exist: Creating.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, GlobalState.class,"Storage folder doesn't exist: Creating.");
            if (!storageDir.mkdir()) {
               ErrorReporter.fatality("CantCreateStorage", new String[] {foldersDir});
            }
         }
         File fserversDir = new File(serversDir);
         if (!fserversDir.exists()) {
-           ErrorReporter.debug("Servers folder doesn't exist: Creating.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, GlobalState.class,"Servers folder doesn't exist: Creating.");
            if (!fserversDir.mkdir()) {
               ErrorReporter.fatality("CantCreateStorage", new String[] {serversDir});
            }
@@ -517,7 +362,7 @@ public class GlobalState {
                ErrorReporter.fatality("CantCreateDir",
                new String[] { dataDir, GlobalState.appName });
             }
-            ErrorReporter.debug("Created a new data directory: "+dataDir);
+            if (Debug.TRACE_LEVEL_1) Debug.println(1, GlobalState.class,"Created a new data directory: "+dataDir);
          }
       }
    }
@@ -583,6 +428,9 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/03/23 01:29:59  briand
+// Fix to comments (checking autobuild works).
+//
 //
 // Revision 1.4  1999/3/22 23:47:56  briand
 // Ill fated attempt to appletize.
