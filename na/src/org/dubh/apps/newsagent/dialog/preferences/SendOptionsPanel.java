@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SendOptionsPanel.java,v 1.5 1999-03-22 23:45:01 briand Exp $
+//   $Id: SendOptionsPanel.java,v 1.6 1999-06-01 00:34:55 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -44,118 +44,132 @@ import dubh.utils.ui.preferences.PreferencePage;
 
 /**
  * Send Options Panel for the Send Tab in the Options dialog box <P>
- * Version History: <UL>
- * <LI>0.1 [26/02/98]: Initial Revision
- * <LI>0.2 [27/02/98]: Changed layout managers. Changed to a JPanel to work in
- *          TabbedPane.
- * <LI>0.3 [03/03/98]: Implemented preferences methods.
- * <LI>0.4 [07/03/98]: Added event binding for Signatures, added
- *          Internationalisation (using getResString())
- * <LI>1.0 [10/06/98]: Big change for NewsAgent 1.02
- * <LI>
- *</UL>
- @author Brian Duff
- @version 1.0 [10/06/98]
+ * @author Brian Duff
+ * @version $Id: SendOptionsPanel.java,v 1.6 1999-06-01 00:34:55 briand Exp $
  */
-public class SendOptionsPanel extends PreferencePage {
-  private TitledBorder borderQuoting = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("SendOptionsPanel.Quoting"));
-  private JPanel panQuoting = new JPanel();
-  private GridBagLayout layoutMain = new GridBagLayout();
-  private GridBagLayout layoutQuoting = new GridBagLayout();
-  private JLabel labWhenReply = new JLabel();
-  private ButtonGroup groupWhenReply = new ButtonGroup();
-  private JRadioButton optNothing = new JRadioButton();
-  private JRadioButton optSelection = new JRadioButton();
-  private JRadioButton optAll = new JRadioButton();
-  private JLabel labPrefix = new JLabel();
-  private JTextArea taPrefix = new JTextArea();
-  private JScrollPane scrollPrefix = new JScrollPane(taPrefix);
-  private JButton cmdInsert = new JButton();
-  private JLabel labPrefixLine = new JLabel();
-  private JTextField tfPrefixLine = new JTextField();
-  private JPopupMenu popupInsert;
+public class SendOptionsPanel extends PreferencePage 
+{
 
+   private final static String RES = "dubh.apps.newsagent.dialog.preferences.res.SendOptions";
+   public static final String ID = ResourceManager.getManagerFor(RES).getString("SendOptions.title");
 
-  public SendOptionsPanel() {
-     super("Send", "Determine how your replies quote from the original message",
-        null);
-    try {
-      jbInit();
-     // revertPreferences();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-    setContent(panQuoting);
-  }
+   private JPanel panMain = new JPanel();
+   
+   private IconicPreferencePanel ippQuoting = new IconicPreferencePanel();
+   private JLabel labWhenReply = new JLabel();
+   private ButtonGroup groupWhenReply = new ButtonGroup();
+   private JRadioButton optNothing = new JRadioButton();
+   private JRadioButton optSelection = new JRadioButton();
+   private JRadioButton optAll = new JRadioButton();
+   private JLabel labPrefix = new JLabel();
+   private FixedTextArea taPrefix = new FixedTextArea();
+   private JPanel panPrefixPanel = new JPanel();
+   private VerticalFlowPanel panRight = new VerticalFlowPanel();
+   private JScrollPane scrollPrefix = new JScrollPane(taPrefix);
+   private JButton cmdInsert = new JButton();
+   private JLabel labPrefixLine = new JLabel();
+   private JTextField tfPrefixLine = new JTextField();
+   private JPopupMenu popupInsert;
+   
+   private IconicPreferencePanel ippFormatting = new IconicPreferencePanel();
+   private JCheckBox cbUseHardBreaks = new JCheckBox();
+   private JCheckBox cbAddAdverts = new JCheckBox();
 
-  private void jbInit() throws Exception{
-    ResourceManager r = GlobalState.getRes();
-    labWhenReply.setText(GlobalState.getResString("SendOptionsPanel.Quoting.WhenReply"));
+   public SendOptionsPanel() 
+   {
+      super(ResourceManager.getManagerFor(RES), "SendOptions");
+      init();
+      setContent(panMain);
+      ResourceManager.getManagerFor(RES).initComponents(panMain);
+   }
 
-//NLS    r.initButton(optNothing, "SendOptionsPanel.Quoting.OptNothing");
-//NLS    r.initButton(optSelection, "SendOptionsPanel.Quoting.OptSelected");
-//NLS    r.initButton(optAll, "SendOptionsPanel.Quoting.OptAll");
-    groupWhenReply.add(optNothing);
-    groupWhenReply.add(optSelection);
-    groupWhenReply.add(optAll);
-    labPrefix.setText(GlobalState.getResString("SendOptionsPanel.Quoting.Prefix"));
+   private void init()
+   {
+      initQuoting();
+      initFormatting();
+   
+      panMain.setLayout(new BoxLayout(panMain, BoxLayout.Y_AXIS));
+      panMain.setName("MainPanel");
+      panMain.add(ippQuoting);
+      panMain.add(ippFormatting);
+      panMain.add(Box.createGlue());   
+   }
+   
+   private void initQuoting()
+   {
+      ippQuoting.setName("Quoting");
+      VerticalFlowPanel group = ippQuoting.getContainer();
+      
+      labWhenReply.setName("WhenReply");
+      group.addRow(labWhenReply);
 
-    /*
-     * Add a popup glyph to the insert button
-     */
-//NLS    r.initButton(cmdInsert, "SendOptionsPanel.Quoting.Insert");
-    cmdInsert.setIcon(new ImageIcon(GlobalState.getImage("glyphPopup.gif")));
-    cmdInsert.setHorizontalTextPosition(AbstractButton.LEFT);
-    cmdInsert.addActionListener(new InsertListener());
+      groupWhenReply.add(optNothing);
+      optNothing.setName("OptNothing");
+      group.addIndentRow(optNothing);
+      groupWhenReply.add(optSelection);
+      optSelection.setName("OptSelection");
+      group.addIndentRow(optSelection);
+      groupWhenReply.add(optAll);
+      optAll.setName("OptAll");
+      group.addIndentRow(optAll);
+      
+      labPrefix.setName("Prefix");
+      group.addRow(labPrefix);
 
-    labPrefixLine.setText(GlobalState.getResString("SendOptionsPanel.Quoting.PrefixLine"));
-    panQuoting.setLayout(layoutQuoting);
-    taPrefix.setFont(new Font("Monospaced", Font.PLAIN, 12));
-    taPrefix.setLineWrap(true);
-    taPrefix.setWrapStyleWord(true);
-    taPrefix.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-   // this.setLayout(layoutMain);
-    //this.add(panQuoting, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
-    //        ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-    panQuoting.add(labWhenReply, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
-    panQuoting.add(optNothing, new GridBagConstraints2(0, 1, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 20, 0, 5), 0, 0));
-    panQuoting.add(optSelection, new GridBagConstraints2(0, 2, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 20, 0, 5), 0, 0));
-    panQuoting.add(optAll, new GridBagConstraints2(0, 3, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 20, 0, 5), 0, 0));
-    panQuoting.add(labPrefix, new GridBagConstraints2(0, 4, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 5), 0, 0));
-    panQuoting.add(scrollPrefix, new GridBagConstraints2(0, 5, 1, 1, 1.0, 1.0
-            ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 20, 2, 5), 0, 0));
-    panQuoting.add(cmdInsert, new GridBagConstraints2(1, 5, 1, 1, 0.0, 0.0
-            ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-    panQuoting.add(labPrefixLine, new GridBagConstraints2(0, 6, 2, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
-    panQuoting.add(tfPrefixLine, new GridBagConstraints2(0, 7, 1, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 20, 5, 5), 0, 0));
-    panQuoting.setBorder(borderQuoting);
-    JMenuBarResource rsc = new JMenuBarResource("Menus", "mbSendOptions", this);
-    popupInsert = rsc.getPopupMenu("popupSendIns");
+      cmdInsert.setName("Insert");
+      cmdInsert.addActionListener(new InsertListener());
+      panPrefixPanel.setName("PrefixPanel");
+      panRight.setName("Right");
+      panPrefixPanel.setLayout(new BorderLayout());
+      panPrefixPanel.add(scrollPrefix, BorderLayout.CENTER);
+      panPrefixPanel.add(panRight, BorderLayout.EAST);
+      panRight.addRow(cmdInsert);
+      panRight.addSpacerRow(new JPanel());
+      group.addSpacerRow(panPrefixPanel);
+      
+      //cmdInsert.setIcon(GlobalState.getRes().getImage("glyphPopup.gif"));
+      //cmdInsert.setHorizontalTextPosition(AbstractButton.LEFT);
+     
+      labPrefixLine.setName("PrefixLine");
+      group.addRow(labPrefixLine);
+      
+      tfPrefixLine.setName("PrefixLineField");
+      group.addRow(tfPrefixLine);
 
-  }
+      JMenuBarResource rsc = new JMenuBarResource("Menus", "mbSendOptions", this);
+      popupInsert = rsc.getPopupMenu("popupSendIns");
+
+   }
+
+   private void initFormatting()
+   {
+      ippFormatting.setName("Formatting");
+      VerticalFlowPanel group = ippFormatting.getContainer();
+      
+      cbUseHardBreaks.setName("UseHardBreaks");
+      group.addRow(cbUseHardBreaks);
+      
+      cbAddAdverts.setName("AddAdvert");
+      group.addRow(cbAddAdverts);
+      
+   }
 
   /**
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
   public void save(UserPreferences p) {
-     GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEHEADING, taPrefix.getText());
-     GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEPREFIX, tfPrefixLine.getText());
+     p.setPreference(PreferenceKeys.SEND_INCLUDEHEADING, taPrefix.getText());
+     p.setPreference(PreferenceKeys.SEND_INCLUDEPREFIX, tfPrefixLine.getText());
      if (optNothing.isSelected())
-        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "none");
+        p.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "none");
      else if (optSelection.isSelected())
-        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "selected");
+        p.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "selected");
      else if (optAll.isSelected())
-        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
+        p.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
+        
+     p.setBoolPreference(PreferenceKeys.SEND_HARDBREAKS, cbUseHardBreaks.isSelected());
+     p.setBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, cbAddAdverts.isSelected());
   }
 
   /**
@@ -168,7 +182,7 @@ public class SendOptionsPanel extends PreferencePage {
      optSelection.setSelected(false);
      optNothing.setSelected(false);
 
-     String includeBehaviour = GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
+     String includeBehaviour = s.getPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
      if (includeBehaviour.trim().equalsIgnoreCase("all"))
         optAll.setSelected(true);
      else if (includeBehaviour.trim().equalsIgnoreCase("selected"))
@@ -176,10 +190,13 @@ public class SendOptionsPanel extends PreferencePage {
      else if (includeBehaviour.trim().equalsIgnoreCase("none"))
         optNothing.setSelected(true);
 
-     taPrefix.setText(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEHEADING,
+     taPrefix.setText(s.getPreference(PreferenceKeys.SEND_INCLUDEHEADING,
         "In message {message-id}, {x-na-realname} wrote:"));
-     tfPrefixLine.setText(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX,
+     tfPrefixLine.setText(s.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX,
         "> "));
+        
+     cbUseHardBreaks.setSelected(s.getBoolPreference(PreferenceKeys.SEND_HARDBREAKS, true));
+     cbAddAdverts.setSelected(s.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true));   
   }
 
   /*
@@ -188,7 +205,7 @@ public class SendOptionsPanel extends PreferencePage {
    */
   class InsertListener implements ActionListener {
      public void actionPerformed(ActionEvent e) {
-        popupInsert.show(cmdInsert, 0, cmdInsert.getSize().height);
+        popupInsert.show(cmdInsert, cmdInsert.getSize().width-popupInsert.getSize().width, cmdInsert.getSize().height);
      }
   }
 
@@ -226,3 +243,21 @@ public class SendOptionsPanel extends PreferencePage {
 
 
 }
+
+//
+// Old History:
+//
+// Version History: <UL>
+// <LI>0.1 [26/02/98]: Initial Revision
+// <LI>0.2 [27/02/98]: Changed layout managers. Changed to a JPanel to work in
+//          TabbedPane.
+// <LI>0.3 [03/03/98]: Implemented preferences methods.
+// <LI>0.4 [07/03/98]: Added event binding for Signatures, added
+//          Internationalisation (using getRes().getString())
+// <LI>1.0 [10/06/98]: Big change for NewsAgent 1.02
+// <LI>
+//</UL>
+//
+// New History:
+//
+// $Log: not supported by cvs2svn $
