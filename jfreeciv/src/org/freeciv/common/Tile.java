@@ -1,12 +1,13 @@
 package org.freeciv.common;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * A tile on the freeciv map
  */
-public class Tile 
+public final  class Tile 
 {
   private int m_type;
   private int m_specialType;
@@ -19,6 +20,8 @@ public class Tile
   private int m_continent;
   private char[] m_moveCost; //?
 
+  private Object m_data;
+
   Tile()
   {
     m_type = CommonConstants.T_UNKNOWN; 
@@ -28,6 +31,22 @@ public class Tile
     m_assigned = 0;
     m_known = CommonConstants.TILE_UNKNOWN;
     // todo unit_list_init().
+    m_units = new ArrayList();
+  }
+
+  public Object getData()
+  {
+    return m_data;
+  }
+
+  public void setData(Object o)
+  {
+
+  }
+
+  public void addUnit( Unit u )
+  {
+    m_units.add( u );
   }
 
   public boolean isKnown()
@@ -53,6 +72,22 @@ public class Tile
   public City getCity()
   {
     return m_city;
+  }
+
+  /**
+   * Is there at least one unit on this tile?
+   */
+  public boolean hasUnits()
+  {
+    return (m_units.size() > 0);
+  }
+
+  /**
+   * Is there a stack of (i.e. two or more) units on this tile?
+   */
+  public boolean hasUnitStack()
+  {
+    return (m_units.size() > 1);
   }
 
   public Iterator getUnits()
@@ -98,5 +133,15 @@ public class Tile
   public void setContinent( int continent )
   {
     m_continent = continent;
+  }
+
+  public boolean isPolluted()
+  {
+    return false;
+  }
+
+  public boolean hasFallout()
+  {
+    return false;
   }
 }

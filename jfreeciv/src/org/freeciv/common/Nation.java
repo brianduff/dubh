@@ -1,5 +1,7 @@
 package org.freeciv.common;
 
+import javax.swing.Icon;
+
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetNation;
 
@@ -10,6 +12,7 @@ public class Nation implements GameObject
 {
   private GameObjectFactory m_nationFactory;
   private PktRulesetNation m_ruleset;
+  private Icon m_flagSprite;
 
   private CityStyle m_cityStyle = null;
 
@@ -51,6 +54,16 @@ public class Nation implements GameObject
   public String getFlagGraphicAlt()
   {
     return m_ruleset.graphic_alt;
+  }
+
+  public Icon getFlagSprite()
+  {
+    return m_flagSprite;
+  }
+
+  public void setFlagSprite( Icon i )
+  {
+    m_flagSprite = i;
   }
 
   public int getLeaderCount()

@@ -5,6 +5,7 @@ import org.freeciv.net.WorkList; // move me
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -30,7 +31,6 @@ public class Player implements GameObject, CommonConstants
   private int m_reputation;
   private DiplomacyState[] m_diplomacyState;
   private int m_cityStyle;
-  // private Collection units;
   // private Collection cities;
   // private Score score;
   private Economy m_economy;
@@ -49,6 +49,7 @@ public class Player implements GameObject, CommonConstants
   private GameObjectFactory m_playerFactory;
   private Spaceship m_spaceship;
 
+  private HashMap m_units;
 
   private ArrayList m_cities;
   
@@ -70,6 +71,19 @@ public class Player implements GameObject, CommonConstants
     m_cities = new ArrayList();
     m_spaceship = new Spaceship();
   // TODO: other defaults? (player.c)
+    m_units = new HashMap();
+  }
+
+  public Unit getUnit( int id )
+  {
+    Unit unit = (Unit) m_units.get( new Integer( id ) );
+
+    return unit;
+  }
+
+  public void addUnit( Unit u )
+  {
+    m_units.put( new Integer( u.getId() ), u );
   }
 
   public Spaceship getSpaceship()
@@ -291,6 +305,12 @@ public class Player implements GameObject, CommonConstants
   public int getRevolution()
   {
     return m_revolution;
+  }
+
+  public boolean canSeeUnit( Unit u )
+  {
+    // todo: player.c: player_can_see_unit()
+    return true;
   }
 
   

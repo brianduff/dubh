@@ -45,12 +45,12 @@ public final class Factories
         return new Government(this);
       } 
     };
-  private GameObjectFactory m_unitFactory =
+  private GameObjectFactory m_unitTypeFactory =
     new AbstractGameObjectFactory(this)
     {
       protected GameObject doCreate()
       {
-        return new Unit(this);
+        return new UnitType(this);
       } 
     };
   private GameObjectFactory m_buildingFactory =
@@ -113,9 +113,9 @@ public final class Factories
     return m_governmentFactory;
   }
 
-  public GameObjectFactory getUnitFactory()
+  public GameObjectFactory getUnitTypeFactory()
   {
-    return m_unitFactory;
+    return m_unitTypeFactory;
   }
 
   public GameObjectFactory getBuildingFactory()

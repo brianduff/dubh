@@ -29,10 +29,59 @@ public final class Map implements CommonConstants
   private MapPosition[] m_startPositions;
   private Tile m_voidTile;
 
+  public static final int[] DIR_DX = new int[] 
+  {
+    -1, 0, 1, -1, 1, -1, 0, 1
+  };
+
+  public static final int[] DIR_DY = new int[]
+  {
+    -1, -1, -1, 0, 0, 1, 1, 1
+  };
+
+  public static final int[] DIR_DX2 = new int[]
+  {
+    0, 1, 1, 1, 0, -1, -1, -1
+  };
+  public static final int[] DIR_DY2 = new int[]
+  {
+    -1, -1, 0, 1, 1, 1, 0, -1
+  };
+
   Map()
   {
     m_startPositions = new MapPosition[ MAX_NUM_NATIONS ];
     m_voidTile = new Tile();
+  }
+
+  public MapPosition normalizeMapPosition( int x, int y )
+  {
+    MapPosition mp = new MapPosition( x, y );
+    if (normalizeMapPosition( mp ))
+    {
+      return mp;
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  public boolean normalizeMapPosition( MapPosition mp )
+  {
+    if ( mp.y < 0 || mp.y > getHeight() )
+    {
+      return false;
+    }
+
+    mp.x %= getWidth();
+
+    if ( mp.x < 0 )
+    {
+      mp.x += getWidth();
+    }
+
+    return true;
   }
 
   public void setWidth(int xsize)
@@ -121,6 +170,40 @@ public final class Map implements CommonConstants
   public int adjustY( int y )
   {
     return ( (y < 0) ? 0 : (( y >= getHeight() ) ? getHeight() - 1  : y ));
+  }
+
+  public boolean isSamePosition( int x, int y, int x1, int y1 )
+  {
+    return (adjustX( x ) == adjustX( x1 ) && adjustY( y ) == adjustY( y1 ) );
+  }
+
+  /**
+   * Get the city at the specified co-ordinates
+   */
+  public City getCity( int x, int y )
+  {
+    return getTile( x, y ).getCity();
+  }
+
+  public int getSpecial( int x, int y )
+  {
+    if ( y < 0 || y > getHeight() )
+    {
+      return S_NO_SPECIAL;
+    }
+    else
+    {
+      return getTile( x, y ).getSpecial();
+    }
+  }
+
+  public int getTerrain( int x, int y )
+  {
+    if ( y < 0 || y > getHeight() )
+    {
+      return T_UNKNOWN;
+    }
+    return getTile( x, y ).getTerrain();
   }
 
   

@@ -1,5 +1,7 @@
 package org.freeciv.common;
 
+import javax.swing.Icon;
+
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetGovernment;
 import org.freeciv.net.PktRulesetGovernmentRulerTitle;
@@ -14,6 +16,8 @@ public class Government implements GameObject
   private Advance m_requiredAdvance;
 
   private RulerTitle[] m_rulerTitles;
+
+  private Icon m_sprite;
 
   Government(GameObjectFactory govFactory)
   {
@@ -252,6 +256,16 @@ public class Government implements GameObject
   public String getGraphicAlt()
   {
     return m_ruleset.graphic_alt;  
+  }
+
+  public Icon getSprite()
+  {
+    return m_sprite;
+  }
+
+  public void setSprite( Icon i)
+  {
+    m_sprite = i;
   }
   
   

@@ -1,173 +1,335 @@
 package org.freeciv.common;
 
-import org.freeciv.net.Packet;
-import org.freeciv.net.PktRulesetUnit;
+import org.freeciv.net.PktUnitInfo;
 
 /**
- * Represents a unit in freeciv
+ * A freeciv unit
  */
-public class Unit implements GameObject
+public final class Unit implements CommonConstants
 {
+  private int m_type;
+  private int m_id;
+  private int m_owner;
+  private int m_x, m_y;
+  private boolean m_isVeteran;
+  private int m_homeCity;
+  private int m_movesLeft;
+  private int m_hitPoints;
+  private int m_unhappiness;
+  private int m_upkeep;
+  private int m_upkeepGold;
+  private int m_upkeepFood;
+  private int m_foul;
+  private int m_fuel;
+  private int m_bribeCost;
+  private UnitAI m_ai;
+  private int m_activity;
+  private int m_gotoDestX;
+  private int m_gotoDestY;
+  private int m_activityCount;
+  private int m_activityTarget;
+  private int m_focusStatus;
+  private int m_ordMap;
+  private int m_ordCity;
+  private boolean m_isMoved;
+  private boolean m_isParadropped;
+  private boolean m_connecting;
+  private int m_transportedBy;
+  private Game m_game;
 
-  private GameObjectFactory m_unitFactory;
-  private PktRulesetUnit m_ruleset;
-
-  private Advance m_techRequirement = null;
-  private Advance m_obsoletedBy = null;
-  
-  Unit(GameObjectFactory unitFactory)
+  public Unit(Game g)
   {
-    m_unitFactory = unitFactory;
+    m_game = g;
+    m_ai = new UnitAI();
   }
 
-  public void initFromPacket(Packet p)
+  public void unpackage( PktUnitInfo pkt )
   {
-    m_ruleset = (PktRulesetUnit)p;  
+    m_id = pkt.id;
+    m_owner = pkt.owner;
+    m_x = pkt.x;
+    m_y = pkt.y;
+    m_homeCity = pkt.homecity;
+    m_isVeteran = pkt.veteran;
+    m_type = pkt.type;
+    m_movesLeft = pkt.movesleft;
+    m_hitPoints = pkt.hp;
+    m_activity = pkt.activity;
+    m_activityCount = pkt.activity_count;
+    m_unhappiness = pkt.unhappiness;
+    m_upkeep = pkt.upkeep;
+    m_upkeepFood = pkt.upkeep_food;
+    m_upkeepGold = pkt.upkeep_gold;
+    m_ai.setControlled( pkt.ai );
+    m_fuel = pkt.fuel;
+    m_gotoDestX = pkt.goto_dest_x;
+    m_gotoDestY = pkt.goto_dest_y;
+    m_activityTarget = pkt.activity_target;
+    m_isParadropped = pkt.paradropped;
+    m_connecting = pkt.connecting;
+
+    m_focusStatus = FOCUS_AVAIL;
+    m_bribeCost = 0;
+    m_foul = 0;
+    m_ordMap = 0;
+    m_ordCity = 0;
+    m_isMoved = false;
+    m_transportedBy = 0;
   }
 
   public int getId()
   {
-    return m_ruleset.id;
+    return m_id;
   }
 
-  public String getName()
+  public UnitAI getAI()
   {
-    return m_ruleset.name;
+    return m_ai;
   }
 
-  public String getGraphicStr()
+  public int getActivity()
   {
-    return m_ruleset.graphic_str;
+    return m_activity;
   }
 
-  public String getGraphicAlt()
+  public void setActivity( int activity )
   {
-    return m_ruleset.graphic_alt;
+    m_activity = activity;
   }
 
-  public int getMoveType()
+  public int getActivityTarget()
   {
-    return m_ruleset.move_type;
+    return m_activityTarget;
   }
 
-  public int getBuildCost()
+  public void setActivityTarget( int activityTarget )
   {
-    return m_ruleset.build_cost;
+    m_activityTarget = activityTarget;
   }
 
-  public int getAttackStrength()
+  public Player getOwner()
   {
-    return m_ruleset.attack_strength;
+    return (Player) m_game.getFactories().getPlayerFactory().findById( m_owner );
   }
 
-  public int getDefenseStrength()
+  public boolean isOwner( Player p )
   {
-    return m_ruleset.defense_strength;
+    return getOwner() == p;
   }
 
-  public int getMoveRate()
+  public City getHomeCity()
   {
-    return m_ruleset.move_rate;
-
+    return City.findById( m_homeCity );
   }
 
-  public Advance getTechRequirement()
+  public int getHomeCityId()
   {
-    if (m_techRequirement == null)
-    {
-      m_techRequirement = (Advance)
-        m_unitFactory.getParent().getAdvanceFactory().findById(
-          m_ruleset.tech_requirement
-        );
-    }
-    return m_techRequirement;
+    return m_homeCity;
   }
 
-  public int getVisionRange()
+  public void setHomeCity( int city )
   {
-    return m_ruleset.vision_range;
+    m_homeCity = city;
   }
 
-  public int getTransportCapacity()
+  public void setHomeCity( City city )
   {
-    return m_ruleset.transport_capacity;
+    m_homeCity = city.getId();
   }
 
   public int getHitPoints()
   {
-    return m_ruleset.hp;
+    return m_hitPoints;
   }
 
-  public int getFirepower()
+  public void setHitPoints( int hp )
   {
-    return m_ruleset.firepower;
+    m_hitPoints = hp;
   }
 
-  public Advance getObsoletedBy()
+  public int getType()
   {
-    if (m_obsoletedBy == null)
-    {
-      m_obsoletedBy = (Advance)
-        m_unitFactory.getParent().getAdvanceFactory().findById(
-          m_ruleset.obsoleted_by
-        );
-    }
-    return m_obsoletedBy;
+    return m_type;
   }
 
-  public int getFuel()
+  public UnitType getUnitType()
   {
-    return m_ruleset.fuel;
+    return (UnitType) m_game.getFactories().getUnitTypeFactory().findById( getType() );
   }
 
-  public int getFlags()
+  public void setType( int type )
   {
-    return m_ruleset.flags;
-
+    m_type = type;
   }
 
-  public int getRoles()
+  public int getX()
   {
-    return m_ruleset.roles;
+    return m_x;
   }
 
-  public int getHappyCost()
+  public int getY()
   {
-    return m_ruleset.happy_cost;
+    return m_y;
   }
 
-  public int getShieldCost()
+  public int getGotoDestX()
   {
-    return m_ruleset.shield_cost;
+    return m_gotoDestX;
   }
 
-  public int getFoodCost()
+  public int getGotoDestY()
   {
-    return m_ruleset.food_cost;
+    return m_gotoDestY;
   }
 
-  public int getGoldCost()
+  public int getUnhappiness()
   {
-    return m_ruleset.gold_cost;
+    return m_unhappiness;
   }
 
-  public int getParatroopersRange()
+  public void setUnhappiness( int unhappy )
   {
-    return m_ruleset.paratroopers_range;
+    m_unhappiness = unhappy;
   }
 
-  public int getParatroopersMrReq()
+  public int getUpkeep()
   {
-    return m_ruleset.paratroopers_mr_req;
+    return m_upkeep;
   }
 
-  public int getParatroopersMrSub()
+  public void setUpkeep( int upkeep )
   {
-    return m_ruleset.paratroopers_mr_sub;
+    m_upkeep = upkeep;
   }
 
-  public String getHelpText()
+  public int getUpkeepGold()
   {
-    return m_ruleset.helptext;
+    return m_upkeepGold;
   }
+
+  public void setUpkeepGold( int gold )
+  {
+    m_upkeepGold = gold;
+  }
+
+  public int getUpkeepFood()
+  {
+    return m_upkeepFood;
+  }
+
+  public void setUpkeepFood( int food )
+  {
+    m_upkeepFood = food;
+  }
+
+  public boolean isVeteran()
+  {
+    return m_isVeteran;
+  }
+
+  public void setVeteran( boolean isVeteran )
+  {
+    m_isVeteran = isVeteran;
+  }
+
+  public void setMovesLeft( int movesLeft )
+  {
+    m_movesLeft = movesLeft;
+  }
+
+  public void setBribeCost( int bribeCost )
+  {
+    m_bribeCost = bribeCost;
+  }
+
+  public void setFuel( int fuel )
+  {
+    m_fuel = fuel;
+  }
+
+  public void setGotoDestX( int gotox )
+  {
+    m_gotoDestX = gotox;
+  }
+
+  public void setGotoDestY( int gotoy )
+  {
+    m_gotoDestY = gotoy;
+  }
+
+  public void setParadropped( boolean isParadropped )
+  {
+    m_isParadropped = isParadropped;
+  }
+
+  public void setConnecting( boolean isConnecting )
+  {
+    m_connecting = isConnecting;
+  }
+  public void setActivityCount( int activity )
+  {
+    m_activityCount = activity;
+  }
+
+  public boolean isMilitary()
+  {
+    return !isFlagSet( F_NONMIL );
+  }
+
+  /**
+   * Can this unit transport other units?
+   */
+  public boolean isTransporter()
+  {
+    return getTransportCapacity() > 0;
+  }
+
+  /**
+   * How many units can this unit transport?
+   */
+  public int getTransportCapacity()
+  {
+    return getUnitType().getTransportCapacity();
+  }
+
+
+  
+
+  public boolean isFlagSet( int flag )
+  {
+    Assert.that( flag >= 0 && flag < F_LAST );
+    return ((m_type &  ( 1 << flag )) != 0);
+  }
+
+  public boolean canHelpBuildWonderHere()
+  {
+    City city = m_game.getMap().getCity( getX(), getY() );
+    return (city != null && canHelpBuildWonder( city ) );
+  }
+
+  private boolean canHelpBuildWonder(City c)
+  {
+    return false;
+    /*
+    return isFlagSet( F_CARAVAN ) &&
+      m_game.getMap().isTilesAdjacent( getX(), getY(), c.getX(), c.getY() ) &&
+      m_owner == c.getOwner().getId() &&
+      c.getCurrentlyBuilding().isWonder() &&
+      c.getShieldStock() < c.getCurrentlyBuilding().getValue();
+    */
+  }
+
+  public boolean canSetTraderouteHere()
+  {
+    /// TODO
+    return false;
+  }
+
+  public boolean isConnecting()
+  {
+    // toDO 
+    return false;
+  }
+
+  
 }

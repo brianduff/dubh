@@ -1,5 +1,7 @@
 package org.freeciv.common;
 
+import javax.swing.Icon;
+
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetTerrain;
 
@@ -15,6 +17,9 @@ public class TerrainType implements GameObject
 
   private PktRulesetTerrain m_ruleset;
 
+  private Icon[] m_icons = new Icon[16];    // was 8. hmm.
+  private Icon[] m_specialIcons = new Icon[2];
+  
   TerrainType(GameObjectFactory terrainFactory)
   {
     m_terrainFactory = terrainFactory;
@@ -74,47 +79,47 @@ public class TerrainType implements GameObject
 
   public String getSpecialName(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
-    return number == 1 ? m_ruleset.special_1_name : m_ruleset.special_2_name;
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
+    return number == 0 ? m_ruleset.special_1_name : m_ruleset.special_2_name;
   }
 
   public int getFoodSpecial(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
         
-    return number == 1 ? m_ruleset.food_special_1 : m_ruleset.food_special_2;
+    return number == 0 ? m_ruleset.food_special_1 : m_ruleset.food_special_2;
   }
 
   public int getShieldSpecial(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
         
-    return number == 1 ? m_ruleset.shield_special_1 : m_ruleset.shield_special_2;
+    return number == 0 ? m_ruleset.shield_special_1 : m_ruleset.shield_special_2;
   }
 
   public int getTradeSpecial(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
         
-    return number == 1 ? m_ruleset.trade_special_1 : m_ruleset.trade_special_2;
+    return number == 0 ? m_ruleset.trade_special_1 : m_ruleset.trade_special_2;
   }
 
   public String getSpecialGraphicStr(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
 
     return m_ruleset.special[number].graphic_str;
   } 
 
   public String getSpecialGraphicAlt(int number)
   {
-    if (number != 1 || number != 2) 
-      throw new IllegalArgumentException("Must be 1 or 2");
+    if (number != 0 && number != 1) 
+      throw new IllegalArgumentException("Must be 0 or 1");
 
     return m_ruleset.special[number].graphic_alt;
   }
@@ -172,5 +177,25 @@ public class TerrainType implements GameObject
   public String getHelpText()
   {
     return m_ruleset.helptext;
+  }
+
+  public void setSprite( int index, Icon icon )
+  {
+    m_icons[ index ] = icon;
+  }
+
+  public Icon getSprite( int index )
+  {
+    return m_icons[ index ];
+  }
+
+  public void setSpecialSprite( int index, Icon icon )
+  {
+    m_specialIcons[ index ] = icon;
+  }
+
+  public Icon getSpecialSprite( int index )
+  {
+    return m_specialIcons[ index ];
   }
 }

@@ -15,7 +15,7 @@ import java.awt.BorderLayout;
 /**
  * Represents a tilespec.
  */
-public class TileSpec
+public class TileSpec implements Constants
 {
   // roughly corresponds to tilespec.c
 
@@ -23,7 +23,8 @@ public class TileSpec
   private final static String EXTENSIONS = XPM_EXT;
   private final static String TILESET_DEFAULT = "trident";
   private final static String TILESET_ISOMETRIC_DEFAULT = "hires";
-
+  private static final int NUM_TILES_HP_BAR = 11;
+  
   private String m_mainIntroFilename, m_minimapIntroFilename;
 
   private NamedSprites m_sprites = new NamedSprites();
@@ -62,6 +63,11 @@ public class TileSpec
   public boolean isIsometric()
   {
     return m_isIsometric;
+  }
+
+  private Options getOptions()
+  {
+    return getClient().getOptions();
   }
   
   public Client getClient()
@@ -470,101 +476,26 @@ public class TileSpec
     }
     return null;
   }
-  ///     Image retrieval
-  private Terrain[] m_terrains;
-  private RoadOverlay emptyRoad = new RoadOverlay( null, 0 );
-  private RoadOverlay emptyRail = new RoadOverlay( null, 32 );
-  /**
-   * Get an icon for the specified terrain type and variation.
-   * You must not call this before all the PktRulesetTerrains have
-   * been received from the server.
-   *
-   *
-   * @param icoType the full icon id (use getFullTerrainID to compute
-   * this).
-   */
-  public Icon getTerrainIcon( int icoType, int variation )
-  {
-    // Get the ruleset for the terrain type.
 
-    TerrainType terrainType = (TerrainType)
-      getClient().getFactories().getTerrainTypeFactory().findById( icoType );
-    
-    String icoName = terrainType.getGraphicStr();
-    StringBuffer key = new StringBuffer( 30 );
-    key.append( icoName );
-    key.append( "_" );
-    key.append( NESW_STRINGS[ variation ] );
-    Icon i = getImage( key.toString() );
-    if( i == null )
-    {
-      throw new IllegalStateException( "Couldn't find terrain image " + key.toString() );
-    }
-    return i;
-  }
-  /**
-   * Get and create if necessary a Terrain object of the
-   * specified type and variation.
-   */
-  private Terrain getTerrain( int id, int variation )
-  {
-    int fullID = getFullTerrainId( id, variation );
-    // We do this lazily to avoid having to guess what size
-    // the array should be. This method must not be called
-    // before rulesets have been received, but that should be OK.
-    if( m_terrains == null )
-    {
-      //int numTerrains =
-      //   getClient().getRulesetManager().getRulesetTerrainCount();
-      //m_terrains = new Terrain[16*numTerrains];
-      m_terrains = new Terrain[ 512 ]; // BD: BAD BAD BAD
-    }
-    ;
-    Terrain t = m_terrains[ fullID ];
-    if( t == null )
-    {
-      // I think this should store the fullID because of variations.
-      // but this breaks other stuff, need to check this later BD
-      t = new Terrain( getTerrainIcon( id, variation ), id, variation );
-      m_terrains[ fullID ] = t;
-    }
-    return t;
-  }
-  private UnknownTerrain[] m_unknownTerrains;
-  /**
-   * Get a terrain object for the specified tile. Will instantiate
-   * a new object if necessary.
-   */
-  private Terrain getTerrain( PktTileInfo pkt )
-  {
-    if( pkt.known <= Constants.TILE_UNKNOWN )
-    {
-      if( m_unknownTerrains == null )
-      {
-        // Hmm. dodgy.
-        m_unknownTerrains = new UnknownTerrain[ Constants.T_LAST ];
-      }
-      UnknownTerrain t = m_unknownTerrains[ pkt.type ];
-      if( t == null )
-      {
-        t = new UnknownTerrain( pkt.type );
-        m_unknownTerrains[ pkt.type ] = t;
-      }
-      return t;
-    }
-    return getTerrain( pkt.type, computeVariation( pkt.type, pkt.x, pkt.y ) );
-  }
   //
   // These behave like boolean values, e.g. NESW_STRINGS[5] = n0e1s0w1
   // (5d = 0101b)
   //
-  private final static String[] NESW_STRINGS = 
+  private final static String[] NSEW_STRINGS = 
   {
     "n0s0e0w0", "n0s0e0w1", "n0s0e1w0", "n0s0e1w1", "n0s1e0w0", 
     "n0s1e0w1", "n0s1e1w0", "n0s1e1w1", "n1s0e0w0", "n1s0e0w1", 
     "n1s0e1w0", "n1s0e1w1", "n1s1e0w0", "n1s1e0w1", "n1s1e1w0", 
     "n1s1e1w1"
   };
+
+  private static final int DIR_NORTH = 8;
+  private static final int DIR_EAST = 2;
+  private static final int DIR_SOUTH = 4;
+  private static final int DIR_WEST = 1;
+
+  private static final int NUM_DIRECTION_NSEW = NSEW_STRINGS.length;
+  
   private int getFullTerrainId( int type, int variation )
   {
     return ( ( type << 5 ) + variation );
@@ -582,340 +513,11 @@ public class TileSpec
    */
   private int getVariationID( boolean north, boolean south, boolean east, boolean west )
   {
-    return ( north ? 8 : 0 ) + ( south ? 4 : 0 ) + ( east ? 2 : 0 ) + ( west ? 1 : 0 );
+    // INDEX_NSEW in tilespec.h
+    return ( north ? DIR_NORTH : 0 ) + ( south ? DIR_SOUTH : 0 ) + ( east ? DIR_EAST : 0 ) + ( west ? DIR_WEST : 0 );
   }
-  /**
-   * Compute the variation for the tile at x, y based on the tiles
-   * around it.
-   */
-  private int computeVariation( int typeId, int x, int y )
-  {
-    CivMap m = getClient().getMap();
-    Terrain terNorth = ( y > 0 ) ? m.getTerrain( x, y - 1 ) : null;
-    Terrain terEast = ( x < m.getHorizontalTiles() - 1 ) ? m.getTerrain( x + 1, y ) : ( m.isWrapHorizontal() ? m.getTerrain( 0, y ) : null );
-    Terrain terSouth = ( y < m.getVerticalTiles() - 1 ) ? m.getTerrain( x, y + 1 ) : null;
-    Terrain terWest = ( x > 0 ) ? m.getTerrain( x - 1, y ) : ( m.isWrapHorizontal() ? m.getTerrain( m.getHorizontalTiles() - 1, y ) : null );
-    // TODO: Rivers & ocean.
-    return getVariationID( ( terNorth != null && terNorth.id == typeId ), ( terSouth != null && terSouth.id == typeId ), ( terEast != null && terEast.id == typeId ), ( terWest != null && terWest.id == typeId ) );
-  }
-  // Temporary
-  boolean doneCentering = false;
-  /**
-   * For an incoming tile info packet, set the terrain for the
-   * relevant tile.
-   */
-  public void setTerrain( PktTileInfo pkt, boolean update )
-  {
-    CivMap m = getClient().getMap();
-    List l = m.getTileList( pkt.x, pkt.y );
-    Terrain tnew = null;
-    Terrain told = (Terrain)l.get( CivMap.TERRAIN_LAYER );
-    RoadOverlay oldRoad = (RoadOverlay)l.get( CivMap.ROAD_LAYER );
-    RoadOverlay nRoad = (RoadOverlay)( ( ( pkt.special & Constants.S_RAILROAD ) != 0 ) ? getEmptyRail() : ( ( pkt.special & Constants.S_ROAD ) != 0 ) ? getEmptyRoad() : null );
-    l.set( CivMap.ROAD_LAYER, nRoad );
-    tnew = getTerrain( pkt );
-    //Logger.log(Logger.LOG_NORMAL,
-    //   "Set terrain layer ("+CivMap.TERRAIN_LAYER+") at "+pkt.x+", "+pkt.y+" to "+
-    //      tnew
-    //);
-    l.set( CivMap.TERRAIN_LAYER, tnew );
-    if( update )
-    {
-      computeAndSetOverlayTerrain( pkt.x, pkt.y );
-    }
-    /*l.set(CivMap.RESOURCE_LAYER,
-    ( (pkt.special & Constants.S_SPECIAL) != 0 ) ?
-    client.getTerrainSpecial(pkt.type):
-    null);
-    */
-    //l.set(HUT_LAYER,
-    //	((pkt.special & Constants.S_HUT) != 0)  ?
-    //	client.getHutIcon() :
-    //	null);
-    // Figure out if we need to update the tiles around this
-    // tile.
-    boolean needUpdate = false;
-    // The first time round this will always be true, because
-    // told != tnew (told = null)
-    if( !update )
-    {
-      
-    }
-    else
-    {
-      if( !tnew.equals( told ) )
-      {
-        needUpdate = true;
-      }
-      else
-      {
-        if( tnew.isKnown() != told.isKnown() )
-        {
-          needUpdate = true;
-        }
-        else
-        {
-          if( ( oldRoad == null ) != ( nRoad == null ) )
-          {
-            needUpdate = true;
-          }
-          else
-          {
-            if( ( oldRoad != null ) && ( nRoad != null ) && ( oldRoad.isRail() != nRoad.isRail() ) )
-            {
-              needUpdate = true;
-            }
-          }
-        }
-      }
-    }
-    if( needUpdate )
-    {
-      recomputeVariation( pkt.x - 1, pkt.y );
-      recomputeVariation( pkt.x + 1, pkt.y );
-      recomputeVariation( pkt.x, pkt.y - 1 );
-      recomputeVariation( pkt.x, pkt.y + 1 );
-      computeAndSetOverlayTerrain( pkt.x - 1, pkt.y );
-      computeAndSetOverlayTerrain( pkt.x + 1, pkt.y );
-      computeAndSetOverlayTerrain( pkt.x, pkt.y - 1 );
-      computeAndSetOverlayTerrain( pkt.x, pkt.y + 1 );
-      computeAndSetOverlayTerrain( pkt.x - 1, pkt.y - 1 );
-      computeAndSetOverlayTerrain( pkt.x + 1, pkt.y + 1 );
-      computeAndSetOverlayTerrain( pkt.x + 1, pkt.y - 1 );
-      computeAndSetOverlayTerrain( pkt.x - 1, pkt.y + 1 );
-      m.repaintTilesAround( pkt.x, pkt.y );
-    // TODO smallMap.updateMap(pkt.x,pkt.y);
-    }
-    else
-    {
-      m.repaintOneTile( pkt.x, pkt.y );
-    }
-    if( !doneCentering )
-    {
-      // Remove this later
-      m.centerOnTile( pkt.x, pkt.y );
-      doneCentering = true;
-    }
-  }
-  private void recomputeVariation( int x, int y )
-  {
-    CivMap m = getClient().getMap();
-    if( x < 0 || x > m.getHorizontalTiles() - 1 || y < 0 || y > m.getVerticalTiles() - 1 )
-    {
-      return ;
-    }
-    List l = m.getTileList( x, y );
-    Terrain current = (Terrain)l.get( CivMap.TERRAIN_LAYER );
-    if( current == null || !current.isKnown() )
-    {
-      return ;
-    }
-    int variation = computeVariation( current.getId(), x, y );
-    Terrain newTerrain = getTerrain( current.getId(), variation );
-    l.set( CivMap.TERRAIN_LAYER, newTerrain );
-  }
-  /**
-   * Return a road overlay that doesn't contain any rails
-   */
-  public RoadOverlay getEmptyRail()
-  {
-    return emptyRail;
-  }
-  /**
-   * Return a road overlay that doesn't contain any roads.
-   */
-  public RoadOverlay getEmptyRoad()
-  {
-    return emptyRoad;
-  }
-  /**
-   * Figure out all the terrain overlays (road, shadows) for
-   * the specified grid square and put them on the map
-   */
-  private void computeAndSetOverlayTerrain( int x, int y )
-  {
-    CivMap m = getClient().getMap();
-    if( y < 0 || y > m.getVerticalTiles() - 1 )
-    {
-      return ;
-    }
-    if( x < 0 )
-    {
-      x = m.getHorizontalTiles() - 1;
-    }
-    if( x > m.getHorizontalTiles() - 1 )
-    {
-      x = 0;
-    }
-    Terrain t = m.getTerrain( x, y );
-    if( ( t == null ) || !t.isKnown() )
-    {
-      return ;
-    }
-    List l = m.getTileList( x, y );
-    if( l.get( CivMap.ROAD_LAYER ) != null )
-    {
-      computeAndSetRoad( x, y );
-    }
-    computeAndSetShadow( x, y );
-  //if ( t.getId() != Constants.T_OCEAN )
-  //	return;
-  //l.set(TERRAIN_OVERLAY_LAYER, computeOverlayTerrain(x,y));
-  }
-  /**
-   * Figure out the roads that need to be displayed for the specifed
-   * map co-ordinates, and add the relevant icons to the grid square.
-   */
-  private void computeAndSetRoad( int x, int y )
-  {
-    CivMap m = getClient().getMap();
-    int horizontalTiles = m.getHorizontalTiles();
-    int verticalTiles = m.getVerticalTiles();
-    boolean hWrap = m.isWrapHorizontal();
-    RoadOverlay n, w, e, s, ne, nw, se, sw, center;
-    n = w = e = s = ne = nw = se = sw = null;
-    center = m.getRoad( x, y );
-    if( y > 0 )
-    {
-      n = m.getRoad( x, y - 1 );
-      nw = ( x > 0 ) ? m.getRoad( x - 1, y - 1 ) : ( hWrap ? m.getRoad( horizontalTiles - 1, y - 1 ) : null );
-      ne = ( x < horizontalTiles - 1 ) ? m.getRoad( x + 1, y - 1 ) : ( hWrap ? m.getRoad( 0, y - 1 ) : null );
-    }
-    if( y < verticalTiles - 1 )
-    {
-      s = m.getRoad( x, y + 1 );
-      sw = ( x > 0 ) ? m.getRoad( x - 1, y + 1 ) : ( hWrap ? m.getRoad( horizontalTiles - 1, y + 1 ) : null );
-      se = ( x < horizontalTiles - 1 ) ? m.getRoad( x + 1, y + 1 ) : ( hWrap ? m.getRoad( 0, y + 1 ) : null );
-    }
-    w = ( x > 0 ) ? m.getRoad( x - 1, y ) : ( hWrap ? m.getRoad( horizontalTiles - 1, y ) : null );
-    e = ( x < horizontalTiles - 1 ) ? m.getRoad( x + 1, y ) : ( hWrap ? m.getRoad( 0, y ) : null );
-    int variation = getVariationID( ( n != null ), ( s != null ), ( e != null ), ( w != null ) );
-    int dvariation = getVariationID( ( ne != null ), ( sw != null ), ( se != null ), ( nw != null ) );
-    List l = m.getTileList( x, y );
-    if( center.isRail() )
-    {
-      l.set( CivMap.ROAD_LAYER, getNormalRailOverlay( variation ) );
-      l.set( CivMap.ROAD_DIAGONAL_LAYER, getDiagonalRailOverlay( dvariation ) );
-    }
-    else
-    {
-      l.set( CivMap.ROAD_LAYER, getNormalRoadOverlay( variation ) );
-      l.set( CivMap.ROAD_DIAGONAL_LAYER, getDiagonalRoadOverlay( dvariation ) );
-    }
-  }
-  private RoadOverlay[] m_roads;
-  private FlashingIcon getNormalRoadOverlay( int variation )
-  {
-    return getRoadInternal( variation );
-  }
-  private FlashingIcon getDiagonalRoadOverlay( int variation )
-  {
-    return getRoadInternal( variation + 64 );
-  }
-  private FlashingIcon getNormalRailOverlay( int variation )
-  {
-    return getRoadInternal( variation + 32 );
-  }
-  private FlashingIcon getDiagonalRailOverlay( int variation )
-  {
-    return getRoadInternal( variation + 96 );
-  }
-  private FlashingIcon getRoadInternal( int idx )
-  {
-    if( m_roads == null )
-    {
-      m_roads = new RoadOverlay[ 128 ];
-    }
-    RoadOverlay ro = m_roads[ idx ];
-    if( ro == null )
-    {
-      ro = new RoadOverlay( getRoadOrRailIcon( idx ), idx );
-      m_roads[ idx ] = ro;
-    }
-    return ro;
-  }
-  /**
-   * Get a road or rail icon. The index encodes the type in the following
-   * way:
-   *   bits 0-3: The nsew variation
-   *   bit  4:   1 = rail, 0 = road
-   *   bit  5:   1 = diagonal, 0 = cardinal
-   */
-  private Icon getRoadOrRailIcon( int idx )
-  {
-    int variation = idx & 31; // Get the last 4 bits
-    boolean rail = ( ( idx & 32 ) > 0 ); // Only true if bit 4 == 1
-    boolean diagonal = ( ( idx & 64 ) > 0 ); // Only true if bit 5 == 1
-    StringBuffer sbIconTag = new StringBuffer( 15 );
-    if( variation == 0 )
-    {
-      sbIconTag.append( "r." );
-      sbIconTag.append( rail ? "rail" : "road" );
-      sbIconTag.append( "_isolated" );
-    }
-    else
-    {
-      sbIconTag.append( "r." );
-      sbIconTag.append( diagonal ? "d_" : "c_" );
-      sbIconTag.append( rail ? "rail_" : "road_" );
-      sbIconTag.append( NESW_STRINGS[ variation ] );
-    }
-    Icon i = getImage( sbIconTag.toString() );
-    if( i == null )
-    {
-      Logger.log( Logger.LOG_NORMAL, "Failed to find road image for " + sbIconTag.toString() );
-    }
-    return i;
-  }
-  public void computeAndSetShadow( int x, int y )
-  {
-    CivMap m = getClient().getMap();
-    Terrain n, s, w, e;
-    n = s = w = e = null;
-    if( y > 0 )
-    {
-      n = m.getTerrain( x, y - 1 );
-    }
-    if( y < m.getVerticalTiles() - 1 )
-    {
-      s = m.getTerrain( x, y + 1 );
-    }
-    w = m.getTerrain( m.adjustX( x - 1 ), y );
-    e = m.getTerrain( m.adjustX( x + 1 ), y );
-    int variation = getVariationID( ( n == null || !n.isKnown() ), ( s == null || !s.isKnown() ), ( e == null || !e.isKnown() ), ( w == null || !w.isKnown() ) );
-    List l = m.getTileList( x, y );
-    if( variation == 0 )
-    {
-      l.set( CivMap.SHADOW_LAYER, null );
-    }
-    else
-    {
-      l.set( CivMap.SHADOW_LAYER, getDarkOverlay( variation ) );
-    }
-  }
-  private Icon[] m_darkIcons = new Icon[ 16 ];
-  private Icon getDarkOverlay( int variation )
-  {
-    Icon i = m_darkIcons[ variation ];
-    if( i == null )
-    {
-      i = getDarkOverlayIcon( variation );
-      m_darkIcons[ variation ] = i;
-    }
-    return i;
-  }
-  private Icon getDarkOverlayIcon( int variation )
-  {
-    StringBuffer key = new StringBuffer( 15 );
-    key.append( "tx.darkness_" );
-    key.append( NESW_STRINGS[ variation ] );
-    Icon i = getImage( key.toString() );
-    if( i == null )
-    {
-      Logger.log( Logger.LOG_NORMAL, "Didn't find darkness overlay for " + key.toString() );
-    }
-    return i;
-  }
+
+
 
   private void lookupSpriteTags()
   {
@@ -962,6 +564,1329 @@ public class TileSpec
     );
 
     return null;
+  }
+
+  public boolean getIsometricSprites( List sprites, List coasts, List dither, 
+    int x, int y, boolean cityMode, boolean[] solidBg )
+  {
+    org.freeciv.common.Map map = getClient().getGame().getMap();
+      
+    int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
+    int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
+    int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
+    int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west; 
+
+    int ttype_near[] = new int [NUM_DIRECTION_NSEW ];
+    int tspecial_near[] = new int [NUM_DIRECTION_NSEW ];
+
+    int tileno;
+    Tile tile;
+    org.freeciv.common.City city;
+    int dir, i;
+
+    solidBg[0] = false;
+
+    MapPosition pos = new MapPosition( x, y );
+
+    if ( !map.normalizeMapPosition( pos ) )
+    {
+      return false;
+    }
+    x = pos.x;
+    y = pos.y;
+
+    tile = map.getTile( x, y );
+
+    if ( tile.getKnown() == TILE_UNKNOWN )
+    {
+      return false;
+    }
+
+    city = tile.getCity();
+    ttype = tile.getTerrain();
+    tspecial = tile.getSpecial();
+
+    if ( ttype == T_RIVER )
+    {
+      ttype = T_GRASSLAND;
+      tspecial |= S_RIVER;
+    }
+
+    for ( dir = 0 ; dir < NUM_DIRECTION_NSEW; dir++)
+    {
+      MapPosition mp = new MapPosition( 
+        x + map.DIR_DX2[ dir ],
+        y + map.DIR_DY2[ dir ]
+      );
+      if ( map.normalizeMapPosition( mp ) )
+      {
+        ttype_near[ dir ] = map.getTerrain( mp.x, mp.y );
+        tspecial_near[ dir ] = map.getSpecial( mp.x, mp.y );
+
+        if ( ttype_near[dir] == T_RIVER )
+        {
+          ttype_near[dir] = T_GRASSLAND;
+          tspecial_near[dir] |= S_RIVER;
+        }
+      }
+      else
+      {
+        ttype_near[dir] = T_UNKNOWN;
+        tspecial_near[dir] = S_NO_SPECIAL;
+      } 
+    }
+    int idx = 0;
+    ttype_north = ttype_near[idx++];
+    ttype_north_east = ttype_near[idx++];
+    ttype_east = ttype_near[idx++];
+    ttype_south_east = ttype_near[idx++];
+    ttype_south = ttype_near[idx++];
+    ttype_south_west = ttype_near[idx++];
+    ttype_west = ttype_near[idx++];
+    ttype_north_west = ttype_near[idx++];
+
+    idx = 0;
+    tspecial_north = ttype_near[idx++];
+    tspecial_north_east = ttype_near[idx++];
+    tspecial_east = ttype_near[idx++];
+    tspecial_south_east = ttype_near[idx++];
+    tspecial_south = ttype_near[idx++];
+    tspecial_south_west = ttype_near[idx++];
+    tspecial_west = ttype_near[idx++];
+    tspecial_north_west = ttype_near[idx++];
+
+    if (getOptions().drawTerrain)
+    {
+      if ( ttype != T_OCEAN)
+      {
+        sprites.add( getTerrainType( ttype ).getSprite( 0 ) );
+      }
+
+      if (ttype == T_HILLS) 
+      {
+        tileno = getVariationID((ttype_north==T_HILLS || ttype_north==T_HILLS),
+                        (ttype_south==T_HILLS || ttype_south==T_HILLS),
+                        (ttype_east==T_HILLS || ttype_east==T_HILLS),
+                        (ttype_west==T_HILLS || ttype_west==T_HILLS));
+        sprites.add( getImage( "tx.s_hill_" + NSEW_STRINGS[ tileno ] ) );
+      }
+
+      if (ttype == T_FOREST) 
+      {
+        tileno = getVariationID((ttype_north==T_FOREST || ttype_north==T_FOREST),
+                        (ttype_south==T_FOREST || ttype_south==T_FOREST),
+                        (ttype_east==T_FOREST || ttype_east==T_FOREST),
+                        (ttype_west==T_FOREST || ttype_west==T_FOREST));
+        sprites.add( getImage( "tx.s_forest_" + NSEW_STRINGS[ tileno ] ) );
+      }
+
+      if (ttype == T_MOUNTAINS) 
+      {
+        tileno = getVariationID((ttype_north==T_MOUNTAINS || ttype_north==T_MOUNTAINS),
+                        (ttype_south==T_MOUNTAINS || ttype_south==T_MOUNTAINS),
+                        (ttype_east==T_MOUNTAINS || ttype_east==T_MOUNTAINS),
+                        (ttype_west==T_MOUNTAINS || ttype_west==T_MOUNTAINS));
+        sprites.add( getImage( "tx.s_mountain_"+NSEW_STRINGS[ tileno ] ) );
+      }
+
+      if ((tspecial&S_RIVER) != 0) 
+      {
+        tileno = getVariationID(((tspecial_north&S_RIVER) != 0 || ttype_north==T_OCEAN),
+                        ((tspecial_south&S_RIVER) != 0 || ttype_south==T_OCEAN),
+                        ((tspecial_east&S_RIVER) != 0 || ttype_east==T_OCEAN),
+                        ((tspecial_west&S_RIVER) != 0 || ttype_west==T_OCEAN));
+        sprites.add( getImage( "tx.s_river_" + NSEW_STRINGS[ tileno ] ) ) ;
+      }
+
+      if (ttype == T_OCEAN) 
+      {
+        if( (tspecial_north&S_RIVER) != 0 || ttype_north==T_RIVER)
+          sprites.add( getImage( "tx.river_outlet_n" ) );
+        if( (tspecial_west&S_RIVER) != 0 || ttype_west==T_RIVER)
+          sprites.add( getImage( "tx.river_outlet_w" ) );
+        if( (tspecial_south&S_RIVER) != 0 || ttype_south==T_RIVER)
+          sprites.add( getImage( "tx.river_outlet_s" ) );
+        if( (tspecial_east&S_RIVER) != 0 || ttype_east==T_RIVER)
+          sprites.add( getImage( "tx.river_outlet_e" ) );
+      }
+    
+    }
+    else
+    {
+      solidBg[0] = true;
+    }
+
+    if (getOptions().drawSpecials) 
+    {
+      if ( (tspecial & S_SPECIAL_1) != 0 )
+      {
+        sprites.add( getTerrainType( ttype ).getSpecialSprite( 0 ) );
+      }
+      else if ( (tspecial & S_SPECIAL_2) != 0 )
+      {
+        sprites.add( getTerrainType( ttype ).getSpecialSprite ( 1 ) );
+      }
+    }
+
+    if ( (tspecial & S_MINE) != 0 && getOptions().drawMines ) 
+    {
+      /* We do not have an oil tower in isometric view yet... */
+      sprites.add( getImage( "tx.mine" ) );
+    }
+
+    if ( (tspecial & S_IRRIGATION) != 0  && city == null && getOptions().drawIrrigation ) 
+    {
+      if ( (tspecial & S_FARMLAND) != 0) 
+      {
+        sprites.add( getImage( "tx.farmland" ) );
+      } 
+      else 
+      {
+        sprites.add( getImage( "tx.irrigation" ) );
+      }
+    }
+
+    if ((tspecial & S_RAILROAD) != 0 && getOptions().drawRoadsRails) 
+    {
+      boolean found = false;
+
+      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++) 
+      {
+        if ( (tspecial_near[dir] & S_RAILROAD) != 0) 
+        {
+          sprites.add( getImage( "r.rail"+dir ) );
+          found = true;
+        } 
+        else if ( (tspecial_near[dir] & S_ROAD) != 0) 
+        {
+          sprites.add( getImage( "r.road"+dir ) ) ;
+          found = true;
+        }
+      }
+
+      if (!found && city == null)
+      {
+        sprites.add( getImage( "r.rail_isolated" ) );
+      }
+
+    } 
+    else if ( (tspecial & S_ROAD) != 0 && getOptions().drawRoadsRails ) 
+    {
+      boolean found = false;
+
+      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++) 
+      {
+        if ( (tspecial_near[dir] & S_ROAD) != 0) 
+        {
+          sprites.add( getImage( "r.road"+dir ) );
+          found = true;
+        }
+      }
+      
+      if (!found && city == null)
+      {
+        sprites.add( getImage( "r.road_isolated" ) );
+      }
+    }
+
+    if ( (tspecial & S_HUT) != 0 && getOptions().drawSpecials) 
+    {
+      sprites.add( getImage( "tx.village" ) );
+    }
+
+    /* put coasts */
+    if (ttype == T_OCEAN) 
+    {
+      for (i = 0; i < 4; i++) 
+      {
+        String loc = "";
+
+      
+        int[] ttype_adj = new int[3];
+        int array_index;
+        switch (i) 
+        {
+          case 0: /* up */
+            ttype_adj[0] = ttype_west;
+            ttype_adj[1] = ttype_north_west;
+            ttype_adj[2] = ttype_north;
+            loc = "u";
+            break;
+          case 1: /* down */
+            ttype_adj[0] = ttype_east;
+            ttype_adj[1] = ttype_south_east;
+            ttype_adj[2] = ttype_south;
+            loc = "d";
+            break;
+          case 2: /* left */
+            ttype_adj[0] = ttype_south;
+            ttype_adj[1] = ttype_south_west;
+            ttype_adj[2] = ttype_west;
+            loc = "l";
+            break;
+          case 3: /* right*/
+            ttype_adj[0] = ttype_north;
+            ttype_adj[1] = ttype_north_east;
+            ttype_adj[2] = ttype_east;
+            loc = "r";
+            break;
+          default:
+            Assert.fail();
+        }
+
+        array_index = (ttype_adj[0] != T_OCEAN ? 1 : 0)
+          +  (ttype_adj[1] != T_OCEAN ? 2 : 0)
+          +  (ttype_adj[2] != T_OCEAN ? 4 : 0);
+        coasts.add( getImage( "tx.coast_cape_"+loc+i) );
+      }
+    }
+
+    dither.add(getDither(ttype, map.getTile(x, y-1).isKnown() ? ttype_north : T_UNKNOWN));
+    dither.add(getDither(ttype, map.getTile(x, y+1).isKnown() ? ttype_south : T_UNKNOWN));
+    dither.add(getDither(ttype, map.getTile(x+1, y).isKnown() ? ttype_east : T_UNKNOWN));
+    dither.add(getDither(ttype, map.getTile(x-1, y).isKnown() ? ttype_west : T_UNKNOWN));
+
+    return true;
+    
+  }
+
+  private TerrainType getTerrainType( int ttype )
+  {
+    return  (TerrainType) getClient().getFactories().getTerrainTypeFactory().findById( ttype );
+  }
+
+  /**
+   * For the tile at position abs_x0, abs_y0, get an ordered list of all
+   * sprites to be displayed on that tile.
+   *
+   */ 
+  public List getSpritesAt( int abs_x0, int abs_y0, 
+    boolean cityMode, boolean[] solidBg, Player[] player)
+  {
+    // fill_tile_sprite_array in tilespec.c
+
+    org.freeciv.common.Map map = getClient().getGame().getMap();
+  
+    int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
+    int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
+    int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
+    int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
+    int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
+    int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
+
+    int tileno;
+    Tile tile;
+    Icon mySprite;
+    org.freeciv.common.City city;
+    org.freeciv.common.Unit focus;
+    org.freeciv.common.Unit unit;
+    int den_y = map.getHeight() * 24;
+    ArrayList l = new ArrayList( 80 );
+
+    solidBg[0] = false;
+    player[0] = null;
+
+    // Only done in isometric mode in tilespec.c
+    MapPosition mp = new MapPosition( abs_x0, abs_y0 );
+    if (!map.normalizeMapPosition( mp ))
+    {
+      return l;
+    }
+
+    abs_x0 = mp.x;
+    abs_y0 = mp.y;
+
+    tile = map.getTile( abs_x0, abs_y0 );
+
+    if ( tile.getKnown() == TILE_UNKNOWN )
+    {
+      return l;
+    }
+
+    city = map.getCity( abs_x0, abs_y0 );
+    focus = getClient().getUnitInFocus();
+
+    if ( !m_flagsAreTransparent ||
+          getClient().getOptions().solidColorBehindUnits )
+    {
+      unit = getDrawableUnit( abs_x0, abs_y0, cityMode );
+
+      if ( unit != null && 
+          ( getClient().getOptions().drawUnits || 
+            (getClient().getOptions().drawFocusUnit && focus == unit ) ))
+      {
+        fillUnitSprites( l, unit, solidBg );
+
+        player[0] = unit.getOwner();
+        if ( tile.hasUnitStack() )
+        {
+          l.add( getImage( "unit.stack" ) );
+        }
+        
+        return l;
+      }
+
+      if ( city != null && getOptions().drawCities ) 
+      {
+        fillCitySprites( l, city, solidBg );
+        player[0] = city.getOwner();
+        return l;
+      }
+    }
+
+    ttype = map.getTile( abs_x0, abs_y0 ).getTerrain();
+    ttype_east = map.getTile( abs_x0+1, abs_y0 ).getTerrain();
+    ttype_west = map.getTile( abs_x0-1, abs_y0 ).getTerrain();
+
+    if ( abs_y0 == 0 )
+    {
+      ttype_north = ttype;
+      ttype_north_east = ttype_east;
+      ttype_north_west = ttype_west;
+    }
+    else
+    {
+      ttype_north = map.getTile( abs_x0, abs_y0-1 ).getTerrain();
+      ttype_north_east = map.getTile( abs_x0+1, abs_y0-1).getTerrain();
+      ttype_north_west = map.getTile( abs_x0-1, abs_y0-1).getTerrain();
+    }
+
+    if ( abs_y0 == map.getHeight()-1)
+    {
+      ttype_south = ttype;
+      ttype_south_east = ttype_east;
+      ttype_south_west = ttype_west;
+    }
+    else
+    {
+      ttype_south = map.getTile( abs_x0, abs_y0+1).getTerrain();
+      ttype_south_east = map.getTile( abs_x0+1, abs_y0+1).getTerrain();
+      ttype_south_west = map.getTile( abs_x0-1, abs_y0+1).getTerrain();
+    }
+
+    tspecial = map.getSpecial( abs_x0, abs_y0 );
+    tspecial_north = map.getSpecial( abs_x0, abs_y0-1 );
+    tspecial_east = map.getSpecial( abs_x0+1, abs_y0 );
+    tspecial_south = map.getSpecial( abs_x0, abs_y0+1);
+    tspecial_west = map.getSpecial( abs_x0-1, abs_y0 );
+    tspecial_north_east = map.getSpecial( abs_x0 + 1, abs_y0 - 1 );
+    tspecial_south_east = map.getSpecial( abs_x0 + 1, abs_y0 + 1 );
+    tspecial_south_west = map.getSpecial( abs_x0 - 1, abs_y0 + 1 );
+    tspecial_north_west = map.getSpecial( abs_x0 - 1, abs_y0 - 1 );
+
+    // Evil hack for denmark. Sheesh.
+    if ( map.isEarth() &&
+        abs_x0 >= 34 && abs_x0 <= 36 && abs_y0 >= den_y && abs_y0 <= den_y+1 )
+    {
+      mySprite = getImage( "tx.denmark_" + (abs_y0 - den_y) + (abs_x0 - 34 ) );
+    }
+    else
+    {
+      tileno = getVariationID( 
+        (ttype_north == ttype), (ttype_south == ttype),
+        (ttype_east == ttype), (ttype_west == ttype)
+      );
+
+      if ( ttype == T_RIVER )
+      {
+        tileno |= getVariationID(
+          (ttype_north == T_OCEAN), (ttype_south == T_OCEAN),
+          (ttype_east == T_OCEAN), (ttype_west == T_OCEAN)
+        );
+      }
+
+      TerrainType tt = (TerrainType) 
+        getClient().getFactories().getTerrainTypeFactory().findById( ttype );  
+
+      mySprite = tt.getSprite( tileno );
+    }
+
+    if ( getOptions().drawTerrain ) 
+    {
+      l.add( mySprite );
+    }
+    else
+    {
+      solidBg[0] = true;
+    }
+
+    if ( ttype == T_OCEAN && getOptions().drawTerrain )
+    {
+      tileno = getVariationID(
+        (ttype_north == T_OCEAN && ttype_east == T_OCEAN && ttype_north_east != T_OCEAN),
+        (ttype_south == T_OCEAN && ttype_west == T_OCEAN && ttype_south_west != T_OCEAN),
+        (ttype_east == T_OCEAN && ttype_south == T_OCEAN && ttype_south_east != T_OCEAN),
+        (ttype_north == T_OCEAN && ttype_west == T_OCEAN && ttype_north_west != T_OCEAN)
+      );
+
+      if ( tileno != 0 )
+      {
+        l.add( getImage( "tx.coast_cape_"+NSEW_STRINGS[ tileno ] ) );
+      }
+
+      if ( (tspecial_north & S_RIVER) != 0 || ttype_north == T_RIVER )
+      {
+        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_NORTH ] ) );
+      }
+      if ( (tspecial_west&S_RIVER) != 0 || ttype_west == T_RIVER )
+      {
+        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_WEST ] ) );
+      }
+      if ( (tspecial_south&S_RIVER) != 0 || ttype_south == T_RIVER )
+      {
+        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_SOUTH ] ) );
+      }
+      if ( (tspecial_east&S_RIVER) != 0 || ttype_east == T_RIVER )
+      {
+        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_EAST ] ) );
+      }
+
+      
+    }
+
+    if ( (tspecial&S_RIVER) != 0 && getClient().getOptions().drawTerrain )
+    {
+      tileno = getVariationID(
+        ((tspecial_north&S_RIVER) != 0 || ttype_north == T_OCEAN),
+        ((tspecial_south&S_RIVER) != 0 || ttype_south == T_OCEAN),
+        ((tspecial_east&S_RIVER) != 0 || ttype_east == T_OCEAN),
+        ((tspecial_west&S_RIVER) != 0 || ttype_west == T_OCEAN)
+      );
+
+      l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ tileno ] ) );
+    }
+
+    if ( (tspecial& S_IRRIGATION) != 0 && getClient().getOptions().drawIrrigation )
+    {
+      if ( (tspecial&S_FARMLAND) != 0 )
+      {
+        l.add( getImage( "tx.farmland" ) );
+      }
+      else
+      {
+        l.add( getImage( "tx.irrigation" ) );
+      }
+    }
+
+    if ((( (tspecial&S_ROAD) != 0 ) || ( (tspecial&S_RAILROAD) != 0 )) && getClient().getOptions().drawRoadsRails )
+    {
+      boolean n, s, e, w;
+
+      n = ((tspecial_north&S_RAILROAD) != 0);
+      s = ((tspecial_south&S_RAILROAD) != 0);
+      e = ((tspecial_east&S_RAILROAD) != 0);
+      w = ((tspecial_west&S_RAILROAD) != 0);
+
+      rail_card_count = (n ? 1 : 0) + (s ? 1 : 0) + (e ? 1 : 0) + (w ? 1 : 0);
+      rail_card_tileno = getVariationID( n, s, e, w );
+
+      n = ((tspecial_north&S_ROAD) != 0);
+      s = ((tspecial_south&S_ROAD) != 0);
+      e = ((tspecial_east&S_ROAD) != 0);
+      w = ((tspecial_west&S_ROAD) != 0);
+
+      road_card_count = (n?1:0) + (s?1:0) + (e?1:0) + (w?1:0);
+      road_card_tileno = getVariationID( n, s, e, w );      
+
+
+      n = ((tspecial_north_east&S_RAILROAD) != 0);
+      s = ((tspecial_south_west&S_RAILROAD) != 0);
+      e = ((tspecial_south_east&S_RAILROAD) != 0);
+      w = ((tspecial_north_west&S_RAILROAD) != 0);
+
+      rail_semi_count = (n?1:0) + (s?1:0) + (e?1:0) + (w?1:0);
+      rail_semi_tileno = getVariationID( n, s, e, w );
+
+      n = ((tspecial_north_east&S_ROAD) != 0);
+      s = ((tspecial_south_west&S_ROAD) != 0);
+      e = ((tspecial_south_east&S_ROAD) != 0);
+      w = ((tspecial_north_west&S_ROAD) != 0);
+
+      road_semi_count = (n?1:0) + (s?1:0) + (e?1:0) + (w?1:0);
+      road_semi_tileno = getVariationID( n, s, e, w );  
+
+
+      if ( (tspecial&S_RAILROAD) != 0 )
+      {
+        road_card_tileno &= ~rail_card_tileno;
+        road_semi_tileno &= ~rail_semi_tileno;
+      }
+      else if ( (tspecial&S_ROAD) != 0 )
+      {
+        rail_card_tileno &= ~road_card_tileno;
+        rail_semi_tileno &= ~road_semi_tileno;
+      }
+
+      if ( road_semi_count > road_card_count )
+      {
+        if ( road_card_tileno != 0 )
+        {
+          l.add( getImage( "r.c_road_"+NSEW_STRINGS[ road_card_tileno ] ) );
+        }
+        if ( road_semi_tileno!= 0 && getClient().getOptions().drawDiagonalRoads )
+        {
+          l.add( getImage( "r.d_road_"+NSEW_STRINGS[ road_semi_tileno ] ) );
+        }
+      }
+      else
+      {
+        if ( road_semi_tileno != 0 && getClient().getOptions().drawDiagonalRoads )
+        {
+          l.add( getImage( "r.d_road_"+NSEW_STRINGS[ road_semi_tileno ] ) );
+        }
+        if ( road_card_tileno != 0 )
+        {
+          l.add( getImage( "r.c_road_"+NSEW_STRINGS[ road_card_tileno ] ) );
+        }
+      }
+
+      if ( rail_semi_count > rail_card_count )
+      {
+        if ( rail_card_tileno != 0 )
+        {
+          l.add( getImage( "r.c_rail_"+NSEW_STRINGS[ rail_card_tileno ] ) );
+        }
+        if ( rail_semi_tileno!= 0 && getClient().getOptions().drawDiagonalRoads )
+        {
+          l.add( getImage( "r.d_rail_"+NSEW_STRINGS[ rail_semi_tileno ] ) );
+        }
+      }
+      else
+      {
+        if ( rail_semi_tileno != 0 && getClient().getOptions().drawDiagonalRoads )
+        {
+          l.add( getImage( "r.d_rail_"+NSEW_STRINGS[ rail_semi_tileno ] ) );
+        }
+        if ( rail_card_tileno != 0 )
+        {
+          l.add( getImage( "r.c_rail_"+NSEW_STRINGS[ rail_card_tileno ] ) );
+        }
+      }
+    }
+
+    if ( getClient().getOptions().drawSpecials )
+    {
+      if ( (tspecial&S_SPECIAL_1) != 0 )
+      {
+        // TODO
+      }
+    }
+
+    if ( ( (tspecial&S_MINE) != 0) && getOptions().drawMines )
+    { 
+      if ( ttype == T_HILLS || ttype == T_MOUNTAINS )
+      {
+        l.add( getImage( "tx.mine" ) );
+      }
+      else
+      {
+        l.add( getImage( "tx.oil_mine" ) );
+      }
+    }
+
+    if ( getOptions().drawRoadsRails )
+    {
+      if ( (tspecial&S_RAILROAD) != 0 )
+      {
+        int adjacent = rail_card_tileno;
+        if ( getOptions().drawDiagonalRoads )
+        {
+          adjacent |= rail_semi_tileno;
+        }
+        if ( adjacent == 0 )
+        {
+          l.add( getImage("r.rail_isolated") );
+        }
+      } 
+      else if ( (tspecial&S_ROAD) != 0 )
+      {
+        int adjacent = road_card_tileno;
+        if ( getOptions().drawDiagonalRoads )
+        {
+          adjacent |= road_semi_tileno;
+        }
+        if ( adjacent == 0 )
+        {
+          l.add( getImage("r.road_isolated") );
+        }
+      }
+    }
+
+    if (( (tspecial&S_HUT) != 0) && getOptions().drawSpecials )
+    {
+      l.add( getImage( "tx.village" ) );
+    }
+    if (( (tspecial&S_FORTRESS) != 0) && getOptions().drawFortressAirbase )
+    {
+      l.add( getImage( "tx.fortress" ) );
+    }
+    if (( (tspecial&S_AIRBASE) != 0) && getOptions().drawFortressAirbase )
+    {
+      l.add( getImage( "tx.airbase" ) );
+    }
+    if (( (tspecial&S_POLLUTION) != 0) && getOptions().drawPollution )
+    {
+      l.add( getImage( "tx.pollution" ) );
+    }    
+    if (( (tspecial&S_FALLOUT) != 0) && getOptions().drawFallout )
+    {
+      l.add( getImage( "tx.fallout" ) );
+    }     
+    if (tile.getKnown() == TILE_KNOWN_FOGGED && getOptions().drawFogOfWar )
+    {
+      l.add( getImage( "tx.fog" ) );
+    }    
+
+    if (!cityMode)
+    {
+      tileno = getVariationID(
+        !map.getTile( abs_x0, abs_y0-1 ).isKnown(),
+        !map.getTile( abs_x0, abs_y0+1 ).isKnown(),
+        !map.getTile( abs_x0+1, abs_y0 ).isKnown(),
+        !map.getTile( abs_x0-1, abs_y0 ).isKnown()
+      );
+
+      if ( tileno != 0 )
+      {
+        l.add( getImage ("tx.darkness_"+NSEW_STRINGS[ tileno ] ) );
+      }
+    }
+
+    if (m_flagsAreTransparent)
+    {
+      boolean[] dummy = new boolean[1];
+
+      if ( city != null && getOptions().drawCities )
+      {
+        fillCitySprites( l, city, dummy );
+      }
+
+      unit = findVisibleUnit( tile );
+
+      if ( unit !=  null )
+      {
+        if ( !cityMode || !unit.isOwner(getClient().getGame().getCurrentPlayer()) )
+        {
+          if (( true /*!focus_unit_hidden*/ || focus != unit ) &&
+            ( getOptions().drawUnits || (getOptions().drawFocusUnit && true /*!focus_unit_hidden*/ && unit == focus )))
+          {
+            //no_backdrop = (city != null);
+            fillUnitSprites( l, unit, dummy );
+            //no_backdrop = false;
+            if ( tile.hasUnitStack() )
+            {
+              l.add( getImage( "unit.stack" ) );
+            }
+          }
+        }
+      }
+    }
+
+    return l;
+  }
+
+  /**
+   * The ruleset terrain packet handler calls this to set up the sprites
+   * for terrain
+   *
+   * @param id the id of the terrain type to set up
+   */
+  public void setupTileType( int id )
+  {
+    // tilespec.c:tilespec_setup_tile_type( id )
+    TerrainType tt = (TerrainType) 
+      getClient().getFactories().getTerrainTypeFactory().findById( id );
+
+    StringBuffer buffer1 = new StringBuffer( 100 );
+    StringBuffer buffer2 = new StringBuffer( 100 );
+    String nsew;
+
+    int i;
+
+    if ( tt.getName().length() == 0 )
+    {
+      for ( i = 0; i < NUM_DIRECTION_NSEW; i++)
+      {
+        tt.setSprite( i, null );
+      }
+      for ( i = 0; i < 2; i++)
+      {
+        tt.setSpecialSprite( i, null );
+      }
+      return;
+    }
+
+    if ( m_isIsometric )
+    {
+      if ( id != T_RIVER )
+      {
+        tt.setSprite( 0, 
+          lookupSpriteTagAlt( 
+            tt.getGraphicStr(), null, true, "tile_type", tt.getName() 
+          ) 
+        );
+      }
+      else
+      {
+        tt.setSprite( 0, null );
+      }
+    }
+    else
+    {
+      for ( i = 0; i < NUM_DIRECTION_NSEW; i++)
+      {
+        nsew = NSEW_STRINGS[ i ];
+        buffer1.setLength( 0 );
+        buffer1.append( tt.getGraphicStr() );
+        buffer1.append( '_' );
+        buffer1.append( nsew );
+        buffer2.setLength( 0 );
+        buffer2.append( tt.getGraphicAlt() );
+        buffer2.append( '_' );
+        buffer2.append( nsew );
+
+        tt.setSprite( i, 
+          lookupSpriteTagAlt(
+            buffer1.toString(), buffer2.toString(), true, "tile_type", 
+            tt.getName()
+          )
+        );
+      }
+    }
+
+    for ( i = 0; i < 2; i++)
+    {
+      String name = tt.getSpecialName( i );
+      if ( name != null && name.length() != 0 )
+      {
+        tt.setSpecialSprite( i, 
+          lookupSpriteTagAlt(
+            tt.getSpecialGraphicStr( i ), tt.getSpecialGraphicAlt( i ),
+            true, "tile_type special", name
+          )
+        );
+      }
+      else
+      {
+        tt.setSpecialSprite( i, null );
+      }
+    }
+    
+  }
+
+  /**
+   * Called by the ruleset government packet handler to initialize the sprite
+   * for a government.
+   *
+   * @param id the government to initialize
+   */
+  public void setupGovernment( Government gov )
+  {
+    gov.setSprite( lookupSpriteTagAlt(
+      gov.getGraphicStr(), gov.getGraphicAlt(), true, "government", 
+      gov.getName()
+    )); 
+  }
+
+  /**
+   * Called by the ruleset nation packet handler to initialize the sprite
+   * for a nation flag
+   *
+   * @param id the nation to initialize
+   */
+  public void setupNationFlag( Nation n )
+  {
+    n.setFlagSprite( lookupSpriteTagAlt(
+      n.getFlagGraphicStr(), n.getFlagGraphicAlt(), true, "nation",
+      n.getName()
+    ));
+  }
+
+  /**
+   * Called by the ruleset unit packet handler to initialize the sprite for
+   * a unit type.
+   *
+   * @param id the unit type to initialize
+   */
+  public void setupUnitType( UnitType ut )
+  {
+    ut.setSprite( lookupSpriteTagAlt(
+      ut.getGraphicStr(), ut.getGraphicAlt(), 
+      true, // unit_type_exists()
+      "unit_type", ut.getName()
+    ));
+  }
+
+  /**
+   */
+  private void setupStyleTile( CityStyle style, String graphics )
+  {
+    style.setNumTiles( 0 );
+    StringBuffer buffer = new StringBuffer( 128 );
+    StringBuffer bufferWall = new StringBuffer( 128 );
+    Icon sp = null, sp_wall = null;
+
+    for ( int j = 0; j < 32 && style.getNumTiles() < style.MAX_CITY_TILES; j++ )
+    {
+      buffer.setLength( 0 );
+      buffer.append( graphics );
+      buffer.append( "_" );
+      buffer.append( String.valueOf( j ) );
+
+      sp = getImage( buffer.toString() );
+
+      if ( isIsometric() )
+      {
+        bufferWall.setLength( 0 );
+        bufferWall.append( graphics );
+        bufferWall.append( "_" );
+        bufferWall.append( String.valueOf( j ) );
+        bufferWall.append( "_wall" );
+
+        sp_wall = getImage( bufferWall.toString() );
+      }
+
+      if ( sp != null )
+      {
+        style.setTileSprite( style.getNumTiles(), sp );
+
+        if ( isIsometric() )
+        {
+          Assert.that( sp_wall != null );
+          style.setWallSprite( style.getNumTiles(), sp_wall );
+        }
+        style.setThreshold( style.getNumTiles(), j );
+        style.setNumTiles( style.getNumTiles() + 1 );
+      }
+    }
+
+    if ( style.getNumTiles() == 0 )
+    {
+      return;
+    }
+
+    if (! isIsometric() )
+    {
+      buffer.setLength( 0 );
+      buffer.append( graphics );
+      buffer.append( "_wall" );
+
+      sp = getImage( buffer.toString() );
+
+      if ( sp != null )
+      {
+        style.setTileSprite( style.getNumTiles(), sp );
+      }
+    }
+
+    buffer.setLength( 0 );
+    buffer.append( graphics );
+    buffer.append( "_occupied" );
+    sp = getImage( buffer.toString() );
+    if ( sp != null )
+    {
+      style.setTileSprite( style.getNumTiles()+1, sp );
+    }
+  }
+
+  public void setupCityTiles( CityStyle style )
+  {
+    setupStyleTile( style, style.getGraphic() );
+
+    if ( style.getNumTiles() == 0 )
+    {
+      setupStyleTile ( style, style.getGraphicAlt() );
+    }
+
+    if ( style.getNumTiles() == 0 )
+    {
+        style.setTileSprite( 0, getImage( "cd.city" ) );
+        style.setTileSprite( 1, getImage( "cd.city_wall" ) );
+        style.setTileSprite( 2, getImage( "cd.occupied" ) );
+        style.setNumTiles( 1 );
+        style.setThreshold( 0, 0 );
+    }
+  }
+
+  /**
+   * Add sprites for the specified city to the specified list of sprites.
+   *
+   * @param l a list of sprites being built up for a tile
+   * @param city the city whose sprites have to be added
+   * @param solidBg
+   */
+  private void fillCitySprites( List l, org.freeciv.common.City city, boolean[] solidBg )
+  {
+    // we avoid the hackiness in tilespec.c and combine
+    // fill_city_sprite_array and fill_city_sprite_array_iso into one method.
+  
+    solidBg[0] = false;
+
+    Tile tile = getClient().getGame().getMap().getTile( city.getX(), city.getY() );
+
+    if ( !m_noBackdrop )
+    {
+      if ( !getOptions().solidColorBehindUnits  || isIsometric() )
+      {
+        l.add( getCityNationFlagSprite( city ) );
+      }  
+      else
+      {
+        solidBg[0] = true;
+      }
+    }
+
+    if ( tile.hasUnits() )
+    {
+      l.add( getCityOccupiedSprite( city ) );
+    }
+
+    l.add( getCitySprite( city ) );
+
+    if ( !isIsometric() )
+    {
+      if ( city.hasWalls() )
+      {
+        l.add( getCityWallSprite( city ) );
+      }
+
+      if ( tile.isPolluted() )
+      {
+        l.add( getImage( "tx.pollution" ) );
+      }
+
+      if ( tile.hasFallout() )
+      {
+        l.add( getImage( "tx.fallout" ) );
+      }
+    }
+
+    if ( city.isUnhappy() )
+    {
+      l.add( getImage( "city.disorder" ) );
+    }
+
+    if ( !isIsometric() )
+    {
+      if ( tile.getKnown() == TILE_KNOWN_FOGGED && getOptions().drawFogOfWar )
+      {
+        l.add( getImage( "tx.fog" ) );
+      }
+
+      if ( city.getSize() >= 10 )
+      {
+        l.add( getImage( "city.size_"+city.getSize() / 10 + "0" ) );
+      }
+
+      l.add( getImage( "city.size_"+city.getSize() ) );
+    }
+
+  }
+
+  private Icon getDither( int ttype, int ttype_other )
+  {
+    if ( ttype_other == T_UNKNOWN )
+    {
+      return getImage( "t.black_tile" );
+    }
+
+    if ( ttype == T_OCEAN || ttype == T_JUNGLE )
+    {
+      return getImage( "t.coast_color" );
+    }
+
+    if ( ttype_other != T_UNKNOWN && ttype_other != T_LAST )
+    {
+      TerrainType tt = (TerrainType) getClient().getFactories().getTerrainTypeFactory().findById( ttype_other );
+      return tt.getSprite( 0 );
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  private Icon getCityNationFlagSprite( org.freeciv.common.City c )
+  {
+    Nation n = c.getOwner().getNation();
+    return n.getFlagSprite();
+  }
+
+  private Icon getCityOccupiedSprite( org.freeciv.common.City c )
+  {
+    CityStyle cs = c.getStyle();
+    return cs.getTileSprite( cs.getNumTiles() + 1 );
+  }
+
+  private Icon getCitySprite( org.freeciv.common.City city )
+  {
+    int size;
+    CityStyle cs = city.getStyle();
+
+    for( size=0; size < cs.getNumTiles(); size++)
+    {
+      if ( city.getSize() < cs.getThreshold( size ) )
+      {
+        break; 
+      }
+    }
+
+    if ( isIsometric() )
+    {
+      if ( city.hasWalls() )
+      {
+        return cs.getWallSprite( size-1 );
+      }
+      else
+      {
+        return cs.getTileSprite( size - 1);
+      }
+    }
+    else
+    {
+      return cs.getTileSprite( size - 1 );
+    }
+  }
+
+  private Icon getCityWallSprite( org.freeciv.common.City city )
+  {
+    CityStyle cs = city.getStyle();
+    return cs.getTileSprite( cs.getNumTiles() );
+  }
+
+
+
+  /**
+   * Add sprites for the specified unit to the specified list of sprites.
+   *
+   * @param l a list of sprites being built up for a tile
+   * @param unit the unit whose sprites have to be added
+   * @param solidBg ?
+   */
+  private void fillUnitSprites( List l, org.freeciv.common.Unit unit, boolean[] solidBg )
+  {
+    solidBg[0] = false;
+
+    if ( isIsometric() )
+    {
+      if (! m_noBackdrop )
+      {
+        l.add( getUnitNationFlagSprite( unit ) );
+      }
+    }
+    else
+    {
+      if ( !m_noBackdrop )
+      {
+        if ( !getOptions().solidColorBehindUnits )
+        {
+          l.add( getUnitNationFlagSprite( unit ) );
+        }
+        else
+        {
+          solidBg[0] = true;
+        }
+      }
+    }
+
+    l.add( getUnitTypeSprite( unit ) );
+
+    // unit activity icons
+    if ( unit.getActivity() != ACTIVITY_IDLE )
+    {
+      Icon sprite = null;
+      int a = unit.getActivity();
+      if ( ACTIVITY_MINE == a )
+        sprite = getImage( "unit.mine" );
+      else if ( ACTIVITY_POLLUTION == a )
+        sprite = getImage( "unit.pollution" );
+      else if ( ACTIVITY_FALLOUT  ==  a )
+        sprite = getImage( "unit.fallout" );
+      else if ( ACTIVITY_PILLAGE == a )
+        sprite = getImage( "unit.pillage" );
+      else if ( ACTIVITY_ROAD == a || ACTIVITY_RAILROAD == a )
+        sprite = getImage( "unit.road" );
+      else if ( ACTIVITY_IRRIGATE == a )
+        sprite = getImage( "unit.irrigate" );
+      else if ( ACTIVITY_EXPLORE == a )
+        sprite = getImage( "unit.explore" );
+      else if ( ACTIVITY_FORTIFIED == a )
+        sprite = getImage( "unit.fortified" );
+      else if ( ACTIVITY_FORTRESS == a )
+        sprite = getImage( "unit.fortress" );
+      else if ( ACTIVITY_FORTIFYING == a )
+        sprite = getImage( "unit.fortifying" );
+      else if ( ACTIVITY_AIRBASE == a )
+        sprite = getImage( "unit.airbase" );
+      else if ( ACTIVITY_SENTRY == a )
+        sprite = getImage( "unit.sentry" );
+      else if ( ACTIVITY_GOTO == a )
+        sprite = getImage( "unit.goto" );
+      else if ( ACTIVITY_TRANSFORM == a )
+        sprite = getImage( "unit.transform" );
+
+      l.add( sprite );
+    }
+
+    if ( unit.getAI().isControlled() )
+    {
+      if ( unit.isMilitary() )
+      {
+        l.add( getImage( "unit.auto_attack" ) );
+      }
+      else
+      {
+        l.add( getImage( "unit.auto_settler" ) );
+      }
+    }
+
+    if ( unit.isConnecting() )
+    {
+      l.add( getImage( "unit.connect" ) );
+    }
+
+    if ( unit.getActivity() == ACTIVITY_PATROL )
+    {
+      l.add( getImage( "unit.patrol" ) );
+    }
+
+    int ihp = (( NUM_TILES_HP_BAR - 1 ) * unit.getHitPoints() )  / unit.getUnitType().getHitPoints();
+    ihp = clip( 0, ihp, NUM_TILES_HP_BAR-1 );
+
+    l.add( getImage( "unit.hp_"+ihp*10 ) ); /// uuhhhhh.. may want to fix this.
+  }
+
+  private int clip(int lower, int thisOne, int upper)
+  {
+    return ( thisOne < lower ? lower : ( thisOne > upper ? upper : thisOne ) );
+  }
+
+  private Icon getUnitTypeSprite( org.freeciv.common.Unit unit )
+  {
+    return unit.getUnitType().getSprite();
+  }
+
+  private Icon getUnitNationFlagSprite( org.freeciv.common.Unit unit )
+  {
+    return unit.getOwner().getNation().getFlagSprite();
+  }
+
+  private org.freeciv.common.Unit getDrawableUnit( int x, int y, boolean cityMode )
+  {
+    org.freeciv.common.Unit unit = findVisibleUnit( getClient().getGame().getMap().getTile( x, y ) );
+    org.freeciv.common.Unit focus = getClient().getUnitInFocus();
+
+    if ( unit == null )
+    {
+      return null;
+    }
+
+    if ( cityMode && unit.getOwner() == getClient().getGame().getCurrentPlayer() )
+    {
+      return null;
+    }
+
+    if ( unit != focus 
+      //|| !getClient().getOptions().focusUnitHidden // ?? may be flash behaviour
+      || !getClient().getGame().getMap().isSamePosition( unit.getX(), unit.getY(), focus.getY(), focus.getY() ) )
+    {
+      return unit;
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  /**
+   * Find the unit that is visible at the specified tile.
+   *
+   * @param tile the tile to find the unit for
+   * @return the unit which is visible at the specified tile, null if there
+   *    are no visible units on the tile.
+   */
+  private org.freeciv.common.Unit findVisibleUnit( Tile tile )
+  {
+    // candidate for moving elsewhere (e.g. Tile.java, but is client specific...)
+    // from control.c: find_visible_unit()
+
+    if ( !tile.hasUnits() )
+    {
+      return null;
+    }
+
+    org.freeciv.common.Map map = getClient().getGame().getMap();
+
+    org.freeciv.common.Unit unit;
+
+    // If a unit is attacking, show it on top
+    unit = getClient().getAttackingUnit();
+    if ( unit != null && map.getTile( unit.getX(), unit.getY() ) == tile )
+    {
+      return unit;   // c weirdness here...
+    }
+
+    // If a unit is defending, show it on top.
+    unit = getClient().getDefendingUnit();
+    if ( unit != null && map.getTile( unit.getX(), unit.getY() ) == tile )
+    {
+      return unit;
+    }
+
+    // If the unit is in focus at this tile, show it on top.
+    unit = getClient().getUnitInFocus();
+    if ( unit != null && map.getTile( unit.getX(), unit.getY() ) == tile )
+    {
+      return unit;
+    }
+
+    // If a city is here, show nothing ( unit hidden by city )
+    if ( tile.hasCity() )
+    {
+      return null;
+    }
+
+    // Iterate through the units to find the best one. We prioritize like this:
+    // 1. Owned transported
+    // 2. Any owned unit
+    // 3. Any Transporter
+    // 4. Any Unit
+
+    org.freeciv.common.Unit anyowned = null, tpother = null, anyother = null;
+
+    Iterator unitIter = tile.getUnits();
+    while (unitIter.hasNext())
+    {
+      unit = (org.freeciv.common.Unit) unitIter.next();
+
+      if ( unit.isOwner( getClient().getGame().getCurrentPlayer() ) )
+      {
+        if ( unit.isTransporter() )
+        {
+          return unit;
+        }
+        else if ( anyowned == null )
+        {
+          anyowned = unit;
+        }
+      }
+      else if ( tpother == null && 
+        getClient().getGame().getCurrentPlayer().canSeeUnit( unit ) )
+      {
+        if ( unit.isTransporter() )
+        {
+          tpother = unit;
+        }
+        else
+        {
+          anyother = unit;
+        }
+      }
+      
+    }
+
+    return ( anyowned != null ? anyowned :  ( tpother != null ? tpother : anyother ) );
+    
   }
   
   public static void main( String[] args )

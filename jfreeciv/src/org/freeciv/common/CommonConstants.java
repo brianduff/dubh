@@ -255,6 +255,7 @@ public interface CommonConstants
   public static final int S_RIVER = 512;
   public static final int S_FARMLAND = 1024;
   public static final int S_AIRBASE = 2048;
+  public static final int S_FALLOUT = 4096;
   public static final int T_ARCTIC = Enum.start();
   public static final int T_DESERT = Enum.get();
   public static final int T_FOREST = Enum.get();
@@ -346,7 +347,7 @@ public interface CommonConstants
   public static final int ACTIVITY_ROAD = Enum.get();
   public static final int ACTIVITY_MINE = Enum.get();
   public static final int ACTIVITY_IRRIGATE = Enum.get();
-  public static final int ACTIVITY_FORTIFY = Enum.get();
+  public static final int ACTIVITY_FORTIFIED = Enum.get();
   public static final int ACTIVITY_FORTRESS = Enum.get();
   public static final int ACTIVITY_SENTRY = Enum.get();
   public static final int ACTIVITY_RAILROAD = Enum.get();
@@ -356,6 +357,9 @@ public interface CommonConstants
   public static final int ACTIVITY_TRANSFORM = Enum.get();
   public static final int ACTIVITY_UNKNOWN = Enum.get();
   public static final int ACTIVITY_AIRBASE = Enum.get();
+  public static final int ACTIVITY_FORTIFYING = Enum.get();
+  public static final int ACTIVITY_FALLOUT = Enum.get();
+  public static final int ACTIVITY_PATROL = Enum.get();
   public static final int ACTIVITY_LAST = Enum.get();
   // enum unit_move_type
   public static final int LAND_MOVING = Enum.start( 1 );
@@ -431,4 +435,5 @@ public interface CommonConstants
   public static final int TILE_UNKNOWN = Enum.start( 0 );
   public static final int TILE_KNOWN_FOGGED = Enum.get();
   public static final int TILE_KNOWN = Enum.get();
+  
 }

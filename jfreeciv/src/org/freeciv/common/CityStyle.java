@@ -1,5 +1,7 @@
 package org.freeciv.common;
 
+import javax.swing.Icon;
+
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetCity;
 
@@ -12,6 +14,14 @@ public class CityStyle implements GameObject
   private PktRulesetCity m_ruleset;
   private Advance m_requiredAdvance = null;
   private CityStyle m_replacedBy = null;
+  public static final int MAX_CITY_TILES = 8;
+  
+  private Icon[] m_tileSprites = new Icon[MAX_CITY_TILES + 1];
+  private int m_numTiles = 0;
+  private int[] m_threshold = new int[MAX_CITY_TILES + 1];
+  private Icon[] m_wallSprites = new Icon[ MAX_CITY_TILES + 1 ];
+
+
 
   CityStyle(GameObjectFactory cityStyleFactory)
   {
@@ -21,6 +31,7 @@ public class CityStyle implements GameObject
   public void initFromPacket(Packet pkt)
   {
     m_ruleset = (PktRulesetCity) pkt;
+
   }
 
   public int getId()
@@ -81,5 +92,45 @@ public class CityStyle implements GameObject
   public String getGraphicAlt()
   {
     return m_ruleset.graphic_alt;
+  }
+
+  public int getNumTiles()
+  {
+    return m_numTiles;
+  }
+
+  public void setNumTiles( int numTiles)
+  {
+    m_numTiles = numTiles;
+  }
+
+  public int getThreshold(int uh)
+  {
+    return m_threshold[ uh];
+  }
+
+  public void setThreshold( int uh, int erm )
+  {
+    m_threshold[uh] = erm;
+  }
+
+  public Icon getTileSprite( int idx )
+  {
+    return m_tileSprites[idx];
+  }
+
+  public void setTileSprite( int idx, Icon icon)
+  {
+    m_tileSprites[idx] = icon;
+  }
+
+  public void setWallSprite( int idx, Icon icon)
+  {
+    m_wallSprites[idx] = icon;
+  }
+
+  public Icon getWallSprite( int idx )
+  {
+    return m_wallSprites[idx];
   }
 }

@@ -113,7 +113,7 @@ public final class Game implements CommonConstants
     return count;
   }
 
-  private Factories getFactories()
+  Factories getFactories()
   {
     return m_factories;
   }
@@ -142,6 +142,11 @@ public final class Game implements CommonConstants
   {
     return (Player)
       getFactories().getPlayerFactory().findById( m_currentPlayer );
+  }
+
+  public boolean isCurrentPlayer(int playerNo)
+  {
+    return m_currentPlayer == playerNo;
   }
 
   public boolean isCurrentPlayer(Player p)
