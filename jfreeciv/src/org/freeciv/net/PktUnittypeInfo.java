@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktUnittypeInfo extends AbstractPacket
 {
   public int type, action;

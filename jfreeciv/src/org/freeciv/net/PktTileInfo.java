@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktTileInfo extends AbstractPacket
 {
   public int x;

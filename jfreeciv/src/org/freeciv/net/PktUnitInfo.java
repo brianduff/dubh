@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktUnitInfo extends AbstractPacket
 {
   // Updated for 1.12.cvs

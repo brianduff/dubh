@@ -13,6 +13,7 @@
  Freeciv4j: Original Authors: ..., Brian Duff (bduff@uk.oracle.com)
  ***********************************************************************/
 package org.freeciv.common;
+
 import java.io.*;
 
 /**

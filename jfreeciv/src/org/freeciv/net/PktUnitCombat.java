@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktUnitCombat extends AbstractPacket
 {
   public int attacker_unit_id;

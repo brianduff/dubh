@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktUnitConnect extends AbstractPacket
 {
   public int activity_type;

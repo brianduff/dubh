@@ -1,4 +1,6 @@
 package org.freeciv.common;
+
+
 import javax.swing.Icon;
 import java.awt.Color;
 import java.io.*;

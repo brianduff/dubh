@@ -100,6 +100,8 @@ public class City extends PktCityInfo implements FlashingIcon
   }
   public boolean canBuild( PktRulesetUnit unit )
   {
+    return false;
+    /*
     if( unit.tech_requirement == Constants.A_LAST )
     {
       return false;
@@ -109,6 +111,7 @@ public class City extends PktCityInfo implements FlashingIcon
       return false;
     }
     return true;
+    */
   }
   public boolean canBuild( PktRulesetBuilding bl )
   {

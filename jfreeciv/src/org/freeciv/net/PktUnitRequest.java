@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktUnitRequest extends AbstractPacket
 {
   public int unit_id;

@@ -1,4 +1,5 @@
 package org.freeciv.common;
+
 import java.io.*;
 
 

@@ -1,4 +1,5 @@
 package org.freeciv.common;
+
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetGovernment;
 import org.freeciv.net.PktRulesetGovernmentRulerTitle;
