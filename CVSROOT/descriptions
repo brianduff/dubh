@@ -1,0 +1,11 @@
+dju/	 <a href="/dju">Dubh Java Utilities</a> - Common Java utility code
+dju/src/ Dubh Java Utilities source code
+dmp/	 <a href="/dmp">Dubh Mail Providers</a> - JavaMail providers for various protocols
+dmp/src/ Dubh Mail Providers source code
+dubhweb/ HTML for the main www.dubh.org web site
+na/	 <a href="/newsagent">NewsAgent</a> - A Java USENET Newsreader
+na/doc/  User documentation for NewsAgent
+na/ishield/ InstallShield files for NewsAgent
+na/src/  NewsAgent source code
+na/win32/ Win32 launcher .exe source code for NewsAgent
+naweb/   HTML for the <a href="/newsagent">NewsAgent</a> web site
