@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.15 2000-08-20 21:38:15 briand Exp $ -->
+<!-- $Id: build.xml,v 1.16 2000-08-20 21:46:43 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -18,16 +18,18 @@
     <property name="srcdir" value="${cvsmodule}/${srcbase}" />
     <property name="classdir" value="${cvsmodule}/${classbase}" />
     <property name="jardir" value="${cvsmodule}/lib" />
-    <property name="jarfile" value="${jardir}/${cvsmodule}-${majorversion}.${minorversion}.jar" />
+    <property name="moduleshort" value="${cvsmodule}-${majorversion}.${minorversion}" />
+    <property name="modulelong" value="${moduleshort}.${dubh.buildnumber}" />
+    <property name="jarfile" value="${jardir}/${moduleshort}.jar" />
     <property name="cvsroot" value="/usr/local/cvsroot" />
     <property name="classpath" value="" />
-    <property name="snapshot" value="${cvsmodule}/src.zip" />
+    <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
     <property name="docdir" value="${cvsmodule}/doc" />    
     <property name="javadocdir" value="${docdir}/api" />
     <property name="javadocpkg" value="org.javalobby.dju.*" />
-    <property name="javadoctitle" value="${product} ${majorversion}.${minorversion}.${dubh.buildnumber}" />
+    <property name="javadoctitle" value="${product} ${modulelong}" />
     <property name="distribtmp" value="distribtmp" />
-    <property name="distribname" value="${cvsmodule}/${cvsmodule}-${majorversion}.${minorversion}.${dubh.buildnumber}-distrib.zip" />
+    <property name="distribname" value="${cvsmodule}/${modulelong}-bin.zip" />
 
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
@@ -101,16 +103,16 @@
     <delete file="${distribname}" />
     <!-- Remove any existing distribtmp -->
     <deltree dir="${distribtmp}" />
-    <mkdir dir="${distribtmp}" />
+    <mkdir dir="${distribtmp}/${modulelong}" />
 
     <copydir  src="${cvsmodule}"
-              dest="${distribtmp}"
+              dest="${distribtmp}/${modulelong}"
               excludes="${srcbase}/**,${classbase}/**"
     />
 
     <!-- Get rid of empty directories in case they exist -->
-    <deltree dir="${distribtmp}/${srcbase}" />
-    <deltree dir="${distribtmp}/${classbase}" />
+    <deltree dir="${distribtmp}/${modulelong}/${srcbase}" />
+    <deltree dir="${distribtmp}/${modulelong}/${classbase}" />
 
     <zip      zipfile="${distribname}"
               basedir="${distribtmp}"
