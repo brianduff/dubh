@@ -21,6 +21,27 @@
     </html>
   </section>
   
+  
+  <section id="byenewsagent" name="NewsAgent Developement Terminated [03 June 2001]">
+    <html>
+      <p>
+        As of this month, I'm no longer actively developing NewsAgent.
+        The source code for NewsAgent will remain on the dubh.org cvs
+        repository for the forseeable future.
+      </p>
+      <p>
+        Instead, I'm switching my development effort to the Mozilla
+        <a href="http://www.mozilla.org/projects/grendel">Grendel</a>
+        project. Grendel aims to be a Java mail/news client, and is 
+        already far more fully featured than NewsAgent ever was.
+      </p>
+      <p>
+        If you have comments or queries about NewsAgent, you should
+        post them to the Grendel Development forum on 
+        <a href="http://talk.dubh.org">talk.dubh.org</a>.
+      </p>
+    </html>
+  </section>
 
   <section id="wevemoved" name="We've Moved! [12 Sept 2000]">
     <html>
