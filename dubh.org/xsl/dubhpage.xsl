@@ -307,7 +307,7 @@
       Last Updated: 
         <xsl:value-of select="substring-before(substring-after(date, $cvsdatetag), '$')" /> 
       <xsl:if test="boolean(author)">
-        <xsl:text> </xsl:text>by 
+        GMT <xsl:text> </xsl:text>by 
           <xsl:value-of select="substring-before(substring-after(author, $cvsauthortag), '$')" />
       </xsl:if>
       
