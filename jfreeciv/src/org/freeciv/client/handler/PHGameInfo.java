@@ -39,10 +39,9 @@ final class PHGameInfo implements ClientPacketHandler, Constants
     g.setNuclearWinter(pinfo.nuclearwinter);
     g.setCooling(pinfo.cooling);
 
-    if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE )
+    if ( c.getGameState() != CLIENT_GAME_RUNNING_STATE )
     {
       g.setCurrentPlayer( pinfo.player_idx );
-      // Don't need to set pointer here - Game will handle this internally.
     }
 
     for ( int i=0; i < A_LAST; i++ )

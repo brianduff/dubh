@@ -473,10 +473,13 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       Component c = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
       Nation n  = (Nation)value;
       setText(  n.getName() );
-      Icon i = getClient().getTileSpec().lookupSpriteTagAlt(
-        n.getFlagGraphicStr(), n.getFlagGraphicAlt(), false, 
-        "flag", n.getName()
-      );
+      Icon i = n.getFlagSprite();
+      
+      // bduff: in some tilespecs, the flag has a big transparent bit below
+      // it, because it's used as a unit backdrop. It'd be nice (and I'm sure
+      // it's possible) to crop the image here, because the list looks a bit
+      // crappy when the rows are taller than the (non-transparent part of the)
+      // flag.
 
       if (i != null)
       {

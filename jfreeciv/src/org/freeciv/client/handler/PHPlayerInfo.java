@@ -28,6 +28,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     
     Player p = c.getGame().getPlayer( pinfo.playerno );
 
+    p.setPlayerNumber( pinfo.playerno );
     p.setName( pinfo.name );
     p.setNation( (Nation)
       c.getFactories().getNationFactory().findById( pinfo.nation )
@@ -115,21 +116,24 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     if ( p.getAI().isControlled() != pinfo.ai )
     {
       p.getAI().setControlled( pinfo.ai );
-      
-      if ( c.getGame().isCurrentPlayer( p ) )
-      {
-        c.getMainWindow().getConsole().println( 
-          "AI Mode is now "+
-            (p.getAI().isControlled() ? "ON" : "OFF")
-        );
-      }
+
+      // Note: C client appears to do this before the current player ptr is
+      // set... Commented out for now...
+//      if ( c.getGame().isCurrentPlayer( p ) )
+//      {
+//        c.getMainWindow().getConsole().println( 
+//          "AI Mode is now "+
+//            (p.getAI().isControlled() ? "ON" : "OFF")
+//        );
+//      }
     }
 
-    if ( c.getGame().isCurrentPlayer( p ) &&
+    if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE &&
+         c.getGame().isCurrentPlayer( p ) &&
          (p.getRevolution() < 1 || p.getRevolution() > 5) &&
          p.getGovernment() == c.getGame().getGovernmentWhenAnarchy() &&
-         (!p.getAI().isControlled() || true ) && // ai_popup_windows
-         c.getGameState() == CLIENT_GAME_RUNNING_STATE )
+         (!p.getAI().isControlled() || true )  // ai_popup_windows
+          )
     {
       // c.popupGovernmentDialog();
     }
@@ -137,10 +141,11 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     // c.updatePlayersDialog();
     // c.updateWorklistReportDialog();
 
-    if ( c.getGame().isCurrentPlayer( p ) )
+    if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE )
     {
-      if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE )
+      if ( c.getGame().isCurrentPlayer( p ) )
       {
+
         if ( !p.isTurnDone() )
         {
           // c.setTurnDoneButtonEnabled( true );

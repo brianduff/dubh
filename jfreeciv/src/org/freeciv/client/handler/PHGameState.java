@@ -48,6 +48,7 @@ public class PHGameState extends AbstractHandler implements Constants
 
     if (c.getGameState() == CLIENT_GAME_RUNNING_STATE)
     {
+    
       c.getMainWindow().getMapOverview().refresh();
 
       c.getAction( ACTEndTurn.class ).setEnabled( true );
