@@ -7,13 +7,13 @@
 
   <target name="init">
     <!-- You need to define this to a valid JDeveloper home to compile -->
-    <property name="jdevhome" value="c:\deliver" />
+    <property name="jdevhome" value="c:\jdev-builds\9.0.2.7.59" />
 
     <echo>
       ************************************************************
-      * jdevhome is defined as ${jdevhome}. Make sure this points 
-      * to a valid home of JDeveloper, or the code will not 
-      * compile!!
+      * jdevhome is defined as ${jdevhome}. 
+      * Make sure this points to a valid home of JDeveloper, or 
+      * the code will not compile!!
       ************************************************************
     </echo>
 
