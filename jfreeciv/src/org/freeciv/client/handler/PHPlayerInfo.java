@@ -118,7 +118,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
       
       if ( c.getGame().isCurrentPlayer( p ) )
       {
-        c.appendOutputWindow( 
+        c.getMainWindow().getConsole().println( 
           "AI Mode is now "+
             (p.getAI().isControlled() ? "ON" : "OFF")
         );

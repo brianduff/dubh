@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: VerticalFlowPanel.java,v 1.2 2001-07-08 01:36:52 briand Exp $
+//   $Id: VerticalFlowPanel.java,v 1.3 2001-10-28 22:51:56 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -35,7 +35,7 @@ import javax.swing.*;
  * add one of these.
  *
  * @author Brian Duff
- * @version $Id: VerticalFlowPanel.java,v 1.2 2001-07-08 01:36:52 briand Exp $
+ * @version $Id: VerticalFlowPanel.java,v 1.3 2001-10-28 22:51:56 briand Exp $
  */
 public class VerticalFlowPanel extends JPanel
 {
@@ -85,5 +85,6 @@ public class VerticalFlowPanel extends JPanel
   {
     m_padding = spacing;
   }
-} /**/ /* $Log: not supported by cvs2svn $*/ /* Revision 1.1.1.1  2000/08/21 22:26:46  briand*/ /* Put jfreeciv into dubh.org CVS*/ /**/ /* Revision 1.2  1999/11/11 21:24:36  briand*/ /* Change package and import to Javalobby JFA.*/ /**/ /* Revision 1.1  1999/06/01 00:17:35  briand*/ /* Assorted user interface utility code. Mostly for making layout easier.*/ /**/
-  //
+} 
+
+

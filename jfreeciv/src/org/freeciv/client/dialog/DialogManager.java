@@ -34,7 +34,7 @@ public class DialogManager
     public void run()
     {
       m_dialog.pack();
-      m_dialog.setLocationRelativeTo( m_client.getMainFrame() );
+      m_dialog.setLocationRelativeTo( m_client.getMainWindow() );
       m_dialog.setVisible( true );
     }
   }
@@ -123,7 +123,9 @@ public class DialogManager
     }
     public void run()
     {
-      JOptionPane.showMessageDialog( m_client, m_title, m_message, JOptionPane.ERROR_MESSAGE );
+      JOptionPane.showMessageDialog( 
+        m_client.getMainWindow(), m_title, m_message, JOptionPane.ERROR_MESSAGE 
+      );
     }
   }
   public void showMessageDialogNonBlocking( String title, String message )
@@ -132,6 +134,7 @@ public class DialogManager
   }
   public void showMessageDialogBlocking( String title, String message )
   {
-    JOptionPane.showMessageDialog( m_client, title, message, JOptionPane.ERROR_MESSAGE );
+    JOptionPane.showMessageDialog( 
+      m_client.getMainWindow(), title, message, JOptionPane.ERROR_MESSAGE );
   }
 }

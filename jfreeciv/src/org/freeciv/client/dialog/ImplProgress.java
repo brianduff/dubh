@@ -36,7 +36,7 @@ class ImplProgress extends JPanel implements DlgProgress
   // DlgProgressDialog interface
   public void display( String baseMessage, int numSteps )
   {
-    JDialog dlg = new JDialog( m_client, _( "Progress" ), true );
+    JDialog dlg = new JDialog( m_client.getMainWindow(), _( "Progress" ), true );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( this, BorderLayout.CENTER );
     m_dialog = dlg;

@@ -69,7 +69,7 @@ final class PHGameInfo implements ClientPacketHandler, Constants
     g.setUnhappySize( pinfo.unhappysize );
     g.setCityFactor( pinfo.cityfactor );
 
-    boolean bootHelp = (c.getState() == CLIENT_GAME_RUNNING_STATE &&
+    boolean bootHelp = (c.getGameState() == CLIENT_GAME_RUNNING_STATE &&
       g.isSpaceRace() != pinfo.spacerace);
 
     g.setSpaceRace( pinfo.spacerace );

@@ -163,7 +163,7 @@ class ImplLogin extends JPanel implements DlgLogin
   public void display()
   {
     //SwingUtilities.invokeLater(new DisplayerRunnable(f));
-    showDialog( m_client );
+    showDialog( m_client.getMainWindow() );
     dialog.dispose();
   }
   public boolean isOK()

@@ -44,6 +44,7 @@ import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
 import org.freeciv.common.Tile;
+import org.freeciv.common.ErrorHandler;
 import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.net.InStream;
@@ -55,92 +56,8 @@ import org.freeciv.net.PktReqJoinGame;
 /**
  * This is the main class of Freeciv4J.
  */
-public class Client extends JFrame implements ComponentListener,UndockablePanel.DockTarget,Constants
+public class Client implements Constants
 {
-
-
-
-   /**
-    * The menus for the application. Each of these is the class name of
-    * an action handler that deals with that menu item
-    */
-   private static final String[][] MENUS = new String[][] {
-      { "Game",
-          "ACTLocalOptions",
-          "ACTMessageOptions",
-          "ACTSaveSettings",
-         /*---------------*/                 null,
-          "ACTPlayers",
-          "ACTMessages",
-         /*---------------*/                 null,
-          "ACTServerOptInitial",
-          "ACTServerOptOngoing",
-         /*---------------*/                 null,
-          "ACTExportLog",
-          "ACTClearLog",
-         /*---------------*/                 null,
-          "ACTDisconnect",
-          "ACTQuit"
-      },
-      { "Kingdom",
-          "ACTTaxRates",
-         /*---------------*/                 null,
-          "ACTFindCity",
-          "ACTWorklists",
-         /*---------------*/                 null,
-          "ACTRevolution"
-      },
-      { "View",
-          "ACTMapGrid",
-          "ACTCenterView"
-      },
-      { "Orders",
-          "UACTBuildCity",
-          "UACTBuildRoad",
-          "UACTBuildIrrigation",
-          "UACTMine",
-          "UACTTransformTerrain",
-          "UACTBuildFortress",
-          "UACTBuildAirbase",
-          "UACTCleanPollution",
-         /*---------------*/                 null,
-          "UACTFortify",
-          "UACTSentry",
-          "UACTPillage",
-         /*---------------*/                 null,
-          "UACTMakeHomeCity",
-          "UACTUnload",
-          "UACTWakeUpOthers",
-         /*---------------*/                 null,
-          "UACTAutoSettler",
-          "UACTAutoAttack",
-          "UACTAutoExplore",
-          "UACTConnect",
-          "UACTGoTo",
-          "UACTGoToCity",
-         /*---------------*/                 null,
-          "UACTDisbandUnit",
-          "UACTHelpBuildWonder",
-          "UACTMakeTradeRoute",
-          "UACTExplodeNuclear",
-         /*---------------*/                 null,
-          "UACTWait",
-          "UACTDone"
-      },
-      { "Reports",
-          "ACTCityReport",
-          "ACTMilitaryReport",
-          "ACTTradeReport",
-          "ACTScienceReport",
-         /*---------------*/                 null,
-          "ACTWondersOfTheWorld",
-          "ACTTopFiveCities",
-          "ACTDemographics",
-          "ACTSpaceship"
-      }
-   };
-
-
 
   // The tile spec holds all the images that the client uses
   private TileSpec m_tileSpec;
@@ -188,47 +105,13 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private CivMap map;
   private JComponent mapPanel;
   // The desktop and MDI stuff
-  private JDesktopPane desktop = new JDesktopPane();
-  private JInternalFrame mapFrame;
-  private JSplitPane splitPane;
-  // ?????
-  private JButton buttons[] = new JButton[ 8 ];
-  // The chat area at the bottom of the main window
-  private JPanel chatArea;
-  private JTextArea chatText = new JTextArea( "", 2, 80 );
-  private JTextField chatInput;
-  private JScrollPane chatTextScroll = new JScrollPane( chatText );
-  // The panel that is at the left of the screen with various
-  // status displays and the minimap  (I think)
-  private VerticalFlowPanel controls;
-  // not used?
-  private JPanel leftControls;
-  // Redundant I think
-  // Control that displays a description of the current unit
-  // private UnitDescription unitDescription;
-  // Control that displays info on a unit stack.
-  // private UnitStackDisplay unitStack;
-  // The help UI (BD: Move to dialog mgr)
-  private HelpPanel helpPanel;
-  private JInternalFrame helpFrame;
-  // BD: Shouldn't be used any more
-  // String dataDir;
-  // File cacheDir;
-  // BD: Dunno
+
+
   int scaleDiv = 1;
   int scaleMul = 1;
   // BD: Same as clientGameState???
   int gameState;
-  // Undockable panels that contain the main status displays
-  private UndockablePanel m_upMessages;
-  private UndockablePanel m_upMiniMap;
-  private UndockablePanel m_upStatus;
-  // Various status panels
-  private CivInfoPanel m_panCivInfo;
-  private CivStatusPanel m_panCivStatus;
-  private UnitInfoPanel m_panUnitInfo;
-  private UnitStackDisplay m_panUnitStack;
-  private JPanel panWest;
+
   // Factories
   private Factories m_factories = new Factories();
 
@@ -242,8 +125,8 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
 
   // prob shouldn't instantiate this yet.
   private Game m_game = new Game(m_factories);
-  private final static String APP_NAME = "Freeciv4J";
-  private final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
+  public final static String APP_NAME = "Freeciv4J";
+  public final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
   private final static String PROP_FREECIV_TILESET = "freeciv.tileset";
   private final static String DEFAULT_TILESET = "trident";
   public static final int majorVer = Constants.MAJOR_VERSION;
@@ -264,7 +147,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public Client()
   {
-    super( APP_NAME + " ver " + APP_VERSION ); // !NLS
+    super( ); // !NLS
 
 
     
@@ -285,12 +168,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     m_options = new Options();
     m_options.initMessagesWhere();
     m_actions = new Actions( this );
-    //      dataDir = System.getProperty("freeciv.datadir","data");
-    //      cacheDir = new File(dataDir,"cache");
-    //      String currentTileset = System.getProperty("freeciv.tileset","trident");
-    //      cacheDir = new File(cacheDir, currentTileset);
-    setSize( java.awt.Toolkit.getDefaultToolkit().getScreenSize() );
-    getContentPane().add( desktop );
+
     // Set up the sound system
     String soundDir = System.getProperty( "freeciv.sound" );
     if( soundDir == null )
@@ -308,28 +186,23 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
         System.out.println( _( "Sound init failed\n" ) + e );
       }
     }
-    /*   fillSoft(tileIcons);
-    fillSoft(unitIcons);
-    fillSoft(unitIconsDim);
-    fillSoft(roadIcons);
-    fillSoft(flagIcons);
-    fillSoft(darkIcons);
-    fillSoft(smallIcons);
-    fillSoft(dblsizeSmallIcons);
-    initTileMetrics();
-    for ( int i =0; i < Constants.T_LAST; i++ )
-    unknownTerrains[i] = new UnknownTerrain(i);
-    emptyRoad = new RoadOverlay(null,false);
-    emptyRoad.setVisible(false);
-    emptyRail = new RoadOverlay(null,true);
-    emptyRail.setVisible(false);
-    */
-    // BD: ?????
+
 
     m_mainWindow = new MainWindow( this );
     m_mainWindow.pack();
+
+    // Try to start of in a semi-sensible location
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int width = (int) (.85 * screenSize.width);
+    int height = (int) (.85 * screenSize.height);
+
+    m_mainWindow.setSize( new Dimension( width, height ) );
+    m_mainWindow.setLocation( 
+      (screenSize.width - width) /2, (screenSize.height - height) /2 
+    );
+    
     m_mainWindow.setVisible( true );    
-    addComponentListener( this );
+
   }
 
 
@@ -363,25 +236,14 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     return map;
   }
+
+  
   public TileSpec getTileSpec()
   {
     return m_tileSpec;
   }
-  /**
-   * Get an icon from the tileset using the specified key, which is
-   * an image tag
-   */
-  public Icon getImage( String key )
-  {
-    return m_tileSpec.getImage( key );
-  }
-  /**
-   * Get the status panel that is displaying civilization information
-   */
-  public CivInfoPanel getCivInfoPanel()
-  {
-    return m_panCivInfo;
-  }
+  
+
   /**
    * Get the action associated with the specified name
    */
@@ -434,14 +296,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
     return m_dlgManager;
   }
-  /**
-   * Get the main window
-   */
-  public JFrame getMainFrame()
-  {
-    // BD: this is in case we stop subclassing JFrame directly.
-    return this;
-  }
+
 
   /**
    * Get the current game state. Returns one of the CLIENT_*_STATE
@@ -460,125 +315,11 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     gameState = state;
   }
 
-  /**
-   * Sets up the UI for the chat area
-   */
-  private void setupMessagesPanel()
-  {
-    m_upMessages = new UndockablePanel();
-    chatInput = new JTextField( "", 80 );
-    chatInput.addActionListener( new ActionListener()
-    {
-      public void actionPerformed( ActionEvent e )
-      {
-        sendMessage( chatInput.getText() );
-        chatInput.setText( "" );
-      }
-    } );
-    chatText.setMinimumSize( new Dimension( 100, 30 ) );
-    chatText.setEditable( false );
-    chatArea = new JPanel();
-    chatArea.setLayout( new BoxLayout( chatArea, BoxLayout.Y_AXIS ) );
-    chatArea.add( chatTextScroll );
-    chatArea.add( chatInput );
-    chatArea.setMinimumSize( new Dimension( 100, 40 ) );
-    m_upMessages.setContent( _( "Messages" ), chatArea, this );
-  }
-  /**
-   * Sets up the UI for the mini map panel
-   */
-  private void setupMiniMapPanel()
-  {
-    m_upMiniMap = new UndockablePanel();
-    JPanel pan = new JPanel();
-    pan.setLayout( new BorderLayout() );
-    JLabel lab = new JLabel();
-    lab.setIcon( getImage( "minimap_intro_file" ) );
-    pan.add( lab, BorderLayout.CENTER );
-    m_upMiniMap.setContent( _( "Mini Map" ), pan, this );
-  // TODO
-  }
-  /**
-   * Sets up the UI for the status panel
-   */
-  private void setupStatusPanel()
-  {
-    m_upStatus = new UndockablePanel();
-    controls = new VerticalFlowPanel();
-    m_panCivInfo = new CivInfoPanel( this );
-    m_panCivStatus = new CivStatusPanel( this );
-    m_panUnitInfo = new UnitInfoPanel( this );
-    //      m_panUnitStack = new UnitStackDisplay(getIcon(roadIcons, "roads", 0), 2, this);
-    // TODO: Sort out stack.
-    controls.addRow( m_panCivInfo );
-    controls.addRow( m_panCivStatus );
-    controls.addRow( m_panUnitInfo );
-    //      controls.addSpacerRow(m_panUnitStack);
-    m_upStatus.setContent( _( "Status" ), controls, this );
-  }
-  /**
-   * Sets up the main UI components of the main window. Only
-   * does something the first time it is called.
-   */
-  public void setupComponents()
-  {
-    if( !m_bSetup )
-    {
-      mapFrame = new JInternalFrame( _( "Map" ), true, false, true, true );
-      setupMenus();
-      desktop.add( mapFrame, MAP_PANEL_LAYER );
-      setupMessagesPanel();
-      setupMiniMapPanel();
-      setupStatusPanel();
-      // OK, now add all the panels to the main window.
-      panWest = new JPanel();
-      panWest.setLayout( new BorderLayout() );
-      panWest.add( m_upMiniMap.getMainPanel(), BorderLayout.NORTH );
-      panWest.add( m_upStatus.getMainPanel(), BorderLayout.CENTER );
-      mapPanel = new JPanel();
-      mapPanel.setLayout( new BorderLayout() );
-      mapPanel.add( panWest, BorderLayout.WEST );
-      splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true, mapPanel, m_upMessages.getMainPanel() );
-      mapFrame.getContentPane().setLayout( new BorderLayout() );
-      mapFrame.getContentPane().add( splitPane, BorderLayout.CENTER );
-      mapFrame.pack();
-      mapFrame.setVisible( true );
-      m_bSetup = true;
-    }
-  }
-  /**
-   * Sets up all of our menus
-   */
-  private void setupMenus()
-  {
-    JMenuBar jmb = new JMenuBar();
-    for( int i = 0;i < MENUS.length;i++ )
-    {
-      JMenu menu = new JMenu( _( MENUS[ i ][ 0 ] ) ); // _ should go with the literal.
-      for( int j = 1;j < MENUS[ i ].length;j++ )
-      {
-        if( MENUS[ i ][ j ] == null )
-        {
-          menu.addSeparator();
-        }
-        else
-        {
-          Action a = m_actions.getAction( MENUS[ i ][ j ] );
-          if( a instanceof AbstractToggleAction )
-          {
-            menu.add( new ToggleActionMenuItem( (AbstractToggleAction)a ) );
-          }
-          else
-          {
-            menu.add( new ActionMenuItem( (AbstractClientAction)a ) );
-          }
-        }
-      }
-      jmb.add( menu );
-    }
-    this.setJMenuBar( jmb );
-  // TODO: Register keyboard actions
-  }
+
+
+
+
+
   // BD: Did I do this?????
   ArrayList unitActions = new ArrayList();
   private void registerUnitAction( Action act )
@@ -610,7 +351,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
     else
     {
-      setVisible( false );
+      getMainWindow().setVisible( false ); // ?
       return 0;
     }
     joinGame();
@@ -632,7 +373,11 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
     catch( IOException ioe )
     {
-      JOptionPane.showMessageDialog( this, _( "Error connection to server lost??" ), _( "Fatal Error" ), JOptionPane.ERROR_MESSAGE );
+      JOptionPane.showMessageDialog( 
+        getMainWindow(), 
+        _( "Error connection to server lost??" ), _( "Fatal Error" ), 
+        JOptionPane.ERROR_MESSAGE 
+      );
     }
     return false;
   }
@@ -651,34 +396,15 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     prjg.version_label = Constants.VERSION_LABEL;
     return sendToServer( prjg );
   }
-  /**
-   * Append the specified message to the output window (chat
-   * area)
-   */
-  public void appendOutputWindow( String str )
-  {
-    // BD: On event thread?
-    chatText.setRows( chatText.getRows() + 1 );
-    chatText.append( str + "\n" );
-    int y = chatText.getHeight() - chatTextScroll.getHeight();
-    chatTextScroll.getViewport().setViewPosition( new Point( 0, y ) );
-  }
+
+  
   public void addNotifyWindow( PktGenericMessage pgm )
   {
     // BD: TODO
     // dunno what this is
-    appendOutputWindow( pgm.message );
+    getMainWindow().getConsole().println( pgm.message );
   }
-  /**
-   * Hides all windows and disposes of the underlying OS resources
-   * for this frame. Don't call this unless you intend to terminate
-   * the application or construct a new Client.
-   */
-  public void hideAllWindows()
-  {
-    setVisible( false );
-    dispose();
-  }
+
   /**
    * BD: Sort out unit stacks!
    */
@@ -814,11 +540,6 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
   }
 
- // public void showOverviewMap()
- // {
-    //m_upMiniMap.setContent( _( "Mini Map"), getMapView().getOverviewComponent(), this );
- // }
-
   /**
    * Creates the map
    */
@@ -826,6 +547,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     // map.isEarth ??
     // set map display
+    /*
     SwingUtilities.invokeLater( new Runnable()
     {
       public void run()
@@ -847,12 +569,15 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       {
       map.setSize(mapPanel.getSize());
       }
-      }); */
+      }); 
       }
-    } );
+    } )
+    */
   }
   // Yeech. Move this to the top or eliminate it BD
   boolean mapAdded = false;
+
+  
   /**
    * Sends a chat message. Prob want to kill this
    */
@@ -868,51 +593,12 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   private void serverError( IOException e )
   {
-    JOptionPane.showMessageDialog( this, e.toString(), _( "Fatal Server Connection Error" ), JOptionPane.ERROR_MESSAGE );
+    JOptionPane.showMessageDialog( 
+      getMainWindow(), e.toString(), _( "Fatal Server Connection Error" ), 
+      JOptionPane.ERROR_MESSAGE );
     System.exit( 1 ); // ??
   }
-  /**
-   * BD?
-   */
-  public void componentResized( ComponentEvent evt )
-  {
-    if( mapFrame != null )
-    {
-      getContentPane().invalidate();
-      Dimension d = getSize();
-      try
-      {
-        mapFrame.setMaximum( false );
-        mapFrame.setMaximum( true );
-      }
-      catch( Exception e )
-      {
 
-      }
-    }
-  }
-  // BD?????
-  public void componentMoved( ComponentEvent e )
-  {
-
-
-
-  //TODO: implement this java.awt.event.ComponentListener method;
-  }
-  public void componentShown( ComponentEvent e )
-  {
-
-
-
-  //TODO: implement this java.awt.event.ComponentListener method;
-  }
-  public void componentHidden( ComponentEvent e )
-  {
-
-
-
-  //TODO: implement this java.awt.event.ComponentListener method;
-  }
   // BD: ????????????
   // BD: Image stuff outa here
   //
@@ -961,26 +647,22 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public static void main( String[] argv )
   {
+    // ?
+    try
+    {
+      UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+    }
+    catch (Exception e )
+    {
+
+    }
+  
     //parse args..
     Client c = new Client();
-    c.show();
-    c.setupComponents();
     Thread t = new Thread( new InputPacketListener( c ) );
     t.start();
   }
-  // Docking TODO
-  public boolean dock( UndockablePanel up )
-  {
-    return false;
-  }
-  public boolean undock( UndockablePanel up )
-  {
-    return false;
-  }
-  public boolean close( UndockablePanel up )
-  {
-    return false;
-  }
+
   public Game getGame()
   {
     return m_game;
@@ -1108,43 +790,36 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public void updateInfoLabel()
   {
-    if (EventQueue.isDispatchThread())
-    {
-      _updateInfoLabel();
-    }
-    else
-    {
+
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          _updateInfoLabel();
+
+          Player p = getGame().getCurrentPlayer();
+          // GTK updates the window title here to the nation name...
+          getMainWindow().getCivInfo().setNationName(
+            p.getNation().getName()
+          );
+
+          getMainWindow().getCivInfo().setPop( 
+            getGame().getCivilizationPopulation( p ) 
+          );
+
+          getMainWindow().getCivInfo().setYear( getGame().getYear() );
+          getMainWindow().getCivInfo().setGold( p.getEconomy().getGold() );
+          getMainWindow().getCivInfo().setTax( p.getEconomy().getTax(),
+            p.getEconomy().getLuxury(), p.getEconomy().getScience() );
         }
       });
-    }
-  }
-
-  private void _updateInfoLabel()
-  {
-
-    Player p = getGame().getCurrentPlayer();
-    // GTK updates the window title here to the nation name...
-    m_panCivInfo.setNationName(
-      p.getNation().getName()
-    );
-
-    m_panCivInfo.setPop( getGame().getCivilizationPopulation( p ) );
-
-    m_panCivInfo.setYear( getGame().getYear() );
-    m_panCivInfo.setGold( p.getEconomy().getGold() );
-    m_panCivInfo.setTax( p.getEconomy().getTax() , p.getEconomy().getLuxury(), p.getEconomy().getScience() );
 
     // update indicator icons (research, warming, cooling, government)
 
     // Citizens
 
-    // Timeout
+    // Timeout      
 
   }
+
 
   public org.freeciv.common.Unit getUnitInFocus()
   {
@@ -1167,5 +842,16 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   public boolean isUnitInFocus( org.freeciv.common.Unit unit )
   {
     return false;
+  }
+
+  /**
+   * Call this when an internal error occurs (usually an unexpected 
+   * RuntimeException
+   *
+   * @param t
+   */
+  private void internalError( Throwable t )
+  {
+    ErrorHandler.getHandler().internalError( t );
   }
 }

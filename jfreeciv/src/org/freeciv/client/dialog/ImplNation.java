@@ -334,7 +334,9 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   public void display()
   {
     init();
-    JDialog dlg = new JDialog( m_client, _( "Choose Nation" ), true );
+    JDialog dlg = new JDialog( 
+      m_client.getMainWindow(), _( "Choose Nation" ), true 
+    );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplNation.this, BorderLayout.CENTER );
     m_dialog = dlg;

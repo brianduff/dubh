@@ -11,8 +11,15 @@ import javax.swing.JPanel;
 
 import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.AbstractToggleAction;
+import org.freeciv.client.ui.CivInfoPanel;
+import org.freeciv.client.ui.UnitInfoPanel;
+import org.freeciv.client.ui.Console;
+import org.freeciv.client.ui.QuickCommand;
 import org.freeciv.client.ui.util.ActionMenuItem;
+import org.freeciv.client.ui.util.DockPanel;
 import org.freeciv.client.ui.util.ToggleActionMenuItem;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
+
 
 /**
  * The main Window for FreeCiv4J.
@@ -22,14 +29,28 @@ import org.freeciv.client.ui.util.ToggleActionMenuItem;
 public final class MainWindow extends JFrame
 {
   private JDesktopPane m_desktop;
+  
   private MapOverview m_mapOverview;
+  private CivInfoPanel m_civInfo;
+  private UnitInfoPanel m_unitInfo;
+  private UnitStackDisplay m_unitStack;
+  private Console m_console;
+  private QuickCommand m_quickCommand;
+  
   private Client m_client;
 
   MainWindow( Client c )
   {
     m_desktop = new JDesktopPane();
     m_mapOverview = new MapOverview( c );
+    m_civInfo = new CivInfoPanel( c );
+    m_unitInfo = new UnitInfoPanel( c );
+    m_console = new Console();
+    m_quickCommand = new QuickCommand( c );
+    
     m_client = c;
+
+    setTitle( m_client.APP_NAME );
 
     setupComponents();
   }
@@ -40,6 +61,40 @@ public final class MainWindow extends JFrame
   public MapOverview getMapOverview()
   {
     return m_mapOverview;
+  }
+
+  /**
+   * Get the civilization info panel
+   */
+  public CivInfoPanel getCivInfo()
+  {
+    return m_civInfo;
+  }
+
+  /**
+   * Get the unit info panel
+   */
+  public UnitInfoPanel getUnitInfo()
+  {
+    return m_unitInfo;
+  }
+
+  /**
+   * Get the unit stack panel
+   */
+  public UnitStackDisplay getUnitStack()
+  {
+    return m_unitStack;
+  }
+
+  public Console getConsole()
+  {
+    return m_console;
+  }
+
+  public QuickCommand getQuickCommand()
+  {
+    return m_quickCommand;
   }
 
    /**
@@ -134,10 +189,36 @@ public final class MainWindow extends JFrame
     //desktop.add( mapFrame, MAP_PANEL_LAYER );
 
     getContentPane().setLayout( new BorderLayout() );
-    JPanel pan = new JPanel();
-    pan.setLayout( new BorderLayout() );
-    pan.add( getMapOverview(), BorderLayout.NORTH );
+    VerticalFlowPanel pan = new VerticalFlowPanel();
+    pan.setSpacing( 0 );
+
+    DockPanel dp = new DockPanel( "Map Overview", getMapOverview() );
+    pan.addRow( dp );
+
+    dp = new DockPanel( "Civilization Info", getCivInfo() );
+    pan.addRow( dp );
+
+    dp = new DockPanel( "Unit Info", getUnitInfo() );
+    pan.addRow( dp );
+
+    dp = new DockPanel( "Unit Stack", getUnitStack() );
+    pan.addRow( dp );
+
+    pan.addSpacerRow( new JPanel() );
+    
     getContentPane().add( pan, BorderLayout.WEST );
+
+    dp = new DockPanel( "Console", getConsole() );
+    getContentPane().add( dp, BorderLayout.SOUTH );
+
+    pan = new VerticalFlowPanel();
+    dp = new DockPanel( "Quick Commands", getQuickCommand() );
+    pan.addRow( dp );
+
+    pan.addSpacerRow( new JPanel() );
+
+    getContentPane().add( pan, BorderLayout.EAST );
+    
     getContentPane().add( m_desktop, BorderLayout.CENTER );
     
     //setupMessagesPanel();

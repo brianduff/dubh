@@ -32,7 +32,7 @@ public class PHChatMsg extends PHGenericMessage implements Constants
     }
     if( ( where & Options.MW_OUTPUT ) != 0 )
     {
-      c.appendOutputWindow( msg.message );
+      c.getMainWindow().getConsole().println(msg.message );
     }
     if( ( where & Options.MW_MESSAGES ) != 0 )
     {
@@ -41,7 +41,7 @@ public class PHChatMsg extends PHGenericMessage implements Constants
     if( ( where & Options.MW_POPUP ) != 0 )
     {
       DlgNotifyGoto dng = c.getDialogManager().getNotifyGotoDialog();
-      dng.display( c, c.getMainFrame(), msg.message, msg.x, msg.y );
+      dng.display( c, c.getMainWindow(), msg.message, msg.x, msg.y );
     }
   }
 }

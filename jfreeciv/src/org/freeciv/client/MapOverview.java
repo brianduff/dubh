@@ -3,6 +3,7 @@ package org.freeciv.client;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -29,6 +30,8 @@ public final class MapOverview extends JComponent
 
   private Client m_client;
 
+  private Icon m_introFile;
+
   // The radar.xpm image is 160x100. The default size of the minimap is
   // half this.
   private static final int DEFAULT_WIDTH = 80;  // Change to 80
@@ -40,6 +43,7 @@ public final class MapOverview extends JComponent
   {
     m_client = c;
     setMapDimensions( DEFAULT_WIDTH, DEFAULT_HEIGHT );
+    m_introFile = c.getTileSpec().getImage( "minimap_intro_file" );
   }
 
   private Client getClient()
@@ -85,6 +89,14 @@ public final class MapOverview extends JComponent
     return !m_client.getGame().getMap().isEmpty();
   }
 
+  private void paintShadowText( Graphics g, String str, int x, int y )
+  {
+    g.setColor( Color.black );
+    g.drawString( str, x+1, y+1  );
+    g.setColor( Color.white );
+    g.drawString( str, x, y );
+  }
+
   /**
    * Actually paint the map overview component
    */
@@ -92,9 +104,29 @@ public final class MapOverview extends JComponent
   {
     if ( !isDrawingEnabled() )
     {
-      g.setColor( Colors.getStandardColor( Colors.COLOR_STD_BLACK ) );
-      g.fillRect( g.getClipBounds().x, g.getClipBounds().y, 
-        g.getClipBounds().width, g.getClipBounds().height );
+      // Draw the freeciv small intro screen.
+      m_introFile.paintIcon( this, g, 0, 0 );
+
+      // We should probably use TextLayout here, but I can't figure out
+      // how to center text.
+      FontMetrics fm = g.getFontMetrics( getFont() );
+      g.setColor( Color.white );
+
+      String lastLine = "version "+m_client.APP_VERSION;
+      String javaed = "Java Edition";
+      
+      int strWid = fm.stringWidth( lastLine );
+      int tx = (getWidth() - strWid) / 2;
+      int ty = getHeight() - 1 - fm.getDescent() - fm.getLeading();
+
+      paintShadowText( g, lastLine, tx, ty );
+
+      strWid = fm.stringWidth( javaed );
+      tx = ( getWidth() - strWid ) / 2;
+      ty = ty - fm.getHeight();
+
+      paintShadowText( g, javaed, tx, ty );
+      
     }
     else
     {

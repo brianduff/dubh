@@ -20,14 +20,19 @@ public class PHJoinGameReply implements ClientPacketHandler
   {
     PktJoinGameReply p = (PktJoinGameReply)pkt;
 
-    c.appendOutputWindow( "Client capability string: "+ c.getCapabilities() );
-    c.appendOutputWindow( "Server capability string: "+ p.capabilities ); 
+    c.getMainWindow().getConsole().println( "Client capability string: "+ c.getCapabilities() );
+    c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities ); 
 
     
     if( !p.youCanJoin )
     {
-      JOptionPane.showMessageDialog( c, p.message, "Join Game Refused", JOptionPane.ERROR_MESSAGE );
-      c.appendOutputWindow( "You were rejected from the game: " + p.message );
+      JOptionPane.showMessageDialog( 
+        c.getMainWindow(), p.message, "Join Game Refused", 
+        JOptionPane.ERROR_MESSAGE 
+      );
+      c.getMainWindow().getConsole().println( 
+        "You were rejected from the game: " + p.message 
+      );
       return ;
     }
 
