@@ -465,8 +465,8 @@ public class ImplCityReport extends JDialog implements DlgCityReport
                 int column = tableView.convertColumnIndexToModel(viewColumn);
                 if (e.getClickCount() == 1 && column != -1) {
                     //System.out.println("Sorting ...");
-                    int whichButton = e.getButton();
-                    boolean ascending = (whichButton == MouseEvent.BUTTON3);
+                    int mod = e.getModifiers() & MouseEvent.BUTTON3;
+                    boolean ascending = ( mod == MouseEvent.BUTTON3);
                     sorter.sortByColumn(column, ascending);
                 }
             }
