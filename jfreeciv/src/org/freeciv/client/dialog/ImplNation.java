@@ -6,6 +6,7 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.text.Collator;
 
 import org.freeciv.client.*;
 import org.freeciv.net.*;
@@ -47,10 +48,9 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
 
    private JRadioButton m_rbMale = new JRadioButton(_("Male")),
        m_rbFemale = new JRadioButton(_("Female"));
-   private JRadioButton[] m_arbNations;
+   private JList m_nations;
    private JRadioButton[] m_arbCityStyles;
 
-   private ButtonGroup m_bgNation = new ButtonGroup();
    private ButtonGroup m_bgSex = new ButtonGroup();
    private ButtonGroup m_bgCityStyle = new ButtonGroup();
 
@@ -99,7 +99,13 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
          _("Select nation and name")
       ));
 
-      m_panNation.addSpacerRow(m_panNationList);
+      m_nations = new JList();
+      m_panNation.addSpacerRow(new JScrollPane(m_nations));
+
+      m_nations.addListSelectionListener(new NationLeaderPopulator());
+      m_nations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      m_nations.setCellRenderer(new NationListCellRenderer());
+      
       m_panNation.addRow(m_cmbLeaderName);
 
       m_cmbLeaderName.setEditable(true);
@@ -152,23 +158,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
 
    private void addNations()
    {
-      int numNations = m_rs.getRulesetControl().playable_nation_count;
-      m_arbNations = new JRadioButton[numNations];
-
-      int nationsPerColumn = numNations / NATION_COLUMNS;
-
-
-      m_panNationList.setLayout(new GridLayout(nationsPerColumn,
-         NATION_COLUMNS));
-
-      for (int i=0; i < numNations; i++)
-      {
-         m_arbNations[i] = new JRadioButton(m_rs.getRulesetNation(i).name);
-         m_arbNations[i].addActionListener(m_nlp);
-         m_panNationList.add(m_arbNations[i]);
-         m_bgNation.add(m_arbNations[i]);
-      }
-
+      m_nations.setModel(new NationListModel());
       selectInitialNation();
    }
 
@@ -211,40 +201,48 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
    }
 
    /**
-    * Selects the specified nation, provided it is enabled.
+    * Selects the specified nation
+    *
+    * @param num the id of the nation to select
     */
-   private void selectNation(int num)
-   {
-      JRadioButton b = m_arbNations[num];
-      b.setSelected(b.isEnabled());
-   }
+  private void selectNation(int num)
+  {
+    for (int i=0; i < m_nations.getModel().getSize(); i++)
+    {
+      PktRulesetNation n = 
+        (PktRulesetNation)m_nations.getModel().getElementAt(i);
+      if (num == n.id)
+      {
+        m_nations.setSelectedIndex(i);
+        return;
+      }
+    }
+    throw new IllegalArgumentException("Tried to select nation with id "+num+
+      " but it's not in the list"
+    );
+  }
 
    private void selectInitialNation()
    {
       // Some suggestion on freeciv-dev that this should be random.
       // We just select the first enabled one for now.
-      for (int i=0; i< m_arbNations.length; i++)
-      {
-         JRadioButton b = m_arbNations[i];
-         if (b.isEnabled())
-         {
-            b.setSelected(true);
-            break;
-         }
-      }
+      // BDUFF: In 1.12, I think it is random now, probably the server tells
+      // us which one to choose. Will fix this one day.
+      m_nations.setSelectedIndex(0);
    }
 
-   private int getSelectedNation()
-   {
-      for (int i=0; i < m_arbNations.length; i++)
-      {
-         if (m_arbNations[i].isSelected())
-         {
-            return i;
-         }
-      }
+  /**
+   * Get the id of the selected nation
+   */
+  private int getSelectedNation()
+  {
+    PktRulesetNation nation = (PktRulesetNation)m_nations.getSelectedValue();
+    if (nation == null)
+    {
       return -1;
-   }
+    }
+    return nation.id;
+  }
 
    private int getSelectedCityStyle()
    {
@@ -262,36 +260,23 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
 
 
 
-   class NationLeaderPopulator implements ActionListener
+   class NationLeaderPopulator implements ListSelectionListener
    {
-      public void actionPerformed(ActionEvent e)
+      public void valueChanged(ListSelectionEvent e)
       {
          // If the user typed something into the text field, then
          // don't change it.
          if (m_bNameAltered)
             return;
 
-         // TODO: hash the leadername items so that we don't have to
-         // instantiate them over and over again.
-         JRadioButton btn = (JRadioButton)e.getSource();
-         int i;
-         for (i=0; i < m_arbNations.length; i++)
-         {
-            if (m_arbNations[i] == btn)
-               break;
-         }
-
-         if (i == m_arbNations.length)
-         {
-            throw new RuntimeException("Click on an unknown radio button.");
-         }
-
          // Now get the leader names for the selected nation.
-         PktRulesetNation nation = m_rs.getRulesetNation(i);
+         PktRulesetNation nation = 
+          (PktRulesetNation)m_nations.getSelectedValue();
+         if (nation == null) return;
          int leaderCount = nation.leader_count;
 
          m_cmbLeaderName.removeAllItems();
-         for (i=0; i < leaderCount; i++)
+         for (int i=0; i < leaderCount; i++)
          {
             LeaderItem li = new LeaderItem();
             li.name = nation.leader_name[i];
@@ -348,23 +333,26 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
          int i, selected, mybits;
 
          mybits = bits1;
-
-         System.out.println("Bits for nation toggler:");
-         org.freeciv.net.AbstractPacket.printBits(bits1);
-         org.freeciv.net.AbstractPacket.printBits(bits2);
-
-
+                 
          for (i=0; i<m_rs.getRulesetControl().playable_nation_count &&
             i < 32; i++)
          {
-            m_arbNations[i].setEnabled(((mybits&1)==0));
+            boolean enabled = ((mybits&1)==0);
+
+            ((NationListModel)m_nations.getModel()).setNationEnabled(i, 
+              enabled
+            );
             mybits>>=1;
          }
 
          mybits = bits2;
          for (i=32; i<m_rs.getRulesetControl().playable_nation_count; i++)
          {
-            m_arbNations[i].setEnabled(((mybits&1)==0));
+            boolean enabled = ((mybits&1)==0);
+
+            ((NationListModel)m_nations.getModel()).setNationEnabled(i, 
+              enabled
+            );
             mybits>>=1;
          }
 
@@ -376,7 +364,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
          {
             selectInitialNation();
          }
-
+        
 
       }
 
@@ -429,6 +417,120 @@ class ImplNation extends VerticalFlowPanel implements DlgNation, Constants
    {
       return getSelectedCityStyle();
    }
+
+
+  /**
+   * The datamodel for the list of nations. This alphabeticizes the list
+   */
+  private class NationListModel extends AbstractListModel
+  {
+    private ArrayList m_sortedList;
+
+    public NationListModel()
+    {
+      m_sortedList = new ArrayList();
+      for (int i=0; i < m_rs.getRulesetControl().playable_nation_count; i++)
+      {
+        m_sortedList.add(m_rs.getRulesetNation(i));
+      }
+      Collections.sort(m_sortedList, new RulesetNationComparator());
+    }
+  
+    public Object getElementAt(int index) 
+    {
+        return m_sortedList.get(index);
+    }
+
+    public int getSize()
+    {
+      return m_sortedList.size();
+    }
+
+    /**
+     * Enables or disables a nation. Actually physically removes or re-inserts
+     * the nation into the list.
+     *
+     * @param nationId the id of the nation to enable or disable
+     * @param isEnabled whether to enable or disable the nation
+     */
+    public void setNationEnabled(int nationId, boolean isEnabled)
+    {
+      PktRulesetNation n = m_rs.getRulesetNation(nationId);
+      boolean alreadyThere = m_sortedList.contains(n);
+
+      if (isEnabled)
+      {
+        if (!alreadyThere)
+        {
+          m_sortedList.add(n);
+          Collections.sort(m_sortedList);
+          // Although we just resorted the list, the only element which should
+          // have moved will be the nation we just added. Get it's index
+          // and fire an insertion event.
+          int idx = getNationIndex(n);
+          fireIntervalAdded(this, idx, idx);
+        }
+      }
+      else
+      {
+        if (alreadyThere)
+        {
+          int idx = getNationIndex(n);
+          m_sortedList.remove(n);
+          fireIntervalRemoved(this, idx, idx);
+        }
+      }
+    }
+
+    private int getNationIndex(PktRulesetNation n)
+    {
+      for (int i=0; i < m_sortedList.size(); i++)
+      {
+        if (m_sortedList.get(i) == n)
+        {
+          return i;
+        }
+      }
+      throw new IllegalArgumentException("Nation "+n+" is not in the list");
+    }
+  }
+
+  /**
+   * Used to sort the list of nations alphabetically
+   */
+  private class RulesetNationComparator implements Comparator
+  {
+    public int compare(Object o1, Object o2) 
+    {
+      return Collator.getInstance().compare(
+        ((PktRulesetNation)o1).name,
+        ((PktRulesetNation)o2).name
+      );
+    }
+
+    public boolean equals(Object obj)
+    {
+      return (obj instanceof RulesetNationComparator);
+    }
+  }
+
+  /**
+   * Renders the cells in the nation list
+   */
+  private class NationListCellRenderer extends DefaultListCellRenderer
+  {
+    public Component getListCellRendererComponent(JList list, Object value,
+       int index, boolean isSelected, boolean cellHasFocus)
+    {
+      Component c = super.getListCellRendererComponent(list, value, index, 
+        isSelected, cellHasFocus);
+
+      setText(((PktRulesetNation)value).name);
+      // TODO: Flag icon?
+
+      return c;
+    }
+  }
 
 
 	// localization
