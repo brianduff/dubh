@@ -1,5 +1,8 @@
 package org.freeciv.net;
 
+// BAD IMPORT
+import org.freeciv.client.Constants;
+
 import java.io.IOException;
 
 /**
@@ -8,16 +11,34 @@ import java.io.IOException;
  * @author Brian Duff
  * @since 1.10.0
  */
-public abstract class AbstractPacket implements org.freeciv.client.Constants
+
+abstract class AbstractPacket implements Packet, Constants
 {
-
-
+  private int m_type = -1;
 
   /**
    * Construct an abstract packet that is going to be used to
    * send.
    */
   public AbstractPacket()
+  {
+  }
+
+  public AbstractPacket(int type)
+  {
+    m_type = type;
+  }
+
+  /**
+   * Get the packet type. This will be -1 if it has never been set.
+   * Dodgy hacky stuff. tidy me up one day.
+   */
+  public int getType()
+  {
+    return m_type;
+  }
+
+  public void setType(int type)
   {
 
   }
@@ -138,21 +159,6 @@ public abstract class AbstractPacket implements org.freeciv.client.Constants
         break;
     }
   }
-
-  /**
-   * Implement this method in your subclass to send the contents of
-   * the packet to the peer. You should implement this for all packets
-   * so that this code can be used for either a client or a server.
-   */
-  public abstract void send(OutStream os) throws IOException;
-
-  /**
-   * Implement this method in your subclass to recieve the contents
-   * of the packet from the peer and initialize internal data. You should
-   * implement this for all packets so that this code can be used for either
-   * a client or a server.
-   */
-  public abstract void receive(InStream is);
 }
 
 
