@@ -1,5 +1,5 @@
 /* 
- * $Id: styles.css,v 1.10 2001-04-29 17:56:43 briand Exp $
+ * $Id: styles.css,v 1.11 2001-05-07 02:17:59 briand Exp $
  *
  * Defines common styles that apply to all pages on dubh.org
  *  
@@ -7,17 +7,19 @@
  */
 
 h1 {
-  font-size:25pt;
+  font-size:230%;
   font-weight:bold;
-  color:#000088;
+  color:#508050;
   background-color: #ffffff;
   font-family: Garamond, Times;
 }
 
 h2 {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
-  font-size: 14pt;
-  background-image: url(/images/dubh.codebg_blue.gif);
+  font-size: 130%;
+  border-bottom: #508050 1px solid;
+  color: #508050;
+  background-color: #ffffff;
 }
 
 h3 {
@@ -27,8 +29,6 @@ h3 {
 
 p {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-
 }
 
 p.navbar {
@@ -37,23 +37,83 @@ p.navbar {
   margin-bottom: 10px;  
 }
 
+p.boxout {
+   border-left: darkgray 1px solid;
+   border-right: darkgray 1px solid;
+   border-bottom: darkgray 1px solid;
+   border-top: darkgray 1px solid;
+   
+   width: 85%;
+   
+   background-color: #C0C0f0;
+   color: #000000;
+   
+   text-align: center;
+   
+   font-style: italic;
+   
+   padding-left: 2px;
+   padding-right: 2px;  
+   padding-bottom: 2px;  
+   padding-top: 2px;    
+   
+}
+
+pre.code {
+   border-left: darkgray 1px solid;
+   border-right: darkgray 1px solid;
+   border-bottom: darkgray 1px solid;
+   border-top: darkgray 1px solid;
+   
+   text-align: left;
+   
+   width: 85%;
+   
+   background-color: #e0e0e0;
+   color: #000000;
+  
+   font-family: New Courier, courier, monotype;
+   
+   padding-left: 2px;
+   padding-right: 2px;  
+   padding-bottom: 2px;  
+   padding-top: 2px;    
+   
+   margin-bottom: 0px;    
+   
+}
+
+div.codecaption {
+   border-left: darkgray 1px solid;
+   border-right: darkgray 1px solid;
+   border-bottom: darkgray 1px solid;
+
+   width: 85%;
+
+   background-color: #ffffff;
+   color: #505050;
+
+   text-align: center;
+
+   font-style: italic;
+   font-size: 8pt;
+
+   padding-left: 2px;
+   padding-right: 2px;  
+   padding-bottom: 2px;  
+   padding-top: 2px;  
+   
+   
+}
+
 th {
   text-align: left;
 }
 
-td {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-}
-
-li {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+  font-size: 70%;
   background-color: #ffffff;
   color: #000000;
 }
@@ -88,4 +148,30 @@ p.dubhPageFooter {
 .hintText:before {
   content: "Hint: ";
   font-weight: bold;
+}
+
+
+
+.must {
+   color: red;
+   background: white;
+   font-style: underline;
+}
+
+.should {
+   color: blue;
+   background: white;
+   font-style: underline;
+}
+
+.could {
+   color: darkgray;
+   background: white;
+   font-style: underline;
+}
+
+div.indent {
+   position: relative;
+   left: 5%;
+   width: 95%;
 }
