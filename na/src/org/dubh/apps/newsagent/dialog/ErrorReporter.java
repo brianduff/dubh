@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ErrorReporter.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: ErrorReporter.java,v 1.4 1999-06-01 00:23:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -33,28 +33,8 @@ import dubh.utils.misc.Debug;
 
 /**
  * Responsible for communicating errors to the user.<P>
- * Version History: <UL>
- * <LI>0.1 [17/02/98]: Initial Revision
- * <LI>0.2 [27/02/98]: Made methods static. Changed methods for Swing 1.0, you
- *    <b>must</b> provide a parent JFrame for all static calls (or deadlock).
- *    Addendum: Providing a parent doesn't actually work. The deadlock problem
- *    is a known bug in JDK < 1.1.4 (and not Swing's fault). The problem goes
- *    away on newer JREs. JBuilder uses an old JRE, which is why I noticed it.
- * <LI>0.3 [03/03/98]: Updated to use GlobalState for application name.
- * <LI>0.4 [05/03/98]: Now takes a string resource bundle key for the message,
- *       and no longer takes parents for any message box.
- * <LI>0.5 [23/03/98]: Added Yes/No dialog.
- * <LI>0.6 [24/03/98]: Added Input dialog.
- * <LI>0.7 [23/04/98]: Disabled debug output for release version.
- * <LI>0.8 [29/04/98]: Reenabled debug output if preference is set or -debug
- *     flag used (see GlobalState.debugOn)
- * <LI>0.9 [08/06/98]: Replaced debug() method with a call to the dubh utils
- *      Debug.println method. <b>Use the Dubh Utils method directly in all
- *      code from now on!!!</b>, this will help to make debug output
- *      consistent.
- *</UL>
- @author Brian Duff
- @version 0.9 [08/06/98]
+ * @author Brian Duff
+ * @version $Id: ErrorReporter.java,v 1.4 1999-06-01 00:23:40 briand Exp $
  */
 public class ErrorReporter {
 
@@ -83,7 +63,7 @@ public class ErrorReporter {
       * Displays a dialog to the user where he/she can enter a string.
       */
      public static String getInput(String key) {
-        return JOptionPane.showInputDialog(GlobalState.getResString(key));
+        return JOptionPane.showInputDialog(GlobalState.getRes().getString(key));
      }
 
     /**
@@ -92,8 +72,8 @@ public class ErrorReporter {
      */
     public static boolean yesNo(String key) {
 
-     return ((JOptionPane.showConfirmDialog(new JFrame(), GlobalState.getResString(key),
-        dlgTitle+" "+GlobalState.getResString("question"),
+     return ((JOptionPane.showConfirmDialog(new JFrame(), GlobalState.getRes().getString(key),
+        dlgTitle+" "+GlobalState.getRes().getString("question"),
         JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION);
 
 
@@ -105,8 +85,8 @@ public class ErrorReporter {
      */
     public static boolean yesNo(String key, Object[] subst) {
 
-     return ((JOptionPane.showConfirmDialog(new JFrame(), MessageFormat.format(GlobalState.getResString(key), subst),
-        dlgTitle+" "+GlobalState.getResString("question"),
+     return ((JOptionPane.showConfirmDialog(new JFrame(), MessageFormat.format(GlobalState.getRes().getString(key), subst),
+        dlgTitle+" "+GlobalState.getRes().getString("question"),
         JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION);
 
 
@@ -118,8 +98,8 @@ public class ErrorReporter {
      in this warning dialog.
      */
     public static void warn(String key) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
-                   GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("warning"),
+                   GlobalState.getRes().getString(key),
                JOptionPane.WARNING_MESSAGE);
     }
 
@@ -129,8 +109,8 @@ public class ErrorReporter {
      in this error dialog.
      */
     public static void error(String key) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("error"),
-                   GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("error"),
+                   GlobalState.getRes().getString(key),
                JOptionPane.ERROR_MESSAGE);
     }
 
@@ -141,8 +121,8 @@ public class ErrorReporter {
      in this fatal error dialog.
      */
     public static void fatality(String key) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
-                   GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("fatal"),
+                   GlobalState.getRes().getString(key),
                JOptionPane.ERROR_MESSAGE);
       System.exit(1);
     }
@@ -155,8 +135,8 @@ public class ErrorReporter {
      strings.
      */
     public static void warn(String key, Object[] subst) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
-                   MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("warning"),
+                   MessageFormat.format(GlobalState.getRes().getString(key), subst),
                JOptionPane.WARNING_MESSAGE);
     }
     /**
@@ -167,8 +147,8 @@ public class ErrorReporter {
      strings.
      */
     public static void error(String key, Object[] subst) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("error"),
-                   MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("error"),
+                   MessageFormat.format(GlobalState.getRes().getString(key), subst),
                JOptionPane.ERROR_MESSAGE);
     }
 
@@ -181,30 +161,36 @@ public class ErrorReporter {
      strings.
      */
     public static void fatality(String key, Object[] subst) {
-      dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
-                   MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getRes().getString("fatal"),
+                   MessageFormat.format(GlobalState.getRes().getString(key), subst),
                JOptionPane.ERROR_MESSAGE);
       System.exit(1);
     }
-    /**
-     * Displays debug output to the console. You should disable this method for
-     * the final version.
-     @param message the Message to display.
-     */
-    public static void debug(String message) {
-        Debug.println(message);
-    }
-
-// Public Methods
-
-   /**
-    * Test Harness Method. This method should be removed upon completion of
-    * the project.
-    */
-   public void doTest() {
-
-   }
-
-// Private / Protected Methods
 
 }
+
+//
+// Old Version History:
+// <LI>0.1 [17/02/98]: Initial Revision
+// <LI>0.2 [27/02/98]: Made methods static. Changed methods for Swing 1.0, you
+//    <b>must</b> provide a parent JFrame for all static calls (or deadlock).
+//    Addendum: Providing a parent doesn't actually work. The deadlock problem
+//    is a known bug in JDK < 1.1.4 (and not Swing's fault). The problem goes
+//    away on newer JREs. JBuilder uses an old JRE, which is why I noticed it.
+// <LI>0.3 [03/03/98]: Updated to use GlobalState for application name.
+// <LI>0.4 [05/03/98]: Now takes a string resource bundle key for the message,
+//       and no longer takes parents for any message box.
+// <LI>0.5 [23/03/98]: Added Yes/No dialog.
+// <LI>0.6 [24/03/98]: Added Input dialog.
+// <LI>0.7 [23/04/98]: Disabled debug output for release version.
+// <LI>0.8 [29/04/98]: Reenabled debug output if preference is set or -debug
+//     flag used (see GlobalState.debugOn)
+// <LI>0.9 [08/06/98]: Replaced debug() method with a call to the dubh utils
+//      Debug.println method. <b>Use the Dubh Utils method directly in all
+//      code from now on!!!</b>, this will help to make debug output
+//      consistent.
+//
+// New version history:
+//
+// $Log: not supported by cvs2svn $
+//

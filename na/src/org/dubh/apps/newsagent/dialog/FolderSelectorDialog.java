@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: FolderSelectorDialog.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: FolderSelectorDialog.java,v 1.4 1999-06-01 00:23:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -33,15 +33,14 @@ import dubh.apps.newsagent.Folder;
 import dubh.apps.newsagent.GlobalState;
 import java.util.*;
 
+import dubh.utils.ui.DubhDialog;
+
 /**
  * A Dialog which allows the user to select a folder.<P>
- * Version History: <UL>
- * <LI>0.1 [02/04/98]: Initial Revision
- * <LI>0.2 [04/04/98]: Converted to use res strings.
- @author Brian Duff
- @version 0.2 [04/04/98]
+ * @author Brian Duff
+ * @version $Id: FolderSelectorDialog.java,v 1.4 1999-06-01 00:23:40 briand Exp $
  */
-public class FolderSelectorDialog extends JDialog {
+public class FolderSelectorDialog extends DubhDialog {
   JPanel panMain = new JPanel();
   BorderLayout borderLayout1 = new BorderLayout();
   JLabel labQuestion = new JLabel();
@@ -81,12 +80,12 @@ public class FolderSelectorDialog extends JDialog {
   }
 
   private void jbInit() throws Exception{
-    labQuestion.setText(GlobalState.getResString("FolderSelectorDialog.SelectAFolder"));
-    cmdOK.setText(GlobalState.getResString("GeneralOK"));
+    labQuestion.setText(GlobalState.getRes().getString("FolderSelectorDialog.SelectAFolder"));
+    cmdOK.setText(GlobalState.getRes().getString("GeneralOK"));
     cmdOK.addActionListener(new FolderSelectorDialog_cmdOK_actionAdapter(this));
-    cmdCancel.setText(GlobalState.getResString("GeneralCancel"));
+    cmdCancel.setText(GlobalState.getRes().getString("GeneralCancel"));
     cmdCancel.addActionListener(new FolderSelectorDialog_cmdCancel_actionAdapter(this));
-    cmdNew.setText(GlobalState.getResString("FolderSelectorDialog.New"));
+    cmdNew.setText(GlobalState.getRes().getString("FolderSelectorDialog.New"));
     cmdNew.setActionCommand("newfolder");
     cmdNew.addActionListener(new FolderSelectorDialog_cmdNew_actionAdapter(this));    // Handled by the NewFolder Action.
     cmdNew.addActionListener(GlobalState.getMainFrame().getAction("newfolder"));
@@ -189,8 +188,7 @@ class FolderSelectorDialog_cmdNew_actionAdapter implements java.awt.event.Action
 
 // Display an icon and a string for each object in the list.
 class FolderListCellRenderer extends JLabel implements ListCellRenderer {
-   final static ImageIcon folderIcon = new ImageIcon(
-         GlobalState.getImage("icoFolder.gif"));
+   final static ImageIcon folderIcon = GlobalState.getRes().getImage("FolderSelector.folder");
 
    public Component getListCellRendererComponent(JList list, Object value,
             int index, boolean isSelected, boolean cellHasFocus)
@@ -208,3 +206,12 @@ class FolderListCellRenderer extends JLabel implements ListCellRenderer {
       return this;
    }
 }
+
+//
+// Old History
+// <LI>0.1 [02/04/98]: Initial Revision
+// <LI>0.2 [04/04/98]: Converted to use res strings.
+//
+// New History
+// $Log: not supported by cvs2svn $
+//

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsServerPropsDlg.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: NewsServerPropsDlg.java,v 1.4 1999-06-01 00:23:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,29 +35,18 @@ import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.nntp.NNTPServerException;
 import dubh.utils.misc.StringUtils;
 import dubh.utils.misc.ResourceManager;
+import dubh.utils.misc.Debug;
+
+import dubh.utils.ui.DubhOkCancelDialog;
+
 /**
  * Edits the preferences of a particular news server.<P>
  *
- * Version History: <UL>
- * <LI>0.1 [08/03/98]: Initial Revision
- * <LI>0.2 [23/03/98]: Major change to the way NNTP Server preferences are
- *      saved. Now using serialisation.
- * <LI>0.3 [20/04/98]: Changed to a subclass of NDialog, Internationalised
- * <LI>0.4 [21/04/98]: Changed to use nntpException for error handling.
- * <LI>0.5 [28/04/98]: Added fix for bug #10: Checking for no port number.
- * <LI>0.6 [08/05/98]: Changed button order and aligned right.
- * <LI>0.7 [06/06/98]: Added dubh utils import for StringUtils
- * <LI>0.8 [05/10/98]: Fixed button initialisation to use new resource strings.
- *</UL>
- @author Brian Duff
- @version 0.8 [05/10/98]
+ * @author Brian Duff
+ * @version $Id: NewsServerPropsDlg.java,v 1.4 1999-06-01 00:23:40 briand Exp $
  */
-public class NewsServerPropsDlg extends NDialog {
-  JPanel panel1 = new JPanel();
-  BorderLayout borderLayout1 = new BorderLayout();
-  JPanel panBottom = new JPanel();
-  JButton cmdOK = new JButton();
-  JPanel panel2 = new JPanel();
+public class NewsServerPropsDlg extends DubhOkCancelDialog {
+  JPanel panMain = new JPanel();
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JLabel labServerName = new JLabel();
   JTextField tfServerName = new JTextField();
@@ -72,18 +61,11 @@ public class NewsServerPropsDlg extends NDialog {
   JLabel labPort = new JLabel();
   JTextField tfPort = new JTextField();
   JButton cmdDefault = new JButton();
-  JButton cmdCancel  = new JButton();
 
-  public NewsServerPropsDlg(JFrame frame, String title, boolean modal) {
-    super(frame, title, modal);
-    try {
-      jbInit();
-      getContentPane().add(panel1);
-      pack();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
+  public NewsServerPropsDlg(JFrame frame, String title, boolean modal) 
+  {
+     super(frame, title, modal);
+     init();
   }
 
   public NewsServerPropsDlg(JFrame frame) {
@@ -98,81 +80,68 @@ public class NewsServerPropsDlg extends NDialog {
     this(frame, title, false);
   }
 
-  private void jbInit() throws Exception{
+  private void init()
+  {
       // this.setTitle("Edit News Server Options");
       ResourceManager r = GlobalState.getRes();
-      panel1.setSize(new Dimension(389, 294));
-      cmdOK.setText(GlobalState.getResString("GeneralOK"));
-      cmdOK.addActionListener(new NewsServerPropsDlg_cmdOK_actionAdapter(this));
-      cmdCancel.setText(GlobalState.getResString("GeneralCancel"));
-      cmdCancel.addActionListener(new NewsServerPropsDlg_cmdCancel_actionAdapter(this));
-      labServerName.setText(GlobalState.getResString("NewsServerPropsDlg.NiceName"));
-      tfServerName.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.NiceNameTip"));
-      //chkRequireLogon.setText(GlobalState.getResString("NewsServerPropsDlg.RequireLogin"));
-      //chkRequireLogon.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.RequireLoginTip"));
-      //chkRequireLogon.setMnemonic(GlobalState.getResString("NewsServerPropsDlg.RequireLoginAccelerator").charAt(0));
+      labServerName.setText(GlobalState.getRes().getString("NewsServerPropsDlg.NiceName"));
+      tfServerName.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.NiceNameTip"));
+      //chkRequireLogon.setText(GlobalState.getRes().getString("NewsServerPropsDlg.RequireLogin"));
+      //chkRequireLogon.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.RequireLoginTip"));
+      //chkRequireLogon.setMnemonic(GlobalState.getRes().getString("NewsServerPropsDlg.RequireLoginAccelerator").charAt(0));
 //NLS      r.initButton(chkRequireLogon, "NewsServerPropsDlg.RequireLogin");
-      labHostName.setText(GlobalState.getResString("NewsServerPropsDlg.ServerHostname"));
-      tfHostName.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.ServerHostnameTip"));
+      labHostName.setText(GlobalState.getRes().getString("NewsServerPropsDlg.ServerHostname"));
+      tfHostName.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.ServerHostnameTip"));
       chkRequireLogon.addActionListener(new NewsServerPropsDlg_chkRequireLogon_actionAdapter(this));
-      labLogin.setText(GlobalState.getResString("NewsServerPropsDlg.LoginName"));
-      txtLogin.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.LoginNameTip"));
-      lblPassword.setText(GlobalState.getResString("NewsServerPropsDlg.Password"));
-      tfPassword.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.PasswordTip"));
-      labPort.setText(GlobalState.getResString("NewsServerPropsDlg.ServerPort"));
-      tfPort.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.ServerPortTip"));
+      labLogin.setText(GlobalState.getRes().getString("NewsServerPropsDlg.LoginName"));
+      txtLogin.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.LoginNameTip"));
+      lblPassword.setText(GlobalState.getRes().getString("NewsServerPropsDlg.Password"));
+      tfPassword.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.PasswordTip"));
+      labPort.setText(GlobalState.getRes().getString("NewsServerPropsDlg.ServerPort"));
+      tfPort.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.ServerPortTip"));
       tfPort.setText("119");
-      //cmdDefault.setText(GlobalState.getResString("NewsServerPropsDlg.Default"));
-      //cmdDefault.setToolTipText(GlobalState.getResString("NewsServerPropsDlg.DefaultTip"));
-      //cmdDefault.setMnemonic(GlobalState.getResString("NewsServerPropsDlg.DefaultAccelerator").charAt(0));
+      //cmdDefault.setText(GlobalState.getRes().getString("NewsServerPropsDlg.Default"));
+      //cmdDefault.setToolTipText(GlobalState.getRes().getString("NewsServerPropsDlg.DefaultTip"));
+      //cmdDefault.setMnemonic(GlobalState.getRes().getString("NewsServerPropsDlg.DefaultAccelerator").charAt(0));
       cmdDefault.addActionListener(new NewsServerPropsDlg_cmdDefault_actionAdapter(this));
  //NLS     r.initButton(cmdDefault, "NewsServerPropsDlg.Default");
       txtLogin.setEnabled(false);
       tfPassword.setEnabled(false);
-      panel2.setLayout(gridBagLayout1);
-      panel1.setLayout(borderLayout1);
-      panel1.add(panBottom, BorderLayout.SOUTH);
-      panel1.add(panel2, BorderLayout.CENTER);
-      panel2.add(labServerName, new GridBagConstraints2(0, 0, 1, 1, 0.0, 0.0
+      panMain.add(labServerName, new GridBagConstraints2(0, 0, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 2), 0, 0));
-      panel2.add(tfServerName, new GridBagConstraints2(1, 0, 2, 1, 1.0, 0.0
+      panMain.add(tfServerName, new GridBagConstraints2(1, 0, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 2, 2, 5), 100, 0));
-      panel2.add(labHostName, new GridBagConstraints2(0, 1, 1, 1, 0.0, 0.0
+      panMain.add(labHostName, new GridBagConstraints2(0, 1, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 2), 75, 0));
-      panel2.add(tfHostName, new GridBagConstraints2(1, 1, 2, 1, 1.0, 0.0
+      panMain.add(tfHostName, new GridBagConstraints2(1, 1, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 5), 0, 0));
-      panel2.add(chkRequireLogon, new GridBagConstraints2(0, 3, 3, 1, 1.0, 0.0
+      panMain.add(chkRequireLogon, new GridBagConstraints2(0, 3, 3, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 5), 0, 0));
-      panel2.add(labLogin, new GridBagConstraints2(0, 4, 1, 1, 0.0, 0.0
+      panMain.add(labLogin, new GridBagConstraints2(0, 4, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 2), 0, 0));
-      panel2.add(txtLogin, new GridBagConstraints2(1, 4, 2, 1, 1.0, 0.0
+      panMain.add(txtLogin, new GridBagConstraints2(1, 4, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 5), 0, 0));
-      panel2.add(lblPassword, new GridBagConstraints2(0, 5, 1, 1, 0.0, 0.0
+      panMain.add(lblPassword, new GridBagConstraints2(0, 5, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 2), 0, 0));
-      panel2.add(tfPassword, new GridBagConstraints2(1, 5, 2, 1, 1.0, 0.0
+      panMain.add(tfPassword, new GridBagConstraints2(1, 5, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 5), 0, 0));
-      panel2.add(jPanel1, new GridBagConstraints2(0, 6, 3, 1, 1.0, 1.0
+      panMain.add(jPanel1, new GridBagConstraints2(0, 6, 3, 1, 1.0, 1.0
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-      panel2.add(labPort, new GridBagConstraints2(0, 2, 1, 1, 0.0, 0.0
+      panMain.add(labPort, new GridBagConstraints2(0, 2, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 2), 0, 0));
-      panel2.add(tfPort, new GridBagConstraints2(1, 2, 1, 1, 1.0, 0.0
+      panMain.add(tfPort, new GridBagConstraints2(1, 2, 1, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 5, 5), 15, 0));
-         panel2.add(cmdDefault, new GridBagConstraints2(2, 2, 1, 1, 0.0, 0.0
+      panMain.add(cmdDefault, new GridBagConstraints2(2, 2, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 2, 5, 5), 0, 0));
-      this.getRootPane().setDefaultButton(cmdOK);      // RootPane
-      panBottom.setLayout(new FlowLayout(FlowLayout.RIGHT));
-      panBottom.add(cmdOK, null);
-      panBottom.add(cmdCancel, null);
-
+     
+     setPanel(panMain);
+  
   }
 
-  void cmdOK_actionPerformed(ActionEvent e) {
-   applyProps();
-    setVisible(false);
-  }
-
-  void cmdCancel_actionPerformed(ActionEvent e) {
-   setVisible(false);
+  public boolean okClicked()
+  {
+     applyProps();
+     return true;
   }
 
   void chkRequireLogon_actionPerformed(ActionEvent e) {
@@ -220,12 +189,18 @@ public class NewsServerPropsDlg extends NDialog {
         if (getRequiresLogin())
             thisserver.setLoginInfo(getUserName(), getPassword());
     } catch (IOException e) {
-        ErrorReporter.debug("IOException in NewsServerPropsDlg.applyProps:"+e);
+        if (Debug.TRACE_LEVEL_1)
+        {
+           Debug.println(1, this, "IOException in NewsServerPropsDlg.applyProps:"+e);
+        }
         ErrorReporter.error("UnableToConnect", new String[] {host});
     } catch (NNTPServerException ex) {
-        ErrorReporter.debug("NNTPException in NewsServerPropsDlg.applyProps:"+ex);
-        GlobalState.getStorageManager().nntpException(ex,
-           GlobalState.getResString("Action.Connecting"), host);
+       if (Debug.TRACE_LEVEL_1)
+       {
+          Debug.println(1, this, "NNTPException in NewsServerPropsDlg.applyProps:"+ex);   
+       }
+       GlobalState.getStorageManager().nntpException(ex,
+           GlobalState.getRes().getString("Action.Connecting"), host);
     }
   }
 
@@ -311,17 +286,6 @@ public class NewsServerPropsDlg extends NDialog {
 
 }
 
-class NewsServerPropsDlg_cmdOK_actionAdapter implements java.awt.event.ActionListener{
-  NewsServerPropsDlg adaptee;
-
-  NewsServerPropsDlg_cmdOK_actionAdapter(NewsServerPropsDlg adaptee) {
-    this.adaptee = adaptee;
-  }
-
-  public void actionPerformed(ActionEvent e) {
-    adaptee.cmdOK_actionPerformed(e);
-  }
-}
 
 class NewsServerPropsDlg_chkRequireLogon_actionAdapter implements java.awt.event.ActionListener{
   NewsServerPropsDlg adaptee;
@@ -347,15 +311,18 @@ class NewsServerPropsDlg_cmdDefault_actionAdapter implements java.awt.event.Acti
   }
 }
 
-//cmdCancel_actionPerformed
-class NewsServerPropsDlg_cmdCancel_actionAdapter implements java.awt.event.ActionListener {
-  NewsServerPropsDlg adaptee;
-
-  NewsServerPropsDlg_cmdCancel_actionAdapter(NewsServerPropsDlg adaptee) {
-    this.adaptee = adaptee;
-  }
-
-  public void actionPerformed(ActionEvent e) {
-    adaptee.cmdCancel_actionPerformed(e);
-  }
-}
+//
+// Old Version History:
+// <LI>0.1 [08/03/98]: Initial Revision
+// <LI>0.2 [23/03/98]: Major change to the way NNTP Server preferences are
+//      saved. Now using serialisation.
+// <LI>0.3 [20/04/98]: Changed to a subclass of NDialog, Internationalised
+// <LI>0.4 [21/04/98]: Changed to use nntpException for error handling.
+// <LI>0.5 [28/04/98]: Added fix for bug #10: Checking for no port number.
+// <LI>0.6 [08/05/98]: Changed button order and aligned right.
+// <LI>0.7 [06/06/98]: Added dubh utils import for StringUtils
+// <LI>0.8 [05/10/98]: Fixed button initialisation to use new resource strings.
+//
+// New version history:
+// $Log: not supported by cvs2svn $
+//

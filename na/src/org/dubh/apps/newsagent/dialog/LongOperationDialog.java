@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: LongOperationDialog.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: LongOperationDialog.java,v 1.4 1999-06-01 00:23:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -29,21 +29,16 @@ import java.awt.*;
 import java.awt.event.*;
 import dubh.utils.ui.GridBagConstraints2;
 import javax.swing.*;
+import dubh.utils.ui.DubhDialog;
 
-import dubh.apps.newsagent.dialog.NDialog;
 
 
 /**
  * Displays and animation and a message to the user during long operations.<BR>
- * Version History: <UL>
- * <LI>0.1 [25/03/98]: Initial Revision
- * <LI>0.2 [05/04/98]: Now extends NDialog
- * <LI>0.3 [20/04/98]: Changed to JPanel
- *</UL>
  @author Brian Duff
- @version 0.3 [20/04/98]
+ @version $Id: LongOperationDialog.java,v 1.4 1999-06-01 00:23:40 briand Exp $
  */
-public class LongOperationDialog extends NDialog implements Runnable {
+public class LongOperationDialog extends DubhDialog implements Runnable {
   JPanel panMain = new JPanel();
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JLabel lblSideImage = new JLabel();
@@ -130,3 +125,17 @@ class LongOperationDialog_cmdCancel_actionAdapter implements java.awt.event.Acti
     adaptee.cmdCancel_actionPerformed(e);
   }
 }
+
+/**
+ * Old History
+  * Version History: <UL>
+ * <LI>0.1 [25/03/98]: Initial Revision
+ * <LI>0.2 [05/04/98]: Now extends NDialog
+ * <LI>0.3 [20/04/98]: Changed to JPanel
+ *</UL>
+ */
+//
+// New history
+// 
+// $Log: not supported by cvs2svn $
+//

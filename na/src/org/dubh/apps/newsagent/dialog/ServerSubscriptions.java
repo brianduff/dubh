@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ServerSubscriptions.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: ServerSubscriptions.java,v 1.4 1999-06-01 00:23:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -37,32 +37,21 @@ import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.nntp.NNTPServerException;
 import dubh.apps.newsagent.nntp.Newsgroup;
 import dubh.apps.newsagent.dialog.LongOperationDialog;
-import dubh.apps.newsagent.dialog.NDialog;
+
+import dubh.utils.ui.DubhOkCancelDialog;
+import dubh.utils.misc.Debug;
 
 /**
- * Displays a dialog allowing the user to select newsgroups to subscribe to.<P>
- * <UL>
- * <LI>0.1 [24/03/98]: Initial Revision
- * <LI>0.2 [25/03/98]: Added populateServersList()
- * <LI>0.3 [29/03/98]: Implemented OK and Cancel buttons.
- * <LI>0.4 [30/03/98]: Forced OK to update the FolderTree. Disabled buttons
- *   which can't be used until a server is selected.
- * <LI>0.5 [08/05/98]: Changed button order. Made OK Default. Changed to sub
- *   class NDialog. Internationalised. Added bug fix so scroll bars update
- *   properly.
- * <LI>0.6 [09/05/98]: Minor bug fix in longop dialogue for UNIX
- *</UL>
- @author Brian Duff
- @version 0.6 [09/05/98]
+ * Displays a dialog allowing the user to select newsgroups to subscribe to.
+ * @author Brian Duff
+ * @version $Id: ServerSubscriptions.java,v 1.4 1999-06-01 00:23:40 briand Exp $
  */
-public class ServerSubscriptions extends NDialog {
-  JPanel panel1 = new JPanel();
+public class ServerSubscriptions extends DubhOkCancelDialog {
+  JPanel panMain = new JPanel();
   BorderLayout borderLayout1 = new BorderLayout();
   JPanel panSubscriptions = new JPanel();
   JPanel panButtons = new JPanel();
   FlowLayout flowLayout1 = new FlowLayout();
-  JButton cmdOK = new JButton();
-  JButton cmdCancel = new JButton();
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JLabel labServers = new JLabel();
   JLabel labDisplayContaining = new JLabel();
@@ -87,14 +76,8 @@ public class ServerSubscriptions extends NDialog {
 
   public ServerSubscriptions(Frame frame, String title, boolean modal) {
     super(frame, title, modal);
-    try {
-      jbInit();
-      getContentPane().add(panel1);
-      pack();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
+      init();
+      setPanel(panMain);
   }
 
   public ServerSubscriptions(Frame frame) {
@@ -109,8 +92,8 @@ public class ServerSubscriptions extends NDialog {
     this(frame, title, false);
   }
 
-  private void jbInit() throws Exception{
-   //  listGroups.setModel(lmGroups);
+  private void init()
+  {
 
    // Initially, while no server is selected, the newsgroup buttons must be
    // disabled.
@@ -126,13 +109,10 @@ public class ServerSubscriptions extends NDialog {
     listServers.setModel(lmServers);
     listServers.addListSelectionListener(new ServerSubscriptions_listServers_listSelectionAdapter(this));
     panSubscriptions.setLayout(gridBagLayout1);
-    panel1.setSize(new Dimension(490, 300));
+    panMain.setSize(new Dimension(490, 300));
     flowLayout1.setAlignment(2);
-    cmdOK.setText(GlobalState.getResString("GeneralOK"));
-    cmdOK.addActionListener(new ServerSubscriptions_cmdOK_actionAdapter(this));
-    cmdCancel.setText(GlobalState.getResString("GeneralCancel"));
-    labServers.setText(GlobalState.getResString("ServerSubscriptions.NewsServers"));
-    labDisplayContaining.setText(GlobalState.getResString("ServerSubscriptions.GroupsContaining"));
+    labServers.setText(GlobalState.getRes().getString("ServerSubscriptions.NewsServers"));
+    labDisplayContaining.setText(GlobalState.getRes().getString("ServerSubscriptions.GroupsContaining"));
     listGroups.addListSelectionListener(new ServerSubscriptions_listGroups_listSelectionAdapter(this));
     scrollServers.addMouseListener(new ServerSubscriptions_scrollServers_mouseAdapter(this));
 //    r.initButton(cmdSubscribe, "ServerSubscriptions.Subscribe");
@@ -157,10 +137,9 @@ public class ServerSubscriptions extends NDialog {
     optSubscribed.addActionListener(grouplistener);
     optNew.addActionListener(grouplistener);
     panGroupButtons.setLayout(gridBagLayout2);
-    cmdCancel.addActionListener(new ServerSubscriptions_cmdCancel_actionAdapter(this));
     panButtons.setLayout(flowLayout1);
-    panel1.setLayout(borderLayout1);
-    panel1.add(panSubscriptions, BorderLayout.CENTER);
+    panMain.setLayout(borderLayout1);
+    panMain.add(panSubscriptions, BorderLayout.CENTER);
     panSubscriptions.add(labServers, new GridBagConstraints2(0, 0, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
     panSubscriptions.add(labDisplayContaining, new GridBagConstraints2(1, 0, 2, 1, 1.0, 0.0
@@ -185,28 +164,16 @@ public class ServerSubscriptions extends NDialog {
             ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 5), 0, 0));
     panSubscriptions.add(scrollServers, new GridBagConstraints2(0, 1, 1, 2, 0.0, 1.0
             ,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-    panel1.add(panButtons, BorderLayout.SOUTH);
-    this.getRootPane().setDefaultButton(cmdOK);
-    panButtons.add(cmdOK, null);
-    panButtons.add(cmdCancel, null);
+    panMain.add(panButtons, BorderLayout.SOUTH);
     populateServersList();
   }
 
-  void cmdOK_actionPerformed(ActionEvent e) {
-     setVisible(false);
-     // Save changes to the serialised NNTPServer object.
+  public boolean okClicked()
+  {
      GlobalState.getStorageManager().serializeServers();
      // Update the folder tree on the main frame.
-     GlobalState.getMainFrame().getFolderTreePanel().treeUpdate();
-     dispose();
-
-  }
-
-  void cmdCancel_actionPerformed(ActionEvent e) {
-     setVisible(false);
-     // Revert to the previously serialized NNTPServer objects.  ???
-    // GlobalState.getStorageManager().                         
-     dispose();
+     GlobalState.getMainFrame().getFolderTreePanel().treeUpdate(); 
+     return true;    
   }
 
   /**
@@ -219,7 +186,10 @@ public class ServerSubscriptions extends NDialog {
         Object[] selections = getSelectedNewsgroups();
         NNTPServer server = getSelectedServer();
         if (server == null) {
-           ErrorReporter.debug("Can't subscribe: no server selected.");
+           if (Debug.TRACE_LEVEL_2)
+           {
+              Debug.println(2, this, "Can't subscribe: no server selected.");
+           }
            return;
         }
         for (int i=0;i<selections.length;i++) {
@@ -237,7 +207,10 @@ public class ServerSubscriptions extends NDialog {
      Object[] selections = getSelectedNewsgroups();
      NNTPServer server = getSelectedServer();
      if (server == null) {
-        ErrorReporter.debug("Can't subscribe: no server selected.");
+        if (Debug.TRACE_LEVEL_2)
+        {
+           Debug.println(2, this, "Can't subscribe: no server selected.");
+        }
         return;
      }
      for (int i=0;i<selections.length;i++) {
@@ -321,10 +294,10 @@ public class ServerSubscriptions extends NDialog {
      if (selection >=0 ) {
 
        final LongOperationDialog longop = new LongOperationDialog(GlobalState.getMainFrame(), true);
-       longop.setLeftIcon(new ImageIcon(GlobalState.getImage("busyimage.gif")));
+       longop.setLeftIcon(GlobalState.getRes().getImage("ServerSubscriptions.longOperation"));
        // Retrieve the news server
        final NNTPServer theServer = (NNTPServer) lmServers.getElementAt(selection);
-       longop.setText(GlobalState.getResString("ServerSubscriptions.Connecting",
+       longop.setText(GlobalState.getRes().getString("ServerSubscriptions.Connecting",
            new String[] {theServer.getNiceName()}));
        // Check we are connected.
       // theServer.attachStream(new java.io.PrintWriter(System.out));
@@ -336,7 +309,7 @@ public class ServerSubscriptions extends NDialog {
               public void run() {
 
                try {
-                 longop.setText(GlobalState.getResString("ServerSubscriptions.GettingList",
+                 longop.setText(GlobalState.getRes().getString("ServerSubscriptions.GettingList",
                        new String[] {theServer.getNiceName()}));
                  Vector newGroups, allGroups, subGroups;
                  newGroups = theServer.getNewNewsgroups();
@@ -349,7 +322,7 @@ public class ServerSubscriptions extends NDialog {
                  lmSubscribedGroups.clear();
                  enum = newGroups.elements();
 
-                 longop.setText(GlobalState.getResString("ServerSubscriptions.UpdatingList"));
+                 longop.setText(GlobalState.getRes().getString("ServerSubscriptions.UpdatingList"));
                  while (enum.hasMoreElements()) {
                     Object obj = enum.nextElement();
                     lmNewGroups.addElement(obj);
@@ -363,7 +336,10 @@ public class ServerSubscriptions extends NDialog {
                     }
                  }
                  enum = subGroups.elements();
-                 if (enum == null) ErrorReporter.debug("null group list");
+                 if (Debug.ASSERT)
+                 {
+                    Debug.assert((enum != null), this, "null group list");
+                 }
                  while (enum.hasMoreElements()) {
                     lmSubscribedGroups.addElement(enum.nextElement());
                  }
@@ -371,11 +347,17 @@ public class ServerSubscriptions extends NDialog {
                  longop.setVisible(false);
               } catch (java.io.IOException ioe) {
                  ErrorReporter.error("ServerSubscriptions.IOError", new String[] {theServer.toString()});
-                 ErrorReporter.debug("populateNewsgroupsList:"+ioe);
+                 if (Debug.TRACE_LEVEL_1)
+                 {
+                    Debug.println(1, this, "populateNewsgroupsList:"+ioe);
+                 }
                  longop.setVisible(false);
               } catch (NNTPServerException nntp) {
                  ErrorReporter.error("ServerSubscriptions.NNTPError", new String[] {theServer.toString()});
-                 ErrorReporter.debug("populateNewsgroupsList:"+nntp);
+                 if (Debug.TRACE_LEVEL_1)
+                 {
+                    Debug.println(1, this, "populateNewsgroupsList:"+nntp);
+                 }
                  longop.setVisible(false);
               }
            } // run
@@ -419,30 +401,6 @@ public class ServerSubscriptions extends NDialog {
 
   
 
-}
-
-class ServerSubscriptions_cmdOK_actionAdapter implements java.awt.event.ActionListener {
-  ServerSubscriptions adaptee;
-
-  ServerSubscriptions_cmdOK_actionAdapter(ServerSubscriptions adaptee) {
-    this.adaptee = adaptee;
-  }
-
-  public void actionPerformed(ActionEvent e) {
-    adaptee.cmdOK_actionPerformed(e);
-  }
-}
-
-class ServerSubscriptions_cmdCancel_actionAdapter implements java.awt.event.ActionListener {
-  ServerSubscriptions adaptee;
-
-  ServerSubscriptions_cmdCancel_actionAdapter(ServerSubscriptions adaptee) {
-    this.adaptee = adaptee;
-  }
-
-  public void actionPerformed(ActionEvent e) {
-    adaptee.cmdCancel_actionPerformed(e);
-  }
 }
 
 class ServerSubscriptions_cmdSubscribe_actionAdapter implements java.awt.event.ActionListener {
@@ -531,3 +489,19 @@ class ServerSubscriptions_listGroups_listSelectionAdapter implements javax.swing
     adaptee.listGroups_valueChanged(e);
   }
 } 
+
+//
+// Old History:
+// <LI>0.1 [24/03/98]: Initial Revision
+// <LI>0.2 [25/03/98]: Added populateServersList()
+// <LI>0.3 [29/03/98]: Implemented OK and Cancel buttons.
+// <LI>0.4 [30/03/98]: Forced OK to update the FolderTree. Disabled buttons
+//   which can't be used until a server is selected.
+// <LI>0.5 [08/05/98]: Changed button order. Made OK Default. Changed to sub
+//   class NDialog. Internationalised. Added bug fix so scroll bars update
+//   properly.
+// <LI>0.6 [09/05/98]: Minor bug fix in longop dialogue for UNIX
+// 
+// New History:
+//
+// $Log: not supported by cvs2svn $
