@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>JDeveloper Ant Addin Features</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../../navigator.xml?me=jdev" />
+  </navigator>  
+  
+  <content type="columns">
+    <header>JDeveloper Ant Addin Features</header>
+
+    <column>
+      <html>
+        <h2>IDE Integration</h2>
+        <p align="center">
+          <img src="images/feature-ide-integ.png" alt="IDE Integration" />
+        </p>
+        <h3>Ant Buildfile Category In Navigator</h3>
+        <table width="100%">
+          <tr>
+            <td>
+              <img src="images/nav-feature.png" alt="Navigator Integration" />
+            </td>
+            <td valign="top">
+          Ant buildfiles in a JDeveloper project are displayed in a special
+          category under the project node in the navigator. Buildfiles also
+          have their own special icon so they can be easily distinguished
+          from other .xml files in your project.
+            </td>
+          </tr>
+        
+        </table>
+
+        <h3>Full Integration with JDeveloper's XML Editor</h3>
+        
+        <table width="100%">
+          <tr>
+            <td valign="top">
+              Ant files can be edited and viewed in JDeveloper's XML
+              editor, which offers full syntax highlighting and many other
+              powerful features.
+            </td>
+            <td>
+              <img src="images/xml-edit-feature.png" alt="XML Editor" />
+            </td>
+          </tr>
+        </table>
+       
+        <h2>Buildfile Generation Wizard</h2>
+        <p align="center">
+          <img src="images/feature-wizard.png" alt="Buildfile Wizard" />
+        </p>
+        
+        <p>
+          You can easily create new Ant buildfiles from existing JDeveloper
+          projects using the Buildfile wizard. This wizard will take you
+          through the steps of creating your buildfile, allowing you to
+          choose and customize the default targets which will be generated. 
+        </p>
+
+      </html>
+    </column>
+
+    
+    <column width="15%">
+      <box title="Ant Addin">
+        <xsql:include-xsql href="antnav.xml" />
+      </box>
+    </column>
+    
+    
+  </content>
+  
+  <cvs-info>
+    <date>
+      $Date: 2001-08-20 01:09:36 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.1 $
+    </revision>
+  </cvs-info> 
+  
+</dubhpage>

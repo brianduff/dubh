@@ -158,6 +158,15 @@
         in these pages. Particularly if you're using obsolete browser versions,
         I'd recommend upgrading to the newest versions.
       </p>
+      
+      <p>
+        For images, I'm slowly converting all the GIF images on my pages to 
+        PNG (portable network graphics) format. As well as being a more compact,
+        modern file format, the PNG format is open and not a proprietary 
+        technology like GIF. Again, most modern browsers support this image
+        format happily.
+      </p>
+      
       <p>
         If you encounter a problem viewing my pages which you feel has been
         caused by me not using these standards correctly, 
@@ -185,13 +194,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-06-11 00:44:10 $
+      $Date: 2001-08-20 01:10:51 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.4 $
+      $Revision: 1.5 $
     </revision>
   </cvs-info> 
   
