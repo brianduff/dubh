@@ -25,7 +25,7 @@ import java.util.Hashtable;
 import javax.swing.border.*;
 import javax.swing.*;
 
-impord dubh.apps.newsagent.PreferenceKeys;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 
