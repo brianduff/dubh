@@ -483,9 +483,7 @@ public class GlobalState {
      mainFrame = new MainFrame();
      mainFrame.pack();
      mainFrame.setVisible(true);
-     //mainFrame.showAtStoredLocation("main");
-     // Send to the back (i.e. behind the splash screen)
-     //mainFrame.toBack();
+
   }
 
   /**
