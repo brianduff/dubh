@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Project Marco: Database Design</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../../navigator.xml?me=marco" />
+  </navigator>  
+  
+  <content>
+    <h1>Project Marco: Database Design</h1>
+    
+    <h2>Abstract</h2>
+    
+    <p>
+      This document functionally describes the database schema and
+      implementation for the Marco project.
+    </p>
+    
+    <h2>Choice of Database</h2>
+    
+    <p>
+      Different database vendors vary significantly in their adoption of the
+      SQL standard. In particular, the precise definition and availability of
+      datatypes varies from vendor to vendor.
+    </p>
+    
+    <p>
+      Producing a database design that would prove to be vendor-independent
+      would be a difficult and limiting task. Therefore, Marco will
+      intentionally target a specific database. However, use of vendor specific
+      functionality should be limited to make it easier to port to other
+      databases in future.
+    </p>
+
+    <p>
+      The database with the richest level of functionality, reliability and
+      stability is almost certainly Oracle 8i. However, this database is
+      unsuitable for the Marco project because of its cost and size.
+    </p>
+    
+    <p>
+      After considering the key requirements for Marco, which are
+      cost, availability and quality of JDBC support, project Marco will 
+      therefore use mySQL as its database platform. This will have
+      an impact on the design, as mySQL has a great many limitations in terms
+      of server side logic (triggers, validation and stored procedures) which
+      will mean an increased reliance on client coding.
+    </p>
+    
+    <h2>Required Information</h2>
+    
+    <p>
+      There follows a summary of the information that needs to be stored in
+      the Marco database:
+    </p>
+
+    <h3>Users</h3>
+    
+    <p>
+      Information about user accounts for the bookmark service.
+    </p>
+    
+    <table width="85%" align="center" border="1">
+      <tr>
+        <th>Forename(s)</th>
+        <td>The "real" forename(s) of the user (optional)</td>
+      </tr>
+      <tr>
+        <th>Surname</th>
+        <td>The "real" surname of the user (optional)</td>
+      </tr>
+      <tr>
+        <th>Email Address</th>
+        <td>
+          The email address of the user. This must be unique across all user
+          accounts (required)
+        </td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td>The user's password for authentication (required)</td>
+      </tr>
+      <tr>
+        <th>Is Administrator</th>
+        <td>Whether this account can be used for administration (required)</td>
+      </tr>           
+    </table>
+    
+    
+    <h3>Categories</h3>
+    
+    <p>
+      Information about categories.
+    </p>
+    
+    <table width="85%" align="center" border="1">
+      <tr>
+        <th>Title</th>
+        <td>The title of the category (required)</td>
+      </tr>
+      <tr>
+        <th>User</th>
+        <td>
+          The user this category belongs to (required)
+        </td>
+      </tr>
+      <tr>
+        <th>Parent Category</th>
+        <td>
+          The category this category is child of (optional: if not set, the 
+          category has no parent)
+        </td>
+      </tr>     
+      <tr>
+        <th>Is Published</th>
+        <td>
+          Whether this category can be viewed by other users (required)
+        </td>
+      </tr>       
+    </table>        
+    
+    <h3>Bookmarks</h3>
+    
+    <p>
+      Information about bookmarks.
+    </p>
+    
+    <table width="85%" align="center" border="1">
+      <tr>
+        <th>Title</th>
+        <td>The title of the bookmark (required)</td>
+      </tr>
+      <tr>
+        <th>URL</th>
+        <td>The uniform resource locator (URL) of the bookmark (required)</td>
+      </tr>
+      <tr>
+        <th>User</th>
+        <td>
+          The user this bookmark belongs to (required)
+        </td>
+      </tr>
+      <tr>
+        <th>Category</th>
+        <td>
+          The category this bookmark is in (optional: if not set, the bookmark
+          is uncategorised)
+        </td>
+      </tr>        
+    </table>    
+    
+    <h2>Database Schema Model</h2>
+    
+    <div align="center">
+      <div class="thinborder">
+        <img src="marco_erd.png" width="442" height="335" alt="Marco Schema Model" />
+      </div>
+      <div class="caption">
+        Figure 1: Marco Entity Relationship Model [ <a href="marco_erd.vsd">Visio 2000 File</a> ]
+      </div>
+    </div>
+    
+    <h2>DDL Script</h2>
+    
+    <p>
+      The following DDL Script creates the tables for the Marco schema. This
+      script has been designed to run on MySQL 3.23.32.
+    </p>
+    
+    <div align="center">
+      <pre class="code">
+--
+-- SQL Script to create tables for the Bookmark database
+-- For MySQL 3.24
+--
+-- (C) 2001 Brian Duff
+--
+
+CREATE DATABASE IF NOT EXISTS marco;
+
+USE marco;
+
+CREATE TABLE IF NOT EXISTS users (
+   id                INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+,  forenames         VARCHAR(255)
+,  surname           VARCHAR(255)
+,  email             VARCHAR(255) NOT NULL
+,  password          VARCHAR(20)  NOT NULL
+,  is_administrator  ENUM("Yes", "No") NOT NULL DEFAULT "No"
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+   id                INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+,  title             VARCHAR(100) NOT NULL
+,  parent_cat        INT
+,  user              INT
+,  is_published      ENUM("Yes", "No") NOT NULL DEFAULT "No"
+);
+
+CREATE TABLE IF NOT EXISTS bookmarks (
+   id                INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+,  title             VARCHAR(200) NOT NULL
+,  url               VARCHAR(255) NOT NULL
+,  category          INT
+,  user              INT
+);      
+      </pre>
+      
+      <div class="caption">
+        Code Sample 1: Marco DDL (marco_ddl.sql)
+      </div>
+    </div>
+    
+  </content>
+  
+  
+  <cvs-info>
+    <date>
+      $Date: 2001-05-13 14:36:09 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.1 $
+    </revision>
+  </cvs-info>
+  
+</dubhpage>
