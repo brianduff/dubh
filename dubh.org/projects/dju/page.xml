@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="whatdju" name="What is DJU">
+    <html>
+      <p>
+        <b>DJU</b> are the <i>Dubh Java Utilities</i>. While writing
+        <a href="../newsagent/index.xml">NewsAgent</a>, I realised that
+        vast amounts of code could potentially be usable by other projects.
+        To this end, I tried to keep common code separate from the rest
+        of NewsAgent by putting it in the dju package space. The
+        Dubh Java Utilities are the end result.
+      </p>
+    </html>
+  </section>
+  <section id="using" name="Using the DJU">
+    <html>
+      <p>
+        You are welcome to use the DJU in your own projects. You simply
+        need to download the DJU jar file and make sure it's in the 
+        CLASSPATH of your java runtime. Before you do this, you should
+        look at the license for DJU to make sure you are complying with
+        its terms. More information on the license for DJU is available
+        below.
+      </p>
+    </html>
+  </section>
+  <section id="licensing" name="DJU Licensing">
+    <html>
+      <p>
+        DJU has not yet been formally released as a separate product. The
+        only release so far has been as part of NewsAgent 1.0 and 1.02.
+        Both these releases were licenced under the GNU General Public
+        License, and no licensing information was available separately
+        for DJU.
+      </p>
+      <p>
+        GNU GPL doesn't work very well for libraries of common code like
+        DJU. There is a separate GNU license for library code, called the
+        LGPL (Library or Lesser General Public License). However, Richard
+        Stallman seems to be recommending that even libraries use GPL these
+        days.
+      </p>
+      <p>
+        An unfortunate consequence of using the GPL is that, even though it
+        is an open source license (and therefore fundamentally less 
+        restrictive than most commercial software licenses), it nevertheless
+        places a restriction on using the licensed software in what it calls
+        "derived products". Derived products must also carry the GPL license, 
+        which in effect, makes GPL viral - if you want to use a library licensed
+        under GPL in your software, you have to license your software under
+        GPL. 
+      </p>
+      <p>
+        This to me seems far too restrictive, and could potentially limit
+        the use of the DJU library. For that reason, I'm still considering
+        possible licenses for DJU. My current favourite is the MPL 
+        (Mozilla Public License), as used by the <a href="http://www.mozilla.org">
+        Mozilla</a> project.
+      </p>
+    </html>
+  </section>
+
+
+</sectionedpage>
