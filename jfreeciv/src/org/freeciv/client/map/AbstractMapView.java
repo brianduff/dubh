@@ -107,16 +107,16 @@ abstract class AbstractMapView implements MapView, Constants
     }
   }
 
-  private void updateMapBuffer( int tilex, int tiley, int tilew, int tileh, 
+  public void updateMapBuffer( int tilex, int tiley, int tilew, int tileh, 
     boolean repaint )
   {
     tilex = getMap().adjustX( tilex );
     tiley = getMap().adjustY( tiley );
 
-    if ( isTileVisible( tilex, tiley ) )
-    {
+    //if ( isTileVisible( tilex, tiley ) )
+    //{
       m_component.updateTileAt( tilex, tiley, tilew, tileh, repaint );
-    }
+    //}
   }
 
   public final void initialize()

@@ -19,6 +19,12 @@ public interface MapView
   void refreshTileMapCanvas( int x, int y );
 
   /**
+   * Refresh a region of the map buffer
+   */
+  void updateMapBuffer( int tilex, int tiley, int tilew, int tileh, 
+    boolean repaint );
+
+  /**
    * Initialize the map. You should call this after the MapInfo packet
    * has been received and the game map knows what size the map is
    */

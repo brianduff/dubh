@@ -3,6 +3,7 @@ package org.freeciv.client.map;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 import org.freeciv.client.Client;
 import org.freeciv.common.Assert;
@@ -38,13 +39,39 @@ public final class MapViewManager
   /**
    * Refresh the map canvas of all views
    */
-  public void refreshTileMapCanvas( int x, int y )
+  public void refreshTileMapCanvas( final int x, final int y )
   {
-    Iterator i = iterator();
-    while ( i.hasNext() )
-    {
-      ((MapView)i.next()).refreshTileMapCanvas( x, y );
-    }
+    SwingUtilities.invokeLater( new Runnable() {
+      public void run()
+      {
+        Iterator i = iterator();
+        while ( i.hasNext() )
+        {
+          ((MapView)i.next()).refreshTileMapCanvas( x, y );
+        }
+        m_client.getMainWindow().getMapOverview().refresh( x, y );        
+      }
+    });
+  }
+
+  public void updateMapBuffer( final int tilex, final int tiley, 
+    final int tilew, final int tileh, final boolean repaint )
+  {
+    SwingUtilities.invokeLater( new Runnable() {
+      public void run()
+      {
+        Iterator i = iterator();
+        while ( i.hasNext() )
+        {
+          ((MapView)i.next()).updateMapBuffer( 
+            tilex, tiley, tilew, tileh, repaint 
+          );
+        }
+        m_client.getMainWindow().getMapOverview().refresh( tilex, tiley,
+          tilew, tileh
+        );
+      }
+    });
   }
 
   /**
