@@ -1,0 +1,204 @@
+/*   NewsAgent: A Java USENET Newsreader
+ *   Copyright (C) 1997-8  Brian Duff
+ *   Email: bd@dcs.st-and.ac.uk
+ *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+package dubh.apps.newsagent.dialog;
+
+import javax.swing.*;
+import java.awt.*;
+import dubh.apps.newsagent.GlobalState;
+import java.text.MessageFormat;
+import dubh.utils.misc.Debug;
+
+/**
+ * Responsible for communicating errors to the user.<P>
+ * Version History: <UL>
+ * <LI>0.1 [17/02/98]: Initial Revision
+ * <LI>0.2 [27/02/98]: Made methods static. Changed methods for Swing 1.0, you
+ *		<b>must</b> provide a parent JFrame for all static calls (or deadlock).
+ *		Addendum: Providing a parent doesn't actually work. The deadlock problem
+ *		is a known bug in JDK < 1.1.4 (and not Swing's fault). The problem goes
+ *		away on newer JREs. JBuilder uses an old JRE, which is why I noticed it.
+ * <LI>0.3 [03/03/98]: Updated to use GlobalState for application name.
+ * <LI>0.4 [05/03/98]: Now takes a string resource bundle key for the message,
+ * 		and no longer takes parents for any message box.
+ * <LI>0.5 [23/03/98]: Added Yes/No dialog.
+ * <LI>0.6 [24/03/98]: Added Input dialog.
+ * <LI>0.7 [23/04/98]: Disabled debug output for release version.
+ * <LI>0.8 [29/04/98]: Reenabled debug output if preference is set or -debug
+ *     flag used (see GlobalState.debugOn)
+ * <LI>0.9 [08/06/98]: Replaced debug() method with a call to the dubh utils
+ *      Debug.println method. <b>Use the Dubh Utils method directly in all
+ *      code from now on!!!</b>, this will help to make debug output
+ *      consistent.
+ *</UL>
+ @author Brian Duff
+ @version 0.9 [08/06/98]
+ */
+public class ErrorReporter {
+
+// Public Static Constants
+
+	private static final String dlgTitle = GlobalState.appName;
+
+// Private Static Constants
+
+// Private / Protected Attributes
+
+// Public Constructors
+
+	/**
+	 * Default Constructor. Enter Description Here.
+	 */
+    public ErrorReporter() {
+
+    }
+
+    private static void dodialog(String title, String message, int type) {
+    	JOptionPane.showMessageDialog(new JFrame(), message, title, type);
+		}
+
+     /**
+      * Displays a dialog to the user where he/she can enter a string.
+      */
+     public static String getInput(String key) {
+        return JOptionPane.showInputDialog(GlobalState.getResString(key));
+     }
+
+    /**
+     * Displays a yes/no question to the user.
+     @return true if the user said yes, no otherwise.
+     */
+    public static boolean yesNo(String key) {
+
+     return ((JOptionPane.showConfirmDialog(new JFrame(), GlobalState.getResString(key),
+        dlgTitle+" "+GlobalState.getResString("question"),
+        JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION);
+
+
+    }
+
+    /**
+     * Displays a yes/no question to the user.
+     @return true if the user said yes, no otherwise.
+     */
+    public static boolean yesNo(String key, Object[] subst) {
+
+     return ((JOptionPane.showConfirmDialog(new JFrame(), MessageFormat.format(GlobalState.getResString(key), subst),
+        dlgTitle+" "+GlobalState.getResString("question"),
+        JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION);
+
+
+    }
+
+    /**
+     * Displays a warning to the user.
+     @param key The key of the message from the String Bundle resource to use
+     in this warning dialog.
+     */
+    public static void warn(String key) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
+      				 GlobalState.getResString(key),
+               JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
+     * Displays an error to the user.
+     @param key The key of the message from the String bundle resource to use
+     in this error dialog.
+     */
+    public static void error(String key) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("error"),
+      				 GlobalState.getResString(key),
+               JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Displays a fatal error to the user and terminates the application.
+     * Should be used for serious internal errors only.
+     @param key The key of the message from the String bundle resource to use
+     in this fatal error dialog.
+     */
+    public static void fatality(String key) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
+      				 GlobalState.getResString(key),
+               JOptionPane.ERROR_MESSAGE);
+      System.exit(1);
+    }
+
+    /**
+     * Displays a warning to the user.
+     @param key The key of the message from the String Bundle resource to use
+     in this warning dialog.
+     @param subst An array of Objects to replace %? placeholders in resource
+     strings.
+     */
+    public static void warn(String key, Object[] subst) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
+      				 MessageFormat.format(GlobalState.getResString(key), subst),
+               JOptionPane.WARNING_MESSAGE);
+    }
+    /**
+     * Displays an error to the user.
+     @param key The key of the message from the String bundle resource to use
+     in this error dialog.
+     @param subst An array of Objects to replace %? placeholders in resource
+     strings.
+     */
+    public static void error(String key, Object[] subst) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("error"),
+      				 MessageFormat.format(GlobalState.getResString(key), subst),
+               JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Displays a fatal error to the user and terminates the application.
+     * Should be used for serious internal errors only.
+     @param key The key of the message from the String bundle resource to use
+     in this fatal error dialog.
+     @param subst An array of Objects to replace %? placeholders in resource
+     strings.
+     */
+    public static void fatality(String key, Object[] subst) {
+    	dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
+      				 MessageFormat.format(GlobalState.getResString(key), subst),
+               JOptionPane.ERROR_MESSAGE);
+      System.exit(1);
+    }
+    /**
+     * Displays debug output to the console. You should disable this method for
+     * the final version.
+     @param message the Message to display.
+     */
+    public static void debug(String message) {
+        Debug.println(message);
+    }
+
+// Public Methods
+
+	/**
+	 * Test Harness Method. This method should be removed upon completion of
+	 * the project.
+	 */
+	public void doTest() {
+
+	}
+
+// Private / Protected Methods
+
+}
