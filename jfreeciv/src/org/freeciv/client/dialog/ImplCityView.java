@@ -291,6 +291,7 @@ public class ImplCityView extends VerticalFlowPanel
   public void updateCitizens()
   {
     m_citizensDisplay.updateFromCity();
+    m_citizensDisplay.validate();
   }
 
   /**
@@ -384,6 +385,8 @@ public class ImplCityView extends VerticalFlowPanel
     m_panUnits.setPreferredSize(new Dimension(
             m_panMiddle.getPreferredSize().width,
             m_panUnits.getPreferredSize().height ) );
+    m_cudPresent.validate();
+    m_cudSupported.validate();
   }
   
   /**

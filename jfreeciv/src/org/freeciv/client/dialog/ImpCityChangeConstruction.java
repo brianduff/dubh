@@ -115,7 +115,7 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       if( getCity().canBuildImprovement( i ) )
       {
         final Building bld = getClient().getGame().getBuilding( i );
-        String[] datum = new String[6];
+        Object[] datum = new Object[6];
         
         datum[0] = bld.getName();
         if( bld.isWonder() ) 
@@ -138,17 +138,17 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
         }
         if( i != B_CAPITAL )
         {
-          datum[2] = new Integer( bld.getBuildCost() ).toString();
+          datum[2] = new Integer( bld.getBuildCost() );
           datum[3] = new Integer( 
-                  getCity().getTurnsToBuild( i, false ) ).toString();
+                  getCity().getTurnsToBuild( i, false ) );
         }
         else 
         {
           datum[2] = "--";
           datum[3] = "--";
         }
-        datum[4] = new Integer( i ).toString();
-        datum[5] = new Boolean( false ).toString();
+        datum[4] = new Integer( i );
+        datum[5] = new Boolean( false );
         
         tList.add( datum );
       }
@@ -158,7 +158,7 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       if( getCity().canBuildUnitType( i ) )
       {
         final UnitType unt = getClient().getGame().getUnitType( i );
-        String[] datum = new String[6];
+        Object[] datum = new Object[6];
         
         datum[0] = unt.getName();
         if( unt.getFuel() > 0 ) 
@@ -170,17 +170,16 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
         {
           datum[1] = unt.getAttackStrength() + "/" + unt.getDefenseStrength()
             + "/" + ( unt.getMoveRate() / 3 );        }
-        datum[2] = new Integer( unt.getBuildCost() ).toString();
-        datum[3] = new Integer( 
-                getCity().getTurnsToBuild( i, true ) ).toString();
-        datum[4] = new Integer( i ).toString();
-        datum[5] = new Boolean( true ).toString();
+        datum[2] = new Integer( unt.getBuildCost() );
+        datum[3] = new Integer( getCity().getTurnsToBuild( i, true ) );
+        datum[4] = new Integer( i );
+        datum[5] = new Boolean( true );
         
         tList.add( datum );
       }
     }
     
-    String[][] newData = new String[tList.size()][6];
+    Object[][] newData = new Object[tList.size()][6];
     tList.toArray( newData );
     m_targetModel.data = newData;
     
@@ -195,11 +194,9 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
     if( m_tabTargets.getSelectedRow() != -1 )
     {
       requestChange( 
-              Integer.decode( 
-                m_targetModel.data[m_tabTargets.getSelectedRow()][4]
+              ( (Integer)m_targetModel.data[m_tabTargets.getSelectedRow()][4]
               ).intValue(),
-              Boolean.valueOf(
-                m_targetModel.data[m_tabTargets.getSelectedRow()][5]
+              ( (Boolean)m_targetModel.data[m_tabTargets.getSelectedRow()][5]
               ).booleanValue() );
       undisplay();
     }
@@ -253,8 +250,9 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       totalWidth += width;
     }
 
+    int height = Math.min( 20, table.getRowCount() ) * table.getRowHeight();
     table.setPreferredScrollableViewportSize( 
-      new Dimension( totalWidth, table.getRowCount() * table.getRowHeight() )
+      new Dimension( totalWidth, height )
     );
   }
 
@@ -285,12 +283,14 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
    */
   private class ConstructionTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _( "Type" ), _( "Info" ), _( "Cost" ),
-                             _( "Turns" ) };
-    String[][] data = { { _( "Barracks" ), _( "" ), _( "40" ), 
-                          _( "14" ), "2", "false" },
-                        { _( "Super-warriors" ), _( "50/1/1" ), _( "10" ), 
-                          _( "4" ), "2", "false" } };
+    String[] columnNames = { _( "Type" ), _( "Info" ), 
+                             _( "Cost" ), _( "Turns" ) };
+    Object[][] data = { { _( "Barracks" ), _( "" ), 
+                          new Integer( 40 ), new Integer( 14 ), 
+                          new Integer( 2 ), new Boolean( false ) },
+                        { _( "Super-warriors" ), _( "50/1/1" ), 
+                          new Integer( 10 ), new Integer( 4 ), 
+                          new Integer( 2 ), new Boolean( true ) } };
     
     public int getColumnCount()
     {
@@ -307,6 +307,10 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
     public Object getValueAt( int row, int col )
     {
       return data[row][col];
+    }
+    public Class getColumnClass( int col )
+    {
+      return getValueAt( 0, col ).getClass();
     }
   }
  

@@ -24,7 +24,9 @@ public class DialogManager
   ImplTaxRates m_taxRates;
   ImplFindCity m_findCity;
   ImplCityReport m_cityReport;
+  ImplMilitaryReport m_militaryReport;
   ImplPlayers m_players;
+  ImplTradeReport m_tradeReport;
   ImplScienceReport m_scienceReport;
   ArrayList m_alVisibleDialogs;
   public DialogManager( Client c )
@@ -186,6 +188,14 @@ public class DialogManager
     }
     return m_cityReport;
   }
+  public DlgMilitaryReport getMilitaryReport()
+  {
+    if( m_militaryReport == null )
+    {
+      m_militaryReport = new ImplMilitaryReport( this, m_client );
+    }
+    return m_militaryReport;
+  }
   public DlgPlayers getPlayersDialog()
   {
     if( m_players == null )
@@ -193,6 +203,14 @@ public class DialogManager
       m_players = new ImplPlayers( this, m_client );
     }
     return m_players;
+  }
+  public DlgTradeReport getTradeReportDialog()
+  {
+    if( m_tradeReport == null )
+    {
+      m_tradeReport = new ImplTradeReport( this, m_client );
+    }
+    return m_tradeReport;
   }
   public DlgScienceReport getScienceReportDialog()
   {

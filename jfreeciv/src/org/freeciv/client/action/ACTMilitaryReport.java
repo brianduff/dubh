@@ -10,9 +10,11 @@ public class ACTMilitaryReport extends AbstractClientAction
     super();
     putValue( NAME, _( "Military Report" ) );
     setAccelerator( KeyEvent.VK_F2 );
+    
+    setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+    getClient().getDialogManager().getMilitaryReport().display();
   }
 }
