@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: NewsAgent.java,v 1.16 2001-02-11 02:50:58 briand Exp $
+//   $Id: NewsAgent.java,v 1.17 2001-02-11 15:44:44 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -40,15 +40,15 @@ import org.dubh.javamail.client.ClientRegistry;
 
 
 /**
- * NewsAgent main program. This class initialises NewsAgent, reading in
- * various preferences and parsing the command line. It creates the main
- * window, and displays a splash screen until it appears.
+ * NewsAgent class. This class contains the main() method which is used
+ * to start up NewsAgent. There is a static method on this class to get the
+ * application context.
  *
  * @author Brian Duff
- * @see org.dubh.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.16 2001-02-11 02:50:58 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.17 2001-02-11 15:44:44 briand Exp $
  */
- public class NewsAgent {
+public class NewsAgent
+{
 
    public  static final String DEBUG_FLAG = "-debug";
    public  static final String CONSOLE_FLAG = "-console";
@@ -57,7 +57,7 @@ import org.dubh.javamail.client.ClientRegistry;
    private static final String DEBUG_CONSOLE = "NewsAgent Debug Console";
    private static final String DEBUG_NETID = "debugnet";
    private static final String DEBUG_NET = "NewsAgent Network Debug Console";
-   private static final String SPLASH_IMAGE = "org/javalobby/apps/newsagent/images/splash.gif";
+   private static final String SPLASH_IMAGE = "org/dubh/apps/newsagent/images/splash.gif";
 
    /** Whether the user specified -debug on the command line */
    public static boolean flagDebug;
@@ -79,10 +79,6 @@ import org.dubh.javamail.client.ClientRegistry;
 
    /** Network debugging frame */
    private static DebugFrame m_netDebug;
-
-
-   public NewsAgent() {
-   }
 
    /**
     * Initialise the NewsAgent application.
@@ -271,6 +267,9 @@ import org.dubh.javamail.client.ClientRegistry;
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2001/02/11 02:50:58  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.15  2000/08/19 21:21:02  briand
 // Use Java 2 JAR versioning.
 //
