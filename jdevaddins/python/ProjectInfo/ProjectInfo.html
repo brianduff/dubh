@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>Project Instructions</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+    
+<h1>Python Addin Project Information</h1>
+
+    <blockquote>
+      
+  <p>This document presents an overview of the Python Addin project and the various 
+    files involved, their purpose and other special notes. Download the JDeveloper 
+    project <a href="../jdpython.zip">jdpython.zip</a>.</p>
+
+      <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfTheProject">Overview of the project</a></li>
+  <li><a href="#TheFilesOfThisProject">The files of this project</a></li>
+  <li><a href="#SettingUp">Building this project</a></li>
+  <li><a href="#Feedback">Feedback / Making Changes</a></li>
+</ul>
+
+    <h3><a id="OverviewOfTheProject"
+    name="OverviewOfTheProject"></a> Overview of the project</h3>
+
+    <blockquote>
+      
+  <p>The Python Addin for JDeveloper brings support into the IDE for the Python 
+    Language.
+  <p>For usage details, see <a
+      href="../UsageInfo/UsageInfo.html">Usage Info</a> page.</p>
+    </blockquote>
+
+    <h3><a id="TheFilesOfThisProject"
+    name="TheFilesOfThisProject"></a>The files of this project</h3>
+
+    <blockquote>
+      <p>This project consists of the following files along with
+      their purpose.</p>
+
+      
+  <table width="85%" border="2" cellspacing="1"
+      cellpadding="2">
+    <tr> 
+      <td><b>File Name</b></td>
+      <td><b>File Purpose</b></td>
+    </tr>
+    <tr> 
+      <td>python.jpr</td>
+      <td>The JDeveloper Project file.</td>
+    </tr>
+    <tr> 
+      <td>build.xml</td>
+      <td>Ant buildfile for the project. Information on building with Ant is below.</td>
+    </tr>
+    <tr> 
+      <td>ProjectInfo.html</td>
+      <td>The document you're currently reading</td>
+    </tr>
+    <tr> 
+      <td>org.dubh.jdev.addin.python package</td>
+      <td> This package contains code to install the menu items, dockable windows, 
+        gallery items and preference pages into the IDE which make up the Python 
+        addin. </td>
+    </tr>
+    <tr> 
+      <td>org.dubh.jdev.parser.python package</td>
+      <td> 
+        <p>This package contains a lexer for Python syntax. A lexer is used to 
+          determine where the tokens are in a source file. The implementation 
+          of this lexer is based on the <a href="http://www.python.org/doc/current/ref/ref.html">Python 
+          2.2 Language Reference Manual</a>.</p>
+      </td>
+    </tr>
+    <tr> 
+      <td>org.dubh.jdev.language.python</td>
+      <td>This package contains language support for JDeveloper's code editor 
+        to support the Python language. This includes a description of the styles 
+        used by highlighted tokens and classes for rendering Python code.</td>
+    </tr>
+    <tr>
+      <td>org.dubh.ui.console (in the console.jpr project)</td>
+      <td>The Console component is a separate general purpose UI utility which 
+        extends JTextPane to provide console-like behavior, including constrained 
+        input, a command history and color / font styles.</td>
+    </tr>
+    <tr> 
+      <td>manifest.mf</td>
+      <td> The manifest to be associated with the delivered jar-file, that contains 
+        instructions for the auto-loader. </td>
+    </tr>
+  </table>
+    </blockquote>
+		
+<h3><a name="SettingUp"></a>Building this project</h3>
+<p>To build this project, you must download Jython as described in the <a href="../InstallInfo/InstallInfo.html">Installation 
+  Guide</a>. Copy jython.jar into the jdpython directory from the expanded project 
+  zip. </p>
+<p>You can build this project in the JDeveloper IDE using the <b>Build Project</b> 
+  command on python.jpr. You will need to define the Jython Library. On the <b>Libraries</b> 
+  page of <b>Project Settings</b>, you will see the Jython library highlighted 
+  in red. Select Jython and click the <b>Edit...</b> button. Set the classpath 
+  to the location of the downloaded jython.jar file. In addition, you will need 
+  to build console.jpr from the console directory, and make sure the compiled 
+  classes are available to the jdpython project.</p>
+<p>To build this project using Ant, download and install Ant from<a href="http://jakarta.apache.org/ant"> 
+  http://jakarta.apache.org/ant</a>. Make sure you have copied jython.jar to the 
+  jdpython directory, then type:</p>
+<pre>ant -Djdevhome=<i>location_of_jdev</i> all</pre>
+<p>Replace <code><i>location_of_jdev</i></code> with the path to a JDeveloper 
+  installation.</p>
+<h3><a name="Feedback"></a>Feedback / Making Changes</h3>
+<p>This addin and its source code are distributed under the terms of the <a href="../license.html">Mozilla 
+  Public License</a>. This license permits commercial or non-commercial usage 
+  and distribution of this addin in source or binary form. See the license for 
+  full details of the conditions under which this usage and distribution can be 
+  made. </p>
+<p>If you make changes to this addin, you are not required to submit your modifications 
+  back to the author under the MPL. However, if you do make improvements to the 
+  addin and want to make them available to others, please consider submitting 
+  them back to the author of this addin for incorporation in a later version.</p>
+<p>Any feedback / modifications can be sent to the original author, <a href="mailto:Brian.Duff@oracle.com">Brian.Duff@oracle.com</a>.</p>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

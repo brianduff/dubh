@@ -69,6 +69,28 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/dubh/jdev/addin/python/NewPythonFileWizard.java"/>
       </Item>
+      <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
+         <URL path="index.html"/>
+         <encoding>iso-8859-1</encoding>
+      </Item>
+      <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
+         <URL path="InstallInfo/InstallInfo.html"/>
+         <encoding>iso-8859-1</encoding>
+      </Item>
+      <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
+         <URL path="UsageInfo/UsageInfo.html"/>
+         <encoding>iso-8859-1</encoding>
+      </Item>
+      <Item class="oracle.jdevimpl.webapp.html.HtmlSourceNode">
+         <URL path="ProjectInfo/ProjectInfo.html"/>
+         <encoding>iso-8859-1</encoding>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="build.xml"/>
+      </Item>
+      <Item class="oracle.ide.model.DeployableTextNode">
+         <URL path="Manifest.mf"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>

@@ -1,0 +1,7 @@
+AddinCount: 1
+Addin0: org.dubh.jdev.addin.python.PythonAddin
+
+
+
+
+

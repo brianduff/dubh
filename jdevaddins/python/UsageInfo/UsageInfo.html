@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>Python Addin Usage Information</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+	<script language="javaScript">
+	function isViewletCompliant()
+	{
+		answer=true;
+		version=Math.round(parseFloat(navigator.appVersion) * 1000);
+		if (navigator.appName.substring(0,9) == "Microsoft")
+		{
+			if(version<4000)
+				answer=false;
+		}
+		if (navigator.appName.substring(0,8) == "Netscape")
+		{
+			if ((navigator.appVersion.indexOf("Mac")> 0) && (version<5000))
+				answer=false;
+			else if (version<4060)
+				answer=false;
+		}
+		plugins=navigator.plugins;
+		if (answer==false && plugins!=null)
+		{
+			for(i=0;i!=plugins.length;i++)
+				if((plugins[i].name.indexOf("Java Plug-in")>=0) && (plugins[i].name.indexOf("1.0")<0))
+					answer=true;
+		}
+		return answer;
+	}
+	function openViewlet(htmlFile,htmlWidth,htmlHeight)
+	{
+		str = 'resizable=0,toolbar=0,menubar=0,';
+		str = str + 'scrollbars=0,status=0,location=0,directory=0,width=350,height=200';
+		if(!isViewletCompliant())
+		{
+			open("http://www.qarbon.com/warning/index.html",'Leelou',str);
+		}
+		else
+		{
+// 	  alert("Opening " + htmlFile);
+			window.open(htmlFile,'Leelou','width='+htmlWidth+',height='+htmlHeight+',top=10,left=20');
+		}
+	}
+	</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+<h1>Python Addin Usage Information</h1>
+
+    
+<blockquote> 
+  <p>The Python addin brings support for the Python language into the Oracle9<i>i</i> 
+    JDeveloper IDE. </p>
+  <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfThisTool">Overview of this Tool</a></li>
+  <li><a href="#CreatingNew">Creating New Python Scripts</a></li>
+  <li><a href="#Syntax">Python Syntax Highlighting</a></li>
+  <li><a href="#Interpreting">Interpreting Python Scripts</a></li>
+  <li><a href="#Using">Using the Python Console</a></li>
+  <li><a href="#Interacting">Interacting with JDeveloper in Python Scripts</a></li>
+  <li><a href="#Feedback">Feedback</a></li>
+</ul>
+
+    
+<h3><a id="OverviewOfThisTool" name="OverviewOfThisTool"></a> Overview of this 
+  Tool</h3>
+<blockquote> 
+  <p>The Python addin integrates several features to the JDeveloper IDE to support 
+    the Python language. It provides configurable syntax highlighting for .py 
+    files, integration with the Jython interpreter for interpreting Python files 
+    from inside the IDE, a Python console which can be used to interactively interpret 
+    python commands, a gallery item which can be used to create new Python files.</p>
+  <p>Python scripts that run inside the IDE have access to the whole classpath 
+    of the IDE. You can programmatically manipulate the IDE via Python scripts, 
+    or via the Python console.</p>
+</blockquote>
+<h3><a name="CreatingNew"></a>Creating New Python Scripts</h3>
+<blockquote>
+  <p>You can create new Python scripts from inside the IDE by choosing <b>New...</b> 
+    from the <b>File</b> menu. In the New Object Gallery, a <b>Python</b> category 
+    is available with a <b>Python Script</b> item.</p>
+</blockquote>
+<h3><a name="Syntax"></a>Python Syntax Highlighting</h3>
+<blockquote> 
+  <p> If you open file with the .py extension or add it to a project, it will 
+    have a special icon indicating that it's a python file. In addition, if &quot;Show 
+    Categories&quot; is selected in the IDE navigator, Python files will be grouped 
+    in their own category under a project.</p>
+  <p align="center"><img src="pythonnodes.gif" width="230" height="210" alt="JDeveloper navigator showing the custom python nodes and category"></p>
+  <p align="left">Any Python file opened into JDeveloper's editor will be syntax 
+    highlighted. You can customize the colors used for syntax highglighting by 
+    clicking <b>Preferences...</b> in the <b>Tools</b> menu. On the <b>Editor 
+    / Syntax Colors</b> page, you will see a category called Python:</p>
+  <p align="center"><img src="pythonsyntaxpref.gif" width="420" height="287" alt="IDE Preferences showing Python syntax colors"></p>
+</blockquote>
+<h3><a name="Interpreting"></a>Interpreting Python Scripts</h3>
+<blockquote> 
+  <p align="left">Before interpreting python scripts in the IDE, you must install 
+    Jython. See the<a href="../InstallInfo/InstallInfo.html"> installation instructions</a> 
+    for more details.</p>
+  <p align="left">You can interpret any Python script by selecting the .py file 
+    in the navigator and clicking the <b>Interpret with Jython</b> menu item in 
+    the <b>Run</b> menu. Output from the interpreter will appear in the Python 
+    log window. If the Python log window is not visible, select <b>Log Window</b> 
+    from the <b>View</b> menu.</p>
+  <p align="left">The first time you start up the IDE with the Python addin, Jython 
+    will create a cache based on all the classes on the classpath. Since the IDE's 
+    classpath is large, this takes some time. While Jython is building its cache, 
+    you will be unable to interpret .py files or use the Python console. However, 
+    you can continue to use the IDE as normal until it has finished. When Jython 
+    has finished building its cache, a message will appear in the python log window. 
+    On subsequent startup of the IDE, Jython will only take a long time to initialize 
+    if new classes have been added to the IDE's classpath.</p>
+</blockquote>
+<h3><a name="Using"></a>Using the Python Console</h3>
+<blockquote> 
+  <p>The Python Console is an interactive command prompt that allows you to type 
+    Python commands and see the output immediately. If you can't see the Python 
+    Console when the IDE starts up, you can make it visible by selecting the <b>Python 
+    Console </b>menu item from the <b>View</b> menu.</p>
+  <p align="center"><img src="pythonconsole.gif" width="420" height="156" alt="The Python console in the IDE"></p>
+  <p align="left">You can customize the colors and fonts used in the Python console 
+    by selecting <b>Preferences...</b> in the <b>Tools </b> menu and going to 
+    the <b>Python Console</b> page:</p>
+  <p align="center"><img src="pythonconsoleprefs.gif" width="420" height="287" alt="Python console preferences in the JDeveloper IDE"></p>
+  <p align="left">The Python console has a few special keymappings:</p>
+  <table width="75%" border="1">
+    <tr> 
+      <th> 
+        <div align="left">Up Arrow</div>
+      </th>
+      <td>Go to the previous command in the command history</td>
+    </tr>
+    <tr> 
+      <th> 
+        <div align="left">Down Arrow</div>
+      </th>
+      <td>Go to the next command in the command history</td>
+    </tr>
+    <tr> 
+      <th> 
+        <div align="left">Ctrl-C</div>
+      </th>
+      <td>Clear the current command</td>
+    </tr>
+  </table>
+</blockquote>
+<h3><a name="Interacting"></a>Interacting with JDeveloper in Python Scripts</h3>
+<blockquote>
+  <p align="left">Python commands that are run within the Python console or interpreted 
+    inside the IDE have access to the entire classpath of the JVM JDeveloper runs 
+    inside. You can write scripts or enter commands that influence the IDE. For 
+    instance, the following two Python commands alter the titlebar of the main 
+    JDeveloper window:</p>
+  <p align="left"><code>from oracle.ide import Ide<br>
+    Ide.getMainWindow().setTitle( &quot;Python is Cool&quot; )</code></p>
+  <p align="left">Consult the JDeveloper addin API documentation for full details 
+    on the API that can be used to influence JDeveloper.</p>
+</blockquote>
+<h3><a name="Feedback"></a>Feedback</h3>
+<blockquote> 
+  <p>Feedback on the Python addin is most welcome and can be sent to its author, 
+    <a href="mailto:Brian.Duff@oracle.com">Brian.Duff@oracle.com</a> or to the 
+    JDeveloper discussion group on OTN: <a href="http://www.oracle.com/forums/">http://www.oracle.com/forums/</a>.</p>
+</blockquote>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+
