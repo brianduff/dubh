@@ -1,6 +1,9 @@
 TODO: 30-OCT-2001
 
 
+
+
+
 Most of this stuff is front-end UI stuff, but a lot of it also probably 
 involves testing the network code and writing packet handlers, since the
 server is pretty central to the way freeciv works.
