@@ -1,7 +1,7 @@
 package dubh.utils.dev.bugdb;
 
 import java.sql.*;
-import postgres.util.UnixCrypt;
+import postgresql.util.UnixCrypt;
 
 /**
  * Class to test JDBC connectivity to the database on wired
