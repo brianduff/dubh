@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.9 2001-02-11 02:52:11 briand Exp $
+//   $Id: ResourceManager.java,v 1.10 2001-02-11 03:38:20 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -280,7 +280,8 @@ public class ResourceManager {
 
   private void setComponentProperty(StringBuffer prefix, Component c, String property)
   {
-     String methodName = "set"+property.substring(0, 1).toUpperCase()+property.substring(1);
+     String methodName = "set"+property.substring(0, 1).toUpperCase() +
+      property.substring(1);
      int oldLength = prefix.length();
      prefix.append(".");
      prefix.append(property);
@@ -288,32 +289,39 @@ public class ResourceManager {
      {
 
         Object parameter;
-        Method method;
-        //
-        // Special handling for icon properties.
-        //
-        if (property.equals("icon"))
-        {
-           parameter = getImage(getString(prefix.toString()));
-           method    = c.getClass().getMethod(methodName, new Class[] {
-              Class.forName("javax.swing.Icon")
-           });
-        }
-        else if (property.toLowerCase().indexOf("mnemonic") >= 0)
-        {
-           parameter = new Character(getString(prefix.toString()).charAt(0));
-           method    = c.getClass().getMethod(methodName, new Class[] {
-              Character.TYPE
-           });
+        Method method = null;
+        Class methodParamType = null;
 
-        }
-        else
+        // We look up the method by finding the first matching method with
+        // a single parameter. Next, we attempt to retrieve an object of the
+        // correct type. We can only deal with certain types, specifically,
+        // Icons, chars and Strings. But this can easily be extended.
+
+        Method[] allMethods = c.getClass().getMethods();
+
+        for (int i=0; i < allMethods.length; i++)
         {
-          parameter = getString(prefix.toString());
-           method    = c.getClass().getMethod(methodName, new Class[] {
-              Class.forName("java.lang.String")
-           });
+            if (methodName.equals(allMethods[i].getName()))
+            {
+               Class[] params = allMethods[i].getParameterTypes();
+
+               if (params.length == 1)
+               {
+                  method = allMethods[i];
+                  methodParamType = params[0];
+                  break;
+               }
+            }
         }
+
+        // If we don't have a method at this point, it's time to bail.
+        if (method == null)
+        {
+            return;
+        }
+
+        parameter = getSetterParameter(methodParamType, prefix.toString());
+
         method.invoke(c, new Object[] { parameter });
 
      }
@@ -327,31 +335,21 @@ public class ResourceManager {
 
      prefix.setLength(oldLength);
   }
- /*
-  public static void main(String[] args)
-  {
-     ResourceManager test = new ResourceManager();
-     test.addComponentHandler(JLabelHandler.getInstance());
-     test.addComponentHandler(JComponentHandler.getInstance());
-     test.addComponentHandler(AbstractButtonHandler.getInstance());
 
-     JPanel pan = new JPanel();
-     pan.setName("panel");
-     JButton but = new JButton();
-     but.setName("button");
-     JLabel lbl = new JLabel();
-     lbl.setName("label");
-     pan.add(but);
-     pan.add(lbl, BorderLayout.NORTH);
+   private Object getSetterParameter(Class type, String key)
+   {
+      if (javax.swing.Icon.class.isAssignableFrom(type))
+      {
+         return getImage(getString(key));
+      }
 
-     test.doComponent(new StringBuffer(), pan);
+      if (java.lang.Character.TYPE.isAssignableFrom(type))
+      {
+         return new Character(getString(key).charAt(0));
+      }
 
-     JFrame tast = new JFrame();
-     tast.getContentPane().add(pan);
-     tast.pack();
-     tast.setVisible(true);
-  }
-*/
+      return getString(key);
+   }
 
 
 }
