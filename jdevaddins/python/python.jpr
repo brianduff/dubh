@@ -149,7 +149,7 @@
                         <additionalClassPath>
                            <entries class="[Ljava.net.URL;"/>
                         </additionalClassPath>
-                        <outputDirectory path="../../../jdev-builds/9.0.2.7.59/jdev/classes/"/>
+                        <outputDirectory path="/C:/jdev-builds/9.0.2.7.59/jdev/classes/"/>
                      </Value>
                   </Item>
                   <Item>

@@ -32,6 +32,7 @@ import oracle.javatools.editor.language.StyleRegistry;
  * Contains constants and styles for the python language
  * 
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class PythonStyles 
 {

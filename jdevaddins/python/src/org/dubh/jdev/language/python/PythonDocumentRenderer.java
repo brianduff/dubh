@@ -40,6 +40,7 @@ import org.dubh.jdev.language.python.PythonBlockRenderer;
  * highlighting for python code. <p>
  * 
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class PythonDocumentRenderer extends LexerDocumentRenderer
   implements PythonTokens
@@ -60,7 +61,10 @@ public class PythonDocumentRenderer extends LexerDocumentRenderer
 
   public boolean isMultiLineToken( int token )
   {
-    // (I think) there are none in python...
+    if ( token == PythonTokens.STRING_LITERAL )
+    {
+      return true;
+    }
     return false;
   }
 

@@ -36,6 +36,7 @@ import org.dubh.jdev.language.python.PythonLanguageSupport;
  * Language module for the python language for the javatools editor
  * 
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class PythonLanguageModule extends LanguageModule
 {
@@ -80,28 +81,28 @@ public class PythonLanguageModule extends LanguageModule
   public String getContentSample()
   {
     StringBuffer buffer = new StringBuffer();
-    buffer.append( "# Spam-cooking program" );
+    buffer.append( "# Spam-cooking program\n" );
     buffer.append( "\n" );    
-    buffer.append( "# Fetch the function sleep" );
-    buffer.append( "from time import sleep" );
+    buffer.append( "# Fetch the function sleep\n" );
+    buffer.append( "from time import sleep\n" );
     buffer.append( "\n" );
-    buffer.append( "print \"Please start cooking the spam. (I'll be back in 3 minutes.)\"" );
+    buffer.append( "print \"Please start cooking the spam. (I'll be back in 3 minutes.)\"\n" );
     buffer.append( "\n" );
-    buffer.append( "# Wait for 3 minutes (that is, 3*60 seconds)...");
-    buffer.append( "sleep(180)");
+    buffer.append( "# Wait for 3 minutes (that is, 3*60 seconds)...\n");
+    buffer.append( "sleep(180)\n");
     buffer.append( "\n" );
-    buffer.append( "print \"I'm baaack :)\"");
+    buffer.append( "print \"I'm baaack :)\"\n");
     buffer.append( "\n" );
-    buffer.append( "# How hot is hot enough?");
-    buffer.append( "hot_enough = 50" );
+    buffer.append( "# How hot is hot enough?\n");
+    buffer.append( "hot_enough = 50\n" );
     buffer.append( "\n" );
-    buffer.append( "temperature = input(\"How hot is the spam? \")" );
-    buffer.append( "while temperature < hot_enough:");
-    buffer.append( "  print \"Not hot enough... Cook it a bit more...\"");
-    buffer.append( "  sleep(30)" );
-    buffer.append( "  temperature = input(\"OK. How hot is it now? \")");
+    buffer.append( "temperature = input(\"How hot is the spam? \")\n" );
+    buffer.append( "while temperature < hot_enough:\n");
+    buffer.append( "  print \"Not hot enough... Cook it a bit more...\"\n");
+    buffer.append( "  sleep(30)\n" );
+    buffer.append( "  temperature = input(\"OK. How hot is it now? \")\n");
     buffer.append( "\n" );
-    buffer.append( "print \"It's hot enough - You're done!\"");
+    buffer.append( "print \"It's hot enough - You're done!\"\n");
 
     return buffer.toString();
     
