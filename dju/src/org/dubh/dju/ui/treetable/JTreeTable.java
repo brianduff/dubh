@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: JTreeTable.java,v 1.3 1999-11-11 21:24:36 briand Exp $
+//   $Id: JTreeTable.java,v 1.4 2000-10-14 21:15:35 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -99,7 +99,7 @@ public class JTreeTable extends JTable {
    }
 
    public void paint(Graphics g) {
-       g.translate(0, -visibleRow * JTree.this.getRowHeight());
+       g.translate(0, -visibleRow * TreeTableCellRenderer.this.getRowHeight());
        super.paint(g);
    }
 
