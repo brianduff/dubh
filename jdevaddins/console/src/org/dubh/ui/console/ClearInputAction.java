@@ -24,30 +24,34 @@
 
 package org.dubh.ui.console;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
+import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
 
 /**
- * Subclass of TextAction with a single useful utility method. You can subclass
- * ConsoleAction to install keyboard actions into the console. Write your
- * subclass and implement whatever action you want it to carry out in the
- * <tt>actionPerformed(ActionEvent)</tt> method. You can register the action
- * with the console using: <br />
- * <tt>con.registerAction( KeyStroke, ConsoleAction )</tt>
+ * Clears the current input
  *
  * @author Brian.Duff@oracle.com
  */
-public abstract class ConsoleAction extends TextAction
+class ClearInputAction extends ConsoleAction
 {
-  public ConsoleAction( String name )
+
+  ClearInputAction()
   {
-    super( name );
+    super( "Clear Input" );
   }
 
-  protected Console getConsole( final ActionEvent ae )
+// ---------------------------------------------------------------------------
+// ConsoleAction implementation
+// ---------------------------------------------------------------------------
+
+  public void actionPerformed( final ActionEvent ae )
   {
-    return (Console) getTextComponent( ae );
+    Console c = getConsole( ae );
+    c.setInput("");
+    c.getSettings().getHistory().reset();
   }
 
 }

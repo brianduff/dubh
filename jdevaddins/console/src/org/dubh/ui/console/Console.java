@@ -71,6 +71,8 @@ public class Console extends JTextPane
   private ConsoleSettings m_settings;
   private ConsoleStyles m_styles;
 
+  private Keymap m_keyMap;
+
   static ConsoleAction
     ACT_INVOKE_COMMAND = new InvokeCommandAction(),
     ACT_DELETE_PREV_CHAR = new DeletePrevCharAction(),
@@ -78,7 +80,8 @@ public class Console extends JTextPane
     ACT_PASTE = new PasteAction(),
     ACT_CUT = new CutAction(),
     ACT_PREV_COMMAND = new PreviousCommandAction(),
-    ACT_NEXT_COMMAND = new NextCommandAction();
+    ACT_NEXT_COMMAND = new NextCommandAction(),
+    ACT_CLEAR_INPUT = new ClearInputAction();
 
   private final ConsoleAction CLEAR_ACTION;
 
@@ -94,11 +97,9 @@ public class Console extends JTextPane
     m_document = new DefaultStyledDocument( m_styles.getStyleContext() );
     setDocument( m_document );
 
-    Keymap myKeymap = super.addKeymap( "ConsoleKeymap", getKeymap(DEFAULT_KEYMAP) );
-
-    registerKeymapActions( myKeymap );
-
-    this.setKeymap( myKeymap );
+    m_keyMap = super.addKeymap( "ConsoleKeymap", getKeymap(DEFAULT_KEYMAP) );
+    registerKeymapActions( m_keyMap );
+    this.setKeymap( m_keyMap );
 
     m_prompt = prompt;
     prompt();
@@ -115,6 +116,16 @@ public class Console extends JTextPane
     this( "console%" );
   }
 
+
+  /**
+   * You can use this method to hook into the keymap of this console and 
+   * provide additional actions or override the default actions used
+   * when the user presses certain keys in the console. 
+   */
+  public void registerAction( KeyStroke ks, ConsoleAction action )
+  {
+    m_keyMap.addActionForKeyStroke( ks, action );
+  }
 
   /**
    * Set the settings to use for this console. 
@@ -141,12 +152,15 @@ public class Console extends JTextPane
   /**
    * Set whether this console has a context menu. By default, this is true
    */
-  public void setContextMenuAvailable( final boolean isAvailable )
+  public final void setContextMenuAvailable( final boolean isAvailable )
   {
     m_hasContextMenu = isAvailable;
   }
 
-  public boolean isContextMenuAvailable()
+  /**
+   * Is the context menu available for this console?
+   */
+  public final boolean isContextMenuAvailable()
   {
     return m_hasContextMenu;
   }
@@ -157,7 +171,7 @@ public class Console extends JTextPane
    * 
    * @param prompt the new prompt to display
    */
-  public void setPrompt( String prompt )
+  public final void setPrompt( String prompt )
   {
     m_prompt = prompt;
   }
@@ -168,12 +182,17 @@ public class Console extends JTextPane
    * 
    * @param interpreter the interpreter the console should use
    */
-  public void setInterpreter( final Interpreter interpreter )
+  public final void setInterpreter( final Interpreter interpreter )
   {
     m_interpreter = interpreter;
   }
 
-  Interpreter getInterpreter()
+  /**
+   * Get the interpreter for this console.
+   * 
+   * @return the interpreter
+   */
+  public final Interpreter getInterpreter()
   {
     return m_interpreter;
   }
@@ -182,7 +201,7 @@ public class Console extends JTextPane
    * Get a printwriter you can send output to
    * 
    */
-  public PrintWriter getOutputWriter()
+  public final PrintWriter getOutputWriter()
   {
     if ( m_outputWriter == null )
     {
@@ -191,7 +210,10 @@ public class Console extends JTextPane
     return m_outputWriter;
   }
 
-  public PrintWriter getErrorWriter()
+  /**
+   * Get the PrintWriter you can send errors to
+   */
+  public final PrintWriter getErrorWriter()
   {
     if ( m_errorWriter == null )
     {
@@ -203,7 +225,7 @@ public class Console extends JTextPane
   /**
    * Reset the console. The console is cleared and a prompt is displayed
    */
-  public void reset()
+  public final void reset()
   {
     clear();
     prompt();
@@ -213,7 +235,7 @@ public class Console extends JTextPane
    * Clear the console. You should probably call prompt after calling this to
    * ensure that the console has been reset properly.
    */
-  void clear()
+  final void clear()
   {
     setText( "" );
   }
@@ -221,7 +243,7 @@ public class Console extends JTextPane
   /**
    * Insert the console prompt
    */
-  void prompt()
+  final void prompt()
   {
     try
     {
@@ -248,12 +270,20 @@ public class Console extends JTextPane
     }
   }
 
-  int getPromptPosition()
+  /**
+   * Get the position of the character immediately after the prompt
+   * 
+   * @return the current prompt position
+   */
+  final int getPromptPosition()
   {
     return m_promptPosition;
   }
 
-  void newline()
+  /**
+   * Insert a newline in the document. 
+   */
+  final void newline()
   {
     try
     {
@@ -268,11 +298,12 @@ public class Console extends JTextPane
   /**
    * Get the current command buffer contents
    */
-  String getCurrentCommand()
+  final String getCurrentCommand()
   {
     try
     {
-      return getDocument().getText( m_promptPosition, getDocument().getLength() - m_promptPosition );
+      return getDocument().getText( 
+        m_promptPosition, getDocument().getLength() - m_promptPosition );
     }
     catch (BadLocationException ble )
     {
@@ -320,7 +351,7 @@ public class Console extends JTextPane
   /**
    * Replace the current input line with the specified text.
    */
-  void setInput( String input )
+  final void setInput( String input )
   {
     try
     {
@@ -334,7 +365,7 @@ public class Console extends JTextPane
   }
 
 
-  private void registerKeymapActions( Keymap map )
+  private final void registerKeymapActions( Keymap map )
   {
     // Stop the user being destructive in parts of the console where they
     // oughtn't to be. 
@@ -374,6 +405,10 @@ public class Console extends JTextPane
       KeyStroke.getKeyStroke( "DOWN" ),
       ACT_NEXT_COMMAND
     );
+    map.addActionForKeyStroke(
+      KeyStroke.getKeyStroke( "ctrl C" ),
+      ACT_CLEAR_INPUT
+    );
     
 
 
@@ -389,7 +424,7 @@ public class Console extends JTextPane
    * 
    * @param output the output to append
    */
-  void append( String output, Style style )
+  final void append( String output, Style style )
   {
     try
     {
@@ -403,7 +438,7 @@ public class Console extends JTextPane
 
 
 
-  private void showContextMenu( int x, int y)
+  private final void showContextMenu( int x, int y)
   {
     if ( m_contextMenu == null )
     {
@@ -412,7 +447,13 @@ public class Console extends JTextPane
     m_contextMenu.show( this, x, y );
   }
 
-  private JPopupMenu createContextMenu()
+  /**
+   * Create the context menu for the console. Subclasses can override this
+   * and provide a different context menu, or add additional items.
+   * 
+   * @return a popup menu.
+   */
+  protected JPopupMenu createContextMenu()
   {
     JPopupMenu menu = new JPopupMenu();
 
@@ -445,7 +486,7 @@ public class Console extends JTextPane
 // Test Code
 // ---------------------------------------------------------------------------
 
-
+/*
   public static void main( String[] args )
   {
     javax.swing.JFrame f = new javax.swing.JFrame();
@@ -477,5 +518,5 @@ public class Console extends JTextPane
       m_console.setPrompt( "New Prompt>");
     }
   }
-
+*/
 }

@@ -65,6 +65,9 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/dubh/ui/console/NextCommandAction.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/dubh/ui/console/ClearInputAction.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>

@@ -31,7 +31,7 @@ import java.util.List;
  * The console command history.
  *
  * @author Brian.Duff@oracle.com
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ConsoleHistory
 {
@@ -111,5 +111,15 @@ public class ConsoleHistory
       return null;
     }
     return (String) m_commandList.get( m_position-- );
+  }
+
+  /**
+   * Reset the history position so that the next call to getNextCommand()
+   * will retrieve the last entered command
+   * 
+   */
+  public void reset()
+  {
+    m_position = m_commandList.size() - 1;
   }
 }
