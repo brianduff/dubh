@@ -37,16 +37,16 @@
           </xsl:otherwise>
         </xsl:choose>
         
-        <!-- We have a default stylesheet. Allow pages to override this -->
+        <!-- Allow pages to provide an (overriding) customized sheet -->
         <xsl:choose>
           <xsl:when test="boolean(stylesheet)">
             <link rel="stylesheet" type="text/css" href="{stylesheet}" />
           </xsl:when>
-          <xsl:otherwise>
-            <link rel="stylesheet" type="text/css" href="{$defaultcss}" />
-          </xsl:otherwise>
+
         </xsl:choose>
         
+        <!-- always include the site default stylesheet -->
+        <link rel="stylesheet" type="text/css" href="{$defaultcss}" />    
         
         <title>
           <xsl:value-of select="title" />
@@ -169,6 +169,13 @@
   <xsl:template match="cvs-info">
     
     <xsl:if test="boolean(@redirect)">
+      <!--
+        Oracle bug# 1722555 with the XSL processor
+        CONFORMANCE: 2-ARGUMENT DOCUMENT() FUNCTION NOT RECOGNIZED
+        Currently (15 April 200) assigned and open. This means, the 
+        redirect attribute is currently relative to the STYLESHEET, not the
+        XML document.
+      -->
       <xsl:variable name="redir" select="document(@redirect)" />
       <xsl:apply-templates select="$redir//cvs-info" />
     </xsl:if>
