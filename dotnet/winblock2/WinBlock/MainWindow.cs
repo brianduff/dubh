@@ -90,6 +90,12 @@ namespace Dubh.WinBlock
 			prefs.ShowDialog(this);
 		}
 
+		private void showAbout()
+		{
+			AboutForm f = new AboutForm();
+			f.ShowDialog(this);
+		}
+
         /// <summary>
         ///    Clean up any resources being used.
         /// </summary>
@@ -105,61 +111,65 @@ namespace Dubh.WinBlock
         /// </summary>
         private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager (typeof(MainWindow));
 			this.components = new System.ComponentModel.Container ();
-			this.miNewGame = new System.WinForms.MenuItem ();
 			this.miExit = new System.WinForms.MenuItem ();
 			this.miPause = new System.WinForms.MenuItem ();
+			this.miOptions = new System.WinForms.MenuItem ();
 			this.menuItem5 = new System.WinForms.MenuItem ();
 			this.miHelp = new System.WinForms.MenuItem ();
-			this.miContents = new System.WinForms.MenuItem ();
-			this.miOptions = new System.WinForms.MenuItem ();
+			this.miNewGame = new System.WinForms.MenuItem ();
+			this.miAbout = new System.WinForms.MenuItem ();
 			this.menuItem10 = new System.WinForms.MenuItem ();
 			this.menuItem7 = new System.WinForms.MenuItem ();
-			this.miAbout = new System.WinForms.MenuItem ();
 			this.miGame = new System.WinForms.MenuItem ();
 			this.mainMenu1 = new System.WinForms.MainMenu ();
+			this.miContents = new System.WinForms.MenuItem ();
 			//@this.TrayHeight = 90;
 			//@this.TrayLargeIcon = false;
 			//@this.TrayAutoArrange = true;
-			miNewGame.Text = "New Game";
-			miNewGame.Shortcut = System.WinForms.Shortcut.F2;
-			miNewGame.Index = 0;
 			miExit.Text = "Exit";
 			miExit.Index = 5;
 			miPause.Text = "Pause";
 			miPause.Shortcut = System.WinForms.Shortcut.F3;
 			miPause.Index = 1;
+			miOptions.Text = "Options...";
+			miOptions.Shortcut = System.WinForms.Shortcut.CtrlO;
+			miOptions.Index = 3;
+			miOptions.Click += new System.EventHandler (this.miOptions_Click);
 			menuItem5.Text = "-";
 			menuItem5.Index = 2;
 			miHelp.Text = "Help";
 			miHelp.Index = 1;
 			miHelp.MenuItems.All = new System.WinForms.MenuItem[3] {this.miContents, this.menuItem10, this.miAbout};
-			miContents.Text = "Contents...";
-			miContents.Shortcut = System.WinForms.Shortcut.F1;
-			miContents.Index = 0;
-			miOptions.Text = "Options...";
-			miOptions.Shortcut = System.WinForms.Shortcut.CtrlO;
-			miOptions.Index = 3;
-			miOptions.Click += new System.EventHandler (this.miOptions_Click);
+			miNewGame.Text = "New Game";
+			miNewGame.Shortcut = System.WinForms.Shortcut.F2;
+			miNewGame.Index = 0;
+			miAbout.Text = "About WinBlock...";
+			miAbout.Shortcut = System.WinForms.Shortcut.CtrlA;
+			miAbout.Index = 2;
+			miAbout.Click += new System.EventHandler (this.miAbout_Click);
 			menuItem10.Text = "-";
 			menuItem10.Index = 1;
 			menuItem7.Text = "-";
 			menuItem7.Index = 4;
-			miAbout.Text = "About WinBlock...";
-			miAbout.Shortcut = System.WinForms.Shortcut.CtrlA;
-			miAbout.Index = 2;
 			miGame.Text = "Game";
 			miGame.Index = 0;
 			miGame.MenuItems.All = new System.WinForms.MenuItem[6] {this.miNewGame, this.miPause, this.menuItem5, this.miOptions, this.menuItem7, this.miExit};
 			//@mainMenu1.SetLocation (new System.Drawing.Point (7, 7));
 			mainMenu1.MenuItems.All = new System.WinForms.MenuItem[2] {this.miGame, this.miHelp};
+			miContents.Text = "Contents...";
+			miContents.Shortcut = System.WinForms.Shortcut.F1;
+			miContents.Index = 0;
 			this.Text = "WinBlock.NET";
 			this.AutoScaleBaseSize = new System.Drawing.Size (5, 13);
-			this.Icon = (System.Drawing.Icon) resources.GetObject ("$this.Icon");
 			this.Menu = this.mainMenu1;
 			this.ClientSize = new System.Drawing.Size (456, 425);
 			this.Resize += new System.EventHandler (this.MainWindow_Resize);
+		}
+
+		protected void miAbout_Click (object sender, System.EventArgs e)
+		{
+			showAbout();
 		}
 
 		protected void miOptions_Click (object sender, System.EventArgs e)
