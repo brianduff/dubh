@@ -1,4 +1,167 @@
 <?xml version="1.0"?>
 <?cocoon-process type="xslt"?>
 <?xml-stylesheet type="text/xsl" href="bookmarks.xsl" ?>
-<bookmarks owner="Brian">    <category title="Shopping">                                       </category>     <category title="Banking">                  </category>        <category title="News">                                </category>        <category title="Games">                            <link href="http://www.firaxis.com" title="Firaxis Games"/>                         <link href="http://www.activision.com/games/ctp2" title="Call to Power II Official"/></category>        <category title="Search">                     <link href="http://www.yahoo.com" title="Yahoo"/>                  </category>        <category title="Humour">              <link href="http://www.theonion.com" title="The Onion"/><link href="http://www.dumbrella.com/" title="Dumbrella: The dumbest website ever"/>                  </category>        <category title="Random Stuff">           </category>        <category title="Technologies">       <category title="HTML">          <link href="http://www.w3.org/TR/REC-CSS2/" title="Cascading Style Sheets, Level 2"/>          <link href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/" title="Document Object Model (DOM) Level 2 Core Specification"/>       </category>       <category title="Java">          <link href="http://java.sun.com/docs/index.html" title="Java Javadoc"/>          <link href="http://java.sun.com" title="Javasoft"/>       </category>       <category title="SCM">          <link href="http://www.iac.honeywell.com/Pub/Tech/CM/" title="Software Configuration Management FAQ"/>       </category>       <category title="Scripting">                 </category>       <category title="WebDAV">          <link href="http://andrew2.andrew.cmu.edu/rfc/rfc2518.html" title="RFC 2518 - HTTP Extensions for Distributed Authoring - WEBDAV"/>          <link href="http://www.webdav.org/deltav/protocol/draft-ietf-deltav-versioning-10.13.htm" title="Versioning Extensions to WebDAV latest draft"/>          <link href="http://www.webdav.org/deltav/" title="WebDAV Delta-V Working Group"/>          <link href="http://www.webdav.org/" title="WebDAV"/>       </category>       <category title="XML">          <link href="http://jakarta.apache.org/" title="Apache Jakarta Project"/>          <link href="http://xml.apache.org/" title="Apache XML Project"/>          <link href="http://www.w3.org/TR/2000/REC-xml-20001006" title="Extensible Markup Language (XML) 1.0 (Second Edition)"/>          <link href="http://www.w3.org/TR/xpath.html" title="XML Path Language Version 1.0"/>          <link href="http://www.xml.com/pub" title="XML.com"/>       </category>                  </category>        <category title="Work">                     <link href="http://toolsweb.us.oracle.com/pls/tools/tools.wwv_main.main?p_language=us&amp;p_cornerid=21810&amp;p_currcornerid=18798&amp;p_full=1" title="iDS Schedules &amp; Milestones"/><link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb//jt.home?t=256025&amp;s=256025" title="JDeveloper Beta Schedule"/>       <link href="http://jtuser.us.oracle.com/lgiambru/archive.htm" title="JDeveloper Product Planning and Status Meetings"/>       <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb/jt.home?t=256027&amp;s=256027" title="JDevleoper Production Schedule"/>              <link href="ftp://jdev_uk:welcome@javatools-dev.us.oracle.com/modelers/build_logs/" title="UK Modelers Build Logs"/><link href="http://linux.us.oracle.com/" title="Linux at Oracle"/>                                          <category title="Admin">          <link href="http://itweb.oraclecorp.com/support/sysauto/dcreq/dlr.html" title="Distribution List Request (DCREQ)"/>          <link href="https://www-selfservice.uk.oracle.com/" title="Flexible Benefits, APSS"/>          <link href="http://itweb.oraclecorp.com/currentstatus/message.html" title="Global IT Status"/><link href="http://des2000.uk.oracle.com/designer/NewStarters/HowDoI.htm" title="How Do I?"/>          <link href="http://ukp14216.uk.oracle.com/pls/holiday/hol$.startup" title="Holiday Booking System"/>          <link href="http://iworld.us.oracle.com/OIW/oiw.wwv_main.main?p_language=us&amp;p_cornerid=5464&amp;p_currcornerid=5454&amp;p_full=1" title="Oracle iWorld UK"/>                    <link href="http://aria.us.oracle.com:7777/pls/oracle/f?p=8000:1:949322" title="Oracle Poeple"/>          <link href="https://emea63.uk.oracle.com:8010/OA_HTML/US/ICXINDEX.htm" title="Payslips"/>          <link href="http://emea47.uk.oracle.com:8102/wesiep/ssa.html" title="Web Expenses"/>       </category>              <category title="Bug Database">          <link href="http://bug.us.oracle.com/" title="Oracle Bug Database"/>          <link href="http://bug.us.oracle.com/bug-bug-dad/plsql/webbug_reports.do_edit_report?rpt_title=&amp;fcont_arr=&amp;fid_arr=1&amp;fcont_arr=&amp;fid_arr=2&amp;fcont_arr=&amp;fid_arr=3&amp;fcont_arr=10%2C11&amp;fid_arr=4&amp;fcont_arr=&amp;fid_arr=5&amp;fcont_arr=&amp;fid_arr=52&amp;fcont_arr=&amp;fid_arr=6&amp;fcont_arr=&amp;fid_arr=7&amp;fcont_arr=&amp;fid_arr=36&amp;fcont_arr=&amp;fid_arr=9&amp;fcont_arr=&amp;fid_arr=8&amp;fcont_arr=BDUFF&amp;fid_arr=30&amp;fcont_arr=&amp;fid_arr=10&amp;fcont_arr=&amp;fid_arr=40&amp;fcont_arr=&amp;fid_arr=59&amp;fid_arr=100&amp;fcont_arr=2&amp;fid_arr=101&amp;fcont_arr=&amp;fid_arr=102&amp;fcont_arr=&amp;fid_arr=103&amp;fcont_arr=&amp;f_count=19&amp;cid_arr=2&amp;cid_arr=3&amp;cid_arr=9&amp;cid_arr=8&amp;cid_arr=7&amp;cid_arr=30&amp;cid_arr=11&amp;cid_arr=6&amp;cid_arr=5&amp;cid_arr=13&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;c_count=20&amp;query_type=1" title="Bugs Logged By Me"/>          <link href="http://jtdb-sun.us.oracle.com:8080/newbug/BugSummary.xsql?prod=807&amp;rel=5.0" title="Bug Summary for JDeveloper 9i"/>          <link href="http://bug.us.oracle.com/bug-bug-dad/plsql/webbug_reports.do_edit_report?cid_arr=2&amp;cid_arr=3&amp;cid_arr=9&amp;cid_arr=12&amp;cid_arr=8&amp;cid_arr=7&amp;cid_arr=13&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;c_count=7&amp;rpt_title=&amp;fid_arr=1&amp;fcont_arr=807&amp;fid_arr=2&amp;fcont_arr=JDEV&amp;fid_arr=57&amp;fcont_arr=SCM&amp;fid_arr=4&amp;fcont_arr=10%2C11%2C15&amp;fid_arr=200&amp;fcont_arr=INTERNAL%25&amp;fid_arr=100&amp;fcont_arr=2&amp;f_count=6&amp;query_type=2" title="JDeveloper SCM Bugs and Enhancements"/>       </category>              <category title="Internal Discussion Groups">          <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?caseinst#today" title="Designer / Repository Mailing List"/>          <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?xmltech#today" title="XML Technology"/>          <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?balitech#today" title="Bali Technology"/>       </category>              <category title="Oracle Technology Network">          <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=Headstart+Oracle+Designer&amp;number=5&amp;DaysPrune=20&amp;LastLogin=" title="Oracle Designer Forum"/>          <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=JDeveloper&amp;number=2&amp;DaysPrune=20&amp;LastLogin=" title="Oracle JDeveloper Forum"/>          <link href="http://technetinside.us.oracle.com/" title="OTN Inside"/>          <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=XML&amp;number=11&amp;DaysPrune=20&amp;LastLogin=" title="XML Forum"/>       </category>              <category title="Repository Wizards">          <link href="http://jdev.uk.oracle.com/features/SCM/reposwiz/connection/connection-funspec.xml" title="Connection Wizard Specification"/>       </category>              <category title="Usabiltity">          <link href="http://bali.us.oracle.com/bali/" title="Bali Home Page"/>          <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?balitech#today" title="Bali Tech Mailing List Archive"/>          <link href="http://uilab-nt.us.oracle.com/resources/Guides&amp;Stands/Wizards/JavaWizard/wizard_ui.htm" title="Design Guidelines for Oracle Wizards in Java"/>          <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb/jt.home?t=345645" title="JDeveloper 9i Graphics Tasks"/>          <link href="http://uilab-nt.us.oracle.com/" title="UI Design Home"/>       </category>           <link href="http://jdev.uk.oracle.com/features/SCM/reposwiz/" title="Repository Wizards &amp; Dialogs"/><link href="http://repository.oracle.com/" title="Oracle Repository"/></category>     </bookmarks>
+
+<bookmarks owner="Brian" xmlns:xsql="urn:oracle-xsql">
+
+  <!-- Pass through the "editmode" parameter to the stylesheet -->
+  <xsql:set-stylesheet-param name="editmode" value="{@editmode}"/>
+  
+   <category title="Shopping">
+      <link href="http://www.amazon.co.uk" title="Amazon" />
+      <link href="http://www.jungle.com" title="Jungle.Com" />
+      <link href="http://www.dabs.com" title="Dabs.com" />
+      <link href="http://www.argos.com" title="Argos" />
+      <link href="http://www.warnervillage.co.uk" title="Warner Village Cinema" />
+   </category>
+
+   <category title="Banking">
+      <link href="https://new.egg.com/security/customer" title="Egg.Com" />
+      <link href="http://dbpc.rbos.co.uk" title="RBS Direct Banking" />
+   </category>
+   
+   <category title="News">
+      <link href="http://news.bbc.co.uk" title="BBC News Online" />
+      <link href="http://www.deja.com/my" title="My Deja" />
+      <link href="http://www.slashdot.org" title="Slashdot.Org" />
+      <link href="http://www.news.com" title="CNet News.com" />
+   </category>
+   
+   <category title="Games">
+      <link href="http://www.apolyton.net/civ3" title="Apolyton Civilization III" />
+      <link href="http://apolyton.net/ctp2" title="Aployton Call to Power II" />
+      <link href="http://www.apolyton.net" title="Apolyton" />
+      <link href="http://www.activision.com/games/ctp2" title="Call to Power II Official" />
+      <link href="http://www.firaxis.com/civ3" title="Civilization III Official" />
+      <link href="http://www.firaxis.com" title="Firaxis Games" />
+      <link href="http://www.freeciv.org" title="FreeCiv" />
+   </category>
+   
+   <category title="Search">
+      <link href="http://www.dmoz.org" title="Open Directory Project (DMoz)" />
+      <link href="http://www.av.com" title="AltaVista" />
+      <link href="http://www.yahoo.com" title="Yahoo" />
+      <link href="http://www.yahoo.co.uk" title="Yahoo.co.uk" />
+      <link href="http://www.snap.com" title="Snap.com" />
+   </category>
+   
+   <category title="Humour">
+      <link href="http://remus.rutgers.edu/~rhoads/Obfuscated_C/obfuscate.html" title="Obfuscated C Code" />
+      <link href="http://www.theonion.com" title="The Onion" />
+      <link href="http://www.userfriendly.org" title="User Friendly" />
+      <link href="http://www.dumbrella.com/" title="Dumbrella: The dumbest website ever" />
+   </category>
+   
+   <category title="Music">
+      <link href="http://tubular.net/" title="TubularWeb (Mike Oldfield)" />
+      <link href="http://reach.to/amarok" title="Amarok" />
+      <link href="http://www.jarre.com/" title="Jarre.Com" />
+      <link href="http://www.jarre.net/" title="Galaxie Jarre" />
+      <link href="http://www.jarreonline.com/" title="Conductor of the Masses" />
+   </category>
+   
+   <category title="Random Stuff">
+      <link href="http://www.memepool.com/" title="memepool" />
+   </category>
+   
+   <category title="Technologies">
+      <category title="HTML">
+         <link href="http://www.w3.org/TR/REC-CSS2/" title="Cascading Style Sheets, Level 2" />
+         <link href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/" title="Document Object Model (DOM) Level 2 Core Specification" />
+      </category>
+      <category title="Java">
+         <link href="http://java.sun.com/docs/index.html" title="Java Javadoc" />
+         <link href="http://java.sun.com" title="Javasoft" />
+      </category>
+      <category title="SCM">
+         <link href="http://www.iac.honeywell.com/Pub/Tech/CM/" title="Software Configuration Management FAQ" />
+      </category>
+      <category title="Scripting">
+         <link href="http://www.robvanderwoude.com/" title="Rob Vanderwoudes Scripting Pages" />
+      </category>
+      <category title="WebDAV">
+         <link href="http://andrew2.andrew.cmu.edu/rfc/rfc2518.html" title="RFC 2518 - HTTP Extensions for Distributed Authoring - WEBDAV" />
+         <link href="http://www.webdav.org/deltav/protocol/draft-ietf-deltav-versioning-10.13.htm" title="Versioning Extensions to WebDAV latest draft" />
+         <link href="http://www.webdav.org/deltav/" title="WebDAV Delta-V Working Group" />
+         <link href="http://www.webdav.org/" title="WebDAV" />
+      </category>
+      <category title="XML">
+         <link href="http://jakarta.apache.org/" title="Apache Jakarta Project" />
+         <link href="http://xml.apache.org/" title="Apache XML Project" />
+         <link href="http://www.w3.org/TR/2000/REC-xml-20001006" title="Extensible Markup Language (XML) 1.0 (Second Edition)" />
+         <link href="http://www.w3.org/TR/xpath.html" title="XML Path Language Version 1.0" />
+         <link href="http://www.xml.com/pub" title="XML.com" />
+      </category>
+      
+      <category title="User Interfaces">
+         <link href="http://www.asktog.com/" title="Ask Tog (External)" />      
+      </category>
+      
+      <category title="Open Source">
+         <link href="http://www.advogato.org" title="Advogato" />
+         <link href="http://www.mozilla.org" title="Mozilla.Org" />
+      </category>
+      
+      <link href="http://www.w3.org" title="W3 Consortium" />
+   </category>
+   
+   <category title="Work">
+      <link href="http://toolsweb.us.oracle.com/pls/tools/tools.wwv_main.main?p_language=us&amp;p_cornerid=21810&amp;p_currcornerid=18798&amp;p_full=1" title="iDS Schedules &amp; Milestones" />
+      <link href="http://jdev.uk.oracle.com/automation/javadoc/" title="JavaTools Javadoc" />
+      <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb//jt.home?t=256025&amp;s=256025" title="JDeveloper Beta Schedule" />
+      <link href="http://jtuser.us.oracle.com/lgiambru/archive.htm" title="JDeveloper Product Planning and Status Meetings" />
+      <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb/jt.home?t=256027&amp;s=256027" title="JDevleoper Production Schedule" />
+      <link href="http://linux.us.oracle.com/" title="Linux at Oracle" />
+      <link href="ftp://jdev_uk:welcome@javatools-dev.us.oracle.com/modelers/build_logs/" title="UK Modelers Build Logs" />
+      <link href="http://repository.oracle.com/" title="Oracle Repository" />
+      <link href="http://xml.us.oracle.com/" title="Oracle XML Central" />
+      <link href="http://jdev.uk.oracle.com/features/SCM/reposwiz/" title="Repository Wizards &amp; Dialogs" />
+      <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb/jt.home?t=216645&amp;s=216645" title="SCM Tasks" />
+      
+      <category title="Admin">
+         <link href="http://itweb.oraclecorp.com/support/sysauto/dcreq/dlr.html" title="Distribution List Request (DCREQ)" />
+         <link href="https://www-selfservice.uk.oracle.com/" title="Flexible Benefits, APSS" />
+         <link href="http://itweb.oraclecorp.com/currentstatus/message.html" title="Global IT Status" />
+         <link href="http://ukp14216.uk.oracle.com/pls/holiday/hol$.startup" title="Holiday Booking System" />
+         <link href="http://des2000.uk.oracle.com/designer/NewStarters/HowDoI.htm" title="How Do I?" />
+         <link href="http://iworld.us.oracle.com/OIW/oiw.wwv_main.main?p_language=us&amp;p_cornerid=5464&amp;p_currcornerid=5454&amp;p_full=1" title="Oracle iWorld UK" />
+         <link href="http://aria.us.oracle.com:7777/pls/oracle/f?p=8000:1:949322" title="Oracle Poeple" />
+         <link href="https://emea63.uk.oracle.com:8010/OA_HTML/US/ICXINDEX.htm" title="Payslips" />
+         <link href="http://emea47.uk.oracle.com:8102/wesiep/ssa.html" title="Web Expenses" />
+      </category>
+      
+      <category title="Bug Database">
+         <link href="http://bug.us.oracle.com/" title="Oracle Bug Database" />
+         <link href="http://bug.us.oracle.com/bug-bug-dad/plsql/webbug_reports.do_edit_report?rpt_title=&amp;fcont_arr=&amp;fid_arr=1&amp;fcont_arr=&amp;fid_arr=2&amp;fcont_arr=&amp;fid_arr=3&amp;fcont_arr=10%2C11&amp;fid_arr=4&amp;fcont_arr=&amp;fid_arr=5&amp;fcont_arr=&amp;fid_arr=52&amp;fcont_arr=&amp;fid_arr=6&amp;fcont_arr=&amp;fid_arr=7&amp;fcont_arr=&amp;fid_arr=36&amp;fcont_arr=&amp;fid_arr=9&amp;fcont_arr=&amp;fid_arr=8&amp;fcont_arr=BDUFF&amp;fid_arr=30&amp;fcont_arr=&amp;fid_arr=10&amp;fcont_arr=&amp;fid_arr=40&amp;fcont_arr=&amp;fid_arr=59&amp;fid_arr=100&amp;fcont_arr=2&amp;fid_arr=101&amp;fcont_arr=&amp;fid_arr=102&amp;fcont_arr=&amp;fid_arr=103&amp;fcont_arr=&amp;f_count=19&amp;cid_arr=2&amp;cid_arr=3&amp;cid_arr=9&amp;cid_arr=8&amp;cid_arr=7&amp;cid_arr=30&amp;cid_arr=11&amp;cid_arr=6&amp;cid_arr=5&amp;cid_arr=13&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;c_count=20&amp;query_type=1" title="Bugs Logged By Me" />
+         <link href="http://jtdb-sun.us.oracle.com:8080/newbug/BugSummary.xsql?prod=807&amp;rel=5.0" title="Bug Summary for JDeveloper 9i" />
+         <link href="http://bug.us.oracle.com/bug-bug-dad/plsql/webbug_reports.do_edit_report?cid_arr=2&amp;cid_arr=3&amp;cid_arr=9&amp;cid_arr=12&amp;cid_arr=8&amp;cid_arr=7&amp;cid_arr=13&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;cid_arr=&amp;c_count=7&amp;rpt_title=&amp;fid_arr=1&amp;fcont_arr=807&amp;fid_arr=2&amp;fcont_arr=JDEV&amp;fid_arr=57&amp;fcont_arr=SCM&amp;fid_arr=4&amp;fcont_arr=10%2C11%2C15&amp;fid_arr=200&amp;fcont_arr=INTERNAL%25&amp;fid_arr=100&amp;fcont_arr=2&amp;f_count=6&amp;query_type=2" title="JDeveloper SCM Bugs and Enhancements" />
+      </category>
+      
+      <category title="Internal Discussion Groups">
+         <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?caseinst#today" title="Designer / Repository Mailing List" />
+         <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?xmltech#today" title="XML Technology" />
+         <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?balitech#today" title="Bali Technology" />
+      </category>
+      
+      <category title="Oracle Technology Network">
+         <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=Headstart+Oracle+Designer&amp;number=5&amp;DaysPrune=20&amp;LastLogin=" title="Oracle Designer Forum" />
+         <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=JDeveloper&amp;number=2&amp;DaysPrune=20&amp;LastLogin=" title="Oracle JDeveloper Forum" />
+         <link href="http://technetinside.us.oracle.com/" title="OTN Inside" />
+         <link href="http://technet.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=XML&amp;number=11&amp;DaysPrune=20&amp;LastLogin=" title="XML Forum" />
+      </category>
+      
+      <category title="Repository Wizards">
+         <link href="http://jdev.uk.oracle.com/features/SCM/reposwiz/connection/connection-funspec.xml" title="Connection Wizard Specification" />
+      </category>
+      
+      <category title="Usabiltity">
+         <link href="http://bali.us.oracle.com/bali/" title="Bali Home Page" />
+         <link href="http://www-tools.us.oracle.com/cgi-bin/mailarchive?balitech#today" title="Bali Tech Mailing List Archive" />
+         <link href="http://uilab-nt.us.oracle.com/resources/Guides&amp;Stands/Wizards/JavaWizard/wizard_ui.htm" title="Design Guidelines for Oracle Wizards in Java" />
+         <link href="http://jtdb-sun.us.oracle.com:7777/pls/wdb/jt.home?t=345645" title="JDeveloper 9i Graphics Tasks" />
+         <link href="http://uilab-nt.us.oracle.com/" title="UI Design Home" />
+      </category>
+      
+   </category>
+   
+</bookmarks>
