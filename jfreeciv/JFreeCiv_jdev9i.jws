@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE workspace>
+<?Oracle-JDeveloper Object2Dom = '1.0'?>
+<workspace class="oracle.ide.model.Workspace">
+   <activeProjectURL path="freeciv_jdev9i.jpr" id="1"/>
+   <listOfChildren class="oracle.ide.model.DataList">
+      <Item class="oracle.ide.model.Reference">
+         <URL path="sixlegs_jdev9i.jpr"/>
+         <nodeClass id="0">oracle.jdeveloper.model.JProject</nodeClass>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="abiesutils_jdev9i.jpr"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL idref="1"/>
+         <nodeClass idref="0"/>
+      </Item>
+   </listOfChildren>
+   <packageCounter>5</packageCounter>
+</workspace>
