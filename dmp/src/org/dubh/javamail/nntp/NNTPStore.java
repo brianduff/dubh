@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPStore.java,v 1.1.1.1 1999-06-06 23:37:38 briand Exp $
+//   $Id: NNTPStore.java,v 1.2 1999-06-08 22:45:40 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -26,25 +26,31 @@
 
 package dubh.mail.nntp;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.net.*;
 import java.io.*;
 import javax.mail.*;
+import javax.mail.internet.InternetHeaders;
+
+import dubh.utils.misc.Debug;
+import dubh.utils.misc.StringUtils;
 
 /**
  * A JavaMail store for the Network News Transfer Protocol (NNTP), as
  * defined in RFC 977.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPStore.java,v 1.1.1.1 1999-06-06 23:37:38 briand Exp $
+ * @version $Id: NNTPStore.java,v 1.2 1999-06-08 22:45:40 briand Exp $
  */
-public class NNTPStore 
+public class NNTPStore extends Store
 {
    // This implementation mostly came from the old dubh.apps.newsagent.nntp.NNTPServer
    // class from NewsAgent.
 
    private transient Socket m_connection;
-   private transient LineNumberReader m_in;    // Input stream      // TODO CRLF
-   private transient PrintWriter m_out;        // Output stream
+   private transient CRLFInputStream m_in;    // Input stream  
+   private transient CRLFOutputStream m_out;        // Output stream
    
    private transient PrintWriter m_debugStream; // Debug stream
    
@@ -61,6 +67,15 @@ public class NNTPStore
    private boolean m_postingOK;
    
    private Newsgroup m_group;
+       
+   /**
+    * Construct an NNTP Store.
+    */    
+   public NNTPStore(Session session, URLName urlname) 
+   {
+      super(session, urlname);
+   }
+       
        
    /**
     * Connect to an NNTP server.
@@ -84,8 +99,8 @@ public class NNTPStore
       {
          // Create a socket to the host
          m_connection = new Socket(m_hostName, m_port);
-         m_out = new PrintWriter(new OutputStreamWriter(m_connection.getOutputStream()));
-         m_in = new LineNumberReader(new InputStreamReader(m_connection.getInputStream()));
+         m_out = new CRLFOutputStream(m_connection.getOutputStream());
+         m_in = new CRLFInputStream(m_connection.getInputStream());
          
          if (isConnected())
          {
@@ -179,36 +194,46 @@ public class NNTPStore
       if (g == null) throw new MessagingException("Attempt to select a null group");
       if (!g.equals(m_group))
       {
-         sendMessage(NNTPCommands.GROUP, g.getName());
-         int response = getResponse();
-         switch (response)
+         try
          {
-            case NNTPErrorCodes.GROUP_SELECTED:
-               m_group = g;
-               // Set the article counts of the group
-               setArticleCounts(g);
-               break;
-            case NNTPErrorCodes.NO_SUCH_GROUP:
-               throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
-               break;
-            case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
-               if (m_response.toLowerCase().contains(TIMEOUT))
-               {
-                  if (Debug.TRACE_LEVEL_1)
-                  {
-                     Debug.trace(1, this, "Server seems to have timed out. Reconnecting");
-                  }
-                  close();
-                  connect();
-                  openGroup(g);
-               }
-               else
-               {
+            sendMessage(NNTPCommands.GROUP, g.getName());
+            int response = getResponse();
+            switch (response)
+            {
+               case NNTPErrorCodes.GROUP_SELECTED:
+                  m_group = g;
+                  // Set the article counts of the group
+                  setArticleCounts(g);
+                  break;
+               case NNTPErrorCodes.NO_SUCH_GROUP:
                   throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
-               }
-               break;
-            default:
-               throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
+               case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
+                  if (m_response.toLowerCase().indexOf(TIMEOUT) > 0)
+                  {
+                     if (Debug.TRACE_LEVEL_1)
+                     {
+                        Debug.println(1, this, "Server seems to have timed out. Reconnecting");
+                     }
+                     close();
+                     connect();
+                     openGroup(g);
+                  }
+                  else
+                  {
+                     throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
+                  }
+                  break;
+               default:
+                  throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
+            }
+         }
+         catch (IOException ioe)
+         {
+            if (Debug.TRACE_LEVEL_1)
+            {
+               Debug.println(1, this, "IO Exception opening newsgroup.");
+               Debug.printException(1, this, ioe);
+            }
          }
       }
    }
@@ -243,6 +268,39 @@ public class NNTPStore
       return true;
    }
    
+   ArrayList getMessages(Newsgroup g)
+   {
+      return null; // TODO
+   }
+   
+   NNTPMessage[] getNewMessages(Newsgroup g, Date since)
+   {
+      return null; // TODO
+   }
+   
+   /**
+    * Get all headers for the specified message
+    */
+   InternetHeaders getHeaders(NNTPMessage message)
+   {
+      return null; // TODO
+   }
+   
+   /**
+    * Get the content for the specified message
+    */
+   byte[] getContent(NNTPMessage message)
+   {
+      return null; // TODO
+   }
+   
+   /**
+    * Does this server support the specified XOver header?
+    */
+   boolean supportsXOverHeader(String header)
+   {
+      return false; // TODO
+   }
    
    /**
     * Using the most recent status line (must be a GROUP_SELECTED
@@ -253,9 +311,10 @@ public class NNTPStore
    {
       // The group reply message contains a string of the form:
       // 211 <count> <first> <last> <newsgroup-name>
-      g.setArticleCount(StringUtils.stringToInt(getWord(lastReply, 2)));
-      g.setFirstArticle(StringUtils.stringToInt(getWord(lastReply, 3)));
-      g.setLastArticle(StringUtils.stringToInt(getWord(lastReply, 4)));
+      String lastReply = getLastResponse();
+      g.setArticleCount(StringUtils.stringToInt(StringUtils.getWord(lastReply, 2)));
+      g.setFirstArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 3)));
+      g.setLastArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 4)));
   
    }
    
@@ -333,11 +392,30 @@ public class NNTPStore
     * Determines whether the socket connection is currently open
     * @returns a boolean value indicating whether the connection is open
     */
-   private boolean isConnected() 
+   public boolean isConnected() 
    {
       return (m_connection != null && m_in != null && m_out != null);
    }
 
+
+   
+   public Folder getDefaultFolder()
+      throws MessagingException
+   {
+      return null;    // TODO
+   }
+   
+   public Folder getFolder(String name)
+      throws MessagingException
+   {
+      return null; // TODO
+   }
+   
+   public Folder getFolder(URLName urlName)
+      throws MessagingException
+   {
+      return null; // TODO
+   }
 
 //////////////////////////////////////////////////////////////////////////////
 // Attached streams
@@ -369,4 +447,7 @@ public class NNTPStore
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1.1.1  1999/06/06 23:37:38  briand
+// Dubh Mail Protocols initial revision.
+//
 //
