@@ -31,7 +31,7 @@
 
 
   <xsl:template match="group">
-    <p>
+    <p class="navbar">
       <xsl:apply-templates select="entry" />
     </p>
   </xsl:template>
