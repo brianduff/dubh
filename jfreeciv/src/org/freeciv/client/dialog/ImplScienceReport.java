@@ -25,6 +25,9 @@ import org.freeciv.net.WorkList;
 class ImplScienceReport extends VerticalFlowPanel 
   implements DlgScienceReport, CommonConstants, ItemListener
 {
+  private final static int KNOWN_COLUMNS = 4;
+  private final static String PROTOTYPE_STRING = "A Long Tech Name XXX";
+  
   // top-level
   private JLabel m_labScience = new JLabel( _( "Science" ), JLabel.CENTER );
   private JLabel m_labGovt = new JLabel( _( "<Gov't> of the <Nation>" ), JLabel.CENTER );
@@ -90,8 +93,11 @@ class ImplScienceReport extends VerticalFlowPanel
    */
   private void setupResearchPanel()
   {
+    m_panResearch.setBorder( BorderFactory.createTitledBorder( _( "Researching" ) ) );
+
     m_cmbResearch = new JComboBox();
     m_cmbResearch.addItemListener( this );
+    m_cmbResearch.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
     
     m_pbrResearch.setStringPainted( true );
     m_pbrResearch.setString( "X / X" );
@@ -111,8 +117,11 @@ class ImplScienceReport extends VerticalFlowPanel
    */
   private void setupGoalPanel()
   {
+    m_panGoal.setBorder( BorderFactory.createTitledBorder( _( "Goal" ) ) );
+
     m_cmbGoal = new JComboBox();
     m_cmbGoal.addItemListener( this );
+    m_cmbGoal.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
 
     m_panGoal.setLayout( new FlowLayout() );
     m_panGoal.add( m_cmbGoal );
@@ -133,6 +142,7 @@ class ImplScienceReport extends VerticalFlowPanel
     m_lstKnownTechs.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
     m_lstKnownTechs.setLayoutOrientation( JList.HORIZONTAL_WRAP );
     m_lstKnownTechs.setEnabled( false );
+    m_lstKnownTechs.setPrototypeCellValue( _( PROTOTYPE_STRING ) );
     
     m_panKnown.setLayout( new BorderLayout() );
     m_panKnown.add( new JScrollPane( m_lstKnownTechs ), BorderLayout.CENTER );
@@ -143,7 +153,7 @@ class ImplScienceReport extends VerticalFlowPanel
    * Re-populates the combo box and lists, as well as updates the labels
    * with new info from the client
    */
-  public void updateAll()
+  public void refresh()
   {
     m_labGovt.setText( _( 
             getPlayer().getGovernment().getName()
@@ -151,7 +161,7 @@ class ImplScienceReport extends VerticalFlowPanel
             + getPlayer().getNation().getPluralName()
             ) );
     m_labYear.setText( _( 
-            getPlayer().getRulerTitle()
+            getPlayer().getRulerTitle() + " "
             + getPlayer().getName()
             + " : " + getClient().getGame().getYearString()
             ) );
@@ -273,7 +283,8 @@ class ImplScienceReport extends VerticalFlowPanel
       }
     }
     m_lstKnownTechs.setListData( kList.toArray() );
-    m_lstKnownTechs.setVisibleRowCount( (int)Math.ceil( kList.size() / 4.0f ) );
+    m_lstKnownTechs.setVisibleRowCount( (int)Math.ceil( kList.size() 
+                                                        / (float)KNOWN_COLUMNS ) );
   }
   
   /**
@@ -351,7 +362,7 @@ class ImplScienceReport extends VerticalFlowPanel
     dlg.getContentPane().add( ImplScienceReport.this, BorderLayout.CENTER );
     m_dialog = dlg;
     
-    updateAll();
+    refresh();
     
     m_dlgManager.showDialog( m_dialog );
   }

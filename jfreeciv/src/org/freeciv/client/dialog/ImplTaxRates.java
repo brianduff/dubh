@@ -9,6 +9,8 @@ import java.text.Collator;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.ui.util.*;
+import org.freeciv.net.PktPlayerRequest;
+import org.freeciv.net.PacketConstants;
 
 /**
  * Implementation of the tax rate panel.  This updates the economy values
@@ -75,10 +77,9 @@ class ImplTaxRates extends VerticalFlowPanel implements DlgTaxRates
     {
       public void actionPerformed( ActionEvent e )
       {
-        getClient().getGame().getCurrentPlayer().getEconomy().setTax( m_panTax.getRate() );
-        getClient().getGame().getCurrentPlayer().getEconomy().setScience( m_panScience.getRate() );
-        getClient().getGame().getCurrentPlayer().getEconomy().setLuxury( m_panLuxury.getRate() );
-        getClient().updateInfoLabel();
+        requestChangeRates( m_panTax.getRate(),  m_panScience.getRate(), 
+                            m_panLuxury.getRate() );
+        //getClient().updateInfoLabel();
         undisplay();
       }
     } );
@@ -97,9 +98,9 @@ class ImplTaxRates extends VerticalFlowPanel implements DlgTaxRates
   }
   
   /**
-   * Resets the displayed rates from the client object in case they're out of date.
+   * Resets the displayed rates from the client object.
    */
-  private void resetRatesFromClient()
+  public void refresh()
   {
     m_labMaxRate.setText( _( 
       getClient().getGame().getCurrentPlayer().getGovernment().getName() +
@@ -113,8 +114,22 @@ class ImplTaxRates extends VerticalFlowPanel implements DlgTaxRates
   }
   
   /**
-   * The somewhat complicated function to adjust all three rates based on the
-   * movement of one of them.
+   * Sends a packet specifying the new tax rates
+   */
+  private void requestChangeRates( int tax, int science, int luxury ) 
+  {
+    PktPlayerRequest packet = new PktPlayerRequest();
+    packet.setType( PacketConstants.PACKET_PLAYER_RATES );
+    packet.tax = tax;
+    packet.science = science;
+    packet.luxury = luxury;
+    getClient().sendToServer( packet );
+  }
+  
+
+  
+  /**
+   * Adjust all three rates based on the movement of one of them.
    * 
    * @param changed the RatePanel being changed
    * @param other0 one of the other two RatePanels
@@ -193,7 +208,9 @@ class ImplTaxRates extends VerticalFlowPanel implements DlgTaxRates
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplTaxRates.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    resetRatesFromClient();
+    
+    refresh();
+    
     m_dlgManager.showDialog( m_dialog );
   }
   
@@ -254,6 +271,6 @@ class ImplTaxRates extends VerticalFlowPanel implements DlgTaxRates
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

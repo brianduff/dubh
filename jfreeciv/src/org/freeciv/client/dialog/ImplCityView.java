@@ -389,7 +389,7 @@ public class ImplCityView extends VerticalFlowPanel
   /**
    * Updates the whole shebang
    */
-  public void updateAll()
+  public void refresh()
   {
     updateTitle();
     updateCitizens();
@@ -528,7 +528,7 @@ public class ImplCityView extends VerticalFlowPanel
     dlg.getContentPane().add( ImplCityView.this, BorderLayout.CENTER );
     m_dialog = dlg;
     
-    updateAll();
+    refresh();
     
     m_dlgManager.showDialog( m_dialog );
   }

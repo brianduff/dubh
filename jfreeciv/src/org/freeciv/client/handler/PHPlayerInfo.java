@@ -67,9 +67,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     {
       p.getResearch().setHasInvention( i, pinfo.inventions[ i ] ); // ?
     }
-
-    // c.updateResearch( p );
-
+    
     //?
     boolean popTechUp = p.getResearch().getCurrentlyResearching().getId() != 
       pinfo.researching;
@@ -88,7 +86,14 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
       {
         if ( !p.getAI().isControlled() ) // || ai_popup_windows
         {
-          // c.popupScienceDialog( 1 );
+          if( c.getDialogManager().getScienceReportDialog().isShowing() )
+          {
+            c.getDialogManager().getScienceReportDialog().refresh();
+          }
+          else 
+          {
+            c.getDialogManager().getScienceReportDialog().display();
+          }
         }
         // did_advance_tech_this_turn = c.getGame().getYear();  ??
         // c.updateScienceDialog();
@@ -138,7 +143,10 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
       // c.popupGovernmentDialog();
     }
 
-    // c.updatePlayersDialog();
+    if( c.getDialogManager().getPlayersDialog().isShowing() )
+    {
+      c.getDialogManager().getPlayersDialog().refresh();
+    }
     // c.updateWorklistReportDialog();
 
     if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE )

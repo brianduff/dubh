@@ -1120,5 +1120,14 @@ public final class City implements CommonConstants
   {
     // TODO
   }
+  
+  /**
+   * A city is equal to any object if the object is also a city and has
+   * the same id.
+   */
+  public boolean equals( Object o )
+  {
+    return o instanceof City && ( (City)o ).getId() == getId();
+  }
 
 }

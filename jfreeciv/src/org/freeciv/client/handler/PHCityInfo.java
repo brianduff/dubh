@@ -93,7 +93,10 @@ public class PHCityInfo extends AbstractHandler implements Constants
       );
       if ( city.getOwner() == client.getGame().getCurrentPlayer() )
       {
-        // Update city report dialog
+        if( client.getDialogManager().getCityReport().isShowing() )
+        {
+          client.getDialogManager().getCityReport().refresh();
+        }
       }
 
       for ( i = 0; i < client.getGame().getNumberOfPlayers(); i++ )
@@ -135,11 +138,7 @@ public class PHCityInfo extends AbstractHandler implements Constants
     // Popup stuff
 
     // Refresh city dialog
-    final City viewCity = client.getDialogManager().getCityViewDialog().getCity();
-    if( viewCity != null && viewCity.getId() == city.getId() ) 
-    {
-      client.getDialogManager().getCityViewDialog().updateAll();
-    }
+    client.getDialogManager().refreshCityDialog( city );
 
     Unit unit = client.getUnitInFocus();
     if ( unit != null 

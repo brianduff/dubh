@@ -125,7 +125,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
         {
           city.removeSupportedUnit( unit );
 
-          // c.refreshCityDialog( city );
+          c.getDialogManager().refreshCityDialog( city );
         }
         unit.setHomeCity( packet.homecity );
 
@@ -155,7 +155,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
         if (city != null && ( city != unit.getHomeCity() ) )
         {
-          // c.refreshCityDialog( city );
+          c.getDialogManager().refreshCityDialog( city );
         }
       }
 

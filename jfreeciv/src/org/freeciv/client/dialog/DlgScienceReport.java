@@ -7,6 +7,16 @@ package org.freeciv.client.dialog;
 public interface DlgScienceReport
 {
   /**
+   * Refresh this dialog with new information from the client
+   */
+  public void refresh();
+  
+  /**
+   * Is this dialog showing?
+   */
+  public boolean isShowing();
+  
+  /**
    * Display the dialog. The dialog is modal on the AWT event thread, i.e.
    * it will block all UI, but the packet handling thread will proceed.
    */

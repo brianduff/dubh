@@ -1,7 +1,11 @@
 package org.freeciv.client.dialog;
+
 import org.freeciv.client.Client;
+import org.freeciv.common.City;
+
 import javax.swing.*;
 import java.util.ArrayList;
+
 /**
  * The dialog manager does the job of handing out dialogs
  * to whoever needs them
@@ -93,6 +97,19 @@ public class DialogManager
       SwingUtilities.invokeLater( new DialogCloser( d ) );
     }
   }
+  
+  /**
+   * Refreshes the city view dialog if it is showing the specified city.
+   */
+  public void refreshCityDialog( City city )
+  {
+    if( getCityViewDialog().isShowing() 
+        && city.equals( getCityViewDialog().getCity() ) )
+    {
+      getCityViewDialog().refresh();
+    }
+  }
+  
   public DlgNotifyGoto getNotifyGotoDialog()
   {
     return null;

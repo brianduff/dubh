@@ -156,6 +156,11 @@ public class ImplCityReport extends JDialog implements DlgCityReport
   {
     return Localize.translation.translate( txt );
   }
+  
+  public void refresh()
+  {
+    ;
+  }
 
   public void display()
   {

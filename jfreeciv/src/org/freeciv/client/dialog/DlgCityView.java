@@ -13,25 +13,28 @@ import org.freeciv.common.City;
 public interface DlgCityView
 {
   /**
-   * This returns the city currently being displayed.  Theoretically, 
-   * it should be null if the dialog is hidden.  Don't count on that,
-   * tho.
+   * This returns the city currently being displayed.
    * 
    * @return the city currently being displayed.
    */
-  public abstract City getCity();
+  public City getCity();
   
   /**
-   * Tells the city view that new city info has been sent and to update
-   * accordingly.
+   * Refresh this dialog with new information from the client
    */
-  public abstract void updateAll();
+  public void refresh();
+  
+  /**
+   * Is this dialog showing?
+   */
+  public boolean isShowing();
   
   /**
    * Display the dialog. The dialog is modal on the AWT event thread, i.e.
    * it will block all UI, but the packet handling thread will proceed.
    */
   public void display( City city );
+  
   /**
    * Programmatically hide the dialog. This will unblock the AWT event thread.
    * N.b. The dialog will hide itself when buttons are pressed, this method

@@ -10,9 +10,11 @@ public class ACTCityReport extends AbstractClientAction
     super();
     putValue( NAME, _( "City Report" ) );
     setAccelerator( KeyEvent.VK_F1 );
+    
+    setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+    getClient().getDialogManager().getCityReport().display();
   }
 }

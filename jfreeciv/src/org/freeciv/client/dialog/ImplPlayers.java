@@ -163,10 +163,11 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   /**
    * Clear and re-populate the player table with fresh data from the client.
    */
-  private void populatePlayerTable()
+  public void refresh()
   {
+    ArrayList pList = new ArrayList();
     final int myID = getClient().getGame().getCurrentPlayer().getId();
-    String[][] data = new String[ getClient().getGame().getNumberOfPlayers() ][ 9 ];
+    
     for( int i = 0; i < getClient().getGame().getNumberOfPlayers(); i++ ) {
       final Player player = getClient().getGame().getPlayer( i );
       // skip barbarians
@@ -174,34 +175,34 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       {
         continue;
       }
-      
+      String[] datum = new String[9];
       // text for name, plus AI marker
-      data[i][0] = _( ( player.getAI().isControlled() ? "*" : "" ) + player.getName() );
+      datum[0] = _( ( player.getAI().isControlled() ? "*" : "" ) + player.getName() );
       // text for nation
-      data[i][1] = _( player.getNation().getName() );
+      datum[1] = _( player.getNation().getName() );
       // text for embassy
-      data[i][2] = _( getEmbassyStatus( getClient().getGame().getCurrentPlayer(), player ) );
+      datum[2] = _( getEmbassyStatus( getClient().getGame().getCurrentPlayer(), player ) );
       // text for diplomacy state and turns, ignoring me.
       if( i == myID )
       {
-        data[i][3] = _( "-" );
+        datum[3] = _( "-" );
       }
       else
       {
         final DiplomacyState pds = getClient().getGame().getCurrentPlayer().getDiplomacyState( i );
         if( pds.getType() == pds.DS_CEASEFIRE )
         {
-          data[i][3] = _( pds.getName() + " (" + pds.getTurnsLeft() + ")" );
+          datum[3] = _( pds.getName() + " (" + pds.getTurnsLeft() + ")" );
         }
         else
         {
-          data[i][3] = _( pds.getName() );
+          datum[3] = _( pds.getName() );
         }
       }
       // text for shared vision
-      data[i][4] = _( getVisionStatus( getClient().getGame().getCurrentPlayer(), player ) );
+      datum[4] = _( getVisionStatus( getClient().getGame().getCurrentPlayer(), player ) );
       // test for reputation
-      data[i][5] = _( player.getReputationName() );
+      datum[5] = _( player.getReputationName() );
       // text for state
       if( player.isAlive() )
       {
@@ -209,36 +210,40 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
         {
           if( player.isTurnDone() )
           {
-            data[i][6] = _( "done" );
+            datum[6] = _( "done" );
           }
           else
           {
-            data[i][6] = _( "moving" );
+            datum[6] = _( "moving" );
           }
         }
         else
         {
-          data[i][6] = _( "" );
+          datum[6] = _( "" );
         }
       }
       else
       {
-        data[i][6] = _( "R.I.P." );
+        datum[6] = _( "R.I.P." );
       }
       // text for conn. address
-      data[i][7] = _( "?" );
+      datum[7] = _( "?" );
       // text for idleness
       if( player.getNumberOfIdleTurns() > 3 )
       {
-        data[i][8] = _( "(idle " + ( player.getNumberOfIdleTurns() - 1 ) + " turns)" );
+        datum[8] = _( "(idle " + ( player.getNumberOfIdleTurns() - 1 ) + " turns)" );
       } 
       else
       {
-        data[i][8] = _( "" );
+        datum[8] = "";
       }
+      
+      pList.add( datum );
     }
     
-    m_playerTableModel.data = data;
+    String[][] newData = new String[pList.size()][9];
+    pList.toArray( newData );
+    m_playerTableModel.data = newData;
     
     resizeTable( m_tabPlayers );
   }
@@ -284,7 +289,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
     dlg.getContentPane().add( ImplPlayers.this, BorderLayout.CENTER );
     m_dialog = dlg;
     
-    populatePlayerTable();
+    refresh();
     
     m_dlgManager.showDialog( m_dialog );
   }

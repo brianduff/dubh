@@ -40,6 +40,7 @@ import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
 import org.freeciv.common.Tile;
 import org.freeciv.common.ErrorHandler;
+import org.freeciv.common.City;
 import org.freeciv.common.Unit;
 import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.Actions;
@@ -442,7 +443,7 @@ public final class Client implements Constants
 
   }
   /**
-   * Terminates the client. You really out to disconnect & stuff
+   * Terminates the client. You really ought to disconnect & stuff
    * before calling this, as it just basically system.exits
    */
   public synchronized void quit()
@@ -671,7 +672,7 @@ public final class Client implements Constants
   }
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
   // Move into Shared
   private static int WIPEBIT( int val, int no )
@@ -1079,7 +1080,7 @@ public final class Client implements Constants
    *
    * @param c the city to remove
    */
-  public void removeCity( org.freeciv.common.City city )
+  public void removeCity( City city )
   {
     int x = city.getX();
     int y = city.getY();
@@ -1089,7 +1090,11 @@ public final class Client implements Constants
       city.getOwner().getNation().getName() + "(" +
       x + " " + y + ")");
 
-    // TODO: popdown city dialog
+    if( getDialogManager().getCityViewDialog().isShowing() 
+        && city.equals( getDialogManager().getCityViewDialog().getCity() ) )
+    {
+      getDialogManager().getCityViewDialog().undisplay();
+    }
     city.removeFromGame();
     // TODO: update city report dialog
     refreshTileMapCanvas( x, y, true );
