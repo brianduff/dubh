@@ -241,6 +241,16 @@ public final class Client implements Constants
   }
 
   /**
+   * Get all currently registered actions.
+   *
+   * @return set of AbstractClientAction objects
+   */
+  public java.util.Collection getAllActions()
+  {
+    return m_actions.getAllActions();
+  }
+  
+  /**
    * Enables or disables an action. Guaranteed to take place on
    * the UI thread.
    */

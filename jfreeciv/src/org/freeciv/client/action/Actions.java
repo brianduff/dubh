@@ -38,4 +38,8 @@ public class Actions
     }
     return a;
   }
+  public java.util.Collection getAllActions()
+  {
+   return m_mapActions.values(); // TODO: clone !!!
+  }
 }

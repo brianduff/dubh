@@ -30,6 +30,7 @@ public class DialogManager
   ImplPlayers m_players;
   ImplTradeReport m_tradeReport;
   ImplScienceReport m_scienceReport;
+  ImplChangeKeyBindings m_changeKeyBindings;
   ArrayList m_alVisibleDialogs;
   public DialogManager( Client c )
   {
@@ -231,6 +232,14 @@ public class DialogManager
       m_scienceReport = new ImplScienceReport( this, m_client );
     }
     return m_scienceReport;
+  }
+  public DlgChangeKeyBindings getChangeKeyBindingsDialog()
+  {
+    if( m_changeKeyBindings == null )
+    {
+     m_changeKeyBindings = new ImplChangeKeyBindings( this, m_client );
+    }
+    return m_changeKeyBindings;
   }
   class MessageDialogRunnable implements Runnable
   {
