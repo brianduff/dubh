@@ -155,7 +155,19 @@ public class AboutPanel extends JPanel {
    public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product, 
       ReadOnlyVersion[] dependencies)
    {
+      return doDialog(parent, product, dependencies, null);
+   }
+   
+   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product)
+   {
+      return doDialog(parent, product, null);
+   }            
+   
+   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product,
+      ReadOnlyVersion[] dependencies, Icon icon)
+   {
       AboutPanel ap = new AboutPanel();
+      if (icon != null) ap.setIcon(icon);
       ap.setProductVersion(product);
       if (dependencies != null) ap.setDependencies(dependencies);
       AboutPanelDialog apd = ap.new AboutPanelDialog(parent);
@@ -165,12 +177,7 @@ public class AboutPanel extends JPanel {
       if (apd.isCancelled())
          return null;
       else
-         return ap;
-   }
-   
-   public static AboutPanel doDialog(JFrame parent, ReadOnlyVersion product)
-   {
-      return doDialog(parent, product, null);
+         return ap;      
    }
    
    
