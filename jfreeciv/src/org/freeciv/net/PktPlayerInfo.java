@@ -1,6 +1,8 @@
 package org.freeciv.net;
 import java.io.IOException;
 
+import org.freeciv.common.DiplomacyState;
+
 /**
  * Packet representing information about a player.
  *
@@ -20,7 +22,8 @@ public class PktPlayerInfo extends AbstractPacket
   public int nturns_idle;
   public boolean is_alive;
   public int reputation;
-  public PlayerDiplomacyState[] diplstates = new PlayerDiplomacyState[ MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ];
+  public DiplomacyState[] diplstates = 
+    new DiplomacyState[ MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ];
   public int gold;
   public int tax;
   public int science;
@@ -64,7 +67,7 @@ public class PktPlayerInfo extends AbstractPacket
     {
       out.writeInt( diplstates[ i ].getType() );
       out.writeInt( diplstates[ i ].getTurnsLeft() );
-      out.writeInt( diplstates[ i ].getReasonToCancel() );
+      out.writeInt( diplstates[ i ].hasReasonToCancel() ? 1 : 0 );
     }
     out.writeInt( gold );
     out.writeUnsignedByte( tax );
@@ -103,11 +106,11 @@ public class PktPlayerInfo extends AbstractPacket
     {
       if( diplstates[ i ] == null )
       {
-        diplstates[ i ] = new PlayerDiplomacyState();
+        diplstates[ i ] = new DiplomacyState();
       }
       diplstates[ i ].setType( in.readInt() );
       diplstates[ i ].setTurnsLeft( in.readInt() );
-      diplstates[ i ].setReasonToCancel( in.readInt() );
+      diplstates[ i ].setReasonToCancel( (in.readInt() != 0) );
     }
     gold = in.readInt();
     tax = in.readUnsignedByte();
