@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: HelpSystem.java,v 1.3 1999-03-22 23:48:28 briand Exp $
+//   $Id: HelpSystem.java,v 1.4 1999-06-01 00:28:20 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -31,11 +31,7 @@ import dubh.utils.misc.*;
 /**
  * NewsAgent's Hypertext help system (at last!!!).
  * Version History: <UL>
- * <LI>0.1 [08/06/98]: Initial Revision           
- * <LI>0.2 [03/07/98]: Changed to use HelpFrame
- * <LI>0.3 [04/07/98]: Minor change to filenames in static constants to reflect
- *   documentation updates in NA 1.02
- *</UL>
+
  @author Brian Duff
  @version 0.3 [04/07/98]
  */
@@ -93,3 +89,15 @@ public class HelpSystem {
 
 
 }
+
+//
+// New (CVS) Log:
+//
+// $Log: not supported by cvs2svn $
+
+//
+// Old Log:
+// 0.1 [08/06/98]: Initial Revision           
+// 0.2 [03/07/98]: Changed to use HelpFrame
+// 0.3 [04/07/98]: Minor change to filenames in static constants to reflect
+//   documentation updates in NA 1.02

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: IUpdateableClass.java,v 1.3 1999-03-22 23:48:28 briand Exp $
+//   $Id: IUpdateableClass.java,v 1.4 1999-06-01 00:27:57 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -30,11 +30,8 @@ package dubh.apps.newsagent;
  * The interface implemented by classes in NewsAgent that can be updated as
  * part of a patch. Simply allows the class to return its major and minor
  * version numbers.
- * Version History: <UL>
- * <LI>0.1 [02/07/98]: Initial Revision
- *</UL>
- @author Brian Duff
- @version 0.1 [02/07/98]
+ * @author Brian Duff
+ * @version $Id: IUpdateableClass.java,v 1.4 1999-06-01 00:27:57 briand Exp $
  */
 public interface IUpdateableClass {
 
@@ -42,3 +39,14 @@ public interface IUpdateableClass {
   public int getMinorClassVersion();
 
 }
+
+//
+// New (CVS) Log
+//
+// $Log: not supported by cvs2svn $
+//
+
+//
+// Old Log:
+//
+// 0.1 [02/07/98]: Initial Revision
