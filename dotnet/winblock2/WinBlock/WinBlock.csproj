@@ -85,10 +85,26 @@
                 <Reference Name = "System.Drawing.Design" />
                 <Reference Name = "System.Timers" />
                 <Reference Name = "System.Web.Services" />
+                <Reference Name = "stdole" />
+                <Reference Name = "StdFormat" />
+                <Reference Name = "MSDATASRC" />
+                <Reference Name = "VBRUN" />
+                <Reference Name = "AxComCtl3" />
+                <Reference Name = "System.DirectoryServices" />
             </References>
         </Build>
         <Files>
             <Include>
+                <File
+                    RelPath = "AboutForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AboutForm.resx"
+                    DependentUpon = "AboutForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
                 <File
                     RelPath = "AssemblyInfo.cs"
                     BuildAction = "Compile"
@@ -111,6 +127,11 @@
                 <File
                     RelPath = "GameStatus.cs"
                     SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Line.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

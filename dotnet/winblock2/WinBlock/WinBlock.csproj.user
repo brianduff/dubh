@@ -3,7 +3,7 @@
         <Build>
             <Settings
                 OfflineURL = "/WinBlock_Offline"
-                ReferencePath = ""
+                ReferencePath = "C:\cvs\dotnet\winblock2\WinBlock\bin\Release\"
             >
                 <Config
                     Name = "Debug"
