@@ -15,9 +15,9 @@
     <p align="center">
       <img src="images/dubh.org.small.gif" />
     </p>
-    <h3>
+    <h2>
       Welcome to Dubh.Org!
-    </h3>
+    </h2>
     <p>
       Hi, this is <code>dubh.org</code>. It's kind of a mish-mash of 
       various techy bits and bobs, maintained by Brian Duff.
@@ -39,18 +39,29 @@
     <p>
       Come back soon, and hopefully more stuff will be here.
     </p>
+    
+    <h2>
+      What's New?
+    </h2>
   
+    <h3>07 May 2001</h3>
+    
+    <p>
+    <a href="projects/marco/index.xml">Project Marco</a> aims to provide a 
+    hosted bookmarks service for multiple users. An initial draft of the
+    requirements are now online
+    </p>
     </content>
     
     <cvs-info>
       <date>
-        $Date: 2001-05-07 02:18:16 $
+        $Date: 2001-05-07 02:26:57 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.9 $
+        $Revision: 1.10 $
       </revision>
     </cvs-info>
     
