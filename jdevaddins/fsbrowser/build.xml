@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='windows-1252'?>
+
+<!-- Ant buildfile for building the fsbrowser addin -->
+<!-- Author: Brian.Duff@oracle.com -->
+
+<project name="fsbrowser" basedir="." default="src">
+
+  <target name="init">
+    <!-- You need to define this to a valid JDeveloper home to compile -->
+    <property name="jdevhome" value="c:\deliver" />
+
+    <echo>
+      ************************************************************
+      * jdevhome is defined as ${jdevhome}. Make sure this points 
+      * to a valid home of JDeveloper, or the code will not 
+      * compile!!
+      ************************************************************
+    </echo>
+
+    <property name="projectname" value="fsbrowser" />
+  
+    <property name="srcdir" value="src" />
+    <property name="classdir" value="class" />
+    <path id="classpath">
+      <fileset dir="${jdevhome}">
+        <include name="jdev\lib\jdev.jar" />
+        <include name="jlib\jewt4.jar" />
+      </fileset>
+    </path>
+
+    <property name="copypatterns" value="**/*.gif,**/*.png" />
+    <property name="jarfile" value="${projectname}.jar" />
+    <property name="jarmanifest" value="Manifest.mf" />
+    <property name="zipjarfile" value="${projectname}jar.zip" />
+
+    <property name="projectzipfile" value="${projectname}.zip" />
+
+    
+    <property name="webstage" value="webstage" />
+
+    <property name="ftpserver" value="jtuser.us.oracle.com" />
+    <property name="ftpuserid" value="anonymous" />
+    <property name="ftppassword" value="Brian.Duff@oracle.com" />
+    <property name="remotedir" value="/JDevExtensions/AddinExchange/brian" />
+
+  </target>
+
+  <!-- Copy files from the source path to the output path -->
+  <target name="copyfiles" depends="init">
+    <copy todir="${classdir}">
+      <fileset dir="${srcdir}" includes="${copypatterns}" />
+    </copy>
+  </target>
+
+  <!-- Compile the code -->
+  <target name="src" depends="copyfiles">
+
+  
+    <mkdir dir="${classdir}" />
+    <javac  srcdir="${srcdir}"
+            destdir="${classdir}"
+            deprecation="true" >
+      <classpath refid="classpath" />
+    </javac>
+  </target>
+
+  <!-- Create the lib/ext jar file -->
+  <target name="addinjar" depends="src">
+    <jar jarfile="${jarfile}" basedir="${classdir}" compress="true"
+      manifest="${jarmanifest}" />
+  </target>
+
+  <!-- Create the zipped version of the addin jar -->
+  <target name="zippedjar" depends="addinjar">
+    <zip zipfile="${zipjarfile}" compress="true">
+      <fileset dir=".">
+        <include name="${jarfile}" />
+      </fileset>
+    </zip>
+  </target>
+
+  <!-- Create the project zip -->
+  <target name="projectzip" depends="init">
+    <zip zipfile="${projectzipfile}" compress="true">
+      <zipfileset dir="." includes="${projectname}.jpr,${jarmanifest},build.xml,${velocity.jar},${velocity.license},index.html"
+        prefix="${projectname}" />
+      <zipfileset dir="src" prefix="${projectname}/src" />
+      <zipfileset dir="ProjectInfo" includes="ProjectInfo.html" prefix="${projectname}/ProjectInfo" />
+      <zipfileset dir="UsageInfo" includes="UsageInfo.html" prefix="${projectname}/UsageInfo" />
+      <zipfileset dir="InstallInfo" includes="InstallInfo.html" prefix="${projectname}/InstallInfo" />
+    </zip>
+  </target>
+
+
+
+  <!-- Cleans up all files created by targets in the build file -->
+  <target name="clean" depends="init">
+    <delete dir="${classdir}" />
+    <delete dir="${webstage}" />
+    <delete file="${projectzipfile}" />
+    <delete file="${zipjarfile}" />
+    <delete file="${jarfile}" />
+  </target>
+
+  <!-- Make all -->
+  <target name="all" depends="addinjar,zippedjar,projectzip" />
+
+  <!-- "make" the OTN website by copying to webstage -->
+  <target name="stageweb" depends="all">
+    <mkdir dir="${webstage}/${projectname}" />
+    <copy todir="${webstage}/${projectname}">
+      <fileset dir=".">
+        <include name="${jarfile}" />
+        <include name="${projectzipfile}" />
+        <include name="${zipjarfile}" />
+        <include name="index.html" />
+      </fileset>
+    </copy>
+    <copy todir="${webstage}/${projectname}/ProjectInfo">
+      <fileset dir="ProjectInfo" />
+    </copy>
+    <copy todir="${webstage}/${projectname}/InstallInfo">
+      <fileset dir="InstallInfo" />
+    </copy>
+    <copy todir="${webstage}/${projectname}/UsageInfo">
+      <fileset dir="UsageInfo" />
+    </copy>
+
+  </target>
+
+
+  <!-- Upload the web site to jtuser.us.oracle.com -->
+  <!-- NB: This relies on the FTP task working in ant, which has additional
+       dependencies. Also, it will only work within Oracle -->
+  <target name="uploadweb" depends="stageweb">
+    <!-- First, delete any existing project dir -
+    <ftp action="del"
+       server="${ftpserver}"
+       userid="${ftpuserid}"
+       password="${ftppassword}" 
+       remotedir="${remotedir}/${projectname}">
+       
+      <fileset>
+        <include name="**"/>
+      </fileset>
+    </ftp>
+    -->
+    
+    <ftp action="put"
+      server="${ftpserver}"
+      userid="${ftpuserid}"
+      password="${ftppassword}"
+      remotedir="${remotedir}/${projectname}"
+      depends="yes">
+
+      <fileset dir="${webstage}/${projectname}" />
+    
+    </ftp>
+
+  </target>
+
+</project>

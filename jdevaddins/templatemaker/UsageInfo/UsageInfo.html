@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>TemplateMaker Usage Information</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+	<script language="javaScript">
+	function isViewletCompliant()
+	{
+		answer=true;
+		version=Math.round(parseFloat(navigator.appVersion) * 1000);
+		if (navigator.appName.substring(0,9) == "Microsoft")
+		{
+			if(version<4000)
+				answer=false;
+		}
+		if (navigator.appName.substring(0,8) == "Netscape")
+		{
+			if ((navigator.appVersion.indexOf("Mac")> 0) && (version<5000))
+				answer=false;
+			else if (version<4060)
+				answer=false;
+		}
+		plugins=navigator.plugins;
+		if (answer==false && plugins!=null)
+		{
+			for(i=0;i!=plugins.length;i++)
+				if((plugins[i].name.indexOf("Java Plug-in")>=0) && (plugins[i].name.indexOf("1.0")<0))
+					answer=true;
+		}
+		return answer;
+	}
+	function openViewlet(htmlFile,htmlWidth,htmlHeight)
+	{
+		str = 'resizable=0,toolbar=0,menubar=0,';
+		str = str + 'scrollbars=0,status=0,location=0,directory=0,width=350,height=200';
+		if(!isViewletCompliant())
+		{
+			open("http://www.qarbon.com/warning/index.html",'Leelou',str);
+		}
+		else
+		{
+// 	  alert("Opening " + htmlFile);
+			window.open(htmlFile,'Leelou','width='+htmlWidth+',height='+htmlHeight+',top=10,left=20');
+		}
+	}
+	</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+<h1>TemplateMaker Usage Information</h1>
+
+    
+<blockquote> 
+  <p>TemplateMaker provides the ability to define and use templates in the IDE. 
+    The templates can use the powerful features of the Jakarta Velocity template 
+    engine (see <a href="http://jakarta.apache.org/velocity">http://jakarta.apache.org/velocity</a>).</p>
+  <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfThisTool">Overview of this Tool</a></li>
+  <li><a href="#ContextForVelocity">Context information for velocity</a></li>
+  <li><a href="#Samples">Sample templates</a></li>
+</ul>
+
+    
+<h3><a id="OverviewOfThisTool" name="OverviewOfThisTool"></a> Overview of this 
+  Tool</h3>
+<blockquote> 
+  <p> This tool installs a <b>Save as Template...</b> menu item into the <b>File</b> 
+    menu and the context menus of nodes in the navigator. You can use this menu 
+    item to create a template based on an existing file.
+  <p>You can view, edit and delete templates in the <b>Templates</b> folder in 
+    the IDE system navigator. 
+  <p>The Object Gallery (accessible from <b>New...</b> in the <b>File</b> menu) 
+    can be used to create a new file based on a template. The tool adds a <b>Templates</b> 
+    category to the Object Gallery which contains all defined templates. When 
+    a template is selected, you are prompted for a path or package and filename.
+  <p>TemplateMaker is integrated with Jakarta Velocity. This allows you to insert 
+    special macros and script into templates which are evaluated when a new file 
+    is created based on the template. More information on using velocity is available 
+    in the <a href="http://jakarta.apache.org/velocity/user-guide.html">Velocity 
+    User Guide</a>. Details on the IDE information you can obtain within velocity 
+    code in a template is available in the <a href="#ContextForVelocity">Context 
+    information for velocity</a> section below.
+  <p>This <a href="javascript:openViewlet('viewlet/templatemaker_viewlet.html',859,620);">viewlet</a> 
+    demonstrates TemplateMaker in action.</p>
+</blockquote>
+
+    
+<h3><a id="InvocationInstructions"
+    name="ContextForVelocity"></a>Context information for velocity</h3>
+<blockquote> 
+  <p>The <a href="http://jakarta.apache.org/velocity/user-guide.html">Velocity 
+    User Guide</a> describes how velocity provides a way for templates to access 
+    properties and variables from within templates. JDeveloper provides several 
+    properties to the template engine when generating new files from templates. 
+    You can use these properties in your templates to automatically generate code 
+    based on information available at the time the template is used. For some 
+    examples of templates that use this information, see the <a href="#Samples">sample 
+    templates</a> section below.</p>
+  <p>The properties provided by the IDE to templates are as follows:</p>
+  <p><code>oracleide.destination.url</code><br>
+  </p>
+  <p>The URL of the output file, e.g. <code>file:/C:/mywork/Test.java</code></p>
+  <p><code>oracleide.destination.path</code></p>
+  <p>The full local filesystem path of the output file, e.g. <code>c:\mywork\Test.java</code></p>
+  <p><code>oracleide.destination.name</code></p>
+  <p>The filename of the output file, e.g. <code>Test.java</code><br>
+  </p>
+  <p><code>oracleide.destination.nameWithoutExtension</code></p>
+  <p>The name of the output file, without its extension. This is useful for java 
+    files, since it's the name of the class. e.g. <code>Test</code></p>
+  <p><code>oracleide.destination.packageName</code></p>
+  <p>The package name of the output file, assuming it's in a project with a valid 
+    sourcepath. e.g. <code>org.acme.widgets</code></p>
+  <p><code>oracleide.template.url</code></p>
+  <p>The URL of the template file, e.g. <code>file:/c:/jdeveloper/jdev/templates/Java 
+    Class.java</code></p>
+  <p><code>oracleide.template.path</code></p>
+  <p>The full local filesystem path of the template file, e.g. <code>c:\jdeveloper\jdev\templates\Java 
+    Class.java</code></p>
+  <p><code>oracleide.template.name</code></p>
+  <p>The filename of the template file, e.g. <code>Java Class.java</code></p>
+  <p><code>oracleide.template.nameWithoutExtension</code></p>
+  <p>The name of the template file, without its extension, e.g. <code>Java Class</code></p>
+  <p>&nbsp;</p>
+</blockquote>
+<h3><a name="Samples"></a>Sample templates</h3>
+<blockquote>
+  <p>A number of sample templates are available for <a href="../samples.zip">download</a>. 
+    Each template contains comments describing how it works.</p>
+  <p>To use any of these templates, open it in the IDE and select <b>Save as Template...</b> 
+    from the <b>File</b> menu. The template should appear in the Object Gallery 
+    when you use <b>File-&gt;New...</b>.</p>
+  </blockquote>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

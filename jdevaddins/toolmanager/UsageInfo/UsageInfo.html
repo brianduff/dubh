@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>ToolManager Usage Information</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+	<script language="javaScript">
+	function isViewletCompliant()
+	{
+		answer=true;
+		version=Math.round(parseFloat(navigator.appVersion) * 1000);
+		if (navigator.appName.substring(0,9) == "Microsoft")
+		{
+			if(version<4000)
+				answer=false;
+		}
+		if (navigator.appName.substring(0,8) == "Netscape")
+		{
+			if ((navigator.appVersion.indexOf("Mac")> 0) && (version<5000))
+				answer=false;
+			else if (version<4060)
+				answer=false;
+		}
+		plugins=navigator.plugins;
+		if (answer==false && plugins!=null)
+		{
+			for(i=0;i!=plugins.length;i++)
+				if((plugins[i].name.indexOf("Java Plug-in")>=0) && (plugins[i].name.indexOf("1.0")<0))
+					answer=true;
+		}
+		return answer;
+	}
+	function openViewlet(htmlFile,htmlWidth,htmlHeight)
+	{
+		str = 'resizable=0,toolbar=0,menubar=0,';
+		str = str + 'scrollbars=0,status=0,location=0,directory=0,width=350,height=200';
+		if(!isViewletCompliant())
+		{
+			open("http://www.qarbon.com/warning/index.html",'Leelou',str);
+		}
+		else
+		{
+// 	  alert("Opening " + htmlFile);
+			window.open(htmlFile,'Leelou','width='+htmlWidth+',height='+htmlHeight+',top=10,left=20');
+		}
+	}
+	</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+    
+<h1>ToolManager Usage Information</h1>
+
+    <blockquote>
+      
+  <p>ToolManager adds an <b>Edit Tools...</b> item into the IDE Tools menu which 
+    can be used to add menu and toolbar items for starting external programs from 
+    within the IDE.</p>
+  <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfThisTool">Overview of this Tool</a></li>
+  <li><a href="#InvocationInstructions">Invocation instructions</a></li>
+  <li><a href="#ToolArguments">Description of tool arguments</a></li>
+  <li><a href="#RegExp">Regular expressions for disabling tools</a></li>
+</ul>
+
+    
+<h3><a id="OverviewOfThisTool" name="OverviewOfThisTool"></a> Overview of this 
+  Tool</h3>
+<blockquote> 
+  <p> The Edit Tools dialog can be used to define tools which start external programs 
+    from within the IDE. You can customize where and how menu and toolbar items 
+    appear. You can choose a range of predefined values based on the current selection 
+    in the IDE to pass in as arguments to the tool or as the working directory.
+<p>This <a href="javascript:openViewlet('viewlet/toolmanagerviewlet_viewlet.html',859,620);">viewlet</a> 
+    demonstrates the ToolManager in action.</p>
+</blockquote>
+
+    
+<h3><a id="InvocationInstructions"
+    name="InvocationInstructions"></a>Invocation instructions</h3>
+
+    <blockquote>
+      
+  <p>This tool installs an <b>Edit Tools... </b>menu item into the <b>Tools</b> 
+    menu. Select this item to display the Edit Tools dialog.</p>
+</blockquote>
+<h3><a id="InvocationInstructions"
+    name="ToolArguments"></a>Description of tool arguments</h3>
+<blockquote> 
+  <p>This section describes each of the tool arguments available in the Edit Tools 
+    dialog.</p>
+  <p><b>Default project sourcepath</b></p>
+  <p>The first entry in the sourcepath of the project associated with the currently 
+    selected item or active editor. This is the default location JDeveloper creates 
+    new classes in when using New Class...</p>
+  <p>Example: <code>c:\oracle9i jdeveloper\jdev\mywork\SomeWorkspace\SomeProject\src</code><br>
+    Macro Equivalent: <code>{defaultSourcePath}</code></p>
+  <p><b>File name</b></p>
+  <p>The filename (without any path information) for the currently selected item 
+    or active editor.</p>
+  <p>Example: <code>Widget.java</code><br>
+    Macro Equivalent: <code>{fileName}</code></p>
+  <p><b>File name without extension</b></p>
+  <p>The filename of the currently selected item or active editor with its extension 
+    stripped off.</p>
+  <p>Example: <code>Widget</code><br>
+    Macro Equivalent: <code>{fileNameNoExtension}</code></p>
+  <p><b>File path</b></p>
+  <p>The full path of the currently selected item or active editor, including 
+    its filename.</p>
+  <p>Example: <code>c:\oracle9i&nbsp;jdeveloper\jdev\mywork\SomeWorkspace\SomeProject\src\com\acme\Widget.java</code><br>
+    Macro Equivalent: <code>{path}</code></p>
+  <p><b>Full class name</b></p>
+  <p>The full class name of the currently selected item or active editor, including 
+    its package name. For this argument type to work properly, the selected item 
+    must be a Java or JSP file and in the sourcepath of a project.</p>
+  <p>Example: <code>com.acme.Widget</code><br>
+    Macro Equivalent:<code> {fullClassName}</code></p>
+  <p><b>Full project sourcepath</b></p>
+  <p>The full sourcepath of the project associated with the currently selected 
+    item or active editor. This may include multiple directory entries even if 
+    your project sourcepath entry only has one entry because of libraries. If 
+    you just want the default sourcepath entry, use the default project sourcepath 
+    argument type.</p>
+  <p>Example:&nbsp;<code>c:\oracle9i&nbsp;jdeveloper\jdev\mywork\SomeWorkspace\SomeProject\src;c:\oracle9i&nbsp;jdeveloper\BC4J\src\bc4jsrc.zip</code><br>
+    Macro Equivalent: <code>{sourcepath}</code></p>
+  <p><b>IDE install directory</b></p>
+  <p>The directory in which JDeveloper is installed.</p>
+  <p>Example:<code> c:\oracle9i jdeveloper\jdev</code><br>
+    Macro Equivalent: <code>{ideInstallDir}</code></p>
+  <p><b>Package name</b></p>
+  <p>The package of the currently selected item or active editor. For this argument 
+    type to work properly, the selected item must be a Java or JSP file and in 
+    the sourcepath of a project.</p>
+  <p>Example: <code>com.acme</code><br>
+    Macro Equivalent: <code>{packageName}</code></p>
+  <p><b>Project classpath</b></p>
+  <p>The full classpath of the project associated with the currently selected 
+    item or active editor. The classpath is an amalgamation of the classpaths 
+    of all libraries in use by the project and the output directory and additional 
+    classpath of the active project configuration.</p>
+  <p>Example: <code>c:\simplestuff\classes;c:\libraries\acme.jar;c:\libraries\tools.jar</code><br>
+    Macro Equivalent: <code>{classpath}</code></p>
+  <p><b>Project HTML root</b></p>
+  <p>The HTML root of the project associated with the currently selected item 
+    or active editor. </p>
+  <p>Example:&nbsp;<code>c:\oracle9i&nbsp;jdeveloper\jdev\mywork\SomeWorkspace\SomeProject\public_html</code><br>
+    Macro Equivalent: <code>{htmlRoot}</code></p>
+  <p><b>Project output directory</b></p>
+  <p>The output directory of the active configuration in the project associated 
+    with the currently selected item or active editor.</p>
+  <p>Example:&nbsp;<code>c:\oracle9i&nbsp;jdeveloper\jdev\mywork\SomeWorkspace\SomeProject\classes</code><br>
+    Macro Equivalent: <code>{outputDirectory}</code></p>
+  <p><b>Prompt</b></p>
+  <p>If this argument type is included, a prompt dialog will appear when the tool 
+    is invoked. This dialog will contain a text field into which you can type 
+    a value for the argument.</p>
+  <p>Macro Equivalent: <code>{prompt}</code></p>
+  <p><b>URL</b></p>
+  <p>The URL of the currently selected item or active editor. Be aware that some 
+    nodes in the IDE have URLs which use protocols that external programs may 
+    not understand.</p>
+  <p>Example:&nbsp;<code>file:/C:/oracle9i&nbsp;jdeveloper/jdev/mywork/SomeWorkspace/SomeProject/src/com/acme/Widget.java</code><br>
+    Macro Equivalent: <code>{url}</code></p>
+  <p>&nbsp;</p>
+</blockquote>
+<h3><a name="RegExp"></a>Regular expressions for disabling tools</h3>
+<blockquote>
+  <p>On the Enablement page of the edit tools dialog, you can enter a regular 
+    expression to only enable tools on files which match a certain regular expression. 
+    The full path of the file is matched against the regular expression. A description 
+    of the syntax accepted in this field is described <a href="regexp.html">here</a>.</p>
+  <p>Some simple examples are below.</p>
+  <p><code><b>\.java$</b></code> <i>matches all files ending in .java<br>
+    </i><b><code>(\.java$|\.jsp$|\.xml$)</code></b> <i>matches all files ending 
+    in .java, all files ending in .jsp and all files ending in .xml.<br>
+    </i> <code><b>acme</b></code><i> matches all files with acme anywhere in their 
+    path or filename.</i></p>
+</blockquote>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<workspace xmlns="http://xmlns.oracle.com/jdeveloper/902/workspace" nselem="workspace" class="oracle.ide.model.Workspace">
+   <activeProjectURL path="propedit/propedit.jpr" id="0"/>
+   <listOfChildren class="oracle.ide.model.DataList">
+      <Item class="oracle.ide.model.Reference">
+         <URL path="fsbrowser/fsbrowser.jpr"/>
+         <nodeClass id="1">oracle.jdeveloper.model.JProject</nodeClass>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL idref="0"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="templatemaker/templatemaker.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="toolmanager/toolmanager.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="ajde4jdev/ajde4jdev.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="doclinks/doclinks.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="python/python.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="console/Console.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="openfiles/openfiles.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
+   </listOfChildren>
+   <properties class="java.util.HashMap">
+      <Item>
+         <Key>packageCounter</Key>
+         <Value>9</Value>
+      </Item>
+   </properties>
+</workspace>

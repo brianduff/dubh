@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>Project Instructions</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+    
+<h1>TemplateMaker Project Information</h1>
+
+    <blockquote>
+      
+  <p>This document presents an overview of the TemplateMaker project and the various 
+    files involved, their purpose and other special notes. Download the JDeveloper 
+    project <a href="../templatemaker.zip">templatemaker.zip</a>.</p>
+
+      <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfTheProject">Overview of the project</a></li>
+  <li><a href="#TheFilesOfThisProject">The files of this project</a></li>
+  <li><a href="#SettingUp">Building this project</a></li>
+</ul>
+
+    <h3><a id="OverviewOfTheProject"
+    name="OverviewOfTheProject"></a> Overview of the project</h3>
+
+    <blockquote>
+      
+  <p>The TemplateMaker project provides support for defining and using templates 
+    in the IDE using the Jakarta Velocity template engine. 
+  <p>For usage details, see <a
+      href="../UsageInfo/UsageInfo.html">Usage Info</a> page.</p>
+    </blockquote>
+
+    <h3><a id="TheFilesOfThisProject"
+    name="TheFilesOfThisProject"></a>The files of this project</h3>
+
+    <blockquote>
+      <p>This project consists of the following files along with
+      their purpose.</p>
+
+      
+  <table width="85%" border="2" cellspacing="1"
+      cellpadding="2">
+    <tr> 
+      <td><b>File Name</b></td>
+      <td><b>File Purpose</b></td>
+    </tr>
+    <tr> 
+      <td>templatemaker.jpr</td>
+      <td>The JDeveloper Project file.</td>
+    </tr>
+    <tr>
+      <td>build.xml</td>
+      <td>Ant buildfile for the templatemaker project. Information on building 
+        with Ant is below.</td>
+    </tr>
+    <tr> 
+      <td>ProjectInfo.html</td>
+      <td>The document you're currently reading</td>
+    </tr>
+    <tr> 
+      <td>TemplateMaker.java</td>
+      <td> This file is the addin, which registers the &quot;Save as Template...&quot; 
+        menu item, programmatically adds templates to the object gallery and creates 
+        the Templates folder in the IDE system navigator.</td>
+    </tr>
+    <tr> 
+      <td>TemplateCaster.java</td>
+      <td> 
+        <p>Interface that is used when TemplateMaker creates an output file from 
+          a template. There are two implementations of this interface. CopyTemplateCaster 
+          simply copies the template to the output path whereas VelocityTemplateCaster 
+          uses the Jakarta Velocity template engine to provide powerful template 
+          scripting capabilities.</p>
+      </td>
+    </tr>
+    <tr> 
+      <td>TemplatesFolder.java</td>
+      <td>The navigator node that provides convenient access to template definitions 
+        from inside the IDE. It's really just a view onto the templates subdirectory 
+        of JDEV_USER_HOME. Each item under this folder is an instance of TemplateNode.</td>
+    </tr>
+    <tr> 
+      <td>UseTemplateDialog.java</td>
+      <td>The user interface component used in a dialog when the user uses the 
+        object gallery to create a new file based on a template. This dialog is 
+        invoked from the TemplateWizard.</td>
+    </tr>
+    <tr> 
+      <td>TemplateWizard.java</td>
+      <td>&quot;wizard&quot; used by the object gallery to invoke the UseTemplateDialog. 
+        A lot of code in this class is centered around defining sensible default 
+        paths or packages for the new file based on an IDE context. This class 
+        also invokes the TemplateCaster to actually transform a template into 
+        an output document.</td>
+    </tr>
+    <tr> 
+      <td>IDELogSystem.java</td>
+      <td>Binds the log output from Jakarta Velocity to the IDE log window</td>
+    </tr>
+    <tr> 
+      <td>URLResourceLoader.java</td>
+      <td>Provides a way for Jakarta Velocity to load templates specified by URL 
+        using the IDE's URLFileSystem.</td>
+    </tr>
+    <tr> 
+      <td>URLWrapper.java</td>
+      <td>Wrapper round a URL that provides convenient access to information about 
+        URL components to a template writer. Used by the VelocityContextObject.</td>
+    </tr>
+    <tr> 
+      <td>VelocityContextObject.java</td>
+      <td>This object serves as the class for the oracleide resource which is 
+        available to template writers when writing Velocity templates.</td>
+    </tr>
+    <tr> 
+      <td>VelocityTemplateCaster.java</td>
+      <td>A TemplateCaster implementation that uses the Jakarta Velocity template 
+        engine to generate output documents from templates.</td>
+    </tr>
+    <tr> 
+      <td>velocity-dep-1.2.jar</td>
+      <td>The Jakarta Velocity template engine. See <a href="http://jakarta.apache.org/velocity">http://jakarta.apache.org/velocity</a> 
+        for more details on Velocity.</td>
+    </tr>
+    <tr> 
+      <td>velocity.LICENSE.txt</td>
+      <td>The license for Jakarta Velocity.</td>
+    </tr>
+    <tr> 
+      <td>manifest.mf</td>
+      <td> The manifest to be associated with the delivered jar-file, that contains 
+        instructions for the auto-loader. </td>
+    </tr>
+  </table>
+    </blockquote>
+		
+<h3><a name="SettingUp"></a>Building this project</h3>
+<p>To build this project in the JDeveloper IDE, you must define the Jakarta Velocity 
+  library.</p>
+<ol>
+  <li>In <b>Project Settings...</b> in the <b>Project</b> menu, go to the <b>Libraries 
+    </b>page.</li>
+  <li>Select the <b>Apache Velocity</b> library (it will be highlighted in red)</li>
+  <li>Click <b>Edit...</b> set the <b>Class path</b> to include the velocity-dep-1.2.jar 
+    which is included in the distribution.</li>
+  <li>Click <b>OK</b> to save the project settings.</li>
+</ol>
+<p>You should now be able to compile the project.</p>
+<p>To build this project using Ant, download and install Ant from<a href="http://jakarta.apache.org/ant"> 
+  http://jakarta.apache.org/ant</a>. In the templatemaker directory, type:</p>
+<pre>ant -Djdevhome=<i>location_of_jdev</i> all</pre>
+<p>Replace <code><i>location_of_jdev</i></code> with the path to a JDeveloper 
+  installation.</p>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

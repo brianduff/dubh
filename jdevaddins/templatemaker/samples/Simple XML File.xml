@@ -1,0 +1,20 @@
+#*
+(This is a Velocity comment, and will not appear in the output file)
+
+A sample Velocity template that is used to create an XML file with
+the root element the same as its file name. Not particularly useful,
+but just to show that templates can be used for all file types, not
+just java files.
+
+Author: Brian.Duff@oracle.com
+*#
+<?xml version = '1.0' encoding = 'windows-1252'?>
+
+<!-- ${oracleide.destination.name} -->
+
+<!-- The root ${oracleide.destination.nameWithoutExtension} element. -->
+<${oracleide.destination.nameWithoutExtension}>
+  
+  <child attribute="" />
+  
+</${oracleide.destination.nameWithoutExtension}>

@@ -1,0 +1,5 @@
+AddinCount: 1
+Addin0: oracle.jdevimpl.templatemaker.TemplateMaker
+
+
+

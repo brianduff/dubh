@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>Project Instructions</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+    
+<h1>ToolManager Project Information</h1>
+
+    <blockquote>
+      
+  <p>This document presents an overview of the ToolManager project and the various 
+    files involved, their purpose and other special notes. Download the JDeveloper 
+    project <a href="../toolmanager.zip">toolmanager.zip</a>.</p>
+
+      <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfTheProject">Overview of the project</a></li>
+  <li><a href="#TheFilesOfThisProject">The files of this project</a></li>
+  <li><a href="#Building">Building this project</a></li>
+</ul>
+
+    <h3><a id="OverviewOfTheProject"
+    name="OverviewOfTheProject"></a> Overview of the project</h3>
+
+    <blockquote>
+      
+  <p>The purpose of this project is to provide a way to easily define menu and 
+    toolbar items in the IDE which invoke external programs.
+  <p>For usage details, see <a
+      href="../UsageInfo/UsageInfo.html">Usage Info</a> page.</p>
+    </blockquote>
+
+    <h3><a id="TheFilesOfThisProject"
+    name="TheFilesOfThisProject"></a>The files of this project</h3>
+
+    <blockquote>
+      <p>This project consists of the following files along with
+      their purpose.</p>
+
+      
+  <table width="85%" border="2" cellspacing="1"
+      cellpadding="2">
+    <tr> 
+      <td><b>File Name</b></td>
+      <td><b>File Purpose</b></td>
+    </tr>
+    <tr> 
+      <td>toolmanager.jpr</td>
+      <td>The JDeveloper Project file.</td>
+    </tr>
+    <tr>
+      <td>build.xml</td>
+      <td>Ant buildfile for the toolmanager project. Information on building with 
+        Ant is <a href="#Building">below</a>.</td>
+    </tr>
+    <tr> 
+      <td>ProjectInfo.html</td>
+      <td>The document you're currently reading</td>
+    </tr>
+    <tr> 
+      <td>ToolManager.java</td>
+      <td> This file is the addin, which creates the Edit Tools... menu item. 
+        It is also responsible for loading and saving the tool definitions and 
+        creating menu and toolbar items for them at IDE startup.</td>
+    </tr>
+    <tr> 
+      <td>ToolArgument.java</td>
+      <td> 
+        <p>An interface that describes a type of argument that can be passed in 
+          to external programs when invoked from the Tools menu.</p>
+        <p>For more information on writing new argument types, see the <a href="#ExtendingToolManager">Extending 
+          the ToolManager</a> section below.</p>
+      </td>
+    </tr>
+    <tr> 
+      <td>ToolPanel.java</td>
+      <td>The user interface for the Edit Tools dialog</td>
+    </tr>
+    <tr> 
+      <td>tool.gif</td>
+      <td>The default toolbar icon for new tools.</td>
+    </tr>
+    <tr> 
+      <td>argument package</td>
+      <td>The files in the oracle.jdevimpl.toolmanager.argument package are implementations 
+        of ToolArgument which come with the addin. These can be used as examples 
+        for writing new argument types. See the <a href="#ExtendingToolManager">Extending 
+        the ToolManager</a> section below</td>
+    </tr>
+    <tr> 
+      <td>manifest.mf</td>
+      <td> The manifest to be associated with the delivered jar-file, that contains 
+        all the instruction for the auto-loader. </td>
+    </tr>
+  </table>
+    </blockquote>
+		
+<h3><a name="ExtendingToolManager"></a>Extending the ToolManager</h3>
+<p>The ToolManager contains a number of predefined argument types in the argument 
+  package. These argument types appear in the Edit Tools dialog when you add an 
+  argument or select the dropdown beside the &quot;Run in Directory&quot; field.</p>
+<p>The available argument types can easily be extended by implementing the <code>ToolArgument</code> 
+  interface and registering your argument type with the <code>ToolArgumentRegistry</code>. 
+  You can do this in the <code>initialize()</code> method of an addin, provided 
+  the addin is loaded after the ToolManager.</p>
+<pre>ToolArgument myArgument = new MyArgumentClass();<br>ToolManager.getArgumentRegistry().register( myArgument );
+</pre>
+<h3><a name="Building"></a>Building this project</h3>
+<p>To build this project in the JDeveloper IDE, simply open toolmanager.jpr and 
+  compile it using the Build menu item.</p>
+<p>To build this project using Ant, download and install Ant from<a href="http://jakarta.apache.org/ant"> 
+  http://jakarta.apache.org/ant</a>. In the toolmanager directory, type:</p>
+<pre>ant -Djdevhome=<i>location_of_jdev</i> all</pre>
+<p>Replace <code><i>location_of_jdev</i></code> with the path to a JDeveloper 
+  installation.</p>
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

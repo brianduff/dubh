@@ -1,0 +1,135 @@
+<title>Regular Expression Syntax</title>
+<p>&nbsp; 
+<pre>
+
+ <b><font face=times roman>Characters</font></b>
+<br>
+
+    <i>unicodeChar</i>          Matches any identical unicode character
+    \                    Used to quote a meta-character (like '*')
+    \\                   Matches a single '\' character
+    \0nnn                Matches a given octal character
+    \xhh                 Matches a given 8-bit hexadecimal character
+    \\uhhhh               Matches a given 16-bit hexadecimal character
+    \t                   Matches an ASCII tab character
+    \n                   Matches an ASCII newline character
+    \r                   Matches an ASCII return character
+    \f                   Matches an ASCII form feed character
+
+ <br>
+
+  <b><font face=times roman>Character Classes</font></b>
+
+ <br>
+
+    [abc]                Simple character class
+    [a-zA-Z]             Character class with ranges
+    [^abc]               Negated character class
+
+ <br>
+
+  <b><font face=times roman>Standard POSIX Character Classes</font></b>
+
+ <br>
+
+    [:alnum:]            Alphanumeric characters. 
+    [:alpha:]            Alphabetic characters. 
+    [:blank:]            Space and tab characters. 
+    [:cntrl:]            Control characters. 
+    [:digit:]            Numeric characters. 
+    [:graph:]            Characters that are printable and are also visible. (A space is printable, but not visible, while an `a' is both.) 
+    [:lower:]            Lower-case alphabetic characters. 
+    [:print:]            Printable characters (characters that are not control characters.) 
+    [:punct:]            Punctuation characters (characters that are not letter, digits, control characters, or space characters). 
+    [:space:]            Space characters (such as space, tab, and formfeed, to name a few). 
+    [:upper:]            Upper-case alphabetic characters. 
+    [:xdigit:]           Characters that are hexadecimal digits.
+         
+ <br>
+
+  <b><font face=times roman>Non-standard POSIX-style Character Classes</font></b>
+
+ <br>
+
+    [:javastart:]        Start of a Java identifier
+    [:javapart:]         Part of a Java identifier
+
+ <br>
+         
+  <b><font face=times roman>Predefined Classes</font></b>
+
+ <br>
+
+    .                    Matches any character other than newline
+    \w                   Matches a "word" character (alphanumeric plus "_")
+    \W                   Matches a non-word character
+    \s                   Matches a whitespace character
+    \S                   Matches a non-whitespace character
+    \d                   Matches a digit character
+    \D                   Matches a non-digit character
+
+ <br>
+
+  <b><font face=times roman>Boundary Matchers</font></b>
+
+ <br>
+
+    ^                    Matches only at the beginning of a line
+    $                    Matches only at the end of a line
+    \b                   Matches only at a word boundary
+    \B                   Matches only at a non-word boundary
+
+ <br>
+
+  <b><font face=times roman>Greedy Closures</font></b>
+
+ <br>
+
+    A*                   Matches A 0 or more times (greedy)
+    A+                   Matches A 1 or more times (greedy)
+    A?                   Matches A 1 or 0 times (greedy)
+    A{n}                 Matches A exactly n times (greedy)
+    A{n,}                Matches A at least n times (greedy)
+    A{n,m}               Matches A at least n but not more than m times (greedy)
+
+ <br>
+
+  <b><font face=times roman>Reluctant Closures</font></b>
+
+ <br>
+
+    A*?                  Matches A 0 or more times (reluctant)
+    A+?                  Matches A 1 or more times (reluctant)
+    A??                  Matches A 0 or 1 times (reluctant)
+
+ <br>
+
+  <b><font face=times roman>Logical Operators</font></b>
+
+ <br>
+
+    AB                   Matches A followed by B
+    A|B                  Matches either A or B
+    (A)                  Used for subexpression grouping
+
+ <br>
+
+  <b><font face=times roman>Backreferences</font></b>
+
+ <br>
+
+    \1                   Backreference to 1st parenthesized subexpression
+    \2                   Backreference to 2nd parenthesized subexpression
+    \3                   Backreference to 3rd parenthesized subexpression
+    \4                   Backreference to 4th parenthesized subexpression
+    \5                   Backreference to 5th parenthesized subexpression
+    \6                   Backreference to 6th parenthesized subexpression
+    \7                   Backreference to 7th parenthesized subexpression
+    \8                   Backreference to 8th parenthesized subexpression
+    \9                   Backreference to 9th parenthesized subexpression
+
+ <br>
+
+ </pre>
+
+ <p>

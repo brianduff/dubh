@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='windows-1252'?>
+
+<!-- Ant buildfile for building the dubh-console -->
+<!-- Author: Brian.Duff@dubh.org -->
+
+<project name="dubh-console" basedir="." default="src">
+
+  <target name="init">
+
+
+    <property name="projectname" value="dubh-console" />
+  
+    <property name="srcdir" value="src" />
+    <property name="classdir" value="class" />
+
+    <property name="copypatterns" value="**/*.gif,**/*.png" />
+    <property name="jarfile" value="${projectname}.jar" />
+
+  </target>
+
+  <!-- Copy files from the source path to the output path -->
+  <target name="copyfiles" depends="init">
+    <copy todir="${classdir}">
+      <fileset dir="${srcdir}" includes="${copypatterns}" />
+    </copy>
+  </target>
+
+  <!-- Compile the code -->
+  <target name="src" depends="copyfiles">
+
+  
+    <mkdir dir="${classdir}" />
+    <javac  srcdir="${srcdir}"
+            destdir="${classdir}"
+            deprecation="true" >
+    </javac>
+  </target>
+
+  <!-- Create the jar file -->
+  <target name="jar" depends="src">
+    <jar jarfile="${jarfile}" basedir="${classdir}" compress="true" />
+  </target>
+
+
+
+
+  <!-- Cleans up all files created by targets in the build file -->
+  <target name="clean" depends="init">
+    <delete dir="${classdir}" />
+    <delete file="${jarfile}" />
+  </target>
+
+  <!-- Make all -->
+  <target name="all" depends="jar" />
+
+</project>

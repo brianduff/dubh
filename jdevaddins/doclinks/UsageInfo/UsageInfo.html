@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+
+    <title>DocLinks Usage Information</title>
+    <link rel="stylesheet" href="../../../../jdeveloper.css"
+    type="text/css" />
+<script type="html" language="JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+</script>
+	<script language="javaScript">
+	function isViewletCompliant()
+	{
+		answer=true;
+		version=Math.round(parseFloat(navigator.appVersion) * 1000);
+		if (navigator.appName.substring(0,9) == "Microsoft")
+		{
+			if(version<4000)
+				answer=false;
+		}
+		if (navigator.appName.substring(0,8) == "Netscape")
+		{
+			if ((navigator.appVersion.indexOf("Mac")> 0) && (version<5000))
+				answer=false;
+			else if (version<4060)
+				answer=false;
+		}
+		plugins=navigator.plugins;
+		if (answer==false && plugins!=null)
+		{
+			for(i=0;i!=plugins.length;i++)
+				if((plugins[i].name.indexOf("Java Plug-in")>=0) && (plugins[i].name.indexOf("1.0")<0))
+					answer=true;
+		}
+		return answer;
+	}
+	function openViewlet(htmlFile,htmlWidth,htmlHeight)
+	{
+		str = 'resizable=0,toolbar=0,menubar=0,';
+		str = str + 'scrollbars=0,status=0,location=0,directory=0,width=350,height=200';
+		if(!isViewletCompliant())
+		{
+			open("http://www.qarbon.com/warning/index.html",'Leelou',str);
+		}
+		else
+		{
+// 	  alert("Opening " + htmlFile);
+			window.open(htmlFile,'Leelou','width='+htmlWidth+',height='+htmlHeight+',top=10,left=20');
+		}
+	}
+	</script>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+<h1>DocLinks Usage Information</h1>
+
+    
+<blockquote> 
+  <p>DocLinks adds a &quot;Javadoc&quot; node to the IDE navigator from which 
+    you can access the Javadoc of all libraries and JDKs available in the IDE. 
+  </p>
+  <p><a href="../index.html">[back to home page]</a></p>
+    </blockquote>
+
+    <h3>Content</h3>
+
+    
+<ul>
+  <li><a href="#OverviewOfThisTool">Overview of this Tool</a></li>
+</ul>
+
+    
+<h3><a id="OverviewOfThisTool" name="OverviewOfThisTool"></a> Overview of this 
+  Tool</h3>
+<blockquote> 
+  <p>On startup, you should see the Javadoc node in the JDeveloper navigator. 
+    If you expand this, you will see all library definitions and JDKs available 
+    in the IDE which have a doc path defined:</p>
+  <p><img src="doclinks.gif" width="301" height="367"> </p>
+  <p>You can double click any entry to see the javadoc for that doclink.
+</blockquote>
+
+    
+<hr />
+
+    <blockquote>
+      <p>For more info, please see JDeveloper's Online help<br />
+       For more samples, please visit the <a
+      href="http://otn.oracle.com">Oracle Technology Network
+      (OTN)</a></p>
+    </blockquote>
+  </body>
+</html>
+

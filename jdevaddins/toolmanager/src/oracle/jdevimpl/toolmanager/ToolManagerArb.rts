@@ -1,0 +1,158 @@
+# ***** BEGIN LICENSE BLOCK *****
+# Version: MPL 1.1
+#
+# The contents of this file are subject to the Mozilla Public License Version
+# 1.1 (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+# http://www.mozilla.org/MPL/
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+# The Original Code is Oracle9i JDeveloper release 9.0.3
+#
+# The Initial Developer of the Original Code is
+# Brian Duff (Brian.Duff@oracle.com).
+# Portions created by the Initial Developer are Copyright (C) 2002
+# the Initial Developer. All Rights Reserved.
+#
+# Contributor(s):
+#
+# ***** END LICENSE BLOCK ***** 
+
+
+UNTITLED_TOOL=(untitled)
+
+EXCEPTION_READING=Exception occurred while reading {0}
+EXCEPTION_SAVING=Exception occurred while saving {0}
+
+EDIT_TOOLS_MENU_TITLE=Edit Tools...
+EDIT_TOOLS_MENU_MNEMONIC=E
+
+EDIT_TOOLS_DIALOG_TITLE=Edit Tools
+
+MUST_PROVIDE_A_CAPTION=A menu caption must be provided for each tool
+MUST_SPECIFY_AN_EXEC=An executable must be specified for the {0} tool
+BAD_RUN_DIRECTORY=The run directory specified for the {0} tool does not exist or is not a directory. Specify a valid run directory or leave blank to use the current directory.
+DUPLICATE_CAPTIONS=Two or more tools have the same caption ''{0}''. Each tool must have a different menu caption.
+
+TOOLS_LABEL=Tools:
+TOOLS_MNEMONIC=T
+MENU_CAPTION_LABEL=Menu Caption (use & for mnemonic):
+MENU_CAPTION_MNEMONIC=M
+EXECUTABLE_LABEL=Executable:
+EXECUTABLE_MNEMONIC=E
+RUN_IN_DIRECTORY_LABEL=Run in Directory:
+RUN_IN_DIRECTORY_MNEMONIC=R
+ARGUMENTS_LABEL=Arguments:
+ARGUMENTS_MNEMONIC=A
+BROWSE_EXECUTABLE_LABEL=Browse...
+BROWSE_EXECUTABLE_MNEMONIC=B
+BROWSE_DIRECTORY_LABEL=Browse...
+BROWSE_DIRECTORY_MNEMONIC=o
+MOVE_ARG_UP_TOOLTIP=Move the selected argument up
+MOVE_ARG_DOWN_TOOLTIP=Move the selected argument down
+MOVE_TOOL_UP_TOOLTIP=Move the selected tool up
+MOVE_TOOL_DOWN_TOOLTIP=Move the selected tool down
+REMOVE_TOOL_LABEL=Remove
+ADD_TOOL_LABEL=Add
+ADD_ARG_LABEL=Add...
+REMOVE_ARG_LABEL=Remove
+ADD_TEXT_ARG_LABEL=Add Text...
+
+CHOOSE_EXECUTABLE_TITLE=Select an Executable
+CHOOSE_DIRECTORY_TITLE=Select a Run Directory
+
+TEXT_ARGUMENT_DIALOG_TITLE=Tool Text Argument
+TEXT_ARGUMENT_LABEL=Enter the text argument:
+TEXT_ARGUMENT_LABEL_MNEMONIC=E
+INSERT_BUTTON_LABEL=Insert
+INSERT_BUTTON_MNEMONIC=I
+
+TOOL_ARGUMENT_DIALOG_TITLE=Tool Argument
+
+NEW_TOOL_TITLE_TEMPLATE=Untitled Tool {0}
+
+# The arguments
+
+DEFAULT_SOURCEPATH_NAME=Default project sourcepath
+DEFAULT_SOURCEPATH_DESCRIPTION=The first sourcepath component for the current project context (the default location of new classes in JDeveloper)
+FILE_NAME_NAME=File name
+FILE_NAME_DESCRIPTION=The file name of the selected node (e.g. "MyFile.java")
+FILE_NAME_NO_EXTENSION_NAME=File name without extension
+FILE_NAME_NO_EXTENSION_DESCRIPTION=The file name of the selected node without its extension if any (e.g. "MyFile")
+FULL_CLASS_NAME_NAME=Full class name
+FULL_CLASS_NAME_DESCRIPTION=For java and jsp nodes, the fully qualified class name, including the package (e.g. "oracle.jdeveloper.tool.MyClass")
+FULL_URL_NAME=URL
+FULL_URL_DESCRIPTION=The full URL of the selected node (e.g. "http://my.org/dav/file.txt")
+OUTPUT_DIRECTORY_NAME=Project output directory
+OUTPUT_DIRECTORY_DESCRIPTION=The output directory of the active configuration in the current project context
+PACKAGE_NAME_NAME=Package name
+PACKAGE_NAME_DESCRIPTION=For java and jsp nodes, the full package name of the class (e.g. "oracle.jdeveloper.tool")
+PATH_NAME=File path
+PATH_DESCRIPTION=The full absolute path of the selected node (e.g. "/usr/home/smith/myfile.txt")
+PROJECT_CLASSPATH_NAME=Project classpath
+PROJECT_CLASSPATH_DESCRIPTION=The full classpath of the current project context
+PROJECT_HTML_ROOT_NAME=Project HTML root
+PROJECT_HTML_ROOT_DESCRIPTION=The HTML root directory of the current project context
+PROJECT_SOURCEPATH_NAME=Full project sourcepath
+PROJECT_SOURCEPATH_DESCRIPTION=The full sourcepath of the current project context, which includes the sourcepath of any libraries
+PROMPT_NAME=Prompt
+PROMPT_DESCRIPTION=A prompt will appear requesting a value for this argument when the tool is run
+
+PROMPT_DIALOG_LABEL_TEXT=Tool Argument Value:
+PROMPT_DIALOG_LABEL_MNEMONIC=T
+PROMPT_DIALOG_TITLE=Invoke Tool
+
+IDE_INSTALL_DIR_NAME=IDE install directory
+IDE_INSTALL_DIR_DESCRIPTION=The directory in which the IDE is installed
+
+DETAILS_PANEL_TITLE=Details
+DISPLAY_PANEL_TITLE=Display
+INVOCATION_PANEL_TITLE=Invocation
+ENABLEMENT_PANEL_TITLE=Enablement
+
+
+# Display Panel
+ICON_LOCATION_LABEL=Icon Location:
+ICON_LOCATION_MNEMONIC=I
+BROWSE_ICON_BUTTON_LABEL=Browse...
+BROWSE_ICON_MNEMONIC=B
+TOOLTIP_LABEL=ToolTip Text:
+TOOLTIP_MNEMONIC=T
+MENU_MNEMONIC_LABEL=Menu Mnemonic:
+MENU_MNEMONIC_MNEMONIC=M
+PREVIEW_LABEL=Preview:
+PREVIEW_MNEMONIC=P
+
+BAD_ICON_URL=The icon specified for the {0} tool could not be read. A valid readable icon should be provided, or leave the field blank for no icon.
+CHOOSE_ICON_LOCATION=Choose Tool Icon
+
+# Invocation panel
+
+MUST_SELECT_A_DISPLAY=No invocation method is selected for the {0} tool. At least one item must be selected.
+WHERE_INVOKE_FROM_LABEL=Choose where this tool can be invoked from
+TOOLS_MENU_CHECKBOX_LABEL=Tools Menu
+TOOLS_MENU_CHECKBOX_MNEMONIC=T
+NAV_CTX_CHECKBOX_LABEL=Navigator Context Menu
+NAV_CTX_CHECKBOX_MNEMONIC=N
+CODE_CTX_CHECKBOX_LABEL=Code Editor Context Menu
+CODE_CTX_CHECKBOX_MNEMONIC=C
+TOOLBAR_CHECKBOX_LABEL=Toolbar
+TOOLBAR_CHECKBOX_MNEMONIC=o
+
+
+# Enablement panel
+
+MUST_ENTER_A_REGEXP=The enablement for the {0} tool is set to use a regular expression. A regular expression must be provided for this tool
+BAD_REGEXP=The regular expression provided for the {0} tool is invalid:\n\n{1}
+
+CHOOSE_WHEN_ENABLED_LABEL=Choose when this tool is enabled
+ALWAYS_RADIO_LABEL=Always
+ALWAYS_RADIO_MNEMONIC=A
+ACTIVE_NODE_RADIO_LABEL=When a node is selected or editor is active
+ACTIVE_NODE_RADIO_MNEMONIC=n
+REGEXP_RADIO_LABEL=When selected filename matches regular expression:
+REGEXP_RADIO_MNEMONIC=r
