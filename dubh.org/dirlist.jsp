@@ -21,7 +21,7 @@
 <p>
 
 
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="5" >
   <tr>
     <td />
     <th align="left">Date</th>
@@ -59,7 +59,7 @@
   java.io.File f = children[i];
   long length = f.length();
 
-  String color = (i % 2 == 0) ? "#D7D5FD" : "#000000";
+  String color = (i % 2 == 0) ? "#D7D5FD" : "#FFFFFF";
   
   %>
   <tr bgcolor="<%= color %>">
