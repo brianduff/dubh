@@ -6,14 +6,14 @@ public class OutStream
   OutputStream output;
   byte[] outData = new byte[ 16000 ];
   int outPtr = 3;
-  public OutStream( OutputStream anOutput ) 
+  public OutStream( OutputStream anOutput )
   {
     output = anOutput;
   }
   public void writeBitString( boolean[] bs )
   {
-    
-  
+
+
   // TODO> Whew. pointer arithmetic. ouch.
   }
   public void writeInt( int i )
@@ -61,9 +61,9 @@ public class OutStream
   }
   public void writeCityMap( char[] str )
   {
-    final int index[] = 
+    final int index[] =
     {
-      1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 
+      1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17,
       18, 19, 21, 22, 23
     };
     for( int i = 0;i < 20;i += 5 )
@@ -95,6 +95,7 @@ public class OutStream
     }
   }
 
+
   public void close()
   {
     try
@@ -105,5 +106,6 @@ public class OutStream
     {
       // Ignore for now
     }
-  }  
+  }
+
 }
