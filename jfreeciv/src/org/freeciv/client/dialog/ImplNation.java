@@ -7,10 +7,13 @@ import java.awt.event.*;
 import java.util.*;
 import java.text.Collator;
 import org.freeciv.client.*;
-import org.freeciv.net.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.action.*;
 import org.freeciv.client.ui.util.*;
+
+import org.freeciv.common.CityStyle;
+import org.freeciv.common.Nation;
+
 //
 // TODO:
 //
@@ -34,18 +37,20 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   private ActionButton m_butDisconnect;
   private ActionButton m_butQuit;
   private ArrayList m_alNationButtons = new ArrayList();
-  private JRadioButton m_rbMale = new JRadioButton( _( "Male" ) ), m_rbFemale = new JRadioButton( _( "Female" ) );
+  private JRadioButton m_rbMale = new JRadioButton( _( "Male" ) ), 
+    m_rbFemale = new JRadioButton( _( "Female" ) );
   private JList m_nations;
   private JRadioButton[] m_arbCityStyles;
   private ButtonGroup m_bgSex = new ButtonGroup();
   private ButtonGroup m_bgCityStyle = new ButtonGroup();
   private boolean bFullyInitialized;
-  private RulesetManager m_rs;
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
   private boolean m_bNameAltered;
   private boolean m_bJustSelectedALeader;
+  private NationLeaderPopulator m_nlp = new NationLeaderPopulator();
+    
   public ImplNation( DialogManager mgr, Client c ) 
   {
     m_client = c;
@@ -56,6 +61,12 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     setupButtonPanel();
     m_dlgManager = mgr;
   }
+
+  private Client getClient()
+  {
+    return m_client;
+  }
+  
   private void setupButtonPanel()
   {
     m_butDisconnect = new ActionButton( m_client.getAction( "ACTDisconnect" ) );
@@ -66,6 +77,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     m_panButtons.add( m_butQuit );
     this.addRow( m_panButtons );
   }
+  
   private void setupNationPanel()
   {
     m_panNation.setBorder( BorderFactory.createTitledBorder( _( "Select nation and name" ) ) );
@@ -97,6 +109,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     } );
     this.addSpacerRow( m_panNation );
   }
+  
   private void setupSexPanel()
   {
     m_panSex.setBorder( BorderFactory.createTitledBorder( _( "Select your sex" ) ) );
@@ -108,29 +121,35 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     m_rbMale.setSelected( true );
     this.addRow( m_panSex );
   }
+  
   private void setupCityStylePanel()
   {
     m_panCityStyle.setBorder( BorderFactory.createTitledBorder( _( "Select your city style" ) ) );
     this.addRow( m_panCityStyle );
   }
+  
   private void addNations()
   {
     m_nations.setModel( new NationListModel() );
     selectInitialNation();
   }
+  
   private void addCityStyles()
   {
     m_panCityStyle.setLayout( new GridLayout() );
     int b_s_num;
     ArrayList alCityStyles = new ArrayList();
-    for( int i = 0;i < m_rs.getRulesetControl().style_count;i++ )
+    for( int i = 0; i < m_client.getGame().getCityStyleCount(); i++ )
     {
       //System.out.println("Tech req of city style "+i+" is "+
       //   m_rs.getRulesetCity(i).techreq+" require "+A_NONE
       //);
-      if( m_rs.getRulesetCity( i ).techreq == A_NONE )
+      CityStyle cs = (CityStyle)
+        getClient().getFactories().getCityStyleFactory().findById( i );
+        
+      if( !cs.isAdvanceRequired() )
       {
-        alCityStyles.add( m_rs.getRulesetCity( i ).name );
+        alCityStyles.add( cs.getName() );
       }
     }
     m_arbCityStyles = new JRadioButton[ alCityStyles.size() ];
@@ -146,6 +165,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       m_panCityStyle.add( rb );
     }
   }
+  
   private void init()
   {
     if( !bFullyInitialized )
@@ -155,6 +175,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       bFullyInitialized = true;
     }
   }
+  
   /**
    * Selects the specified nation
    *
@@ -164,8 +185,8 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   {
     for( int i = 0;i < m_nations.getModel().getSize();i++ )
     {
-      PktRulesetNation n = (PktRulesetNation)m_nations.getModel().getElementAt( i );
-      if( num == n.id )
+      Nation n = (Nation)m_nations.getModel().getElementAt( i );
+      if( num == n.getId() )
       {
         m_nations.setSelectedIndex( i );
         return ;
@@ -173,6 +194,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     }
     throw new IllegalArgumentException( "Tried to select nation with id " + num + " but it's not in the list" );
   }
+  
   private void selectInitialNation()
   {
     // Some suggestion on freeciv-dev that this should be random.
@@ -181,18 +203,20 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     // us which one to choose. Will fix this one day.
     m_nations.setSelectedIndex( 0 );
   }
+  
   /**
    * Get the id of the selected nation
    */
   private int getSelectedNation()
   {
-    PktRulesetNation nation = (PktRulesetNation)m_nations.getSelectedValue();
+    Nation nation = (Nation)m_nations.getSelectedValue();
     if( nation == null )
     {
       return -1;
     }
-    return nation.id;
+    return nation.getId();
   }
+  
   private int getSelectedCityStyle()
   {
     for( int i = 0;i < m_arbCityStyles.length;i++ )
@@ -204,7 +228,9 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     }
     return -1;
   }
-  private NationLeaderPopulator m_nlp = new NationLeaderPopulator();
+
+  
+
   class NationLeaderPopulator implements ListSelectionListener
   {
     public void valueChanged( ListSelectionEvent e )
@@ -216,23 +242,24 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
         return ;
       }
       // Now get the leader names for the selected nation.
-      PktRulesetNation nation = (PktRulesetNation)m_nations.getSelectedValue();
+      Nation nation = (Nation)m_nations.getSelectedValue();
       if( nation == null )
       {
         return ;
       }
-      int leaderCount = nation.leader_count;
+      int leaderCount = nation.getLeaderCount();
       m_cmbLeaderName.removeAllItems();
       for( int i = 0;i < leaderCount;i++ )
       {
         LeaderItem li = new LeaderItem();
-        li.name = nation.leader_name[ i ];
-        li.is_male = nation.leader_sex[ i ];
+        li.name = nation.getLeaderName( i );
+        li.is_male = nation.isLeaderMale( i );
         m_cmbLeaderName.addItem( li );
       }
       m_bNameAltered = false;
     }
   }
+  
   class LeaderItem
   {
     public String name;
@@ -242,6 +269,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       return name;
     }
   }
+  
   public class LeaderNameComboListener implements ActionListener
   {
     public void actionPerformed( ActionEvent e )
@@ -260,6 +288,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       }
     }
   }
+  
   // DlgNation interface
   class TogglerRunnable implements Runnable
   {
@@ -273,14 +302,14 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     {
       int i, selected, mybits;
       mybits = bits1;
-      for( i = 0;i < m_rs.getRulesetControl().playable_nation_count && i < 32;i++ )
+      for( i = 0;i < m_client.getGame().getPlayableNationCount() && i < 32;i++ )
       {
         boolean enabled = ( ( mybits & 1 ) == 0 );
         ( (NationListModel)m_nations.getModel() ).setNationEnabled( i, enabled );
         mybits >>= 1;
       }
       mybits = bits2;
-      for( i = 32;i < m_rs.getRulesetControl().playable_nation_count;i++ )
+      for( i = 32; i < m_client.getGame().getPlayableNationCount(); i++ )
       {
         boolean enabled = ( ( mybits & 1 ) == 0 );
         ( (NationListModel)m_nations.getModel() ).setNationEnabled( i, enabled );
@@ -296,13 +325,14 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       }
     }
   }
+  
   public void toggleAvailableRaces( int bits1, int bits2 )
   {
     SwingUtilities.invokeLater( new TogglerRunnable( bits1, bits2 ) );
   }
+  
   public void display()
   {
-    m_rs = m_client.getRulesetManager();
     init();
     JDialog dlg = new JDialog( m_client, _( "Choose Race" ), true );
     dlg.getContentPane().setLayout( new BorderLayout() );
@@ -311,26 +341,32 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     m_butOK.addActionListener( ACTSendAllocNation.getInstance( m_client ) );
     m_dlgManager.showDialog( m_dialog );
   }
+  
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
+  
   public int getNation()
   {
     return getSelectedNation();
   }
+  
   public String getLeaderName()
   {
     return m_cmbLeaderName.getSelectedItem().toString();
   }
+  
   public boolean isLeaderMale()
   {
     return m_rbMale.isSelected();
   }
+  
   public int getCityStyle()
   {
     return getSelectedCityStyle();
   }
+  
   /**
    * The datamodel for the list of nations. This alphabeticizes the list
    */
@@ -340,11 +376,13 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     public NationListModel() 
     {
       m_sortedList = new ArrayList();
-      for( int i = 0;i < m_rs.getRulesetControl().playable_nation_count;i++ )
+      for( int i = 0; i < getClient().getGame().getPlayableNationCount(); i++ )
       {
-        m_sortedList.add( m_rs.getRulesetNation( i ) );
+        m_sortedList.add( 
+          getClient().getFactories().getNationFactory().findById(i)
+        );
       }
-      Collections.sort( m_sortedList, new RulesetNationComparator() );
+      Collections.sort( m_sortedList, new NationComparator() );
     }
     public Object getElementAt( int index )
     {
@@ -354,6 +392,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     {
       return m_sortedList.size();
     }
+    
     /**
      * Enables or disables a nation. Actually physically removes or re-inserts
      * the nation into the list.
@@ -363,7 +402,9 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
      */
     public void setNationEnabled( int nationId, boolean isEnabled )
     {
-      PktRulesetNation n = m_rs.getRulesetNation( nationId );
+      Nation n = (Nation)
+        getClient().getFactories().getNationFactory().findById(nationId);
+
       boolean alreadyThere = m_sortedList.contains( n );
       if( isEnabled )
       {
@@ -388,7 +429,8 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
         }
       }
     }
-    private int getNationIndex( PktRulesetNation n )
+    
+    private int getNationIndex( Nation n )
     {
       for( int i = 0;i < m_sortedList.size();i++ )
       {
@@ -400,20 +442,23 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
       throw new IllegalArgumentException( "Nation " + n + " is not in the list" );
     }
   }
+  
   /**
    * Used to sort the list of nations alphabetically
    */
-  private class RulesetNationComparator implements Comparator
+  private class NationComparator implements Comparator
   {
     public int compare( Object o1, Object o2 )
     {
-      return Collator.getInstance().compare( ( (PktRulesetNation)o1 ).name, ( (PktRulesetNation)o2 ).name );
+      return Collator.getInstance().compare( ( (Nation)o1 ).getName(), ( (Nation)o2 ).getName() );
     }
+    
     public boolean equals( Object obj )
     {
-      return ( obj instanceof RulesetNationComparator );
+      return ( obj instanceof NationComparator );
     }
   }
+  
   /**
    * Renders the cells in the nation list
    */
@@ -422,11 +467,12 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
     {
       Component c = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-      setText( ( (PktRulesetNation)value ).name );
+      setText( ( (Nation)value ).getName() );
       // TODO: Flag icon?
       return c;
     }
   }
+  
   // localization
   private static String _( String txt )
   {
