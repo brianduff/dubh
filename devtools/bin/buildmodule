@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Runs the Jakarta ANT tool to build a specified module.
+#
+# Params:
+#   1 The module name
+#   2 The build target
+#
+
+BUILD_DIR=~admin/build
+EXTRA_CLASSPATH=devtools/lib/devtools-1.0.jar
+ANT_HOME=/usr/local/javalib-distrib/jakarta-ant
+ANT_MAIN=org.apache.tools.ant.Main
+
+#ANT_OPTIONS="-logfile $1.build.log"
+
+cd $BUILD_DIR
+rm -rf $1
+cvs -d /usr/local/cvsroot checkout $1/build.xml
+CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
+java -Dant.home=$ANT_HOME $ANT_MAIN $ANT_OPTIONS -buildfile $1/build.xml $2
+
+# TODO: add logging etc.
