@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.9 1999-11-09 22:34:40 briand Exp $
+//   $Id: NewsAgent.java,v 1.10 1999-12-12 03:04:57 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -43,7 +43,7 @@ import org.javalobby.dju.ui.*;
  *
  * @author Brian Duff
  * @see org.javalobby.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.9 1999-11-09 22:34:40 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.10 1999-12-12 03:04:57 briand Exp $
  */
  public class NewsAgent {
 
@@ -54,7 +54,7 @@ import org.javalobby.dju.ui.*;
    private static final String DEBUG_CONSOLE = "NewsAgent Debug Console";   
    private static final String DEBUG_NETID = "debugnet";
    private static final String DEBUG_NET = "NewsAgent Network Debug Console";
-   private static final String SPLASH_IMAGE = "dubh/apps/newsagent/images/splash.gif";   
+   private static final String SPLASH_IMAGE = "org/javalobby/apps/newsagent/images/splash.gif";
 
    /** Whether the user specified -debug on the command line */
    public static boolean flagDebug;
@@ -253,6 +253,9 @@ import org.javalobby.dju.ui.*;
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.8  1999/11/09 22:04:57  briand
 // Moved to Javalobby.
 //
