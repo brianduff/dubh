@@ -21,7 +21,7 @@
 <p>
 
 
-<table border="0" cellpadding="5" >
+<table border="0" cellpadding="4" cellspacing="0" >
   <tr>
     <td />
     <th align="left">Date</th>
@@ -62,17 +62,17 @@
   String color = (i % 2 == 0) ? "#D7D5FD" : "#FFFFFF";
   
   %>
-  <tr bgcolor="<%= color %>">
+  <tr>
 
   <td><img src="/images/document.png" alt="*" /></td>
 
-  <td>
+  <td bgcolor="<%= color %>">
   <a href="<%=f.getName() %>">
   <%= new Date(f.lastModified()).toString() %>
   </a>
   </td>
 
-  <td>
+  <td bgcolor="<%= color %>">
   <% if ( length > 1024 * 1024 ) { %>
     <%= "" + length / 1024 / 1024 + " MB" %>
   <% } else if ( length > 1024 ) { %>
