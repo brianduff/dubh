@@ -130,13 +130,16 @@ public final class Map implements CommonConstants
     // map_allocate in map.c
     Logger.log( Logger.LOG_DEBUG, "map_allocate ("+getWidth()+", "+getHeight()+")" );
 
-    m_tiles = new Tile[ getWidth() * getHeight() ];
-
-    for (int y = 0; y < getHeight(); y++)
+    synchronized( this )
     {
-      for (int x = 0; x < getWidth(); x++)
+      m_tiles = new Tile[ getWidth() * getHeight() ];
+
+      for (int y = 0; y < getHeight(); y++)
       {
-        m_tiles[ getTileArrayIndex( x, y ) ] = new Tile();
+        for (int x = 0; x < getWidth(); x++)
+        {
+          m_tiles[ getTileArrayIndex( x, y ) ] = new Tile();
+        }
       }
     }
   }
@@ -151,19 +154,22 @@ public final class Map implements CommonConstants
    */
   public Tile getTile( int x, int y )
   {
-    if (m_tiles == null)
+    synchronized( this )
     {
-      throw new IllegalStateException(
-        "Attempt to get tile before Map.allocate() has been called."
-      );
-    }
+      if (m_tiles == null)
+      {
+        throw new IllegalStateException(
+          "Attempt to get tile before Map.allocate() has been called."
+        );
+      }
 
-    if (y < 0 || y > getHeight())
-    {
-      return m_voidTile;
-    }
+      if (y < 0 || y > getHeight())
+      {
+        return m_voidTile;
+      }
 
-    return m_tiles[ getTileArrayIndex( x, y ) ];
+      return m_tiles[ getTileArrayIndex( x, y ) ];
+    }
   }
 
   /**
@@ -172,7 +178,13 @@ public final class Map implements CommonConstants
   public int adjustX( int x )
   {
     // map_adjust_x in map.h
-    return ( (x < 0) ? x + getWidth() : ( (x >= getWidth()) ? x - getWidth() : x ) );
+    return (  (x < 0) ? 
+                ( x % getWidth() != 0 ? 
+                  x % getWidth() + getWidth() : 0 ) :
+                ( x >= getWidth() ?
+                  x % getWidth() :
+                  x )
+    );
   }
 
   public int adjustY( int y )
@@ -213,6 +225,126 @@ public final class Map implements CommonConstants
     }
     return getTile( x, y ).getTerrain();
   }
+
+  /**
+    * This iterates outwards from the starting point (Duh?).
+    *    Every tile within max_dist will show up exactly once. (even takes
+    *     into account wrap). All positions given correspond to real tiles.
+    *    The values given are adjusted.
+    *    You should make sure that the arguments passed to the macro are adjusted,
+    *    or you could have some very nasty intermediate errors.
+    * 
+    * @param startX the start x-coordinate
+    * @param startY the start y-coordinate
+    * @param maxDist the maximum distance to travel out from the starting point
+    *   in any direction
+    *
+    * @return an Iterator, the values of which are MapPosition instances. You
+    *   should not modify the returned MapPosition if you intend to keep 
+    *   iterating.
+    * 
+  */
+  public void iterateOutwards( 
+    int m_startX, int m_startY, int m_maxDist, MapPositionIterator i )
+  {
+
+    // iterate_outward in map.h
+    MapPosition m_mapPos = new MapPosition( m_startX, m_startY );
+
+    int m_x_itr;
+    int m_y_itr;
+
+    int m_max_dx = getWidth() / 2;
+    int m_min_dx = -( m_max_dx - ( (getWidth() % 2 != 0) ? 0 : 1 ) );
+    boolean m_xcycle = true;
+    boolean m_positive = false; 
+    int m_dxy = 0;
+    int m_do_xy;
+
+    while ( m_dxy <= m_maxDist )
+    {
+      for ( m_do_xy = -m_dxy; m_do_xy <= m_dxy; m_do_xy++ )
+      {
+
+        if ( m_xcycle )
+        {
+          m_x_itr = m_startX + m_do_xy;
+          if ( m_positive )
+          {
+            m_y_itr = m_startY  + m_dxy;
+          }
+          else
+          {
+            m_y_itr = m_startY - m_dxy;
+          }
+        }
+        else
+        {
+          if ( m_dxy == m_do_xy || m_dxy == - m_do_xy )
+          {
+            continue;
+          }
+
+          m_y_itr = m_startY + m_do_xy;
+          if ( m_positive )
+          {
+            m_x_itr = m_startX + m_dxy;
+          }
+          else
+          {
+            m_x_itr = m_startX - m_dxy;
+          }
+        }
+
+        if ( m_y_itr < 0  || m_y_itr >= getHeight() )
+        {
+          continue;
+        }
+
+        int dx = m_startX - m_x_itr;
+        if ( dx > m_max_dx || dx < m_min_dx )
+        {
+          continue;
+        }
+
+        if ( m_x_itr >= getWidth() )
+        {
+          m_x_itr -= getWidth();
+        }
+        else if ( m_x_itr < 0 )
+        {
+          m_x_itr += getWidth();
+        }
+
+        if ( i.isFinished() )
+        {
+          return;
+        }
+        else
+        {
+          m_mapPos.x = m_x_itr;
+          m_mapPos.y = m_y_itr;
+          i.iteratePosition( m_mapPos );
+
+          if ( i.isFinished() )
+          {
+            return;
+          }
+        }
+      }
+
+      if ( !m_positive )
+      {
+        if ( !m_xcycle )
+        {
+          m_dxy++;
+        }
+        m_xcycle = !m_xcycle;
+      }
+      m_positive = !m_positive;
+    }
+  }
+ 
 
   
 }
