@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2000-08-20 20:22:45 briand Exp $ -->
+<!-- $Id: build.xml,v 1.2 2000-08-21 00:29:47 briand Exp $ -->
   
 <project name="devtools" default="all" basedir=".">
   <target name="init">
@@ -14,7 +14,7 @@
     <property name="classdir" value="${cvsmodule}/class" />
     <property name="jardir" value="${cvsmodule}/lib" />
     <property name="jarfile" value="${jardir}/${cvsmodule}-${version}.jar" />
-    <property name="cvsroot" value="/usr/local/cvsroot" />
+    <property name="cvsroot" value=":pserver:briand@dubh.org:/usr/local/cvsroot" />
     <property name="classpath" value="${cvsmodule}/lib/ant.jar" />
     <property name="snapshot" value="${cvsmodule}/src.zip" />
     <property name="docdir" value="${cvsmodule}/doc" />    
