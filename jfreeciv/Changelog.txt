@@ -1,3 +1,16 @@
+01.07.02 [bduff]
+
+(I am a lazy git)
+
+Updated Constants.java and net/Pkt*.java to add all missing packets
+and fix protocols for 1.12.cvs
+
+Made the code compile
+
+Made the code capable of connecting (and not much else) to a 1.12
+client compiled from 1 Jul 2001 CVS snapshot.
+
+
 00.04.26 [bduff]
   - Took over as maintainer
 
