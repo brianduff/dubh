@@ -25,7 +25,7 @@ public class PktAllocNation extends AbstractPacket implements org.freeciv.client
 	  super(in);
 	}
 
-	public void send(OutStream out ) throws java.io.IOException
+	public void send(OutStream out) throws java.io.IOException
 	{
 		out.setType( PACKET_ALLOC_NATION );
 		out.writeInt(nation_no);
