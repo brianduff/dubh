@@ -25,6 +25,29 @@ Welcome to Contributor Central.
 
 <h2>News</h2>
 
+<h3>[17 October 1999]: Navigator and Viewer</h3>
+<p>Well, with DMP in a testable (but not entirely complete) state, I've temporarily 
+  switched back to doing stuff for NewsAgent itself again. </p>
+<p>I managed to get the JavaBeans activation framework to use my viewers for text/plain 
+  and text/html content types, but the multipart/mixed one is a bit stuffed for 
+  some reason. Nice to see HTML messages working, you can try this out using the 
+  test harness described in yesterdays &quot;news&quot;. More viewers still need 
+  to be written (e.g. for images).</p>
+<p>Rewrote the message header display control; this should now be usable in either 
+  the viewer or the composer. It also supports pluggable editors, so cusomized 
+  controls can be used to edit or view specific headers (e.g. an LDAP lookup button 
+  for From fields etc.)</p>
+<p>Started work on rewriting the underlying model for the navigator (tree control 
+  on the LHS). The really sexy thing is that it is now customizable, allowing 
+  new services to be added just by editing .properties files (with UI interfaces 
+  to this a possibility). This has been written to tie in with activation and 
+  javamail, so in theory any javamail provider or transport service can be hooked 
+  into the navigator. This means we can now support POP, IMAP and SMTP email using 
+  Sun's providers and transports for those protocols, and of course NNTP using 
+  the DMP provider.</p>
+<p>None of these changes are currently viewable from the main application window. 
+  Until the navigator is working, I don't plan to alter MainFrame, but this should 
+  be in a working state shortly.</p>
 <h3>[16 October 1999]: I'm back!</h3>
 <p>After a long absence, I've started writing code for NewsAgent again. &quot;Real&quot; 
   work has been (and continues to be) quite hectic (we're fast approaching beta), 
