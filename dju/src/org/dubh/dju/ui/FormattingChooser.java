@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: FormattingChooser.java,v 1.5 1999-11-11 21:24:35 briand Exp $
+//   $Id: FormattingChooser.java,v 1.6 2000-08-19 21:16:58 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -39,18 +39,9 @@ import org.javalobby.dju.misc.ResourceManager;
 /**
  * A FormattingChooser is a panel that allows the user to select a font and
  * optionally a foreground colour.<P>
- * <B>Revision History:</B><UL>
- * <LI>0.1 [14/05/98]: Initial Revision
- * <LI>0.2 [07/06/98]: Removed all references to classes in NewsAgent.
- * <LI>0.3 [17/06/98]: Added isEnabled().
- * <LI>0.4 [03/12/98]: Updated to Swing 1.1
- * <LI>0.5 [08/12/98]: Added dialog version
- * <LI>1.0 [12/12/98]: Added NLS support, changed dialog appearance to match
- *   word 97's font dialog (massive internal change; interface should be the
- *   same)
- * </UL>
- * @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
- * @version 1.0 [12/12/98]
+ *
+ * @author Brian Duff
+ * @version $Id: FormattingChooser.java,v 1.6 2000-08-19 21:16:58 briand Exp $
  */
 public class FormattingChooser extends ValidatorPanel implements ValidatorPanel.Validator {
 
@@ -416,7 +407,8 @@ public class FormattingChooser extends ValidatorPanel implements ValidatorPanel.
    
       public FontListModel()
       {
-         m_fonts = Toolkit.getDefaultToolkit().getFontList();
+         m_fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().
+            getAvailableFontFamilyNames();
       }
       
       public int getSize()
@@ -617,3 +609,27 @@ public class FormattingChooser extends ValidatorPanel implements ValidatorPanel.
    }
    
 }
+
+
+
+//
+// Old Revision History:
+//
+// * <LI>0.1 [14/05/98]: Initial Revision
+// * <LI>0.2 [07/06/98]: Removed all references to classes in NewsAgent.
+// * <LI>0.3 [17/06/98]: Added isEnabled().
+// * <LI>0.4 [03/12/98]: Updated to Swing 1.1
+// * <LI>0.5 [08/12/98]: Added dialog version
+// * <LI>1.0 [12/12/98]: Added NLS support, changed dialog appearance to match
+// *   word 97's font dialog (massive internal change; interface should be the
+// *   same)
+
+
+// New Revision History:
+//
+// $Log: not supported by cvs2svn $
+//
+
+
+
+
