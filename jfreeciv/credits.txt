@@ -1,0 +1,7 @@
+The following people have developed or contributed to JFreeCiv:
+
+Artur Biesiadowski [ ]
+Brian Duff [ Brian.Duff at dubh.org ]
+James R? [ bullwinkle at hotpop.com ]
+Luke Lindsay [ luke at lindsayl.fsworld.co.uk ]
+
