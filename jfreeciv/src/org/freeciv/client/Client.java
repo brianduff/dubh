@@ -49,7 +49,7 @@ import org.freeciv.common.Logger;
  * This is the main class of Freeciv4J.
  */
 public class Client extends JFrame
-   implements ComponentListener, UndockablePanel.DockTarget
+   implements ComponentListener, UndockablePanel.DockTarget, Constants
 {
    /**
     * The menus for the application. Each of these is the class name of
@@ -264,7 +264,7 @@ public class Client extends JFrame
    public static final int minorVer = Constants.MINOR_VERSION;
    public static final int patchVer = Constants.PATCH_VERSION;
    public static final String version = "" + majorVer + "." + minorVer + "." + patchVer;
-   public static final String capabilities = "+1.10";
+   public static final String capabilities = "+1.11.6 conn_info";
 
    public static final Integer MAP_PANEL_LAYER = new Integer(0);
    public static final Integer CITY_DIALOG_LAYER = new Integer(2);
@@ -776,6 +776,7 @@ public class Client extends JFrame
       prjg.minorVer = minorVer;
       prjg.patchVer = patchVer;
       prjg.capabilities = capabilities;
+      prjg.version_label = Constants.VERSION_LABEL;
 
       return sendToServer(prjg);
    }
