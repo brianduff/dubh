@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPMessage.java,v 1.2 1999-06-08 22:45:58 briand Exp $
+//   $Id: NNTPMessage.java,v 1.3 1999-10-16 16:46:17 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -36,16 +36,22 @@ import java.io.IOException;
  * A USENET news article for JavaMail.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPMessage.java,v 1.2 1999-06-08 22:45:58 briand Exp $
+ * @version $Id: NNTPMessage.java,v 1.3 1999-10-16 16:46:17 briand Exp $
  */
 class NNTPMessage extends MimeMessage
 {
    private boolean m_bXOver;
    private String m_strMessageID;
 
-   NNTPMessage(Session s)
+   NNTPMessage(Newsgroup g, int messageNum)
    {
-      super(s);
+      super(g, messageNum);
+   }
+   
+   NNTPMessage(Newsgroup g, String messageId)
+   {
+      super(g, 0);
+      m_strMessageID = messageId;
    }
 
    /**
@@ -118,6 +124,14 @@ class NNTPMessage extends MimeMessage
    }
    
    /**
+    * Get the Message-Id of this NNTP message.
+    */
+   public String getMessageId()
+   {
+      return m_strMessageID; // need this?
+   }      
+         
+   /**
     * Override this to force XOver header to be used, or full
     * headers to be read in if the header doesn't exist.
     */   
@@ -147,6 +161,7 @@ class NNTPMessage extends MimeMessage
     * can pass null as the header to force all headers to be read in.
     */
    private void loadHeader(String header)
+      throws MessagingException
    {
       if (header != null && m_bXOver && !getServer().supportsXOverHeader(header))
       {
@@ -171,6 +186,9 @@ class NNTPMessage extends MimeMessage
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/08 22:45:58  briand
+// First compiling version of the message class.
+//
 // Revision 1.1.1.1  1999/06/06 23:37:38  briand
 // Dubh Mail Protocols initial revision.
 //
