@@ -30,68 +30,24 @@
     
     <column width="25%">
       <box title="What's New?">
-      
-        <h3>11 Jun 2001</h3>
-        
-        <p>
-          Added Marco <a href="projects/marco/docs/sitemap.xml">Site Map</a>.
-        </p>
-        
-        <p>
-          Verified HTML 4.01 Transitional complience on most Dubh.Org pages and
-          added the verification logo.
-        </p>
-        
-      
-        <h3>03 Jun 2001</h3>
-        
-        <p>
-          Dubh.Org discussion forums are now online at
-          <a href="http://talk.dubh.org">http://talk.dubh.org</a>. More 
-          forums will be added over the next few days.
-        </p>
-        
-        <p>
-          The CVS browser is back online at
-          <a href="http://cvs.dubh.org">http://cvs.dubh.org</a>, and has
-          been upgraded to the latest <a href="http://www.jcvs.org">JCVS
-          Servlet</a>.
-        </p>
-        
-        <h3>13 May 2001</h3>
-        
-        <p>
-          Added the Project Marco <a href="projects/marco/docs/database-design.xml">
-          Database Design</a> document.
-        </p>
-        <p>
-          New <a href="tech/xml/index.xml">XML Technology</a> page, with live
-          newsfeeds!
-        </p>
-        <p>
-          New layout for dubh.org index page.
-        </p>
-
-        <h3>07 May 2001</h3>
-
-        <p>
-        <a href="projects/marco/index.xml">Project Marco</a> aims to provide a 
-        hosted bookmarks service for multiple users. An initial draft of the
-        requirements are now online
-        </p>
+      	<xsql:include-xsql href="changelog.xml?xml-stylesheet=xsl/changelog-whatsnew.xsl" />
+       
+       	<p>
+        	See <a href="showpage.xml?pagename=changelog.xml">all changes</a>
+       	</p>
       </box>
     </column>
   </content>
     
     <cvs-info>
       <date>
-        $Date: 2001-06-11 00:34:12 $
+        $Date: 2001-06-25 23:21:06 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.17 $
+        $Revision: 1.18 $
       </revision>
     </cvs-info>
     
