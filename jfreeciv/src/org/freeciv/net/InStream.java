@@ -149,6 +149,35 @@ public class InStream {
 		}
 		return arr;
 	}
+
+  /**
+   * Read an unsigned byte "vector". 
+   */
+  public int[] readUnsignedByteVector()
+  {
+    //Equivalent to get_uint8_vec8() in common/packets.c  
+    int size = readUnsignedByte();
+    int[] result = new int[size];
+
+    for (int i=0; i < size; i++)
+    {
+      result[i] = readUnsignedByte();
+    }
+    return result;
+  }
+
+  public int[] readShortVector()
+  {
+    int size = readUnsignedByte();
+
+    int[] result = new int[size];
+    for (int i=0; i < size; i++)
+    {
+      result[i] = readShort();
+    }
+
+    return result;
+  }
 	
 	
 	// This has to go here, because it's low level stuff
