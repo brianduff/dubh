@@ -10,6 +10,7 @@ import java.text.Collator;
 import org.freeciv.common.Building;
 import org.freeciv.common.Unit;
 import org.freeciv.common.City;
+import org.freeciv.common.Player;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.*;
@@ -90,14 +91,28 @@ public class ImplCityView extends VerticalFlowPanel
     setupButtonPanel();
   }
 
+  /**
+   * Shortcut (sort of) to m_client
+   */
   private Client getClient()
   {
     return m_client;
   }
   
+  /**
+   * Shortcut (sort of) to m_city
+   */
   public City getCity()
   {
     return m_city;
+  }
+  
+  /**
+   * Shortcut to getClient().getGame().getCurrentPlayer()
+   */
+  public Player getPlayer()
+  {
+    return getClient().getGame().getCurrentPlayer();
   }
   
   /**
@@ -314,15 +329,15 @@ public class ImplCityView extends VerticalFlowPanel
             + m_city.getTradeProduction() + ")" ) );
     // trade
     m_labGold.setText( _( "Gold ("
-            + getClient().getGame().getCurrentPlayer().getEconomy().getTax()
+            + getPlayer().getEconomy().getTax()
             + "%) : " + m_city.getTaxTotal() 
             + " (" + ( m_city.getGoldSurplus() > 0 ? "+" : "" ) 
             + m_city.getGoldSurplus() + ")" ) );
     m_labScience.setText( _( "Science ("
-            + getClient().getGame().getCurrentPlayer().getEconomy().getScience()
+            + getPlayer().getEconomy().getScience()
             + "%) : " + m_city.getScienceTotal() ) );
     m_labLuxury.setText( _( "Luxury ("
-            + getClient().getGame().getCurrentPlayer().getEconomy().getLuxury()
+            + getPlayer().getEconomy().getLuxury()
             + "%) : " + m_city.getLuxuryTotal() ) );
     // misc
     m_labGranary.setText( _( "Granary : " 
@@ -408,7 +423,7 @@ public class ImplCityView extends VerticalFlowPanel
   private void actionBuy()
   {
     int cost = getCity().getBuyCost();
-    int treasury = getClient().getGame().getCurrentPlayer().getEconomy().getGold();
+    int treasury = getPlayer().getEconomy().getGold();
     if( treasury >= cost )
     {
       int result = m_dlgManager.showConfirmationDialog( 
@@ -816,33 +831,46 @@ public class ImplCityView extends VerticalFlowPanel
     public void updateFromCity()
     {
       final TileSpec spec = getClient().getTileSpec();
+      final String nation = getPlayer().getNation().getName();
 
       this.removeAll();
       // citizens
       for(int i = 0; i < getCity().getHappyCitizens( 4 ); i++ )
       {
-        this.add( new JLabel( spec.getCitizenSprite( 5 + i % 2 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 5 + i % 2 ) );
+        citizen.setToolTipText( _( "A Happy " + nation + " Citizen" ) );
+        this.add( citizen );
       }
       for(int i = 0; i < getCity().getContentCitizens( 4 ); i++ )
       {
-        this.add(  new JLabel( spec.getCitizenSprite( 3 + i % 2 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 3 + i % 2 ) );
+        citizen.setToolTipText( _( "A Content " + nation + " Citizen" ) );
+        this.add( citizen );
       }
       for(int i = 0; i < getCity().getUnhappyCitizens( 4 ); i++ )
       {
-        this.add(  new JLabel( spec.getCitizenSprite( 7 + i % 2 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 7 + i % 2 ) );
+        citizen.setToolTipText( _( "An Unhappy " + nation + " Citizen" ) );
+        this.add( citizen );
       }
       // specialists
       for(int i = 0; i < getCity().getElvises(); i++ )
       {
-        this.add(  new JLabel( spec.getCitizenSprite( 0 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 0 ) );
+        citizen.setToolTipText( _( nation + " Entertainer" ) );
+        this.add( citizen );
       }
       for(int i = 0; i < getCity().getScientists(); i++ )
       {
-        this.add(  new JLabel( spec.getCitizenSprite( 1 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 1 ) );
+        citizen.setToolTipText( _( nation + " Scientist" ) );
+        this.add( citizen );
       }
       for(int i = 0; i < getCity().getTaxmen(); i++ )
       {
-        this.add(  new JLabel( spec.getCitizenSprite( 2 ) ) );
+        JLabel citizen = new JLabel( spec.getCitizenSprite( 2 ) );
+        citizen.setToolTipText( _( nation + " Taxman" ) );
+        this.add( citizen );
       }
     }
   }
