@@ -785,19 +785,13 @@ public class Client implements Constants
     // NOOP
   }
 
-  public void refreshTileMapCanvas( final int x, final int y, final boolean updateView )
+  /**
+   * @deprecated use getMainWindow().getMapViewManager().refreshTileMapCanvas()
+   */
+  public void refreshTileMapCanvas( final int x, final int y, 
+    final boolean updateView )
   {
-    // Not sure this method belongs in Client.java...
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run()
-      {
-        // Actually, we should refresh all views here, but currently there is
-        // only one view.
-        getMainWindow().getMapViewManager().refreshTileMapCanvas( x, y );
-        getMainWindow().getMapOverview().refresh( x, y );
-      }
-    });
-
+    getMainWindow().getMapViewManager().refreshTileMapCanvas( x, y );
   }
 
 
@@ -1053,6 +1047,28 @@ public class Client implements Constants
 
     return bestCandidate;
     
+  }
+
+  /**
+   * Remove the specified city from the map and the game, popping down the
+   * city dialog if showing and updating the city report dialog
+   *
+   * @param c the city to remove
+   */
+  public void removeCity( org.freeciv.common.City city )
+  {
+    int x = city.getX();
+    int y = city.getY();
+
+    Logger.log( Logger.LOG_DEBUG, 
+      "Removing city "+ city.getName() + ", "+
+      city.getOwner().getNation().getName() + "(" +
+      x + " " + y + ")");
+
+    // TODO: popdown city dialog
+    city.removeFromGame();
+    // TODO: update city report dialog
+    refreshTileMapCanvas( x, y, true );
   }
 
   /**
