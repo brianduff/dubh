@@ -36,4 +36,18 @@ public final class Assert
   {
     that( false, message );
   }
+
+  /**
+   * Fail because of an exception
+   */
+  public static void fail( String s, Throwable t )
+  {
+    that( false, s + ": "+ t.getMessage() );
+    ErrorHandler.getHandler().internalError( t );
+  }
+
+  public static void fail( Throwable t )
+  {
+    fail( "", t );
+  }
 }
