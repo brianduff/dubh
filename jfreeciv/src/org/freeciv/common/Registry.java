@@ -1,9 +1,10 @@
 package org.freeciv.common;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
+
 
 /**************************************************************************
  
@@ -125,7 +126,8 @@ public class Registry
   private ArrayList sections;
   private HashMap hashd;
   private Object sbuffer; //?
-  class Entry
+  
+  private class Entry
   {
     public String name;
     public int ivalue;
@@ -151,20 +153,28 @@ public class Registry
       used = 0;
     }
   }
-  class Section
+
+  private class Section
   {
     public String name;
     public ArrayList entries;
   }
-  class HashEntry
+
+  private class HashEntry
   {
     Entry data;
     String key_val; /* including section prefix */
   }
+
+  /**
+   * Construct a Registry. To actually parse a file, use the loadFile()
+   * method.
+   */
   public Registry() 
   {
     init();
   }
+  
   private void init()
   {
     filename = null;
@@ -173,6 +183,7 @@ public class Registry
     hashd = null;
   // sb = sbuf_new();
   }
+  
   private String getFilename()
   {
     if( filename == null )
@@ -196,7 +207,18 @@ public class Registry
   {
     
   }
-  public boolean loadFile( String filename )
+
+  /**
+   * Load and parse the specified file.
+   *
+   * @param filename the file to load
+   * @throws java.io.IOException if the file could not be loaded, or an
+   *    error occurred while reading the file.
+   * @throws org.freeciv.common.RegistryParseException if the file is
+   *    badly formed and could not be parsed
+   */
+  public void loadFile( String filename ) throws IOException, 
+    RegistryParseException
   {
     InputFile inf;
     Section psection = null;
@@ -214,15 +236,9 @@ public class Registry
     {
       Logger.log( Logger.LOG_DEBUG, "Loading " + filename );
     }
-    try
-    {
-      inf = new InputFile( filename );
-    }
-    catch( IOException ioe )
-    {
-      ioe.printStackTrace();
-      return false;
-    }
+
+    inf = new InputFile( filename );
+
     init();
     this.filename = filename;
     
@@ -255,7 +271,7 @@ public class Registry
         }
         if( table_state )
         {
-          throw new IllegalStateException( "New section during table" );
+          throw new RegistryParseException( "New section during table" );
         }
         psection = new Section();
         psection.name = tok;
@@ -266,7 +282,7 @@ public class Registry
       }
       if( psection == null )
       {
-        throw new IllegalStateException( "data before first section" );
+        throw new RegistryParseException( "data before first section" );
       }
       if( Logger.DEBUG )
       {
@@ -276,7 +292,7 @@ public class Registry
       {
         if( !table_state )
         {
-          throw new IllegalStateException( "misplaced \"}\"" );
+          throw new RegistryParseException( "misplaced \"}\"" );
         }
         inf.getTokenRequired( inf.INF_TOK_EOL );
         table_state = false;
@@ -305,7 +321,7 @@ public class Registry
             Logger.log( Logger.LOG_DEBUG, "Added tabular entry " + pentry.name + " = " + tok + " to section " + psection.name );
           }
           num_entries++;
-        }while( inf.getToken( inf.INF_TOK_COMMA ) != null );
+        } while( inf.getToken( inf.INF_TOK_COMMA ) != null );
         inf.getTokenRequired( inf.INF_TOK_EOL );
         table_lineno++;
         continue;
@@ -327,7 +343,7 @@ public class Registry
           tok = inf.getTokenRequired( inf.INF_TOK_VALUE );
           if( tok.charAt( 0 ) != '\"' )
           {
-            throw new IllegalStateException( "table column header non-string" );
+            throw new RegistryParseException( "table column header non-string" );
           }
           columns_tab.add( tok.substring( 1, tok.length() - 1 ) ); // Ln 466
         }while( inf.getToken( inf.INF_TOK_COMMA ) != null );
@@ -358,17 +374,20 @@ public class Registry
         }
         psection.entries.add( pentry );
         num_entries++;
-      }while( inf.getToken( inf.INF_TOK_COMMA ) != null );
+      } while( inf.getToken( inf.INF_TOK_COMMA ) != null );
       inf.getTokenRequired( inf.INF_TOK_EOL );
     }
     if( table_state )
     {
-      throw new IllegalStateException( "Finished file " + filename + " before end of table" );
+      throw new RegistryParseException( "Finished file " + filename + " before end of table" );
     }
     inf.close();
     hashAll();
-    return true;
   }
+
+  /**
+   * Create a hashmap of all entries
+   */
   private void hashAll()
   {
     hashd = new HashMap();
@@ -386,19 +405,46 @@ public class Registry
       }
     }
   }
+
+  /**
+   * Save the registry file back out. CURRENTLY UNIMPLEMENTED
+   *
+   * @param filename the file name to save
+   * @throws java.lang.UnsupportedOperationException
+   */
   public void saveFile( String filename )
   {
-    
-  
-  // TBD
+    throw new UnsupportedOperationException(
+      "saveFile() is not yet implemented"
+    );
   }
+
+  /**
+   * Look up a string in the registry
+   *
+   * @param path the path name to the registry string. E.g. sectionname.key
+   * @return the value of the specified string, or null if it does not exist
+   *    in the registry
+   */
   public String lookupString( String path )
   {
     return lookupString( path, (Object[])null );
   }
   
   /**
-   * Look up a string in the file
+   * Look up a string in the file, substituting the specified array of
+   * parameters into the path before the lookup
+   *
+   * @param path the path name to the registry string, e.g. sectionname.key.
+   *    this will contain one or more % delimited substitution parameters
+   * @param subst an ordered array of items to substitute into the path
+   *    of the specified registry string
+   *
+   * @return the value of the string at the specified path, with the
+   *    items in subst substituted in.
+   *
+   * @throws java.lang.IllegalArgumentException if the substituted path
+   *    does not exist.
    */
   public String lookupString( String path, Object[] subst )
   {
@@ -416,11 +462,13 @@ public class Registry
     }
     return pentry.svalue;
   }
-  class StringOrInt
+  
+  private class StringOrInt
   {
     public String string;
     public int integer;
   }
+  
   public StringOrInt lookupStringOrInt( String path )
   {
     return lookupStringOrInt( path, null );
@@ -684,6 +732,27 @@ public class Registry
       }
     }
     return l;
+  }
+
+  /**
+   * Get an iterator over all section names in the registry file.
+   *
+   * @return an iterator of Strings, each of which is a section name
+   */
+  public Iterator getSectionNames()
+  {
+    if ( sections == null )
+    {
+      return null;
+    }
+    ArrayList listCopy = new ArrayList( sections.size() );
+    Iterator i = sections.iterator();
+    while ( i.hasNext() )
+    {
+      listCopy.add( ((Section)i.next()).name );
+    }
+
+    return listCopy.iterator();
   }
   
   /**

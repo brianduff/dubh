@@ -63,7 +63,13 @@ public class InputFile
   {
     public String getToken( InputFile file );
   }
-  public static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(), INF_TOK_ENTRY_NAME = new EntryNameGetter(), INF_TOK_EOL = new EOLGetter(), INF_TOK_TABLE_START = new TableStartGetter(), INF_TOK_TABLE_END = new TableEndGetter(), INF_TOK_COMMA = new CommaGetter(), INF_TOK_VALUE = new ValueGetter();
+  public static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(), 
+  INF_TOK_ENTRY_NAME = new EntryNameGetter(), INF_TOK_EOL = new EOLGetter(), 
+  INF_TOK_TABLE_START = new TableStartGetter(), 
+  INF_TOK_TABLE_END = new TableEndGetter(), 
+  INF_TOK_COMMA = new CommaGetter(), 
+  INF_TOK_VALUE = new ValueGetter();
+  
   String m_filename;
   BufferedReader m_is;
   boolean m_eof;
@@ -73,6 +79,8 @@ public class InputFile
   int m_lineNum;
   String m_token = "";
   String m_partial = "";
+
+  private StringBuffer m_lineBuffer = new StringBuffer();
 
   public InputFile( String filename )
           throws IOException
@@ -170,18 +178,44 @@ public class InputFile
     String line;
     try
     {
-      line = m_is.readLine();
-      debug( "Got line " + line );
-      if( line == null )
+      m_lineBuffer.setLength( 0 );
+      while( true )
       {
-        debug( "Got null line from m_is.readLine() - EOF!!" );
-        m_eof = true;
-        line = "";
+        line = m_is.readLine();
+        debug( "Got line " + line );
+        if( line == null )
+        {
+          debug( "Got null line from m_is.readLine() - EOF!!" );
+          m_eof = true;
+          m_lineBuffer.append("");
+          break;
+        }
+
+        if ( line.length() == 0 )
+        {
+          m_lineBuffer.append("");
+          break;
+        }
+        //m_lineBuffer.setLength( m_lineBuffer.length() + line.length() + 2 );
+        if ( line.charAt( line.length() - 1 ) != '\\' )
+        {
+          m_lineBuffer.append( line );
+          break;
+        }
+        else
+        {
+          String subline = line.substring( 0, line.length() - 1 );
+          if ( subline.indexOf( "\\n" ) == subline.length() - 2 )
+          {
+            subline = line.substring( 0, subline.length() - 2 ) + "\n";
+          }
+          m_lineBuffer.append( subline );
+        }
       }
       m_lineNum++;
       m_curLinePos = 0;
-      m_curLine = line;
-      m_copyLine = line;
+      m_curLine = m_lineBuffer.toString();
+      m_copyLine = m_lineBuffer.toString();
     }
     catch( IOException io )
     {

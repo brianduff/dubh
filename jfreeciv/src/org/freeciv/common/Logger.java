@@ -140,6 +140,7 @@ public final class Logger
     }
     m_mainHandler.log( logLevel, message );
   }
+
   
   /**
    * Like log(int, String, Class) but calls getClass() on the
@@ -164,6 +165,26 @@ public final class Logger
     }
     log( loglevel, cls.getName() + ": " + message );
   }
+
+  /**
+   * Like log(int, String), but works for exceptions. The exception stack
+   * trace is logged out as well as its message
+   *
+   * @param logLevel the log level to log at. Exceptions are normally FATAL
+   * @param t a throwable object to log out
+   */
+  public static void log( int logLevel, Throwable t )
+  {
+    String message = t.getMessage();
+    if ( message != null && message.length() != 0 )
+    {
+      log( logLevel, message );
+    }
+
+    // Should do this to the handlers properly. hacky.
+    t.printStackTrace();
+  }
+
   
   /**
    * Main external interface. Prints the message at the specified log level.
