@@ -50,6 +50,7 @@ import oracle.ide.net.URLFileSystem;
  * UI panel that prompts the user to instantiate a template.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 final class UseTemplateDialog extends JPanel
 {

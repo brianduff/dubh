@@ -39,6 +39,7 @@ import oracle.ide.net.URLFileSystem;
  * that the node is not compilable etc.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class TemplateNode extends DeployableTextNode
 {

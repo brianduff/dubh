@@ -41,6 +41,7 @@ import oracle.bali.ewt.dialog.JEWTDialog;
  * JOptionPane input dialog, and validates its OK button properly...
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 final class TextPromptDialog extends JPanel 
   implements DocumentListener

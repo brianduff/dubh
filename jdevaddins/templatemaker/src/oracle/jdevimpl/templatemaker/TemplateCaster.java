@@ -35,6 +35,7 @@ import oracle.ide.addin.Context;
  * or output file or the mechanism used to convert one to the other.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public interface TemplateCaster 
 {

@@ -38,6 +38,7 @@ import oracle.jdeveloper.model.JProject;
  * template can substitute into the file
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class VelocityContextObject 
 {

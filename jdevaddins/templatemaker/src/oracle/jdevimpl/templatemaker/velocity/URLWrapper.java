@@ -32,6 +32,7 @@ import oracle.ide.net.URLFileSystem;
  * to retrieve interesting parts of the URL
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public final class URLWrapper
 {

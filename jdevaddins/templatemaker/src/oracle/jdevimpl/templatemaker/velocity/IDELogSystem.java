@@ -39,6 +39,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * Velocity log system that logs output in the IDE message window
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class IDELogSystem extends DefaultLogPage 
   implements LogSystem

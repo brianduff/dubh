@@ -30,6 +30,7 @@ package oracle.jdevimpl.templatemaker;
  *
  * @author Brian.Duff@oracle.com
  * @see oracle.jdevimple.templatemaker.TemplateCaster
+ * @version $Revision: 1.2 $
  */
 public class TemplateCastFailedException extends Exception
 {

@@ -53,6 +53,7 @@ import oracle.jdeveloper.model.JProject;
  * The "wizard" (i.e. gallery dialog) that is used to instantiate a template
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 class TemplateWizard implements Wizard
 {

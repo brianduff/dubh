@@ -44,6 +44,7 @@ import oracle.ide.net.URLFileSystem;
  * #include in templates must use the full URL to work.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class URLResourceLoader extends ResourceLoader
 {

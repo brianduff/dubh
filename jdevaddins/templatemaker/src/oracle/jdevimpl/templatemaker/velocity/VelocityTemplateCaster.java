@@ -74,6 +74,7 @@ import oracle.jdevimpl.templatemaker.TemplateCastFailedException;
       
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class VelocityTemplateCaster implements TemplateCaster
 {

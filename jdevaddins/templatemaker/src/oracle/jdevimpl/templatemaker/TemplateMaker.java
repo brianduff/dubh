@@ -80,6 +80,7 @@ import oracle.jdevimpl.templatemaker.velocity.VelocityTemplateCaster;
  * Apache Jakarta Velocity template engine.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public class TemplateMaker extends BaseController
   implements Addin, ContextMenuListener, Observer

@@ -45,6 +45,7 @@ import oracle.ide.net.URLFileSystem;
  * them. 
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 public final class TemplatesFolder extends DefaultFolder
     implements Subject
