@@ -20,8 +20,7 @@ The current time is:
   </tr>
   <% 
   String path = request.getRealPath( "" );
-  java.io.File f = new java.io.File( path );
-  java.io.File[] children = f.listFiles();
+  java.io.File[] children = new java.io.File( path ).listFiles();
 
   // Sort the files by their date.
   java.util.Arrays.sort( children, new java.util.Comparator() {
@@ -32,11 +31,11 @@ The current time is:
 
       if ( f1 < f2 )
       {
-        return -1;
+        return 1;
       }
       else if ( f1 > f2 )
       {
-        return 1;
+        return -1;
       }
       else
       {
@@ -47,20 +46,24 @@ The current time is:
 
   for ( int i=0; i < children.length; i++ )
   {
+  java.io.File f = children[i];
+  long length = f.length();
   %>
   <tr>
 
   <td>
-  <%= new Date(children[i].lastModified()).toString() %>
+  <a href="<%=f.getName() %>">
+  <%= new Date(f.lastModified()).toString() %>
+  </a>
   </td>
 
   <td>
-  <% if ( children[i].length() > 1024 * 1024 ) { %>
-    <%= "" + children[i].length() / 1024 / 1024 + " MB" %>
-  <% } else if ( children[i].length() > 1024 ) { %>
-    <%= "" + children[i].length() / 1024 + " KB" %>
+  <% if ( length > 1024 * 1024 ) { %>
+    <%= "" + length / 1024 / 1024 + " MB" %>
+  <% } else if ( length > 1024 ) { %>
+    <%= "" + length / 1024 + " KB" %>
   <% } else { %>
-    <%= "" + children[i].length() + " bytes" %>
+    <%= "" + length + " bytes" %>
   <% } %>
   </td>
   
