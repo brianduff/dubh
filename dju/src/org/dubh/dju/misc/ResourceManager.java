@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.10 2001-02-11 03:38:20 briand Exp $
+//   $Id: ResourceManager.java,v 1.11 2001-02-11 03:40:42 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -38,19 +38,16 @@ import java.text.MessageFormat;
 import org.dubh.dju.nls.*;
 
 import org.dubh.dju.misc.Debug;
+
 /**
  * A ResourceManager is associated with a specific resource bundle. You can
  * use the methods of an instance of this class to get locale independent
  * strings, as well as initialise components from a resource bundle.<P>
- * <B>Revision History:</B><UL>
- * <LI>0.1 [19/06/98]: Initial Revision
- * <LI>0.2 [30/06/98]: Added ResourceManager(ResourceBundle b) constructor.
- * <LI>1.0 [03/12/98]: Changed to go through the panel setting properties.
- * </UL>
- @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
- @version 1.0 [03/12/98]
+ *
+ * @author Brian Duff
  */
-public class ResourceManager {
+public class ResourceManager
+{
 
 
    /** A cache for storing shared instances of images */
@@ -72,7 +69,8 @@ public class ResourceManager {
    * de, fr, us, uk, etc.).
    @throws MissingResourceException if the bundle can't be located.
    */
-  public ResourceManager(String bundleName) throws MissingResourceException {
+  public ResourceManager(String bundleName) throws MissingResourceException
+  {
      this(ResourceBundle.getBundle(bundleName));
   }
 
@@ -87,11 +85,13 @@ public class ResourceManager {
    @throws MissingResourceException if the bundle can't be located.
    */
   public ResourceManager(String bundleName, Locale locale)
-        throws MissingResourceException {
+        throws MissingResourceException
+  {
      this(ResourceBundle.getBundle(bundleName, locale));
   }
 
-  public ResourceManager(ResourceBundle b) {
+  public ResourceManager(ResourceBundle b)
+  {
      m_handlers = new Vector();
      m_cachedImages = new Hashtable();
      m_bundle = b;
@@ -129,7 +129,8 @@ public class ResourceManager {
    @return the value of the string in your bundle.
    @throws MissingResourceException if the key doesn't exist in the bundle.
    */
-  public String getString(String key) throws MissingResourceException {
+  public String getString(String key) throws MissingResourceException
+  {
      return m_bundle.getString(key);
   }
 
@@ -161,7 +162,8 @@ public class ResourceManager {
    @param key the key of the image in your resource bundle.
    @throws MissingResourceException if the resource doesn't exist.
    */
-  public ImageIcon getImage(String key) throws MissingResourceException {
+  public ImageIcon getImage(String key) throws MissingResourceException
+  {
      /*
       * Maintain a cache of images whenever one is loaded so that whenever
       * possible, we return a shared instance of an image. If an image is
@@ -353,3 +355,7 @@ public class ResourceManager {
 
 
 }
+
+//
+// $Log: not supported by cvs2svn $
+//
