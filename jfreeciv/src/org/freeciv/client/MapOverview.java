@@ -1,7 +1,6 @@
 package org.freeciv.client;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -59,7 +58,10 @@ public final class MapOverview extends JComponent
     setMinimumSize(new Dimension( m_width, m_height ));
     if ( getParent() != null )
     {
-      // Doesn't work...
+      // Force the parent to lay itself out again. Maybe we ought to reduce
+      // the scale when the map gets over a certain size, as the minimap 
+      // sure makes the main window look ugly at the 200x100 maximum size.
+      getParent().invalidate();
       getParent().validate();
     }
   }
