@@ -1,15 +1,18 @@
-<!-- $Id: build.xml,v 1.8 2000-08-20 19:18:17 briand Exp $ -->
+<!-- $Id: build.xml,v 1.9 2000-08-20 20:35:02 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
     <tstamp/>
     
     <echo message="DJU Build Started at ${TODAY} ${TSTAMP}" />
+
+    <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
     
     <property name="product" value="Dubh Java Utilities" />
     <property name="version" value="2.0.1" />
-    
+
     <property name="cvsmodule" value="dju" />
+    <buildnumber countfile="${cvsmodule}.bno" />
     <property name="srcdir" value="${cvsmodule}/src" />
     <property name="classdir" value="${cvsmodule}/class" />
     <property name="jardir" value="${cvsmodule}/lib" />
