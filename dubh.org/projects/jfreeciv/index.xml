@@ -36,7 +36,7 @@
       <a href="http://arch.freeciv.org/">http://arch.freeciv.org</a>.
     </p>
     
-    <h2>Development History</h2>
+    <h2>Development</h2>
     
     <p>
       The freeciv java port was originally developed by Artur Abies, I spent a
@@ -44,6 +44,15 @@
       support Freeciv 1.10.0 about a year ago, which resulted in rewriting
       various parts of the client and networking code. It has never been in
       an entirely playable state.
+    </p>
+    
+    <p>
+      If you want to get involved, send mail to the freeciv-java mailing list.
+    </p>
+    
+    <p>
+      NEW: <a href="http://balveda.dubh.org/build/jfreeciv/javadoc">Javadoc APIs</a>
+      (generated nightly)
     </p>
     
     <h2>Current Status</h2>
@@ -118,13 +127,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-10-29 16:40:20 $
+      $Date: 2001-10-29 16:42:06 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.4 $
+      $Revision: 1.5 $
     </revision>
   </cvs-info>  
   
