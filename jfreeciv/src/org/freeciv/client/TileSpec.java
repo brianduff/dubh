@@ -17,22 +17,53 @@ import java.awt.BorderLayout;
  */
 public class TileSpec
 {
+  // roughly corresponds to tilespec.c
+
   private final static String XPM_EXT = "xpm";
   private final static String EXTENSIONS = XPM_EXT;
   private final static String TILESET_DEFAULT = "trident";
+  private final static String TILESET_ISOMETRIC_DEFAULT = "hires";
+
+  private String m_mainIntroFilename, m_minimapIntroFilename;
+
+  private NamedSprites m_sprites = new NamedSprites();
+
+  private int 
+    m_normalTileWidth, m_normalTileHeight,
+    m_unitTileWidth, m_unitTileHeight,
+    m_smallTileWidth, m_smallTileHeight;
+
+  private boolean m_isIsometric;
+    
+  private String m_cityNamesFont;
+  private String m_cityProductionsFontName;
+  
+  private boolean m_flagsAreTransparent = true;
+
+  private int m_numTilesExplodeUnit = 0;
+  
+  private String[] m_specFiles;
+  
+  private HashMap m_images = new HashMap();
+
   private final static String TILESPEC_CAPSTR = "+tilespec2 duplicates_ok";
   private final static String SPEC_CAPSTR = "+spec2";
-  private int m_normalTileWidth, m_normalTileHeight, m_smallTileWidth, m_smallTileHeight;
-  private String m_cityNamesFont;
-  private boolean m_flagsTransparent;
-  private String m_mainIntroFilename, m_minimapIntroFilename;
-  private String[] m_specFiles;
-  private HashMap m_images;
+
+  private boolean m_isFocusUnitHidden = false;
+
+  private boolean m_noBackdrop = false;
+  
   private Client m_client;
   public TileSpec( Client c ) 
   {
     m_client = c;
   }
+
+  public boolean isIsometric()
+  {
+    return m_isIsometric;
+  }
+  
   public Client getClient()
   {
     return m_client;
@@ -58,12 +89,14 @@ public class TileSpec
   {
     return m_cityNamesFont;
   }
+  
   public void loadTileset( String tilesetName )
   {
     readTopLevel( tilesetName );
     loadTiles();
     loadIntroFiles();
   }
+  
   private void loadIntroFiles()
   {
     Sprite main = loadImage( m_mainIntroFilename );
@@ -78,34 +111,71 @@ public class TileSpec
    */
   private void readTopLevel( String tilesetName )
   {
+    // tilespec.c: tilespec_read_top_level()
+  
     String fname;
+    
     fname = getTileSpecFullName( tilesetName );
     Logger.log( Logger.LOG_VERBOSE, "tilespec file is " + fname );
+    
     Registry r = new Registry();
     if( !r.loadFile( fname ) )
     {
       Logger.log( Logger.LOG_FATAL, "Couldn't open \"" + fname + "\"" );
       System.exit( 1 );
     }
+    
     checkCapabilities( r, "tilespec", TILESPEC_CAPSTR, fname );
+    
     r.lookup( "tilespec.name", null ); /* unused */
+
+    m_isIsometric = (r.lookupInt( "tilespec.is_isometric" ) != 0);
+
+    if (m_isIsometric && !isIsometricViewSupported())
+    {
+      Logger.log( Logger.LOG_ERROR, 
+        "Client does not support isometric tilesets. Using default tileset instead."
+      );
+      readTopLevel( null );
+      return;
+    }
+
+    if (!m_isIsometric && !isOverheadViewSupported())
+    {
+      Logger.log( Logger.LOG_ERROR,
+        "Client does not support overhead view tilesets. Using default tileset instead."
+      );
+      readTopLevel( null );
+      return;
+    }
+    
     m_normalTileWidth = r.lookupInt( "tilespec.normal_tile_width" );
     m_normalTileHeight = r.lookupInt( "tilespec.normal_tile_height" );
+
+    if (m_isIsometric)
+    {
+      m_unitTileWidth = m_normalTileWidth;
+      m_unitTileHeight = 3 * m_normalTileHeight/2;
+    }
+    else
+    {
+      m_unitTileWidth = m_normalTileWidth;
+      m_unitTileHeight = m_normalTileHeight;
+    }
     m_smallTileWidth = r.lookupInt( "tilespec.small_tile_width" );
     m_smallTileHeight = r.lookupInt( "tilespec.small_tile_height" );
-    Logger.log( Logger.LOG_VERBOSE, "Tile sizes: " + m_normalTileWidth + "x" + m_normalTileHeight + ", " + m_smallTileWidth + "x" + m_smallTileHeight + " small" );
+    Logger.log( Logger.LOG_VERBOSE, "Tile sizes: " + m_normalTileWidth + "," + m_normalTileHeight + " normal " + m_smallTileWidth + "," + m_smallTileHeight + " small " + m_unitTileWidth + ","+m_unitTileHeight+" unit" );
+
     m_cityNamesFont = r.lookupString( "10x20", "tilespec.city_names_font" );
-    m_flagsTransparent = ( r.lookupInt( "tilespec.flags_are_transparent" ) != 0 );
+    m_cityProductionsFontName = r.lookupString( "8x16", "tilespec.city_productions_font" );
+    m_flagsAreTransparent = ( r.lookupInt( "tilespec.flags_are_transparent" ) != 0 );
+    
     m_mainIntroFilename = getGFXFilename( r.lookupString( "tilespec.main_intro_file" ) );
-    if( Logger.DEBUG )
-    {
-      Logger.log( Logger.LOG_DEBUG, "intro file " + m_mainIntroFilename );
-    }
+    Logger.log( Logger.LOG_DEBUG, "intro file " + m_mainIntroFilename );
+
     m_minimapIntroFilename = getGFXFilename( r.lookupString( "tilespec.minimap_intro_file" ) );
-    if( Logger.DEBUG )
-    {
-      Logger.log( Logger.LOG_DEBUG, "radar file " + m_minimapIntroFilename );
-    }
+    Logger.log( Logger.LOG_DEBUG, "radar file " + m_minimapIntroFilename );
+    
     m_specFiles = r.lookupStringList( "tilespec.files" );
     if( m_specFiles.length == 0 )
     {
@@ -122,8 +192,15 @@ public class TileSpec
     }
     Logger.log( Logger.LOG_VERBOSE, "Finished reading" + fname );
   }
+
+  /**
+   * Given a base filename, get a proper, full path including the correct
+   * extension for the graphics file.
+   */
   static String getGFXFilename( String filename )
   {
+    // tilespec.c: tilespec_gfx_filename()
+    
     String[] extTok = Shared.getTokens( EXTENSIONS, " " );
     for( int i = 0;i < extTok.length;i++ )
     {
@@ -138,6 +215,24 @@ public class TileSpec
     System.exit( 1 );
     return null;
   }
+
+  /**
+   * In c-land, this is implemented differently by each client implementation.
+   * For java, we don't support multiple client flavours, and just always 
+   * support whatever we can. Inclusing isometrics...
+   *
+   * @return true (eventually)
+   */
+  private static boolean isIsometricViewSupported()
+  {
+    return false; // Working on it...
+  }
+
+  private static boolean isOverheadViewSupported()
+  {
+    return true;
+  }
+  
   /**
    * Gets full filename for tilespec file, based on input name.
    * Returned data is allocated, and freed by user as required.
@@ -147,21 +242,35 @@ public class TileSpec
    */
   static String getTileSpecFullName( String tilesetName )
   {
+    // tilespec.c: tilespec_fullname()
     int level;
     StringBuffer fname;
     String dname;
+    String tileset_default;
+
+    if (isIsometricViewSupported())
+    {
+      tileset_default = TILESET_ISOMETRIC_DEFAULT;
+    }
+    else
+    {
+      tileset_default = TILESET_DEFAULT;
+    }
+    
     if( tilesetName == null )
     {
-      tilesetName = TILESET_DEFAULT;
+      tilesetName = tileset_default;
     }
+    
     fname = new StringBuffer( tilesetName );
     fname.append( ".tilespec" );
     dname = Shared.getDataFilename( fname.toString() );
+    
     if( dname != null )
     {
       return dname;
     }
-    if( TILESET_DEFAULT.equals( tilesetName ) )
+    if( tileset_default.equals( tilesetName ) )
     {
       level = Logger.LOG_FATAL;
     }
@@ -182,7 +291,10 @@ public class TileSpec
   /**
    * Checks options in filename match what we require and support.
    * Die if not.
-   * which should be "tilespec" or "spec".
+   * @param r a Registry file (called a section_file) now.
+   * @param which Either "tilespec" or "spec"
+   * @param us_capstr our capabilities
+   * @param filename the filename to check
    */
   static void checkCapabilities( Registry r, String which, String us_capstr, String filename )
   {
@@ -220,10 +332,12 @@ public class TileSpec
     {
       loadOne( m_specFiles[ i ] );
     }
+
+    lookupSpriteTags();
   }
   /**
    * Load one specfile and specified xpm file; splits xpm into tiles,
-   * and save indices in tag_sf.
+   * and save sprites in the hash table
    */
   void loadOne( String specFilename )
   {
@@ -242,8 +356,8 @@ public class TileSpec
     String gfx_filename = file.lookupString( "file.gfx" );
     String[] tok = Shared.getTokens( EXTENSIONS, " " );
     Sprite big_image = null;
-    int i = 0;
-    while( big_image == null && i < tok.length )
+
+    for (int i=0;  big_image == null && i < tok.length; i++ )
     {
       String full_name = gfx_filename + "." + tok[ i ];
       String real_full_name = Shared.getDataFilename( full_name );
@@ -252,20 +366,21 @@ public class TileSpec
         if( Logger.DEBUG )
         {
           Logger.log( Logger.LOG_DEBUG, "Trying to load gfx file " + real_full_name );
-          big_image = loadImage( real_full_name );
-          if( big_image == null )
-          {
-            Logger.log( Logger.LOG_VERBOSE, "Loading the gfx file " + real_full_name + " failed" );
-          }
+        }
+        big_image = loadImage( real_full_name );
+        if( big_image == null )
+        {
+          Logger.log( Logger.LOG_VERBOSE, "Loading the gfx file " + real_full_name + " failed" );
         }
       }
-      i++;
     }
+    
     if( big_image == null )
     {
       Logger.log( Logger.LOG_FATAL, "Couldn't load gfx file for the spec file " + specFilename );
       System.exit( 1 );
     }
+    
     ArrayList gridNames = file.getSecNamesPrefix( "grid_" );
     if( gridNames == null )
     {
@@ -278,14 +393,13 @@ public class TileSpec
     for( int c = 0;c < gridNames.size();c++ )
     {
       String key = (String)gridNames.get( c );
-      if( Logger.DEBUG )
-      {
-        Logger.log( Logger.LOG_DEBUG, "Key is " + key );
-      }
       Object[] subst = new Object[]
       {
         key
       };
+
+      boolean is_pixel_border = 
+        (file.lookupInt(0, "%s.is_pixel_border", subst) != 0);
       x_top_left = file.lookupInt( "%s.x_top_left", subst );
       y_top_left = file.lookupInt( "%s.y_top_left", subst );
       dx = file.lookupInt( "%s.dx", subst );
@@ -304,12 +418,9 @@ public class TileSpec
         {
           throw new IllegalStateException( "There should be > 0 tags!" );
         }
-        x1 = x_top_left + col * dx;
-        y1 = y_top_left + row * dy;
-        if( m_images == null )
-        {
-          m_images = new HashMap();
-        }
+        x1 = x_top_left + col * dx + (is_pixel_border ? col : 0);
+        y1 = y_top_left + row * dy + (is_pixel_border ? row : 0);
+
         for( int k = 0;k < tags.length;k++ )
         {
           m_images.put( tags[ k ], big_image.getSegmentIcon( x1, y1, dx, dy ) );
@@ -805,6 +916,54 @@ public class TileSpec
     }
     return i;
   }
+
+  private void lookupSpriteTags()
+  {
+    // tilespec.c: tilespec_lookup_sprite_tags()
+    m_sprites.init(this);
+
+    // More to do here ?
+  }
+
+  /**
+   * Look up the sprite for a tag, or else lookup alternative tag. 
+   * 
+   * @param tag the tag to look up
+   * @param alt the alternative tag
+   * @param isRequired controls the log level if sprites are not found
+   * @param what a text description for the log of what is being looked up
+   * @param name a text description for the log of the actual item being
+   *    looked up
+   *
+   * @return the image for tag or alt, or null if neither image could be found
+   */
+  public Icon lookupSpriteTagAlt(String tag, String alt, boolean isRequired,
+    String what, String name)
+  {
+    Icon s;
+
+    s = (Icon) getImage(tag);
+    if (s != null)
+    {
+      return s;
+    }
+
+    s = (Icon) getImage(alt);
+    if ( s != null )
+    {
+      Logger.log(isRequired ? Logger.LOG_NORMAL : Logger.LOG_DEBUG, 
+        "Using alternate graphic "+alt+" instead of "+tag+" for "+what+" "+name
+      );
+      return s;
+    }
+
+    Logger.log(isRequired ? Logger.LOG_NORMAL : Logger.LOG_DEBUG,
+      "Don't have graphics tags "+tag+" or "+alt+" for "+what+" "+name
+    );
+
+    return null;
+  }
+  
   public static void main( String[] args )
   {
     // Test harness

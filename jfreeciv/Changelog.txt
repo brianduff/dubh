@@ -8,6 +8,10 @@ Nation objects instead of PktRulesetNations.
 
 I think it's probably more efficient too..
 
+Started to bring TileSpec.java up to date with the latest code
+in tilespec.c, including isometric support. Still a work in
+progress.
+
 Visibly, nothing is different.
 
 08.07.01 [bduff]

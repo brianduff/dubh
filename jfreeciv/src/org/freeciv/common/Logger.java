@@ -43,19 +43,23 @@ public final class Logger
    */
   public static final int LOG_FATAL = 0;
   /**
+   * Error messages. These are non-fatal errors
+   */
+  public static final int LOG_ERROR = 1;
+  /**
    * Normal messages. These are the lowest level messages that are
    * displayed by default.
    */
-  public static final int LOG_NORMAL = 1;
+  public static final int LOG_NORMAL = 2;
   /**
    * Verbose messages that most users don't care about.
    */
-  public static final int LOG_VERBOSE = 2;
+  public static final int LOG_VERBOSE = 3;
   /**
    * Debug messages that are only of use to coders. Hey! Use a
    * debugger; it's much easier. <g>
    */
-  public static final int LOG_DEBUG = 3;
+  public static final int LOG_DEBUG = 4;
   
   /**
    * You should use this as a compile time constant and surround all
@@ -172,7 +176,9 @@ public final class Logger
       throw new IllegalArgumentException( "Log message can't be null." );
     }
     
-    // Repetition code lifted wholesale from 1.10.0 log.c source code
+    // Repetition code lifted wholesale from 1.10.0 log.c source code 
+    // (read: brian doesn't understand what the hell is going on here, but
+    // it seems to work ;) 
     if( logLevel <= m_level )
     {
       if( logLevel == m_prev_level && m_lastMessage.equals( message ) )
