@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.freeciv.common.Logger;
+
 /**
  * Support for localization (language independent strings)
  *
@@ -30,8 +32,8 @@ import java.util.Locale;
  */
 public final class Localize
 {
-
-  private static final String PO_ROOT="";
+  private static final String PO_PATH = "po/";
+  private static final String JAVA_PO_PATH = "poja/";
   private static final String PO_EXT = ".po";
   private static final String PO_SEP = "_";
 
@@ -48,42 +50,68 @@ public final class Localize
   static
   {
     // Use the line below to test other locales
-    //Locale.setDefault( Locale.CANADA_FRENCH );
+    // Locale.setDefault( Locale.CANADA_FRENCH );
     //Locale.setDefault( Locale.GERMAN );
     loadPO();
   }
 
   public static void loadPO()
   {
-
-    // TODO load jfreeciv po
     
     Locale l = Locale.getDefault();
 
-    String language = l.getLanguage();
-    String country = l.getCountry();
 
-    String poRes = PO_ROOT + language.toLowerCase() + PO_SEP + country.toUpperCase() + PO_EXT;
+    m_poMap = new HashMap();
 
-    URL poURL = ClassLoader.getSystemClassLoader().getResource( poRes );
-    System.out.println("Looking for "+poRes );
+    // Load the two po files for the language and country. The java one
+    // overrides the C one.
+    tryLoadingPO( PO_PATH, l );
+    tryLoadingPO( JAVA_PO_PATH, l );
+
+  }
+
+  /**
+   * Attempt to load a po file for the specified language and country in the
+   * specified location in the CLASSPATH
+   *
+   * If the country and language are not found, try just the language. If the
+   * language is not found, do nothing (which causes strings to be returned
+   * in the default locale and language, which is US English)
+   *
+   * @param base The path in the classpath for the po files
+   * @param locale the locale 
+   */
+  private static void tryLoadingPO( String base, Locale locale)
+  {
+    String language = locale.getLanguage();
+    String country = locale.getCountry();
+  
+    String poRes = base + language.toLowerCase() + PO_SEP + country.toUpperCase() +
+      PO_EXT;
+    URL poURL = Localize.class.getResource( poRes );
+
+    Logger.log( Logger.LOG_NORMAL, "Trying to load po at: "+poURL+" ("+poRes+")" );
 
     if ( poURL == null )
     {
-      poRes = PO_ROOT + language.toLowerCase() + PO_EXT;
-      poURL = ClassLoader.getSystemClassLoader().getResource( poRes );
-      System.out.println("Looking for "+poRes );
+      Logger.log( Logger.LOG_NORMAL,
+        "No "+base+" .po file for "+locale.getDisplayName()
+      );
+      poRes = base + language.toLowerCase() + PO_EXT;
+      poURL = Localize.class.getResource( poRes );
+
+      Logger.log( Logger.LOG_NORMAL, "Trying to load po at: "+poURL );
     }
 
-    if ( poURL != null )
+    if ( poURL == null )
     {
-      loadPO( poURL );
+      Logger.log( Logger.LOG_NORMAL, 
+        "No "+base+" .po file for "+locale.getDisplayLanguage()+". Using English (United States)"
+      );
     }
     else
     {
-      System.out.println(
-        "No .po file for default locale: "+l.getDisplayName()+
-        ". Using English (United States)");
+      loadPO( poURL );
     }
   }
 
@@ -105,7 +133,6 @@ public final class Localize
       BufferedReader br = new BufferedReader( new InputStreamReader(pois) );
 
       int lineno = 0;
-      m_poMap = new HashMap();
       String line = br.readLine();
       while ( line != null )
       {

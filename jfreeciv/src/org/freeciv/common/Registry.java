@@ -1,6 +1,7 @@
 package org.freeciv.common;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -220,6 +221,28 @@ public class Registry
   public void loadFile( String filename ) throws IOException, 
     RegistryParseException
   {
+    this.filename = filename;
+    loadFile( new InputFile( filename ) );
+  }
+
+  /**
+   * Load and parse the specified InputStream. 
+   *
+   * @param is the input stream to read from
+   * @throws java.io.IOException if an error occurs reading from the stream
+   * @throws org.freeciv.common.RegistryParseException if the input is badly
+   *    formed and could not be parsed
+   */
+  public void load( InputStream is ) throws IOException, RegistryParseException
+  {
+    this.filename = null;
+    loadFile( new InputFile( is ) );
+  }
+
+  private void loadFile( InputFile input ) throws IOException,
+      RegistryParseException
+  {
+  
     InputFile inf;
     Section psection = null;
     Entry pentry = null;
@@ -237,10 +260,9 @@ public class Registry
       Logger.log( Logger.LOG_DEBUG, "Loading " + filename );
     }
 
-    inf = new InputFile( filename );
+    inf = input;
 
     init();
-    this.filename = filename;
     
     // ath_init(...)
     // sb = sf->sb;  // ln 380

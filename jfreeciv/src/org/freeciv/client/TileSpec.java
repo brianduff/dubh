@@ -2,6 +2,7 @@ package org.freeciv.client;
 
 import org.freeciv.common.*;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class TileSpec implements Constants
   private final static String TILESET_DEFAULT = "trident";
   private final static String TILESET_ISOMETRIC_DEFAULT = "hires";
 
-  private String m_mainIntroFilename, m_minimapIntroFilename;
+  private URL m_mainIntroURL, m_minimapIntroURL;
 
   private NamedSprites m_sprites = new NamedSprites();
 
@@ -39,7 +40,7 @@ public class TileSpec implements Constants
 
   private int m_numTilesExplodeUnit = 0;
 
-  private String[] m_specFiles;
+  private URL[] m_specFiles;
 
   private HashMap m_images = new HashMap();
 
@@ -106,8 +107,8 @@ public class TileSpec implements Constants
 
   private void loadIntroFiles()
   {
-    Sprite main = loadImage( m_mainIntroFilename );
-    Sprite mini = loadImage( m_minimapIntroFilename );
+    Sprite main = loadImage( m_mainIntroURL );
+    Sprite mini = loadImage( m_minimapIntroURL );
     m_images.put( "main_intro_file", main.getIcon() );
     m_images.put( "minimap_intro_file", mini.getIcon() );
   }
@@ -120,30 +121,30 @@ public class TileSpec implements Constants
   {
     // tilespec.c: tilespec_read_top_level()
 
-    String fname;
+    URL url;
 
-    fname = getTileSpecFullName( tilesetName );
-    Logger.log( Logger.LOG_VERBOSE, "tilespec file is " + fname );
+    url = getTileSpecFullName( tilesetName );
+    Logger.log( Logger.LOG_VERBOSE, "tilespec file is " + url );
 
     Registry r = new Registry();
     try
     {
-      r.loadFile( fname );
+      r.load( url.openStream() );
     }
     catch (IOException ioe )
     {
-      Logger.log( Logger.LOG_FATAL, "Couldn't open \"" + fname + "\"" );
+      Logger.log( Logger.LOG_FATAL, "Couldn't open \"" + url + "\"" );
       Logger.log( Logger.LOG_FATAL, ioe );
       System.exit( 1 );
     }
     catch (RegistryParseException rpe)
     {
-      Logger.log( Logger.LOG_FATAL, "Error parsing \""+ fname+"\"");
+      Logger.log( Logger.LOG_FATAL, "Error parsing \""+ url+"\"");
       Logger.log( Logger.LOG_FATAL, rpe );
       System.exit( 1 );
     }
 
-    checkCapabilities( r, "tilespec", TILESPEC_CAPSTR, fname );
+    checkCapabilities( r, "tilespec", TILESPEC_CAPSTR, url );
 
     r.lookup( "tilespec.name", null ); /* unused */
 
@@ -190,34 +191,35 @@ public class TileSpec implements Constants
     m_cityProductionsFontName = r.lookupString( "8x16", "tilespec.city_productions_font" );
     m_flagsAreTransparent = ( r.lookupInt( "tilespec.flags_are_transparent" ) != 0 );
 
-    m_mainIntroFilename = getGFXFilename( r.lookupString( "tilespec.main_intro_file" ) );
-    Logger.log( Logger.LOG_DEBUG, "intro file " + m_mainIntroFilename );
+    m_mainIntroURL = getGFXFilename( r.lookupString( "tilespec.main_intro_file" ) );
+    Logger.log( Logger.LOG_DEBUG, "intro file " + m_mainIntroURL );
 
-    m_minimapIntroFilename = getGFXFilename( r.lookupString( "tilespec.minimap_intro_file" ) );
-    Logger.log( Logger.LOG_DEBUG, "radar file " + m_minimapIntroFilename );
+    m_minimapIntroURL = getGFXFilename( r.lookupString( "tilespec.minimap_intro_file" ) );
+    Logger.log( Logger.LOG_DEBUG, "radar file " + m_minimapIntroURL );
 
-    m_specFiles = r.lookupStringList( "tilespec.files" );
-    if( m_specFiles.length == 0 )
+    String[] specFiles = r.lookupStringList( "tilespec.files" );
+    m_specFiles = new URL[ specFiles.length ];
+    if( specFiles.length == 0 )
     {
-      Logger.log( Logger.LOG_FATAL, "No tile files specified in " + fname );
+      Logger.log( Logger.LOG_FATAL, "No tile files specified in " + url );
       System.exit( 1 );
     }
-    for( int i = 0;i < m_specFiles.length;i++ )
+    for( int i = 0;i < specFiles.length;i++ )
     {
-      m_specFiles[ i ] = Shared.getDataFilenameRequired( m_specFiles[ i ] );
+      m_specFiles[ i ] = Shared.getDataURLRequired( specFiles[ i ] );
       if( Logger.DEBUG )
       {
-        Logger.log( Logger.LOG_DEBUG, "Spec file " + m_specFiles[ i ] );
+        Logger.log( Logger.LOG_DEBUG, "Spec file " + specFiles[ i ] );
       }
     }
-    Logger.log( Logger.LOG_VERBOSE, "Finished reading" + fname );
+    Logger.log( Logger.LOG_VERBOSE, "Finished reading" + url );
   }
 
   /**
    * Given a base filename, get a proper, full path including the correct
    * extension for the graphics file.
    */
-  static String getGFXFilename( String filename )
+  static URL getGFXFilename( String filename )
   {
     // tilespec.c: tilespec_gfx_filename()
 
@@ -225,10 +227,10 @@ public class TileSpec implements Constants
     for( int i = 0;i < extTok.length;i++ )
     {
       String fullName = filename + "." + extTok[ i ];
-      fullName = Shared.getDataFilename( fullName );
-      if( fullName != null )
+      URL gfxURL = Shared.getDataURL( fullName );
+      if( gfxURL != null )
       {
-        return fullName;
+        return gfxURL;
       }
     }
     Logger.log( Logger.LOG_FATAL, "Couldn't find a supported gfx file extension for " + filename );
@@ -260,12 +262,12 @@ public class TileSpec implements Constants
    * Falls back to default if can't find specified name;
    * dies if can't find default.
    */
-  static String getTileSpecFullName( String tilesetName )
+  static URL getTileSpecFullName( String tilesetName )
   {
     // tilespec.c: tilespec_fullname()
     int level;
     StringBuffer fname;
-    String dname;
+    URL dname;
     String tileset_default;
 
     if (isIsometricViewSupported())
@@ -284,7 +286,7 @@ public class TileSpec implements Constants
 
     fname = new StringBuffer( tilesetName );
     fname.append( ".tilespec" );
-    dname = Shared.getDataFilename( fname.toString() );
+    dname = Shared.getDataURL( fname.toString() );
 
     if( dname != null )
     {
@@ -300,7 +302,7 @@ public class TileSpec implements Constants
     }
     Logger.log( level, "Could not find readable file " + fname + " in data path." );
     Logger.log( level, "The data path may be set via the Java system" + " property " + Shared.FREECIV_PATH + "." );
-    Logger.log( level, "Current data path is " + Shared.getDataFilename( null ) );
+    // TODO: Need another way of getting this Logger.log( level, "Current data path is " + Shared.getDataFilename( null ) );
     if( level == Logger.LOG_FATAL )
     {
       System.exit( 1 );
@@ -316,7 +318,7 @@ public class TileSpec implements Constants
    * @param us_capstr our capabilities
    * @param filename the filename to check
    */
-  static void checkCapabilities( Registry r, String which, String us_capstr, String filename )
+  static void checkCapabilities( Registry r, String which, String us_capstr, URL url )
   {
     String file_capstr = r.lookupString( "%s.options", new Object[]
     {
@@ -325,7 +327,7 @@ public class TileSpec implements Constants
     if( !Shared.hasCapabilities( us_capstr, file_capstr ) )
     {
       Logger.log( Logger.LOG_FATAL, which + " file appears incompatible:" );
-      Logger.log( Logger.LOG_FATAL, "file: \"" + filename + "\"" );
+      Logger.log( Logger.LOG_FATAL, "file: \"" + url + "\"" );
       Logger.log( Logger.LOG_FATAL, "file options: " + file_capstr );
       Logger.log( Logger.LOG_FATAL, "supported options: " + us_capstr );
       System.exit( 1 );
@@ -333,7 +335,7 @@ public class TileSpec implements Constants
     if( !Shared.hasCapabilities( file_capstr, us_capstr ) )
     {
       Logger.log( Logger.LOG_FATAL, which + " claims required option(s) which we don't support:" );
-      Logger.log( Logger.LOG_FATAL, "file: \"" + filename + "\"" );
+      Logger.log( Logger.LOG_FATAL, "file: \"" + url + "\"" );
       Logger.log( Logger.LOG_FATAL, "file options: " + file_capstr );
       Logger.log( Logger.LOG_FATAL, "supported options: " + us_capstr );
       System.exit( 1 );
@@ -359,30 +361,30 @@ public class TileSpec implements Constants
    * Load one specfile and specified xpm file; splits xpm into tiles,
    * and save sprites in the hash table
    */
-  void loadOne( String specFilename )
+  void loadOne( URL specURL )
   {
     if( Logger.DEBUG )
     {
-      Logger.log( Logger.LOG_DEBUG, "loading spec " + specFilename );
+      Logger.log( Logger.LOG_DEBUG, "loading spec " + specURL );
     }
     Registry file = new Registry();
     try
     {
-      file.loadFile( specFilename );
+      file.load( specURL.openStream() );
     }
     catch (IOException ioe )
     {
-      Logger.log( Logger.LOG_FATAL, "Could not open " + specFilename );
+      Logger.log( Logger.LOG_FATAL, "Could not open " + specURL );
       Logger.log( Logger.LOG_FATAL, ioe );
       System.exit( 1 );
     }
     catch ( RegistryParseException rpe )
     {
-      Logger.log( Logger.LOG_FATAL, "Failed to parse "+ specFilename );
+      Logger.log( Logger.LOG_FATAL, "Failed to parse "+ specURL );
       Logger.log( Logger.LOG_FATAL, rpe );
       System.exit( 1 );
     }
-    checkCapabilities( file, "spec", SPEC_CAPSTR, specFilename );
+    checkCapabilities( file, "spec", SPEC_CAPSTR, specURL );
     file.lookup( "info.artists" ); /* Unused */
     String gfx_filename = file.lookupString( "file.gfx" );
     String[] tok = Shared.getTokens( EXTENSIONS, " " );
@@ -391,31 +393,31 @@ public class TileSpec implements Constants
     for (int i=0;  big_image == null && i < tok.length; i++ )
     {
       String full_name = gfx_filename + "." + tok[ i ];
-      String real_full_name = Shared.getDataFilename( full_name );
-      if( real_full_name != null )
+      URL fullURL = Shared.getDataURL( full_name );
+      if( fullURL != null )
       {
         if( Logger.DEBUG )
         {
-          Logger.log( Logger.LOG_DEBUG, "Trying to load gfx file " + real_full_name );
+          Logger.log( Logger.LOG_DEBUG, "Trying to load gfx file " + fullURL );
         }
-        big_image = loadImage( real_full_name );
+        big_image = loadImage( fullURL );
         if( big_image == null )
         {
-          Logger.log( Logger.LOG_VERBOSE, "Loading the gfx file " + real_full_name + " failed" );
+          Logger.log( Logger.LOG_VERBOSE, "Loading the gfx file " + fullURL + " failed" );
         }
       }
     }
 
     if( big_image == null )
     {
-      Logger.log( Logger.LOG_FATAL, "Couldn't load gfx file for the spec file " + specFilename );
+      Logger.log( Logger.LOG_FATAL, "Couldn't load gfx file for the spec file " + specURL );
       System.exit( 1 );
     }
 
     ArrayList gridNames = file.getSecNamesPrefix( "grid_" );
     if( gridNames == null )
     {
-      Logger.log( Logger.LOG_FATAL, "Spec " + specFilename + " has no grid_* sections." );
+      Logger.log( Logger.LOG_FATAL, "Spec " + specURL + " has no grid_* sections." );
       System.exit( 1 );
     }
     int x_top_left, y_top_left, dx, dy, x1, y1;
@@ -460,7 +462,7 @@ public class TileSpec implements Constants
     }
     if( Logger.DEBUG )
     {
-      Logger.log( Logger.LOG_DEBUG, "Finished " + specFilename );
+      Logger.log( Logger.LOG_DEBUG, "Finished " + specURL );
     }
   }
   /**
@@ -478,9 +480,10 @@ public class TileSpec implements Constants
 
     return i;
   }
-  private Sprite loadImage( String filename )
+  private Sprite loadImage( URL url )
   {
     // Get the extension.
+    String filename = url.getFile();
     int dotPos = filename.lastIndexOf( '.' );
     if( dotPos < 0 )
     {
@@ -490,7 +493,7 @@ public class TileSpec implements Constants
     // Figure out how to load the image based on its extension.
     if( XPM_EXT.equalsIgnoreCase( strExt ) )
     {
-      return new XPMFile( filename );
+      return new XPMFile( url );
     }
     return null;
   }

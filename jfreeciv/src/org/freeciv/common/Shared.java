@@ -1,7 +1,11 @@
 package org.freeciv.common;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.io.*;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Shared utilities
@@ -12,9 +16,11 @@ public class Shared
   
   // bd: Have tested this with path separators of more than one char.
   public static final String PATH_SEPARATOR = System.getProperty( "path.separator" );
-  public static final String DEFAULT_DATA_PATH = "C:\\cvswork\\jfreeciv\\data"; //"."+PATH_SEPARATOR+"data"+PATH_SEPARATOR+"~/.freeciv";
+  public static final String DEFAULT_DATA_PATH = "."+PATH_SEPARATOR+"data"+PATH_SEPARATOR+"~/.freeciv";
   private static boolean m_bDataInited = false;
   private static ArrayList m_alDirs = new ArrayList();
+
+  private static final String CLASSPATH_DATADIR = "data/";
   
   
   /**
@@ -58,25 +64,26 @@ public class Shared
   }
   
   /**
-   * As getDataFilename(), but bail out if the file doesn't exist.
+   * As getDataURL(), but bail out if the file doesn't exist.
    */
-  public static final String getDataFilenameRequired( String filename )
+  public static final URL getDataURLRequired( String filename )
   {
-    String s = getDataFilename( filename );
-    if( s != null )
+    URL u = getDataURL( filename );
+    if( u != null )
     {
-      return s;
+      return u;
     }
     else
     {
-      Logger.log( Logger.LOG_FATAL, "Could not find readable file " + filename + " in data path" );
+      Logger.log( Logger.LOG_FATAL, 
+        "Could not find readable file " + filename + " in data path" );
       System.exit( 1 );
     }
     return null;
   }
   
   /**
-   * Returns a filename to access the specified file from a data directory;
+   * Returns a URL to access the specified file from a data directory;
    * The file may be in any of the directories in the data path, which is
    * specified internally or may be set as the java property freeciv.datadir
    * (A separated list of directories, where the separator
@@ -85,9 +92,8 @@ public class Shared
    * in the string)
    * is expanded using the java user.home property.
    *
-   * If the specified 'filename' is null, the returned string contains
-   * the effective data path.  (But this should probably only be used
-   * for debug output.)
+   * The URL can potentially be on the network, or inside a jar file: you 
+   * should not make any assumptions about the location of the returned resource.
    *
    * Returns null if the specified filename cannot be found in any of the
    * data directories.  (A file is considered "found" if it can be read-opened.)
@@ -95,8 +101,10 @@ public class Shared
    * @param file a file name that needs a full path
    * @returns a full path to the file.
    */
-  public static final String getDataFilename( String filename )
+  public static final URL getDataURL( String filename )
   {
+    Assert.that( filename != null );
+  
     // Mostly lifted from shared.c, but some things are easier in Java (and
     // some are more cumbersome; no dodgy string pointer arithmetic here,
     // guv.)
@@ -170,6 +178,7 @@ public class Shared
       }
       m_bDataInited = true;
     }
+    /* NO LONGER SUPPORT THIS
     if( filename == null )
     {
       StringBuffer sb = new StringBuffer();
@@ -183,16 +192,39 @@ public class Shared
       }
       return sb.toString();
     }
+    */
     for( int i = 0;i < m_alDirs.size();i++ )
     {
       String fname = (String)m_alDirs.get( i ) + File.separator + filename;
       File f = new File( fname );
       if( f.exists() && f.isFile() && f.canRead() )
       {
-        return fname;
+        try
+        {
+          return f.toURL();
+        }
+        catch (MalformedURLException mue )
+        {
+          Assert.fail( "Malformed URL Exception converting "+f.getPath()+
+            " to a file: URL", mue
+          );
+        }
       }
     }
-    return null;
+
+
+    // As the very last resort, we load stuff from the classpath. This is
+    // the "default": i.e. in the absence of a data dir in the user's home
+    // directory, the current directory, or specified by the system
+    // property, we look in the classpath.
+
+
+    StringBuffer resourcePath = new StringBuffer(CLASSPATH_DATADIR);
+    resourcePath.append( filename );
+
+    URL u = Shared.class.getResource( resourcePath.toString() );
+
+    return u; // can be null if path not found.
   }
   
   /**
@@ -221,7 +253,7 @@ public class Shared
   }
   public static void main( String[] args )
   {
-    System.out.println( getDataFilename( args[ 0 ] ) );
+    System.out.println( getDataURL( args[ 0 ] ) );
   }
   
   

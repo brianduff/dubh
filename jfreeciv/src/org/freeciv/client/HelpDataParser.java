@@ -1,5 +1,6 @@
 package org.freeciv.client;
 
+import java.io.InputStream;
 import java.io.IOException;
 
 import org.freeciv.common.Registry;
@@ -17,16 +18,16 @@ class HelpDataParser
   /**
    * Construct a help data parser.
    *
-   * @param helpDataFile full path to the help data file
+   * @param helpStream input stream for the help data file
    * @throws java.io.IOException if an error occurred reading the help file
    * @throws org.freeciv.common.RegistryParseException if the help file
    *    failed to parse
    */
-  HelpDataParser( String helpDataFile )
+  HelpDataParser( InputStream helpStream )
     throws IOException, RegistryParseException
   {
     m_registry = new Registry();
-    m_registry.loadFile( helpDataFile );
+    m_registry.load( helpStream );
   }
 
   /**

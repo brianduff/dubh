@@ -63,34 +63,46 @@ public class InputFile
   {
     public String getToken( InputFile file );
   }
-  public static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(), 
+  
+  static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(), 
   INF_TOK_ENTRY_NAME = new EntryNameGetter(), INF_TOK_EOL = new EOLGetter(), 
   INF_TOK_TABLE_START = new TableStartGetter(), 
   INF_TOK_TABLE_END = new TableEndGetter(), 
   INF_TOK_COMMA = new CommaGetter(), 
   INF_TOK_VALUE = new ValueGetter();
   
-  String m_filename;
-  BufferedReader m_is;
-  boolean m_eof;
-  String m_curLine = "";
-  String m_copyLine = "";
-  int m_curLinePos;
-  int m_lineNum;
-  String m_token = "";
-  String m_partial = "";
+  private BufferedReader m_is;
+  private boolean m_eof;
+  private String m_curLine = "";
+  private String m_copyLine = "";
+  private int m_curLinePos;
+  private int m_lineNum;
+  private String m_token = "";
+  private String m_partial = "";
 
   private StringBuffer m_lineBuffer = new StringBuffer();
 
+  /**
+   * @deprecated use InputFile( InputStream )
+   */
   public InputFile( String filename )
           throws IOException
   {
     open( filename );
   }
 
+  /**
+   * Construct an input file based on an input stream.
+   *
+   * @param is the input stream to read
+   */
+  public InputFile( InputStream is )
+  {
+    open( is );
+  }
+
   private void assertSanity()
   {
-    Assert.that( ( m_filename != null ) );
     Assert.that( ( m_is != null ) );
     Assert.that( ( m_lineNum >= 0 ) );
     Assert.that( ( m_curLinePos >= 0 ) );
@@ -100,13 +112,14 @@ public class InputFile
     Assert.that( ( m_partial.length() >= 0 ) );
 
   }
+  
   private boolean isComment( char c )
   {
     return ( c == '#' || c == ';' );
   }
+  
   private void initZeros()
   {
-    m_filename = null;
     m_is = null;
     m_eof = false;
     m_curLine = "";
@@ -115,14 +128,25 @@ public class InputFile
     m_token = "";
     m_partial = "";
   }
+
+  private void open( InputStream is )
+  {
+    open( new BufferedReader( new InputStreamReader( is ) ) );
+  }
+
+  private void open( BufferedReader br )
+  {
+    initZeros();
+    m_is = br; 
+  }
+  
+  
   public void open( String filename )
                throws IOException
   {
-    BufferedReader is = new BufferedReader( new InputStreamReader( new FileInputStream( filename ) ) );
-    initZeros();
-    m_filename = filename;
-    m_is = is;
+    open( new BufferedReader( new FileReader( filename ) ) );
   }
+  
   public void close()
   {
     assertSanity();

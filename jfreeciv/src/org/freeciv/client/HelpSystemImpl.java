@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -36,15 +37,16 @@ final class HelpSystemImpl extends JFrame implements HelpSystem
   {
     m_client = c;
     m_mainWindow = w;
-    String helpPath = Shared.getDataFilename( "helpdata.txt" );
+    URL helpURL = Shared.getDataURL( "helpdata.txt" );
+    
     try
     {
-      m_parser = new HelpDataParser( helpPath );
+      m_parser = new HelpDataParser( helpURL.openStream() );
     }
     catch (IOException ioe)
     {
       Logger.log( Logger.LOG_ERROR, 
-        "Unable to initialize help system from "+helpPath );
+        "Unable to initialize help system from "+helpURL );
       Logger.log( Logger.LOG_ERROR,
         "Many help topics will be unavailable" );
       Logger.log ( Logger.LOG_ERROR, ioe );
@@ -52,7 +54,7 @@ final class HelpSystemImpl extends JFrame implements HelpSystem
     catch (RegistryParseException rpe)
     {
       Logger.log( Logger.LOG_ERROR, 
-        "Unable to initialize help system from "+helpPath );
+        "Unable to initialize help system from "+helpURL );
       Logger.log( Logger.LOG_ERROR,
         "Many help topics will be unavailable" );
       Logger.log ( Logger.LOG_ERROR, rpe );

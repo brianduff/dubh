@@ -4,6 +4,7 @@ package org.freeciv.common;
 import javax.swing.Icon;
 import java.awt.Color;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -34,6 +35,29 @@ public class XPMFile implements Sprite
   {
     loadFile( filename );
   }
+  public XPMFile( URL url )
+  {
+    m_filename = url.toString();
+    loadFile( url );
+  }
+
+  // TODO: the error handling in this class is crap.
+
+  private boolean loadFile( URL url )
+  {
+    try
+    {
+      m_hashColors = new HashMap();
+      m_brInput = new BufferedReader( new InputStreamReader( url.openStream() ) );
+      parseFile();
+      return true;
+    }
+    catch (IOException ioe)
+    {
+      return false;
+    }
+  }
+  
   public boolean loadFile( String filename )
   {
     try
