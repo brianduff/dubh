@@ -25,6 +25,15 @@
   </init-param>
  </servlet>
  
+ <servlet>
+   <servlet-name>jcvs</servlet-name>
+   <servlet-class>com.ice.jcvslet.JCVSlet</servlet-class>
+   <init-param>
+    <param-name>JCVSLET_HOME</param-name>
+    <param-value>WEB-INF/jcvslet</param-value>
+   </init-param>
+ </servlet>
+ 
  <servlet-mapping>
   <servlet-name>org.apache.cocoon.Cocoon</servlet-name>
   <url-pattern>*.xml</url-pattern>
