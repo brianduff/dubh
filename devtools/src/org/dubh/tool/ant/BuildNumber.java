@@ -1,4 +1,4 @@
-// $Id: BuildNumber.java,v 1.5 2000-08-20 21:03:38 briand Exp $
+// $Id: BuildNumber.java,v 1.6 2000-08-20 21:28:31 briand Exp $
 package org.dubh.tool.ant;
 
 import java.io.File;
@@ -93,7 +93,7 @@ public class BuildNumber extends Task
             try
             {
                FileOutputStream fos = new FileOutputStream(m_bnoFile);
-               p.store(fos, "Whatever dude");
+               p.store(fos, "Dubh Build properties for ANT. Do not edit!");
                fos.close();
             }
             catch (IOException ioe)
