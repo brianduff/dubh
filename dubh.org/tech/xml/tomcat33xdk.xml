@@ -127,7 +127,7 @@
       
       <h3>2. Set up the CLASSPATH for the Oracle JDBC Drivers</h3>
       
-      <p><b>Important:</b> You need to do this even if you are not using XSQL with
+      <p><b>Important:</b> You need to do this even if you are using XSQL with
         another vendor's database (see below)
       </p>
       
@@ -282,13 +282,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-06-28 23:47:46 $
+      $Date: 2001-07-08 02:52:04 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.1 $
+      $Revision: 1.2 $
     </revision>
   </cvs-info>
   
