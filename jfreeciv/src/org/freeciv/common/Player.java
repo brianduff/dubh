@@ -89,6 +89,24 @@ public class Player implements GameObject, CommonConstants
   }
 
   /**
+   * Find a city belonging to this player by Id
+   *
+   * @param id the city id
+   * @return the specified City, if it belongs to this player, or null
+   *  if the specified city id doesn't exist, or does not belong to this 
+   *  player.
+   */
+  public City findCityById( int id )
+  {
+    City c = City.findById( id );
+    if ( c != null && ( c.getOwner() == this ) )
+    {
+      return c;
+    }
+    return null;
+  }
+
+  /**
    * Find the city belonging to this player which has a palace (i.e. is the
    * capital city
    *
@@ -131,6 +149,11 @@ public class Player implements GameObject, CommonConstants
   public void addUnit( Unit u )
   {
     m_units.put( new Integer( u.getId() ), u );
+  }
+
+  public void addCity( City c )
+  {
+    m_cities.add( c );
   }
 
   public Spaceship getSpaceship()
@@ -248,9 +271,10 @@ public class Player implements GameObject, CommonConstants
     m_cityStyle = cityStyle;
   }
 
-  public int getCityStyle()
+  public CityStyle getCityStyle()
   {
-    return m_cityStyle;
+    return (CityStyle) 
+      m_playerFactory.getParent().getCityStyleFactory().findById( m_cityStyle );
   }
 
   public Economy getEconomy()

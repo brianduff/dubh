@@ -16,7 +16,7 @@ public final  class Tile
   private int m_known;
   // sent - not used on client
   private int m_assigned;
-  private List m_worked;  // city working tile, or null
+  private City m_worked;  // city working tile, or null
   private int m_continent;
   private char[] m_moveCost; //?
 
@@ -72,6 +72,11 @@ public final  class Tile
   public City getCity()
   {
     return m_city;
+  }
+
+  public void setCity( City c )
+  {
+    m_city = c;
   }
 
   /**
@@ -143,5 +148,27 @@ public final  class Tile
   public boolean hasFallout()
   {
     return false;
+  }
+
+  /**
+   * Mark this tile as being worked by the specified city
+   *
+   * @param c a city which is working this tile. Can be null to clear the
+   *    working city.
+   */
+  void setWorkedBy( City c )
+  {
+    m_worked = c;
+  }
+
+  /**
+   * Gets the city which is working this tile
+   *
+   * @return a city which is working this tile, or null if no city is working
+   *    it
+   */
+  City getWorkedBy( )
+  {
+    return m_worked;
   }
 }

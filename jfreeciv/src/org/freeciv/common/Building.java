@@ -5,7 +5,7 @@ import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetBuilding;
 
 /**
- * A building in freeciv
+ * A building type in freeciv
  *
  * @author Brian.Duff@dubh.org
  */
@@ -99,6 +99,17 @@ public class Building implements GameObject
   public boolean isWonder()
   {
     return m_ruleset.is_wonder;
+  }
+
+  /** 
+   * Is this improvement an obsolete wonder?
+   *
+   * @return true if this improvement is a wonder and is obsolete
+   */
+  public boolean isWonderObsolete()
+  {
+    // TODO: Unsure
+    return false;
   }
 
   public int getBuildCost()
