@@ -2,6 +2,7 @@ package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
+import org.freeciv.client.action.ACTEndTurn;
 import org.freeciv.common.Assert;
 import org.freeciv.common.City;
 import org.freeciv.common.Game;
@@ -23,9 +24,9 @@ public class PHGameState extends AbstractHandler implements Constants
    * Return the class name of the packet that this
    * handler needs
    */
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktGenericInteger";
+    return PktGenericInteger.class;
   }
   
   /**
@@ -49,7 +50,7 @@ public class PHGameState extends AbstractHandler implements Constants
     {
       c.getMainWindow().getMapOverview().refresh();
 
-      c.getAction( "ACTEndTurn" ).setEnabled( true );
+      c.getAction( ACTEndTurn.class ).setEnabled( true );
       c.getGame().getCurrentPlayer().initUnitFocusStatus();
 
       c.updateInfoLabel();

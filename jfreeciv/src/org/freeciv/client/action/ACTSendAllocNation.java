@@ -7,13 +7,15 @@ import java.awt.event.ActionEvent;
 
 public class ACTSendAllocNation extends AbstractClientAction
 {
-  private static ACTSendAllocNation m_singleton = null;
+
   private PktAllocNation m_packet;
+  
   public ACTSendAllocNation() 
   {
     super();
     putValue( NAME, _( "Choose Nation" ) );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
     if( m_packet == null )
@@ -27,13 +29,6 @@ public class ACTSendAllocNation extends AbstractClientAction
     m_packet.city_style = dn.getCityStyle();
     getClient().sendToServer( m_packet );
   }
-  public static ACTSendAllocNation getInstance( Client c )
-  {
-    if( m_singleton == null )
-    {
-      m_singleton = new ACTSendAllocNation();
-      m_singleton.setClient( c );
-    }
-    return m_singleton;
-  }
+  
+
 }

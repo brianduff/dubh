@@ -1,7 +1,13 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.*;
-import org.freeciv.net.*;
+
 import javax.swing.JOptionPane;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Constants;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktJoinGameReply;
+
+
 /**
  * This interface is implemented by objects that handle packets received
  * from the server.
@@ -9,9 +15,9 @@ import javax.swing.JOptionPane;
 public class PHJoinGameReply implements ClientPacketHandler
 {
 
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktJoinGameReply";
+    return PktJoinGameReply.class;
   }
   
   /**

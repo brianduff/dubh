@@ -18,9 +18,9 @@ public class PHUnitInfo extends AbstractHandler implements Constants
   private static final int UNIT_INFO_CITY_SUPPORTED = 1;
   private static final int UNIT_INFO_CITY_PRESENT = 2;
 
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktUnitInfo";
+    return PktUnitInfo.class;
   }
 
   static int last_serial_num = 0;

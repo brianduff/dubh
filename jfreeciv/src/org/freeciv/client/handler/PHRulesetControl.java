@@ -1,18 +1,21 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.dialog.DlgProgress;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Localize;
 import org.freeciv.client.dialog.ProgressItem;
-import org.freeciv.client.*;
-import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktRulesetControl;
+
 /**
  * Ruleset control packet handler.
  */
 public class PHRulesetControl implements ClientPacketHandler,ProgressItem
 {
   private final static int NUM_RULESETS = 9;
-  public String getPacketClass()
+  
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetControl";
+    return PktRulesetControl.class;
   }
   /**
    */

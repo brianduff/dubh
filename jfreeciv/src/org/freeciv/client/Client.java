@@ -24,6 +24,7 @@ import org.freeciv.common.Tile;
 import org.freeciv.common.ErrorHandler;
 import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.Actions;
+import org.freeciv.client.action.ACTDisconnect;
 import org.freeciv.client.dialog.DialogManager;
 import org.freeciv.client.dialog.DlgLogin;
 import org.freeciv.client.handler.ClientPacketDispacher;
@@ -226,17 +227,21 @@ public class Client implements Constants
 
 
   /**
-   * Get the action associated with the specified name
+   * Get the action instance for the specified action class.
+   *
+   * @param actionClass an action class
+   * @return the stored instance of the specified action.
    */
-  public AbstractClientAction getAction( String actionName )
+  public AbstractClientAction getAction( Class actionClass )
   {
-    return m_actions.getAction( actionName );
+    return m_actions.getAction( actionClass );
   }
+  
   /**
    * Enables or disables an action. Guaranteed to take place on
    * the UI thread.
    */
-  public void setActionEnabled( final String actionName, final boolean enabled )
+  public void setActionEnabled( final Class actionName, final boolean enabled )
   {
     SwingUtilities.invokeLater( new Runnable()
     {
@@ -454,7 +459,7 @@ public class Client implements Constants
   private synchronized void setConnected( boolean b )
   {
     m_bConnected = b;
-    getAction( "ACTDisconnect" ).setEnabled( b );
+    getAction( ACTDisconnect.class ).setEnabled( b );
   }
 
   /**

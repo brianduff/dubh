@@ -12,9 +12,9 @@ import org.freeciv.net.PktSpaceshipInfo;
 final class PHSpaceshipInfo implements ClientPacketHandler
 {
 
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktSpaceshipInfo";
+    return PktSpaceshipInfo.class;
   }
   
   /**

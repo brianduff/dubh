@@ -1,14 +1,15 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<?Oracle-JDeveloper Object2Dom = '1.0'?><!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
+<!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
+<?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.client.ui.util</defaultPackage>
+   <defaultPackage>org.freeciv.client</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
+      <Item class="java.lang.String">org.freeciv.client</Item>
+      <Item class="java.lang.String">org.freeciv.client.handler</Item>
       <Item class="java.lang.String">org.freeciv.client.ui.util</Item>
       <Item class="java.lang.String">org.freeciv.client.map</Item>
-      <Item class="java.lang.String">org.freeciv.client</Item>
       <Item class="java.lang.String">org.freeciv.common</Item>
       <Item class="java.lang.String">package4</Item>
-      <Item class="java.lang.String">org.freeciv.client.handler</Item>
       <Item class="java.lang.String">org.freeciv.net</Item>
    </defaultPackages>
    <htmlRootDirectory path="public_html/"/>
@@ -801,6 +802,12 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/ui/util/BusyCursor.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHCityInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
       </Item>
    </listOfChildren>
    <ownerMap/>

@@ -3,7 +3,6 @@ package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
 import org.freeciv.common.Government;
-import org.freeciv.common.RulerTitle;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetGovernmentRulerTitle;
 
@@ -12,9 +11,9 @@ import org.freeciv.net.PktRulesetGovernmentRulerTitle;
  */
 public class PHRulesetGovernmentRulerTitle implements ClientPacketHandler
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetGovernmentRulerTitle";
+    return PktRulesetGovernmentRulerTitle.class;
   }
   /**
    */

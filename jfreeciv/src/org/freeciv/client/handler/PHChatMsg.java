@@ -1,10 +1,13 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.dialog.DlgNation;
+
+
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
 import org.freeciv.client.Options;
-import org.freeciv.net.*;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktGenericMessage;
 import org.freeciv.client.dialog.DlgNotifyGoto;
+
 /**
  * Chat message handler
  */

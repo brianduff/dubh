@@ -11,9 +11,9 @@ import org.freeciv.net.PktMapInfo;
 public class PHMapInfo extends AbstractHandler
 {
 
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktMapInfo";
+    return PktMapInfo.class;
   }
 
   void handleOnEventThread( Client c, Packet pkt )

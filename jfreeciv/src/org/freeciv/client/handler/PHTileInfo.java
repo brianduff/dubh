@@ -15,9 +15,9 @@ import org.freeciv.net.PktTileInfo;
  */
 public class PHTileInfo extends AbstractHandler implements Constants
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktTileInfo";
+    return PktTileInfo.class;
   }
   /**
    */

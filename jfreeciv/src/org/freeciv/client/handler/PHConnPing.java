@@ -1,17 +1,22 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.*;
-import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Constants;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktGenericEmpty;
+
+
 /**
  * Handles "ping" packets". Simply sends back a "pong" packet.
  */
 public class PHConnPing implements ClientPacketHandler,Constants
 {
-  public String getPacketClass()
+
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktGenericEmpty";
+    return PktGenericEmpty.class;
   }
+  
   public void handle( Client c, Packet pkt )
   {
     // bounce back a pong

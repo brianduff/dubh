@@ -27,7 +27,7 @@ public class ClientPacketDispacher
   // SPACESHIP_INFO
   // *TILE_INFO
   //
-  // Space added so that the packet handers start on line 100.
+
   /**
    * This array must have a one to one correspondence with
    * the packet number. It contains instances of all handlers
@@ -51,7 +51,7 @@ public class ClientPacketDispacher
     new PHGameInfo(), /* GAME_INFO*/ 
     new PHMapInfo(), /* MAP_INFO*/ 
     new PHChatMsg(), /* CHAT_MESSAGE*/
-    null, /*CITY_INFO 15*/ 
+    new PHCityInfo(), /*CITY_INFO 15*/ 
     null, /*CITY_SELL*/ 
     null, /*CITY_BUY*/
     null, /*CITY_CHANGE*/ 
@@ -150,14 +150,14 @@ public class ClientPacketDispacher
   {
     try
     {
-      String packetClassName = cph.getPacketClass();
-      if( packetClassName == null )
+      Class packetClass = cph.getPacketClass();
+      if( packetClass == null )
       {
         // Make sure we consume any data
         in.consume();
         return null;
       }
-      Class packetClass = Class.forName( packetClassName );
+      
       Packet packet = (Packet)packetClass.newInstance();
       packet.setType( type );
       packet.receive( in );

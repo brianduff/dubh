@@ -1,6 +1,9 @@
 package org.freeciv.client.dialog;
+
 import org.freeciv.client.Client;
 import org.freeciv.client.Localize;
+import org.freeciv.client.action.ACTQuit;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -45,7 +48,7 @@ class ImplLogin extends JPanel implements DlgLogin
     m_dlgManager = mgr;
     setupServerPanel();
     setupMetaServerPanel();
-    cancel = new ActionButton( m_client.getAction( "ACTQuit" ) );
+    cancel = new ActionButton( m_client.getAction( ACTQuit.class ) );
     JPanel p = new JPanel();
     p.setLayout( new BoxLayout( p, BoxLayout.X_AXIS ) );
     p.add( ok );

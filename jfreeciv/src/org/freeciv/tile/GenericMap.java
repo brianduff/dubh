@@ -1,7 +1,8 @@
 package org.freeciv.tile;
+
 import java.awt.Color;
-import java.awt.Point;
 import javax.swing.*;
+
 public abstract class GenericMap extends JComponent
 {
   protected int upperLeftX;

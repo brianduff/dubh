@@ -4,6 +4,7 @@ import org.freeciv.client.Client;
 import org.freeciv.client.Localize;
 import org.freeciv.client.dialog.ProgressItem;
 import org.freeciv.net.Packet;
+import org.freeciv.net.PktRulesetUnit;
 import org.freeciv.common.UnitType;
 
 /**
@@ -11,9 +12,9 @@ import org.freeciv.common.UnitType;
  */
 public class PHRulesetUnit implements ClientPacketHandler,ProgressItem
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetUnit";
+    return PktRulesetUnit.class;
   }
   /**
    */

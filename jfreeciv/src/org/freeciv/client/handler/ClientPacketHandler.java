@@ -11,7 +11,7 @@ public interface ClientPacketHandler
    * Return the class name of the packet that this
    * handler needs
    */
-  public String getPacketClass();
+  public Class getPacketClass();
   /**
    * Your handler should implement this method to actually
    * handle an incoming packet.

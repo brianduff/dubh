@@ -1,16 +1,18 @@
 package org.freeciv.client.handler;
 
-import org.freeciv.client.*;
-import org.freeciv.net.*;
+import org.freeciv.client.Client;
+
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktRulesetTerrainControl;
 
 /**
  * Ruleset control packet handler.
  */
 public class PHRulesetTerrainControl implements ClientPacketHandler
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetTerrainControl";
+    return PktRulesetTerrainControl.class;
   }
   /**
    */

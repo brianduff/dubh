@@ -12,9 +12,9 @@ import org.freeciv.net.PktGameInfo;
  */
 final class PHGameInfo implements ClientPacketHandler, Constants
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktGameInfo";
+    return PktGameInfo.class;
   }
   /**
    */

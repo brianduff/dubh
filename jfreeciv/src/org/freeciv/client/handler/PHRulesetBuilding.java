@@ -4,14 +4,16 @@ import org.freeciv.client.Client;
 import org.freeciv.client.Localize;
 import org.freeciv.client.dialog.ProgressItem;
 import org.freeciv.net.Packet;
+import org.freeciv.net.PktRulesetBuilding;
+
 /**
  * Ruleset control packet handler.
  */
 public class PHRulesetBuilding implements ClientPacketHandler,ProgressItem
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetBuilding";
+    return PktRulesetBuilding.class;
   }
   /**
    */

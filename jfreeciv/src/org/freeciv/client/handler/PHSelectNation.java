@@ -1,8 +1,11 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.dialog.DlgNation;
+
+
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
-import org.freeciv.net.*;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktGenericValues;
+
 /**
  * This interface is implemented by objects that handle packets received
  * from the server.

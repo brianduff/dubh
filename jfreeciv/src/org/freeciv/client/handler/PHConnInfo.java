@@ -1,10 +1,12 @@
 package org.freeciv.client.handler;
+
 import org.freeciv.client.Client;
 import org.freeciv.common.Connection;
 import org.freeciv.common.Player;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktConnInfo;
 import org.freeciv.common.Logger;
+
 /**
  * Packet handler for the CONN_INFO packet.
  * 
@@ -16,9 +18,9 @@ public class PHConnInfo implements ClientPacketHandler
    * Return the class name of the packet that this
    * handler needs
    */
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktConnInfo";
+    return PktConnInfo.class;
   }
   /**
    * Your handler should implement this method to actually

@@ -8,7 +8,9 @@ import java.util.*;
 import java.text.Collator;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.action.*;
+import org.freeciv.client.action.ACTDisconnect;
+import org.freeciv.client.action.ACTQuit;
+import org.freeciv.client.action.ACTSendAllocNation;
 import org.freeciv.client.ui.util.*;
 
 import org.freeciv.common.CityStyle;
@@ -69,8 +71,8 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   
   private void setupButtonPanel()
   {
-    m_butDisconnect = new ActionButton( m_client.getAction( "ACTDisconnect" ) );
-    m_butQuit = new ActionButton( m_client.getAction( "ACTQuit" ) );
+    m_butDisconnect = new ActionButton( m_client.getAction( ACTDisconnect.class ) );
+    m_butQuit = new ActionButton( m_client.getAction( ACTQuit.class ) );
     m_panButtons.setLayout( new FlowLayout() );
     m_panButtons.add( m_butOK );
     m_panButtons.add( m_butDisconnect );
@@ -340,7 +342,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplNation.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    m_butOK.addActionListener( ACTSendAllocNation.getInstance( m_client ) );
+    m_butOK.addActionListener( m_client.getAction( ACTSendAllocNation.class ) );
     m_dlgManager.showDialog( m_dialog );
   }
   

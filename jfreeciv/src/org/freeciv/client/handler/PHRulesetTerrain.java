@@ -12,9 +12,9 @@ import org.freeciv.net.PktRulesetTerrain;
  */
 public class PHRulesetTerrain implements ClientPacketHandler,ProgressItem
 {
-  public String getPacketClass()
+  public Class getPacketClass()
   {
-    return "org.freeciv.net.PktRulesetTerrain";
+    return PktRulesetTerrain.class;
   }
   /**
    */
