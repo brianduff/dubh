@@ -1,8 +1,6 @@
 package org.freeciv.common;
 
-// bad import
-import org.freeciv.client.Constants;
-
+import org.freeciv.common.CommonConstants;
 import org.freeciv.net.Packet;
 
 import java.util.ArrayList;
@@ -96,7 +94,7 @@ abstract class AbstractGameObjectFactory implements GameObjectFactory
    */
   protected int getMaximumNumberOfObjects()
   {
-    return Constants.MAX_NUM_ITEMS;
+    return CommonConstants.MAX_NUM_ITEMS;
   }
   
   protected abstract GameObject doCreate();
