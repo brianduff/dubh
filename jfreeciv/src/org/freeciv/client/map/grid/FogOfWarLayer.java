@@ -39,7 +39,7 @@ public class FogOfWarLayer extends GridMapTileLayer
 
   public void paintTile(Graphics g, Point mapPos, Point gPos, MapViewInfo info)
   {
-    if ( info.getTile( mapPos ).getKnown() == Constants.TILE_KNOWN_FOGGED )
+    if ( info.getTileAtMapPos( mapPos ).getKnown() == Constants.TILE_KNOWN_FOGGED )
     {
 
       Graphics2D g2d = (Graphics2D)g;

@@ -16,8 +16,8 @@ public class UACTBuildCity extends AbstractUnitAction
   public UACTBuildCity() 
   {
     super();
-    putValue( NAME, _( "Build City" ) );
-    setAccelerator( KeyEvent.VK_B );
+    setName( _( "Build City" ) );
+    addAccelerator( KeyEvent.VK_B );
   }
   
   /**

@@ -15,8 +15,8 @@ public class UACTAutoAttack extends AbstractUnitAction
   public UACTAutoAttack() 
   {
     super();
-    putValue( NAME, _( "Auto Attack" ) );
-    setAccelerator( KeyEvent.VK_A, Event.SHIFT_MASK );
+    setName( _( "Auto Attack" ) );
+    addAccelerator( KeyEvent.VK_A, Event.SHIFT_MASK );
   }
   
   public void actionPerformed( ActionEvent e )

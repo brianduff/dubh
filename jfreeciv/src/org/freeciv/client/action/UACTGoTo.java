@@ -8,8 +8,8 @@ public class UACTGoTo extends AbstractUnitAction
   public UACTGoTo() 
   {
     super();
-    putValue( NAME, _( "Go To" ) );
-    setAccelerator( KeyEvent.VK_G );
+    setName( _( "Go To" ) );
+    addAccelerator( KeyEvent.VK_G );
   }
   public void actionPerformed( ActionEvent e )
   {

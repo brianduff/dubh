@@ -13,7 +13,7 @@ public final class ACTHelpCopying extends AbstractClientAction
   public ACTHelpCopying() 
   {
     super();
-    putValue( NAME, "Copying" );
+    setName( _( "Copying" ) );
     setEnabled( true );
   }
 

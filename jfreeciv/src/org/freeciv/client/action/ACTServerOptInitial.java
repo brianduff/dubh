@@ -15,7 +15,7 @@ public class ACTServerOptInitial extends AbstractClientAction
   public ACTServerOptInitial() 
   {
     super();
-    putValue( NAME, _( "Server Opt initial" ) );
+    setName( _( "Server Opt initial" ) );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

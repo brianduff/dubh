@@ -145,7 +145,7 @@ class UnitLayer extends GridMapTileLayer implements Constants
 
   public void paintTile(Graphics g, Point mapPos, Point gPos, MapViewInfo info)
   {
-    Tile tile = info.getTile( mapPos );
+    Tile tile = info.getTileAtMapPos( mapPos );
     Unit unit = findVisibleUnit( tile, info );
 
     if ( unit != null )

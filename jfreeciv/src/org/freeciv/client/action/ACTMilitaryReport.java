@@ -8,8 +8,8 @@ public class ACTMilitaryReport extends AbstractClientAction
   public ACTMilitaryReport() 
   {
     super();
-    putValue( NAME, _( "Military Report" ) );
-    setAccelerator( KeyEvent.VK_F2 );
+    setName( _( "Military Report" ) );
+    addAccelerator( KeyEvent.VK_F2 );
     
     setEnabled( true );
   }

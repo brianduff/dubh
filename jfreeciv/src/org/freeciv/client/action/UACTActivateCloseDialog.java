@@ -8,7 +8,7 @@ public class UACTActivateCloseDialog extends AbstractUnitAction
   public UACTActivateCloseDialog() 
   {
     super();
-    putValue( NAME, _( "Activate, Close Dialog" ) );
+    setName( _( "Activate, Close Dialog" ) );
   }
   public void actionPerformed( ActionEvent e )
   {

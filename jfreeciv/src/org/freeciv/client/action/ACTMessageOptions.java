@@ -9,7 +9,7 @@ public class ACTMessageOptions extends AbstractClientAction
   public ACTMessageOptions() 
   {
     super();
-    putValue( NAME, _( "Message Options" ) );
+    setName( _( "Message Options" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

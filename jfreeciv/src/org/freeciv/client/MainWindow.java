@@ -15,8 +15,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.action.BasicMoveFactory;
+import org.freeciv.client.action.MenuFactory;
 import org.freeciv.client.action.AbstractToggleAction;
 import org.freeciv.client.map.MapViewManager;
+import org.freeciv.client.map.MapMouseListener;
 import org.freeciv.client.panel.CivInfoPanel;
 import org.freeciv.client.panel.UnitInfoPanel;
 import org.freeciv.client.panel.UnitStackDisplay;
@@ -96,6 +99,10 @@ public final class MainWindow extends JFrame
     getContentPane().add( m_viewManager.getMainMapView().getComponent(),
       BorderLayout.CENTER );
     m_mapOverview.addJumpListener( m_viewManager.getMainMapView() );
+
+    // Set the listener for mouse event
+    m_viewManager.getMainMapView().getComponent().addMouseListener(
+					  new MapMouseListener());
 
     setDefaultCloseOperation( this.DO_NOTHING_ON_CLOSE );
     addWindowListener( new WindowCloseListener() );
@@ -264,35 +271,9 @@ public final class MainWindow extends JFrame
    */
   private void setupMenus()
   {
-    JMenuBar jmb = new JMenuBar();
-    for( int i = 0;i < MenuDefinitions.MENUS.length;i++ )
-    {
-      JMenu menu = new JMenu( _( (String) MenuDefinitions.MENUS[ i ][ 0 ] ) ); // _ should go with the literal.
-      for( int j = 1;j < MenuDefinitions.MENUS[ i ].length;j++ )
-      {
-        if( MenuDefinitions.MENUS[ i ][ j ] == null )
-        {
-          menu.addSeparator();
-        }
-        else
-        {
-          Action a = m_client.getAction( (Class) MenuDefinitions.MENUS[ i ][ j ] );
-          if( a instanceof AbstractToggleAction )
-          {
-            menu.add( new ToggleActionMenuItem( (AbstractToggleAction)a ) );
-          }
-          else
-          {
-            menu.add( new ActionMenuItem( (AbstractClientAction)a ) );
-          }
-        }
-      }
-      jmb.add( menu );
-    }
-    setJMenuBar( jmb );
+    MenuFactory.createMenus( m_client , this );
+    BasicMoveFactory.createBasicMoves( m_client );
   }
-
-
   private static String _( String txt )
   {
     return Localize.translation.translate( txt );

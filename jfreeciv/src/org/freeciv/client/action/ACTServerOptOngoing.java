@@ -15,7 +15,7 @@ public class ACTServerOptOngoing extends AbstractClientAction
   public ACTServerOptOngoing() 
   {
     super();
-    putValue( NAME, _( "Server Opt ongoing" ) );
+    setName( _( "Server Opt ongoing" ) );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

@@ -9,7 +9,7 @@ public class ACTSaveSettings extends AbstractClientAction
   public ACTSaveSettings() 
   {
     super();
-    putValue( NAME, _( "Save Settings" ) );
+    setName( _( "Save Settings" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

@@ -38,7 +38,7 @@ public class CityProductionLayer extends GridMapTileLayer
 
   public void paintTile(Graphics g, Point mapPos, Point gPos, MapViewInfo info)
   {
-    Tile tile = info.getTile( mapPos );
+    Tile tile = info.getTileAtMapPos( mapPos );
     /*
     if ( tile.getWorkedBy() == getCity() )
     {

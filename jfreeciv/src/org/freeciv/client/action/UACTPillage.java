@@ -13,8 +13,8 @@ public class UACTPillage extends AbstractUnitAction
   public UACTPillage() 
   {
     super();
-    putValue( NAME, _( "Pillage" ) );
-    setAccelerator( KeyEvent.VK_P, Event.SHIFT_MASK );
+    setName( _( "Pillage" ) );
+    addAccelerator( KeyEvent.VK_P, Event.SHIFT_MASK );
     setEnabled( false );
   }
   

@@ -10,8 +10,8 @@ public class ACTQuit extends AbstractClientAction
   public ACTQuit() 
   {
     super();
-    putValue( NAME, _( "Quit" ) );
-    setAccelerator( KeyEvent.VK_Q, Event.CTRL_MASK );
+    setName( _( "Quit" ) );
+    addAccelerator( KeyEvent.VK_Q, Event.CTRL_MASK );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

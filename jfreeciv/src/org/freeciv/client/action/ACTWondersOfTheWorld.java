@@ -15,8 +15,8 @@ public class ACTWondersOfTheWorld extends AbstractClientAction
   public ACTWondersOfTheWorld() 
   {
     super();
-    putValue( NAME, _( "Wonders of the World" ) );
-    setAccelerator( KeyEvent.VK_F7 );
+    setName( _( "Wonders of the World" ) );
+    addAccelerator( KeyEvent.VK_F7 );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.freeciv.client.action.AbstractClientAction;
+
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -59,15 +61,15 @@ public class HyperlinkButton extends JLabel
     m_listeners = new ArrayList();
   }
 
-  public HyperlinkButton(Action a)
+  public HyperlinkButton(AbstractClientAction aca)
   {
     this();
-    setText( (String) a.getValue( Action.NAME ) );
-    setIcon( (Icon) a.getValue( Action.SMALL_ICON ) );
-    setEnabled( a.isEnabled() );
+    setText( aca.getName() );
+    setIcon( (Icon) aca.getValue( Action.SMALL_ICON ) );
+    setEnabled( aca.isEnabled() );
 
-    a.addPropertyChangeListener( new ActionPropertyChangeListener() );
-    addActionListener( a );    
+    aca.addPropertyChangeListener( new ActionPropertyChangeListener() );
+    addActionListener( aca );    
   }
 
   public void addActionListener(ActionListener al)

@@ -8,8 +8,8 @@ public class ACTCityReport extends AbstractClientAction
   public ACTCityReport() 
   {
     super();
-    putValue( NAME, _( "City Report" ) );
-    setAccelerator( KeyEvent.VK_F1 );
+    setName( _( "City Report" ) );
+    addAccelerator( KeyEvent.VK_F1 );
     
     setEnabled( true );
   }

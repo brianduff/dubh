@@ -97,7 +97,7 @@ class ImplScienceReport extends VerticalFlowPanel
 
     m_cmbResearch = new JComboBox();
     m_cmbResearch.addItemListener( this );
-    m_cmbResearch.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
+    //m_cmbResearch.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
     
     m_pbrResearch.setStringPainted( true );
     m_pbrResearch.setString( "X / X" );
@@ -121,7 +121,7 @@ class ImplScienceReport extends VerticalFlowPanel
 
     m_cmbGoal = new JComboBox();
     m_cmbGoal.addItemListener( this );
-    m_cmbGoal.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
+    //m_cmbGoal.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
 
     m_panGoal.setLayout( new FlowLayout() );
     m_panGoal.add( m_cmbGoal );
@@ -140,7 +140,7 @@ class ImplScienceReport extends VerticalFlowPanel
     m_lstKnownTechs = new JList();
     
     m_lstKnownTechs.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-    m_lstKnownTechs.setLayoutOrientation( JList.HORIZONTAL_WRAP );
+    //m_lstKnownTechs.setLayoutOrientation( JList.HORIZONTAL_WRAP );
     m_lstKnownTechs.setEnabled( false );
     m_lstKnownTechs.setPrototypeCellValue( _( PROTOTYPE_STRING ) );
     

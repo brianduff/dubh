@@ -8,8 +8,8 @@ public class ACTPlayers extends AbstractClientAction
   public ACTPlayers() 
   {
     super();
-    putValue( NAME, _( "Players" ) );
-    setAccelerator( KeyEvent.VK_F3, 0 );
+    setName( _( "Players" ) );
+    addAccelerator( KeyEvent.VK_F3, 0 );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

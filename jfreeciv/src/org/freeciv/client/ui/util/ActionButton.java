@@ -18,35 +18,23 @@ public class ActionButton extends JButton implements PropertyChangeListener
   }
   public ActionButton( AbstractClientAction aca ) 
   {
-    super( (String)aca.getValue( Action.NAME ) );
-    String mn = (String)aca.getValue( AbstractClientAction.MNEMONIC );
-    if( mn != null && mn.length() > 0 )
-    {
-      setMnemonic( mn.charAt( 0 ) );
-    }
-    setEnabled( aca.isEnabled() );
+    super( aca.getName() );
+    update( aca );
     aca.addPropertyChangeListener( this );
     addActionListener( aca );
+    aca.addComponent( this );
+  }
+  public void update( AbstractClientAction aca ){
+    char mn = aca.getMnemonic();
+    if( mn != '\0' )
+    {
+      setMnemonic( mn );
+    }
+    setEnabled( aca.isEnabled() );
+    setText( aca.getName() );      
   }
   public void propertyChange( PropertyChangeEvent pe )
   {
-    if( "enabled".equals( pe.getPropertyName() ) )
-    {
-      setEnabled( ( (Boolean)pe.getNewValue() ).booleanValue() );
-    }
-    else
-    {
-      if( AbstractClientAction.VISIBLE.equals( pe.getPropertyName() ) )
-      {
-        setVisible( ( (Boolean)pe.getNewValue() ).booleanValue() );
-      }
-      else
-      {
-        if( Action.NAME.equals( pe.getPropertyName() ) )
-        {
-          setText( (String)pe.getNewValue() );
-        }
-      }
-    }
+    update( (AbstractClientAction)pe.getSource() );
   }
 }

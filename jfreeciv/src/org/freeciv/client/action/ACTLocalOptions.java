@@ -8,7 +8,7 @@ public class ACTLocalOptions extends AbstractClientAction
   public ACTLocalOptions() 
   {
     super();
-    putValue( NAME, _( "Local Options" ) );
+    setName( _( "Local Options" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

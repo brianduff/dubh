@@ -12,8 +12,8 @@ public class UACTAutoExplore extends AbstractUnitAction
   public UACTAutoExplore() 
   {
     super();
-    putValue( NAME, _( "Auto Explore" ) );
-    setAccelerator( KeyEvent.VK_X );
+    setName( _( "Auto Explore" ) );
+    addAccelerator( KeyEvent.VK_X );
   }
   
   public void actionPerformed( ActionEvent e )

@@ -9,8 +9,8 @@ public class UACTHelpBuildWonder extends AbstractUnitAction
   public UACTHelpBuildWonder() 
   {
     super();
-    putValue( NAME, _( "Help Build Wonder" ) );
-    setAccelerator( KeyEvent.VK_B, Event.SHIFT_MASK );
+    setName( _( "Help Build Wonder" ) );
+    addAccelerator( KeyEvent.VK_B, Event.SHIFT_MASK );
   }
   public void actionPerformed( ActionEvent e )
   {

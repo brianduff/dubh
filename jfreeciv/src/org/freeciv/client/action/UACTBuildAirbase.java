@@ -11,8 +11,8 @@ public class UACTBuildAirbase extends AbstractUnitAction
   public UACTBuildAirbase() 
   {
     super();
-    putValue( NAME, _( "Build Airbase" ) );
-    setAccelerator( KeyEvent.VK_E );
+    setName( _( "Build Airbase" ) );
+    addAccelerator( KeyEvent.VK_E );
   }
   
   public void actionPerformed( ActionEvent e )

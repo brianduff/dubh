@@ -8,7 +8,7 @@ public class ACTRevolution extends AbstractClientAction
   public ACTRevolution() 
   {
     super();
-    putValue( NAME, _( "Revolution" ) );
+    setName( _( "Revolution" ) );
     setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )

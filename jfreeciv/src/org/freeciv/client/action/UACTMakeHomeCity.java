@@ -15,8 +15,8 @@ public class UACTMakeHomeCity extends AbstractUnitAction
   public UACTMakeHomeCity() 
   {
     super();
-    putValue( NAME, _( "Make Home City" ) );
-    setAccelerator( KeyEvent.VK_H );
+    setName( _( "Make Home City" ) );
+    addAccelerator( KeyEvent.VK_H );
   }
   
   public void actionPerformed( ActionEvent e )

@@ -12,48 +12,28 @@ public class ToggleActionMenuItem extends JCheckBoxMenuItem implements PropertyC
 {
   public ToggleActionMenuItem( AbstractToggleAction aca ) 
   {
-    super( (String)aca.getValue( Action.NAME ) );
-    KeyStroke key = (KeyStroke)aca.getValue( AbstractToggleAction.ACCELERATOR );
+    super( aca.getName() );
+    aca.addPropertyChangeListener( this );
+    addActionListener( aca );
+    aca.addComponent( this );
+  }
+  public void propertyChange( PropertyChangeEvent pe )
+  {
+    update( (AbstractToggleAction) pe.getSource() );
+  }
+  public void update( AbstractToggleAction aca )
+  {
+    KeyStroke key = aca.getFirstAccelerator();
     if( key != null )
     {
       setAccelerator( key );
     }
-    String mn = (String)aca.getValue( AbstractToggleAction.MNEMONIC );
-    if( mn != null && mn.length() > 0 )
+    char mn = aca.getMnemonic();
+    if( mn != '\0' )
     {
-      setMnemonic( mn.charAt( 0 ) );
+      setMnemonic( mn );
     }
     setEnabled( aca.isEnabled() );
-    aca.addPropertyChangeListener( this );
-    addActionListener( aca );
     setSelected( aca.isToggledOn() );
-  }
-  public void propertyChange( PropertyChangeEvent pe )
-  {
-    if( "enabled".equals( pe.getPropertyName() ) )
-    {
-      setEnabled( ( (Boolean)pe.getNewValue() ).booleanValue() );
-    }
-    else
-    {
-      if( AbstractToggleAction.VISIBLE.equals( pe.getPropertyName() ) )
-      {
-        setVisible( ( (Boolean)pe.getNewValue() ).booleanValue() );
-      }
-      else
-      {
-        if( Action.NAME.equals( pe.getPropertyName() ) )
-        {
-          setText( (String)pe.getNewValue() );
-        }
-        else
-        {
-          if( AbstractToggleAction.TOGGLE_STATE.equals( pe.getPropertyName() ) )
-          {
-            setSelected( ( (Boolean)pe.getNewValue() ).booleanValue() );
-          }
-        }
-      }
-    }
   }
 }

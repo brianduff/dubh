@@ -20,7 +20,8 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import org.freeciv.client.Constants;
-import org.freeciv.client.Localize;
+import org.freeciv.util.Localize;
+import org.freeciv.client.action.ActionManager;
 
 /**
  * The actual map component. This component simply provides the required 
@@ -50,11 +51,32 @@ class MapComponent extends JComponent implements Scrollable
    */
   MapComponent( Collection layers, MapViewInfo mvi )
   {
+    setFocusable(true);
+    addKeyListener( ActionManager.actionManager.createAccelListener() );
+      
     m_layers = layers;
     m_mvi = mvi;
 
     m_tileWidth = mvi.getTileSize().width;
     m_tileHeight = mvi.getTileSize().height;
+  }
+
+  /**
+   * Get the MapViewInfo of the map in this component.
+   *
+   * @return a MapViewInfo instance
+   */
+  public MapViewInfo getMapViewInfo(){
+    return m_mvi;
+  }
+
+  /**
+   * Request a repaint of the BufferLayer if existant
+   */
+  public void repaintLayers(int tilex, int tiley, int tilew, int tileh)
+  {
+    repaint(0, tilex*m_tileWidth, tiley*m_tileHeight,
+            tilew*m_tileWidth, tileh*m_tileHeight);
   }
 
   /**
@@ -68,11 +90,30 @@ class MapComponent extends JComponent implements Scrollable
   }
   
   /**
+   * Request a repaint of the BufferLayer if existant
+   */
+  public void repaintBufferLayer(int tilex, int tiley, int tilew, int tileh)
+  {
+    Iterator layerIter = m_layers.iterator();
+    while ( layerIter.hasNext() )
+    {
+      MapLayer layer = (MapLayer) layerIter.next();
+      if (layer instanceof BufferLayer)
+      {
+        ((BufferLayer) layer).paintRectBuffer(tilex*m_tileWidth, tiley*m_tileHeight,
+                                              tilew*m_tileWidth, tileh*m_tileHeight, m_mvi);
+      }
+    }
+  }
+
+
+  /**
    * Paint the map component. We simply request that all layers paint
    * themselves.
    */
   public void paint( Graphics g )
   {
+    grabFocus();
     Graphics2D g2 = (Graphics2D)g;
     Rectangle r = getVisibleRect();
     //Rectangle r = g.getClipRect();

@@ -8,8 +8,8 @@ public class UACTGoToCity extends AbstractUnitAction
   public UACTGoToCity() 
   {
     super();
-    putValue( NAME, _( "Go/Airlift to City" ) );
-    setAccelerator( KeyEvent.VK_L );
+    setName( _( "Go/Airlift to City" ) );
+    addAccelerator( KeyEvent.VK_L );
   }
   public void actionPerformed( ActionEvent e )
   {

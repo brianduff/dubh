@@ -15,8 +15,8 @@ public class ACTDemographics extends AbstractClientAction
   public ACTDemographics() 
   {
     super();
-    putValue( NAME, _( "Demographics" ) );
-    setAccelerator( KeyEvent.VK_F11 );
+    setName( _( "Demographics" ) );
+    addAccelerator( KeyEvent.VK_F11 );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

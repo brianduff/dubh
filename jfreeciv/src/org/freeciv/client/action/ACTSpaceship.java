@@ -8,8 +8,8 @@ public class ACTSpaceship extends AbstractClientAction
   public ACTSpaceship() 
   {
     super();
-    putValue( NAME, _( "Spaceship" ) );
-    setAccelerator( KeyEvent.VK_F12 );
+    setName( _( "Spaceship" ) );
+    addAccelerator( KeyEvent.VK_F12 );
   }
   public void actionPerformed( ActionEvent e )
   {

@@ -15,7 +15,7 @@ public class ACTEndTurn extends AbstractClientAction
   public ACTEndTurn() 
   {
     super();
-    putValue( NAME, _( "End Turn" ) );
+    setName( _( "End Turn" ) );
     setEnabled( false );
 
     URL imgURL = ACTEndTurn.class.getResource( 

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class DialogManager
 {
   private Client m_client;
+  // The only DialogManager object
+  private static DialogManager m_dialogManager;
   // We can hold on to any dialogs that are capable of resetting
   // themselves on each call.
   ImplLogin m_login;
@@ -33,10 +35,20 @@ public class DialogManager
   {
     m_client = c;
     m_alVisibleDialogs = new ArrayList();
+    m_dialogManager = this;
   }
   protected DialogManager()
   {
     this( null );
+  }
+
+  /**
+   * Static function to get the only dialog manager.
+   *
+   * @return the only DialogManager object
+   */
+  public static DialogManager getDialogManager(){
+    return m_dialogManager;
   }
   private class DialogInvoker implements Runnable
   {

@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 
 import org.freeciv.client.panel.MapOverviewJumpListener;
 import org.freeciv.common.City;
+import org.freeciv.common.Tile;
 
 /**
  * The external interface to a single view on the map.
@@ -39,6 +40,16 @@ public interface MapView extends MapOverviewJumpListener
   void initialize();
 
   void centerOnTile( int tilex, int tiley );
+
+  /**
+   * Get the tile that currently covers a specified position in the 
+   * MapComponent's canvas.
+   *
+   * @param canvasx the x-coordinate in the currently visible part of the map
+   * @param canvasy the y-coordinate in the currently visible part of the map
+   * @return the Tile at this position
+   */
+  Tile getTileAtCanvasPos( int canvasx, int canvasy );
 
   /**
    * Get the actual physical component for this map view

@@ -8,7 +8,7 @@ public class UACTActivateUnit extends AbstractUnitAction
   public UACTActivateUnit() 
   {
     super();
-    putValue( NAME, _( "Activate Unit" ) );
+    setName( _( "Activate Unit" ) );
   }
   public void actionPerformed( ActionEvent e )
   {

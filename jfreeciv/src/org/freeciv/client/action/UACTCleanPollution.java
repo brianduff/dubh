@@ -13,8 +13,8 @@ public class UACTCleanPollution extends AbstractUnitAction
   public UACTCleanPollution() 
   {
     super();
-    putValue( NAME, _( "Clean Pollution" ) );
-    setAccelerator( KeyEvent.VK_P );
+    setName( _( "Clean Pollution" ) );
+    addAccelerator( KeyEvent.VK_P );
   }
   
   public void actionPerformed( ActionEvent e )

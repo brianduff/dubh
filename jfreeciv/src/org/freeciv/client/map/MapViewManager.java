@@ -22,6 +22,7 @@ import org.freeciv.client.map.iso.IsometricMapView;
  */
 public final class MapViewManager
 {
+  private static MapViewManager m_mapViewManager;
   private List m_mapViews;
   private Client m_client;
   private MapView m_mainView;
@@ -38,6 +39,7 @@ public final class MapViewManager
   {
     m_client = c;
     m_mapViews = new ArrayList();
+    m_mapViewManager = this;
   }
 
   /**
@@ -51,7 +53,7 @@ public final class MapViewManager
         Iterator i = iterator();
         while ( i.hasNext() )
         {
-          ((MapView)i.next()).refreshTileMapCanvas( x, y );
+          ((MapView) i.next()).refreshTileMapCanvas( x, y );
         }
         m_client.getMainWindow().getMapOverview().refresh( x, y );        
       }
@@ -114,6 +116,15 @@ public final class MapViewManager
     // view-by-view property (only slaved views will auto-center)
 
     m_mainView.centerOnTile( tilex, tiley );
+  }
+
+  /**
+   * Get the only instance of the MapViewManager.
+   *
+   * @return the only instance of the MapViewManager
+   */
+  public static MapViewManager getMapViewManager(){
+    return m_mapViewManager;
   }
   
   /**
@@ -181,8 +192,6 @@ public final class MapViewManager
       mv = new GridMapView( m_client );
     }
 
-    m_mapViews.add( mv );
-
     return mv;
   }
   
@@ -201,8 +210,6 @@ public final class MapViewManager
     {
       mv = new GridMapView( m_client, city );
     }
-
-    m_mapViews.add( mv );
 
     return mv;
   }

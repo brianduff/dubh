@@ -11,7 +11,7 @@ public class ACTDisconnect extends AbstractClientAction
   public ACTDisconnect() 
   {
     super();
-    putValue( NAME, _( "Disconnect" ) );
+    setName( _( "Disconnect" ) );
     setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )

@@ -14,8 +14,8 @@ public class UACTUnload extends AbstractUnitAction
   public UACTUnload() 
   {
     super();
-    putValue( NAME, _( "Unload" ) );
-    setAccelerator( KeyEvent.VK_U );
+    setName( _( "Unload" ) );
+    addAccelerator( KeyEvent.VK_U );
   }
   
   public void actionPerformed( ActionEvent e )

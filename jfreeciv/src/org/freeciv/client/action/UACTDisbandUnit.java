@@ -16,8 +16,8 @@ public class UACTDisbandUnit extends AbstractUnitAction
   public UACTDisbandUnit() 
   {
     super();
-    putValue( NAME, _( "Disband Unit" ) );
-    setAccelerator( KeyEvent.VK_D, Event.SHIFT_MASK );
+    setName( _( "Disband Unit" ) );
+    addAccelerator( KeyEvent.VK_D, Event.SHIFT_MASK );
   }
   
   public void actionPerformed( ActionEvent e )

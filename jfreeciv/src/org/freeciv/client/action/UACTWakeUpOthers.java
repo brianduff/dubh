@@ -14,8 +14,8 @@ public class UACTWakeUpOthers extends AbstractUnitAction
   public UACTWakeUpOthers() 
   {
     super();
-    putValue( NAME, _( "Wake up Others" ) );
-    setAccelerator( KeyEvent.VK_W, Event.SHIFT_MASK );
+    setName( _( "Wake up Others" ) );
+    addAccelerator( KeyEvent.VK_W, Event.SHIFT_MASK );
   }
   
   public void actionPerformed( ActionEvent e )

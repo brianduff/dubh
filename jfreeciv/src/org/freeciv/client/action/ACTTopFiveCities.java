@@ -15,8 +15,8 @@ public class ACTTopFiveCities extends AbstractClientAction
   public ACTTopFiveCities() 
   {
     super();
-    putValue( NAME, _( "Top Five Cities" ) );
-    setAccelerator( KeyEvent.VK_F8 );
+    setName( _( "Top Five Cities" ) );
+    addAccelerator( KeyEvent.VK_F8 );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

@@ -1,7 +1,7 @@
 package org.freeciv.common;
 
 /**
- * Logical representation of information abou the map
+ * Logical representation of information about the map
  */
 public final class Map implements CommonConstants
 {

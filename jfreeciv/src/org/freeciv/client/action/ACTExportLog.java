@@ -7,7 +7,7 @@ public class ACTExportLog extends AbstractClientAction
   public ACTExportLog() 
   {
     super();
-    putValue( NAME, _( "Export Log" ) );
+    setName( _( "Export Log" ) );
     setEnabled( true );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

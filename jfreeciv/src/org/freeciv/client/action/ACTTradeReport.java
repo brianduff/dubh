@@ -8,8 +8,8 @@ public class ACTTradeReport extends AbstractClientAction
   public ACTTradeReport() 
   {
     super();
-    putValue( NAME, _( "Trade Report" ) );
-    setAccelerator( KeyEvent.VK_F5 );
+    setName( _( "Trade Report" ) );
+    addAccelerator( KeyEvent.VK_F5 );
     
     setEnabled( true );
   }

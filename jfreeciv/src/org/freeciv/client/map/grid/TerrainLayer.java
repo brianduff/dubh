@@ -105,7 +105,7 @@ public final class TerrainLayer extends GridMapTileLayer implements Constants
     int abs_x0 = mapPos.x;
     int abs_y0 = mapPos.y;
 
-    tile = info.getTile( mapPos );
+    tile = info.getTileAtMapPos( mapPos );
 
     if ( tile.getKnown() == TILE_UNKNOWN )
     {

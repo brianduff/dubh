@@ -19,12 +19,11 @@ import org.freeciv.net.PktUnitInfo;
  */
 public abstract class AbstractUnitAction extends AbstractClientAction
 {
-  public AbstractUnitAction() 
+  public AbstractUnitAction()
   {
     super();
-    setEnabled( false );
   }
-  
+
   /**
    * Is this action performable by the specified unit?
    * 

@@ -7,7 +7,7 @@ public class ACTClearLog extends AbstractClientAction
   public ACTClearLog() 
   {
     super();
-    putValue( NAME, _( "Clear Log" ) );
+    setName( _( "Clear Log" ) );
     setEnabled( true );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

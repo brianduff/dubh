@@ -8,8 +8,8 @@ public class UACTConnect extends AbstractUnitAction
   public UACTConnect() 
   {
     super();
-    putValue( NAME, _( "Connect" ) );
-    setAccelerator( KeyEvent.VK_C, Event.SHIFT_MASK );
+    setName( _( "Connect" ) );
+    addAccelerator( KeyEvent.VK_C, Event.SHIFT_MASK );
   }
   public void actionPerformed( ActionEvent e )
   {

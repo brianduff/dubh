@@ -14,8 +14,8 @@ public class UACTWait extends AbstractUnitAction
   public UACTWait() 
   {
     super();
-    putValue( NAME, _( "Wait" ) );
-    setAccelerator( KeyEvent.VK_W );
+    setName( _( "Wait" ) );
+    addAccelerator( KeyEvent.VK_W );
   }
   
   public void actionPerformed( ActionEvent e )

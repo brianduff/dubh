@@ -13,8 +13,8 @@ public class UACTTransformTerrain extends AbstractUnitAction
   public UACTTransformTerrain() 
   {
     super();
-    putValue( NAME, _( "Transform Terrain" ) ); // Needs to be able to change
-    setAccelerator( KeyEvent.VK_O );
+    setName( _( "Transform Terrain" ) ); // Needs to be able to change
+    addAccelerator( KeyEvent.VK_O );
   }
   
   public void actionPerformed( ActionEvent e )

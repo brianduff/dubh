@@ -12,8 +12,8 @@ public class UACTMine extends AbstractUnitAction
   public UACTMine() 
   {
     super();
-    putValue( NAME, _( "Mine" ) ); // Needs to be able to change
-    setAccelerator( KeyEvent.VK_M );
+    setName( _( "Mine" ) ); // Needs to be able to change
+    addAccelerator( KeyEvent.VK_M );
   }
   
   public void actionPerformed( ActionEvent e )

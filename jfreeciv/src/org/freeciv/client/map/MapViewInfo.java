@@ -64,7 +64,7 @@ public interface MapViewInfo
    * @param mapPos the map position to get tile information for
    * @return a Tile object for the specified position
    */
-  Tile getTile( Point mapPos );
+  Tile getTileAtMapPos( Point mapPos );
 
   /**
    * Get the map

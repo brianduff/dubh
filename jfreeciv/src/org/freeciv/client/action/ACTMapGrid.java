@@ -12,8 +12,8 @@ public class ACTMapGrid extends AbstractToggleAction
   public ACTMapGrid() 
   {
     super();
-    putValue( NAME, _( "Map Grid" ) );
-    setAccelerator( KeyEvent.VK_G, Event.CTRL_MASK );
+    setName( _( "Map Grid" ) );
+    addAccelerator( KeyEvent.VK_G, Event.CTRL_MASK );
   }
   /**
    * The toggle was changed

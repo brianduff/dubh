@@ -107,6 +107,18 @@ public class BufferLayer implements MapLayer
       m_bufferGraphics.clearRect(0, 0, w, h);
   }  
 
+  /** 
+   * Repaint the rectangle of all layers into the background buffer.
+   * The coordinate are expressed in the layers coordinate space
+   * whereas for paintBuffer(), they are expressed in the m_bufferGraphics
+   * ones. So they are converted...
+   */
+
+  public void paintRectBuffer( int x, int y, int w, int h, MapViewInfo mvi )
+  {
+    paintBuffer(x - m_bufferRect.x, y - m_bufferRect.y, w, h, mvi);
+  }
+
   /**
    * Repaint all layers into the background buffer.
    */

@@ -13,8 +13,8 @@ public class UACTDone extends AbstractUnitAction
   public UACTDone() 
   {
     super();
-    putValue( NAME, _( "Done" ) );
-    setAccelerator( KeyEvent.VK_SPACE );
+    setName( _( "Done" ) );
+    addAccelerator( KeyEvent.VK_SPACE );
   }
   
   public void actionPerformed( ActionEvent e )

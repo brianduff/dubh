@@ -30,9 +30,9 @@ import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
+import org.freeciv.util.Localize;
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
-import org.freeciv.client.Localize;
 import org.freeciv.client.Options;
 import org.freeciv.client.panel.MapOverviewJumpEvent;
 import org.freeciv.common.Assert;
@@ -96,15 +96,10 @@ public abstract class AbstractMapView implements MapView, Constants
     Icon intro = getClient().getTileSpec().getImage( "main_intro_file" );
     Assert.that( intro != null );
     m_scrollPane.setViewportView( new JLabel( intro ) );
-  
-
-
-
-
   }
-  
+
   /**
-   * Contruct a city view.
+   * Construct a city view.
    */
   protected AbstractMapView( Client c, City city )
   {
@@ -121,6 +116,16 @@ public abstract class AbstractMapView implements MapView, Constants
   protected MapComponent getMapComponent()
   {
     return m_component;
+  }
+
+  /**
+   * Get the MapViewInfo of this MapView.
+   *
+   * @return a MapViewInfo instance
+   */
+  public MapViewInfo getMapViewInfo()
+  {
+    return m_component.getMapViewInfo();
   }
 
   public final void mapOverviewJumped( MapOverviewJumpEvent moje )
@@ -156,6 +161,13 @@ public abstract class AbstractMapView implements MapView, Constants
   {
     tilex = getMap().adjustX( tilex );
     tiley = getMap().adjustY( tiley );
+
+    m_component.repaintBufferLayer( tilex, tiley, tilew, tileh);
+
+    if (repaint)
+    {
+      m_component.repaintLayers(tilex, tiley, tilew, tileh);
+    }
 
     //if ( isTileVisible( tilex, tiley ) )
     //{
@@ -232,9 +244,16 @@ public abstract class AbstractMapView implements MapView, Constants
     return getClient().getGame().getMap();
   }
 
-  protected final Tile getTile(int x, int y)
+  /**
+   * Get information about a tile.
+   *
+   * @param mapx the map position to get tile information for
+   * @param mapy the map position to get tile information for
+   * @return a Tile object for the specified position
+   */
+  protected final Tile getTileAtMapPos(int mapx, int mapy)
   {
-    return getMap().getTile( x, y );
+    return getMap().getTile( mapx, mapy );
   }
 
   /**
@@ -397,7 +416,7 @@ public abstract class AbstractMapView implements MapView, Constants
 
   protected final String _(String s)
   {
-    return Localize.translation.translate( s );
+    return Localize.translate( s );
   }
 
   /*
@@ -469,7 +488,7 @@ public abstract class AbstractMapView implements MapView, Constants
      * @param mapPos the map position to get tile information for
      * @return a Tile object for the specified position
      */
-    public Tile getTile( Point mapPos )
+    public Tile getTileAtMapPos( Point mapPos )
     {
       return getClient().getGame().getMap().getTile( mapPos.x, mapPos.y );
     }

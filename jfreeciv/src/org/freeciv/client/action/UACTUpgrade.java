@@ -8,7 +8,7 @@ public class UACTUpgrade extends AbstractUnitAction
   public UACTUpgrade() 
   {
     super();
-    putValue( NAME, _( "Upgrade" ) );
+    setName( _( "Upgrade" ) );
   }
   public void actionPerformed( ActionEvent e )
   {

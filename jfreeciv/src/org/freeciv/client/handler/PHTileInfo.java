@@ -1,6 +1,7 @@
 package org.freeciv.client.handler;
 
 import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
@@ -51,11 +52,17 @@ public class PHTileInfo extends AbstractHandler implements Constants
     // Fog of war
     if ( tile.getKnown() <= TILE_KNOWN_FOGGED && oldKnown == TILE_KNOWN )
     {
+      // To avoid a ConcurrentModificationException, first get the units 
+      // of the tile to remove, then really remove them.
+      ArrayList unitsToRemove = new ArrayList();
       Iterator unitIter = tile.getUnits();
-      while (unitIter.hasNext())
-      {
-        c.removeUnit( (Unit)unitIter.next() );
-      }
+      while ( unitIter.hasNext())
+        unitsToRemove.add((Unit)unitIter.next());
+
+      // Really remove the units
+      int nbunits = unitsToRemove.size();
+      for (int i=0; i<nbunits; i++)
+        c.removeUnit( (Unit) unitsToRemove.get(i) );
     }
 
     if (( pmi.known >= TILE_KNOWN_FOGGED &&
@@ -106,6 +113,7 @@ public class PHTileInfo extends AbstractHandler implements Constants
         c.refreshTileMapCanvas( x, y, true );
       }
 
+      /*
       if ( tileChanged )
       {
         if ( m.getTile( x-1, y ).isKnown() )
@@ -163,6 +171,7 @@ public class PHTileInfo extends AbstractHandler implements Constants
           c.refreshTileMapCanvas( x, y+1 , true );
         }
       }
+      */
     }
 
 

@@ -2,6 +2,7 @@ package org.freeciv.client.map.grid;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,9 +13,11 @@ import org.freeciv.client.Colors;
 import org.freeciv.client.map.AbstractMapView;
 import org.freeciv.client.map.BufferLayer;
 import org.freeciv.client.map.MapLayer;
+import org.freeciv.client.map.MapViewInfo;
 import org.freeciv.common.MapPosition;
 import org.freeciv.common.Player;
 import org.freeciv.common.City;
+import org.freeciv.common.Tile;
 
 /**
  * A map view that uses square grid tiles.
@@ -28,7 +31,7 @@ public class GridMapView extends AbstractMapView
   /**
    * For some reason, NOT using the back buffer appears to be faster... ??
    */
-  private static final boolean USE_BACK_BUFFER = true;
+  public static final boolean USE_BACK_BUFFER = false; //true;
 
   private Collection m_layers;
 
@@ -81,6 +84,8 @@ public class GridMapView extends AbstractMapView
       l.add( new TerrainLayer( this ) );   
       l.add( new FogOfWarLayer( this ) );
 
+      if (getClient().getOptions().drawMapGrid)
+        l.add( new GridLayer( this ) );
     }
     if ( isCityView() )
     {
@@ -165,4 +170,23 @@ public class GridMapView extends AbstractMapView
       && canvasPos.y >= 0
       && canvasPos.y < getBufferTileWidth() * getNormalTileHeight();
   }
+
+  /**
+   * Get the tile that currently covers a specified position in the 
+   * MapComponent's canvas.
+   *
+   * @param canvasx the x-coordinate in the currently visible part of the map
+   * @param canvasy the y-coordinate in the currently visible part of the map
+   * @return the Tile at this position
+   */
+  public Tile getTileAtCanvasPos(int canvasx, int canvasy)
+  {
+    Rectangle rect = getMapViewInfo().getVisibleRectangle();
+
+    int tilex = (((int)rect.getX()) + canvasx) / getNormalTileWidth();
+    int tiley = (((int)rect.getY()) + canvasy) / getNormalTileHeight();
+
+    return getTileAtMapPos( tilex , tiley );
+  }
+
 }

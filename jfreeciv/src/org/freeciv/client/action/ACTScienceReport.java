@@ -8,8 +8,8 @@ public class ACTScienceReport extends AbstractClientAction
   public ACTScienceReport() 
   {
     super();
-    putValue( NAME, _( "Science Report" ) );
-    setAccelerator( KeyEvent.VK_F6 );
+    setName( _( "Science Report" ) );
+    addAccelerator( KeyEvent.VK_F6 );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

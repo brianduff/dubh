@@ -67,7 +67,8 @@ import org.freeciv.net.PktUnitInfo;
  */
 public final class Client implements Constants
 {
-
+  // The only client object
+  private static Client m_client;
   // The tile spec holds all the images that the client uses
   private TileSpec m_tileSpec;
   // The actions are anything the user can do through the interface
@@ -98,7 +99,6 @@ public final class Client implements Constants
   private boolean m_recycInit = false;
   private int m_lastContinentNumber = 0;
 
-
   // prob shouldn't instantiate this yet.
   private Game m_game = new Game();
   public final static String APP_NAME = "Freeciv4J";
@@ -122,8 +122,7 @@ public final class Client implements Constants
   public Client()
   {
     super( );
-
-
+    m_client = this;
 
     // Take a hit right now and load the images etc.
     // BD: Need to do most of this in a different thread so connection
@@ -197,6 +196,16 @@ public final class Client implements Constants
     return m_mainWindow;
   }
 
+
+  /**
+   * Static function to get the only client object
+   *
+   * @return the only client object
+   */
+  public static Client getClient()
+  {
+    return m_client;
+  }
 
 
   public String getCapabilities()
@@ -1147,19 +1156,23 @@ public final class Client implements Constants
     unit.setHitPoints( packet.hp );
     getGame().getMap().getTile( unit.getX(), unit.getY() ).addUnit( unit );
     
-    /*
-  for(y=punit->y-2; y<punit->y+3; ++y) { 
-    if(y<0 || y>=map.ysize)
-      continue;
-    for(x=punit->x-2; x<punit->x+3; ++x) { 
-      unit_list_iterate(map_get_tile(x, y)->units, pu)
-	if(unit_flag(pu->type, F_PARTIAL_INVIS)) {
-	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
-	}
-      unit_list_iterate_end
+    for ( y = unit.getY() - 2; y < unit.getY() + 3; ++y )
+    {
+      if (y < 0 || y > getGame().getMap().getHeight() )
+      {
+        continue;
+      }
+      for ( x = unit.getX() - 2; x < unit.getX() + 3; ++x )
+      {
+        for( Iterator i = getGame().getMap().getTile( x, y ).getUnits();
+             i.hasNext(); )
+        {
+          refreshTileMapCanvas( 
+                getGame().getMap().adjustX( ( (Unit)i.next() ).getX() ),
+                y, true );
+        }
+      }
     }
-  }
-    */
     
     if( !packet.carried 
         && getGame().getMap().getTile( unit.getX(), unit.getY() ).getKnown() == TILE_KNOWN )
@@ -1243,7 +1256,7 @@ public final class Client implements Constants
     {
       getDialogManager().refreshCityDialog( city );
     }
-    
+
     refreshTileMapCanvas( x, y, true );
   }
 

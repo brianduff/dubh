@@ -37,7 +37,7 @@ abstract class GridMapTileLayer implements MapLayer
    */
   protected boolean isBuffered()
   {
-    return true;
+    return GridMapView.USE_BACK_BUFFER;
   }
 
   /**

@@ -7,8 +7,8 @@ public class ACTMessages extends AbstractClientAction
   public ACTMessages() 
   {
     super();
-    putValue( NAME, _( "Messages" ) );
-    setAccelerator( KeyEvent.VK_F10, 0 );
+    setName( _( "Messages" ) );
+    addAccelerator( KeyEvent.VK_F10, 0 );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {

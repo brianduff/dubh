@@ -9,9 +9,9 @@ public class ACTTaxRates extends AbstractClientAction
   public ACTTaxRates() 
   {
     super();
-    putValue( NAME, _( "Tax Rates" ) );
+    setName( _( "Tax Rates" ) );
     setMnemonic( 'T' );
-    setAccelerator( KeyEvent.VK_T, Event.SHIFT_MASK );
+    addAccelerator( KeyEvent.VK_T, Event.SHIFT_MASK );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

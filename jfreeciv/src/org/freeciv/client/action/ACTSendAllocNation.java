@@ -13,7 +13,7 @@ public class ACTSendAllocNation extends AbstractClientAction
   public ACTSendAllocNation() 
   {
     super();
-    putValue( NAME, _( "Choose Nation" ) );
+    setName( _( "Choose Nation" ) );
   }
   
   public void actionPerformed( ActionEvent e )

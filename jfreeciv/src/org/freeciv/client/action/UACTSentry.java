@@ -13,8 +13,8 @@ public class UACTSentry extends AbstractUnitAction
   public UACTSentry() 
   {
     super();
-    putValue( NAME, _( "Sentry" ) );
-    setAccelerator( KeyEvent.VK_S );
+    setName( _( "Sentry" ) );
+    addAccelerator( KeyEvent.VK_S );
   }
   
   public void actionPerformed( ActionEvent e )

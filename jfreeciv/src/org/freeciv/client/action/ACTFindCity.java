@@ -8,9 +8,9 @@ public class ACTFindCity extends AbstractClientAction
   public ACTFindCity() 
   {
     super();
-    putValue( NAME, _( "Find City" ) );
+    setName( _( "Find City" ) );
     setMnemonic( 'F' );
-    setAccelerator( KeyEvent.VK_F, Event.CTRL_MASK );
+    addAccelerator( KeyEvent.VK_F, Event.CTRL_MASK );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

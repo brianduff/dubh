@@ -13,8 +13,8 @@ public class UACTBuildIrrigation extends AbstractUnitAction
   public UACTBuildIrrigation() 
   {
     super();
-    putValue( NAME, _( "Build Irrigation" ) );
-    setAccelerator( KeyEvent.VK_I );
+    setName( _( "Build Irrigation" ) );
+    addAccelerator( KeyEvent.VK_I );
   }
   
   public void actionPerformed( ActionEvent e )

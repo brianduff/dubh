@@ -2,6 +2,7 @@ package org.freeciv.client.panel;
 
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
+import org.freeciv.util.Localize;
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +21,6 @@ public class CivStatusPanel extends VerticalFlowPanel
   // game state)
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return Localize.translate( txt );
   }
 }

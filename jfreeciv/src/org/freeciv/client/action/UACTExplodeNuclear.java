@@ -14,8 +14,8 @@ public class UACTExplodeNuclear extends AbstractUnitAction
   public UACTExplodeNuclear() 
   {
     super();
-    putValue( NAME, _( "Explode Nuclear" ) );
-    setAccelerator( KeyEvent.VK_N, Event.SHIFT_MASK );
+    setName( _( "Explode Nuclear" ) );
+    addAccelerator( KeyEvent.VK_N, Event.SHIFT_MASK );
   }
   
   public void actionPerformed( ActionEvent e )

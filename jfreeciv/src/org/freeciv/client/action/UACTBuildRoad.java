@@ -13,8 +13,8 @@ public class UACTBuildRoad extends AbstractUnitAction
   public UACTBuildRoad() 
   {
     super();
-    putValue( NAME, _( "Build Road" ) );
-    setAccelerator( KeyEvent.VK_R );
+    setName( _( "Build Road" ) );
+    addAccelerator( KeyEvent.VK_R );
   }
   
   public void actionPerformed( ActionEvent e )
