@@ -12,6 +12,22 @@ The current time is:
 </h2>
 <p>
 
-<%= request.getRealPath( "" ) %></p>
+<% 
+String path = request.getRealPath( "" );
+java.io.File f = new java.io.File( path );
+java.io.File[] children = f.listFiles();
+
+for ( int i=0; i < children.length; i++ )
+{
+%>
+
+<%= children[i] %>
+
+<br>
+
+<%
+}
+%>
+</p>
 </body>
 </html>
