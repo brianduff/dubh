@@ -82,10 +82,12 @@ public final class MapOverview extends JComponent
    */
   public void refresh(int mapx, int mapy )
   {
-    int x = mapx * SCALE;
-    int y = mapy * SCALE;
+    refresh( mapx, mapy, 1, 1 );
+  }
 
-    repaint(x, y, 2, 2);
+  public void refresh( int mapx, int mapy, int w, int h )
+  {
+    repaint( mapx * SCALE, mapy * SCALE, w * 2, h * 2 ); 
   }
 
 
