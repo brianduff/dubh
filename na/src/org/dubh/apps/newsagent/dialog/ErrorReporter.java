@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: ErrorReporter.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+//   $Id: ErrorReporter.java,v 1.7 2001-02-11 15:40:18 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -36,13 +36,13 @@ import org.dubh.dju.misc.Debug;
 /**
  * Responsible for communicating errors to the user.<P>
  * @author Brian Duff
- * @version $Id: ErrorReporter.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+ * @version $Id: ErrorReporter.java,v 1.7 2001-02-11 15:40:18 briand Exp $
  */
 public class ErrorReporter {
 
 // Public Static Constants
 
-   private static final String dlgTitle = GlobalState.appName;
+   private static final String dlgTitle = GlobalState.getApplicationInfo().getName();
 
 // Private Static Constants
 
@@ -195,6 +195,9 @@ public class ErrorReporter {
 // New version history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2001/02/11 02:50:59  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.5  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
