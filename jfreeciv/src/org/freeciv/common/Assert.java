@@ -1,7 +1,7 @@
 package org.freeciv.common;
 
 /**
- * Use this class to assert.
+ * Use this class to assert. Replace with intrinsic assert support in java 1.4
  */
 public final class Assert 
 {
@@ -22,5 +22,13 @@ public final class Assert
         "Assertion Failed"
       );
     }
+  }
+
+  /**
+   * Unconditionally fail an assertion.
+   */
+  public static void fail()
+  {
+    that(false);
   }
 }
