@@ -1,22 +1,16 @@
-/*
- * @(#)FileExtensionFilter.java  1.4 98/04/14
- * 
- * Copyright (c) 1998 Sun Microsystems, Inc. All Rights Reserved.
- * 
- * This software is the confidential and proprietary information of Sun
- * Microsystems, Inc. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Sun.
- * 
- * SUN MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE
- * SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
- * PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR ANY DAMAGES
- * SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING
- * THIS SOFTWARE OR ITS DERIVATIVES.
- * 
- */
+// ---------------------------------------------------------------------------
+//   Dubh Java Utilities
+//   $Id: FileExtensionFilter.java,v 1.3 1999-03-22 23:37:18 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://www.btinternet.com/~dubh/dju
+// ---------------------------------------------------------------------------
+//   No license was provided; this is demonstration code
+// ---------------------------------------------------------------------------
+//   Original Author: Sun Microsystems
+//   Contributors: Brian Duff
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.utils.ui;
 
 

@@ -1,23 +1,28 @@
-/*   Dubh Java Utilities Library: Useful Java Utils
- *
- *   Copyright (C) 1997-9  Brian Duff
- *   Email: dubh@btinternet.com
- *   URL:   http://www.btinternet.com/~dubh
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   Dubh Java Utilities
+//   $Id: DubhOkCancelDialog.java,v 1.3 1999-03-22 23:37:18 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://www.btinternet.com/~dubh/dju
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 
 package dubh.utils.ui;
 import javax.swing.*;
@@ -94,7 +99,8 @@ public class DubhOkCancelDialog extends DubhDialog {
   }
 
   public JPanel getPanel()
-  {
+  {  
+     if (m_myPanel == null) setPanel(new JPanel());
      return m_myPanel;
   }
   
@@ -154,14 +160,39 @@ public class DubhOkCancelDialog extends DubhDialog {
   public String getOKText() { return cmdOk.getText(); }
   
 
+   /**
+    * Override this method in a subclass to do extra work before
+    * the dialog is dismissed. If you return false, the dialog
+    * will not be dismissed.
+    */
+   public boolean okClicked()
+   {
+      return true;
+   }
+   /**
+    * Override this method in a subclass to do extra work before
+    * the dialog is dismissed. If you return false, the dialog
+    * will not be dismissed.
+    */   
+   public boolean cancelClicked()
+   {
+      return true;   
+   }
+
   class ButtonListener implements ActionListener {
      public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cmdOk) {
-           setVisible(false);
-           m_isCancelled = false;
+           if (okClicked())
+           {
+              setVisible(false);
+              m_isCancelled = false;
+           }
         } else {
-           setVisible(false);
-           m_isCancelled = true;
+           if (cancelClicked())
+           {
+              setVisible(false);
+              m_isCancelled = true;
+           }
         }
      }
   }
