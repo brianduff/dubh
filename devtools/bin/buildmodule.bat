@@ -1,6 +1,6 @@
 rem BuildModule, the NT version
 rem
-rem $Id: buildmodule.bat,v 1.3 2000-08-21 00:27:17 briand Exp $
+rem $Id: buildmodule.bat,v 1.4 2000-08-21 00:29:41 briand Exp $
 
 set BUILD_DIR=.
 set DT=devtools/lib
@@ -17,7 +17,7 @@ rem ANT_OPTIONS="-logfile $1.build.log"
 cd %BUILD_DIR%
 rem rmdir /s/q %1
 cvs checkout %1/build.xml
-CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
+set CLASSPATH=%EXTRA_CLASSPATH%:%CLASSPATH%
 java -Dant.home=%ANT_HOME% %ANT_MAIN% %ANT_OPTIONS% -buildfile %1/build.xml %2
 
 # TODO: add logging etc.
