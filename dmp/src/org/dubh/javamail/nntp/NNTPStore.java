@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPStore.java,v 1.2 1999-06-08 22:45:40 briand Exp $
+//   $Id: NNTPStore.java,v 1.3 1999-08-03 19:15:41 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -41,12 +41,16 @@ import dubh.utils.misc.StringUtils;
  * defined in RFC 977.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPStore.java,v 1.2 1999-06-08 22:45:40 briand Exp $
+ * @version $Id: NNTPStore.java,v 1.3 1999-08-03 19:15:41 briand Exp $
  */
 public class NNTPStore extends Store
 {
    // This implementation mostly came from the old dubh.apps.newsagent.nntp.NNTPServer
    // class from NewsAgent.
+
+   private Hashtable m_messages;
+   
+   private Hashtable m_groups;
 
    private transient Socket m_connection;
    private transient CRLFInputStream m_in;    // Input stream  
@@ -66,7 +70,7 @@ public class NNTPStore extends Store
    
    private boolean m_postingOK;
    
-   private Newsgroup m_group;
+   private Newsgroup m_currentGroup;
        
    /**
     * Construct an NNTP Store.
@@ -74,6 +78,8 @@ public class NNTPStore extends Store
    public NNTPStore(Session session, URLName urlname) 
    {
       super(session, urlname);
+      m_groups = new Hashtable();
+      m_messages = new Hashtable();
    }
        
        
@@ -124,12 +130,12 @@ public class NNTPStore extends Store
          // Authenticate if necessary
          if (userName != null && password != null)
          {
-            sendMessage(NNTPCommands.AUTHINFO_USER, userName);
+            sendCommand(NNTPCommands.AUTHINFO_USER, userName);
             if (getResponse() >= 400)
             {
                return false;
             }
-            sendMessage(NNTPCommands.AUTHINFO_PASS, password);
+            sendCommand(NNTPCommands.AUTHINFO_PASS, password);
             getResponse();
             // TODO : These should check properly
          }
@@ -156,7 +162,7 @@ public class NNTPStore extends Store
    {
       try
       {
-         sendMessage(NNTPCommands.QUIT);
+         sendCommand(NNTPCommands.QUIT);
          getResponse();
          m_in.close();
          m_out.close();
@@ -196,7 +202,7 @@ public class NNTPStore extends Store
       {
          try
          {
-            sendMessage(NNTPCommands.GROUP, g.getName());
+            sendCommand(NNTPCommands.GROUP, g.getName());
             int response = getResponse();
             switch (response)
             {
@@ -324,10 +330,10 @@ public class NNTPStore extends Store
 // Utilities for talking to the server
 //////////////////////////////////////////////////////////////////////////////
 
-   private void sendMessage(String command, String argument)
+   private void sendCommand(String command, String argument)
       throws IOException
    {
-      sendMessage(command + " " + argument);
+      sendCommand(command + " " + argument);
    }
 
    /**
@@ -335,7 +341,7 @@ public class NNTPStore extends Store
     * @param mesg The text of the message to send
     * @throws java.io.IOException An I/O or network error occurred
     */
-   private void sendMessage(String mesg) 
+   private void sendCommand(String mesg) 
       throws IOException 
    {
       if (isConnected()) 
@@ -398,23 +404,52 @@ public class NNTPStore extends Store
    }
 
 
-   
+   /**
+    * Get the root folder. This is a placeholder and shouldn't be displayed
+    */
    public Folder getDefaultFolder()
       throws MessagingException
    {
-      return null;    // TODO
+      return new RootGroup(this);
    }
    
+   /**
+    * Get a named newsgroup.
+    */
    public Folder getFolder(String name)
       throws MessagingException
    {
-      return null; // TODO
+      return getNewsgroup(name);
    }
    
+   /**
+    * Get a newsgroup. The URL should be of the form
+    * <pre>
+    *   news://news.server.com/group.name
+    */
    public Folder getFolder(URLName urlName)
       throws MessagingException
    {
-      return null; // TODO
+      if (urlName.getProtocol().equals("news"))
+      {
+         return getNewsgroup(urlName.getFile());
+      }
+      throw new IllegalArgumentException("URL must be for protocol 'news'");
+   }
+   
+   /**
+    * Get the specified newsgroup if it exists. Otherwise, create a new
+    * Newsgroup object for it.
+    */
+   private Newsgroup getNewsgroup(String name)
+   {
+      Newsgroup g = (Newsgroup) m_newsgroups.get(name);
+      
+      if (g == null)
+      {
+         g = new Newsgroup(name, this);
+         m_newsgroups.put(name, g);
+      }
    }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -447,6 +482,9 @@ public class NNTPStore extends Store
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/08 22:45:40  briand
+// Add some more methods (with big TODOs in them)
+//
 // Revision 1.1.1.1  1999/06/06 23:37:38  briand
 // Dubh Mail Protocols initial revision.
 //
