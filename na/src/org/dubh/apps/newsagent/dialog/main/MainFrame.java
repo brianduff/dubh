@@ -30,7 +30,6 @@ import java.util.*;
 import java.text.MessageFormat;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.HelpSystem;
-import dubh.apps.newsagent.dialog.AboutDialog;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.apps.newsagent.dialog.FolderSelectorDialog;
 import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
@@ -47,6 +46,7 @@ import dubh.apps.newsagent.IUpdateableClass;
 import dubh.utils.misc.Debug;
 import dubh.utils.misc.ReadOnlyVersion;
 import dubh.utils.misc.VersionManager;
+import dubh.utils.misc.ResourceManager;
 
 
 /**
@@ -416,28 +416,10 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
      MessageComposer composer;
 
-     /*
-      * Most of this code is to check for the deprecated
-      * newsagent.send.IncludeMessages property and warn the user if they use
-      * it.
-      */
-
-     boolean undefined = true;
-     String tmp = GlobalState.getPreference("newsagent.send.IncludeMessages", "u");
-     if (tmp.charAt(0) != 'u') {
-        Debug.println("The newsagent.send.IncludeMessages preference is deprecated.");
-        Debug.println("You should use newsagent.send.IncludeBehaviour instead.");
-        Debug.println("See Advanced Topics / Editing Preference Files in the help.");
-        undefined = false;
-     }
-
-     // Determine whether to include messages
-     boolean include =
-        GlobalState.getBoolPreference("newsagent.send.IncludeMessages", false);
 
      // Determine the quoting behaviour
      quotetype = GlobalState.getPreference("newsagent.send.IncludeBehaviour", "all");
-     if (quotetype.trim().equalsIgnoreCase("none") || (!undefined && !include)) {
+     if (quotetype.trim().equalsIgnoreCase("none")) {
         // No quote
         composer = new MessageComposer(server, group, head);
 
@@ -521,11 +503,10 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void helpAbout() {
-     AboutDialog aboutme = new AboutDialog(
-        this
-     );
-     aboutme.setProductVersion(GlobalState.getVersion());
-
+     
+     ResourceManager rm = ResourceManager.getManagerFor("Menus");
+     Icon i = rm.getImage("imgAbout");
+     
      ReadOnlyVersion verDubhUtils;
      ReadOnlyVersion verSwing;
      ReadOnlyVersion[] dependencies = new ReadOnlyVersion[2];
@@ -552,10 +533,8 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      dependencies[0] = verDubhUtils;
      dependencies[1] = verSwing;
      
-     aboutme.setDependencies(dependencies);
      
-     aboutme.showAtCentre();
-     
+     AboutPanel.doDialog(this, GlobalState.getVersion(), dependencies, i);
 
   }
 
