@@ -207,7 +207,7 @@ import dubh.utils.ui.*;
 
      winSplash.setVisible(true);
      
-     frmTemp.dispose();
+     // whoops. frmTemp.dispose();
 
   }
 
