@@ -12,9 +12,9 @@
 
 <web-app>
 
- <welcome-pages>
-   <welcome-page>index.xml</welcome-page>
- </welcome-pages>
+ <welcome-file-list>
+   <welcome-file>index.xml</welcome-file>
+ </welcome-file-list>
 
  <servlet>
   <servlet-name>org.apache.cocoon.Cocoon</servlet-name>
