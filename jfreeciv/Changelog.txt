@@ -1,3 +1,19 @@
+08.07.02 [bduff]
+
+Many more updates. You can actually connect and start a game now, 
+it gets as far as displaying the map, then there are a bunch of
+unhandled packets...
+
+Also changed the nation selection dialog to use a list instead of
+hundreds (well about 30) radio buttons, which may cut the cheese
+on unix, but looks crappy in Java and/or windows. When I get my
+head round the image handling, I'll put the flags next to the items
+in the list and restructure the layout of this dialog to make it a 
+bit wider...
+
+Anyway, back where we were in April 2000, but with 1.11.7-devel, 
+which is a step forward, imho. ;)
+
 01.07.02 [bduff]
 
 (I am a lazy git)

@@ -1,12 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<!DOCTYPE project>
+<!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>package4</defaultPackage>
+   <defaultPackage>org.freeciv.client.handler</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
       <Item class="java.lang.String">package4</Item>
+      <Item class="java.lang.String">org.freeciv.client.handler</Item>
+      <Item class="java.lang.String">org.freeciv.client</Item>
+      <Item class="java.lang.String">org.freeciv.common</Item>
+      <Item class="java.lang.String">org.freeciv.net</Item>
    </defaultPackages>
-   <ejbModuleDirectory path="freeciv_jdev9i_ejb/"/>
+   <ejbModuleDirectory/>
    <htmlRootDirectory path="public_html/"/>
    <htmlSourceDirectory path="public_html/site1/"/>
    <listOfChildren class="oracle.ide.model.DataList">
@@ -589,6 +593,36 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktGotoRoute.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ClientObjectFactory.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ClientObject.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Player.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Connection.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Game.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHConnPing.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/Packet.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktGenericEmpty.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetGame.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>
@@ -659,7 +693,8 @@
                      <Value class="oracle.jdeveloper.runner.debug.DebugConfiguration">
                         <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
                         <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
-                        <remoteDebugging>true</remoteDebugging>
+                        <breakpointScope>workspace</breakpointScope>
+                        <remoteDebugging>false</remoteDebugging>
                         <remoteDebuggingParameters class="java.util.HashMap">
                            <Item>
                               <Key>Host</Key>
@@ -673,7 +708,6 @@
                         <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
                         <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
                         <tracingEnabled class="java.lang.String"/>
-                        <workspaceBreakpoints>true</workspaceBreakpoints>
                      </Value>
                   </Item>
                   <Item>
@@ -691,6 +725,7 @@
                         <programArguments>-Dfreeciv.datadir=c:\cvswork\jfreeciv\data</programArguments>
                         <runDirectoryURL/>
                         <targetURL idref="0"/>
+                        <useProxy>false</useProxy>
                      </Value>
                   </Item>
                   <Item>
@@ -796,12 +831,12 @@
                      <Value class="oracle.jdeveloper.runner.debug.DebugConfiguration">
                         <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
                         <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
+                        <breakpointScope>workspace</breakpointScope>
                         <remoteDebugging>false</remoteDebugging>
                         <remoteDebuggingParameters class="java.util.HashMap"/>
                         <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
                         <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
                         <tracingEnabled class="java.lang.String"/>
-                        <workspaceBreakpoints>true</workspaceBreakpoints>
                      </Value>
                   </Item>
                   <Item>
@@ -819,6 +854,7 @@
                         <programArguments class="java.lang.String"/>
                         <runDirectoryURL/>
                         <targetURL/>
+                        <useProxy>false</useProxy>
                      </Value>
                   </Item>
                   <Item>
