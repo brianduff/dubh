@@ -98,7 +98,8 @@ public class Player implements GameObject, CommonConstants
    */
   public City getCity( int id )
   {
-    City c = City.findById( id );
+//    City c = City.findById( id ); //no good! see below
+    City c = null; //temp
     if ( c != null && ( c.getOwner() == this ) )
     {
       return c;
@@ -117,7 +118,7 @@ public class Player implements GameObject, CommonConstants
    */
   public City findCityById( int id )
   {
-    return getCity( id );
+    return getCity( id ); //infinate loop here-somewhere the REAL city has to be called up.
   }
 
   /**
