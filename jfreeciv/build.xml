@@ -1,5 +1,6 @@
-<!-- $Id: build.xml,v 1.7 2001-10-29 13:54:45 buildman Exp $ -->
+<!-- $Id: build.xml,v 1.8 2001-10-29 15:42:16 buildman Exp $ -->
 
+<!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
 
