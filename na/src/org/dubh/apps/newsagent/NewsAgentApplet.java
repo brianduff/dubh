@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgentApplet.java,v 1.1 1999-03-22 23:47:28 briand Exp $
+//   $Id: NewsAgentApplet.java,v 1.2 1999-06-01 00:27:04 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -36,8 +36,14 @@ import java.applet.Applet;
  * NewsAgent applet. This brings up NewsAgent configured for an applet.
  * The applet version of NewsAgent will need to take certain preferences
  * on the command line. This is yet to be specified.
- * @author Brian Duff
  *
+ * NewsAgent can't currently be appletized because of applet restrictions
+ * in reading resources. I've yet to test this with the Java plugin or 
+ * Internet Explorer.
+ *
+ * @author Brian Duff
+ * @since NewsAgent 1.1.0
+ * @version $Id: NewsAgentApplet.java,v 1.2 1999-06-01 00:27:04 briand Exp $
  */
 public class NewsAgentApplet extends JApplet 
 {   
@@ -77,3 +83,7 @@ public class NewsAgentApplet extends JApplet
       repaint();
    }
 }
+
+//
+// $Log: not supported by cvs2svn $
+//
