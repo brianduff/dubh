@@ -56,6 +56,7 @@ import org.freeciv.net.NetworkProtocolException;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
+import org.freeciv.net.PktUnitInfo;
 
 /**
  * This is the main class for the JFreeciv client. Only one instance of this
@@ -1093,6 +1094,83 @@ public final class Client implements Constants
 
     return bestCandidate;
 
+  }
+  
+  /**
+   * Handles moving the unit from its current position to the new
+   * position in the unit info packet.
+   */
+  public void doMoveUnit( Unit unit, PktUnitInfo packet )
+  {
+    boolean wasTeleported = !getGame().getMap().isTilesAdjacent(
+            unit.getX(), unit.getY(), packet.x, packet.y );
+    int x = unit.getX();
+    int y = unit.getY();
+    //unit.setX( -1 ); // focus hack?
+
+    getGame().getMap().getTile( x, y ).removeUnit( unit );
+    
+    if( !packet.carried )
+    {
+      refreshTileMapCanvas( x, y, wasTeleported );
+    }
+    
+    if( getGame().isCurrentPlayer( unit.getOwner() )
+       && unit.getActivity() != ACTIVITY_GOTO
+       // && !tile_visible_and_not_on_border_mapcanvas( packet.x, packet.y )
+       )
+    {
+      getMainWindow().getMapViewManager().centerOnTile( packet.x, packet.y );
+    }
+    
+    if( !packet.carried && !wasTeleported )
+    {
+      int dx = packet.x - x;
+      if ( dx > 1 ) 
+      {
+        dx = -1;
+      }
+      else if ( dx < -1 )
+      {
+        dx = 1;
+      }
+      if ( getOptions().smoothMoveUnits )
+      {
+        //move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
+      }
+      refreshTileMapCanvas( x, y, true );
+    }
+    
+    unit.setX( packet.x );
+    unit.setY( packet.y );
+    unit.setFuel( packet.fuel );
+    unit.setHitPoints( packet.hp );
+    getGame().getMap().getTile( unit.getX(), unit.getY() ).addUnit( unit );
+    
+    /*
+  for(y=punit->y-2; y<punit->y+3; ++y) { 
+    if(y<0 || y>=map.ysize)
+      continue;
+    for(x=punit->x-2; x<punit->x+3; ++x) { 
+      unit_list_iterate(map_get_tile(x, y)->units, pu)
+	if(unit_flag(pu->type, F_PARTIAL_INVIS)) {
+	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
+	}
+      unit_list_iterate_end
+    }
+  }
+    */
+    
+    if( !packet.carried 
+        && getGame().getMap().getTile( unit.getX(), unit.getY() ).getKnown() == TILE_KNOWN )
+    {
+      refreshTileMapCanvas( unit.getX(), unit.getY(), true );
+    }
+    
+    // if ( isFocusUnit( unit ) )
+    // {
+    //   updateMenus();
+    // }
   }
 
   /**

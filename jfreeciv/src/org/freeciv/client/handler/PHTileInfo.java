@@ -6,6 +6,7 @@ import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
 import org.freeciv.common.Tile;
 import org.freeciv.common.Map;
+import org.freeciv.common.Unit;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktTileInfo;
 
@@ -53,7 +54,7 @@ public class PHTileInfo extends AbstractHandler implements Constants
       Iterator unitIter = tile.getUnits();
       while (unitIter.hasNext())
       {
-        // c.removeUnit( (Unit) unitIter.next() );
+        c.removeUnit( (Unit)unitIter.next() );
       }
     }
 

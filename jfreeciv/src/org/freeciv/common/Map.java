@@ -263,6 +263,15 @@ public final class Map implements CommonConstants
   }
 
   /**
+   * @return true if the positions described are adjacent on the map.
+   */
+  public boolean isTilesAdjacent( int x, int y, int x1, int y1 )
+  {
+    //TODO
+    return false;
+  }
+
+  /**
    * Get the city at the specified co-ordinates
    */
   public City getCity( int x, int y )

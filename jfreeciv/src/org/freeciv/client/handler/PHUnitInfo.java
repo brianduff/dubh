@@ -174,13 +174,13 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
         if ( c.getGame().getMap().getTile( unit.getX(), unit.getY() ).getKnown() == TILE_KNOWN )
         {
-          // c.doMoveUnit( unit, packet );
+          c.doMoveUnit( unit, packet );
           // c.updateUnitFocus( );
         }
         else
         {
-          // c.doMoveUnit( unit, packet );
-          // c.removeUnit( unit );
+          c.doMoveUnit( unit, packet );
+          c.removeUnit( unit );
           c.refreshTileMapCanvas( packet.x, packet.y, true );
           return;
         }
@@ -193,7 +193,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
           }
           else
           {
-            // c.refreshCityDialog( city );
+            c.getDialogManager().refreshCityDialog( city );
           }
 
           // packhand.c has a chunk of duplicate code here :)
@@ -239,7 +239,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
       {
         city = unit.getHomeCity();
 
-        // c.refreshCityDialog( city );
+        c.getDialogManager().refreshCityDialog( city );
       }
 
       unit.setVeteran( packet.veteran );

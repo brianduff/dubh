@@ -171,7 +171,7 @@ class UnitLayer extends GridMapTileLayer implements Constants
         else if ( ACTIVITY_IRRIGATE == a )
           paintIcon( info, "unit.irrigate", g, gPos );
         else if ( ACTIVITY_EXPLORE == a )
-          paintIcon( info, "unit.explore" , g, gPos );
+          paintIcon( info, "unit.auto_explore" , g, gPos );
         else if ( ACTIVITY_FORTIFIED == a )
           paintIcon( info, "unit.fortified" , g, gPos );
         else if ( ACTIVITY_FORTRESS == a )

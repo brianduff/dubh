@@ -165,7 +165,7 @@ public class Player implements GameObject, CommonConstants
 
   public void removeUnit( Unit u )
   {
-    m_units.remove( u );
+    m_units.remove( new Integer( u.getId() ) );
   }
 
   public void addCity( City c )

@@ -196,9 +196,19 @@ public final class Unit implements CommonConstants
     return m_x;
   }
 
+  public void setX( int x )
+  {
+    m_x = x;
+  }
+
   public int getY()
   {
     return m_y;
+  }
+
+  public void setY( int y )
+  {
+    m_y = y;
   }
 
   public int getGotoDestX()
@@ -566,7 +576,10 @@ public final class Unit implements CommonConstants
     }
     tile.removeUnit( this );
     getOwner().removeUnit( this );
-    
-    // remove from owner units list
+  }
+  
+  public boolean equals( Object o )
+  {
+    return o instanceof Unit && ( (Unit)o ).getId() == getId();
   }
 }
