@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: UserPreferences.java,v 1.5 1999-06-01 17:56:55 briand Exp $
+//   $Id: UserPreferences.java,v 1.6 1999-10-24 00:39:11 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -36,7 +36,7 @@ import java.awt.*;
  * <br>
  * <b>The event handling for this class is not thread safe.</b>
  * @author Brian Duff
- * @version $Id: UserPreferences.java,v 1.5 1999-06-01 17:56:55 briand Exp $
+ * @version $Id: UserPreferences.java,v 1.6 1999-10-24 00:39:11 briand Exp $
  */
 public class UserPreferences implements Serializable {
 
@@ -44,6 +44,8 @@ public class UserPreferences implements Serializable {
   private transient File       m_propsfile= null;
   private transient String     m_header = "";
   private transient ArrayList  m_proplisteners = new ArrayList();
+  private transient Hashtable  m_hashListCache = null;
+  private transient Hashtable  m_hashListIndices = null;
 
   /**
    * Create a new UserPreferences object that can't be saved or loaded. This
@@ -111,22 +113,208 @@ public class UserPreferences implements Serializable {
         m_props = defaults;
      else
         revert();
+     m_hashListCache = new Hashtable();
+     m_hashListIndices = new Hashtable();
      //m_listeners = new PropertyChangeSupport(this);
+  }     
+  
+  /**
+   * Create user preferences based on a properties input stream.
+   * You must call setFile at some point, or the properties will
+   * never be saveable or revertable.
+   */
+  public UserPreferences(InputStream is)
+     throws IOException
+  {
+     m_propsfile = null;
+     revert(is);  
+     m_hashListCache = new Hashtable();
+     m_hashListIndices = new Hashtable();
+  }
+  
+   /**
+    * Compares keys in a properties list so that they can
+    * be sorted
+    */
+   class KeyComparator implements Comparator
+   {
+      public int compare(Object o1, Object o2)
+      {
+         int dotIndex1 = ((String)o1).indexOf('.');
+         int dotIndex2 = ((String)o2).indexOf('.');
+         String seqNo1 = ((String)o1).substring(dotIndex1+1);
+         String seqNo2 = ((String)o2).substring(dotIndex2+1);
+         int int1 = Integer.parseInt(seqNo1);
+         int int2 = Integer.parseInt(seqNo2);
+         return (int1-int2);
+      }
+      
+      public boolean equals(Object o)
+      {
+         return (o instanceof KeyComparator);
+      }
+   }   
+   
+   /**
+    * Get a sorted list of keys from this UserPreferences object
+    * that start with the specified baseKey and end with a number.
+    * E.g. 
+    * value.1 = 
+    * value.5 = 
+    * value.6 = 
+    * @param baseKey the key that provides the base of the list.
+    * @return a sorted list of keys conforming to the above description
+    */
+   protected ArrayList getSortedKeyList(String baseKey)
+   {
+      Enumeration keys = getKeys();
+      ArrayList keyList = new ArrayList();
+      System.out.println("Are there any keys in the props file? "+keys.hasMoreElements());
+      while (keys.hasMoreElements())
+      {
+         String curKey = (String)keys.nextElement();
+         System.out.println("Considering key "+curKey);
+         if (curKey.startsWith(baseKey+"."))
+         {
+            keyList.add(curKey);
+            System.out.println("Made it into the list: "+curKey);            
+         }
+      }
+      
+      Collections.sort(keyList, new KeyComparator());
+      
+      return keyList;
+   }  
+  
+   /**
+    * Provides support for a list of values in a properties file
+    * that take the form: <pre>
+    *  some.key.1 = value
+    *  some.key.2 = value
+    *  some.key.21 = value
+    * </pre>
+    * The indices don't have to be contiguous or ordered within
+    * the properties file.
+    *
+    * The list is cached the first time you call this method, and
+    * the cached version is returned on subsequent calls. If you
+    * want to add or remove items from the list, you must use
+    * addToMultiKeyList and removeFromMultiKeyList. Don't add
+    * items to the returned lists or they will not be 
+    * saved properly.
+    *
+    * Saving will cause all loaded lists to be set as properties
+    * and stored in the properties file if applicable.
+    *
+    * @param baseKey The base part of the key e.g. some.key
+    * @return a contiguous array list of list values in the correct order
+    */
+   public ArrayList getMultiKeyList(String baseKey)
+   {
+      if (m_hashListCache == null) 
+         m_hashListCache = new Hashtable();
+      if (m_hashListIndices == null)
+         m_hashListIndices = new Hashtable();
+            
+      ArrayList values = (ArrayList)m_hashListCache.get(baseKey);
+      
+      if (values == null)
+      {
+         ArrayList keys = getSortedKeyList(baseKey);
+         values = new ArrayList(keys.size()); 
+         ArrayList indices = new ArrayList(keys.size());
+         
+         for (int i=0; i < keys.size(); i++)
+         {
+            String key = (String)keys.get(i);
+            String index = key.substring(key.indexOf('.')+1);
+            indices.add(new Integer(index));
+            values.add(getPreference((String)keys.get(i)));
+         }
+         m_hashListCache.put(baseKey, values);
+         m_hashListIndices.put(baseKey, indices);
+      }
+      return values;
+   }  
+  
+   /**
+    * Add to a multi key list
+    */
+   public void addToMultiKeyList(String baseKey, Object o)
+   {
+      getMultiKeyList(baseKey).add(o);
+      // Get the indices for this key
+      ArrayList indices = (ArrayList)m_hashListIndices.get(baseKey);
+      // Find out the highest index
+      Integer biggest = (Integer)indices.get(indices.size()-1);
+      // Store the new item at highest_index+1
+      Integer newIndex = new Integer(biggest.intValue()+1);
+      indices.add(newIndex);
+   }
+  
+   /**
+    * Remove from a multi key list
+    */
+   public void removeFromMultiKeyList(String baseKey, Object o)
+   {
+      ArrayList list = getMultiKeyList(baseKey);
+      int itemIndex = list.indexOf(o);
+      list.remove(itemIndex);
+      Integer keyIndex = (Integer)((ArrayList)m_hashListIndices.get(baseKey)).get(itemIndex);
+      ((ArrayList)m_hashListIndices.get(baseKey)).remove(itemIndex);
+      removeKey(baseKey+"."+keyIndex);
+   }
+   
+   /**
+    * Dump down all cached multi key lists into the properties
+    * object ready for saving.
+    */
+   protected void dumpMultiKeyLists()
+   {
+      Enumeration lists = m_hashListCache.keys();
+      while (lists.hasMoreElements())
+      {
+         String listKey = (String)lists.nextElement();
+         ArrayList alItems = (ArrayList)m_hashListCache.get(listKey);
+         ArrayList alIndices = (ArrayList)m_hashListIndices.get(listKey);
+         
+         for (int i=0; i < alItems.size(); i++)
+         {
+            String fullKey = listKey+"."+alIndices.get(i);
+            setPreference(fullKey, (String)alItems.get(i));
+         }
+      }
+   }
+  
+  /**
+   * Set the file that this UserPreferences object reads/writes from.
+   */
+  public void setFile(File f)
+  {
+     m_propsfile = f;
   }
 
+
+  public void revert(InputStream i)
+     throws IOException
+  {
+     m_props = new Properties();
+     m_props.load(i); // throws IOException
+     i.close();
+     firePropertyChange("", "", "");  
+  }
   /**
    * Reverts preferences to the last saved version. This discards all
    * changes to this UserPreferences object since the last call to save()
    * was made.
    @throws java.io.IOException the preferences file couldn't be read
    */
-  public void revert() throws IOException {
-     if (m_propsfile != null) {
-        FileInputStream fis = new FileInputStream(m_propsfile);
-        m_props = new Properties();
-        m_props.load(fis); // throws IOException
-        fis.close();
-        firePropertyChange("", "", "");
+  public void revert() 
+     throws IOException 
+  {
+     if (m_propsfile != null)
+     {
+        revert(new FileInputStream(m_propsfile));
      }
   }
 
@@ -136,6 +324,7 @@ public class UserPreferences implements Serializable {
    */
   public void save() throws IOException {
      if (m_propsfile != null) {
+        dumpMultiKeyLists();
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(m_propsfile));
         
         m_props.store(bos, m_header);      // Requires JDK 1.2
@@ -458,4 +647,9 @@ public class UserPreferences implements Serializable {
 // New Log
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/06/01 17:56:55  briand
+// Fix font / color preference methods; added two private encoders
+// to convert fonts & colors into strings that Font.decode() and
+// Color.decode() recognise.
+//
 //
