@@ -73,6 +73,7 @@ public final class MainWindow extends JFrame
     m_unitInfo = new UnitInfoPanel( c );
     m_console = new Console();
     m_quickCommand = new QuickCommand( c );
+    m_unitStack = new UnitStackDisplay( c );
 
     m_client = c;
 
