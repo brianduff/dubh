@@ -1,7 +1,7 @@
 package org.freeciv.client.handler;
 import org.freeciv.net.Packet;
 import org.freeciv.net.InStream;
-import org.freeciv.client.Constants;
+
 import org.freeciv.client.Client;
 import org.freeciv.common.Logger;
 public class ClientPacketDispacher

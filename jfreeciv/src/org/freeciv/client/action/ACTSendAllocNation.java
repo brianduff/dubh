@@ -1,9 +1,10 @@
 package org.freeciv.client.action;
-import javax.swing.AbstractAction;
+
 import org.freeciv.client.Client;
 import org.freeciv.net.PktAllocNation;
 import org.freeciv.client.dialog.DlgNation;
 import java.awt.event.ActionEvent;
+
 public class ACTSendAllocNation extends AbstractClientAction
 {
   private static ACTSendAllocNation m_singleton = null;

@@ -1,7 +1,6 @@
 package org.freeciv.client.handler;
 
 import java.util.Iterator;
-import javax.swing.SwingUtilities;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
@@ -27,6 +26,8 @@ public class PHTileInfo extends AbstractHandler implements Constants
     final PktTileInfo pmi = (PktTileInfo)pkt;
 
     Tile tile = c.getGame().getMap().getTile( pmi.x, pmi.y );
+
+    if ( tile == null ) return; // TODO: Why is this happennig?
 
     int oldTerrain = tile.getTerrain();
     int oldKnown = tile.getKnown();
@@ -163,15 +164,6 @@ public class PHTileInfo extends AbstractHandler implements Constants
       }
     }
 
-    /*
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run()
-      {
-        // remove me when the map code has been transitioned
-        c.getTileSpec().setTerrain( pmi, true );
-      }
-    });
-    */
 
   }
 }
