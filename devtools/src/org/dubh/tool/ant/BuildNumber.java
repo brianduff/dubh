@@ -1,4 +1,4 @@
-// $Id: BuildNumber.java,v 1.2 2000-08-20 20:19:09 briand Exp $
+// $Id: BuildNumber.java,v 1.3 2000-08-20 20:40:38 briand Exp $
 package org.dubh.tool.ant;
 
 import java.io.File;
@@ -83,7 +83,7 @@ public class BuildNumber extends Task
          {
             int buildNumber = Integer.parseInt(line);
             buildNumber++;
-            getProject().setUserProperty(BUILD_NUMBER, ""+buildNumber);
+            getProject().setProperty(BUILD_NUMBER, ""+buildNumber);
 
             // Close the input file and write it back out.
             br.close();
