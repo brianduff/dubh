@@ -1,6 +1,8 @@
 package org.freeciv.client;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +82,9 @@ public final class MainWindow extends JFrame
     setupComponents();
     getContentPane().add( m_viewManager.getMainMapView().getComponent(),
       BorderLayout.CENTER );
+
+    setDefaultCloseOperation( this.DO_NOTHING_ON_CLOSE );
+    addWindowListener( new WindowCloseListener() );
   }
 
   /**
@@ -138,7 +143,7 @@ public final class MainWindow extends JFrame
    * Get the map view manager, this provides access to the map views available
    * in the main window
    */
-  MapViewManager getMapViewManager()
+  public MapViewManager getMapViewManager()
   {
     return m_viewManager;
   }
@@ -364,5 +369,13 @@ public final class MainWindow extends JFrame
   private static String _( String txt )
   {
     return Localize.translation.translate( txt );
+  }
+
+  private class WindowCloseListener extends WindowAdapter
+  {
+    public void windowClosing(WindowEvent e)
+    {
+      m_client.quit();
+    }
   }
 }
