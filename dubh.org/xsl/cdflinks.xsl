@@ -14,23 +14,30 @@
   
   <xsl:template match="CHANNEL">    
     <div>
-      <ul>
+      <table width="100%" border="0" cellpadding="3" cellspacing="0">
         <xsl:for-each select="ITEM">
-          <li>
-            <a href="{@href}" target="artdet">
-              <xsl:value-of select="TITLE" />
-            </a>
-            <xsl:if test="$verbose='true'">
-              <p>
-              <xsl:value-of select="ABSTRACT" />
-              </p>
-            </xsl:if>
-          </li>
+          <tr>
+            <td valign="top">
+              <img src="/images/x1navy.gif" alt="Bullet" />
+            </td>
+            <td width="100%" valign="top">
+              <a href="{@href}" target="artdet">
+                <xsl:value-of select="TITLE" />
+              </a>
+              <xsl:if test="$verbose='true'">
+                <p>
+                <xsl:value-of select="ABSTRACT" />
+                </p>
+              </xsl:if>
+            </td>
+          </tr>
         </xsl:for-each>
-      </ul>
-      <i>
-        News provided by <a href="{@HREF}"><xsl:value-of select="@HREF" /></a>
-      </i>
+      </table>
+      <p>
+        <i>
+          News provided by <a href="{@HREF}"><xsl:value-of select="@HREF" /></a>
+        </i>
+      </p>
     </div>
   </xsl:template>
   

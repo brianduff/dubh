@@ -9,18 +9,26 @@
   
   <xsl:template match="moreovernews">    
     <div>
-      <ul>
-        <xsl:for-each select="article">
-          <li>
+      <table width="100%" border="0" cellpadding="3" cellspacing="0">
+
+      <xsl:for-each select="article">
+        <tr>
+          <td valign="top">
+            <img src="/images/x1navy.gif" alt="Bullet" />
+          </td>
+          <td width="100%" valign="top">          
             <a href="{url}" target="artdet">
               <xsl:value-of select="headline_text" />
             </a>
-          </li>
-        </xsl:for-each>
-      </ul>
-      <i>
-        News provided by <a href="http://moreover.com">Moreover.com</a>
-      </i>
+          </td>
+        </tr>
+      </xsl:for-each>
+      </table>
+      <p>
+        <i>
+          News provided by <a href="http://moreover.com">Moreover.com</a>
+        </i>
+      </p>
     </div>
   </xsl:template>
   
