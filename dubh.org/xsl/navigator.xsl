@@ -37,6 +37,10 @@
   </xsl:template>
   
   <xsl:template match="entry">
+    <!-- put in some non breaking spaces to indent.-->
+    <xsl:for-each select="ancestor::entry">
+      &#160;
+    </xsl:for-each>
     <xsl:choose>
       <xsl:when test="$me=@id">
         <b>
@@ -50,7 +54,9 @@
       </xsl:otherwise>
     </xsl:choose>
     <br/>
+    
     <xsl:apply-templates select="entry" />
+
   </xsl:template>
 
 </xsl:stylesheet>
