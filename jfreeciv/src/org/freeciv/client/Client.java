@@ -139,7 +139,7 @@ public class Client implements Constants
 
 
   private MainWindow m_mainWindow;
-  
+
   /**
    * Instantiate the client
    */
@@ -148,7 +148,7 @@ public class Client implements Constants
     super( ); // !NLS
 
 
-    
+
     // Take a hit right now and load the images etc.
     // BD: Need to do most of this in a different thread so connection
     // dialog appears sharpish.
@@ -196,11 +196,11 @@ public class Client implements Constants
     int height = (int) (.85 * screenSize.height);
 
     m_mainWindow.setSize( new Dimension( width, height ) );
-    m_mainWindow.setLocation( 
-      (screenSize.width - width) /2, (screenSize.height - height) /2 
+    m_mainWindow.setLocation(
+      (screenSize.width - width) /2, (screenSize.height - height) /2
     );
-    
-    m_mainWindow.setVisible( true );    
+
+    m_mainWindow.setVisible( true );
 
   }
 
@@ -229,12 +229,12 @@ public class Client implements Constants
     // No idea what this is doing - mem mgmt crap from c.
 
   }
-  
+
   public TileSpec getTileSpec()
   {
     return m_tileSpec;
   }
-  
+
 
   /**
    * Get the action associated with the specified name
@@ -365,10 +365,10 @@ public class Client implements Constants
     }
     catch( IOException ioe )
     {
-      JOptionPane.showMessageDialog( 
-        getMainWindow(), 
-        _( "Error connection to server lost??" ), _( "Fatal Error" ), 
-        JOptionPane.ERROR_MESSAGE 
+      JOptionPane.showMessageDialog(
+        getMainWindow(),
+        _( "Error connection to server lost??" ), _( "Fatal Error" ),
+        JOptionPane.ERROR_MESSAGE
       );
     }
     return false;
@@ -389,7 +389,7 @@ public class Client implements Constants
     return sendToServer( prjg );
   }
 
-  
+
   public void addNotifyWindow( PktGenericMessage pgm )
   {
     // BD: TODO
@@ -473,6 +473,20 @@ public class Client implements Constants
   public synchronized void setConnected( boolean b )
   {
     m_bConnected = b;
+    if( !b )
+    {
+      disconnect();
+    }
+  }
+  public synchronized void disconnect()
+  {
+    try
+    {
+      sendMessage( "remove "+ name );   // Should it remove the player? Make it
+                                        // ai?  JR
+      out.close();
+    }
+    catch( Exception e ) { e.printStackTrace(); }
   }
   /**
    * The runnable object that receives incoming packets from the server.
@@ -545,7 +559,7 @@ public class Client implements Constants
       public void run()
       {
         getMainWindow().getMapOverview().setMapDimensions( xsize, ysize );
-      
+
         map = new CivMap( Client.this, xsize, ysize, getTileSpec().getNormalTileWidth(), getTileSpec().getNormalTileHeight(), true, false );
         map.setSize( mapFrame.getContentPane().getSize() );
         JScrollPane scroller = new JScrollPane( map );
@@ -561,7 +575,7 @@ public class Client implements Constants
       {
       map.setSize(mapPanel.getSize());
       }
-      }); 
+      });
       }
     } )
     */
@@ -569,7 +583,7 @@ public class Client implements Constants
   // Yeech. Move this to the top or eliminate it BD
   boolean mapAdded = false;
 
-  
+
   /**
    * Sends a chat message. Prob want to kill this
    */
@@ -585,8 +599,8 @@ public class Client implements Constants
    */
   private void serverError( IOException e )
   {
-    JOptionPane.showMessageDialog( 
-      getMainWindow(), e.toString(), _( "Fatal Server Connection Error" ), 
+    JOptionPane.showMessageDialog(
+      getMainWindow(), e.toString(), _( "Fatal Server Connection Error" ),
       JOptionPane.ERROR_MESSAGE );
     System.exit( 1 ); // ??
   }
@@ -648,7 +662,7 @@ public class Client implements Constants
     {
 
     }
-  
+
     //parse args..
     Client c = new Client();
     Thread t = new Thread( new InputPacketListener( c ) );
@@ -793,8 +807,8 @@ public class Client implements Constants
             p.getNation().getName()
           );
 
-          getMainWindow().getCivInfo().setPop( 
-            getGame().getCivilizationPopulation( p ) 
+          getMainWindow().getCivInfo().setPop(
+            getGame().getCivilizationPopulation( p )
           );
 
           getMainWindow().getCivInfo().setYear( getGame().getYear() );
@@ -808,7 +822,7 @@ public class Client implements Constants
 
     // Citizens
 
-    // Timeout      
+    // Timeout
 
   }
 
@@ -837,7 +851,7 @@ public class Client implements Constants
   }
 
   /**
-   * Call this when an internal error occurs (usually an unexpected 
+   * Call this when an internal error occurs (usually an unexpected
    * RuntimeException
    *
    * @param t
