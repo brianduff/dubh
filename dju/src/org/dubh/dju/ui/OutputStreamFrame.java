@@ -36,7 +36,7 @@ import javax.swing.*;
  @version 0.2 [03/07/98]
  */
 public class OutputStreamFrame extends OutputStream {
-  private JFrame fraStream;
+  private DubhFrame fraStream;
   private FixedTextArea taStream;
   private JScrollPane scrollStream;
 
@@ -44,8 +44,8 @@ public class OutputStreamFrame extends OutputStream {
    * Construct an outputstream frame with no caption and a default width of
    * 80 columns and 24 rows height.
    */
-  public OutputStreamFrame() {
-     this("", 24, 80);
+  public OutputStreamFrame(String name) {
+     this(name, name, 24, 80);
   }
 
   /**
@@ -53,8 +53,8 @@ public class OutputStreamFrame extends OutputStream {
    * 80 columns and 24 rows height.
    @param caption the title of the window
    */
-  public OutputStreamFrame(String caption) {
-     this(caption, 24, 80);
+  public OutputStreamFrame(String name, String caption) {
+     this(name, caption, 24, 80);
   }
 
   /**
@@ -62,25 +62,28 @@ public class OutputStreamFrame extends OutputStream {
    @param rows the number of rows to display
    @param cols the number of columns to display
    */
-  public OutputStreamFrame(int rows, int cols) {
-     this("", rows, cols);
+  public OutputStreamFrame(String name, int rows, int cols) {
+     this(name, "", rows, cols);
   }
 
   /**
    * Construct an output stream frame.
+   @param name    the name of the frame. This is used for saving the window
+                  position.
    @param caption the title of the window
    @param rows the number of rows
    @param cols the number of columns
    */
-  public OutputStreamFrame(String caption, int rows, int cols) {
+  public OutputStreamFrame(String name, String caption, int rows, int cols) {
      super();
-     fraStream = new JFrame(caption);
+     fraStream = new DubhFrame(caption);
      taStream  = new FixedTextArea(cols, rows);
      taStream.setEditable(false);
      scrollStream = new JScrollPane(taStream);
      fraStream.getContentPane().add("Center", scrollStream);
      fraStream.pack();
      fraStream.setVisible(true);
+     fraStream.setName(name);
   }
 
   /**
@@ -103,14 +106,19 @@ public class OutputStreamFrame extends OutputStream {
 
   public void write(int b) {
      taStream.append(new String("" + (char) b));
+     taStream.setSelectionStart(taStream.getText().length());
   }
 
   public void write(byte[] b) {
      taStream.append(new String(b));
+     taStream.setSelectionStart(taStream.getText().length());
+
   }
 
   public void write(byte[] b, int off, int len) {
      taStream.append(new String(b, off, len));
+     taStream.setSelectionStart(taStream.getText().length());
+
   }
 
 
