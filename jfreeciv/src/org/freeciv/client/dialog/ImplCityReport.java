@@ -439,8 +439,11 @@ public class ImplCityReport extends JDialog implements DlgCityReport
         model.setValueAt(aValue, indexes[aRow], aColumn);
     }
 
+    /**
+     * Sort by column, toggling the ascending attribute
+     */
     public void sortByColumn(int column) {
-        sortByColumn(column, true);
+        sortByColumn(column, !this.ascending);
     }
 
     public void sortByColumn(int column, boolean ascending) {
@@ -449,6 +452,11 @@ public class ImplCityReport extends JDialog implements DlgCityReport
         sortingColumns.addElement(new Integer(column));
         sort(this);
         super.tableChanged(new TableModelEvent(this));
+    }
+
+    protected boolean isAscending()
+    {
+       return this.ascending;
     }
 
     // There is no-where else to put this.
@@ -464,10 +472,7 @@ public class ImplCityReport extends JDialog implements DlgCityReport
                 int viewColumn = columnModel.getColumnIndexAtX(e.getX());
                 int column = tableView.convertColumnIndexToModel(viewColumn);
                 if (e.getClickCount() == 1 && column != -1) {
-                    //System.out.println("Sorting ...");
-                    int mod = e.getModifiers() & MouseEvent.BUTTON3;
-                    boolean ascending = ( mod == MouseEvent.BUTTON3);
-                    sorter.sortByColumn(column, ascending);
+                    sorter.sortByColumn(column);
                 }
             }
         };
