@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.6 2001-10-25 23:26:01 briand Exp $ -->
+<!-- $Id: build.xml,v 1.7 2001-10-29 13:54:45 buildman Exp $ -->
 
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
@@ -6,6 +6,8 @@
 <project name="jfreeciv" default="src" basedir=".">
   <target name="init">
     <tstamp/>
+
+
     <!-- The buildnumber task is in the devtools CVS module. It must be in -->
     <!-- the classpath before building any other module -
     <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
@@ -13,7 +15,7 @@
 
     <!-- The name and main version number of this project. -->
     <property name="product" value="JFreeciv" />
-    <property name="toppackage" value="org.freeciv.client" />
+    <property name="toppackage" value="org.freeciv" />
     <property name="majorversion" value="1" />
     <property name="minorversion" value="0" />
 
@@ -22,6 +24,8 @@
 
     <property name="srcdir" value="src" />
     <property name="classdir" value="class" />
+    <property name="distdir" value="dist" />
+    <property name="srcdistdir" value="srcdist" />
     <property name="jardir" value="lib" />
     <property name="moduleshort" value="${cvsmodule}-${majorversion}.${minorversion}" />
     <property name="modulelong" value="${moduleshort}" />
@@ -29,10 +33,10 @@
 
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
     <property name="classpath" value="" />
-    <property name="snapshot" value="${modulelong}-src.zip" />
+    <property name="snapshot" value="${cvsmodule}-src.zip" />
     <property name="docdir" value="doc" />    
     <property name="javadocdir" value="javadoc" />
-    <property name="javadocpkg" value="${toppackage}.*" />
+    <property name="javadocpkg" value="org.*" />
     <property name="javadoctitle" value="${product} ${modulelong}" />
 
 
@@ -82,11 +86,6 @@
     <jar  jarfile="${jarfile}" basedir="${classdir}" />
   </target>
 
-  <!-- Create a source code snapshot -->
-  <target name="src-snapshot" depends="src">
-    <zip  zipfile="${snapshot}" 
-          basedir="${srcdir}" />
-  </target>
 
   <!-- Create javadoc -->
   <target name="javadoc" depends="pullsrc">
@@ -99,12 +98,67 @@
               version="true"
               use="true"
               windowtitle="${javadoctitle}"
-              doctitle="&lt;h1&gt;${javadoctitle}&lt;/h1&gt;"
-              packagenames="${javadocpkg}"
-    />
+              doctitle="${javadoctitle} build ${DSTAMP}${TSTAMP}"
+              packagenames="${javadocpkg}">
+
+    </javadoc>
   </target>
   
-  <target name="release" depends="jar,src-snapshot,javadoc" />
+  <target name="dist" depends="jar,javadoc">
+
+    <mkdir dir="${distdir}" />
+
+    <mkdir dir="${distdir}/lib" />
+    <copy todir="${distdir}/lib">
+      <fileset dir="${jardir}" includes="*.jar" />
+    </copy>
+
+    <mkdir dir="${distdir}/src" />
+    <copy todir="${distdir}/src">
+      <fileset dir="${srcdir}" />
+    </copy>
+
+    <mkdir dir="${distdir}/doc/api" />
+    <copy todir="${distdir}/doc/api">
+      <fileset dir="${javadocdir}" />
+    </copy>
+
+    <copy todir="${distdir}">
+      <fileset dir=".">
+        <include name="Changelog.txt" />
+        <include name="NOTES.txt" />
+        <include name="Readme.txt" />
+        <include name="TODO.txt" />
+      </fileset>
+    </copy>
+
+  </target>
+
+  <target name="srcdist" depends="javadoc">
+    
+    <mkdir dir="${srcdistdir}" />
+
+    <mkdir dir="${srcdistdir}/src" />
+    <copy todir="${srcdistdir}/src">
+      <fileset dir="${srcdir}" />
+    </copy>
+
+    <mkdir dir="${srcdistdir}/doc/api" />
+    <copy todir="${srcdistdir}/doc/api">
+      <fileset dir="${javadocdir}" />
+    </copy>
+
+    <copy todir="${srcdistdir}">
+      <fileset dir=".">
+        <include name="build.xml" />
+        <include name="Changelog.txt" />
+        <include name="NOTES.txt" />
+        <include name="Readme.txt" />
+        <include name="TOTO.txt" />
+      </fileset>
+    </copy>
+
+  </target>
 
   <!-- The clean target obliterates all traces of the module from the build dir -->
   <target name="clean" depends="init">
@@ -112,6 +166,8 @@
     <delete dir="${jardir}" />
     <delete dir="${javadocdir}" />
     <delete file="${snapshot}" />
+    <delete dir="${distdir}" />
+    <delete dir="${srcdistdir}" />
   </target>
 
   
