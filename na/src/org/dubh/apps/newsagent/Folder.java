@@ -1,22 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: Folder.java,v 1.3 1999-03-22 23:48:28 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 
 package dubh.apps.newsagent;
 import java.io.*;
@@ -30,19 +36,9 @@ import dubh.apps.newsagent.nntp.MessageProvider;
 import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
 /**
- * Represents a folder containing messages in permanent storage.<P>
- * Version History: <UL>
- * <LI>0.1 [22/03/98]: Initial Revision
- * <LI>0.2 [31/03/98]: Changed to new MessageProvider interface. Added tree
- *   model.
- * <LI>0.3 [01/04/98]: Implemented ensureConnected method.
- * <LI>0.4 [02/04/98]: Added toString(). Fixed minor bug with getTreeModel().
- * <LI>0.5 [04/04/98]: Implemented new MessageProvider methods (progress, max
- *  etc.
- * <LI>0.6 [05/04/98]: Changed to use ProgressDialog
- * <LI>0.7 [08/04/98]: Changed to JProgressBar
- @author Brian Duff
- @version 0.7 [08/04/98]
+ * Represents a folder containing messages in permanent storage.
+ * @author Brian Duff
+ * @version $Id: Folder.java,v 1.3 1999-03-22 23:48:28 briand Exp $
  */
 public class Folder implements MessageProvider {
 // Private instance variables
@@ -326,3 +322,16 @@ public class Folder implements MessageProvider {
   }
 
 }
+
+// Old Log:
+// 0.1 [22/03/98]: Initial Revision
+// 0.2 [31/03/98]: Changed to new MessageProvider interface. Added tree
+//   model.
+// 0.3 [01/04/98]: Implemented ensureConnected method.
+// 0.4 [02/04/98]: Added toString(). Fixed minor bug with getTreeModel().
+// 0.5 [04/04/98]: Implemented new MessageProvider methods (progress, max
+//  etc.
+// 0.6 [05/04/98]: Changed to use ProgressDialog
+// 0.7 [08/04/98]: Changed to JProgressBar
+// New Log:
+// $Log: not supported by cvs2svn $
