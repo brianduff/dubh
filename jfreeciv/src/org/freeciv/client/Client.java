@@ -1,4 +1,16 @@
 package org.freeciv.client;
+
+import java.io.*;
+import javax.swing.*;
+import org.freeciv.tile.*;
+import java.awt.*;
+import org.freeciv.client.dialog.*;
+import org.freeciv.client.ui.*;
+import org.freeciv.client.action.*;
+import org.freeciv.client.ui.util.*;
+
+// Tidied up imports from here onwards
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,27 +28,28 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
-import javax.swing.*;
+
 import javax.swing.border.TitledBorder;
-import org.freeciv.net.*;
-import org.freeciv.tile.*;
-import org.gjt.abies.SystemInfoPanel;
-import java.awt.*;
-import org.freeciv.client.dialog.*;
-import org.freeciv.client.handler.ClientPacketDispacher;
-import org.freeciv.client.ui.*;
-import org.freeciv.client.dialog.util.VerticalFlowPanel;
-import org.freeciv.client.action.*;
-import org.freeciv.client.ui.util.*;
+
+import org.gjt.abies.SystemInfoPanel; // remove me soon bduff
+
 import org.freeciv.common.Factories;
 import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
+import org.freeciv.common.Player;
+import org.freeciv.client.handler.ClientPacketDispacher;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
+import org.freeciv.net.InStream;
+import org.freeciv.net.OutStream;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktGenericMessage;
+import org.freeciv.net.PktReqJoinGame;
+
 /**
  * This is the main class of Freeciv4J.
  */
@@ -162,14 +175,14 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private ArrayList cities = new ArrayList( 1000 );
   // Information about all current players is stored in this
   // array
-  private PktPlayerInfo[] players;
+  //private PktPlayerInfo[] players;
   // -- check this
   // Every turn, a game info packet is sent by the server with
   // global information about the current state of the game. The
   // packet is stored here.
-  private PktGameInfo gameInfo;
+  //private PktGameInfo gameInfo;
   // Information about the current player is stored here.
-  private PktPlayerInfo currentPlayer;
+  // private PktPlayerInfo currentPlayer;
   //////////////////////// UI Components
   // The main map component
   private CivMap map;
@@ -219,7 +232,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   // Factories
   private Factories m_factories = new Factories();
   // prob shouldn't instantiate this yet. 
-  private Game m_game = new Game();
+  private Game m_game = new Game(m_factories);
   private final static String APP_NAME = "Freeciv4J";
   private final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
   private final static String PROP_FREECIV_TILESET = "freeciv.tileset";
@@ -416,49 +429,49 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   /**
    * Set the game info packet
    */
-  public void setGameInfo( PktGameInfo gi )
-  {
-    gameInfo = gi;
-    if( players == null )
-    {
-      players = new PktPlayerInfo[ gi.max_players ];
-    }
-  }
+  //public void setGameInfo( PktGameInfo gi )
+  //{
+  //  gameInfo = gi;
+  //  if( players == null )
+  //  {
+  //    players = new PktPlayerInfo[ gi.max_players ];
+  //  }
+  // }
   /**
    * Get the game info packet
    */
-  public PktGameInfo getGameInfo()
-  {
-    return gameInfo;
-  }
+  //public PktGameInfo getGameInfo()
+  //{
+  //  return gameInfo;
+  //}
   /**
    * Get the current player
    */
-  public PktPlayerInfo getCurrentPlayer()
-  {
-    return currentPlayer;
-  }
+  //public PktPlayerInfo getCurrentPlayer()
+  //{
+  //  return currentPlayer;
+  //}
   /**
    * Set the current player
    */
-  public void setCurrentPlayer( PktPlayerInfo pi )
-  {
-    currentPlayer = pi;
-  }
+  //public void setCurrentPlayer( PktPlayerInfo pi )
+  //{
+  //  currentPlayer = pi;
+  //}
   /**
    * Get the specified player
    */
-  public PktPlayerInfo getPlayer( int i )
-  {
-    return players[ i ];
-  }
+  //public PktPlayerInfo getPlayer( int i )
+  //{
+  //  return players[ i ];
+  //}
   /**
    * Set the specified player
    */
-  public void setPlayer( int i, PktPlayerInfo pi )
-  {
-    players[ i ] = pi;
-  }
+  //public void setPlayer( int i, PktPlayerInfo pi )
+  //{
+  //  players[ i ] = pi;
+  //}
   /**
    * Sets up the UI for the chat area
    */
@@ -1016,5 +1029,49 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   public Factories getFactories()
   {
     return m_factories; 
+  }
+
+  /**
+   * Update status information on the main window. It is safe to call this
+   * from any thread.
+   */
+  public void updateInfoLabel()
+  {
+    if (EventQueue.isDispatchThread())
+    {
+      _updateInfoLabel();
+    }
+    else
+    {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run()
+        {
+          _updateInfoLabel();
+        }
+      });
+    }
+  }
+
+  private void _updateInfoLabel()
+  {
+    
+    Player p = getGame().getCurrentPlayer();
+    // GTK updates the window title here to the nation name...
+    m_panCivInfo.setNationName( 
+      p.getNation().getName()
+    );
+
+    // todo: population
+
+    m_panCivInfo.setYear( getGame().getYear() );
+    m_panCivInfo.setGold( p.getEconomy().getGold() );
+    m_panCivInfo.setTax( p.getEconomy().getTax() , p.getEconomy().getLuxury(), p.getEconomy().getScience() );
+
+    // update indicator icons (research, warming, cooling, government)
+
+    // Citizens
+
+    // Timeout
+    
   }
 }
