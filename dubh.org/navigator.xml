@@ -32,7 +32,7 @@
   </group>
   
   <group>
-    <entry id="cvs" title="Browse CVS" href="/cvsoffline.xml" />
+    <entry id="cvs" title="Source Code" href="http://cvs.dubh.org" />
   </group>
   
   <group>  

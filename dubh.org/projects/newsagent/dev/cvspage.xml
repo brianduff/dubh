@@ -22,31 +22,18 @@
   <section id="guestaccess" name="Guest (Read Only) Access to NewsAgent Source">
     <html>
       <p>
-        You can <a href="/servlet/jcvs/index.html">browse the CVS tree</a>
+        You can <a href="http://cvs.dubh.org/JCVSlet/list/na">browse the CVS tree</a>
         for NewsAgent and other Dubh projects on the web.
       </p>
       <p>
-        If you have a CVS client installed (e.g. <a href="http://www.wincvs.org">
-        WinCVS</a>, <a href="http://www.jcvs.org">JCVS</a>), you can directly
-        access the CVS repository in read only mode. The CVSROOT is:
-      </p>
-      <p align="center"><b>
-        :pserver:guest@cvs.dubh.org:/usr/local/cvsroot</b> (<i>Password: guest</i>)
+        If you have a CVS client installed, you can directly
+        access the CVS repository in read only mode. More information is available
+        on the <a href="http://cvs.dubh.org">Dubh.Org CVS Repository Homepage</a>.
       </p>
       <p>
         The module containing NewsAgent source code is called <b>na</b>. You may
         also be interested in the following modules, which NewsAgent depends on:
         <b>dju</b>, <b>dmp</b>, <b>devtools</b>. 
-      </p>
-    </html>
-  </section>
-  
-  <section id="writeaccess" name="Read / Write Access to the Repository">
-    <html>
-      <p>
-        In order to get write access to the repository, you must become a
-        contributor. More information is available in <a href="contrib.xml">
-        Getting Involved</a>.
       </p>
     </html>
   </section>
