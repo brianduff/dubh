@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPStore.java,v 1.3 1999-08-03 19:15:41 briand Exp $
+//   $Id: NNTPStore.java,v 1.4 1999-10-16 16:47:07 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -28,6 +28,11 @@ package dubh.mail.nntp;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.StringTokenizer;
 import java.net.*;
 import java.io.*;
 import javax.mail.*;
@@ -41,7 +46,7 @@ import dubh.utils.misc.StringUtils;
  * defined in RFC 977.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPStore.java,v 1.3 1999-08-03 19:15:41 briand Exp $
+ * @version $Id: NNTPStore.java,v 1.4 1999-10-16 16:47:07 briand Exp $
  */
 public class NNTPStore extends Store
 {
@@ -72,6 +77,14 @@ public class NNTPStore extends Store
    
    private Newsgroup m_currentGroup;
        
+       
+   private final static int MAX_FETCHSIZE = 1024;    
+   
+   /**
+    * Should be configurable. Not yet implemented.
+    */
+   private final static int MAX_TIMEOUT_RETRY = 10;
+   
    /**
     * Construct an NNTP Store.
     */    
@@ -178,6 +191,15 @@ public class NNTPStore extends Store
  
    }
 
+   /**
+    * If you recieve a SERVER_INTERNAL_ERROR, you can call this method
+    * to determine whether the server has timed out.
+    */
+   protected boolean hasServerTimedOut()
+   {
+      return (m_response.toLowerCase().indexOf(TIMEOUT) > 0);
+   }
+
 //////////////////////////////////////////////////////////////////////////////
 // NNTP Commands
 //////////////////////////////////////////////////////////////////////////////
@@ -198,7 +220,7 @@ public class NNTPStore extends Store
       throws MessagingException
    {
       if (g == null) throw new MessagingException("Attempt to select a null group");
-      if (!g.equals(m_group))
+      if (!g.equals(m_currentGroup))
       {
          try
          {
@@ -207,14 +229,14 @@ public class NNTPStore extends Store
             switch (response)
             {
                case NNTPErrorCodes.GROUP_SELECTED:
-                  m_group = g;
+                  m_currentGroup = g;
                   // Set the article counts of the group
                   setArticleCounts(g);
                   break;
                case NNTPErrorCodes.NO_SUCH_GROUP:
                   throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
                case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
-                  if (m_response.toLowerCase().indexOf(TIMEOUT) > 0)
+                  if (hasServerTimedOut())
                   {
                      if (Debug.TRACE_LEVEL_1)
                      {
@@ -226,11 +248,11 @@ public class NNTPStore extends Store
                   }
                   else
                   {
-                     throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
+                     throw new NNTPException(getLastResponse(), response);
                   }
                   break;
                default:
-                  throw new MessagingException(NNTPErrorCodes.ERR_NNTP+m_response);
+                  throw new NNTPException(getLastResponse(), response);
             }
          }
          catch (IOException ioe)
@@ -250,7 +272,7 @@ public class NNTPStore extends Store
    boolean groupExists(Newsgroup g)
       throws MessagingException
    {
-      Newsgroup oldgroup = m_group;
+      Newsgroup oldgroup = m_currentGroup;
       
       try
       {
@@ -274,30 +296,235 @@ public class NNTPStore extends Store
       return true;
    }
    
-   ArrayList getMessages(Newsgroup g)
+  
+   /**
+    * Retrieve a message from the list of messages. If it doesn't exist,
+    * create a new NNTPMessage instance and store it.
+    */  
+   NNTPMessage getNNTPMessage(Newsgroup newsgroup, String message_id) 
+      throws MessagingException 
    {
-      return null; // TODO
-   }
-   
-   NNTPMessage[] getNewMessages(Newsgroup g, Date since)
-   {
-      return null; // TODO
+      NNTPMessage msg = (NNTPMessage)m_messages.get(message_id);
+      if (msg==null)
+      {
+         msg = new NNTPMessage(newsgroup, message_id);
+         m_messages.put(message_id, msg);
+      }
+      return msg;
    }
    
    /**
+    * Get all messages in the specified newsgroup.
+    * @param g The group to get messages in
+    * @return an array of messages
+    * @throws javax.mail.MessagingException if something goes wrong.
+    */
+   NNTPMessage[] getMessages(Newsgroup g)
+      throws MessagingException
+   {
+      // TODO: Support XOVER
+      return getNewMessages(g, new Date(0));
+   }
+   
+   /**
+    * Get new messages since the specified date.
+    * @param g The newsgroup to get new messages for
+    * @param since The local date to get new messages since. This will be
+    *              converted to a GMT date string before being sent to the server
+    * @return An array of new messages in the group since the specified date
+    * @throws javax.mail.MessagingException if something goes wrong.
+    */
+   NNTPMessage[] getNewMessages(Newsgroup g, Date since)
+      throws MessagingException
+   {
+      Vector vecNewMessages = new Vector();
+      try
+      {
+         sendCommand(NNTPCommands.NEWNEWS, g.getName()+" "+getGMTDate(since));
+         int response = getResponse();
+         
+         switch (response)
+         {
+            case NNTPErrorCodes.LIST_ARTICLES:
+               String strCurrentLine=m_in.readLine();
+               
+               while (strCurrentLine != null && !".".equals(strCurrentLine))
+               {
+                  NNTPMessage msg = getNNTPMessage(g, strCurrentLine);
+                  vecNewMessages.addElement(msg);
+               
+               
+                  strCurrentLine = m_in.readLine();
+                  
+               }
+               break;
+            default:
+               throw new NNTPException(getLastResponse(), response);
+               
+         }
+      }
+      catch (IOException ioe)
+      {
+         throw new MessagingException(NNTPErrorCodes.ERR_IOEXCEPTION);
+      }
+      
+      NNTPMessage[] msgs = new NNTPMessage[vecNewMessages.size()];
+      vecNewMessages.copyInto(msgs);
+      return msgs;
+   }
+   
+   /**
+    * Given a number < 100, returns a double digit
+    * padded version of the number as a string.
+    * e.g. 5 -> "05", 10 -> "10"
+    */
+   private String getZeroPaddedNumeric(int num)
+   {
+      if (num > 99 || num < 0) 
+         throw new IllegalArgumentException("Number for getZeroPaddedNumeric must be < 100");
+      return (num < 10) ? "0"+num : Integer.toString(num);
+   }
+   
+   /**
+    * Get an NNTP valid GMT date string from a local Date instance.
+    * e.g. 1/1/99 14:52 GMT -> "990101 145200 GMT"
+    * 12/12/00 01:00 EST -> "001212 060000 GMT"
+    */
+   String getGMTDate(Date date) 
+   {
+      final String TIMEZONE="GMT";
+   
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(date);
+      calendar.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+      
+      StringBuffer buffer = new StringBuffer();
+      int n;
+      
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.YEAR)%100));
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.MONTH)+1)); 
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.DAY_OF_MONTH)));
+      buffer.append(" ");
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.HOUR_OF_DAY)));
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.MINUTE)));
+      buffer.append(getZeroPaddedNumeric(calendar.get(Calendar.SECOND)));
+      buffer.append(" "+TIMEZONE);
+
+      return buffer.toString();
+   }   
+   
+   /**
     * Get all headers for the specified message
+    * @param message The message to retrieve headers for
+    * @return an InternetHeaders object containing the headers
+    * @throws javax.mail.MessagingException if the NNTP server returned an unexpected response code.
     */
    InternetHeaders getHeaders(NNTPMessage message)
+      throws MessagingException
    {
-      return null; // TODO
+      try
+      {
+         String strMessageID = resolveMessageID(message);
+         
+         // Get the header
+         sendCommand(NNTPCommands.HEAD, strMessageID);
+         
+         int response = getResponse();
+         
+         switch (response)
+         {
+            case NNTPErrorCodes.ARTICLE_RETRIEVED_HEAD:
+               return new InternetHeaders(new MessageInputStream(m_in));
+            case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
+               if (hasServerTimedOut())
+               {
+                  close();
+                  connect();
+                  return getHeaders(message);  
+               }
+               // Fall through to the default case...
+            default:
+               throw new NNTPException(getLastResponse(), response);
+         }
+      }
+      catch (IOException ioe)
+      {
+         throw new MessagingException(NNTPErrorCodes.ERR_IOEXCEPTION);
+      }
+   }
+   
+   /**
+    * Gets a message identifier. This method will first attempt to retrieve
+    * the Message-Id field of the message. If this field doesn't exist
+    * (hasn't been read in yet), the current group is switched to the containing
+    * group of the article and the message number of the message is returned.
+    * Either one of these identifiers can be used in NNTP commands such as
+    * BODY or HEAD.
+    * @return either a Message-Id or a message number converted to a string.
+    */
+   protected String resolveMessageID(NNTPMessage message)
+      throws MessagingException
+   {
+      String strMessageID = message.getMessageId();
+      if (strMessageID == null)
+      {
+         Newsgroup ngContainer = (Newsgroup)message.getFolder();
+         if (m_currentGroup != ngContainer)
+            openGroup(ngContainer);
+         
+         return Integer.toString(message.getMessageNumber());
+      }
+      return strMessageID;
    }
    
    /**
     * Get the content for the specified message
+    * @param message The message you want to retrieve the body for
+    * @returns A byte array of the body of the message
+    * @throws java.io.IOException if a fundamental IO Error occurred
+    * @throws javax.mail.MessagingException if the server returned an unexpected code
     */
    byte[] getContent(NNTPMessage message)
+      throws  MessagingException
    {
-      return null; // TODO
+      try
+      {
+         String strMessageID = resolveMessageID(message);
+         
+         // Get the message body
+         sendCommand(NNTPCommands.BODY, strMessageID);
+         
+         int response = getResponse();
+         
+         switch (response)
+         {
+            case NNTPErrorCodes.ARTICLE_RETRIEVED_BODY:
+               int length;
+               byte b[] = new byte[MAX_FETCHSIZE];
+               
+               MessageInputStream misBody = new MessageInputStream(m_in);
+               ByteArrayOutputStream baosStorage = new ByteArrayOutputStream();
+               
+               while ((length = misBody.read(b, 0, MAX_FETCHSIZE))!=-1)
+               baosStorage.write(b, 0, length);
+               
+               return baosStorage.toByteArray();
+            case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
+               if (hasServerTimedOut())
+               {
+                  close();
+                  connect();
+                  return getContent(message);
+               }
+               throw new NNTPException(getLastResponse(), response);
+            default:
+               throw new NNTPException(getLastResponse(), response);
+         }
+      }
+      catch (IOException ioe)
+      {
+         throw new MessagingException(NNTPErrorCodes.ERR_IOEXCEPTION);
+      }
    }
    
    /**
@@ -443,13 +670,78 @@ public class NNTPStore extends Store
     */
    private Newsgroup getNewsgroup(String name)
    {
-      Newsgroup g = (Newsgroup) m_newsgroups.get(name);
+      Newsgroup g = (Newsgroup) m_groups.get(name);
       
       if (g == null)
       {
          g = new Newsgroup(name, this);
-         m_newsgroups.put(name, g);
+         m_groups.put(name, g);
       }
+      
+      return g;
+   }
+   
+   
+   /**
+    * Get all newsgroups available on the server.
+    */
+   Newsgroup[] getNewsgroups() throws MessagingException 
+   {
+      Vector vecGroups = new Vector();
+      try {
+         sendCommand(NNTPCommands.LIST);   // TODO Support extended syntax.
+         int response = getResponse();
+      
+         switch (response) 
+         {
+            case NNTPErrorCodes.NEWSGROUP_LIST:
+               String curLine;
+               curLine = m_in.readLine();
+               while (curLine != null && !".".equals(curLine))
+               {
+                  StringTokenizer tok = new StringTokenizer(curLine, " ");
+                  // Line is of form 
+                  // GroupName FIRST_NUM LAST_NUM POSTING_ALLOWED
+                  String strName = tok.nextToken();
+                  int nLast = Integer.parseInt(tok.nextToken());
+                  int nFirst = Integer.parseInt(tok.nextToken());
+                  boolean bPosting = ("y".equals(tok.nextToken().toLowerCase()));
+                  
+                  Newsgroup grp = (Newsgroup)getFolder(strName);
+                  grp.setFirstArticle(nFirst);
+                  grp.setLastArticle(nLast);
+                  grp.setPostingOK(bPosting);
+                  vecGroups.addElement(grp);
+                  
+                  curLine = m_in.readLine();
+               
+               }
+               break;
+            case NNTPErrorCodes.SERVER_INTERNAL_ERROR:
+               if (hasServerTimedOut())
+               {
+                  close();
+                  connect();
+                  return getNewsgroups();
+               }
+               // Fall through to default
+            default:
+               throw new NNTPException(getLastResponse(), response);
+         }
+      } 
+      catch (IOException e) 
+      {
+         throw new MessagingException(NNTPErrorCodes.ERR_IOEXCEPTION, e);
+      } 
+      catch (NumberFormatException e) 
+      {
+         throw new MessagingException("Number format wrong in server response", e);
+      }
+      
+      Newsgroup[] groups = new Newsgroup[vecGroups.size()]; 
+      vecGroups.copyInto(groups);
+      
+      return groups;
    }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -477,11 +769,19 @@ public class NNTPStore extends Store
          m_debugStream.println(display);
       }
    }
+   
+   
+   
+   
+   
 }
 
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/08/03 19:15:41  briand
+// More work on filling out missing method bodies.
+//
 // Revision 1.2  1999/06/08 22:45:40  briand
 // Add some more methods (with big TODOs in them)
 //
