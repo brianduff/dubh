@@ -6,10 +6,11 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
-import javax.swing.border.*;
+
 import javax.swing.table.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.ui.util.*;
+
 /**
  * An implementation of the login dialog
  */
@@ -34,24 +35,10 @@ class ImplLogin extends JPanel implements DlgLogin
   private int returnValue;
   private DialogManager m_dlgManager;
   private Client m_client;
-  private void reset()
-  {
-    name.setText( _( "YourName" ) );
-    server.setText( _( "localhost" ) );
-    port.setText( _( "5555" ) );
-  }
-  private JPanel createLabelField( String label, JTextField tf )
-  {
-    JPanel pan = new JPanel();
-    pan.setLayout( new BorderLayout() );
-    JLabel lab = new JLabel( label );
-    tf.setPreferredSize( new Dimension( FIELD_WIDTH, tf.getPreferredSize().height ) );
-    tf.setMinimumSize( tf.getPreferredSize() );
-    lab.setPreferredSize( new Dimension( LABEL_WIDTH, lab.getPreferredSize().height ) );
-    pan.add( lab, BorderLayout.WEST );
-    pan.add( tf, BorderLayout.CENTER );
-    return pan;
-  }
+  private BusyCursor m_busy;
+  
+
+  
   public ImplLogin( DialogManager mgr, Client c ) 
   {
     m_client = c;
@@ -72,39 +59,123 @@ class ImplLogin extends JPanel implements DlgLogin
     {
       public void actionPerformed( ActionEvent evt )
       {
-        int iport = 0;
-        try
-        {
-          iport = Integer.parseInt( port.getText() );
-        }
-        catch( NumberFormatException e )
-        {
-          JOptionPane.showMessageDialog( dialog, _( "Port is not a number" ), _( "Error" ), JOptionPane.ERROR_MESSAGE );
-          return ;
-        }
-        try
-        {
-          Socket civserver = new Socket( server.getText(), iport );
-          input = civserver.getInputStream();
-          output = civserver.getOutputStream();
-          returnValue = 1;
-          m_client.setConnected( true );
-          dialog.setVisible( false );
-          return ;
-        }
-        catch( UnknownHostException e )
-        {
-          JOptionPane.showMessageDialog( dialog, "Unknown host " + server.getText(), "Error connecting", JOptionPane.ERROR_MESSAGE );
-          return ;
-        }
-        catch( IOException e )
-        {
-          JOptionPane.showMessageDialog( dialog, e.toString(), _( "Error connecting" ), JOptionPane.ERROR_MESSAGE );
-          return ;
-        }
+        connectClicked();
       }
     } );
+
+    
   }
+
+
+  protected void connectClicked()
+  {
+    int iport = 0;
+    try
+    {
+      iport = Integer.parseInt( port.getText() );
+    }
+    catch( NumberFormatException e )
+    {
+      JOptionPane.showMessageDialog( dialog, _( "Port is not a number" ), _( "Error" ), JOptionPane.WARNING_MESSAGE );
+      return;
+    }
+
+    if ( iport < 0 || iport > 65535 )
+    {
+      JOptionPane.showMessageDialog( dialog, 
+        _( "The specified port number is invalid." ), 
+        m_client.APP_NAME,
+        JOptionPane.WARNING_MESSAGE
+      );
+
+      return;
+    }
+
+    ok.setEnabled( false );
+    cancel.setEnabled( false );
+    if ( m_busy == null )
+    {
+      m_busy = new BusyCursor( ok );
+    }
+    m_busy.show( 0 );
+    ConnectRunnable cr = new ConnectRunnable( server.getText(), iport );
+    Thread t = new Thread( cr );
+    t.start();
+  }
+
+  /**
+   * Allows us to attempt the connection on another thread so that the UI
+   * still repaints while attempting to connect...
+   */
+  private class ConnectRunnable implements Runnable
+  {
+    private String m_host;
+    private int m_port;
+    
+    private ConnectRunnable( String host, int port )
+    {
+      m_host = host;
+      m_port = port;
+    }
+
+    public void run()
+    {
+      try
+      {
+        m_client.connect( name.getText(), m_host, m_port );
+        dialog.setVisible( false );
+      }
+      catch (UnknownHostException host)
+      {
+        JOptionPane.showMessageDialog( dialog, 
+          "Unknown host "+ m_host,
+          m_client.APP_NAME,
+          JOptionPane.WARNING_MESSAGE
+        );
+      }
+      catch (IOException ioe)
+      {
+        JOptionPane.showMessageDialog( dialog, 
+          "Unable to connect to a Freeciv server on "+ m_host,
+          m_client.APP_NAME,
+          JOptionPane.WARNING_MESSAGE
+        );
+      }
+      finally
+      {
+        m_busy.hide();
+        SwingUtilities.invokeLater( new Runnable() {
+          public void run() {
+            ok.setEnabled( true );
+            cancel.setEnabled( true );
+          }
+        });        
+      }
+    }
+
+    
+  }
+
+  private void reset()
+  {
+    name.setText( _( "YourName" ) );
+    server.setText( _( "localhost" ) );
+    port.setText( _( "5555" ) );
+  }
+  
+  private JPanel createLabelField( String label, JTextField tf )
+  {
+    JPanel pan = new JPanel();
+    pan.setLayout( new BorderLayout() );
+    JLabel lab = new JLabel( label );
+    tf.setPreferredSize( new Dimension( FIELD_WIDTH, tf.getPreferredSize().height ) );
+    tf.setMinimumSize( tf.getPreferredSize() );
+    lab.setPreferredSize( new Dimension( LABEL_WIDTH, lab.getPreferredSize().height ) );
+    pan.add( lab, BorderLayout.WEST );
+    pan.add( tf, BorderLayout.CENTER );
+    return pan;
+  }
+  
   private void setupServerPanel()
   {
     m_panServer.addRow( createLabelField( _( "Name:" ), name ) );
@@ -112,6 +183,7 @@ class ImplLogin extends JPanel implements DlgLogin
     m_panServer.addRow( createLabelField( _( "Port:" ), port ) );
     m_panServer.addSpacerRow( new JPanel() );
   }
+  
   private void setupMetaServerPanel()
   {
     m_metaTable.setModel( new MetaServerTableModel() );
@@ -120,6 +192,7 @@ class ImplLogin extends JPanel implements DlgLogin
     m_panMetaServer.addSpacerRow( scr );
     m_panMetaServer.addRow( new JButton( _( "Update" ) ) );
   }
+  
   private int showDialog( JFrame jf )
   {
     dialog = new JDialog( jf, _( "Choose server" ), true );
@@ -127,9 +200,22 @@ class ImplLogin extends JPanel implements DlgLogin
     contentPane.setLayout( new BorderLayout() );
     contentPane.add( this, BorderLayout.CENTER );
     reset();
+
+
+    dialog.setDefaultCloseOperation( dialog.DO_NOTHING_ON_CLOSE );
+    dialog.addWindowListener( new WindowAdapter() {
+      public void windowClosing( WindowEvent we )
+      {
+        // Quit. Maybe should use ACTQuit here, but I'm not sure about the
+        // consequences of this.
+        m_client.quit();
+      }
+    });
+
     dialog.pack();
     dialog.setLocationRelativeTo( jf );
-    dialog.show();
+    dialog.show();    
+    
     return returnValue;
   }
   class MetaServerTableModel extends AbstractTableModel
@@ -162,7 +248,6 @@ class ImplLogin extends JPanel implements DlgLogin
    */
   public void display()
   {
-    //SwingUtilities.invokeLater(new DisplayerRunnable(f));
     showDialog( m_client.getMainWindow() );
     dialog.dispose();
   }
@@ -170,26 +255,7 @@ class ImplLogin extends JPanel implements DlgLogin
   {
     return ( returnValue == 1 );
   }
-  public InputStream getInputStream()
-  {
-    return input;
-  }
-  public OutputStream getOutputStream()
-  {
-    return output;
-  }
-  public String getServerName()
-  {
-    return server.getText();
-  }
-  public int getPortNumber()
-  {
-    return Integer.parseInt( port.getText() );
-  }
-  public String getUserName()
-  {
-    return name.getText();
-  }
+
   // localization
   private static String _( String txt )
   {
