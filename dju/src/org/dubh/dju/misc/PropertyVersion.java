@@ -1,29 +1,31 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: PropertyVersion.java,v 1.3 1999-06-03 23:07:46 briand Exp $
+//   $Id: PropertyVersion.java,v 1.4 1999-11-11 21:24:34 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.utils.misc;
+package org.javalobby.dju.misc;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -42,7 +44,7 @@ import java.util.Locale;
  * linux box, but there is still no Java 1.2 support for Linux (we're
  * cheating by using IBM Jikes with the Java 1.2 libraries)
  * </p>
- * @author <a href=mailto:bduff@uk.oracle.com>Brian Duff</a>
+ * @author <a href=mailto:dubh@btinternet.com>Brian Duff</a>
  * @since 1.1.0
  */
 public class PropertyVersion extends Version
@@ -99,4 +101,10 @@ public class PropertyVersion extends Version
 }
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/06/03 23:07:46  briand
+// Fix bug reported by Thanh.Ma@East.Sun.COM:
+// date in version file is in UK format;
+// DateFormat was throwing exceptions in
+// other locales.
+//
 //

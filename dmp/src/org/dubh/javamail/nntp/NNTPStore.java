@@ -1,30 +1,32 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPStore.java,v 1.5 1999-10-17 17:07:42 briand Exp $
+//   $Id: NNTPStore.java,v 1.6 1999-11-11 21:26:39 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors: 
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.mail.nntp;
+package org.javalobby.javamail.nntp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,15 +40,15 @@ import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.InternetHeaders;
 
-import dubh.utils.misc.Debug;
-import dubh.utils.misc.StringUtils;
+import org.javalobby.dju.misc.Debug;
+import org.javalobby.dju.misc.StringUtils;
 
 /**
  * A JavaMail store for the Network News Transfer Protocol (NNTP), as
  * defined in RFC 977.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPStore.java,v 1.5 1999-10-17 17:07:42 briand Exp $
+ * @version $Id: NNTPStore.java,v 1.6 1999-11-11 21:26:39 briand Exp $
  */
 public class NNTPStore extends Store
 {
@@ -595,7 +597,7 @@ public class NNTPStore extends Store
    
    /**
     * Gets a simple NNTP response code. This should be one of the 
-    * constants in {@link dubh.mail.nntp.NNTPErrorCodes}. After
+    * constants in {@link org.javalobby.javamail.nntp.NNTPErrorCodes}. After
     * calling this method, the class variable m_response contains
     * the full response text.
     */
@@ -781,6 +783,9 @@ public class NNTPStore extends Store
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/10/17 17:07:42  briand
+// Fix slight indexing bug in getting article counts.
+//
 // Revision 1.4  1999/10/16 16:47:07  briand
 // Add lots more code; can now list groups on the server (woo).
 //

@@ -1,35 +1,37 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: IconicPreferencePanel.java,v 1.1 1999-06-01 00:17:34 briand Exp $
+//   $Id: IconicPreferencePanel.java,v 1.2 1999-11-11 21:24:35 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.utils.ui;
+package org.javalobby.dju.ui;
 
 import java.awt.*;
 import javax.swing.*;
 
 /**
- * A panel that is headed by a {@link #dubh.utils.ui.SeparatorBar}, indented
+ * A panel that is headed by a {@link #org.javalobby.dju.ui.SeparatorBar}, indented
  * by a fixed amount with an optional icon. Icons should be 32x32.
  * <p>
  * Valid NLS resources are <<ippname>>.Header.text for the title
@@ -38,7 +40,7 @@ import javax.swing.*;
  * <<ippname>>.Controls.
  *
  * @author Brian Duff
- * @version $Id: IconicPreferencePanel.java,v 1.1 1999-06-01 00:17:34 briand Exp $
+ * @version $Id: IconicPreferencePanel.java,v 1.2 1999-11-11 21:24:35 briand Exp $
  */
 public class IconicPreferencePanel extends JPanel 
 {
@@ -113,4 +115,7 @@ public class IconicPreferencePanel extends JPanel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/06/01 00:17:34  briand
+// Assorted user interface utility code. Mostly for making layout easier.
+//
 //

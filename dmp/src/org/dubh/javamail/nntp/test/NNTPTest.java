@@ -1,4 +1,4 @@
-package dubh.mail.nntp.test;
+package org.javalobby.javamail.nntp.test;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import javax.activation.*;
 
-import dubh.mail.nntp.*;
+import org.javalobby.javamail.nntp.*;
 
 import dubh.apps.newsagent.mailviewer.*;
 

@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: MergeSort.java,v 1.2 1999-03-22 23:37:19 briand Exp $
+//   $Id: MergeSort.java,v 1.3 1999-11-11 21:24:36 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 //
@@ -21,7 +21,7 @@
 //   Contributors: Brian Duff
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.utils.ui.treetable;
+package org.javalobby.dju.ui.treetable;
 /**
  * An implementation of MergeSort, needs to be subclassed to provide a 
  * comparator.

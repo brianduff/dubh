@@ -1,36 +1,38 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MessageHeaderFields.java,v 1.2 1999-06-08 22:45:00 briand Exp $
+//   $Id: MessageHeaderFields.java,v 1.3 1999-11-11 21:26:38 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/mail
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.mail;
+package org.javalobby.javamail;
 
 /**
 * String constants for common mail header fields.
 *  
 * @author Brian Duff
-* @version $Id: MessageHeaderFields.java,v 1.2 1999-06-08 22:45:00 briand Exp $
+* @version $Id: MessageHeaderFields.java,v 1.3 1999-11-11 21:26:38 briand Exp $
 */
 public class MessageHeaderFields
 {
@@ -110,6 +112,9 @@ public class MessageHeaderFields
 // (was moved from NewsAgent at some point, June 1999)
 // 
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/08 22:45:00  briand
+// Add Content- headings, change Sent to Date.
+//
 // Revision 1.1.1.1  1999/06/06 23:37:38  briand
 // Dubh Mail Protocols initial revision.
 //

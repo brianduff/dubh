@@ -1,4 +1,4 @@
-package dubh.mail.nntp;
+package org.javalobby.javamail.nntp;
 
 import javax.mail.MessagingException;
 

@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AbstractCellEditor.java,v 1.2 1999-03-22 23:37:19 briand Exp $
+//   $Id: AbstractCellEditor.java,v 1.3 1999-11-11 21:24:36 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 //
@@ -22,7 +22,7 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.utils.ui.treetable;
+package org.javalobby.dju.ui.treetable;
 
 import java.awt.Component;
 import java.awt.event.*;
