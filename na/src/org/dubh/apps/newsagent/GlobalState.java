@@ -1,34 +1,42 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: GlobalState.java,v 1.4 1999-03-22 23:47:56 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
+
 package dubh.apps.newsagent;
 
 import java.util.*;
 import java.io.*;
 import java.awt.*;
+import java.applet.Applet;
 
 import dubh.apps.newsagent.agent.AgentManager;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.apps.newsagent.dialog.main.MainFrame;
 import dubh.apps.newsagent.nntp.StorageManager;
 
-
+import javax.swing.JApplet;
 import javax.swing.UIManager;
 import java.net.URL;
 import dubh.utils.misc.*;
@@ -80,8 +88,9 @@ public class GlobalState {
   private static AgentManager m_agentManager;
    /** The name of the bundle containing application strings */
   public static final String stringBundle = "Strings";
-  private static ResourceManager m_resManager =
-        new ResourceManager(ResourceBundle.getBundle(stringBundle));
+  private static ResourceManager m_resManager = 
+     new ResourceManager(ResourceBundle.getBundle(stringBundle));
+
 
    private static ReadOnlyVersion m_myVersion;
 
@@ -148,8 +157,20 @@ public class GlobalState {
 
   /** The application HelpSystem */
   private static HelpSystem m_helpSystem;
-
+    
+    
+   private static boolean m_isApplet = false;    
 // Static Methods
+
+   public static boolean isApplet()
+   {
+      return m_isApplet;
+   }
+   
+   public static void setApplet(boolean b)
+   {
+      m_isApplet = b;
+   }
 
    /**
     * Get the current version
@@ -238,10 +259,13 @@ public class GlobalState {
   }
 
   /**
-   * Get the user preferences instance for this application
+   * Get the user preferences instance for this application. In
+   * Applet mode, this is a session only user preference set,
+   * which is initialised from the parameters passed into the
+   * applet. 
    */
   public static UserPreferences getPreferences() {
-     return m_userprefs;
+        return m_userprefs;
   }
 
   /**
@@ -252,65 +276,35 @@ public class GlobalState {
    @deprecated use getPreferences().save() instead.
    */
   public static boolean savePreferences() {
-    // FileOutputStream out;
-   //  String header = appName + " version " + appVersion + " properties.";
-     try {
-        getPreferences().save();
-        return true;
-     } catch (IOException e) {
-         ErrorReporter.error("CantWriteProps");
-        Debug.println(e.toString());
-        return false;
+     if (!isApplet())
+     {
+        try {
+           getPreferences().save();
+           return true;
+        } catch (IOException e) {
+            ErrorReporter.error("CantWriteProps");
+           Debug.println(e.toString());
+           return false;
+        }
      }
+     return true;
   }
 
-  /**
-   * Returns the Properties object containing the user's collection of message
-   * signatures.
-   @returns a Properties object containing a collection of signatures.
-   */
-  public static Properties getSignatures() {
-   return m_signatures;
-  }
-
-  /**
-   * Sets the Properties object which contains the user's collection of message
-   * signatures
-   @param sigs A Properties object containing a collection of signatures
-   */
-  public static void setSignatures(Properties sigs) {
-   m_signatures = sigs;
-  }
-
-  /**
-   * Saves the user's collection of signatures to disk. Will display an error
-   * dialog if the signatures couldn't be written for some reason.
-   @returns true if the signatures were successfully saved
-   */
-  public static boolean saveSignatures() {
-    FileOutputStream out;
-    String header = appName + " version " + appVersion + " signatures.";
-    
-   try {
-      out = new FileOutputStream(sigFile);
-      m_signatures.save(out, header);
-      out.close();
-      return true;
-    } catch (IOException e) {
-      ErrorReporter.error("CantWriteSigs");
-      ErrorReporter.debug(e.toString());
-      return false;
-    }
-  }
-
-
+   public static void appInit()
+   {
+      appInit(null);
+   }
 
   /**
    * Global Application initialisation. This <b>must</b> be called to initialise
    * the global state. The application may be terminated if the application
    * user directory doesn't exist and cannot be created for some reason.
    */
-  public static void appInit() {
+  public static void appInit(Applet a) {
+      if (a != null) 
+      {  
+         setApplet(true);
+      }
       m_myVersion = null;
       try
       {
@@ -319,35 +313,36 @@ public class GlobalState {
         appName = m_myVersion.getProductName();
         appVersion = m_myVersion.getShortDescription();
         appVersionLong = m_myVersion.getLongDescription();
-      } catch (IllegalArgumentException e) {
-        //
-        //ErrorReporter.error("errorVersion");
-        // System.exit(1);
-        //
+      } catch (Throwable e) {
         appName="Unversioned NewsAgent";
         appVersion="X.X.X";
         appVersionLong="Unversioned (Early dev)";
       }
 
+      if (!isApplet())
+      {
       
-      dataDir = System.getProperty("user.home") +
-        System.getProperty("file.separator") +  "."+appName.toLowerCase();
-      prefFile = dataDir + File.separator + "user.properties";
-      sigFile = dataDir + File.separator + "signatures.properties";
-      serversFile = dataDir + File.separator + "servers.dat";
+         dataDir = System.getProperty("user.home") +
+           System.getProperty("file.separator") +  "."+appName.toLowerCase();
+         prefFile = dataDir + File.separator + "user.properties";
+         sigFile = dataDir + File.separator + "signatures.properties";
+         serversFile = dataDir + File.separator + "servers.dat";
       
-     /** The full pathname to the folders directory. */
-     foldersDir = dataDir + File.separator + "folders" + File.separator;
-     /** The full pathname to the servers directory */
-     serversDir = dataDir + File.separator + "servers";
-     /** The full pathname to the agents directory */
-     agentDir  = dataDir + File.separator + "agents";      
-     
+        /** The full pathname to the folders directory. */
+        foldersDir = dataDir + File.separator + "folders" + File.separator;
+        /** The full pathname to the servers directory */
+        serversDir = dataDir + File.separator + "servers";
+        /** The full pathname to the agents directory */
+        agentDir  = dataDir + File.separator + "agents";
+     }
      xmailer = appName+" for Java Version "+appVersion;
      
      checkDataDir();
-     initPreferences();
-     initSignatures();
+     if (isApplet())
+        initPreferences(a);
+     else
+        initPreferences();
+ //    initSignatures();
      m_agentManager = new AgentManager(); /* Init the agent manager */
      m_helpSystem   = new HelpSystem();   /* Init the help system */
      initStorage();
@@ -356,18 +351,6 @@ public class GlobalState {
      getStorageManager().deserializeCaches();
   }
 
-  /**
-   * Global Application Initialisation. Use this version to specify debug mode
-   * on or off. If you specify true, debugging will be turned on, otherwise
-   * debugging will only be switched on if the user specified the
-   * newsagent.debug.DebugMessages user preference as yes.
-   @param on Whether to show debug messages
-   @deprecated This method should not be used: Debugging is now controlled from
-        the main NewsAgent class.
-   */
-  public static void appInit(boolean on) {
-   appInit();
-  }
 
 
   /**
@@ -492,22 +475,27 @@ public class GlobalState {
    * created.
    */
   private static void initStorage() {
-     // Check the storage folder exists. If not, create it.
-     File storageDir = new File(foldersDir);
-     if (!storageDir.exists()) {
-        ErrorReporter.debug("Storage folder doesn't exist: Creating.");
-        if (!storageDir.mkdir()) {
-           ErrorReporter.fatality("CantCreateStorage", new String[] {foldersDir});
+     if (!isApplet())
+     {
+        // Check the storage folder exists. If not, create it.
+        File storageDir = new File(foldersDir);
+        if (!storageDir.exists()) {
+           ErrorReporter.debug("Storage folder doesn't exist: Creating.");
+           if (!storageDir.mkdir()) {
+              ErrorReporter.fatality("CantCreateStorage", new String[] {foldersDir});
+           }
+        }
+        File fserversDir = new File(serversDir);
+        if (!fserversDir.exists()) {
+           ErrorReporter.debug("Servers folder doesn't exist: Creating.");
+           if (!fserversDir.mkdir()) {
+              ErrorReporter.fatality("CantCreateStorage", new String[] {serversDir});
+           }
         }
      }
-     File fserversDir = new File(serversDir);
-     if (!fserversDir.exists()) {
-        ErrorReporter.debug("Servers folder doesn't exist: Creating.");
-        if (!fserversDir.mkdir()) {
-           ErrorReporter.fatality("CantCreateStorage", new String[] {serversDir});
-        }
-     }
+     
      m_storageManager = new StorageManager();
+
   }
 
   /**
@@ -531,37 +519,35 @@ public class GlobalState {
         ErrorReporter.error("CantReadProps");
      }
   }
-
+  
   /**
-   * Initialise the signatures preferences. If no signatures file exists, create
-   * a new properties object which is initially empty.
+   * Initialise preferences from the parameters to an applet
    */
-  private static void initSignatures() {
-   File test = new File(sigFile);
-    m_signatures = new Properties();
-    if(test.exists()) {
-      try {
-         m_signatures.load(new FileInputStream(sigFile));
-      } catch (IOException e) {
-         ErrorReporter.error("CantReadSigs");
-      }
-    }
+  private static void initPreferences(Applet applet)
+  {
+     m_userprefs = new AppletPreferences(applet);
   }
 
   /**
    * Checks to make sure the dataDir exists, and creates it if not.
    * Program <b>will terminate</b> if the dataDir cannot be found or created.
    */
-  private static void checkDataDir() {
-   File ddir = new File(dataDir);
-    if (!ddir.exists()) {
-      if (!ddir.mkdir()) {
-         ErrorReporter.fatality("CantCreateDir",
-          new String[] { dataDir, GlobalState.appName });
+  private static void checkDataDir() 
+  {
+      if (!isApplet())
+      {
+         File ddir = new File(dataDir);
+         if (!ddir.exists()) 
+         {
+            if (!ddir.mkdir()) 
+            {
+               ErrorReporter.fatality("CantCreateDir",
+               new String[] { dataDir, GlobalState.appName });
+            }
+            ErrorReporter.debug("Created a new data directory: "+dataDir);
+         }
       }
-      ErrorReporter.debug("Created a new data directory: "+dataDir);
-    }
-  }
+   }
 
   /**
    * Initialises the Swing User Interface

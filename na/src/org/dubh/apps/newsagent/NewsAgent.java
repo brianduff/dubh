@@ -1,5 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
+//   $Id: NewsAgent.java,v 1.5 1999-03-22 23:48:07 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -18,6 +19,10 @@
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 
 package dubh.apps.newsagent;
 import java.io.*;
@@ -31,18 +36,9 @@ import dubh.utils.ui.*;
 
 /**
  * NewsAgent main program
- * Version History: <UL>
- * <LI>0.1 [20/04/98]: Initial Revision
- * <LI>0.2 [29/04/98]: Added -debug flag support
- * <LI>0.3 [08/05/98]: Whoops. Now checking for number of arguments. Ahem.
- * <LI>0.4 [08/06/98]: Added splash screen support. Added console debugging
- *   support. Nb. the debug user preference has been retired: the command
- *   line flags should be used instead. (?? is this evil for Mac users?)
- * <LI>0.5 [09/06/98]: Added network debugging console support (-debugnet
- *   command line option). Removed -debugcon and added -console.
- *</UL>
- @author Brian Duff
- @version 0.5 [09/06/98]
+ *
+ * @author Brian Duff
+ * @version $Id: NewsAgent.java,v 1.5 1999-03-22 23:48:07 briand Exp $
  */
  public class NewsAgent {
 
