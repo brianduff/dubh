@@ -20,7 +20,7 @@ public class PHRulesetUnit implements ClientPacketHandler , ProgressItem
 
    /**
     */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
      PktRulesetUnit prt = (PktRulesetUnit)pkt;
      c.getDialogManager().getProgressDialog().updateProgress(this);

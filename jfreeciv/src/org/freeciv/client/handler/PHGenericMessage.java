@@ -1,7 +1,7 @@
 package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
-import org.freeciv.net.AbstractPacket;
+import org.freeciv.net.Packet;
 /**
  * This interface is implemented by objects that handle packets received
  * from the server.
@@ -20,5 +20,5 @@ abstract class PHGenericMessage implements ClientPacketHandler
    * Your handler should implement this method to actually
    * handle an incoming packet.
    */
-  public abstract void handle(Client c, AbstractPacket pkt);
+  public abstract void handle(Client c, Packet pkt);
 }

@@ -22,7 +22,7 @@ public class PHPlayerInfo implements ClientPacketHandler
 
    /**
     */
-   public void handle(final Client c, AbstractPacket pkt)
+   public void handle(final Client c, Packet pkt)
    {
       final PktPlayerInfo ppi = (PktPlayerInfo)pkt;
 

@@ -19,7 +19,7 @@ public class PHRulesetTerrainControl implements ClientPacketHandler
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktRulesetTerrainControl prt = (PktRulesetTerrainControl)pkt;
 

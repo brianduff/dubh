@@ -21,7 +21,7 @@ public class PHTileInfo extends AbstractHandler
 
    /**
     */
-   public void handleOnEventThread(Client c, AbstractPacket pkt)
+   public void handleOnEventThread(Client c, Packet pkt)
    {
       PktTileInfo pmi = (PktTileInfo)pkt;
 

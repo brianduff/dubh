@@ -22,7 +22,7 @@ public class PHRulesetControl implements ClientPacketHandler, ProgressItem
 
    /**
     */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
       c.getDialogManager().getProgressDialog().display(
          _("Game has been started"), NUM_RULESETS);

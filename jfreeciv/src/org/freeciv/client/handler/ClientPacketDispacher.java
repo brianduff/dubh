@@ -1,6 +1,6 @@
 package org.freeciv.client.handler;
 
-import org.freeciv.net.AbstractPacket;
+import org.freeciv.net.Packet;
 import org.freeciv.net.InStream;
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
@@ -34,6 +34,61 @@ public class ClientPacketDispacher
    // *TILE_INFO
 
    //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Space added so that the packet handers start on line 100.
+
+
+
+
+
+
+
 
   /**
    * This array must have a one to one correspondence with
@@ -101,8 +156,9 @@ public class ClientPacketDispacher
     null, //INCITE_INQ
     null, //INCITE_COST
     null, //UNIT_UPGRADE
+    null, //PACKET_PLAYER_CANCEL_PACT
     new PHRulesetTech(), //RULESET_TECH
-    new PHRulesetUnit(), //RULESET_UNIT              60
+    new PHRulesetUnit(), //RULESET_UNIT             
     new PHRulesetBuilding(), //RULESET_BUILDING
     null, //CITY_OPTIONS
     null, //SPACESHIP_INFO
@@ -117,8 +173,19 @@ public class ClientPacketDispacher
     null, //CITY_NAME_SUGGESTION
     new PHRulesetNation(), //RULESET_NATION
     null, //UNIT_PARADROP_TO
-    new PHRulesetCity(), //RULESET_CITY                75
-    null //UNIT_CONNECT
+    new PHRulesetCity(), //RULESET_CITY             
+    null, //UNIT_CONNECT
+    null, //PACKET_SABOTAGE_LIST 
+    null, // PACKET_ADVANCE_FOCUS 
+    new PHRulesetGame(), //PACKET_RULESET_GAME
+    new PHConnInfo(), // PACKET_CONN_INFO 
+    null, // PACKET_SHORT_CITY
+    null, // PACKET_PLAYER_REMOVE_VISION 
+    null, // PACKET_GOTO_ROUTE
+    null, // PACKET_PATROL_ROUTE
+    new PHConnPing(), // PACKET_CONN_PING
+    null, // PACKET_CONN_PONG
+    null,  // PACKET_UNIT_AIRLIFT
   };
 
   private Client m_client;
@@ -132,7 +199,7 @@ public class ClientPacketDispacher
   {
     int packetType = in.getInputPacketType();
     ClientPacketHandler ph = getHandlerFor(packetType);
-    AbstractPacket pck = createPacketFor(ph, in);
+    Packet pck = createPacketFor(ph, in, packetType);
     ph.handle(m_client, pck);
   }
 
@@ -163,7 +230,8 @@ public class ClientPacketDispacher
    * Instantiates and returns a new packet for the specified
    * packet handler.
    */
-  public AbstractPacket createPacketFor(ClientPacketHandler cph, InStream in)
+  public Packet createPacketFor(ClientPacketHandler cph, InStream in, 
+    int type)
   {
     try
     {
@@ -175,7 +243,8 @@ public class ClientPacketDispacher
         return null;
       }
       Class packetClass = Class.forName(packetClassName);
-      AbstractPacket packet = (AbstractPacket)packetClass.newInstance();
+      Packet packet = (Packet)packetClass.newInstance();
+      packet.setType(type);
       packet.receive(in);
       return packet;
     }

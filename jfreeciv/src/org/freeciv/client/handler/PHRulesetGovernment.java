@@ -20,7 +20,7 @@ public class PHRulesetGovernment implements ClientPacketHandler, ProgressItem
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktRulesetGovernment prt = (PktRulesetGovernment)pkt;
     c.getDialogManager().getProgressDialog().updateProgress(this);

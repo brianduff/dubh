@@ -20,7 +20,7 @@ public class PHRulesetNation implements ClientPacketHandler, ProgressItem
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktRulesetNation prt = (PktRulesetNation)pkt;
     c.getDialogManager().getProgressDialog().updateProgress(this);

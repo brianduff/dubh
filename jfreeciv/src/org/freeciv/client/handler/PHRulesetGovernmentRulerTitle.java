@@ -19,7 +19,7 @@ public class PHRulesetGovernmentRulerTitle implements ClientPacketHandler
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktRulesetGovernmentRulerTitle prt =
       (PktRulesetGovernmentRulerTitle)pkt;

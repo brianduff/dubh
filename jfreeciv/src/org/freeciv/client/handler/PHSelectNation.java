@@ -15,7 +15,7 @@ public class PHSelectNation extends PHGenericValues  implements Constants
    * Your handler should implement this method to actually
    * handle an incoming packet.
    */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
       PktGenericValues pgv = (PktGenericValues)pkt;
 

@@ -1,6 +1,6 @@
 package org.freeciv.client.handler;
 
-import org.freeciv.net.AbstractPacket;
+import org.freeciv.net.Packet;
 import org.freeciv.client.Client;
 
 import javax.swing.SwingUtilities;
@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
  */
 abstract class AbstractHandler implements ClientPacketHandler
 {
-   public final void handle(final Client c, final AbstractPacket pkt)
+   public final void handle(final Client c, final Packet pkt)
    {
       SwingUtilities.invokeLater(new Runnable() {
          public void run()
@@ -28,7 +28,7 @@ abstract class AbstractHandler implements ClientPacketHandler
     * on the current thread. This is usually the thread that listens
     * for incoming packets from the server.
     */
-   void handleOnCurrentThread(Client c, AbstractPacket pkt)
+   void handleOnCurrentThread(Client c, Packet pkt)
    {}
 
    /**
@@ -37,7 +37,7 @@ abstract class AbstractHandler implements ClientPacketHandler
     * Swing components. It's a good idea to do all UI work in this
     * method.
     */
-   void handleOnEventThread(Client c, AbstractPacket pkt)
+   void handleOnEventThread(Client c, Packet pkt)
    {}
 
 }

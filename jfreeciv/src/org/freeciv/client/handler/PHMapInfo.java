@@ -20,7 +20,7 @@ public class PHMapInfo implements ClientPacketHandler
 
    /**
     */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
      PktMapInfo pmi = (PktMapInfo)pkt;
      c.createMap(pmi.xsize, pmi.ysize, pmi.isEarth);

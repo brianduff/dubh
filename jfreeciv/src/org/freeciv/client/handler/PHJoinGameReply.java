@@ -20,7 +20,7 @@ public class PHJoinGameReply implements ClientPacketHandler
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktJoinGameReply p = (PktJoinGameReply)pkt;
 

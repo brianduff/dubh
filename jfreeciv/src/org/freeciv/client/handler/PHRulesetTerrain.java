@@ -20,7 +20,7 @@ public class PHRulesetTerrain implements ClientPacketHandler, ProgressItem
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktRulesetTerrain prt = (PktRulesetTerrain)pkt;
     c.getDialogManager().getProgressDialog().updateProgress(this);

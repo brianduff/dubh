@@ -20,7 +20,7 @@ public class PHGameInfo implements ClientPacketHandler
 
    /**
     */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
      PktGameInfo pgi = (PktGameInfo)pkt;
      c.setGameInfo(pgi);

@@ -14,7 +14,7 @@ public class PHChatMsg extends PHGenericMessage implements Constants
 
   /**
    */
-  public void handle(Client c, AbstractPacket pkt)
+  public void handle(Client c, Packet pkt)
   {
     PktGenericMessage msg = (PktGenericMessage)pkt;
     int where = Options.MW_OUTPUT;

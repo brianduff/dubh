@@ -9,7 +9,7 @@ import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
 
 
-import org.freeciv.net.AbstractPacket;
+import org.freeciv.net.Packet;
 import org.freeciv.net.PktRulesetControl;
 import org.freeciv.net.PktRulesetTech;
 import org.freeciv.net.PktRulesetGovernment;
@@ -50,11 +50,11 @@ public class RulesetManager implements Constants
 
    public static class RulesetEvent
    {
-      private AbstractPacket m_pkt;
+      private Packet m_pkt;
       private int m_id;
       private RulesetType m_type;
 
-      RulesetEvent(RulesetType type, AbstractPacket pkt, int id)
+      RulesetEvent(RulesetType type, Packet pkt, int id)
       {
          m_id = id;
          m_pkt = pkt;
@@ -71,7 +71,7 @@ public class RulesetManager implements Constants
          return (m_id < 0);
       }
 
-      public AbstractPacket getRuleset()
+      public Packet getRuleset()
       {
          return m_pkt;
       }
@@ -183,12 +183,12 @@ public class RulesetManager implements Constants
       l.add(rl);
    }
 
-   protected void fireRulesetEvent(RulesetType type, AbstractPacket rs)
+   protected void fireRulesetEvent(RulesetType type, Packet rs)
    {
       fireRulesetEvent(type, rs, -1);
    }
 
-   protected void fireRulesetEvent(RulesetType type, AbstractPacket rs, int id)
+   protected void fireRulesetEvent(RulesetType type, Packet rs, int id)
    {
       RulesetEvent re = new RulesetEvent(type, rs, id);
 

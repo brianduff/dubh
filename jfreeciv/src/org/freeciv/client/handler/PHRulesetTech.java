@@ -21,7 +21,7 @@ public class PHRulesetTech implements ClientPacketHandler, ProgressItem
 
   /**
    */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
      PktRulesetTech prt = (PktRulesetTech)pkt;
      c.getDialogManager().getProgressDialog().updateProgress(this);

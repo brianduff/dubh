@@ -1,7 +1,7 @@
 package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
-import org.freeciv.net.AbstractPacket;
+import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.client.Localize;
 
@@ -17,7 +17,7 @@ class PHServerShutdown extends PHGenericMessage
    * Your handler should implement this method to actually
    * handle an incoming packet.
    */
-   public void handle(Client c, AbstractPacket pkt)
+   public void handle(Client c, Packet pkt)
    {
       c.setConnected(false);
       c.getDialogManager().hideAllDialogs();
