@@ -1,3 +1,4 @@
+var secureURL = "http://www.dubh.org:8080/brian/bookmarks/secure";
 
 
 function init()
@@ -45,6 +46,6 @@ function doSubmit()
    var title = document.getElementById("bookmarkTitle").value;
    var url = document.getElementById("bookmarkURL").value;
    var id = document.getElementById("bookmarkId").value;
-   document.location = "secure/do_edit_bookmark.xsql?title="+escape(title)+"&url="+escape(url)+"&id="+escape(id);
+   document.location = secureURL +"/do_edit_bookmark.xsql?title="+escape(title)+"&url="+escape(url)+"&id="+escape(id);
 
 }

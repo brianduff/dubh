@@ -1,3 +1,4 @@
+var secureURL = "http://www.dubh.org:8080/brian/bookmarks/secure";
 
 
 function init()
@@ -36,6 +37,6 @@ function doSubmit()
 
    var title = document.getElementById("categoryTitle").value;
    var id = document.getElementById("catId").value;
-   document.location = "secure/do_edit_category.xsql?title="+escape(title)+"&id="+escape(id);
+   document.location = secureURL + "/do_edit_category.xsql?title="+escape(title)+"&id="+escape(id);
 
 }

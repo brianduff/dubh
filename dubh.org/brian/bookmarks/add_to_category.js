@@ -1,4 +1,5 @@
 var isBookmarkSelected = false;
+var secureURL = "http://www.dubh.org:8080/brian/bookmarks/secure";
 
 function bookmarkRadioSelected(isSelected)
 {
@@ -93,11 +94,11 @@ function doSubmit()
    {
       var title = document.getElementById("bookmarkTitle").value;
       var url = document.getElementById("bookmarkURL").value;
-      document.location = "secure/do_add_bookmark_to_category.xsql?bookmarkTitle="+escape(title)+"&bookmarkURL="+escape(url)+"&catid="+escape(catId);
+      document.location = secureURL + "/do_add_bookmark_to_category.xsql?bookmarkTitle="+escape(title)+"&bookmarkURL="+escape(url)+"&catid="+escape(catId);
    }
    else
    {
       var title = document.getElementById("categoryTitle").value;
-      document.location = "secure/do_add_category_to_category.xsql?categoryTitle="+escape(title)+"&catid="+escape(catId);
+      document.location = secureURL + "/do_add_category_to_category.xsql?categoryTitle="+escape(title)+"&catid="+escape(catId);
    }
 }

@@ -3,10 +3,11 @@
 //
 // This is DOM-level 2 compliant ECMAScript.
 //
-// $Id: bookmarks.js,v 1.2 2001-04-29 17:54:53 briand Exp $
+// $Id: bookmarks.js,v 1.3 2001-06-25 23:37:19 briand Exp $
 // (C) 2001 Brian Duff
 
 var servletURL = "../servlet/editbookmarks";
+var secureURL = "http://www.dubh.org:8080/brian/bookmarks/secure";
 
 // As each title is clicked, hide or restore the corresponding tbody
 // We store a list of collapsed tbody ids in a cookie so that the collapsed
@@ -141,7 +142,7 @@ function deleteCategory(id, title)
 {
    if (confirm("Deleting "+title+" will permentantly remove all bookmarks and subcategories of "+title+".\n\nAre you sure you want to do this?"))
    {
-      document.location="secure/do_delete_category.xsql?catid="+escape(id)+"&catname="+escape(title);
+      document.location=secureURL + "/do_delete_category.xsql?catid="+escape(id)+"&catname="+escape(title);
    }
 }
 
@@ -149,7 +150,7 @@ function deleteBookmark(id, title)
 {
    if (confirm("Do you really want to delete "+title+"?"))
    {
-      document.location="secure/do_delete_bookmark.xsql?id="+escape(id);
+      document.location=secureURL + "/do_delete_bookmark.xsql?id="+escape(id);
    }
 }
 
