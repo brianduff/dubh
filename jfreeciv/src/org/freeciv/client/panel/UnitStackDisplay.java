@@ -1,132 +1,226 @@
 package org.freeciv.client.panel;
 
-
-import java.awt.AlphaComposite;
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.*;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.freeciv.client.Client;
-import org.freeciv.client.Unit;
+import org.freeciv.client.ui.util.ToolButton;
+import org.freeciv.common.Unit;
 
-public class UnitStackDisplay extends JComponent
+/**
+ * Displays a stack of units on the current grid square
+ *
+ * @author Brian Duff
+ */
+public final class UnitStackDisplay extends JPanel
 {
-  int unitWidth;
-  int unitHeight;
-  Icon sampleIcon;
-  int horizontalUnits;
-  Client client;
-  static final int GAP = 5;
-  public UnitStackDisplay( Icon aSampleIcon, int hCount, Client c )
+  private Client m_client;
+  private Dimension m_tileDimension;
+
+
+  /**
+   * Construct the unit stack display
+   */
+  public UnitStackDisplay( Client c )
   {
-    horizontalUnits = hCount;
-    sampleIcon = aSampleIcon;
-    setSizes();
-    setOpaque( false );
-    client = c;
+    m_client = c;
+    m_tileDimension = new Dimension( 
+      m_client.getTileSpec().getNormalTileWidth(),
+      m_client.getTileSpec().getNormalTileHeight()
+    );
+    setLayout( new FlowLayout() );
   }
-  public void setSizes()
+
+  /**
+   * Call this whenever the active unit or active tile changes
+   */
+  public void update(int gridx, int gridy, Unit focusUnit)
   {
-    if( unitWidth != sampleIcon.getIconWidth() || unitHeight != sampleIcon.getIconHeight() )
+    this.removeAll();
+
+    this.add( new UnitComponent(focusUnit) );
+    Iterator tileUnits = 
+      m_client.getGame().getMap().getTile( gridx, gridy ).getUnits();
+
+    while (tileUnits.hasNext() )
     {
-      unitWidth = sampleIcon.getIconWidth();
-      unitHeight = sampleIcon.getIconHeight();
-      setMinimumSize( new Dimension( unitWidth * horizontalUnits + ( horizontalUnits - 1 ) * GAP, unitHeight * 3 + 2 * GAP ) );
-      setPreferredSize( getMinimumSize() );
-      setWantedSize();
-    }
-  }
-  public void invalidate()
-  {
-    setSizes();
-    super.invalidate();
-  }
-  ArrayList units = new ArrayList();
-  public void removeAllUnits()
-  {
-    units.clear();
-  }
-  public void setWantedSize()
-  {
-    setSize( getWantedSize() );
-  }
-  public Dimension getWantedSize()
-  {
-    int count = Math.max( units.size(), 9 ) - 1;
-    int rows = ( count / horizontalUnits ) + 1;
-    return new Dimension( unitWidth * horizontalUnits + ( horizontalUnits - 1 ) * GAP, unitHeight * rows + ( rows - 1 ) * GAP );
-  }
-  public void addUnit( Unit u )
-  {
-    units.add( u );
-    setWantedSize();
-  }
-  public void addUnitStack( Unit u )
-  {
-    /*
-    for( ;u != null;u = u.nextInStack )
-    {
-      addUnit( u );
-    }
-    */
-  }
-  public Unit getUnitAt( int x, int y )
-  {
-    Insets ins = getInsets();
-    x -= ins.left;
-    y -= ins.top;
-    int posX = 0;
-    int posY = 0;
-    while( x >= unitWidth )
-    {
-      x -= unitWidth;
-      if( x < GAP )
+      Unit u = (Unit)tileUnits.next();
+      if ( u != focusUnit )
       {
-        return null;
+        this.add( new UnitComponent(u) );
       }
-      posX++;
     }
-    while( y >= unitHeight )
+
+    invalidate();
+    validate();
+  }
+
+
+  /**
+   * This component is used to actually represent a unit
+   */
+  private class UnitComponent extends ToolButton
+  {
+    private Unit m_unit;
+    private boolean m_toggled;
+
+    private UnitComponent( Unit u )
     {
-      y -= unitHeight;
-      if( y < GAP )
+      m_unit = u;
+      initIcon();
+      initToolTip();
+      boolean toggle = (m_client.getUnitInFocus() == m_unit);
+      if (toggle)
       {
-        return null;
+        // hack: simulate a click inside the button, yech
+        m_isInside = true;
+        mouseReleased( null );
+        m_isInside = false;
       }
-      posY++;
+
+      Dimension prefSize = getPreferredSize();
+      setPreferredSize( new Dimension( prefSize.width+3, prefSize.height+3 ));
+      
     }
-    int index = posY * horizontalUnits + posX;
-    if( index >= units.size() )
+
+    private Unit getUnit()
     {
-      return null;
+      return m_unit;
     }
-    return (Unit)units.get( index );
-  }
-  public Unit getUnitAt( Point p )
-  {
-    return getUnitAt( p.x, p.y );
-  }
-  public void paintComponent( Graphics g )
-  {
-    /*
-    Insets ins = getInsets();
-    ( (Graphics2D)g ).setComposite( client.getComponentAlpha() );
-    g.setColor( client.getComponentColor() );
-    Rectangle r = g.getClipBounds();
-    g.fillRect( r.x, r.y, r.width, r.height );
-    g.setPaintMode();
-    int len = units.size();
-    for( int i = 0;i < len;i++ )
+
+    private void initIcon()
     {
-      Unit u = (Unit)units.get( i );
-      u.reallyPaintIcon( this, g, ins.left + ( i % horizontalUnits ) * ( unitWidth + GAP ), ins.top + ( i / horizontalUnits ) * ( unitHeight + GAP ), false );
+      List spriteList = new ArrayList();
+      boolean[] solidBg = new boolean[1];
+      m_client.getTileSpec().fillUnitSprites( spriteList, m_unit, solidBg );
+      setIcon( new CompoundIcon( spriteList ) );
     }
-    */
+
+    private void initToolTip()
+    {
+      StringBuffer toolTipBuffer = new StringBuffer();
+      String nationName = m_unit.getOwner().getNation().getName();
+      toolTipBuffer.append( nationName );
+      toolTipBuffer.append( " " );
+      String unitName = m_unit.getUnitType().getName();
+      toolTipBuffer.append( unitName );
+      toolTipBuffer.append( " (" );
+      toolTipBuffer.append( m_unit.getUnitType().getAttackStrength() );
+      toolTipBuffer.append("/");
+      toolTipBuffer.append( m_unit.getUnitType().getDefenseStrength() );
+      toolTipBuffer.append("/");
+      toolTipBuffer.append( m_unit.getUnitType().getMoveRate() );
+      toolTipBuffer.append(")");
+
+      setToolTipText( toolTipBuffer.toString() );
+    }
+
+    public void mouseEntered( MouseEvent e )
+    {
+      if ( !m_toggled )
+      {
+        super.mouseEntered( e );
+      }
+      else
+      {
+        m_isInside = true;
+      }
+    }
+
+    public void mouseExited( MouseEvent e )
+    {
+      if ( !m_toggled )
+      {
+        super.mouseExited( e );
+      }
+      else
+      {
+        m_isInside = false;
+      }
+    }
+
+    public void mousePressed( MouseEvent e )
+    {
+      if ( m_toggled )
+      {
+        setBackground( UIManager.getDefaults().getColor( "control" ) );
+        m_isDepressed = true;
+      }
+      else
+      {
+        super.mousePressed( e );
+      }
+    }
+
+    public void mouseReleased( MouseEvent e )
+    {
+      if ( !m_toggled && m_isInside )
+      {
+        m_toggled = true;
+        setBorder( LOWERED_BORDER );
+        setBackground( UIManager.getDefaults().getColor( "control" ).brighter() );
+        m_isDepressed = false;
+      }
+      else if ( m_toggled && m_isInside )
+      {
+        m_toggled = false;
+        setBorder( RAISED_BORDER );
+        setBackground( UIManager.getDefaults().getColor( "control" ) );
+        m_isDepressed = false;        
+      }
+      else if ( m_toggled && !m_isInside )
+      {
+        setBackground( UIManager.getDefaults().getColor( "control" ) );
+        m_isDepressed = false;        
+      }
+      else
+      {
+        super.mouseReleased( e );
+      }
+    }
+
   }
+
+  /**
+   * A compound icon is an icon consisting of several icons drawn on top of each
+   * other.
+   */
+  private class CompoundIcon implements Icon
+  {
+    List m_icons;
+
+    private CompoundIcon( List icons )
+    {
+      m_icons = icons;
+    }
+
+    public int getIconWidth()
+    {
+      return ((Icon)m_icons.get(0)).getIconWidth();
+    }
+
+    public int getIconHeight()
+    {
+      return ((Icon)m_icons.get(0)).getIconHeight();
+    }
+
+    public void paintIcon( Component c, Graphics g, int x, int y )
+    {
+      Iterator i = m_icons.iterator();
+      while ( i.hasNext() )
+      {
+        ((Icon)i.next()).paintIcon( c, g, x, y );
+      }
+    }
+  }
+
 }
