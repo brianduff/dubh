@@ -16,15 +16,5 @@ public interface DlgLogin
    * Returns true if the dialog was dismissed successfully
    */
   public boolean isOK();
-  /**
-   * Returns an input stream from the selected server
-   */
-  public InputStream getInputStream();
-  /**
-   * Returns an output stream from the selected server
-   */
-  public OutputStream getOutputStream();
-  public String getServerName();
-  public int getPortNumber();
-  public String getUserName();
+
 }
