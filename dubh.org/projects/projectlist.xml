@@ -112,7 +112,10 @@
       <p>
         WinBlock is a low-quality Arkanoid (bat n' ball) clone for Windows. I
         used it as a way of learning Visual Basic programming back in
-        1996. The old VB version looks a bit like this:
+        1996. The source code for the old Visual Basic 6 version (including
+        an executable) can be found in the 
+        <a href="http://dubh.org/servlet/jcvs/list/winblock-vb/winblock-vb">
+        Winblock-VB CVS Module</a>. The old VB version looks a bit like this:
       </p>
       <p align="center">
         <img src="winblock-vb.gif" alt="WinBlock VB Screenshot" width="340" height="296" />
