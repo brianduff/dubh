@@ -34,7 +34,7 @@ public class MessageBody implements Serializable {
         * Constructs a new, blank messagebody
         */
        public MessageBody() {
-       	m_text = "";
+         m_text = "";
        }
 
        /**
@@ -42,7 +42,7 @@ public class MessageBody implements Serializable {
         @param initialText the text of the body
         */
        public MessageBody(String initialText) {
-       	m_text = initialText;
+         m_text = initialText;
        }
 
        /**
@@ -87,7 +87,7 @@ public class MessageBody implements Serializable {
         message.
         */
        public void insertText(String insText, int pos) {
-       	StringBuffer b = new StringBuffer(m_text);
+         StringBuffer b = new StringBuffer(m_text);
         b.insert(pos, insText);
         m_text = b.toString();
        }
@@ -99,7 +99,7 @@ public class MessageBody implements Serializable {
         @param pos position of inserted text, 0 indicates start of message
         */
        public void insertQuoted(String insText, int pos) {
-       	// Nb. Will need to check for line wrapping eventually :)
+         // Nb. Will need to check for line wrapping eventually :)
         StringBuffer b = new StringBuffer(m_text);
         b.insert(pos, insText);
         m_text = b.toString();

@@ -77,7 +77,7 @@ public class FolderTreePanel extends JPanel {
   private DefaultMutableTreeNode servers;
   private DefaultMutableTreeNode folders;
   private final static ImageIcon icoNewsagent = new ImageIcon(
-  			GlobalState.getImage("newsagent_small.gif"));
+         GlobalState.getImage("newsagent_small.gif"));
   private JTree jtreeFolders = new JTree();
   private JScrollPane scroll = new JScrollPane(jtreeFolders);
   private JLabel lblImage = new JLabel();
@@ -333,18 +333,18 @@ public class FolderTreePanel extends JPanel {
  * Draws individual tree items
  */
 class FolderTreeRenderer extends DefaultTreeCellRenderer {
-	   private final static ImageIcon icoServers = new ImageIcon(
-  			GlobalState.getImage("icoServers.gif"));
+      private final static ImageIcon icoServers = new ImageIcon(
+         GlobalState.getImage("icoServers.gif"));
      private final static ImageIcon icoFolders = new ImageIcon(
-  			GlobalState.getImage("icoFolders.gif"));
+         GlobalState.getImage("icoFolders.gif"));
      private final static ImageIcon icoFolder = new ImageIcon(
-  			GlobalState.getImage("icoFolder.gif"));
+         GlobalState.getImage("icoFolder.gif"));
      private final static ImageIcon icoServer = new ImageIcon(
-  			GlobalState.getImage("icoServer.gif"));
+         GlobalState.getImage("icoServer.gif"));
      private final static ImageIcon icoServerDis = new ImageIcon(
            GlobalState.getImage("icoServerDis.gif"));
      private final static ImageIcon icoNewsgroup = new ImageIcon(
-  			GlobalState.getImage("icoNewsgroup.gif"));
+         GlobalState.getImage("icoNewsgroup.gif"));
            
   public FolderTreeRenderer() {
      super();
@@ -353,8 +353,8 @@ class FolderTreeRenderer extends DefaultTreeCellRenderer {
   /**
    * Returns the renderer.
    */
-	public synchronized Component getTreeCellRendererComponent(JTree tree,
-		Object v, boolean selected, boolean expanded, boolean leaf, int row,
+   public synchronized Component getTreeCellRendererComponent(JTree tree,
+      Object v, boolean selected, boolean expanded, boolean leaf, int row,
     boolean hasfocus) {
      JLabel supComp = (JLabel) super.getTreeCellRendererComponent(tree, v, selected, expanded, leaf, row,
         hasfocus);
@@ -393,7 +393,7 @@ class FolderTreeRenderer extends DefaultTreeCellRenderer {
 class FolderTreePanel_jtreeFolders_valueAdapter implements javax.swing.event.TreeSelectionListener {
   FolderTreePanel adaptee;
   FolderTreePanel_jtreeFolders_valueAdapter(FolderTreePanel adaptee) {
-  	this.adaptee = adaptee;
+   this.adaptee = adaptee;
   }
 
   public void valueChanged(TreeSelectionEvent e) {
@@ -404,10 +404,10 @@ class FolderTreePanel_jtreeFolders_valueAdapter implements javax.swing.event.Tre
 
 
 class FolderTreePanel_jtreeFolders_mouseAdapter implements java.awt.event.MouseListener {
-	FolderTreePanel adaptee;
+   FolderTreePanel adaptee;
 
   FolderTreePanel_jtreeFolders_mouseAdapter(FolderTreePanel adaptee) {
-  	this.adaptee = adaptee;
+   this.adaptee = adaptee;
   }
 
   public void mouseClicked(MouseEvent e) {

@@ -60,7 +60,7 @@ public class IdentityOptionsPanel extends JPanel {
   JTextField tfOrganisation = new JTextField();
   JPanel panIdentity = new JPanel();
   TitledBorder borderIdentity = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("IdentityOptionsPanel.IdentityOptions"));
+   GlobalState.getResString("IdentityOptionsPanel.IdentityOptions"));
   BorderLayout borderLayout1 = new BorderLayout();
 
   public IdentityOptionsPanel() {

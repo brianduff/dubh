@@ -39,10 +39,10 @@ import dubh.utils.misc.ResourceManager;
  * Version History: <UL>
  * <LI>0.1 [26/02/98]: Initial Revision
  * <LI>0.2 [27/02/98]: Changed layout managers. Changed to a JPanel to work in
- *				TabbedPane.
+ *          TabbedPane.
  * <LI>0.3 [03/03/98]: Implemented preferences methods.
  * <LI>0.4 [07/03/98]: Added event binding for Signatures, added
- *				Internationalisation (using getResString())
+ *          Internationalisation (using getResString())
  * <LI>1.0 [10/06/98]: Big change for NewsAgent 1.02
  * <LI>
  *</UL>
@@ -51,7 +51,7 @@ import dubh.utils.misc.ResourceManager;
  */
 public class SendOptionsPanel extends JPanel {
   private TitledBorder borderQuoting = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("SendOptionsPanel.Quoting"));
+   GlobalState.getResString("SendOptionsPanel.Quoting"));
   private JPanel panQuoting = new JPanel();
   private GridBagLayout layoutMain = new GridBagLayout();
   private GridBagLayout layoutQuoting = new GridBagLayout();

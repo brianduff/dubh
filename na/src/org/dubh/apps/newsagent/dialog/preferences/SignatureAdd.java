@@ -98,35 +98,35 @@ public class SignatureAdd extends JDialog {
    * Retieves the title entered by the user.
    */
   public String getTitle() {
-  	return jTextField1.getText();
+   return jTextField1.getText();
   }
 
   /**
    * Retrieves the signature entered by the user.
    */
   public String getSig() {
-  	return jTextArea1.getText();
+   return jTextArea1.getText();
   }
 
   /**
    * Sets the title
    */
   public void setTitle(String t) {
-  	jTextField1.setText(t);
+   jTextField1.setText(t);
   }
 
   /**
    * Sets the signature
    */
   public void setSig(String t) {
-  	jTextArea1.setText(t);
+   jTextArea1.setText(t);
   }
 
   /**
    * Tells this SignatureAdd that the title is fixed and cannot be edited.
    */
   public void setTitleEnabled(boolean b) {
-  	jTextField1.setEnabled(b);
+   jTextField1.setEnabled(b);
   }
 
   void jButton1_actionPerformed(ActionEvent e) {

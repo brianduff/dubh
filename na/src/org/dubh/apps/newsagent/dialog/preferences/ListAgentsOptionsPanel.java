@@ -42,9 +42,9 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
  */
 public class ListAgentsOptionsPanel extends JPanel {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
+   GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
   public TitledBorder borderAgent= new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("AgentsOptionsPanel.AgentName"));
+   GlobalState.getResString("AgentsOptionsPanel.AgentName"));
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JPanel panAvailableAgents = new JPanel();
   JPanel panAgent = new JPanel();
@@ -277,7 +277,7 @@ public class ListAgentsOptionsPanel extends JPanel {
   }
 
   void listAgents_mouseClicked(MouseEvent e) {
-  	if (e.getClickCount() == 2) {		// Double click events
+   if (e.getClickCount() == 2) {    // Double click events
      /* Toggle whether the agent is enabled, unless it is a "not found"
       * agent, in which case, it should always be disabled.
       */
@@ -452,9 +452,9 @@ class ListAgentsOptionsPanel_listAgents_mouseAdapter extends java.awt.event.Mous
 
 class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
 
-	public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus)
-	{
+   public Component getListCellRendererComponent(JList list, Object value,
+            int index, boolean isSelected, boolean cellHasFocus)
+   {
      AgentListEntryL entry = (AgentListEntryL)value;
      if (entry.agent == null) {
        setText(entry.agentClassName+" - "+
@@ -472,6 +472,6 @@ class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
        this.setBackground(UIManager.getColor("white"));
        this.setForeground(UIManager.getColor("textText"));
     }
-		return this;
-	}
+      return this;
+   }
 }

@@ -58,7 +58,7 @@ public class MessageHeader implements Serializable {
 // Protected instance variables
 
        /** The NNTP ID of this message. Now defunct. */
-			  protected int serverID;
+           protected int serverID;
 
 // Private instance variables
        /** The font to display in */
@@ -250,14 +250,14 @@ public class MessageHeader implements Serializable {
          * Set the ID of this message header.
          */
         public void setID(int id) {
-        	serverID = id;
+         serverID = id;
         }
 
         /**
          * Retreive the ID of this message.
          */
         public int getID() {
-        	return serverID;
+         return serverID;
         }
 
         /**

@@ -161,7 +161,7 @@ public class NewsServerPropsDlg extends NDialog {
   }
 
   void cmdOK_actionPerformed(ActionEvent e) {
-  	applyProps();
+   applyProps();
     setVisible(false);
   }
 
@@ -171,7 +171,7 @@ public class NewsServerPropsDlg extends NDialog {
 
   void chkRequireLogon_actionPerformed(ActionEvent e) {
       txtLogin.setEnabled(getRequiresLogin());
-    	tfPassword.setEnabled(getRequiresLogin());
+      tfPassword.setEnabled(getRequiresLogin());
      txtLogin.repaint();
      tfPassword.repaint();
   }
@@ -180,11 +180,11 @@ public class NewsServerPropsDlg extends NDialog {
    * Reads from props
    */
   public void revertToProps() {
-  	// Read in the server's details.
+   // Read in the server's details.
      NNTPServer thisserver = GlobalState.getStorageManager().getServer(getServerHost());
     //String host = getServerHost();
     setServerName(thisserver.getNiceName());
-		setPort(StringUtils.intToString(thisserver.getPort()));
+      setPort(StringUtils.intToString(thisserver.getPort()));
     setRequiresLogin(thisserver.isSecureServer());
     setUserName(thisserver.getLogin());
     setPassword(thisserver.getPassword());
@@ -196,14 +196,14 @@ public class NewsServerPropsDlg extends NDialog {
    * Applies props
    */
   public void applyProps() {
-  	String host = getServerHost();
+   String host = getServerHost();
      try {
         NNTPServer thisserver = GlobalState.getStorageManager().getServer(host);
         if (thisserver == null) {
            GlobalState.getStorageManager().addServer(host);
            thisserver = GlobalState.getStorageManager().getServer(host);
         }
-   	   thisserver.setNiceName(getServerName());
+         thisserver.setNiceName(getServerName());
         int thePort = StringUtils.stringToInt(getPort());
         // Use default port if none entered
         if (thePort <= 0)
@@ -212,7 +212,7 @@ public class NewsServerPropsDlg extends NDialog {
          thisserver.setPort(thePort);
         thisserver.setSecureServer(getRequiresLogin());
         if (getRequiresLogin())
-    	      thisserver.setLoginInfo(getUserName(), getPassword());
+            thisserver.setLoginInfo(getUserName(), getPassword());
     } catch (IOException e) {
         ErrorReporter.debug("IOException in NewsServerPropsDlg.applyProps:"+e);
         ErrorReporter.error("UnableToConnect", new String[] {host});
@@ -227,80 +227,80 @@ public class NewsServerPropsDlg extends NDialog {
    * Sets if this host is uneditable.
    */
   public void setHostEnabled(boolean b) {
-  	tfHostName.setEnabled(b);
+   tfHostName.setEnabled(b);
   }
 
   /**
    * Set this Dialog's server name field.
    */
   public void setServerName(String s) {
-  	tfServerName.setText(s);
+   tfServerName.setText(s);
   }
 
   /**
    * Set this Dialog's setver host field.
    */
   public void setServerHost(String s) {
-  	tfHostName.setText(s);
+   tfHostName.setText(s);
   }
 
   /**
    * Get this dialog's server name field.
    */
   public String getServerName() {
-   	return tfServerName.getText();
+      return tfServerName.getText();
   }
 
   /**
    * Get this dialog's server host field.
    */
   public String getServerHost() {
-  	return tfHostName.getText();
+   return tfHostName.getText();
   }
 
   /**
    * Determine whether the "my server requires login" checkbox is ticked
    */
   public boolean getRequiresLogin() {
-  	return chkRequireLogon.isSelected();
+   return chkRequireLogon.isSelected();
   }
 
   public void setRequiresLogin(boolean b) {
-  	chkRequireLogon.setSelected(b);
+   chkRequireLogon.setSelected(b);
   }
 
   /**
    * Gets this dialog's username
    */
   public String getUserName() {
-  	return txtLogin.getText();
+   return txtLogin.getText();
   }
 
   public void setUserName(String s) {
-  	txtLogin.setText(s);
+   txtLogin.setText(s);
   }
 
   /**
    * Gets this dialog's password
    */
   public String getPassword() {
-  	return tfPassword.getText();
+   return tfPassword.getText();
   }
 
   public void setPassword(String s) {
-  	tfPassword.setText(s);
+   tfPassword.setText(s);
   }
 
   public String getPort() {
-  	return tfPort.getText();
+   return tfPort.getText();
   }
 
   public void setPort(String s) {
-  	tfPort.setText(s);
+   tfPort.setText(s);
   }
 
   void cmdDefault_actionPerformed(ActionEvent e) {
-  	setPort("119");
+   setPort("119");
   }
 
 }

@@ -64,9 +64,9 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
  */
 public class ServerOptionsPane extends JPanel {
   public TitledBorder borderNews = new TitledBorder(new EtchedBorder(),
-  	"News");
+   "News");
   public TitledBorder borderMail = new TitledBorder(new EtchedBorder(),
-  	"Mail");
+   "Mail");
   JPanel panNews = new JPanel();
   JPanel panMail = new JPanel();
   JList lstNewsServers = new JList();
@@ -100,12 +100,12 @@ public class ServerOptionsPane extends JPanel {
   }
 
   public ServerOptionsPane(JFrame parent) {
-  	this();
+   this();
     this.parent = parent;
   }
 
   public void jbInit() throws Exception{
-  	panNews.setBorder(borderNews);
+   panNews.setBorder(borderNews);
     panNews.setLayout(gridBagLayout4);
     panMail.setBorder(borderMail);
     panMail.setLayout(gridBagLayout2);
@@ -158,7 +158,7 @@ public class ServerOptionsPane extends JPanel {
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 155, 0));
     cmdRemove.setEnabled(false);
     cmdProperties.setEnabled(false);
-  	revertPreferences();
+   revertPreferences();
   }
 
   /**
@@ -169,7 +169,7 @@ public class ServerOptionsPane extends JPanel {
  /*   String allServers = "";
     Enumeration e = listItems.elements();
     while (e.hasMoreElements()) {
-    	ServerListItem item = (ServerListItem) e.nextElement();
+      ServerListItem item = (ServerListItem) e.nextElement();
       //allServers = allServers + item.serverHost + " ";
 
     }
@@ -190,7 +190,7 @@ public class ServerOptionsPane extends JPanel {
    * button was clicked or the window was closed without OK being clicked.
    */
   public void revertPreferences() {
- 		// Get the list of NNTP Servers and populate the list.
+      // Get the list of NNTP Servers and populate the list.
       refreshServerList();
 
     // Get the SMTP Mail Host & Port
@@ -207,8 +207,8 @@ public class ServerOptionsPane extends JPanel {
     Enumeration enum = GlobalState.getStorageManager().getServers();
     while(enum.hasMoreElements()) {
         NNTPServer thisserver = (NNTPServer)enum.nextElement();
-      	listItems.addElement(new ServerListItem(thisserver.getHostName(),
-        		thisserver.getNiceName()));
+         listItems.addElement(new ServerListItem(thisserver.getHostName(),
+            thisserver.getNiceName()));
     }
 
   }
@@ -257,16 +257,16 @@ public class ServerOptionsPane extends JPanel {
   }
 
   void cmdProperties_actionPerformed(ActionEvent e) {
-  	setProperties();
+   setProperties();
   }
 
   void cmdPortDefault_actionPerformed(ActionEvent e) {
-  	tfMailPort.setText(defaultPort);
+   tfMailPort.setText(defaultPort);
   }
 
   void lstNewsServers_mouseClicked(MouseEvent e) {
-  	if (e.getClickCount() == 2) {		// Double click events
-    	setProperties();
+   if (e.getClickCount() == 2) {    // Double click events
+      setProperties();
     }
   }
 
@@ -274,11 +274,11 @@ public class ServerOptionsPane extends JPanel {
    * Triggered when the selected list item changes
    */
   void lstNewsServers_valueChanged(ListSelectionEvent e) {
-  	if (lstNewsServers.getSelectedIndex() >= 0) {
-    	cmdRemove.setEnabled(true);
+   if (lstNewsServers.getSelectedIndex() >= 0) {
+      cmdRemove.setEnabled(true);
       cmdProperties.setEnabled(true);
     } else {
-    	cmdRemove.setEnabled(false);
+      cmdRemove.setEnabled(false);
       cmdProperties.setEnabled(false);
     }
   }
@@ -372,10 +372,10 @@ class ServerOptionsPane_lstNewsServers_listSelectionAdapter implements javax.swi
  * Simple implementation of a list item.
  */
 class ServerListItem {
-	String serverHost;
+   String serverHost;
   String serverName;
   ServerListItem(String h,String  n) { serverHost = h; serverName = n; }
   public String toString() {
-  	return serverName;
+   return serverName;
   }
 }

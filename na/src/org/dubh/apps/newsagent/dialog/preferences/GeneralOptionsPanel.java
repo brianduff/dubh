@@ -54,8 +54,8 @@ import dubh.apps.newsagent.GlobalState;
  * <LI>0.1 [24/02/98]: Initial Revision
  * <LI>0.2 [26/02/98]: Added property interface.
  * <LI>0.3 [27/02/98]: Changed to a JPanel so it works in the TabbedPane.
- *			Changed layout managers, things are looking a lot better now. Fixed
- *			repaint bug for slider.
+ *       Changed layout managers, things are looking a lot better now. Fixed
+ *       repaint bug for slider.
  * <LI>0.4 [03/03/98]: Changed property interface to use GlobalState.
  * <LI>0.5 [07/03/98]: Updated to use GlobalState.getResString() - Internationalised.
  * <LI>0.6 [20/04/98]: Changed to use GridBagLayout rather than VerticalFlow.
@@ -70,7 +70,7 @@ public class GeneralOptionsPanel extends JPanel {
   JPanel jPanel1 = new JPanel();
  
   public TitledBorder borderGeneral = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("GeneralOptionsPanel.GeneralOptions"));
+   GlobalState.getResString("GeneralOptionsPanel.GeneralOptions"));
   BorderLayout borderLayout1 = new BorderLayout();
   JCheckBox jCheckBox1 = new JCheckBox();
   JSlider updateSlider = new JSlider();
@@ -99,7 +99,7 @@ public class GeneralOptionsPanel extends JPanel {
    * button was clicked or the window was closed without OK being clicked.
    */
   public void revertPreferences() {
-  	jCheckBox1.setSelected(GlobalState.getBoolPreference("newsagent.general.AutoUpdate", true));
+   jCheckBox1.setSelected(GlobalState.getBoolPreference("newsagent.general.AutoUpdate", true));
     jCheckBox2.setSelected(GlobalState.getBoolPreference("newsagent.general.NewsgroupNotify", true));
     String update = GlobalState.getPreference("newsagent.general.UpdateInterval","5");
     updateSlider.setValue(Integer.parseInt(update.trim()));
@@ -114,7 +114,7 @@ public class GeneralOptionsPanel extends JPanel {
    * should call this on all panels, then save the preference file.
    */
   public void applyPreferences() {
-  	GlobalState.setPreference("newsagent.general.AutoUpdate", jCheckBox1.isSelected());
+   GlobalState.setPreference("newsagent.general.AutoUpdate", jCheckBox1.isSelected());
     GlobalState.setPreference("newsagent.general.NewsgroupNotify", jCheckBox2.isSelected());
     GlobalState.setPreference("newsagent.general.UpdateInterval", valLabel.getText().substring(0,2));
   }
@@ -169,7 +169,7 @@ public class GeneralOptionsPanel extends JPanel {
   }
 
   void updateSlider_stateChanged(ChangeEvent e) {
-  	valLabel.setText(Integer.toString(updateSlider.getValue())+" "+GlobalState.getResString("GeneralOptionsPanel.Minutes"));
+   valLabel.setText(Integer.toString(updateSlider.getValue())+" "+GlobalState.getResString("GeneralOptionsPanel.Minutes"));
   }
 
   void updateSlider_propertyChange(PropertyChangeEvent e) {

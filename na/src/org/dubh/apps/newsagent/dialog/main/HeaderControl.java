@@ -30,7 +30,7 @@ import javax.swing.*;
  * Version History: <UL>
  * <LI>0.1 [18/02/98]: Initial Revision
  * <LI>0.2 [19/02/98]: Changed internal implementation to use widths instead
- *		of xoffsets. Added image support
+ *    of xoffsets. Added image support
  * <LI>0.3 [23/02/98]: Added set/getMinimumWidth. Added tree binding.
  * <LI>0.4 [26/02/98]: Generalised so that the header can be bound to any
  *     subclass of Component.
@@ -41,20 +41,20 @@ import javax.swing.*;
  @version 0.5 [03/03/98]
  */
 public class HeaderControl extends JPanel implements MouseListener,
-	MouseMotionListener {
+   MouseMotionListener {
 
-	public static final int DEFAULTWIDTH = 120;
+   public static final int DEFAULTWIDTH = 120;
   public static final int MINWIDTH = 5;
   private static final int LABELINSET = 4;
-	protected int[] 		colWidth; 	 // The width the columns
-  protected int[]			colMinWidth; // The minimum width of the columns
-  protected String[] 	colName;     // The name of the columns
-  protected Image[]		colImage;		 // The image for the column
+   protected int[]      colWidth;    // The width the columns
+  protected int[]       colMinWidth; // The minimum width of the columns
+  protected String[]    colName;     // The name of the columns
+  protected Image[]     colImage;       // The image for the column
   protected boolean[] colUseImage; // Should the column use its image?
-  protected int   		numCols;     // The number of columns
-  protected boolean 	overMover;	 // The mouse cursor is over a mover
-  protected int				moverOffset; // Distance of the mouse pointer from the mover
-  protected int				overWhich;	 // Which mover the mouse is over
+  protected int         numCols;     // The number of columns
+  protected boolean  overMover;   // The mouse cursor is over a mover
+  protected int            moverOffset; // Distance of the mouse pointer from the mover
+  protected int            overWhich;   // Which mover the mouse is over
   protected Component m_component; // component we are bound to
  // protected HeaderBoundRenderer m_renderer; // renderer we are bound to.
 
@@ -62,7 +62,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    * Constructs a HeaderControl with one column.
    */
   public HeaderControl() {
-  	this(1);
+   this(1);
   }
 
   /**
@@ -71,9 +71,9 @@ public class HeaderControl extends JPanel implements MouseListener,
    */
   public HeaderControl(int nCols) {
         super();
-  	int i;
+   int i;
 
-  	numCols = nCols;
+   numCols = nCols;
     colWidth = new int[nCols];
     colMinWidth = new int[nCols];
     colName = new String[nCols];
@@ -83,7 +83,7 @@ public class HeaderControl extends JPanel implements MouseListener,
     colMinWidth[0] = MINWIDTH;
     colName[0] = "";
     for (i = 1; i < numCols; i++) {
-    	colWidth[i] = DEFAULTWIDTH;
+      colWidth[i] = DEFAULTWIDTH;
       colMinWidth[i] = MINWIDTH;
       colName[i] = "";
       colUseImage[i] = false;
@@ -100,9 +100,9 @@ public class HeaderControl extends JPanel implements MouseListener,
    */
   public int getColumnPos(int column) {
     int result = 0;
-  	if (column == 1) return 0;
+   if (column == 1) return 0;
     for (int i=1; i<column; i++) {
-    	result += getColumnWidth(i);
+      result += getColumnWidth(i);
     }
     return result;
   }
@@ -113,7 +113,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    @returns The width
    */
   public int getColumnWidth(int column) {
-  	return (column <= numCols? colWidth[column-1]:0);
+   return (column <= numCols? colWidth[column-1]:0);
   }
 
   /**
@@ -122,10 +122,10 @@ public class HeaderControl extends JPanel implements MouseListener,
    @param width The width of the column in pixels.
    */
   public void setColumnWidth(int column, int width) {
-  	if (column <= numCols) {
-    	if (width >= getMinimumWidth(column)) colWidth[column-1] = width;
+   if (column <= numCols) {
+      if (width >= getMinimumWidth(column)) colWidth[column-1] = width;
       else colWidth[column-1] = getMinimumWidth(column);
-    	repaint();
+      repaint();
       if (m_component != null) { m_component.repaint(); }
     }
   }
@@ -136,7 +136,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    @returns the minimum width
    */
   public int getMinimumWidth(int column) {
-  	return (column <= numCols? colMinWidth[column-1]:0);
+   return (column <= numCols? colMinWidth[column-1]:0);
   }
 
   /**
@@ -146,10 +146,10 @@ public class HeaderControl extends JPanel implements MouseListener,
    @param width The minumum width
    */
   public void setMinimumWidth(int column, int width) {
-  	if (column <= numCols && width > MINWIDTH) {
-    	colMinWidth[column-1] = width;
+   if (column <= numCols && width > MINWIDTH) {
+      colMinWidth[column-1] = width;
       if (getColumnWidth(column) < width)
-      	setColumnWidth(column, width);
+         setColumnWidth(column, width);
     }
   }
 
@@ -167,7 +167,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    @returns A String containing the name of the column.
    */
   public String getColumnName(int column) {
-  	return (column <= numCols) ? colName[column-1] : "";
+   return (column <= numCols) ? colName[column-1] : "";
   }
 
   /**
@@ -176,7 +176,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    @param name The name to display for the column
    */
   public void setColumnName(int column, String name) {
-  	if (column <= numCols) colName[column-1] = name;
+   if (column <= numCols) colName[column-1] = name;
   }
 
   /**
@@ -184,8 +184,8 @@ public class HeaderControl extends JPanel implements MouseListener,
    @param column The column
    @returns an Image
   */
-	public Image getColumnImage(int column) {
-  	return colImage[column-1];
+   public Image getColumnImage(int column) {
+   return colImage[column-1];
   }
 
   /**
@@ -194,7 +194,7 @@ public class HeaderControl extends JPanel implements MouseListener,
    @returns a boolean, true if an image is to be used for the spec. column.
    */
   public boolean isImageBeingUsed(int column) {
-  	return colUseImage[column-1];
+   return colUseImage[column-1];
   }
 
   /**
@@ -204,11 +204,11 @@ public class HeaderControl extends JPanel implements MouseListener,
    @param i The image to use. Set to null to use no image.
    */
   public void setColumnImage(int column, Image i) {
-  	if (i == null) {
-    	colUseImage[column-1] = false;
+   if (i == null) {
+      colUseImage[column-1] = false;
       colImage[column-1] = null;
     } else {
-    	colUseImage[column-1] = true;
+      colUseImage[column-1] = true;
       colImage[column-1] = i;
     }
   }
@@ -216,28 +216,28 @@ public class HeaderControl extends JPanel implements MouseListener,
 
 // Events
 
-	public void mouseMoved(MouseEvent e) {
-  	if (numCols < 2) return;
-  	for (int i=2; i<= numCols; i++) {
-    	if (e.getX() >  getColumnPos(i)-5 && e.getX() < getColumnPos(i)+5) {
-      	setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+   public void mouseMoved(MouseEvent e) {
+   if (numCols < 2) return;
+   for (int i=2; i<= numCols; i++) {
+      if (e.getX() >  getColumnPos(i)-5 && e.getX() < getColumnPos(i)+5) {
+         setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
         overMover = true;
         moverOffset = e.getX()-getColumnPos(i);
         overWhich = i-1;
         return;
-    	} else {
-      	setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+      } else {
+         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         overMover = false;
       }
-  	}
+   }
   }
 
   public void mousePressed(MouseEvent e) { ; }
 
   
   public void mouseDragged(MouseEvent e) {
-  	if (overMover) {
-    	int widthadjust;
+   if (overMover) {
+      int widthadjust;
       widthadjust = e.getX() - getColumnPos(overWhich+1) - moverOffset;
       setColumnWidth(overWhich, getColumnWidth(overWhich)+widthadjust);
     }
@@ -252,42 +252,42 @@ public class HeaderControl extends JPanel implements MouseListener,
    * Paints the column header. Overrides BevelPanel.paint().
    */
   public void paint(Graphics g) {
-    	g.setColor(UIManager.getColor("control"));
-    	g.fillRect(0, 0, getSize().width, getSize().height);
+      g.setColor(UIManager.getColor("control"));
+      g.fillRect(0, 0, getSize().width, getSize().height);
       g.setColor(UIManager.getColor("controlBlack"));
       g.drawRect(0, 0, getSize().width-1, getSize().height-1);
       for (int i=1; i <= numCols; i++)
-      	drawColumn(g, i);
+         drawColumn(g, i);
   }
 
   /**
    * Paints an individual column header.
    */
   private void drawColumn(Graphics g, int column) {
-  	int rightlimit;
-  	g.setColor(UIManager.getColor("controlBlack"));
+   int rightlimit;
+   g.setColor(UIManager.getColor("controlBlack"));
     g.drawLine(getColumnPos(column), 0, getColumnPos(column), getSize().height);
-		g.setColor(UIManager.getColor("controlHighlight"));
+      g.setColor(UIManager.getColor("controlHighlight"));
     rightlimit = (column < numCols) ? getColumnPos(column+1): getSize().width-1;
     g.drawLine(getColumnPos(column)+1, 1, rightlimit-1, 1);
     g.drawLine(getColumnPos(column)+1, 1, getColumnPos(column)+1,
-    	getSize().height-2);
+      getSize().height-2);
     g.setColor(UIManager.getColor("controlShadow"));
     g.drawLine(getColumnPos(column)+2, getSize().height-2, rightlimit-1,
-    	getSize().height-2);
+      getSize().height-2);
     g.drawLine(rightlimit-1, 2, rightlimit-1, getSize().height-2);
     g.setColor(Color.black);
     // Clip the image / string so that they don't go over the header width
-  	g.setClip(getColumnPos(column)+2, 2, getColumnWidth(column)-4,
-    	getSize().height-2);
+   g.setClip(getColumnPos(column)+2, 2, getColumnWidth(column)-4,
+      getSize().height-2);
     if (isImageBeingUsed(column))
-    	g.drawImage(getColumnImage(column), getColumnPos(column)+2+LABELINSET,
-      	getSize().height-LABELINSET-getColumnImage(column).getHeight((ImageObserver)this),
-        	(ImageObserver)this);
+      g.drawImage(getColumnImage(column), getColumnPos(column)+2+LABELINSET,
+         getSize().height-LABELINSET-getColumnImage(column).getHeight((ImageObserver)this),
+         (ImageObserver)this);
     else
-    	g.drawString(getColumnName(column), getColumnPos(column)+2+LABELINSET,
-      	getSize().height-LABELINSET);
-		g.setClip(0,0, getSize().width, getSize().height);
+      g.drawString(getColumnName(column), getColumnPos(column)+2+LABELINSET,
+         getSize().height-LABELINSET);
+      g.setClip(0,0, getSize().width, getSize().height);
   }
 
 }

@@ -44,10 +44,10 @@ import dubh.utils.misc.Debug;
  *   should keep eating until we are sure the message isn't a status message.
  * <LI>0.4 [05/02/98]: Fixed above bug. Added date conversion.
  * <LI>0.5 [18/02/98]: Added support for XOVER command, added getHeaders method.
- *	 added several (internal) string handling utilities, should probably move
- *	 these elsewhere...
+ *  added several (internal) string handling utilities, should probably move
+ *  these elsewhere...
  * <LI>0.6 [03/03/98]: Added support for message body retrieval. Might be a
- *	 performance problem, since we have to convert a vector to a String.
+ *  performance problem, since we have to convert a vector to a String.
  * <LI>0.7 [23/03/98]: Made NNTPServer a MessageProvider. Effectively, I've
  *    removed the NNTPServerProvider class and just rolled it all into this class.
  *    eventually, I'll phase out some of the public interface of the NNTPServer
@@ -131,7 +131,7 @@ public class NNTPServer implements MessageProvider, Serializable {
        private int portNumber;        // The port
        private transient String lastReply;      // The last status line the server sent us
        private transient PrintWriter m_out;     // Debug output stream
-       protected Newsgroup currentGroup;	// The current newsgroup
+       protected Newsgroup currentGroup;  // The current newsgroup
        protected Vector subscriptions = new Vector(); // all subscribed newsgroup
        protected Vector allNewsgroups = new Vector(); // all newsgroups
        protected String lastNewsgroupCheck = null; // date newsgroups were last checked.
@@ -309,15 +309,15 @@ public class NNTPServer implements MessageProvider, Serializable {
     @throws java.io.IOException a network or IO Error occurred.
     */
    public MessageBody getBody(MessageHeader head)
-   	throws IOException, NNTPServerException {
+      throws IOException, NNTPServerException {
       Vector v;
       String s = new String();
-   		sendMessage(cmdBody+" "+head.getFieldValue("Message-Id"));
-      getReply();	// Should be 222 Body
+         sendMessage(cmdBody+" "+head.getFieldValue("Message-Id"));
+      getReply(); // Should be 222 Body
       v = getMessage();
       Enumeration enum = v.elements();
       while (enum.hasMoreElements()) {
-      	s = s + (String) enum.nextElement() + "\n";
+         s = s + (String) enum.nextElement() + "\n";
       }
       return new MessageBody(s);
    }
@@ -517,7 +517,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Retrieves a tree of all MessageHeaders in the current newsgroup.
     */
    public TreeModel getHeaders()
-   		throws IOException, NNTPServerException {
+         throws IOException, NNTPServerException {
 
       return getHeaders(null);
    }
@@ -546,7 +546,7 @@ public class NNTPServer implements MessageProvider, Serializable {
       if (!myCache.hasEverDownloaded()) {
          sendMessage(cmdXover+" "+currentGroup.getFirstArticle()+
                             "-"+currentGroup.getLastArticle());
-         getReply();	// Should be 211 Article List Follows
+         getReply(); // Should be 211 Article List Follows
 
          myCache.addHeaders(getHeaderList(monitor), serverDate());
          return myCache.getHeaders();
@@ -837,10 +837,10 @@ public class NNTPServer implements MessageProvider, Serializable {
     @returns a vector of Headers.
     */
    private synchronized Vector getHeaderList(JProgressBar monitor) throws
-   	IOException, NNTPServerException {
+      IOException, NNTPServerException {
      // Will eventually change this to use our own tree and thread as it goes.
-			boolean inList= false;
-    	String temp = " ";
+         boolean inList= false;
+      String temp = " ";
      int count = 0;
      Vector collection = new Vector(currentGroup.getArticleCount());
      if (monitor != null) {
@@ -852,14 +852,14 @@ public class NNTPServer implements MessageProvider, Serializable {
      }
 
       while(temp.charAt(0) != '.') {
-      	temp = is.readLine();             // throws IOException
+         temp = is.readLine();             // throws IOException
         if (inList) {
-        	if (temp.charAt(0) != '.') {
+         if (temp.charAt(0) != '.') {
            MessageHeader hd = constructXoverHeader(temp);
            if (hd != null) collection.addElement(hd);
          }
         } else {
-        	char firstchar = temp.charAt(0);
+         char firstchar = temp.charAt(0);
           inList = true;
           if (temp.charAt(0) != '.') {
            MessageHeader hd = constructXoverHeader(temp);
@@ -925,12 +925,12 @@ public class NNTPServer implements MessageProvider, Serializable {
     artid|subject|From|Date|Message-Id|References|bytecount|linecount|[opt]*
      where | is a tab and opt represents optional headers.
     */
-   	MessageHeader h = new MessageHeader();
+      MessageHeader h = new MessageHeader();
     Vector v = getTabSubstrings(xoverline);
     // should check length of v here.
     try {
     // h.setID(Integer.parseInt((String)v.elementAt(0)));  don't use the ID anymore
-   	h.setField("Subject", (String)v.elementAt(1));
+      h.setField("Subject", (String)v.elementAt(1));
      h.setField("From", (String)v.elementAt(2));
      h.setField("Date", (String)v.elementAt(3));
      h.setField("Message-Id", (String)v.elementAt(4));
@@ -1030,7 +1030,7 @@ public class NNTPServer implements MessageProvider, Serializable {
              lastReply = is.readLine();        // Read the status line
              echo(getNiceName()+" >> "+lastReply);
              throwExceptions(lastReply);       // Throw an error if we have to
-			        message = new String();
+                 message = new String();
              if (getStatusNumber(lastReply) == 215) { // Here come the groups
                 collection = getMessage();
                 return collection;
@@ -1077,7 +1077,7 @@ public class NNTPServer implements MessageProvider, Serializable {
             case 400:      // NNTP Server has discontinued service
                  throw new NNTPServerDiscontinuedException(status);
             case 500:
-			       case 501:      // NNTP command syntax error
+                case 501:      // NNTP command syntax error
                  throw new NNTPServerCommandException(status);
             case 502:      // Permission Denied
                  throw new NNTPServerPermissionException(status);
@@ -1085,20 +1085,20 @@ public class NNTPServer implements MessageProvider, Serializable {
                  throw new NNTPServerFaultException(status);
             case 420:
             case 421:
-			       case 422:
-			       case 423:
-			       case 430:      // Bad article
+                case 422:
+                case 423:
+                case 430:      // Bad article
                  throw new NNTPServerBadArticleException(status);
             case 411:
-			       case 412:      // Bad newsgroup
+                case 412:      // Bad newsgroup
                  throw new NNTPServerBadNewsgroupException(status);
             case 437:
-			       case 440:
-			       case 441:      // POST rejected
+                case 440:
+                case 441:      // POST rejected
                  throw new NNTPServerArticleRefusedException(status);
             default:
                  if (statcode >= 400)  // codes > 400 are errors
-					          throw new NNTPServerInternalException(status);
+                         throw new NNTPServerInternalException(status);
             }
 
     }
@@ -1130,12 +1130,12 @@ public class NNTPServer implements MessageProvider, Serializable {
       int curpos;
       int endpos;
       int wordnumber=1;
-			BreakIterator bi = BreakIterator.getWordInstance();
+         BreakIterator bi = BreakIterator.getWordInstance();
       // in breakiterator, spaces count as words...
       bi.setText(s);
       curpos = bi.first();
       while (curpos != BreakIterator.DONE && wordnumber < n) {
-      	curpos = bi.next();
+         curpos = bi.next();
         if (curpos > s.length()-1) return "";
         if (s.charAt(curpos) != ' ') wordnumber++;
       }
@@ -1151,17 +1151,17 @@ public class NNTPServer implements MessageProvider, Serializable {
      */
     public Vector getTabSubstrings(String s) {
       Vector v = new Vector(10);
-    	int curpos = 0;
+      int curpos = 0;
       int nexttab = s.indexOf('\t');
-      if (nexttab == 0) {		// s has only one element.
-      	v.addElement(s);
+      if (nexttab == 0) {     // s has only one element.
+         v.addElement(s);
         return v;
       }
       while (nexttab > 0) {
-      	v.addElement(s.substring(curpos, nexttab));
+         v.addElement(s.substring(curpos, nexttab));
         curpos = nexttab+1;
         nexttab = s.indexOf('\t', curpos);
-    	}
+      }
       v.addElement(s.substring(curpos, s.length()));
       return v;
     }

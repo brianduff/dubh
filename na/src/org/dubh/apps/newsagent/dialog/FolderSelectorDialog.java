@@ -183,13 +183,13 @@ class FolderSelectorDialog_cmdNew_actionAdapter implements java.awt.event.Action
 
 // Display an icon and a string for each object in the list.
 class FolderListCellRenderer extends JLabel implements ListCellRenderer {
-	final static ImageIcon folderIcon = new ImageIcon(
-  			GlobalState.getImage("icoFolder.gif"));
+   final static ImageIcon folderIcon = new ImageIcon(
+         GlobalState.getImage("icoFolder.gif"));
 
-	public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus)
-	{
-		setText(value.toString());
+   public Component getListCellRendererComponent(JList list, Object value,
+            int index, boolean isSelected, boolean cellHasFocus)
+   {
+      setText(value.toString());
     setOpaque(true);
     if (isSelected) {
        this.setBackground(UIManager.getColor("textHighlight"));
@@ -198,7 +198,7 @@ class FolderListCellRenderer extends JLabel implements ListCellRenderer {
        this.setBackground(UIManager.getColor("white"));
        this.setForeground(UIManager.getColor("textText"));
     }
-    	setIcon(folderIcon);
-		return this;
-	}
+      setIcon(folderIcon);
+      return this;
+   }
 }

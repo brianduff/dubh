@@ -93,7 +93,7 @@ public class OptionsFrame extends NFrame {
   }
 
   private void jbInit() throws Exception{
-  	Container content = getContentPane();
+   Container content = getContentPane();
     //Container content = this;
     this.setTitle(GlobalState.appName+" "+GlobalState.getResString("OptionsFrame.Preferences"));
     this.addWindowListener(new OptionsFrame_this_windowAdapter(this));
@@ -123,7 +123,7 @@ public class OptionsFrame extends NFrame {
     jPanel1.add(cmdCancel, null);
 
    //this.add(tabPane, BorderLayout.CENTER);
- 		content.add(tabPane, BorderLayout.CENTER);
+      content.add(tabPane, BorderLayout.CENTER);
 
   }
 
@@ -150,11 +150,11 @@ public class OptionsFrame extends NFrame {
   }
 
   void cmdOK_actionPerformed(ActionEvent e) {
-  	ok();
+   ok();
   }
 
   void cmdCancel_actionPerformed(ActionEvent e) {
-  	cancel();
+   cancel();
 
   }
 

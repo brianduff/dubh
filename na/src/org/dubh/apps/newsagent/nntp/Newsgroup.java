@@ -39,8 +39,8 @@ public class Newsgroup implements Serializable {
 // Private attributes
    private String m_name;
    private int m_posting;
-   private int firstNumericID;			// The first numerical article ID
-   private int lastNumericID;				// The last numerical article ID
+   private int firstNumericID;         // The first numerical article ID
+   private int lastNumericID;          // The last numerical article ID
    private int articleCount;       // The number of articles in this newsgroup
 
 // Public constants
@@ -126,7 +126,7 @@ public class Newsgroup implements Serializable {
      @returns a numerical article ID
      */
     public int getFirstArticle() {
-    	return firstNumericID;
+      return firstNumericID;
     }
 
     /**
@@ -134,7 +134,7 @@ public class Newsgroup implements Serializable {
      @param f The numerical Id of the first available article in this group.
      */
     public void setFirstArticle(int f) {
-    	firstNumericID = f;
+      firstNumericID = f;
     }
 
     /**
@@ -144,7 +144,7 @@ public class Newsgroup implements Serializable {
      @returns a numerical article ID
      */
     public int getLastArticle() {
-    	return lastNumericID;
+      return lastNumericID;
     }
 
     /**
@@ -152,7 +152,7 @@ public class Newsgroup implements Serializable {
      @param l The numerical ID of the last available article in this group.
      */
     public void setLastArticle(int l) {
-    	lastNumericID = l;
+      lastNumericID = l;
     }
 
     /**

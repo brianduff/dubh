@@ -50,11 +50,11 @@ public class UnreadHighlightAgentPanel extends JPanel {
 // UI Vars
 
   TitledBorder borderHighlight = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("Agents.UnreadHighlight"));
+   GlobalState.getResString("Agents.UnreadHighlight"));
   TitledBorder borderFormatting= new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("Agents.Formatting"));
+   GlobalState.getResString("Agents.Formatting"));
   TitledBorder borderSample = new TitledBorder(new EtchedBorder(),
-  	GlobalState.getResString("Agents.Sample"));
+   GlobalState.getResString("Agents.Sample"));
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JPanel panHighlight = new JPanel();
   JPanel panFormatting = new JPanel();

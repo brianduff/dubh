@@ -30,13 +30,13 @@ import dubh.utils.misc.Debug;
  * Version History: <UL>
  * <LI>0.1 [17/02/98]: Initial Revision
  * <LI>0.2 [27/02/98]: Made methods static. Changed methods for Swing 1.0, you
- *		<b>must</b> provide a parent JFrame for all static calls (or deadlock).
- *		Addendum: Providing a parent doesn't actually work. The deadlock problem
- *		is a known bug in JDK < 1.1.4 (and not Swing's fault). The problem goes
- *		away on newer JREs. JBuilder uses an old JRE, which is why I noticed it.
+ *    <b>must</b> provide a parent JFrame for all static calls (or deadlock).
+ *    Addendum: Providing a parent doesn't actually work. The deadlock problem
+ *    is a known bug in JDK < 1.1.4 (and not Swing's fault). The problem goes
+ *    away on newer JREs. JBuilder uses an old JRE, which is why I noticed it.
  * <LI>0.3 [03/03/98]: Updated to use GlobalState for application name.
  * <LI>0.4 [05/03/98]: Now takes a string resource bundle key for the message,
- * 		and no longer takes parents for any message box.
+ *       and no longer takes parents for any message box.
  * <LI>0.5 [23/03/98]: Added Yes/No dialog.
  * <LI>0.6 [24/03/98]: Added Input dialog.
  * <LI>0.7 [23/04/98]: Disabled debug output for release version.
@@ -54,7 +54,7 @@ public class ErrorReporter {
 
 // Public Static Constants
 
-	private static final String dlgTitle = GlobalState.appName;
+   private static final String dlgTitle = GlobalState.appName;
 
 // Private Static Constants
 
@@ -62,16 +62,16 @@ public class ErrorReporter {
 
 // Public Constructors
 
-	/**
-	 * Default Constructor. Enter Description Here.
-	 */
+   /**
+    * Default Constructor. Enter Description Here.
+    */
     public ErrorReporter() {
 
     }
 
     private static void dodialog(String title, String message, int type) {
-    	JOptionPane.showMessageDialog(new JFrame(), message, title, type);
-		}
+      JOptionPane.showMessageDialog(new JFrame(), message, title, type);
+      }
 
      /**
       * Displays a dialog to the user where he/she can enter a string.
@@ -112,8 +112,8 @@ public class ErrorReporter {
      in this warning dialog.
      */
     public static void warn(String key) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
-      				 GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
+                   GlobalState.getResString(key),
                JOptionPane.WARNING_MESSAGE);
     }
 
@@ -123,8 +123,8 @@ public class ErrorReporter {
      in this error dialog.
      */
     public static void error(String key) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("error"),
-      				 GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getResString("error"),
+                   GlobalState.getResString(key),
                JOptionPane.ERROR_MESSAGE);
     }
 
@@ -135,8 +135,8 @@ public class ErrorReporter {
      in this fatal error dialog.
      */
     public static void fatality(String key) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
-      				 GlobalState.getResString(key),
+      dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
+                   GlobalState.getResString(key),
                JOptionPane.ERROR_MESSAGE);
       System.exit(1);
     }
@@ -149,8 +149,8 @@ public class ErrorReporter {
      strings.
      */
     public static void warn(String key, Object[] subst) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
-      				 MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getResString("warning"),
+                   MessageFormat.format(GlobalState.getResString(key), subst),
                JOptionPane.WARNING_MESSAGE);
     }
     /**
@@ -161,8 +161,8 @@ public class ErrorReporter {
      strings.
      */
     public static void error(String key, Object[] subst) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("error"),
-      				 MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getResString("error"),
+                   MessageFormat.format(GlobalState.getResString(key), subst),
                JOptionPane.ERROR_MESSAGE);
     }
 
@@ -175,8 +175,8 @@ public class ErrorReporter {
      strings.
      */
     public static void fatality(String key, Object[] subst) {
-    	dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
-      				 MessageFormat.format(GlobalState.getResString(key), subst),
+      dodialog(dlgTitle+" "+GlobalState.getResString("fatal"),
+                   MessageFormat.format(GlobalState.getResString(key), subst),
                JOptionPane.ERROR_MESSAGE);
       System.exit(1);
     }
@@ -191,13 +191,13 @@ public class ErrorReporter {
 
 // Public Methods
 
-	/**
-	 * Test Harness Method. This method should be removed upon completion of
-	 * the project.
-	 */
-	public void doTest() {
+   /**
+    * Test Harness Method. This method should be removed upon completion of
+    * the project.
+    */
+   public void doTest() {
 
-	}
+   }
 
 // Private / Protected Methods
 

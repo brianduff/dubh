@@ -41,20 +41,20 @@ import dubh.utils.misc.StringUtils;
 public class NFrame extends JFrame {
 
 
-	/**
-	 * Default Constructor. Enter Description Here.
-	 */
+   /**
+    * Default Constructor. Enter Description Here.
+    */
     public NFrame() {
-    	super();
+      super();
     }
 
-	/**
+   /**
    * Moves the frame to the centre of the screen.
    */
   public void moveToCentre() {
-  	Dimension screen = this.getToolkit().getScreenSize();
+   Dimension screen = this.getToolkit().getScreenSize();
     Dimension frame  = getSize();
-    setLocation(screen.width/2 - frame.width/2, screen.height/2 - frame.height/2); 	
+    setLocation(screen.width/2 - frame.width/2, screen.height/2 - frame.height/2);  
   }
 
   /**
@@ -71,19 +71,19 @@ public class NFrame extends JFrame {
    * called just before program termination on all windows (?)
    */
   public void storeLocation(String id) {
-  	String left = "newsagent.windows."+id+".";
-  	GlobalState.setPreference(left+"x", StringUtils.intToString(getLocation().x));
+   String left = "newsagent.windows."+id+".";
+   GlobalState.setPreference(left+"x", StringUtils.intToString(getLocation().x));
     GlobalState.setPreference(left+"y", StringUtils.intToString(getLocation().y));
     GlobalState.setPreference(left+"w", StringUtils.intToString(getSize().width));
     GlobalState.setPreference(left+"h", StringUtils.intToString(getSize().height));
-		GlobalState.savePreferences();
+      GlobalState.savePreferences();
   }
 
   /**
    * Hides the window and stores it's position.
    */
   public void hideAndStore(String id) {
-  	storeLocation(id);
+   storeLocation(id);
     setVisible(false);
   }
 
@@ -92,12 +92,12 @@ public class NFrame extends JFrame {
    * values are not stored, the window will be centered.
    */
   public void moveToStoredLocation(String id) {
-  	String left = "newsagent.windows."+id+".";
-  	int x = StringUtils.stringToInt(GlobalState.getPreference(left+"x", "-1000"));
+   String left = "newsagent.windows."+id+".";
+   int x = StringUtils.stringToInt(GlobalState.getPreference(left+"x", "-1000"));
     if (x < 0)
-    	moveToCentre();
+      moveToCentre();
     else {
-    	int y = StringUtils.stringToInt(GlobalState.getPreference(left+"y", "0"));
+      int y = StringUtils.stringToInt(GlobalState.getPreference(left+"y", "0"));
       int w = StringUtils.stringToInt(GlobalState.getPreference(left+"w", "100"));
       int h = StringUtils.stringToInt(GlobalState.getPreference(left+"h", "100"));
       setLocation(new Point(x, y));
@@ -105,13 +105,13 @@ public class NFrame extends JFrame {
     }
 
   }
-      	/**
+         /**
      * Moves the window to the position stored in the preferences file, packs
      * and shows it. If the
      * values are not stored, the window will be centered.
      */
     public void showAtStoredLocation(String id) {
-    	pack();
+      pack();
       moveToStoredLocation(id);
       show();
     }
