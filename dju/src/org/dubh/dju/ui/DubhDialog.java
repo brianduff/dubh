@@ -122,6 +122,15 @@ public class DubhDialog extends JDialog {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
       
+      //
+      // If the frame has a name, use that as part of the key
+      //
+      String name = getName();
+      if (name != null && !name.equals(""))
+      {
+         basekey = basekey+"."+name;
+      }      
+      
       dup.getPreferences().setIntPreference(
          basekey+".x", getLocation().x
       );
@@ -151,6 +160,22 @@ public class DubhDialog extends JDialog {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
+      
+      String name = getName();
+      String nameKey;
+      
+      //
+      // If this frame has a name, and their is a preference for that named
+      // frame, use this preference. Otherwise, use the generic preference
+      // for all frames of this class.
+      //
+      if (name != null && !name.equals(""))
+      {
+         nameKey = basekey+"."+name;
+         Object p = dup.getPreference(nameKey+".x");
+         if (p != null)   basekey = nameKey;
+      }      
+      
       try
       {
          int x = Math.max(0, dup.getIntPreference(
