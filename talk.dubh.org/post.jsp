@@ -2,8 +2,8 @@
 <%
 /**
  * $RCSfile: post.jsp,v $
- * $Revision: 1.3 $
- * $Date: 2001-06-11 20:31:08 $
+ * $Revision: 1.4 $
+ * $Date: 2001-06-11 20:32:22 $
  */
 %>
 
@@ -251,7 +251,7 @@
             <table>
 
             <% // show name and email textfields if the user is a guest
-               if( user.isAnonymous() ) {
+               if( thisUser.isAnonymous() ) {
                   // try to retrieve persisted values of name and email
                   String storedName = SkinUtils.retrieve(request,response,"jive.post.name");
                   String storedEmail = SkinUtils.retrieve(request,response,"jive.post.email");
