@@ -9,102 +9,119 @@
 
 <changelog> 
 
-	<change>
-		<date year="2001" month="05" day="07" />
-	 	<description>
-			<p>
-				<a href="/projects/marco/index.xml">Project Marco</a> aims to provide
-				a hosted bookmarks service for multiple users. An initial draft of the
-				requirements are now online.
-			</p>
-		</description>
-	</change>
-	
-	<change>
-		<date year="2001" month="05" day="13" />
-		<description>
-			<p>
-				Added the Project Marco <a href="/projects/marco/docs/database-design.xml">
-				Database Design</a> document.
-			</p>
-			<p>
-				New <a href="tech/xml/index.xml">XML Technology</a> page, with live
-				newsfeeds!
-			</p>
-			<p>
-				New layout for dubh.org index page.
-			</p>		 
-		</description>
-	</change> 
-	 
-	<change>
-		<date year="2001" month="06" day="03" />
-		
-		<description>
-			<p>
-				Dubh.Org discussion forums are now online at
-				<a href="http://talk.dubh.org">http://talk.dubh.org</a>. More 
-				forums will be added over the next few days.
-			</p>
+  <change>
+    <date year="2001" month="05" day="07" />
+    <description>
+      <p>
+        <a href="/projects/marco/index.xml">Project Marco</a> aims to provide
+        a hosted bookmarks service for multiple users. An initial draft of the
+        requirements are now online.
+      </p>
+    </description>
+  </change>
+  
+  <change>
+    <date year="2001" month="05" day="13" />
+    <description>
+      <p>
+        Added the Project Marco <a href="/projects/marco/docs/database-design.xml">
+        Database Design</a> document.
+      </p>
+      <p>
+        New <a href="tech/xml/index.xml">XML Technology</a> page, with live
+        newsfeeds!
+      </p>
+      <p>
+        New layout for dubh.org index page.
+      </p>     
+    </description>
+  </change> 
+   
+  <change>
+    <date year="2001" month="06" day="03" />
+    
+    <description>
+      <p>
+        Dubh.Org discussion forums are now online at
+        <a href="http://talk.dubh.org">http://talk.dubh.org</a>. More 
+        forums will be added over the next few days.
+      </p>
 
-			<p>
-				The CVS browser is back online at
-				<a href="http://cvs.dubh.org">http://cvs.dubh.org</a>, and has
-				been upgraded to the latest <a href="http://www.jcvs.org">JCVS
-				Servlet</a>.
-			</p>			
-		</description>
-	</change>
-	
-	<change>
-		<date year="2001" month="06" day="11" />
-		
-		<description>
-			<p>
-				Added Marco <a href="projects/marco/docs/sitemap.xml">Site Map</a>.
-			</p>
+      <p>
+        The CVS browser is back online at
+        <a href="http://cvs.dubh.org">http://cvs.dubh.org</a>, and has
+        been upgraded to the latest <a href="http://www.jcvs.org">JCVS
+        Servlet</a>.
+      </p>      
+    </description>
+  </change>
+  
+  <change>
+    <date year="2001" month="06" day="11" />
+    
+    <description>
+      <p>
+        Added Marco <a href="projects/marco/docs/sitemap.xml">Site Map</a>.
+      </p>
 
-			<p>
-				Verified HTML 4.01 Transitional complience on most Dubh.Org pages and
-				added the verification logo.
-			</p>			
-		</description>
-	</change>
-	
-	<change>
-		<date year="2001" month="06" day="25" />
-		
-		<description>
-			<p>
-				Upgraded to XDK 9.0.2.0.0A, Tomcat 3.3 Milestone 3 (both of which
-				are hopefully more stable and faster). Some behind-the-scenes 
-				directory reorganization and patched up a couple of security
-				issues (yeah, thanks everyone who noticed the bookmarks util 
-				wasn't secure and helpfully notified me by editing my bookmarks
-				:) ).
-			</p>
-			<p>
-				The "what's new" stuff has been externalized into its own
-				separate XML document, and only the first 3 entries from the
-				changelog are displayed on the index page. The rest are on a 
-				separate page. Stylesheets kick ass.
-			</p>
-		</description>
-	</change>
-	
-	
-	<change>
-		<date year="2001" month="06" day="26" />
-		
-		<description>
-			<p>
-				Some cosmetic stylesheet changes (fonts)
-			</p>
-			<p>
-				Created the <a href="/projects/jfreeciv/index.xml">JFreeCiv</a>
-				page.
-			</p>
-		</description>
-	</change>	
-	
+      <p>
+        Verified HTML 4.01 Transitional complience on most Dubh.Org pages and
+        added the verification logo.
+      </p>      
+    </description>
+  </change>
+  
+  <change>
+    <date year="2001" month="06" day="25" />
+    
+    <description>
+      <p>
+        Upgraded to XDK 9.0.2.0.0A, Tomcat 3.3 Milestone 3 (both of which
+        are hopefully faster and more stable). Some behind-the-scenes 
+        directory reorganization and patched up a couple of security
+        issues (yeah, thanks everyone who noticed the bookmarks util 
+        wasn't secure and helpfully notified me by editing my bookmarks
+        :) ).
+      </p>
+      <p>
+        The "what's new" stuff has been externalized into its own
+        separate XML document, and only the first 3 entries from the
+        changelog are displayed on the index page. The rest are on a 
+        separate page. Stylesheets kick ass.
+      </p>
+    </description>
+  </change>
+  
+  
+  <change>
+    <date year="2001" month="06" day="26" />
+    
+    <description>
+      <p>
+        Some cosmetic stylesheet changes (fonts)
+      </p>
+      <p>
+        Created the <a href="/projects/jfreeciv/index.xml">JFreeCiv</a>
+        page.
+      </p>
+    </description>
+  </change> 
+  
+  <change>
+    <date year="2001" month="06" day="29" />
+    
+    <description>
+      <p>
+        New article added: 
+        <a href="/tech/xml/tomcat33xdk.xml">
+        Installing Oracle XSQL Servlet on Tomcat 3.3</a>
+      </p>
+      <p>
+        Added a link to <a href="/brian/bookmarks/showbookmarks.xsql?editmode=false">
+        my bookmarks</a> in the navigator (some of these are Oracle internal sites and
+        won't work outside the corporate intranet).
+      </p>
+    </description>
+  </change>
+  
 </changelog>
