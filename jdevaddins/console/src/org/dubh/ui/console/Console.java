@@ -44,11 +44,14 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 /**
- * A console component. A text area component which can be used to enter 
- * commands in an interactive console. Output and input are displayed in 
- * different colors.
+ * A "console" UI component. A text pane with special highlighting for
+ * console prompt, input, output and errors and the ability to constrain
+ * input to a particular part of the document.
+ * 
+ * The console also has support for a command history and configurable
+ * styles.
  *
- * @author Brian.Duff@oracle.com
+ * @author Brian.Duff@dubh.org
  */
 public class Console extends JTextPane
 {
