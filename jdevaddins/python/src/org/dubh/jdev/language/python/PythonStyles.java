@@ -32,7 +32,7 @@ import oracle.javatools.editor.language.StyleRegistry;
  * Contains constants and styles for the python language
  * 
  * @author Brian.Duff@oracle.com
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PythonStyles 
 {
@@ -80,7 +80,7 @@ public class PythonStyles
     if ( pythonCommentStyle == null )
     {
       pythonCommentStyle = styleRegistry.createStyle(
-        PYTHON_COMMENT_STYLE, "Python comments", BuiltInStyles.BUILTIN_COMMENT_STYLE
+        PYTHON_COMMENT_STYLE, "Python comment", BuiltInStyles.BUILTIN_COMMENT_STYLE
       );
     }
 
@@ -88,7 +88,7 @@ public class PythonStyles
     if ( pythonKeywordStyle == null )
     {
       pythonKeywordStyle = styleRegistry.createStyle(
-        PYTHON_KEYWORD_STYLE, "Python keywords", BuiltInStyles.BUILTIN_KEYWORD_STYLE
+        PYTHON_KEYWORD_STYLE, "Python keyword", BuiltInStyles.BUILTIN_KEYWORD_STYLE
       );
     }
     
@@ -96,7 +96,7 @@ public class PythonStyles
     if ( pythonStringStyle == null )
     {
       pythonStringStyle = styleRegistry.createStyle(
-        PYTHON_STRING_STYLE, "Python strings", BuiltInStyles.BUILTIN_STRING_STYLE
+        PYTHON_STRING_STYLE, "Python string", BuiltInStyles.BUILTIN_STRING_STYLE
       );
     }
 
@@ -104,7 +104,7 @@ public class PythonStyles
     if ( pythonNumberStyle == null )
     {
       pythonNumberStyle = styleRegistry.createStyle(
-        PYTHON_NUMBER_STYLE, "Python numeric literals", BuiltInStyles.BUILTIN_NUMBER_STYLE
+        PYTHON_NUMBER_STYLE, "Python number", BuiltInStyles.BUILTIN_NUMBER_STYLE
       );
     }
 
@@ -112,7 +112,7 @@ public class PythonStyles
     if ( pythonIdentifierStyle == null )
     {
       pythonIdentifierStyle = styleRegistry.createStyle(
-        PYTHON_IDENTIFIER_STYLE, "Python identifiers", BuiltInStyles.BUILTIN_IDENTIFIER_STYLE
+        PYTHON_IDENTIFIER_STYLE, "Python identifier", BuiltInStyles.BUILTIN_IDENTIFIER_STYLE
       );
     }    
     
