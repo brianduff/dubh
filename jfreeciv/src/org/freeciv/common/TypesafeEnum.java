@@ -13,7 +13,7 @@ package org.freeciv.common;
  */
 public final class TypesafeEnum
 {
-  private static Object[] m_sorted;
+  private Object[] m_sorted;
   
   public TypesafeEnum(Object[] sortedList)
   {
@@ -23,7 +23,7 @@ public final class TypesafeEnum
   /**
    * The subclass should call this to convert a typed enum into an integer
    */
-  public static int _toInt(Object o)
+  public int _toInt(Object o)
   {
     for (int i=0; i < m_sorted.length; i++)
     {
@@ -40,7 +40,7 @@ public final class TypesafeEnum
    * The subclass should call this to convert an integer into a type enum
    * value
    */
-  public static Object _fromInt(int i)
+  public Object _fromInt(int i)
   {
     try
     {
