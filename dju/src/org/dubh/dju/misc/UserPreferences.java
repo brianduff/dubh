@@ -323,6 +323,14 @@ public class UserPreferences implements Serializable {
      return StringUtils.getWords(getPreference(key, StringUtils.createSentence(def)));
   }
 
+   /**
+    * Remove a key and its value from the user preferences.
+    */
+   public void removeKey(String key)
+   {
+      m_props.remove(key);
+   }
+
 // Event handling stuff
 
   public synchronized void addPropertyChangeListener(PropertyChangeListener p) {
@@ -332,6 +340,7 @@ public class UserPreferences implements Serializable {
   public void removePropertyChangeListener(PropertyChangeListener p) {
      m_proplisteners.removeElement(p);
   }
+ 
 
   private void firePropertyChange(String propname, Object oldVal, Object newVal) {
      Enumeration enum = m_proplisteners.elements();
