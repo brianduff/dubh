@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: RootGroup.java,v 1.1 1999-08-03 19:16:55 briand Exp $
+//   $Id: RootGroup.java,v 1.2 1999-10-16 16:47:44 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -35,16 +35,24 @@ import java.util.*;
  * A Javamail folder representing a newsgroup in the NNTP protocol.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: RootGroup.java,v 1.1 1999-08-03 19:16:55 briand Exp $
+ * @version $Id: RootGroup.java,v 1.2 1999-10-16 16:47:44 briand Exp $
  */
 class RootGroup extends Newsgroup
 {
+   
+   
     
    public RootGroup(Store s)
    {
       super("/", s);
    }
    
+   
+   
+   private NNTPStore getServer()
+   {
+      return (NNTPStore)getStore();
+   }
    /**
     * Close this newsgroup.
     */
@@ -134,7 +142,7 @@ class RootGroup extends Newsgroup
    public Folder[] list(String pattern)
       throws MessagingException
    {
-      throw new MessagingException("Can't have subfolders in a newsgroup");
+      return getServer().getNewsgroups();
    }
    
    /**
@@ -154,5 +162,8 @@ class RootGroup extends Newsgroup
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/08/03 19:16:55  briand
+// Ummm. Wrote this months ago
+//
 //
 //
