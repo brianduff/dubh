@@ -1,5 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
+//   $Id: PreferenceKeys.java,v 1.2 1999-03-22 23:47:42 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -18,10 +19,10 @@
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // ---------------------------------------------------------------------------
-// Contributors:
-//   Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
-
+//   See bottom of file for revision history
 
 package dubh.apps.newsagent;
 
