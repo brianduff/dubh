@@ -1143,4 +1143,9 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
      // TODO
      return null;
   }
+
+  public boolean isUnitInFocus( org.freeciv.common.Unit unit )
+  {
+    return false;
+  }
 }
