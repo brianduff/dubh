@@ -36,6 +36,8 @@ public class HyperlinkButton extends JLabel
 
   private List m_listeners;
 
+  private boolean m_enabled = true;
+
   public HyperlinkButton( String text )
   {
     this();
@@ -62,8 +64,10 @@ public class HyperlinkButton extends JLabel
     this();
     setText( (String) a.getValue( Action.NAME ) );
     setIcon( (Icon) a.getValue( Action.SMALL_ICON ) );
+    setEnabled( a.isEnabled() );
+
     a.addPropertyChangeListener( new ActionPropertyChangeListener() );
-    addActionListener( a );
+    addActionListener( a );    
   }
 
   public void addActionListener(ActionListener al)
@@ -90,7 +94,7 @@ public class HyperlinkButton extends JLabel
    */
   public void paintComponent( Graphics g )
   {
-    Icon icon = getIcon();
+    Icon icon = isEnabled() ? getIcon() : getDisabledIcon();
 
     // Now paint the text
     Color saveColor = g.getColor();
@@ -130,10 +134,22 @@ public class HyperlinkButton extends JLabel
 
 		int textX = paintTextR.x;
 		int textY = paintTextR.y + metrics.getAscent();
-  
-    g.drawString( clippedText, textX, textY );
 
-    if ( m_mouseInside )
+    if ( !isEnabled() )
+    {
+      Color background = getBackground();
+      g.setColor( background.brighter() );
+      g.drawString( clippedText, textX + 1, textY + 1 );
+      g.setColor( background.darker() );
+      g.drawString( clippedText, textX, textY );
+    }
+    else
+    {
+      g.setColor( getForeground() );
+      g.drawString( clippedText, textX, textY );
+    }
+
+    if ( m_mouseInside && isEnabled() )
     {
       int width = metrics.stringWidth( clippedText );
       int linePos = textY + 1;
@@ -183,7 +199,7 @@ public class HyperlinkButton extends JLabel
     {
       if ( m_mouseInside )
       {
-        if ( (e.getModifiers() & e.BUTTON1_MASK) != 0 )
+        if ( isEnabled() && (e.getModifiers() & e.BUTTON1_MASK) != 0 )
         {
           doAction();
         }
