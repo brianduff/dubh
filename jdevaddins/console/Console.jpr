@@ -56,6 +56,15 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/dubh/ui/console/ConsoleStyles.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/dubh/ui/console/ConsoleHistory.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/dubh/ui/console/PreviousCommandAction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/dubh/ui/console/NextCommandAction.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>

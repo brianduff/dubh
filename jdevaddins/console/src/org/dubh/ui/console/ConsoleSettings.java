@@ -47,6 +47,7 @@ public final class ConsoleSettings
   private static final Color DEFAULT_ERROR = Color.red;
   private static final Color DEFAULT_PROMPT = Color.black;
 
+  private ConsoleHistory m_history;
     
 
   public ConsoleSettings()
@@ -60,6 +61,7 @@ public final class ConsoleSettings
     m_errorColor = DEFAULT_ERROR;
     m_promptColor = DEFAULT_PROMPT;
     m_backgroundColor = DEFAULT_BG;
+    m_history = new ConsoleHistory();
   }
 
   public ConsoleSettings( ConsoleSettings copy )
@@ -81,6 +83,17 @@ public final class ConsoleSettings
     m_backgroundColor = settings.m_backgroundColor;
     m_promptColor = settings.m_promptColor;
     m_promptFont = settings.m_promptFont;
+    m_history = new ConsoleHistory( settings.m_history );
+  }
+
+  public ConsoleHistory getHistory()
+  {
+    return m_history;
+  }
+
+  public void setHistory( ConsoleHistory h )
+  {
+    m_history = h;
   }
 
   public Color getBackgroundColor()

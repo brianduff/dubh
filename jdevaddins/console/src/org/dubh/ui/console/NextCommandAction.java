@@ -25,50 +25,39 @@
 package org.dubh.ui.console;
 
 import java.awt.event.ActionEvent;
-
-import javax.swing.text.JTextComponent;
-import javax.swing.text.TextAction;
+import java.awt.Toolkit;
 
 /**
- * The action which actually invokes the command.
+ * Go to the next command in the command history.
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.1 $
  */
-class InvokeCommandAction extends ConsoleAction
+class NextCommandAction extends ConsoleAction
 {
-  private final static String NAME = "Invoke Command";
-
-  /**
-   * Construct an instance of InvokeCommandAction
-   */
-  InvokeCommandAction( )
+  
+  NextCommandAction( )
   {
-    super( NAME );
+    super( "Next Command" );
   }
 
 // ---------------------------------------------------------------------------
-// TextAction implementation
+// ConsoleAction implementation
 // ---------------------------------------------------------------------------
 
-
-  public void actionPerformed( final ActionEvent e )
+  public void actionPerformed( ActionEvent ae )
   {
-    Console con = getConsole( e );  
-    try
-    {
+    Console c = getConsole( ae );
 
-      String command = con.getCurrentCommand();
-      con.getSettings().getHistory().addCommand( command );
-      con.newline();
-      if ( con.getInterpreter() != null )
-      {
-        con.getInterpreter().interpret( command );
-      }
-    }
-    finally
+    String nextCommand = c.getSettings().getHistory().getNextCommand();
+    if ( nextCommand == null )
     {
-      con.prompt();
+      Toolkit.getDefaultToolkit().beep();
+      return;
     }
+
+    c.setInput( nextCommand );
+    
   }
 
 }

@@ -73,7 +73,9 @@ public class Console extends JTextPane
     ACT_DELETE_PREV_CHAR = new DeletePrevCharAction(),
     ACT_DELETE_NEXT_CHAR = new DeleteNextCharAction(),
     ACT_PASTE = new PasteAction(),
-    ACT_CUT = new CutAction();
+    ACT_CUT = new CutAction(),
+    ACT_PREV_COMMAND = new PreviousCommandAction(),
+    ACT_NEXT_COMMAND = new NextCommandAction();
 
   private final ConsoleAction CLEAR_ACTION;
 
@@ -312,7 +314,21 @@ public class Console extends JTextPane
     append( output, m_styles.getPromptStyle() );
   }
 
-
+  /**
+   * Replace the current input line with the specified text.
+   */
+  void setInput( String input )
+  {
+    try
+    {
+      m_document.remove( m_promptPosition, m_document.getLength()-m_promptPosition );
+      appendInput( input );
+    }
+    catch (BadLocationException ble )
+    {
+      ble.printStackTrace();
+    }
+  }
 
 
   private void registerKeymapActions( Keymap map )
@@ -347,6 +363,15 @@ public class Console extends JTextPane
       KeyStroke.getKeyStroke( "ctrl X" ),
       ACT_CUT
     );
+    map.addActionForKeyStroke(
+      KeyStroke.getKeyStroke( "UP" ),
+      ACT_PREV_COMMAND
+    );
+    map.addActionForKeyStroke(
+      KeyStroke.getKeyStroke( "DOWN" ),
+      ACT_NEXT_COMMAND
+    );
+    
 
 
     getActionMap().get( DefaultEditorKit.copyAction ).putValue(
