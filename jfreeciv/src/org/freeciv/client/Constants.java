@@ -128,7 +128,9 @@ public interface Constants {
    public static final int B_UNITED = Enum.get();
    public static final int B_WOMENS = Enum.get();
    public static final int B_CAPITAL = Enum.get();
-   public static final int B_LAST  = Enum.get();
+
+   
+   public static final int B_LAST  = MAX_NUM_ITEMS;
 
    public static final int SP_ELVIS = Enum.start();
    public static final int SP_SCIENTIST = Enum.get();
