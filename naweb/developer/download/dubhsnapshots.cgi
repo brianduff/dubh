@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: dubhsnapshots.cgi,v 1.2 1999-06-08 22:42:35 briand Exp $
+# $Id: dubhsnapshots.cgi,v 1.3 1999-06-08 23:51:24 briand Exp $
 
 DOWNLOAD_DIR=/home/briand/public_html/newsagent/developer/download
 NAID=na.1.1.0
@@ -35,7 +35,7 @@ echo "night.</p>"
 
 echo "<h2>NewsAgent (NA)</h2>"
 
-NASIZE=`ls -l $NAJAR.zip | cut -f13 -d " "`
+NASIZE=`ls -l $NAJAR.zip | cut -b31-40`
 KNASIZE=$[$NASIZE/1024]
 
 echo "<p>Latest compiled <a href=$NAJAR.zip>$NAJAR</a> (zipped, $KNASIZE k)</p>"
@@ -105,4 +105,7 @@ echo "</body></html>"
 
 #
 # $Log: not supported by cvs2svn $
+# Revision 1.2  1999/06/08 22:42:35  briand
+# Add DMP module and filesize of ZIPped JARs.
+#
 #
