@@ -75,7 +75,10 @@ public final class MainWindow extends JFrame
   MainWindow( Client c )
   {
     m_desktop = new JDesktopPane();
-    m_mapOverview = new MapOverview( c );
+    m_mapOverview = new MapOverview( 
+      c.getGame(),  c.getTileSpec().getImage( "minimap_intro_file" )
+    );
+    m_mapOverview.setVersion( c.APP_VERSION );
     m_civInfo = new CivInfoPanel( c );
     m_unitInfo = new UnitInfoPanel( c );
     m_console = new Console();
@@ -92,6 +95,7 @@ public final class MainWindow extends JFrame
     setupComponents();
     getContentPane().add( m_viewManager.getMainMapView().getComponent(),
       BorderLayout.CENTER );
+    m_mapOverview.addJumpListener( m_viewManager.getMainMapView() );
 
     setDefaultCloseOperation( this.DO_NOTHING_ON_CLOSE );
     addWindowListener( new WindowCloseListener() );
@@ -218,7 +222,7 @@ public final class MainWindow extends JFrame
    * Sets up the main UI components of the main window. Only
    * does something the first time it is called.
    */
-  public void setupComponents()
+  private void setupComponents()
   {
     setupMenus();
 

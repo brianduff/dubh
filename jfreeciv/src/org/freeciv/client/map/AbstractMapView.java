@@ -32,6 +32,7 @@ import javax.swing.SwingConstants;
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
 import org.freeciv.client.Localize;
+import org.freeciv.client.panel.MapOverviewJumpEvent;
 import org.freeciv.common.Assert;
 import org.freeciv.common.Map;
 import org.freeciv.common.Tile;
@@ -90,6 +91,13 @@ abstract class AbstractMapView implements MapView, Constants
     );
 
 
+  }
+
+  public final void mapOverviewJumped( MapOverviewJumpEvent moje )
+  {
+    // TODO: some map views will optionally not be slaved to the overview
+    // component????
+    centerOnTile( moje.getPosition().x, moje.getPosition().y );
   }
 
   protected abstract Painter createPainter();

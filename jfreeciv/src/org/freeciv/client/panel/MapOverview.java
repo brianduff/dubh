@@ -8,13 +8,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
 
-import org.freeciv.client.Client;
+import org.freeciv.client.Colors;
 import org.freeciv.common.CommonConstants;
-import org.freeciv.common.Map;
+import org.freeciv.common.Game;
 import org.freeciv.common.Tile;
 
 
@@ -28,10 +33,18 @@ import org.freeciv.common.Tile;
  */
 public final class MapOverview extends JComponent
 {
+
+  // Future enhancements:
+  //
+  // I'd like to use java2d scaling for this rather than just increasing the
+  // size of the minimap as the main map gets bigger. The minimap looks
+  // ridiculous at the maximum map size.
+
   private int m_width;
   private int m_height;
 
-  private Client m_client;
+  private String m_version = "??";
+  private Game m_game;
 
   private Icon m_introFile;
 
@@ -44,22 +57,107 @@ public final class MapOverview extends JComponent
 
   private static final int SCALE = 2;
 
-  public MapOverview( Client c )
+  private List m_listeners;
+
+  /**
+   * Construct the map overview component
+   *
+   * @param game the game
+   */
+  public MapOverview( Game game, Icon introIcon )
   {
-    m_client = c;
     setMapDimensions( DEFAULT_WIDTH, DEFAULT_HEIGHT );
-    m_introFile = c.getTileSpec().getImage( "minimap_intro_file" );
-
+    m_introFile = introIcon;
     m_font =  new Font( "sansserif", Font.BOLD, 13 ) ;
+
+    m_game = game;
+
+    addMouseListener( new OverviewMouseListener() );
   }
 
-  private Client getClient()
+  /**
+   * Add a listener for when the user requests a jump in the minimap
+   *
+   * @param l the listener to add
+   */
+  public void addJumpListener( MapOverviewJumpListener l )
   {
-    return m_client;
+    if ( m_listeners == null )
+    {
+      m_listeners = new ArrayList( 1 );
+    }
+    m_listeners.add( l );
   }
 
+  /**
+   * Remove a listener previously added using addJumpListener()
+   *
+   * @param l a listener that was added
+   */
+  public void removeJumpListener( MapOverviewJumpListener l )
+  {
+    if ( m_listeners != null )
+    {
+      m_listeners.remove( l );
+      if ( m_listeners.size() == 0 )
+      {
+        m_listeners = null;
+      }
+    }
+  }
+
+  /**
+   * Fire out a jump event at the specified location
+   *
+   * @param x the x tile coordinate of the jump event
+   * @param y the y tile coordinate of the jump event
+   */
+  private void fireJumpEvent( int x, int y )
+  {
+    if ( m_listeners == null || m_listeners.size() == 0 )
+    {
+      return;
+    }
+
+    MapOverviewJumpEvent event = new MapOverviewJumpEvent( this, x, y );
+    Iterator i = m_listeners.iterator();
+    while ( i.hasNext() )
+    {
+      ((MapOverviewJumpListener) i.next()).mapOverviewJumped( event );
+    }
+  }
+
+  /**
+   * A jump click was received at the specified pixel co-ordinates. 
+   *
+   * @param pixelX the pixel x coordinate
+   * @param pixelY the pixel y coordinate
+   */
+  protected void jumpClick( int pixelX, int pixelY )
+  {
+    fireJumpEvent( pixelX / SCALE, pixelY / SCALE );
+  }
+
+  /**
+   * Set the version string that is displayed in the minimap at startup before
+   * the map has been initialized
+   *
+   * @param version a version string to display
+   */
+  public void setVersion( String version )
+  {
+    m_version = version;
+  }
+
+  /**
+   * Set the map dimensions
+   *
+   * @param x the width of the map in tiles
+   * @param y the height of the map in tiles
+   */
   public void setMapDimensions(int x, int y)
   {
+    // We should add a listener to the map instead of having this method.
     m_width = x*SCALE;
     m_height = y*SCALE;
     setPreferredSize(new Dimension( m_width, m_height ));
@@ -85,12 +183,22 @@ public final class MapOverview extends JComponent
     refresh( mapx, mapy, 1, 1 );
   }
 
+  /**
+   * Call this to repaint a region of the map overview
+   *
+   * @param mapx the x tile coordinate of a rectangular region to repaint 
+   * @param mapy the y tile coordinate of a rectangular region to repaint
+   * @param w the width of a rectangular region to repaint, in tiles
+   * @param h the height of a rectangular region to repaint, in tiles
+   */
   public void refresh( int mapx, int mapy, int w, int h )
   {
-    repaint( mapx * SCALE, mapy * SCALE, w * 2, h * 2 ); 
+    repaint( mapx * SCALE, mapy * SCALE, w * SCALE, h * SCALE ); 
   }
 
-
+  /**
+   * Repaint the entire map overview
+   */
   public void refresh()
   {
     repaint();
@@ -98,7 +206,7 @@ public final class MapOverview extends JComponent
 
   private boolean isDrawingEnabled()
   {
-    return !m_client.getGame().getMap().isEmpty();
+    return !m_game.getMap().isEmpty();
   }
 
   private void paintShadowText( Graphics g, String str, int x, int y )
@@ -116,7 +224,6 @@ public final class MapOverview extends JComponent
    */
   public void paintComponent( Graphics g )
   {
-    // experimental
     ((Graphics2D)g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, 
       RenderingHints.VALUE_ANTIALIAS_ON );
   
@@ -131,7 +238,7 @@ public final class MapOverview extends JComponent
       g.setColor( Color.white );
       g.setFont( m_font );
 
-      String lastLine = "version "+m_client.APP_VERSION;
+      String lastLine = "version "+m_version;
       String javaed = "Java Edition";
 
       int strWid = fm.stringWidth( lastLine );
@@ -151,8 +258,8 @@ public final class MapOverview extends JComponent
     {
 
     
-      int mapWidth = m_client.getGame().getMap().getWidth();
-      int mapHeight = m_client.getGame().getMap().getHeight();
+      int mapWidth = m_game.getMap().getWidth();
+      int mapHeight = m_game.getMap().getHeight();
       int upperLeftX = 0;
       int upperLeftY = 0;
 
@@ -234,41 +341,57 @@ public final class MapOverview extends JComponent
   public Color getTileColor( int x, int y )
   {
     // tilespec.c: overview_tile_color(int x, int y)
-    Map map = getClient().getGame().getMap();
-    Tile t = map.getTile( x, y );
+    Tile t = m_game.getMap().getTile( x, y );
 
     if ( !t.isKnown() )
     {
-      return Color.black;
+      return Colors.getStandardColor( Colors.COLOR_STD_BLACK );
     }
     else if ( t.hasCity() )
     {
-      if (getClient().getGame().isCurrentPlayer(t.getCity().getOwner()))
+      if (m_game.isCurrentPlayer(t.getCity().getOwner()))
       {
-        return Color.white;
+        return Colors.getStandardColor( Colors.COLOR_STD_WHITE );
       }
       else
       {
-        return Color.cyan;
+        return Colors.getStandardColor( Colors.COLOR_STD_CYAN );
       }
     }
     else if ( t.hasVisibleUnit() )
     {
-      //if (getClient().getGame().isCurrentPlayer(t.getVisibleUnit().getOwner()))
-      //{
-      //  return Color.yellow;
-      //}
-      //else
-      //{
-      //  return Color.red;
-      //}
+      if (m_game.isCurrentPlayer(t.getVisibleUnit().getOwner()))
+      {
+        return Colors.getStandardColor( Colors.COLOR_STD_YELLOW );
+      }
+      else
+      {
+        return Colors.getStandardColor( Colors.COLOR_STD_RED );
+      }
     }
     else if ( t.getTerrain() == CommonConstants.T_OCEAN )
     {
-      return Color.blue;
+      return Colors.getStandardColor( Colors.COLOR_STD_OCEAN );
     }
 
-    return Color.green;
+    return Colors.getStandardColor( Colors.COLOR_STD_GROUND );
 
+  }
+
+  /**
+   * mouse listener for clicks on the overview
+   */
+  private class OverviewMouseListener extends MouseAdapter
+  {
+    public void mousePressed( MouseEvent e )
+    {
+      // The C client uses button 2, but I'm sure the original CivII used
+      // button 1, and am certain CTP uses 1. We support both...
+      if ( e.getModifiers() == e.BUTTON1_MASK || 
+           e.getModifiers() == e.BUTTON2_MASK )
+      {
+        jumpClick( e.getX(), e.getY() );
+      }
+    }
   }
 }

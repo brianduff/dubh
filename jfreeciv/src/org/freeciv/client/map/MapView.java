@@ -2,12 +2,14 @@ package org.freeciv.client.map;
 
 import javax.swing.JComponent;
 
+import org.freeciv.client.panel.MapOverviewJumpListener;
+
 /**
  * The external interface to a single view on the map.
  *
  * @author Brian.Duff@dubh.org
  */
-public interface MapView
+public interface MapView extends MapOverviewJumpListener
 {
   /**
    * Refresh the tile at the specified location if it is visible through this
