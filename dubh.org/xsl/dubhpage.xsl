@@ -274,7 +274,7 @@
               <div align="right" class="dubhPageFooter"> 
                 Powered by <a href="http://www.oracle.com">Oracle XML</a>
                 and <a href="http://www.apache.org">Apache Tomcat</a><br />
-                Copyright &#169; 1994 - 2001 Brian Duff<br />
+                Copyright (C) 1994 - 2001 Brian Duff<br />
               </div>
             </td>
           </tr>
