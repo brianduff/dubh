@@ -17,6 +17,10 @@ public class PktShortCity extends AbstractPacket
   public boolean happy;
   public boolean capital;
   public boolean walls;
+  public PktShortCity() 
+  {
+    super();
+  }
   public PktShortCity( InStream in )  throws NetworkProtocolException
   {
     super( in );

@@ -27,6 +27,7 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
   private JList m_lisCityList = new JList();
   private JPanel m_panButtons = new JPanel();
   private JButton m_butCenter = new JButton( _( "Center" ) );
+  private JButton m_butZoomTo = new JButton( _( "Zoom To City" ) );
   private JButton m_butCancel = new JButton( _( "Cancel" ) );
   
   private ArrayList cityList;
@@ -76,10 +77,27 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
       {
         if( !m_lisCityList.isSelectionEmpty() )
         {
-          City city = (City)cityList.get( m_lisCityList.getSelectedIndex() );
+          final City city = (City)cityList.get( m_lisCityList.getSelectedIndex() );
           getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
         }
         undisplay();
+      }
+    } );
+    m_butZoomTo.addActionListener( new ActionListener() 
+    {
+      public void actionPerformed( ActionEvent e )
+      {
+        City city = null;
+        if( !m_lisCityList.isSelectionEmpty() )
+        {
+          city = (City)cityList.get( m_lisCityList.getSelectedIndex() );
+          getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
+        }
+        undisplay();
+        if( city != null && city.getOwnerId() == getClient().getGame().getCurrentPlayer().getId() )
+        {
+          getClient().getDialogManager().getCityViewDialog().display( city );
+        }
       }
     } );
     m_butCancel.addActionListener( new ActionListener() 
@@ -92,6 +110,7 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
 
     m_panButtons.setLayout( new FlowLayout() );
     m_panButtons.add( m_butCenter );
+    m_panButtons.add( m_butZoomTo );
     m_panButtons.add( m_butCancel );
     this.addRow( m_panButtons );
   }

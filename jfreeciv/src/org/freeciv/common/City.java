@@ -147,7 +147,61 @@ public final class City implements CommonConstants
   {
     return m_y;
   }
+  
+  public int getFoodProduction()
+  {
+    return m_foodProduction;
+  }  
+  public int getFoodSurplus()
+  {
+    return m_foodSurplus;
+  }
+  
+  public int getShieldProduction()
+  {
+    return m_shieldProduction;
+  }  
+  public int getShieldSurplus()
+  {
+    return m_shieldSurplus;
+  }
+  
+  public int getTradeProduction()
+  {
+    return m_tradeProduction;
+  }  
+  public int getCorruption()
+  {
+    return m_corruption;
+  }
+  
+  public int getTaxTotal()
+  {
+    return m_taxTotal;
+  }  
+  public int getScienceTotal()
+  {
+    return m_scienceTotal;
+  }  
+  public int getLuxuryTotal()
+  {
+    return m_luxuryTotal;
+  }
 
+  
+  public int getFoodStock()
+  {
+    return m_foodStock;
+  }
+  public int getShieldStock()
+  {
+    return m_shieldStock;
+  }
+  public int getPollution()
+  {
+    return m_pollution;
+  }
+  
   public void clearAllSupportedUnits()
   {
     m_supportedUnits = new ArrayList();
@@ -178,7 +232,7 @@ public final class City implements CommonConstants
    */
   public int getPopulation()
   {
-    return m_size * m_size+1 * 5000;
+    return m_size * ( m_size + 1 ) * 5000;
   }
 
   /**
@@ -190,10 +244,20 @@ public final class City implements CommonConstants
       m_game.getFactories().getPlayerFactory().findById( m_owner );
   }
 
+  /**
+   * Get the id of the player who owns this city
+   */
+  public int getOwnerId()
+  {
+    return m_owner;
+  }
+
   public int getId()
   {
     return m_id;
   }
+  
+  
 
   /**
    * Returns true if this city has the speicifed building (B_*)
@@ -228,7 +292,59 @@ public final class City implements CommonConstants
     // TODO
     return true;
   }
-
+  
+  /**
+   * Determine the amount of gold this city "earns" (tax - upkeep)
+   * 
+   * @return the amount of gold this city "earns" per turn
+   */
+  public int getGoldSurplus()
+  {
+    boolean asmiths = isCityAffectedByWonder( B_ASMITHS );
+    int cost = 0;
+    for( int i = 0 ; i < m_game.getNumberOfImprovementTypes(); i++ )     {
+      if( hasBuilding( i ) )       {
+        cost += getBuildingUpkeep( i, asmiths );
+      }    }
+    return getTaxTotal() - cost;
+  }
+  
+  /**
+   * Returns the amount of gold that this building costs to upkeep
+   * 
+   * @param buildingId the id of the building to check
+   * @return the amount of gold that this building costs to upkeep
+   */
+  public int getBuildingUpkeep( int buildingId )
+  {
+    return getBuildingUpkeep( buildingId, 
+                              isCityAffectedByWonder( B_ASMITHS ) );
+  }
+                                                          
+  /**
+   * Returns the amount of gold that this building costs to upkeep
+   * 
+   * @param buildingId the id of the building to check
+   * @param asmiths whether this city is affected by Adam Smith's
+   * @return the amount of gold that this building costs to upkeep
+   */
+  public int getBuildingUpkeep( int buildingId, boolean asmiths )
+  {
+    if( !improvementExists( buildingId ) )
+    {
+      return 0;
+    }
+    if( getBuilding( buildingId ).isWonder() )
+    {
+      return 0;
+    }
+    if( asmiths && getBuilding( buildingId ).getUpkeep() == 1 )
+    {
+      return 0;
+    }
+    return getBuilding( buildingId ).getUpkeep();
+  }
+                                                          
   /**
    * Returns true if this city is affected by the specified wonder.
    *
@@ -309,6 +425,46 @@ public final class City implements CommonConstants
     return true; // TODO;
 
   }
+  
+  /**
+   * Returns true if either this city has the specified building, or 
+   * the city is affected by a wonder that provides that building
+   * 
+   * @param buildingId a building type that is not a wonder.
+   * @return true if this city has that building or is affected by 
+   *    a wonder that provides that effect.
+   * @see #hasWalls()
+   */
+  public boolean hasEffect( int buildingId )
+  {
+    return hasBuilding( buildingId) || hasWonderReplacement( buildingId );
+  }
+  
+  /**
+   * Returns true if the city is affected by a wonder that 
+   * provides the effect of that building
+   * 
+   * @param buildingId a building type that is not a wonder.
+   * @return true if the city is affected by a wonder that provides 
+   *    the effect of that building
+   */
+  public boolean hasWonderReplacement( int buildingId )
+  {
+    if( getBuilding( buildingId ).isWonder() )    {
+      //throw new IllegalArgumentException();
+      return false;    }    if( buildingId == B_BARRACKS
+       || buildingId == B_BARRACKS2
+       || buildingId == B_BARRACKS2 )    {      return isCityAffectedByWonder( B_SUNTZU );    }
+    if( buildingId == B_GRANARY )    {      return isCityAffectedByWonder( B_PYRAMIDS );      /* && improvement_variant( B_PYRAMIDS ) == 0 */  //TODO
+    }
+    if( buildingId == B_CATHEDRAL )    {      return isCityAffectedByWonder( B_MICHELANGELO );      /* && improvement_variant( B_MICHELANGELO ) == 0 */  //TODO
+    }
+    if( buildingId == B_CITY )    {      return isCityAffectedByWonder( B_WALL );    }    if( buildingId == B_HYDRO
+       || buildingId == B_POWER       || buildingId == B_NUCLEAR )    {      return isCityAffectedByWonder( B_HOOVER );    }
+    if( buildingId == B_POLICE )    {      return isCityAffectedByWonder( B_WOMENS );    }
+    if( buildingId == B_RESEARCH )    {      return isCityAffectedByWonder( B_SETI );    }
+    return false;
+  }
 
   private Building getBuilding( int buildingId )
   {
@@ -357,6 +513,18 @@ public final class City implements CommonConstants
   public CityStyle getStyle()
   {
     return getOwner().getCityStyle();
+  }
+  
+  /**
+   * Formula used to caclulate granary size
+   * 
+   * @return the amount of food that the city needs to reach for growth
+   */
+  public int getGranarySize()
+  {
+    return m_game.getGameRules().getInitialGranaryFood() * m_game.getFoodBox()
+      + ( m_game.getGameRules().getGranaryFoodIncrement() * getSize() 
+          * m_game.getFoodBox() ) / 100;
   }
 
   /**
@@ -448,7 +616,17 @@ public final class City implements CommonConstants
     return shieldStockAfterAdjustment;
 
   }
-
+  
+  /**
+   * Gets the cost, in shields of the unit or building being built
+   */
+  public int getCurrentProductionCost()
+  {
+    return isBuildingUnit() ?
+      getUnitType( getCurrentlyBuildingId() ).getBuildCost() :
+      getBuilding( getCurrentlyBuildingId() ).getBuildCost();
+  }
+  
   /**
    * Get the number of turns before the unit or building being built will
    * be complete
@@ -458,9 +636,7 @@ public final class City implements CommonConstants
   public int getTurnsToBuild()
   {
 
-    int improvement_cost = isBuildingUnit() ?
-      getUnitType( getCurrentlyBuildingId() ).getBuildCost() :
-      getBuilding( getCurrentlyBuildingId() ).getBuildCost();
+    int improvement_cost = getCurrentProductionCost();
 
     if ( m_shieldStock >= improvement_cost )
     {

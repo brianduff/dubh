@@ -15,6 +15,7 @@ public class DialogManager
   ImplNation m_nation;
   ImplProgress m_progress;
   ImplNotify m_notify;
+  ImplCityView m_cityView;
   ImplTaxRates m_taxRates;
   ImplFindCity m_findCity;
   ImplCityReport m_cityReport;
@@ -126,6 +127,14 @@ public class DialogManager
     }
     return m_notify;
   }
+  public DlgCityView getCityViewDialog()
+  {
+    if( m_cityView == null )
+    {
+      m_cityView = new ImplCityView( this, m_client );
+    }
+    return m_cityView;
+  }
   public DlgTaxRates getTaxRatesDialog()
   {
     if( m_taxRates == null )
@@ -207,4 +216,5 @@ public class DialogManager
   {
     JOptionPane.showMessageDialog(
       m_client.getMainWindow(), message, title, JOptionPane.WARNING_MESSAGE );
-  }}
+  }
+}

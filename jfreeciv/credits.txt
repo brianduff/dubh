@@ -19,4 +19,4 @@ Scrollable tiled map component (much of the org.freeciv.common.map package)
 
 o Ben Mazur [ bmazur at sev.org ]
 
-tax rates, players, find city, server options, wonders of the world, top five cities, demographics
+tax rates, players, find city, server options, wonders of the world, top five cities, demographics, city view

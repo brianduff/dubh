@@ -876,12 +876,17 @@ public final class Client implements Constants
   public void updateUnitInfoLabel( org.freeciv.common.Unit u )
   {
     // TODO
-
-    // Hmm not sure about this
-    getMainWindow().getUnitStack().update(
-      u.getX(), u.getY(), u
-    );
-    getMainWindow().getUnitInfo().setUnit( u );
+    
+    // this is called with null when the player controls no units that are
+    // active on the map -- BenM
+    if(u != null)
+    {
+      // Hmm not sure about this
+      getMainWindow().getUnitStack().update(
+        u.getX(), u.getY(), u
+      );
+      getMainWindow().getUnitInfo().setUnit( u );
+    }
   }
 
   /**
