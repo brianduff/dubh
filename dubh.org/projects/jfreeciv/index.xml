@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org: JFreeCiv</title>
+  
+  <xsql:include-xml href="../trail.xml" />  
+  
+  <navigator>
+    <xsql:include-xsql href="../../navigator.xml?me=jfreeciv" />
+  </navigator>  
+  
+  <content>
+    <h1>JFreeCiv</h1>
+    
+		<h2>About JFreeCiv</h2>
+	
+		<p>
+			JFreeCiv is a Java clone of <a href="http://www.freeciv.org">FreeCiv</a>,
+			an open source version of the immensely popular strategy game 
+			<a href="http://www.apolyton.net">Civilization</a>.
+		</p>
+		
+		<h2>Development History</h2>
+		
+		<p>
+			The freeciv java port was originally developed by Artur Abies, I spent a
+			furious couple of weeks hacking the source to attempt to upgrade it to 
+			support Freeciv 1.10.0 about a year ago, which resulted in rewriting
+			various parts of the client and networking code. It has never been in
+			an entirely playable state.
+		</p>
+		
+		<h2>Current Status</h2>
+		
+		<p>
+			As I said, it's not playable yet. I'd like to find more time to work on
+			it, but I've too many other projects on the go at the moment. One day...
+			Anyway, the code is in the dubh.org <a href="http://cvs.dubh.org">CVS
+			Repository</a>. You can also download a 
+			<a href="http://balveda.dubh.org/freeciv-20010626.tar.gz">
+			source code snapshot</a> [gzipped	tarball, 1.14MB]. I haven't tried to
+			build this for several months, so I've no idea what state it's in.
+		</p>
+	
+  </content>
+  
+  <cvs-info>
+    <date>
+      $Date: 2001-06-26 23:06:37 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.1 $
+    </revision>
+  </cvs-info>  
+  
+</dubhpage>
