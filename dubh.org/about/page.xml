@@ -39,9 +39,8 @@
       <p>
         I divide development of this site at home between my main PC
         (a 1GHz PIII Dell Dimension 4100 with 256Mb) and my slightly punier
-        650MHz PIII Dell Inspiron 7500 laptop. OK, So I'm showing off. These
-        numbers won't be so impressive in about a years time when I next edit
-        this page :). Again, <a href="http://www.dell.com">Dell</a> did a 
+        650MHz PIII Dell Inspiron 7500 laptop. Again, 
+        <a href="http://www.dell.com">Dell</a> did a 
         great job with both computers.
       </p>
     </html>
@@ -50,8 +49,7 @@
   <section id="software" name="Software">
     <html>
       <p>
-        I use the <b>Oracle XSQL Servlet</b>,  <b>Oracle XSLT
-        Transformer</b> and <b>Oracle XML Parser</b>
+        I use the tools in the <b>Oracle XDK</b>
         to dynamically transform <b>XML</b> documents on the
         server. This technology lets me just define the content for each
         page in XML, and dynamically build up all the other stuff (heading, 
@@ -59,12 +57,13 @@
       </p>
       
       <p>
-        The XSQL servlet is also used to pull data out of the 
+        One of the XDK components, The <b>XSQL servlet</b> is also used to 
+        pull data out of the 
         <b>MySQL</b> database I have on my server in XML format and
         transform it to readable <b>HTML</b>. (I'd use Oracle, but 
         trying to upload it to my server would be immensely time consuming, 
         and MySQL came preinstalled on the RAQ. Then there are the licensing
-        issues...). 
+        issues...).
       </p>        
         
       <p>
@@ -87,11 +86,66 @@
         Any servlets I develop myself, and any other Java code I write
         for the site is currently developed using 
         <b>Oracle JDeveloper 9i</b> (I work on the development team
-        at Oracle for this product). In a few weeks time, I'll probably
-        switch over to the first internal alpha of <b>JDeveloper 9i</b>, 
-        the new all-Java IDE that's under development at Oracle.
+        at Oracle for this product). This new version of JDeveloper will
+        be available in late 2001.
       </p>
-     
+    </html>
+  </section>
+  
+  <section id="standards" name="Standards and Browsers">
+    <html>
+      <p>
+        Until fairly recently, Microsoft's Internet Explorer browser has
+        had the best support for <a href="http://www.w3.org">web standards</a>.
+        This has made it difficult to write pages that take advantage of 
+        client side scripting, stylesheets, even some newer HTML tags unless
+        you specifically targeted that browser, or wrote browser specific
+        code in each web page. However,
+        with the advent of <a href="http://www.mozilla.org">Mozilla</a> (an
+        old, buggy, slow version of which was released as Netscape 6), this
+        is becoming less of an issue. Mozilla has even better standards
+        support than Internet Explorer.
+      </p>
+      <p>
+        For that reason, I <b>am</b> using javascript and other niceties. 
+        My use of this stuff is limited to what is specified in the standards
+        listed below:
+      </p>
+      <p>
+        <ul>
+          <li>
+            <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/">
+              Document Object Model (DOM) Level 2
+            </a>
+          </li>
+          <li>
+            <a href="http://www.w3.org/TR/REC-CSS2/">
+              Cascading Stylesheets (CSS), Level 2
+            </a>
+          </li>
+          <li>
+            <a href="http://www.w3.org/TR/html4/">
+              Hypertext Markup Language (HTML) 4.01
+            </a>
+          </li>
+          <li>
+            <a href="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">
+              ECMAScript</a> (of which JavaScript and JScript are implementations)
+          </li>
+        </ul>
+      </p>
+      <p>
+        I test most of my pages on Mozilla (0.8.1 or later) and
+        Internet Explorer 5.5. If other browsers don't display my pages
+        correctly, it's likely to be a bug in the browser rather than a bug
+        in these pages. Particularly if you're using obsolete browser versions,
+        I'd recommend upgrading to the newest versions.
+      </p>
+      <p>
+        If you encounter a problem viewing my pages which you feel has been
+        caused by me not using these standards correctly, 
+        <a href="mailto:Brian.Duff@oracle.com">mail me</a>.
+      </p>
     </html>
   </section>
   
@@ -115,13 +169,13 @@
 
   <cvs-info>
     <date>
-      $Date: 2001-04-16 02:53:15 $
+      $Date: 2001-04-16 03:18:17 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.3 $
+      $Revision: 1.4 $
     </revision>
   </cvs-info> 
 
