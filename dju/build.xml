@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.5 2000-08-20 18:44:37 briand Exp $ -->
+<!-- $Id: build.xml,v 1.6 2000-08-20 19:04:00 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -16,8 +16,11 @@
     <property name="jarfile" value="${jardir}/${cvsmodule}-${version}.jar" />
     <property name="cvsroot" value="/usr/local/cvsroot" />
     <property name="classpath" value="" />
-    <property name="snapshot" value="${cvsmodule}/src.zip" />    
-    
+    <property name="snapshot" value="${cvsmodule}/src.zip" />
+    <property name="docdir" value="${cvsmodule}/doc" />    
+    <property name="javadocdir" value="${docdir}/api" />
+    <property name="javadocpkg" value="org.javalobby.dju.*" />
+    <property name="javadoctitle" value="${product} ${version}" />
   </target>
   
   
@@ -60,11 +63,30 @@
           basedir="${srcdir}" />
   </target>
 
+  <!-- Create javadoc -->
+  <target name="javadoc" depends="pullsrc">
+    <mkdir dir="${javadocdir}" />
 
+    <javadoc  sourcepath="${srcdir}"
+              destdir="${javadocdir}"
+              author="true"
+              version="true"
+              use="true"
+              windowtitle="${javadoctitle}"
+              doctitle="<h1>${javadoctitle}</h1>"
+              packagenames="${javadocpkg}"
+    />
+  </target>
+
+  <!-- The all target -->
   <target name="all" depends="jar,src-snapshot" />
 
+  <!-- The clean target obliterates all traces of dju from the build dir -->
   <target name="clean" depends="init">
     <deltree dir="${cvsmodule}" />
   </target>
+
+  <!-- The distrib target creates a distribution of DJU and zips it up -->
+
   
 </project>
