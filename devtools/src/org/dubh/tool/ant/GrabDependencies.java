@@ -1,4 +1,4 @@
-// $Id: GrabDependencies.java,v 1.1 2000-08-23 23:39:03 briand Exp $
+// $Id: GrabDependencies.java,v 1.2 2000-08-23 23:51:41 briand Exp $
 package org.dubh.tool.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -26,6 +26,9 @@ import java.util.ArrayList;
  * contains details of the dependencies of the module. If those dependencies
  * are present, this task does nothing. Otherwise, it figures out what
  * needs to be pulled across into the lib directory from other built modules.
+ *
+ * This task also sets the classpath property, which will include all JAR
+ * files in the project's lib.
  *
  * N.b. This doesn't help with the build order: the automated build must know
  * itself what order to build things in (perhaps this could be determined by
@@ -64,15 +67,43 @@ public class GrabDependencies extends Task
 
       for (int i=0; i < deps.length; i++)
       {
-         log("Copying dependency "+deps[i].module+" "+deps[i].version+"...");
-         Copydir cd = (Copydir) getProject().createTask("copydir");
-         cd.setSrc(deps[i].module+File.separator+"lib"); // Bad, lib might not be right for that project.
-         cd.setDest(getProject().getProperty("jardir"));
-         cd.setIncludes("**/*.jar,**/*.zip");
-         cd.execute();
+         // The dependency might already exist.
+         File depJar = new File(moduleName+"lib"+File.separator+deps[i].module+"-"+deps[i].version+".jar");
+
+         if (depJar.exists())
+         {
+            log("Dependency "+deps[i].module+" "+deps[i].version+" already available in lib.");
+         }
+         else
+         {
+            log("Copying dependency "+deps[i].module+" "+deps[i].version+"...");
+            Copydir cd = (Copydir) getProject().createTask("copydir");
+            cd.setSrc(deps[i].module+File.separator+"lib"); // Bad, lib might not be right for that project.
+            cd.setDest(getProject().getProperty("jardir"));
+            cd.setIncludes("**/*.jar,**/*.zip");
+            cd.execute();
+         }
+         
       }
+
+      createClasspath(moduleName);
    }
 
+   private void createClasspath(String modName)
+   {
+      File f = new File(modName+File.separator+"lib");
+      File[] allLib = f.listFiles();
+      StringBuffer cp = new StringBuffer();
+      for (int i=0; i < allLib.length; i++)
+      {
+         cp.append(f.getAbsolutePath());
+         if (i < allLib.length-1)
+         {
+            cp.append(":");
+         }
+      }
+      getProject().setProperty("classpath", cp.toString());
+   }
 
    /**
     * Get the dependency file for the module. Returns null if there is no
