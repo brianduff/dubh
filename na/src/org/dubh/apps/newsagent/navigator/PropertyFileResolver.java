@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: PropertyFileResolver.java,v 1.3 1999-12-12 03:31:51 briand Exp $
+//   $Id: PropertyFileResolver.java,v 1.4 1999-12-13 22:32:43 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -47,7 +47,7 @@ import javax.swing.ImageIcon;
  * Utility class to find a property file. 
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: PropertyFileResolver.java,v 1.3 1999-12-12 03:31:51 briand Exp $
+ * @version $Id: PropertyFileResolver.java,v 1.4 1999-12-13 22:32:43 briand Exp $
  */
 public class PropertyFileResolver 
 {  
@@ -233,6 +233,40 @@ public class PropertyFileResolver
             {
                Debug.println(3, PropertyFileResolver.class, "Successfuly retrieved default properties from CLASSPATH");
             }
+
+            // Before we can write the properties back out to a local file, we
+            // have to make sure the directory exists.
+            File parent = new File(localfile.getParent());
+
+            if (!parent.exists())
+            {
+                parent.mkdirs();
+            }
+            else
+            {
+                if (!parent.isDirectory())
+                {
+                    if (Debug.TRACE_LEVEL_3)
+                    {
+                        Debug.println(1, PropertyFileResolver.class,
+                            parent+" should be a directory, but it seems to be a file!");
+                    }
+                    return null;
+                }
+
+                if (!parent.canWrite())
+                {
+                    if (Debug.TRACE_LEVEL_3)
+                    {
+                        Debug.println(1, PropertyFileResolver.class,
+                            "Don't have write access to "+parent+"!");
+                    }
+                    return null;
+                }
+            }
+
+
+
             
             // Ok, got some properties. Now write them out to the localfile.
             FileOutputStream fos = new FileOutputStream(localFileName);
@@ -276,6 +310,11 @@ public class PropertyFileResolver
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/12/12 03:31:51  briand
+// More bugfixes necessary due to move to javalobby. Mostly changing path from
+// dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
+// top level properties files.
+//
 // Revision 1.2  1999/11/09 22:34:42  briand
 // Move NewsAgent source to Javalobby.
 //

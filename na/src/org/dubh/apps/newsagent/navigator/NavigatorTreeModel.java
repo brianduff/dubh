@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorTreeModel.java,v 1.3 1999-11-09 22:34:42 briand Exp $
+//   $Id: NavigatorTreeModel.java,v 1.4 1999-12-13 22:32:43 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -77,7 +77,7 @@ import org.javalobby.dju.misc.Debug;
  * about the provider.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorTreeModel.java,v 1.3 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: NavigatorTreeModel.java,v 1.4 1999-12-13 22:32:43 briand Exp $
  */
 public class NavigatorTreeModel implements TreeModel
 {  
@@ -164,7 +164,20 @@ public class NavigatorTreeModel implements TreeModel
          }
          catch (MessagingException me)
          {
-            System.out.println("NavigatorTreeMode: add implementation for MessagingException");
+            if (Debug.TRACE_LEVEL_1)
+            {
+               Debug.println(1, this,
+                  "Failure to set up tree model: A messaging exception was thrown."
+               );
+
+               Debug.printException(1, this,
+                  me
+               );
+            }
+
+            // TODO: This prob. means we are offline; need to deal with this
+            // sensibly.
+            //System.out.println("NavigatorTreeMode: add implementation for MessagingException");
          }
          
          
@@ -298,6 +311,9 @@ public class NavigatorTreeModel implements TreeModel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.2  1999/10/24 00:45:09  briand
 // Many changes. Works properly now.
 //

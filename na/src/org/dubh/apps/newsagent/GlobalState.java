@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.9 1999-12-12 03:31:51 briand Exp $
+//   $Id: GlobalState.java,v 1.10 1999-12-13 22:32:43 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -46,7 +46,7 @@ import org.javalobby.dju.misc.*;
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.9 1999-12-12 03:31:51 briand Exp $
+ * @version $Id: GlobalState.java,v 1.10 1999-12-13 22:32:43 briand Exp $
  */
 public class GlobalState {
 
@@ -112,7 +112,7 @@ public class GlobalState {
   public static  String agentDir;
 
   /** The name of the bundle containing application menus. */
-  public static final String menuBundle = "Menus";
+  public static final String menuBundle = "org/javalobby/apps/newsagent/res/Menus";
   /** The string to send for x-mailer headers. */
   public static String xmailer;
   /** The URL for NewsAgent. */
@@ -402,6 +402,22 @@ public class GlobalState {
 
   }
 
+   /**
+    * Get the name of the resource containing menus for the application
+    */
+   public static String getMenuRes()
+   {
+      return menuBundle;
+   }
+
+   /**
+    * Get the name of the resource containing strings for the application
+    */
+   public static String getStringRes()
+   {
+      return stringBundle;
+   }
+
 }
 
 //
@@ -437,6 +453,11 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  1999/12/12 03:31:51  briand
+// More bugfixes necessary due to move to javalobby. Mostly changing path from
+// dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
+// top level properties files.
+//
 // Revision 1.8  1999/11/09 22:34:40  briand
 // Move NewsAgent source to Javalobby.
 //

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SendOptionsPanel.java,v 1.7 1999-11-09 22:34:41 briand Exp $
+//   $Id: SendOptionsPanel.java,v 1.8 1999-12-13 22:32:43 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -47,7 +47,7 @@ import org.javalobby.dju.ui.preferences.PreferencePage;
 /**
  * Send Options Panel for the Send Tab in the Options dialog box <P>
  * @author Brian Duff
- * @version $Id: SendOptionsPanel.java,v 1.7 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: SendOptionsPanel.java,v 1.8 1999-12-13 22:32:43 briand Exp $
  */
 public class SendOptionsPanel extends PreferencePage 
 {
@@ -138,7 +138,7 @@ public class SendOptionsPanel extends PreferencePage
       tfPrefixLine.setName("PrefixLineField");
       group.addRow(tfPrefixLine);
 
-      JMenuBarResource rsc = new JMenuBarResource("Menus", "mbSendOptions", this);
+      JMenuBarResource rsc = new JMenuBarResource(GlobalState.getMenuRes(), "mbSendOptions", this);
       popupInsert = rsc.getPopupMenu("popupSendIns");
 
    }
@@ -263,6 +263,9 @@ public class SendOptionsPanel extends PreferencePage
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.6  1999/06/01 00:34:55  briand
 // Total rewrite. Should now look a lot nicer, and follow a standard format for preference pages.
 //
