@@ -11,6 +11,92 @@ public final class EffectType
 
   // from freeciv/common/improvement.h
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   public static final EffectType EFT_ADV_PARASITE = new EffectType();
   public static final EffectType EFT_AIRLIFT = new EffectType();
   public static final EffectType EFT_ANY_GOVERNMENT = new EffectType();
@@ -83,6 +169,31 @@ public final class EffectType
   public static final EffectType EFT_UPGRADE_ALL_LEAP = new EffectType();
   public static final EffectType EFT_UPKEEP_FREE = new EffectType();
   public static final EffectType EFT_LAST = new EffectType();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   private static final TypesafeEnum ENUM = new TypesafeEnum(
     new EffectType[] {
@@ -157,7 +268,7 @@ public final class EffectType
         EFT_UPGRADE_ALL_STEP,
         EFT_UPGRADE_ALL_LEAP,
         EFT_UPKEEP_FREE,
-        EFT_LAST,
+        EFT_LAST
     }
   );
 
