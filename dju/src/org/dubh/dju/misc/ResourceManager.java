@@ -153,11 +153,10 @@ public class ResourceManager {
       * possible, we return a shared instance of an image. If an image is
       * used lots of times, it will only be loaded once and re-used.
       */
-      String imageKey = getString(key);
       
-     ImageIcon ico = (ImageIcon) m_cachedImages.get(imageKey);
+     ImageIcon ico = (ImageIcon) m_cachedImages.get(key);
      if (ico == null) {
-        String filename = getString(imageKey);
+        String filename = getString(key);
         java.net.URL imgResource = ClassLoader.getSystemResource(filename);
         if (imgResource != null) {
            ico = new ImageIcon(imgResource);
@@ -165,7 +164,7 @@ public class ResourceManager {
         } else {
            if (Debug.TRACE_LEVEL_1)
            {
-              Debug.println(1, this, "Can't load image: "+imageKey+"="+filename);
+              Debug.println(1, this, "Can't load image: "+key+"="+filename);
            }
         }
      }
@@ -297,7 +296,7 @@ public class ResourceManager {
         //
         if (property.equals("icon"))
         {
-           parameter = getImage(prefix.toString());
+           parameter = getImage(getString(prefix.toString()));
            method    = c.getClass().getMethod(methodName, new Class[] { 
               Class.forName("javax.swing.Icon")
            });
