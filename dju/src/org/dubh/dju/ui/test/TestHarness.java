@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: TestHarness.java,v 1.1 1999-08-03 19:14:14 briand Exp $
+//   $Id: TestHarness.java,v 1.2 1999-10-24 00:40:16 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -27,6 +27,7 @@ package dubh.utils.ui.test;
 
 import dubh.utils.ui.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 import java.awt.*;
 
@@ -34,7 +35,7 @@ import java.awt.*;
  * Dubh Utils UI test harness
  *
  * @author Brian Duff
- * @version $Id: TestHarness.java,v 1.1 1999-08-03 19:14:14 briand Exp $
+ * @version $Id: TestHarness.java,v 1.2 1999-10-24 00:40:16 briand Exp $
  */
 public class TestHarness
 {
@@ -48,9 +49,84 @@ public class TestHarness
       {}
       //testColorSwatch();
       //testHSB();
-      testJava12Fonts();
+      //testJava12Fonts();
+      testTable();
    }
    
+   public static void testTable()
+   {
+      JFrame f = new JFrame();
+      
+
+
+      TableModel dataModel = new AbstractTableModel() {
+          public int getColumnCount() { return 2; }
+          public int getRowCount() { return 10;}
+          public Object getValueAt(int row, int col) {
+            if (col == 0) return "From";
+            if (col == 1) return "Brian Duff <bduff@uk.oracle.com>";
+            return "Erm"; 
+          }
+      };
+      JTable tab = new JTable(dataModel);
+      tab.setTableHeader(null);
+      JScrollPane scrollpane = new JScrollPane(tab);
+ 
+      // Calculate the widest renderer in the first column
+      int rows = tab.getModel().getRowCount();
+
+      tab.getColumnModel().getColumn(0).setCellRenderer(new HeaderFieldNameRenderer());      
+      int maxWidth = 15;
+      for (int i=0; i < rows; i++)
+      {
+         TableCellRenderer r = tab.getCellRenderer(i, 0);
+         Component c = r.getTableCellRendererComponent(
+            tab, tab.getModel().getValueAt(i, 0), false, false, i, 0
+         );
+         maxWidth = Math.max(maxWidth, c.getPreferredSize().width);
+      }
+      
+      TableColumnModel tcm = tab.getColumnModel();
+      
+      TableColumn c = tcm.getColumn(0);
+      c.setMaxWidth(maxWidth);
+      c.setMinWidth(maxWidth);
+      c.setPreferredWidth(maxWidth);
+      c.setResizable(false);
+ 
+      f.getContentPane().add(scrollpane, BorderLayout.CENTER);
+      f.pack();
+      f.setVisible(true);
+
+   }
+
+   /**
+    * Renderer for header field names
+    */
+   static class HeaderFieldNameRenderer extends JLabel implements TableCellRenderer
+   {
+      public Component getTableCellRendererComponent(JTable table, 
+         Object value, 
+         boolean isSelected, 
+         boolean hasFocus, 
+         int row, 
+         int column) 
+      {
+         Font f = getFont();
+         if (f.getStyle() != Font.BOLD)
+         {
+            setFont(new Font(f.getName(), Font.BOLD, f.getSize()));
+         }
+         setForeground(Color.white);
+         setBackground(Color.gray);
+         setText(value.toString());
+         setOpaque(true);
+         return this;
+      }
+      
+   }
+
+
    public static void testJava12Fonts()
    {
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
