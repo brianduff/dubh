@@ -29,6 +29,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import dubh.utils.nls.*;
+
+import dubh.utils.misc.Debug;
 /**
  * A ResourceManager is associated with a specific resource bundle. You can
  * use the methods of an instance of this class to get locale independent
@@ -86,6 +88,9 @@ public class ResourceManager {
      m_handlers = new Vector();
      m_cachedImages = new Hashtable();
      m_bundle = b;
+     addComponentHandler(JLabelHandler.getInstance());
+     addComponentHandler(JComponentHandler.getInstance());
+     addComponentHandler(AbstractButtonHandler.getInstance());
   }
   
   /**
@@ -148,16 +153,21 @@ public class ResourceManager {
       * possible, we return a shared instance of an image. If an image is
       * used lots of times, it will only be loaded once and re-used.
       */
-     ImageIcon ico = (ImageIcon) m_cachedImages.get(key);
+      String imageKey = getString(key);
+      
+     ImageIcon ico = (ImageIcon) m_cachedImages.get(imageKey);
      if (ico == null) {
-        java.net.URL imgResource = ClassLoader.getSystemResource(getString(key));
+        String filename = getString(imageKey);
+        java.net.URL imgResource = ClassLoader.getSystemResource(filename);
         if (imgResource != null) {
            ico = new ImageIcon(imgResource);
            m_cachedImages.put(key, ico);
         } else {
-           Debug.println("ResourceManager.getImage(): Can't load image "+key);
+           if (Debug.TRACE_LEVEL_1)
+           {
+              Debug.println(1, this, "Can't load image: "+imageKey+"="+filename);
+           }
         }
-
      }
      return ico; 
   }
@@ -176,13 +186,13 @@ public class ResourceManager {
   }
 
   
-  public void addComponentHandler(ComponentHandler h)
+  protected void addComponentHandler(ComponentHandler h)
   {
      m_handlers.addElement(h);
   }
   
   
-  public void removeComponentHandler(ComponentHandler h)
+  protected void removeComponentHandler(ComponentHandler h)
   {
      m_handlers.removeElement(h);
   }
@@ -197,6 +207,23 @@ public class ResourceManager {
   }   
   
   /**
+   * Handle a component. This can be used in place of the old ResourceManager.initButton,
+   * but should be restricted to situations where it is really necessary to
+   * manually set resources for a component. Normally, use the initComponents() 
+   * method on a top level container.
+   * </p><p>
+   */
+  public void doComponent(String key, Component c)
+  {
+     String oldName = c.getName();
+     c.setName(key);
+     
+     doComponent(new StringBuffer(""), c);
+     
+     c.setName(oldName);
+  }
+  
+  /**
    * Handle a component. Prefix should consist of the full path to 
    * the component eg. MyPanel.MyInnerPanel.MyJButton
    */ 
@@ -204,9 +231,20 @@ public class ResourceManager {
   {
      int oldValue = prefix.length();
      prefix.append(c.getName());
+     
+     if (Debug.TRACE_LEVEL_3)
+     {
+        Debug.println(3, this, "Doing component "+prefix);
+     }
+     
      if (c instanceof Container &&
          ((Container)c).getComponentCount() > 0 && c.getName() != null)
      {
+        if (Debug.TRACE_LEVEL_3)
+        {
+           Debug.println(3, this, "Component is a container with contents....");
+        }
+     
         int pf = prefix.length();
         prefix.append(".");
         doComponents(prefix, ((Container)c).getComponents());
@@ -216,12 +254,21 @@ public class ResourceManager {
      {
         if (c.getName() != null)
         {
+           if (Debug.TRACE_LEVEL_3)
+           {
+              Debug.println(3, this, "Component has a name. Looking for a handler...");
+           }
            for (int i=0; i < m_handlers.size(); i++)
            {
               ComponentHandler handler = 
                  (ComponentHandler) m_handlers.elementAt(i);
+                 
               if (handler.getHandledClass().isInstance(c))
               {
+                 if (Debug.TRACE_LEVEL_3)
+                 {
+                    Debug.println(3, this, "Found a handler");
+                 }                
                  for (int j=0; j < handler.getSupportedProperties().length; j++)
                  {
                     setComponentProperty(prefix, c, handler.getSupportedProperties()[j]);
@@ -275,30 +322,11 @@ public class ResourceManager {
      }
      catch (Throwable t)
      {
-        //Debug.println("ResourceManager: can't set NLS property: "+t);
+        if (Debug.TRACE_LEVEL_1)
+        {
+           Debug.println(1, this, "Resource key "+prefix+"."+property+" isn't defined");
+        }
      }
-     /*
-     catch (MissingResourceException e)
-     {
-     }
-     catch (SecurityException se)
-     {
-     }
-     catch (NoSuchMethodException mnf)
-     {
-     }
-     catch (IllegalAccessException illac)
-     {
-     }
-     catch (IllegalArgumentException illarg)
-     {
-     }
-     catch (InvocationTargetException invtarg)
-     {
-     }
-     catch (ClassNotFoundException cnf)
-     {
-     }*/
   
      prefix.setLength(oldLength);
   }
