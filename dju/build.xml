@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2000-08-20 18:09:41 briand Exp $ -->
+<!-- $Id: build.xml,v 1.2 2000-08-20 18:24:12 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -10,11 +10,13 @@
     <property name="version" value="2.0.1" />
     
     <property name="cvsmodule" value="dju" />
-    <property name="srcdir" value="src" />
-    <property name="classdir" value="class" />
+    <property name="srcdir" value="${cvsmodule}/src" />
+    <property name="classdir" value="${cvsmodule}/class" />
+    <property name="jardir" value="${cvsmodule}/lib" />
+    <property name="jarfile" value="${cvsmodule}/${jardir}/${cvsmodule}-${version}.jar" />
     <property name="cvsroot" value="/usr/local/cvsroot" />
     <property name="classpath" value="" />
-    
+    <property name="snapshot" value="${cvsmodule}/src.zip" />    
     
   </target>
   
@@ -30,21 +32,34 @@
           failonerror="true"
     />
       
-    <mkdir dir="${cvsmodule}/${classdir}" />
+    <mkdir dir="${classdir}" />
       
   </target>
   
   <!-- Compile all source code -->
   <target name="src" depends="pullsrc">
-    <javac  srcdir="${cvsmodule}/${srcdir}"
-            destdir="${cvsmodule}/${classdir}"
+    <javac  srcdir="${srcdir}"
+            destdir="${classdir}"
             classpath="${classpath}">
       <exclude name="org/javalobby/dju/ui/commander/**" />
       <exclude name="org/javalobby/dju/dev/**" />
       <exclude name="org/javalobby/dju/ui/treetable/**" />
 
-    </javac>
-            
+    </javac>            
   </target>
+
+  <!-- Create the JAR file -->
+  <target name="jar" depends="src">
+    <jar  jarfile="${jarfile}" basedir="${classdir}" />
+  </target>
+
+  <!-- Create a source code snapshot -->
+  <target name="src-snapshot" depends="src">
+    <zip  zipfile="${snapshot}" 
+          basedir="${srcdir}" />
+  </target>
+
+
+  <target name="all" depends="jar,src-snapshot" />
   
 </project>
