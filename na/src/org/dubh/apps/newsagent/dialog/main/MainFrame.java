@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: MainFrame.java,v 1.12 2001-02-11 02:51:00 briand Exp $
+//   $Id: MainFrame.java,v 1.13 2001-02-11 15:43:27 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -63,7 +63,7 @@ import org.dubh.dju.misc.ResourceManager;
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.12 2001-02-11 02:51:00 briand Exp $
+ * @version $Id: MainFrame.java,v 1.13 2001-02-11 15:43:27 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -73,7 +73,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   /** The resource key for the main menu bar */
   private static final String MENU_BAR = "mainMenu";
   /** The bundle name for menu resources */
-  private static final String MENUS_BUNDLE="org/javalobby/apps/newsagent/res/Menus";
+  private static final String MENUS_BUNDLE="org/dubh/apps/newsagent/res/Menus";
 
   private static final String
         POPUP_FOLDER      =  "popupFolder",
@@ -93,7 +93,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
             PropertyFileResolver.getDefaultedProperties(
                "navigator"+File.separator+"services"+File.separator+"news",
                "news.properties",
-               "org/javalobby/apps/newsagent/navigator/services/news",
+               "org/dubh/apps/newsagent/navigator/services/news",
                "news.properties"
              )
          ));
@@ -129,7 +129,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public MainFrame() {
      // Initialise the window
-     super(GlobalState.appName);
+     super(GlobalState.getApplicationInfo().getName());
      setName("newsagentMain");
 
      m_vertical.setContinuousLayout(false);
@@ -501,37 +501,14 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      GlobalState.getHelpSystem().jumpToTopic(HelpSystem.TOPIC_MENUS);
   }
 
-  public void helpAbout() {
+  public void helpAbout()
+  {
 
      ResourceManager rm = ResourceManager.getManagerFor("org.dubh.apps.newsagent.res.Menus");
      Icon i = rm.getImage("imgAbout");
-
-
-     String pckNewsAgent = "org.dubh.apps.newsagent";
-
-
-     // Evil hack. This will force the classloader to get stuff from JavaMail
-     // so that we can get info about its packages.
-     ClassLoader cl = ClassLoader.getSystemClassLoader();
-     try
-     {
-      cl.loadClass("javax.mail.Folder");
-      cl.loadClass("javax.activation.ActivationDataFlavor");
-     }
-     catch (Throwable t)
-     {
-         System.err.println("Couldn't find javax.mail.Folder. Check the classpath");
-     }
-
-     String[] deps = new String[5];
-     deps[0] = "org.dubh.dju";
-     deps[1] = "org.dubh.javamail.client";    // Shouldn't have to do this, but can't get package info otherwise
-     deps[2] = "java.lang";
-     deps[3] = "javax.mail";
-     deps[4] = "javax.activation";
-
-
-     AboutPanel.doDialog(this, pckNewsAgent, deps, i);
+     
+     AboutPanel.doDialog(this, GlobalState.getApplicationInfo(),
+      GlobalState.getDependencyInfo(), i);
 
   }
 
@@ -761,6 +738,9 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2001/02/11 02:51:00  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.11  2000/08/19 21:22:25  briand
 // Use Java 2 JAR versioning.
 //
