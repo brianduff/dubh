@@ -15,7 +15,7 @@ class PHServerShutdown extends PHGenericMessage
    */
   public void handle( Client c, Packet pkt )
   {
-    c.setConnected( false );
+    c.disconnect();
     c.getDialogManager().hideAllDialogs();
     c.getDialogManager().showMessageDialogBlocking( _( "The server has been shut down." ) + ( (PktGenericMessage)pkt ).message, _( "Server Shutdown" ) );
   }

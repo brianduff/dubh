@@ -28,7 +28,7 @@ class ImplProgress extends JPanel implements DlgProgress
     {
       public void actionPerformed( ActionEvent e )
       {
-        m_client.setConnected( false );
+        m_client.disconnect();
         m_client.getDialogManager().hideAllDialogs();
       }
     } );
