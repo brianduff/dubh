@@ -87,6 +87,10 @@ public interface MenuDefinitions
         ACTTopFiveCities.class,
         ACTDemographics.class,
         ACTSpaceship.class
+    },
+    { "Help",
+        ACTHelpCopying.class
+        //ACTHelpAbout.class
     }
  };
 }

@@ -65,6 +65,13 @@ public final class MainWindow extends JFrame
 
   private boolean m_singleMapViewMode = true;
 
+  private static final String CONSOLE_SPLASHMSG =
+    "Freeciv is free software and you are welcome to distribute copies of it\n"+
+    "under certain conditions; See the \"Copying\" item in the Help menu.\n"+
+    "Now.. Go give'em hell!";
+
+  private HelpSystemImpl m_helpSystem;
+
   MainWindow( Client c )
   {
     m_desktop = new JDesktopPane();
@@ -88,6 +95,20 @@ public final class MainWindow extends JFrame
 
     setDefaultCloseOperation( this.DO_NOTHING_ON_CLOSE );
     addWindowListener( new WindowCloseListener() );
+
+    m_console.println( CONSOLE_SPLASHMSG );
+
+    m_helpSystem = new HelpSystemImpl( c, this );
+  }
+
+  /**
+   * Get the help system
+   *
+   * @return an object implementing HelpSystem
+   */
+  public HelpSystem getHelpSystem()
+  {
+    return m_helpSystem;
   }
 
   /**
