@@ -23,6 +23,28 @@ The current time is:
   java.io.File f = new java.io.File( path );
   java.io.File[] children = f.listFiles();
 
+  // Sort the files by their date.
+  java.util.Arrays.sort( children, new java.util.Comparator() {
+    public int compare( Object o1, Object o2 )
+    {
+      long f1 = ((File)o1).length();
+      long f2 = ((File)o2).length();
+
+      if ( f1 < f2 )
+      {
+        return -1;
+      }
+      else if ( f1 > f2 )
+      {
+        return 1;
+      }
+      else
+      {
+        return 0;
+      }
+    }
+  });
+
   for ( int i=0; i < children.length; i++ )
   {
   %>
