@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="whatscvs" name="What is CVS?">
+    <html>
+      <p>
+        CVS (Concurrent Version System) is a Software Configuration Management
+        (SCM) tool. It provides a repository for files and folders, and is
+        capable of storing several different versions of files. SCM is very
+        important when several people are developing a project at the same time,
+        since it is possible to concurrently work on files and merge them into
+        the repository. More information on CVS can be found at 
+        <a href="http://www.cyclic.com">Cyclic Software</a>.
+      </p>
+    </html>
+  </section>
+  
+
+  <section id="guestaccess" name="Guest (Read Only) Access to NewsAgent Source">
+    <html>
+      <p>
+        You can browse the CVS tree for NewsAgent and other Dubh projects on
+        the web at <a href="http://cvs.dubh.org">http://cvs.dubh.org</a>.
+      </p>
+      <p>
+        If you have a CVS client installed (e.g. <a href="http://www.wincvs.org">
+        WinCVS</a>, <a href="http://www.jcvs.org">JCVS</a>), you can directly
+        access the CVS repository in read only mode. The CVSROOT is:
+      </p>
+      <p align="center"><b>
+        :pserver:guest@cvs.dubh.org:/usr/local/cvsroot</b> (<i>Password: guest</i>)
+      </p>
+      <p>
+        The module containing NewsAgent source code is called <b>na</b>. You may
+        also be interested in the following modules, which NewsAgent depends on:
+        <b>dju</b>, <b>dmp</b>, <b>devtools</b>. 
+      </p>
+    </html>
+  </section>
+  
+  <section id="writeaccess" name="Read / Write Access to the Repository">
+    <html>
+      <p>
+        In order to get write access to the repository, you must become a
+        contributor. More information is available in <a href="contrib.xml">
+        Getting Involved</a>.
+      </p>
+    </html>
+  </section>
+
+</sectionedpage>

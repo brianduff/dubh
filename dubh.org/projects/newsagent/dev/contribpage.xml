@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="howtobecome" name="How To Become a Contributor">
+    <html>
+      <p>
+        The easiest way to become a contributor is to checkout
+        the source code from the <a href="cvs.xml">CVS
+        Repository</a>, do some work and send the patches in. If
+        you are interested in continuing to help, you can get
+        write access to CVS which will make it easier to help.
+      </p>
+      <p>
+        You probably also want to sign up to the contributor
+        <a href="mail.xml">Mailing List</a>, which is also where
+        patches should be sent. If you want to help, but are unsure
+        where to start, the mailing list is a good place to ask
+        questions and make suggestions.
+      </p>
+    </html>
+  </section>
+
+  <section id="guidelines" name="Guidelines for Contributors">
+    <html>
+      <h3>Code Style</h3>
+      <p>
+        I'm not overwhelmingly fussy about coding styles (I get
+        enough of that sort of thing at work). Also, NewsAgent's
+        source is shockingly inconsistent in things like brace
+        positioning. Just follow "common sense" guidelines, like
+        using comments sensibly, not using hard tab characters
+        and using UNIX eol characters.
+      </p>
+      <h3>Build Before You Check In</h3>
+      <p>
+        Before checking in code, <b>make sure it builds</b>.
+        Information on building NewsAgent and other Dubh
+        projects can be found in the 
+        <a href="\projects\buildtools\index.xml">DevTools</a>
+        project.
+      </p>
+      <h3>Keep In Touch!</h3>
+      <p>
+        Use the mailing lists and frequently let us all know
+        what you're up to. This makes it easier for everyone to
+        help out and avoid stepping on each others toes.
+      </p>
+    </html>
+  </section>
+  
+  <section id="bugdb" name="Bug Database">
+    <html>
+      <p>
+        I'm still looking for a servlet based bug database to
+        use for Dubh.Org. If you have any suggestions, please
+        <a href="mailto:brian@dubh.org">mail me</a>.
+      </p>
+    </html>
+  </section>
+
+</sectionedpage>
