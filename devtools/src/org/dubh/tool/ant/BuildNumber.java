@@ -1,12 +1,12 @@
-// $Id: BuildNumber.java,v 1.4 2000-08-20 20:43:28 briand Exp $
+// $Id: BuildNumber.java,v 1.5 2000-08-20 21:03:38 briand Exp $
 package org.dubh.tool.ant;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -24,13 +24,13 @@ public class BuildNumber extends Task
 {
    private String m_bnoFile;
 
-   private static final String BUILD_NUMBER = "BUILDNUMBER";
+   private static final String BUILD_NUMBER_PROPERTY = "dubh.buildnumber";
 
    /**
     * The count file is used to determine the current build number and is
     * updated to reflect the new build number.
     */
-   public void setCountfile(String bnoFile)
+   public void setPropertyfile(String bnoFile)
    {
       m_bnoFile = bnoFile;
    }
@@ -70,29 +70,31 @@ public class BuildNumber extends Task
 
       try
       {
-         BufferedReader br = new BufferedReader(new FileReader(m_bnoFile));
-         String line = br.readLine();
-         if (line == null)
+         Properties p = new Properties();
+         FileInputStream fis = new FileInputStream(m_bnoFile);
+         p.load(fis);
+         fis.close();
+
+         String buildNumberString = (String) p.get(BUILD_NUMBER_PROPERTY);
+         if (buildNumberString == null)
          {
-            line = "0";
+            buildNumberString = "0";
          }
 
-         line = line.trim();
+         buildNumberString = buildNumberString.trim();
          // Try parsing the line into an integer.
          try
          {
-            int buildNumber = Integer.parseInt(line);
+            int buildNumber = Integer.parseInt(buildNumberString);
             buildNumber++;
-            getProject().setProperty(BUILD_NUMBER, ""+buildNumber);
+            p.put(BUILD_NUMBER_PROPERTY, ""+buildNumber);
 
-            // Close the input file and write it back out.
-            br.close();
-
+            // Write the properties file back out
             try
             {
-               PrintWriter pw = new PrintWriter(new FileWriter(m_bnoFile));
-               pw.println(""+buildNumber);
-               pw.close();
+               FileOutputStream fos = new FileOutputStream(m_bnoFile);
+               p.store(fos, "Whatever dude");
+               fos.close();
             }
             catch (IOException ioe)
             {
@@ -101,9 +103,8 @@ public class BuildNumber extends Task
          }
          catch (NumberFormatException nfe)
          {
-            br.close();
             throw new BuildException(
-               m_bnoFile+" contains a non integer build number: "+line,
+               m_bnoFile+" contains a non integer build number: "+buildNumberString,
                nfe
             );
          }
