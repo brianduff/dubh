@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AbstractTreeTableModel.java,v 1.3 1999-11-11 21:24:36 briand Exp $
+//   $Id: AbstractTreeTableModel.java,v 1.4 2000-10-09 00:04:24 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -26,157 +26,76 @@ import javax.swing.tree.*;
 import javax.swing.event.*;
  
 /**
- * An abstract implementation of the TreeTableModel interface, handling 
- * the list of listeners. 
+ * A tree table model that delegates to another TreeModel. This is handy, as
+ * it means you can use a DefaultTreeModel or whatever.
  *
  * @version %I% %G%
  *
- * @author Philip Milne
+ * @author Brian Duff
  */
+public abstract class AbstractTreeTableModel implements TreeTableModel
+{
+   private TreeModel m_delegateModel;
 
-public abstract class AbstractTreeTableModel implements TreeTableModel {
-    protected Object root;     
-    protected EventListenerList listenerList = new EventListenerList();
-  
-    public AbstractTreeTableModel(Object root) {
-        this.root = root; 
-    }
 
-    //
-    // Default implmentations for methods in the TreeModel interface. 
-    //
+   /**
+    * Create an abstract tree table model with the specified model as its
+    * delegate.
+    */
+   public AbstractTreeTableModel(TreeModel delegate)
+   {
+      m_delegateModel = delegate;
+   }
 
-    public Object getRoot() {
-        return root;
-    }
+   /**
+    * Retrieve the delegate model
+    */
+   protected TreeModel getDelegateModel()
+   {
+      return m_delegateModel;
+   }
 
-    public boolean isLeaf(Object node) {
-        return getChildCount(node) == 0; 
-    }
+   public Object getRoot()
+   {
+      return getDelegateModel().getRoot();
+   }
 
-    public void valueForPathChanged(TreePath path, Object newValue) {}
+   public boolean isLeaf(Object node)
+   {
+      return getDelegateModel().isLeaf(node);
+   }
 
-    // This is not called in the JTree's default mode: use a naive implementation. 
-    public int getIndexOfChild(Object parent, Object child) {
-        for (int i = 0; i < getChildCount(parent); i++) {
-       if (getChild(parent, i).equals(child)) { 
-           return i; 
-       }
-        }
-   return -1; 
-    }
+   public void valueForPathChanged(TreePath path, Object newValue)
+   {
+      getDelegateModel().valueForPathChanged(path, newValue);
+   }
 
-    public void addTreeModelListener(TreeModelListener l) {
-        listenerList.add(TreeModelListener.class, l);
-    }
+   public int getIndexOfChild(Object parent, Object child)
+   {
+      return getDelegateModel().getIndexOfChild(parent, child);
+   }
 
-    public void removeTreeModelListener(TreeModelListener l) {
-        listenerList.remove(TreeModelListener.class, l);
-    }
 
-    /*
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
-     * the fire method.
-     * @see EventListenerList
-     */
-    protected void fireTreeNodesChanged(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
-            }          
-        }
-    }
+   public void addTreeModelListener(TreeModelListener l)
+   {
+      getDelegateModel().addTreeModelListener(l);
+   }
 
-    /*
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
-     * the fire method.
-     * @see EventListenerList
-     */
-    protected void fireTreeNodesInserted(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
-            }          
-        }
-    }
+   public void removeTreeModelListener(TreeModelListener l)
+   {
+      getDelegateModel().removeTreeModelListener(l);
+   }
 
-    /*
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
-     * the fire method.
-     * @see EventListenerList
-     */
-    protected void fireTreeNodesRemoved(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesRemoved(e);
-            }          
-        }
-    }
+   public Object getChild(Object parent, int index)
+   {
+      return getDelegateModel().getChild(parent, index);
+   }
 
-    /*
-     * Notify all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
-     * the fire method.
-     * @see EventListenerList
-     */
-    protected void fireTreeStructureChanged(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
-            }          
-        }
-    }
+   public int getChildCount(Object parent)
+   {
+      return getDelegateModel().getChildCount(parent);
+   }
+
 
     //
     // Default impelmentations for methods in the TreeTableModel interface. 
@@ -197,9 +116,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
 
     // Left to be implemented in the subclass:
 
-    /* 
-     *   public Object getChild(Object parent, int index)
-     *   public int getChildCount(Object parent) 
+    /*
      *   public int getColumnCount() 
      *   public String getColumnName(Object node, int column)  
      *   public Object getValueAt(Object node, int column) 
