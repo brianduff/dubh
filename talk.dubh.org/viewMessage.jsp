@@ -2,8 +2,8 @@
 <%
 /**
  * $RCSfile: viewMessage.jsp,v $
- * $Revision: 1.3 $
- * $Date: 2001-06-11 20:46:00 $
+ * $Revision: 1.4 $
+ * $Date: 2001-06-11 20:46:47 $
  */
 %>
 
@@ -311,25 +311,18 @@
                <%= name %>
       <%    }
          } else {
-            String displayName;
+            String displayName = "Anonymous";
             String savedName = message.getProperty("name");
             String savedEmail = message.getProperty("email");
 
-            if (savedName == null && savedEmail == null)
+            if (savedName != null)
             {
-               displayName = "Anonymous";
+               displayName = savedName;
             }
-            else
-            {
-               if (savedName != null)
-               {
-                  displayName = savedName;
-               }
 
-               if (savedEmail != null)
-               {
-                  displayName = "<a href=\"mailto:" + savedEmail + "\">" + displayName + "</a>";
-               }
+            if (savedEmail != null)
+            {
+               displayName = "<a href=\"mailto:" + savedEmail + "\">" + displayName + "</a>";
             } %>
 
             <%= displayName %>
