@@ -5,6 +5,8 @@ import org.freeciv.net.WorkList; // move me
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * Class representing a player in Freeciv. You can't directly instantiate this
  * class: instances of this object are
@@ -44,8 +46,12 @@ public class Player implements GameObject, CommonConstants
   private int m_givesSharedVision;
   private int m_reallyGivesSharedVision;
   private Government m_government;
-
   private GameObjectFactory m_playerFactory;
+  private Spaceship m_spaceship;
+
+
+  private ArrayList m_cities;
+  
   /**
    * The constructor is package protected: only the player factory instantiates
    * players
@@ -61,7 +67,24 @@ public class Player implements GameObject, CommonConstants
       new WorkList[ MAX_NUM_WORKLISTS ];
     m_research = new Research();
     m_ai = new AI();
+    m_cities = new ArrayList();
+    m_spaceship = new Spaceship();
   // TODO: other defaults? (player.c)
+  }
+
+  public Spaceship getSpaceship()
+  {
+    return m_spaceship;
+  }
+
+  /**
+   * Get an iterator of cities that belong to this player.
+   *
+   * @return an iterator. Each element in the iterator is a City.
+   */
+  public Iterator getCities()
+  {
+    return m_cities.iterator();
   }
 
   public void initFromPacket(Packet p)
