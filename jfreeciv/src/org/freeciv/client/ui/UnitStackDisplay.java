@@ -63,10 +63,12 @@ public class UnitStackDisplay extends JComponent
   }
   public void addUnitStack( Unit u )
   {
+    /*
     for( ;u != null;u = u.nextInStack )
     {
       addUnit( u );
     }
+    */
   }
   public Unit getUnitAt( int x, int y )
   {
@@ -106,6 +108,7 @@ public class UnitStackDisplay extends JComponent
   }
   public void paintComponent( Graphics g )
   {
+    /*
     Insets ins = getInsets();
     ( (Graphics2D)g ).setComposite( client.getComponentAlpha() );
     g.setColor( client.getComponentColor() );
@@ -118,5 +121,6 @@ public class UnitStackDisplay extends JComponent
       Unit u = (Unit)units.get( i );
       u.reallyPaintIcon( this, g, ins.left + ( i % horizontalUnits ) * ( unitWidth + GAP ), ins.top + ( i / horizontalUnits ) * ( unitHeight + GAP ), false );
     }
+    */
   }
 }
