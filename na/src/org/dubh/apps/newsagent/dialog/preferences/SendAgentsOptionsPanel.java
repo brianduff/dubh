@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: SendAgentsOptionsPanel.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+//   $Id: SendAgentsOptionsPanel.java,v 1.7 2001-02-11 15:46:59 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -44,7 +44,7 @@ import org.dubh.dju.misc.UserPreferences;
 /**
  * Send agents options panel for the send agents tab in the options dialog:
  @author Brian Duff
- @version $Id: SendAgentsOptionsPanel.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+ @version $Id: SendAgentsOptionsPanel.java,v 1.7 2001-02-11 15:46:59 briand Exp $
  */
 public class SendAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
@@ -157,9 +157,9 @@ public class SendAgentsOptionsPanel extends PreferencePage {
    /*
     * Now save the agents
     */
-    GlobalState.getAgentManager().setEnabledSendAgentNames(installedNames);
-    GlobalState.getAgentManager().setSendAgentsTable(allAgents);
-    GlobalState.getAgentManager().saveSendAgents();
+   // GlobalState.getAgentManager().setEnabledSendAgentNames(installedNames);
+   // GlobalState.getAgentManager().setSendAgentsTable(allAgents);
+    //GlobalState.getAgentManager().saveSendAgents();
   }
 
   public void revert(UserPreferences s) {
@@ -167,6 +167,7 @@ public class SendAgentsOptionsPanel extends PreferencePage {
   }
 
   void cmdAdd_actionPerformed(ActionEvent e) {
+   /*
    boolean ok = true;
    String className=null;
    while(ok) {
@@ -177,27 +178,22 @@ public class SendAgentsOptionsPanel extends PreferencePage {
      }
    }
    if (className != null) {
+
      ISendAgent agent = GlobalState.getAgentManager().createSendAgent(className);
      if (agent == null) {
        ErrorReporter.error("SendAgentsOptionsPanel.CantEnable",
          new String[] {className});
      } else {
-       /*
-        * Insert the new agent and select it.
-        */
+
         AgentListEntry newEntry = new AgentListEntry(agent, false, className);
-       /*
-        * Hmm. Swing seems to have a synchronisation bug of some sort here.
-        * I think it probably has something to do with the modal input dialog
-        * but I'm not sure. Forcing mutual exclusion seems to help.
-        */
+
        synchronized(lmAgents) {
          lmAgents.addElement(newEntry);
        }
        listAgents.setSelectedIndex(lmAgents.getSize()-1);
      }
 
-   }
+   } */
   }
 
   void cmdMoveUp_actionPerformed(ActionEvent e) {
@@ -321,14 +317,12 @@ public class SendAgentsOptionsPanel extends PreferencePage {
    * Populate the available agents list.
    */
   private void populateAgentsList() {
+   /**
    AgentManager am = GlobalState.getAgentManager();
    Vector activeAgents = am.getEnabledSendAgentNames();
    Enumeration enum = activeAgents.elements();
    Enumeration allAgentNames = am.getAllSendAgentNames();
 
-   /*
-    * Add enabled agents in the correct order
-    */
    while (enum.hasMoreElements()) {
      String thisAgentName =  (String)enum.nextElement();
      ISendAgent agent = am.getSendAgent(thisAgentName);
@@ -338,15 +332,13 @@ public class SendAgentsOptionsPanel extends PreferencePage {
        lmAgents.addElement(new AgentListEntry(agent, true, thisAgentName));
    }
 
-   /*
-    * Add disabled agents
-    */
    while (allAgentNames.hasMoreElements()) {
      String key = (String) allAgentNames.nextElement();
      if (!activeAgents.contains(key))
        lmAgents.addElement(new AgentListEntry(am.getSendAgent(key),
            false,key));
    }
+   */
   }
 
 }
@@ -476,6 +468,9 @@ class SendAgentsListRenderer extends JCheckBox implements ListCellRenderer {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2001/02/11 02:51:00  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.5  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
