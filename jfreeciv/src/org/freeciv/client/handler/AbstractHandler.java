@@ -1,7 +1,12 @@
 package org.freeciv.client.handler;
+
+import org.freeciv.common.ErrorHandler;
 import org.freeciv.net.Packet;
 import org.freeciv.client.Client;
+
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
+
 /**
  * This handler class is useful for handlers that need to do things
  * on the UI thread.
@@ -10,13 +15,25 @@ abstract class AbstractHandler implements ClientPacketHandler
 {
   public final void handle( final Client c, final Packet pkt )
   {
-    SwingUtilities.invokeLater( new Runnable() 
+    // Want to wait for this to avoid processing more packets until finished.
+    try
     {
-      public void run()
+      SwingUtilities.invokeAndWait( new Runnable() 
       {
-        handleOnEventThread( c, pkt );
-      }
-    } );
+        public void run()
+        {
+          handleOnEventThread( c, pkt );
+        }
+      } );
+    }
+    catch (InvocationTargetException ite)
+    {
+      ErrorHandler.getHandler().internalError( ite );
+    }
+    catch (InterruptedException interrupt )
+    {
+      ErrorHandler.getHandler().internalError( interrupt );
+    }
     handleOnCurrentThread( c, pkt );
   }
   /**
