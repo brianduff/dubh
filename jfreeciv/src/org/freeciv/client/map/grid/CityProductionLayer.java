@@ -39,6 +39,7 @@ public class CityProductionLayer extends GridMapTileLayer
   public void paintTile(Graphics g, Point mapPos, Point gPos, MapViewInfo info)
   {
     Tile tile = info.getTile( mapPos );
+    /*
     if ( tile.getWorkedBy() == getCity() )
     {
       TerrainType tType = tile.getTerrainType();
@@ -48,6 +49,6 @@ public class CityProductionLayer extends GridMapTileLayer
       //TODO: paint them
       
     }
-    
+    */
   }
 }
