@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: Newsgroup.java,v 1.3 1999-08-03 19:16:15 briand Exp $
+//   $Id: Newsgroup.java,v 1.4 1999-10-16 16:45:13 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -35,7 +35,7 @@ import java.util.*;
  * A Javamail folder representing a newsgroup in the NNTP protocol.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: Newsgroup.java,v 1.3 1999-08-03 19:16:15 briand Exp $
+ * @version $Id: Newsgroup.java,v 1.4 1999-10-16 16:45:13 briand Exp $
  */
 class Newsgroup extends Folder
 {
@@ -51,6 +51,8 @@ class Newsgroup extends Folder
    private int m_articleCount;
    private int m_firstArticle;
    private int m_lastArticle;
+   
+   private boolean m_bPostingOK;
     
    public Newsgroup(String groupName, Store s)
    {
@@ -172,7 +174,13 @@ class Newsgroup extends Folder
       
       if (m_messages == null)
       {
-         m_messages = s.getMessages(this);
+         NNTPMessage[] msgs = s.getMessages(this);
+         
+         m_messages = new ArrayList(msgs.length);
+         for (int i=0; i < msgs.length; i++)
+         {
+            m_messages.add(msgs[i]);
+         }
       }
       else 
       {
@@ -221,7 +229,8 @@ class Newsgroup extends Folder
    public char getSeparator()
       throws MessagingException
    {
-      throw new MessagingException("Newsgroups don't have a separator");
+      return '?';
+      //throw new MessagingException("Newsgroups don't have a separator");
    }
    
    /**
@@ -282,6 +291,10 @@ class Newsgroup extends Folder
       return false;
    }
    
+   void setPostingOK(boolean b)
+   {
+      m_bPostingOK = b;
+   }
    
    void setArticleCount(int count)
    {
@@ -303,6 +316,9 @@ class Newsgroup extends Folder
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/08/03 19:16:15  briand
+// Changed visibility of some fields. Added Store to constructor.
+//
 // Revision 1.2  1999/06/08 22:46:12  briand
 // First compiling version of the Newsgroup class.
 //
