@@ -274,7 +274,7 @@
               <div align="right" class="dubhPageFooter"> 
                 Powered by <a href="http://otn.oracle.com/tech/java/oc4j/content.html">Oracle OC4J</a>
                 and <a href="http://otn.oracle.com/tech/xml/xdk_java/content.html">Oracle XDK</a><br />
-                Copyright (C) 1994 - 2002 Brian Duff<br />
+                Copyright &copy; 1994 - 2002 Brian Duff<br />
               </div>
             </td>
           </tr>
