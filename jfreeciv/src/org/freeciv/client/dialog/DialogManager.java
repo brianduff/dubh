@@ -14,20 +14,21 @@ public class DialogManager
   ImplLogin m_login;
   ImplNation m_nation;
   ImplProgress m_progress;
+  ImplCityReport m_cityReport;
   ArrayList m_alVisibleDialogs;
-  public DialogManager( Client c ) 
+  public DialogManager( Client c )
   {
     m_client = c;
     m_alVisibleDialogs = new ArrayList();
   }
-  protected DialogManager() 
+  protected DialogManager()
   {
     this( null );
   }
   private class DialogInvoker implements Runnable
   {
     private JDialog m_dialog;
-    public DialogInvoker( JDialog d ) 
+    public DialogInvoker( JDialog d )
     {
       m_dialog = d;
     }
@@ -41,7 +42,7 @@ public class DialogManager
   private class DialogCloser implements Runnable
   {
     private JDialog m_dialog;
-    public DialogCloser( JDialog d ) 
+    public DialogCloser( JDialog d )
     {
       m_dialog = d;
     }
@@ -113,18 +114,26 @@ public class DialogManager
     }
     return m_progress;
   }
+  public DlgCityReport getCityReport()
+  {
+    if( m_cityReport == null )
+    {
+      m_cityReport = new ImplCityReport( m_client );
+    }
+    return m_cityReport;
+  }
   class MessageDialogRunnable implements Runnable
   {
     private String m_title, m_message;
-    public MessageDialogRunnable( String title, String message ) 
+    public MessageDialogRunnable( String title, String message )
     {
       m_title = title;
       m_message = message;
     }
     public void run()
     {
-      JOptionPane.showMessageDialog( 
-        m_client.getMainWindow(), m_title, m_message, JOptionPane.ERROR_MESSAGE 
+      JOptionPane.showMessageDialog(
+        m_client.getMainWindow(), m_title, m_message, JOptionPane.ERROR_MESSAGE
       );
     }
   }
@@ -134,7 +143,7 @@ public class DialogManager
   }
   public void showMessageDialogBlocking( String title, String message )
   {
-    JOptionPane.showMessageDialog( 
+    JOptionPane.showMessageDialog(
       m_client.getMainWindow(), title, message, JOptionPane.ERROR_MESSAGE );
   }
 }
