@@ -1,4 +1,4 @@
-// $Id: GrabDependencies.java,v 1.2 2000-08-23 23:51:41 briand Exp $
+// $Id: GrabDependencies.java,v 1.3 2000-08-23 23:55:58 briand Exp $
 package org.dubh.tool.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -61,6 +61,8 @@ public class GrabDependencies extends Task
       if (f == null)
       {
          log(moduleName+" has no dependencies.");
+         getProject().setProperty("classpath", "");
+         return;
       }
 
       DependencyInfo[] deps = readDependencies(f);
