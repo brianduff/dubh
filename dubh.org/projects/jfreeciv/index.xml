@@ -82,7 +82,7 @@
       <a href="downloads.xml">here</a>.
     </p>
     
-    <h2>Main Window</h2>
+    <h2>New Screenshots</h2>
     
     <p>
       This screenshot shows the major changes to the MainWindow as well
@@ -108,6 +108,21 @@
         <img src="images/jfreeciv_map_new_small.png"
           alt="JFreeCiv Main Window with Map" border="0" width="250"
             height="185" />
+      </a>
+    </p>
+    
+    <p>
+      This "hot off the press" screenshot shows the map component displaying
+      city names after a session of map refactoring by Brian. The appearance
+      of the city names is "inspired" by Civ III (click the image to see
+      in detail):
+    </p>
+    
+    <p align="center">
+      <a href="images/jfreeciv_citynames_full.png" target="imgWindow">
+        <img src="images/jfreeciv_citynames_small.png"
+          alt="JFreeciv Main Window showing city names"
+          border="0" width="250" height="193" />
       </a>
     </p>
     
@@ -149,13 +164,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-11-26 01:14:26 $
+      $Date: 2001-12-02 08:21:21 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.8 $
+      $Revision: 1.9 $
     </revision>
   </cvs-info>  
   
