@@ -103,7 +103,7 @@ public class ClientPacketDispacher
     new PHUnitInfo(), /* UNIT_INFO*/ 
     null, /* MOVE_UNIT*/ 
     null, /* TURN_DONE*/ 
-    null, /* NEW_YEAR*/ 
+    new PHNewYear(), /* NEW_YEAR*/ 
     new PHTileInfo(), /* TILE_INFO*/ 
     new PHSelectNation(), /* SELECT_NATION*/ 
     null, /* ALLOC_NATION*/ 
@@ -147,7 +147,7 @@ public class ClientPacketDispacher
     null, /*DIPLOMACY_ACCEPT_TREATY*/ 
     null, /*DIPLOMACY_SIGN_TREATY*/ 
     null, /*UNIT_AUTO*/ 
-    null, /*BEFORE_NEW_YEAR*/ 
+    new PHBeforeNewYear(), /*BEFORE_NEW_YEAR*/ 
     null, /*REMOVE_PLAYER*/ 
     null, /*UNITTYPE_UPGRADE*/ 
     null, /*UNIT_UNLOAD*/ 

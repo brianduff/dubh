@@ -22,12 +22,16 @@ public class UACTDone extends AbstractUnitAction
     Unit unit = getClient().getUnitInFocus();
     if ( unit != null && isEnabledFor( unit ) )
     {
-      //TODO
+      unit.setFocusStatus( Unit.FOCUS_DONE );
+      if( getClient().isUnitInFocus( unit ) )
+      {
+        getClient().advanceUnitFocus();
+      }
     }
   }
   
   public boolean isEnabledFor( Unit u )
   {
-    return false; // should be true, once working
+    return true;
   }
 }

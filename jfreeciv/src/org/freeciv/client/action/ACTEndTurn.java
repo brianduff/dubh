@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
+import org.freeciv.net.PacketConstants;
+import org.freeciv.net.PktGenericMessage;
+
 /**
  * Client action for End Turn
  */
@@ -23,6 +26,9 @@ public class ACTEndTurn extends AbstractClientAction
   
   public void actionPerformed( ActionEvent e )
   {
-    // TODO
+    setEnabled( false );
+    PktGenericMessage pkt = new PktGenericMessage();
+    pkt.setType( PacketConstants.PACKET_TURN_DONE );
+    getClient().sendToServer( pkt );
   }
 }

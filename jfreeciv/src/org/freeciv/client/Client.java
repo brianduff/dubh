@@ -991,7 +991,7 @@ public final class Client implements Constants
   /**
    * Actually figure out the next unit to focus
    */
-  private void advanceUnitFocus()
+  public void advanceUnitFocus()
   {
     // control.c: advance_unit_focus()
     org.freeciv.common.Unit oldFocus = m_focusUnit;

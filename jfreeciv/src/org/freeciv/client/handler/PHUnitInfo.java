@@ -10,7 +10,7 @@ import org.freeciv.net.PktUnitInfo;
 
 
 /**
- * Tile info handler.
+ * Unit info handler.
  */
 public class PHUnitInfo extends AbstractHandler implements Constants
 {

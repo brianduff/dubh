@@ -53,7 +53,8 @@ public class UACTBuildCity extends AbstractUnitAction
   public boolean isEnabledFor( Unit u )
   {
     return u.canBuildCity()
-      || u.isFlagSet( CommonConstants.F_CITIES ); //TODO && no city present
+      || ( u.isFlagSet( CommonConstants.F_CITIES )
+          && getClient().getGame().getMap().getCity( u.getX(), u.getY() ) != null );
   }
 
 }

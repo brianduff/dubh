@@ -374,9 +374,10 @@ public final class Unit implements CommonConstants
     {
       return false;
     }
-    //TODO
-    // check city_can_be_built_here( getX(), getY() )
-    
+    if ( !m_game.getMap().canCityBeBuiltAt( getX(), getY() ) )
+    {
+      return false;
+    }
     return true;
   }
 

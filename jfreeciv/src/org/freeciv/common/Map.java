@@ -483,8 +483,49 @@ public final class Map implements CommonConstants
 
   public boolean isWaterAdjacentTo( int x, int y ) 
   {
-    //TODO
+    Tile tile = getTile( x, y );
+    if ( tile.getTerrain() == T_OCEAN
+        || tile.getTerrain() == T_RIVER
+        || ( tile.getSpecial() & S_RIVER ) != 0
+        || ( tile.getSpecial() & S_IRRIGATION ) != 0 )
+    {
+      return true;
+    }
+    //TODO: check adjacent squares
     return false;
+  }
+  
+  private boolean m_cityTooNear;
+  
+  /**
+   * Returns true if a city can be built at the specified position
+   */
+  public boolean canCityBeBuiltAt( int x, int y )
+  {
+    if ( getTerrain( x, y ) == T_OCEAN )
+    {
+      return false;
+    }
+    
+    m_cityTooNear = false;
+
+    m_game.getMap().iterateOutwards( x, y, 
+      m_game.getGameRules().getMinDistanceBetweenCities() - 1, 
+      new MapPositionIterator() 
+      {
+        public void iteratePosition( MapPosition pos )
+        {
+          
+          if ( getCity( pos.x, pos.y ) != null )
+          {
+            m_cityTooNear = true;
+            setFinished( true );
+          }
+        }
+      }
+    );
+
+    return !m_cityTooNear;
   }
   
 }

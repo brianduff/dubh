@@ -399,7 +399,15 @@ public class Player implements GameObject, CommonConstants
    */
   public boolean knowsTechsWithFlag( int flag )
   {
-    //TODO
+    for ( int i = A_FIRST; i < getGame().getNumberOfTechnologyTypes(); i++ )
+    {
+      Advance advance = (Advance)getGame().getFactories().getAdvanceFactory().findById( i );
+      if( getResearch().hasInvention( advance ) 
+          && ( advance.getFlags() & flag ) != 0 )
+      {
+        return true;
+      }
+    }
     return false;
   }
   

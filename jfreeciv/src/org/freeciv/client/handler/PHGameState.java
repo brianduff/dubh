@@ -58,7 +58,7 @@ public class PHGameState extends AbstractHandler implements Constants
       c.updateUnitFocus();
       c.updateUnitInfoLabel( c.getUnitInFocus() );
 
-      // First, try centering on the focussed unit
+      // First, try centering on the focused unit
       Unit u = c.getUnitInFocus();
       City city;
       if ( u != null )
