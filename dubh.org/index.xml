@@ -29,6 +29,14 @@
     
     <column width="25%">
       <box title="What's New?">
+      
+        <h3>03 Jun 2001</h3>
+        
+        <p>
+          Dubh.Org discussion forums are now online at
+          <a href="http://talk.dubh.org">http://talk.dubh.org</a>. More 
+          forums will be added over the next few days.
+        </p>
         
         <h3>13 May 2001</h3>
         
@@ -57,13 +65,13 @@
     
     <cvs-info>
       <date>
-        $Date: 2001-05-13 17:39:44 $
+        $Date: 2001-06-03 03:06:53 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.13 $
+        $Revision: 1.14 $
       </revision>
     </cvs-info>
     
