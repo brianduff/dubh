@@ -18,7 +18,7 @@ public class Shared
       "path.separator"
    );
 
-   public static final String DEFAULT_DATA_PATH = "."+PATH_SEPARATOR+"data"+PATH_SEPARATOR+"~/.freeciv";
+   public static final String DEFAULT_DATA_PATH = "C:\\cvswork\\jfreeciv\\data"; //"."+PATH_SEPARATOR+"data"+PATH_SEPARATOR+"~/.freeciv";
 
    private static boolean m_bDataInited = false;
 
