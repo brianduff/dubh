@@ -27,8 +27,8 @@ The current time is:
   java.util.Arrays.sort( children, new java.util.Comparator() {
     public int compare( Object o1, Object o2 )
     {
-      long f1 = ((File)o1).length();
-      long f2 = ((File)o2).length();
+      long f1 = ((File)o1).lastModified();
+      long f2 = ((File)o2).lastModified();
 
       if ( f1 < f2 )
       {
