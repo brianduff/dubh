@@ -1,4 +1,4 @@
-// $Id: GrabDependencies.java,v 1.3 2000-08-23 23:55:58 briand Exp $
+// $Id: GrabDependencies.java,v 1.4 2000-08-24 00:02:01 briand Exp $
 package org.dubh.tool.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -105,6 +105,7 @@ public class GrabDependencies extends Task
          }
       }
       getProject().setProperty("classpath", cp.toString());
+      log("Set classpath to "+cp.toString());
    }
 
    /**
