@@ -1,25 +1,23 @@
 package org.freeciv.net;
 
-// !bduff bad imports
+// !bduff bad import
 import org.freeciv.client.Constants;
-import org.freeciv.client.HelpItem;
-import org.freeciv.client.HelpPanel;
-public class PktRulesetUnit extends AbstractPacket implements HelpItem
+
+public class PktRulesetUnit extends AbstractPacket
 {
-  public int id; /* index for unit_types[] */
+  public int id;
   public String name;
-  // gone in 1.9.0	public int graphics; //ptr?
   public int move_type;
   public int build_cost;
   public int attack_strength;
   public int defense_strength;
   public int move_rate;
-  public int tech_requirement; //ptr?
+  public int tech_requirement; 
   public int vision_range;
   public int transport_capacity;
   public int hp;
   public int firepower;
-  public int obsoleted_by; //ptr?
+  public int obsoleted_by;
   public int fuel;
   public int flags;
   public int roles;
@@ -32,14 +30,18 @@ public class PktRulesetUnit extends AbstractPacket implements HelpItem
   public int paratroopers_range;
   public int paratroopers_mr_req;
   public int paratroopers_mr_sub;
+  public String helptext;
+  
   public PktRulesetUnit( InStream in ) 
   {
     super( in );
   }
+  
   public PktRulesetUnit() 
   {
     super();
   }
+  
   public void receive( InStream in )
   {
     id = in.readUnsignedByte();
@@ -80,14 +82,16 @@ public class PktRulesetUnit extends AbstractPacket implements HelpItem
     }
     if( in.hasMoreData() )
     {
-      helpText = in.readZeroString();
+      helptext = in.readZeroString();
     }
   }
+  
   public void send( OutStream out )
                throws java.io.IOException
   {
     
   }
+  
   public String toString()
   {
     return name;
@@ -96,10 +100,14 @@ public class PktRulesetUnit extends AbstractPacket implements HelpItem
   (move_rate/3) + " " +  name + "   " + build_cost;
   */
   }
+
+  // TODO: Move these to Unit.java
+  
   public boolean isSettler()
   {
     return ( flags & ( 1 << Constants.F_SETTLERS ) ) != 0;
   }
+  
   public boolean isMilitary()
   {
     return ( flags & ( 1 << Constants.F_NONMIL ) ) == 0;
@@ -108,23 +116,7 @@ public class PktRulesetUnit extends AbstractPacket implements HelpItem
   {
     return move_type == Constants.LAND_MOVING;
   }
-  String helpText;
-  public void setHelpText( String txt )
-  {
-    helpText = txt;
-  }
-  public javax.swing.JComponent getRenderer( HelpPanel help )
-  {
-    return help.getUnitHelpPanel( this );
-  }
-  public String getHelpCategory()
-  {
-    return "UNITS";
-  }
-  public String getHelpName()
-  {
-    return name;
-  }
+
   protected boolean unitFlag( int flag )
   {
     return ( ( flags & ( 1 << flag ) ) != 0 );
