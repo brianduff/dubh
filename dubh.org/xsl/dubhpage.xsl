@@ -148,6 +148,9 @@
       <tr>
         <xsl:for-each select="column">
           <td valign="top" align="left">
+            <xsl:if test="@width">
+              <xsl:attribute name="width"><xsl:value-of select="@width" /></xsl:attribute>
+            </xsl:if>
             <xsl:apply-templates select="box" />  
             <xsl:apply-templates select="html" />              
           </td>
