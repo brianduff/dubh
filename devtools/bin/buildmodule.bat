@@ -1,6 +1,6 @@
 rem BuildModule, the NT version
 rem
-rem $Id: buildmodule.bat,v 1.1 2000-08-21 00:23:06 briand Exp $
+rem $Id: buildmodule.bat,v 1.2 2000-08-21 00:25:29 briand Exp $
 
 set BUILD_DIR=.
 set DT=devtools/lib
@@ -15,7 +15,7 @@ set CVSROOT=:pserver:briand@dubh.org:/usr/local/cvsroot
 #ANT_OPTIONS="-logfile $1.build.log"
 
 cd $BUILD_DIR
-del /f/s/q %1
+rmdir /s/q %1
 cvs checkout %1/build.xml
 CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
 java -Dant.home=%ANT_HOME% %ANT_MAIN% %ANT_OPTIONS% -buildfile %1/build.xml %2
