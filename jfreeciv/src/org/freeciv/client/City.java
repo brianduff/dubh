@@ -1,4 +1,5 @@
 package org.freeciv.client;
+ 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Color;
@@ -26,6 +27,8 @@ import org.freeciv.tile.Coords;
 import org.freeciv.tile.FlashingIcon;
 import org.freeciv.tile.TileMap;
 import org.gjt.abies.VectorListModel;
+
+
 public class City extends PktCityInfo implements FlashingIcon
 {
   boolean visible = true;
