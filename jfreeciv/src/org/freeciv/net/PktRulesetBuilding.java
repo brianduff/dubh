@@ -1,11 +1,10 @@
 package org.freeciv.net;
+
 import javax.swing.JComponent;
-import org.freeciv.client.HelpItem;
-import org.freeciv.client.HelpPanel;
 import org.freeciv.common.EffectType;
 import org.freeciv.common.EffectRange;
 import org.freeciv.common.UnitClass;
-public class PktRulesetBuilding extends AbstractPacket implements HelpItem
+public class PktRulesetBuilding extends AbstractPacket 
 {
   public int id; /* index for improvement_types[] */
   public String name;
@@ -86,23 +85,6 @@ public class PktRulesetBuilding extends AbstractPacket implements HelpItem
   {
     helpText = txt;
   }
-  public JComponent getRenderer( HelpPanel help )
-  {
-    return help.getBuildingHelpPanel( this );
-  }
-  public String getHelpCategory()
-  {
-    if( is_wonder )
-    {
-      return "WONDERS";
-    }
-    else
-    {
-      return "IMPROVEMENTS";
-    }
-  }
-  public String getHelpName()
-  {
-    return name;
-  }
+
+
 }
