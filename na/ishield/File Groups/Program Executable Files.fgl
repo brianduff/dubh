@@ -1,0 +1,9 @@
+[TopDir]
+file0=D:\newsagent-1.0.2\distrib\win32\license.txt
+file1=D:\newsagent-1.0.2\distrib\win32\newsagent.exe
+file2=D:\newsagent-1.0.2\distrib\win32\readme.txt
+
+[General]
+Type=FILELIST
+Version=1.00.000
+

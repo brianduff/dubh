@@ -1,0 +1,23 @@
+[Data]
+DESCRIPTION_HELPFILES=This component includes all the HTML help files. These files are also available on the WWW at http://st-and.compsoc.org.uk/~briand/newsagent/
+TITLE_MAIN=NewsAgent
+DESCRIPTION_PROGRAMFILES=This component includes all runnable parts of NewsAgent, consisting of the platform independent Java class files and the Windows 32-bit executable stub file.
+COMPANY_NAME=Dubh
+COMPANY_NAME16=Company
+ERROR_MOVEDATA=An error occurred during the move data process : %d
+PRODUCT_VERSION=1.0.2
+UNINST_KEY=NewsAgent
+TITLE_CAPTIONBAR=NewsAgent Setup
+PRODUCT_NAME16=Product
+FOLDER_NAME=NewsAgent
+ERROR_VGARESOLUTION=This program requires VGA or better resolution.
+PRODUCT_KEY=newsagent.exe
+UNINST_DISPLAY_NAME=NewsAgent 1.0.2
+ERROR_UNINSTSETUP=unInstaller setup failed to initialize.  You may not be able to uninstall this product.
+PRODUCT_NAME=NewsAgent
+
+[General]
+Language=0009
+Type=STRINGTABLESPECIFIC
+Version=1.00.000
+

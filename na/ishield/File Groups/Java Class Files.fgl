@@ -1,0 +1,13 @@
+[TopDir]
+SubDir0=lib
+
+[General]
+Type=FILELIST
+Version=1.00.000
+
+[lib]
+file0=D:\newsagent-1.0.2\distrib\win32\lib\dubhju.1.0.1.jar
+file1=D:\newsagent-1.0.2\distrib\win32\lib\dubhna.1.0.2.jar
+file2=D:\newsagent-1.0.2\distrib\win32\lib\swingall.jar
+fulldirectory=D:\newsagent-1.0.2\distrib\win32\lib
+
