@@ -12,6 +12,6 @@ The current time is:
 </h2>
 <p>
 
-<%= request.getRealPath( "dirlist.jsp" ) %></p>
+<%= request.getRealPath( "" ) %></p>
 </body>
 </html>
