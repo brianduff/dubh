@@ -22,6 +22,7 @@ import java.io.*;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -44,7 +45,9 @@ import org.freeciv.client.action.*;
 import org.freeciv.client.ui.util.*;
 
 
+import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
+
 /**
  * This is the main class of Freeciv4J.
  */
@@ -255,15 +258,22 @@ public class Client extends JFrame
    private JPanel panWest;
 
 
+   // Factories
+   private ConnectionFactory m_connectionFactory = new ConnectionFactory();
+   private PlayerFactory m_playerFactory = new PlayerFactory();
+
+   // prob shouldn't instantiate this yet. 
+   private Game m_game = new Game();
+
    private final static String APP_NAME = "Freeciv4J";
-   private final static String APP_VERSION = "1.10.0J";
+   private final static String APP_VERSION = 
+    MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
    private final static String PROP_FREECIV_TILESET = "freeciv.tileset";
    private final static String DEFAULT_TILESET = "trident";
 
    public static final int majorVer = Constants.MAJOR_VERSION;
    public static final int minorVer = Constants.MINOR_VERSION;
    public static final int patchVer = Constants.PATCH_VERSION;
-   public static final String version = "" + majorVer + "." + minorVer + "." + patchVer;
    public static final String capabilities = "+1.11.6 conn_info";
 
    public static final Integer MAP_PANEL_LAYER = new Integer(0);
@@ -747,7 +757,7 @@ public class Client extends JFrame
     * that the connection was lost, and an error dialog will
     * be displayed to the user before this method returns.
     */
-   public boolean sendToServer(AbstractPacket pack)
+   public boolean sendToServer(Packet pack)
    {
       try
       {
@@ -1044,13 +1054,9 @@ public class Client extends JFrame
       PktGenericMessage pkt = new PktGenericMessage();
       pkt.message = str;
       pkt.setType(Constants.PACKET_CHAT_MSG);
-      try {
-         pkt.send(out);
-      } catch ( IOException e )
-      {
-         serverError(e);
-      }
+      sendToServer(pkt);
    }
+
 
 
 
@@ -1184,5 +1190,76 @@ public class Client extends JFrame
    {
       return false;
    }
+
+
+  public Game getGame()
+  {
+    return m_game;
+  }
+
+// FACTORIES
+
+  public ClientObjectFactory getPlayerFactory()
+  {
+    return m_playerFactory;
+  }
+
+  public ClientObjectFactory getConnectionFactory()
+  {
+    return m_connectionFactory;
+  }
+
+  private abstract class ClientObjectFactoryImpl implements ClientObjectFactory
+  {
+    // one day, write a more efficient (array based) impelementation
+    ArrayList m_objects = new ArrayList();
+
+    public ClientObject findById(int id)
+    {
+      Iterator i = m_objects.iterator();
+      while (i.hasNext())
+      {
+        ClientObject co = (ClientObject)i.next();
+        if (co.getId() == id)
+        {
+          return co;
+        }
+      }
+
+      return null;
+    }
+    
+    public ClientObject create()
+    {
+      ClientObject o = doCreate();
+      m_objects.add(o);
+      return o;
+    }
+
+    public void destroy(ClientObject o)
+    {
+      m_objects.remove(o);
+    } 
+
+    protected abstract ClientObject doCreate();  
+  }
+
+  // Yikes, need to run jindent over this one day.
+
+  private class PlayerFactory extends ClientObjectFactoryImpl
+  {
+    protected ClientObject doCreate()
+    {
+      return new Player();
+    }
+  }
+
+  private class ConnectionFactory extends ClientObjectFactoryImpl
+  {
+    protected ClientObject doCreate()
+    {
+      return new Connection();
+    }
+  }
 
 }
