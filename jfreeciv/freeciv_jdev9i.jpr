@@ -16,33 +16,6 @@
    <j2eeWebContextRoot>/freeciv_jdev9i</j2eeWebContextRoot>
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/VectorListModel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/TriangleSlider.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/TranslationFile.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/TranslationEditor.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/SystemInfoPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/StdIn.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/Localize.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/Dirs.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/gjt/abies/ArrayMangler.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/util/Localize.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -128,6 +101,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktPlayerInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktPageMsg.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktNukeTile.java"/>
@@ -493,6 +469,9 @@
          <URL path="src/org/freeciv/client/handler/PHSpaceshipInfo.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHShortCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHServerShutdown.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -533,6 +512,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHPlayerInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHPageMsg.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHMapInfo.java"/>
@@ -595,10 +577,19 @@
          <URL path="src/org/freeciv/client/dialog/ProgressItem.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplTaxRates.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/ImplProgress.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplPlayers.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/ImplNotifyGoto.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplNotify.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/ImplNation.java"/>
@@ -607,13 +598,31 @@
          <URL path="src/org/freeciv/client/dialog/ImplLogin.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplFindCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplCityView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/ImplCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImpCityChangeConstruction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgTaxRates.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DlgProgress.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgPlayers.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DlgNotifyGoto.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgNotify.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DlgNation.java"/>
@@ -622,7 +631,16 @@
          <URL path="src/org/freeciv/client/dialog/DlgLogin.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgFindCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgCityView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DlgCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgCityChangeConstruction.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
@@ -634,7 +652,7 @@
          <URL path="src/org/freeciv/client/Colors.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java"/>
+         <URL path="src/org/freeciv/client/Client.java" id="0"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
@@ -725,9 +743,6 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTAutoAttack.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.PngImageNode">
-         <URL path="src/org/freeciv/client/action/res/endturn.png"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/ACTWorklists.java"/>
@@ -888,7 +903,7 @@
                         <programArguments class="java.lang.String"/>
                         <runActiveFile>true</runActiveFile>
                         <runDirectoryURL/>
-                        <targetURL/>
+                        <targetURL idref="0"/>
                         <useProxy>false</useProxy>
                      </Value>
                   </Item>
@@ -896,7 +911,7 @@
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber id="0">1.3.1</jdkVersionNumber>
+                        <jdkVersionNumber id="1">1.3.1</jdkVersionNumber>
                         <libraries>JDeveloper Runtime</libraries>
                      </Value>
                   </Item>
@@ -1075,7 +1090,7 @@
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber idref="0"/>
+                        <jdkVersionNumber idref="1"/>
                         <libraries class="java.lang.String"/>
                      </Value>
                   </Item>

@@ -4,11 +4,7 @@
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.ide.model.Reference">
          <URL idref="0"/>
-         <nodeClass id="1">oracle.jdeveloper.model.JProject</nodeClass>
-      </Item>
-      <Item class="oracle.ide.model.Reference">
-         <URL path="Project1/Project1.jpr"/>
-         <nodeClass idref="1"/>
+         <nodeClass>oracle.jdeveloper.model.JProject</nodeClass>
       </Item>
    </listOfChildren>
 </workspace>
