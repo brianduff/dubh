@@ -16,9 +16,8 @@ public class PHRulesetTech implements ClientPacketHandler,ProgressItem
    */
   public void handle( Client c, Packet pkt )
   {
-    PktRulesetTech prt = (PktRulesetTech)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetTech( prt.id, prt );
+    c.getFactories().getAdvanceFactory().create(pkt);
   }
   public String getProgressString()
   {

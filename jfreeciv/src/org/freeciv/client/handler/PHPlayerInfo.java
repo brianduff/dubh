@@ -3,7 +3,9 @@ import org.freeciv.client.ui.CivInfoPanel;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.*;
 import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+
+import org.freeciv.common.Nation;
+
 import javax.swing.SwingUtilities;
 /**
  * Game info handler
@@ -30,7 +32,10 @@ public class PHPlayerInfo implements ClientPacketHandler
           CivInfoPanel p = c.getCivInfoPanel();
           p.setGold( ppi.gold );
           p.setTax( ppi.tax, ppi.science, ppi.luxury );
-          p.setNationName( c.getRulesetManager().getRulesetNation( ppi.nation ).name );
+          p.setNationName( 
+            ((Nation)c.getFactories().getNationFactory().findById(ppi.nation)).
+              getName()
+          );
         // TODO: Update research dialog.
         }
       } );

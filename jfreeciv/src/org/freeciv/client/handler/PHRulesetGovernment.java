@@ -3,6 +3,8 @@ import org.freeciv.client.*;
 import org.freeciv.net.*;
 import org.freeciv.client.dialog.*;
 import javax.swing.JOptionPane;
+
+
 /**
  * Ruleset control packet handler.
  */
@@ -18,7 +20,7 @@ public class PHRulesetGovernment implements ClientPacketHandler,ProgressItem
   {
     PktRulesetGovernment prt = (PktRulesetGovernment)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetGovernment( prt.id, prt );
+    c.getFactories().getGovernmentFactory().create(prt);
   }
   public String getProgressString()
   {

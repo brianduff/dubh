@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  */
 public class PHRulesetControl implements ClientPacketHandler,ProgressItem
 {
-  private final static int NUM_RULESETS = 8;
+  private final static int NUM_RULESETS = 9;
   public String getPacketClass()
   {
     return "org.freeciv.net.PktRulesetControl";
@@ -18,9 +18,11 @@ public class PHRulesetControl implements ClientPacketHandler,ProgressItem
    */
   public void handle( Client c, Packet pkt )
   {
-    c.getDialogManager().getProgressDialog().display( _( "Game has been started" ), NUM_RULESETS );
+    c.getDialogManager().getProgressDialog().display( 
+      _( "Game has been started" ), NUM_RULESETS 
+    );
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetControl( (PktRulesetControl)pkt );
+    c.getGame().setRulesetControl( (PktRulesetControl)pkt );
   }
   public String getProgressString()
   {

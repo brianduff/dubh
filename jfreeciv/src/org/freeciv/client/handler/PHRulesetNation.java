@@ -16,9 +16,8 @@ public class PHRulesetNation implements ClientPacketHandler,ProgressItem
    */
   public void handle( Client c, Packet pkt )
   {
-    PktRulesetNation prt = (PktRulesetNation)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetNation( prt.id, prt );
+    c.getFactories().getNationFactory().create(pkt);
   }
   public String getProgressString()
   {

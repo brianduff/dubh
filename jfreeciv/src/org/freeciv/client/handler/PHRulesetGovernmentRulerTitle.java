@@ -1,9 +1,14 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.*;
-import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+
+
+import org.freeciv.client.Client;
+import org.freeciv.common.Government;
+import org.freeciv.common.RulerTitle;
+import org.freeciv.net.Packet;
+import org.freeciv.net.PktRulesetGovernmentRulerTitle;
+
 /**
- * Ruleset control packet handler.
+ * Ruleset government ruler title packet handler
  */
 public class PHRulesetGovernmentRulerTitle implements ClientPacketHandler
 {
@@ -17,7 +22,9 @@ public class PHRulesetGovernmentRulerTitle implements ClientPacketHandler
   {
     PktRulesetGovernmentRulerTitle prt = (PktRulesetGovernmentRulerTitle)pkt;
     int govId = prt.gov;
-    PktRulesetGovernment gov = c.getRulesetManager().getRulesetGovernment( govId );
-    gov.ruler_titles[ prt.id ] = prt;
+    Government g = 
+      (Government) c.getFactories().getGovernmentFactory().findById(govId);
+
+    g.createRulerTitle(prt);
   }
 }

@@ -16,6 +16,6 @@ public class PHRulesetTerrainControl implements ClientPacketHandler
   public void handle( Client c, Packet pkt )
   {
     PktRulesetTerrainControl prt = (PktRulesetTerrainControl)pkt;
-    c.getRulesetManager().setRulesetTerrainControl( prt );
+    c.getGame().getTerrainRules().initFromPacket(prt);
   }
 }

@@ -16,9 +16,8 @@ public class PHRulesetCity implements ClientPacketHandler,ProgressItem
    */
   public void handle( Client c, Packet pkt )
   {
-    PktRulesetCity prt = (PktRulesetCity)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetCity( prt.style_id, prt );
+    c.getFactories().getCityStyleFactory().create( pkt);
   }
   public String getProgressString()
   {

@@ -1,7 +1,7 @@
 package org.freeciv.client.handler;
 import org.freeciv.client.Client;
-import org.freeciv.client.Connection;
-import org.freeciv.client.Player;
+import org.freeciv.common.Connection;
+import org.freeciv.common.Player;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktConnInfo;
 import org.freeciv.common.Logger;
@@ -29,14 +29,18 @@ public class PHConnInfo implements ClientPacketHandler
     // packhand.c: handle_conn_info()
     PktConnInfo pinfo = (PktConnInfo)pkt;
     Logger.log( Logger.LOG_DEBUG, "conn_info " + pinfo.toString() );
-    Connection conn = (Connection)c.getConnectionFactory().findById( pinfo.id );
+    boolean connExists =  
+      c.getFactories().getConnectionFactory().doesExist( pinfo.id );
+      
     if( !pinfo.used )
     {
-      if( conn == null )
+      if( !connExists )
       {
         Logger.log( Logger.LOG_VERBOSE, "Server removed unknown connection " + pinfo.id );
         return ;
       }
+      Connection conn = (Connection)
+        c.getFactories().getConnectionFactory().findById( pinfo.id );
       /* Forget the connection */
       c.getGame().getAllConnections().remove( conn );
       c.getGame().getEstablishedConnections().remove( conn );
@@ -44,12 +48,14 @@ public class PHConnInfo implements ClientPacketHandler
     }
     else
     {
+      Connection conn;
       /* Add or update the connection */
-      Player player = (Player)c.getPlayerFactory().findById( pinfo.player_num );
-      if( conn == null )
+      boolean playerExists = 
+        c.getFactories().getPlayerFactory().doesExist( pinfo.player_num );
+      if( !connExists )
       {
         Logger.log( Logger.LOG_VERBOSE, "Server reports new connection " + pinfo.id + " " + pinfo.name );
-        conn = (Connection)c.getConnectionFactory().create();
+        conn = (Connection)c.getFactories().getConnectionFactory().create(pinfo);
         c.getGame().getAllConnections().add( conn );
         c.getGame().getEstablishedConnections().add( conn );
         c.getGame().getGameConnections().add( conn );
@@ -57,26 +63,26 @@ public class PHConnInfo implements ClientPacketHandler
       else
       {
         Logger.log( Logger.LOG_VERBOSE, "Server reports updated connection " + pinfo.id + " " + pinfo.name );
-        if( player != null && !player.equals( conn.getPlayer() ) )
+        conn = (Connection)
+          c.getFactories().getConnectionFactory().findById( pinfo.id );
+
+        if ( playerExists )
         {
-          if( conn.getPlayer() != null )
+          Player player = (Player)
+            c.getFactories().getPlayerFactory().findById( pinfo.player_num );
+            
+          if (!player.equals( conn.getPlayer() ) )
           {
-            conn.getPlayer().getConnections().remove( conn );
-          }
-          if( player != null )
-          {
+            if ( conn.getPlayer() != null )
+            {
+              conn.getPlayer().getConnections().remove( conn );
+            }
+
             player.getConnections().add( conn );
+
           }
         }
       }
-      conn.setId( pinfo.id );
-      conn.setEstablished( pinfo.established );
-      conn.setObserver( pinfo.observer );
-      conn.setAccessLevel( pinfo.access_level );
-      conn.setPlayer( player );
-      conn.setName( pinfo.name );
-      conn.setAddress( pinfo.addr );
-      conn.setCapability( pinfo.capability );
     }
   // update_players_dialog()
   }

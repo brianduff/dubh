@@ -1,8 +1,12 @@
 package org.freeciv.client.handler;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.*;
-import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+
+import org.freeciv.client.Localize;
+import org.freeciv.client.Client;
+
+import org.freeciv.client.dialog.ProgressItem;
+import org.freeciv.net.Packet;
+
+
 /**
  * Ruleset control packet handler.
  */
@@ -16,9 +20,8 @@ public class PHRulesetTerrain implements ClientPacketHandler,ProgressItem
    */
   public void handle( Client c, Packet pkt )
   {
-    PktRulesetTerrain prt = (PktRulesetTerrain)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getRulesetManager().setRulesetTerrain( prt.id, prt );
+    c.getFactories().getTerrainTypeFactory().create(pkt);
   }
   public String getProgressString()
   {
