@@ -1,22 +1,29 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   Dubh Java Utilities
+//   $Id: StorageManager.java,v 1.3 1999-06-01 00:39:11 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://www.btinternet.com/~dubh/dju
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
+
 package dubh.apps.newsagent.nntp;
 import java.util.*;
 import java.io.*;
@@ -29,36 +36,14 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.apps.newsagent.dialog.LongOperationDialog;
 import dubh.apps.newsagent.Folder;
 import dubh.apps.newsagent.GlobalState;
+
+import dubh.utils.misc.Debug;
 /**
  * Deals with all hard disk storage of messages etc. There is normally only one
  * storage manager, it is initialised at startup, and can be obtained using
  * GlobalState.getStorageManager().<P>
- * Version History: <UL>
- * <LI>0.1 [22/03/98]: Initial Revision
- * <LI>0.2 [23/03/98]: Checked for duplicate servers
- * <LI>0.3 [25/03/98]: Fixed create folder to block null or zero length folders.
- *   caught an unhandled exception when deserializing servers.dat
- *   added connectIfNeeded method.
- * <LI>0.4 [31/03/98]: Added creation / deletion of server directory when adding
- *   or removing newsgroups.
- * <LI>0.5 [01/04/98]: Something got a bit confused in the addServer() folder
- *   creation code. I've taken out the code which checks to see if a folder
- *   exists before creating it, because the whole point was that the folder
- *   shouldn't exist prior to creating it. Oddly, this problem only showed up
- *   under UNIX!
- * <LI>0.6 [02/04/98]: Added enabling of the GoOffline Action from
- *   connectIfNeeded.
- * <LI>0.7 [04/04/98]: Added disconnectFromAllServers. Added nntpException().
- *   Added long operation dialog to connectIfNeeded, and multithreaded it so
- *   the UI updates properly while connecting.
- * <LI>0.8 [05/04/98]: Added getServerCache(), saveCaches(), loadCaches()
- * <LI>0.9 [06/04/98]: Multithreaded the servers serialisation routine.
- * <LI>0.10 [07/04/98]: Added progress dialog to cache serialisation routine.
- * <LI>0.11 [08/04/98]: Added exception handling for BadArticleException.
- * <LI>0.12 [16/01/99]: Quick fix for null pointer exception bug
- *</UL>
  @author Brian Duff
- @version 0.12 [16/01/99]
+ @version $Id: StorageManager.java,v 1.3 1999-06-01 00:39:11 briand Exp $
  */
 public class StorageManager {
 
@@ -74,13 +59,19 @@ public class StorageManager {
      deserializeServers();
      // Restore caches from serialised file.
   //   deserializeCaches();
-  }
+  } 
 
   /**
    * Determines all the folders available for storing messages in.
    @return an Enumeration consisting entirely of Folder objects.
    */
   public Enumeration getFolders() {
+     if (GlobalState.isApplet())
+     {
+        // Empty enumeration
+        Vector v = new Vector();
+        return v.elements();
+     }
      // all folders are subdirectories of GlobalState.foldersDir
      Vector folders = new Vector();
      File foldersDir = new File(GlobalState.foldersDir);
@@ -92,7 +83,7 @@ public class StorageManager {
         if (currentFile.isDirectory())
            folders.addElement(new Folder(foldernames[i]));
         else
-           ErrorReporter.debug("Non-directory "+foldernames[i]+" found in "+GlobalState.foldersDir);
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Non-directory "+foldernames[i]+" found in "+GlobalState.foldersDir);
      }
      return folders.elements();
   }
@@ -116,11 +107,13 @@ public class StorageManager {
 
   /**
    * Returns a File object corresponding to the directory in which the specified
-   * NNTP Server object stores its cached header information.
+   * NNTP Server object stores its cached header information. This may return
+   * null if this is an applet.
    @param server The NNTPServer object to look up
    @return a File object which will be a directory.
    */
   public File getServerDirectory(NNTPServer server) {
+     if (GlobalState.isApplet()) return null;
      // the directory is GlobalState.serversDir+server.getHostName()+File.sep
      return new File(GlobalState.serversDir+File.separator+server.getHostName());
   }
@@ -142,18 +135,15 @@ public class StorageManager {
         nntpServers.put(servername, newServer);
         // Create a directory for storing headers for the server.
         File serverDir = getServerDirectory(newServer);
-       // if (!serverDir.exists()) {
-       //    ErrorReporter.debug("servers folder doesn't exist.");
-       //    ErrorReporter.fatality("CantCreateDir", new String[] {serverDir.getAbsolutePath(), GlobalState.appName});
-       // }
-        ErrorReporter.debug("Creating directory for "+servername);
-        serverDir.mkdir();
-        /*if (!serverDir.mkdir()) {
-           ErrorReporter.debug("Mkdirs failed.");
-           ErrorReporter.fatality("CantCreateDir", new String[] {serverDir.getAbsolutePath(), GlobalState.appName});
-        } */
+        if (serverDir != null)
+        {
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Creating directory for "+servername);
+           serverDir.mkdir();
+        }
+        
+        
      } else {
-        ErrorReporter.debug("Server "+servername+" already exists. Not added.");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Server "+servername+" already exists. Not added.");
      }
   }
 
@@ -176,7 +166,7 @@ public class StorageManager {
            final LongOperationDialog longop = new LongOperationDialog(GlobalState.getMainFrame(), true);
            final NNTPServer innerServer = server;
 
-           longop.setLeftIcon(new ImageIcon(GlobalState.getImage("busyimage.gif")));
+           longop.setLeftIcon(GlobalState.getRes().getImage("StorageManager.longOperation"));
            longop.setText("Connecting to "+server+"...");
            Thread connectThread = new Thread() {
              public void run() {
@@ -194,7 +184,7 @@ public class StorageManager {
                  // ErrorReporter.error("UnknownHostException", new String[] {server.getHostName()});
                } catch (NNTPServerException ne) {
                  nntpException(ne,
-                   GlobalState.getResString("Action.Connecting"), innerServer.toString());
+                   GlobalState.getRes().getString("Action.Connecting"), innerServer.toString());
                } // try
                // hide the opdlg
                longop.setVisible(false);
@@ -232,7 +222,8 @@ public class StorageManager {
      // Disconnect from the server
      NNTPServer theServer = (NNTPServer) nntpServers.get(servername);
      File serverdir = getServerDirectory(theServer);
-     if (serverdir.exists() && serverdir.isDirectory()) {
+     if (serverdir != null && 
+        serverdir.exists() && serverdir.isDirectory()) {
         // Delete all files in the folder
         String files[] = serverdir.list();
         for (int i=0;i<files.length;i++) {
@@ -242,10 +233,10 @@ public class StorageManager {
         // Delete the folder. This will catch errors in the above loop, because
         // a folder can't be deleted if it contains any files.
         if (!serverdir.delete()) {
-           ErrorReporter.debug("Unable to delete server header cache directory.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unable to delete server header cache directory.");
         }
      } else {
-        ErrorReporter.debug("Server dir doesn't exist, or isn't a directory: can't be deleted.");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Server dir doesn't exist, or isn't a directory: can't be deleted.");
      }
      theServer.closeConnection();
      // Remove the server from the hashtable
@@ -260,13 +251,16 @@ public class StorageManager {
    */
   public void createFolder(String name) {
      // Check that the folder doesn't already exist
-     if (name != null) {
-        File newFolder = new File(GlobalState.foldersDir+name);
-        if (newFolder.exists()) {
-           ErrorReporter.error("CantCreateFolder", new String[] {name});
-        } else {
-           if (!newFolder.mkdir()) {
-              ErrorReporter.error("CantCreateFolderUnknown", new String[] {name});
+     if (!GlobalState.isApplet())
+     {
+        if (name != null) {
+           File newFolder = new File(GlobalState.foldersDir+name);
+           if (newFolder.exists()) {
+              ErrorReporter.error("CantCreateFolder", new String[] {name});
+           } else {
+              if (!newFolder.mkdir()) {
+                 ErrorReporter.error("CantCreateFolderUnknown", new String[] {name});
+              }
            }
         }
      }
@@ -277,6 +271,7 @@ public class StorageManager {
    @param folder The Folder object to delete.
    */
   public void deleteFolder(Folder folder) {
+     if (GlobalState.isApplet()) return;
      File theFolder = folder.getFile();
      if (theFolder.exists()) {
         // First delete all the files in the folder.
@@ -306,7 +301,7 @@ public class StorageManager {
          try {
            ((NNTPServer)enum.nextElement()).closeConnection();
          } catch (IOException ioe) {
-           ErrorReporter.debug("IO Exception disconnecting from a server in GoOffline");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Exception disconnecting from a server in GoOffline");
          }
        }
   }
@@ -330,14 +325,14 @@ public class StorageManager {
   public static void nntpException(NNTPServerException e, String action, String name) {
    String errText;
    if (e instanceof NNTPServerPermissionException)
-     errText = GlobalState.getResString("StorageManager.NNTPPermissionException");
+     errText = GlobalState.getRes().getString("StorageManager.NNTPPermissionException");
    else if (e instanceof NNTPServerArticleRefusedException)
-     errText = GlobalState.getResString("StorageManager.NNTPArticleRefusedException");
+     errText = GlobalState.getRes().getString("StorageManager.NNTPArticleRefusedException");
    else if (e instanceof NNTPServerBadArticleException)
-     errText = GlobalState.getResString("StorageManager.NNTPBadArticleException");
+     errText = GlobalState.getRes().getString("StorageManager.NNTPBadArticleException");
    else {
-     ErrorReporter.debug("Unhandled NNTPException in StorageManager.nntpException: "+e);
-     errText = GlobalState.getResString("StorageManager.UnknownError");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, StorageManager.class ,"Unhandled NNTPException in StorageManager.nntpException: "+e);
+     errText = GlobalState.getRes().getString("StorageManager.UnknownError");
    }
    ErrorReporter.error("StorageManager.NNTPException", new String[] {
      action, name, errText});
@@ -350,6 +345,7 @@ public class StorageManager {
    * Deserialize (read in) the nntpServers.
    */
   private void deserializeServers() {
+     if (GlobalState.isApplet()) return;
      File f = new File(GlobalState.serversFile);
      if (!f.exists())  {
         serializeServers();   // If file doesn't exist, create it.
@@ -361,13 +357,13 @@ public class StorageManager {
            nntpServers = (Hashtable) in.readObject();
            in.close();
         } catch (IOException e) {
-           ErrorReporter.debug("Unable to deserialize "+GlobalState.serversFile+" ("+e+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unable to deserialize "+GlobalState.serversFile+" ("+e+")");
            ErrorReporter.fatality("CantDeserializeServers", new String[] {GlobalState.serversFile});
         } catch (ClassNotFoundException cnf) {
-           ErrorReporter.debug("Unable to deserialize "+GlobalState.serversFile+" ("+cnf+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unable to deserialize "+GlobalState.serversFile+" ("+cnf+")");
            ErrorReporter.fatality("CantDeserializeServers", new String[] {GlobalState.serversFile});
         } catch (Exception other) {
-           ErrorReporter.debug("Unable to deserialize "+GlobalState.serversFile+" ("+other+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unable to deserialize "+GlobalState.serversFile+" ("+other+")");
            ErrorReporter.fatality("CantDeserializeServers", new String[] {GlobalState.serversFile});
 
         }
@@ -380,6 +376,7 @@ public class StorageManager {
    * method is synchronized (atomic)
    */
   public synchronized void serializeServers() {
+     if (GlobalState.isApplet()) return;
     final Hashtable finalServers = nntpServers;
     Thread serialiserThread = new Thread() {
      public void run() {
@@ -391,7 +388,7 @@ public class StorageManager {
         out.flush();
         out.close();
        } catch (IOException e) {
-        ErrorReporter.debug("Unable to serialize "+GlobalState.serversFile+" ("+e+")");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unable to serialize "+GlobalState.serversFile+" ("+e+")");
         ErrorReporter.error("CantSerializeServers", new String[] {GlobalState.serversFile});
        } // try
       } // run
@@ -433,6 +430,7 @@ public class StorageManager {
    * caches, so should only be called at the end of the program
    */
   public void serializeCaches() {
+     if (GlobalState.isApplet()) return;
     // needsSaved
   /*  final ProgressDialog csProgress = new ProgressDialog(GlobalState.getMainFrame(), true);
     csProgress.setMinimum(0);
@@ -478,6 +476,7 @@ public class StorageManager {
    * newsgroup, an empty cache is created.
    */
   public void deserializeCaches() {
+     if (GlobalState.isApplet()) return;
     /*
      * Hack to get the number of servers*newsgroups we will have to go thru
      */
@@ -493,7 +492,7 @@ public class StorageManager {
 
     Thread desThread = new Thread() {
      public void run() {
-       ErrorReporter.debug("Please wait while NewsAgent loads its cache...");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Please wait while NewsAgent loads its cache...");
        int actualcount = 0;
        StatusBar status = GlobalState.getMainFrame().getStatusBar();
        status.setText("Reading Cache...");
@@ -529,6 +528,7 @@ public class StorageManager {
    * Serialise one cache object
    */
   private void serializeCache(File cacheFile, ServerCache cache) {
+     if (GlobalState.isApplet()) return;
    if (cache.needsSaved()) {
      try {
        FileOutputStream fos = new FileOutputStream(cacheFile);
@@ -538,7 +538,7 @@ public class StorageManager {
        out.flush();
        out.close();
      } catch (IOException e) {
-       ErrorReporter.debug("IO Error while serialising cache: "+e);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Error while serialising cache: "+e);
      }
    }
   }
@@ -549,6 +549,7 @@ public class StorageManager {
      the cache couldn't be deserialized.
    */
   private ServerCache deserializeCache(File cacheFile) {
+     if (GlobalState.isApplet()) return new ServerCache();
      if (!cacheFile.exists()) {
 
        return new ServerCache();
@@ -561,11 +562,11 @@ public class StorageManager {
        in.close();
        return cache;
      } catch (IOException e) {
-       ErrorReporter.debug("IO Error while deserialising cache: "+e);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Error while deserialising cache: "+e);
      } catch (ClassNotFoundException cnf) {
-       ErrorReporter.debug("Class Error while deserialising cache: "+cnf);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Class Error while deserialising cache: "+cnf);
      } catch (Exception other) {
-       ErrorReporter.debug("Unknown Error while deserialising cache: "+other);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Unknown Error while deserialising cache: "+other);
      }
      return new ServerCache();
   }
@@ -578,7 +579,7 @@ public class StorageManager {
    * about), then delete all the folders.
    */
   public void doTest() {
-       ErrorReporter.debug("***StorageManager.doTest");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"***StorageManager.doTest");
      // Create a few folders, list them and then delete them.
      createFolder("TestHarnessOne");
      createFolder("Another Folder");
@@ -594,7 +595,7 @@ public class StorageManager {
         test.flush();
         test.close();
      } catch (IOException e) {
-        ErrorReporter.debug("IO Error in StorageManager.doTest");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Error in StorageManager.doTest");
      }
 
      // List all the folders, and delete them
@@ -602,13 +603,13 @@ public class StorageManager {
      Enumeration e = getFolders();
      while (e.hasMoreElements()) {
         Folder f = (Folder) e.nextElement();
-        ErrorReporter.debug(f.getName());
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,f.getName());
         deleteFolder(f);
      }
      // Delete the file we created.
      File temp = new File(GlobalState.foldersDir+"testFile.tst");
      if (!temp.delete())
-        ErrorReporter.debug("Can't delete test file");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Can't delete test file");
 
      // Create some NNTPServers, and add them, then serialise.
      try {
@@ -616,9 +617,40 @@ public class StorageManager {
         addServer("wiredsoc.ml.org");
         serializeServers();
      } catch (Exception er) {
-        ErrorReporter.debug("An error occurred in StorageManager.doTest: "+er);
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "An error occurred in StorageManager.doTest: "+er);
 
      }
      }
 
 }
+
+//
+// Old History:
+//
+// <LI>0.1 [22/03/98]: Initial Revision
+// <LI>0.2 [23/03/98]: Checked for duplicate servers
+// <LI>0.3 [25/03/98]: Fixed create folder to block null or zero length folders.
+//   caught an unhandled exception when deserializing servers.dat
+//   added connectIfNeeded method.
+// <LI>0.4 [31/03/98]: Added creation / deletion of server directory when adding
+//   or removing newsgroups.
+// <LI>0.5 [01/04/98]: Something got a bit confused in the addServer() folder
+//   creation code. I've taken out the code which checks to see if a folder
+//   exists before creating it, because the whole point was that the folder
+//   shouldn't exist prior to creating it. Oddly, this problem only showed up
+//   under UNIX!
+// <LI>0.6 [02/04/98]: Added enabling of the GoOffline Action from
+//   connectIfNeeded.
+// <LI>0.7 [04/04/98]: Added disconnectFromAllServers. Added nntpException().
+//   Added long operation dialog to connectIfNeeded, and multithreaded it so
+//   the UI updates properly while connecting.
+// <LI>0.8 [05/04/98]: Added getServerCache(), saveCaches(), loadCaches()
+// <LI>0.9 [06/04/98]: Multithreaded the servers serialisation routine.
+// <LI>0.10 [07/04/98]: Added progress dialog to cache serialisation routine.
+// <LI>0.11 [08/04/98]: Added exception handling for BadArticleException.
+// <LI>0.12 [16/01/99]: Quick fix for null pointer exception bug
+
+
+// New History:
+//
+// $Log: not supported by cvs2svn $

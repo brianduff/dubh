@@ -1,22 +1,29 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bd@dcs.st-and.ac.uk
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// ---------------------------------------------------------------------------
+//   Dubh Java Utilities
+//   $Id: NNTPServer.java,v 1.3 1999-06-01 00:39:12 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://www.btinternet.com/~dubh/dju
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
+
 package dubh.apps.newsagent.nntp;
 
 import dubh.apps.newsagent.GlobalState;
@@ -392,7 +399,7 @@ public class NNTPServer implements MessageProvider, Serializable {
         out.flush();
         out.close();
      } catch (IOException e) {
-        ErrorReporter.debug("NNTPServer.serializeHeaders(): Unable to serialize "+currentGroup.getName()+" ("+e+")");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "NNTPServer.serializeHeaders(): Unable to serialize "+currentGroup.getName()+" ("+e+")");
         ErrorReporter.error("CantSerializeHeaders", new String[] {currentGroup.getName(), getHostName()});
      }
    }
@@ -414,13 +421,13 @@ public class NNTPServer implements MessageProvider, Serializable {
            in.close();
            return theHeaders;
         } catch (IOException e) {
-           ErrorReporter.debug("Unable to deserialize "+currentGroup.getName()+" ("+e+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Unable to deserialize "+currentGroup.getName()+" ("+e+")");
            ErrorReporter.fatality("CantDeserializeHeaders", new String[] {currentGroup.getName()});
         } catch (ClassNotFoundException cnf) {
-           ErrorReporter.debug("Unable to deserialize "+currentGroup.getName()+" ("+cnf+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Unable to deserialize "+currentGroup.getName()+" ("+cnf+")");
            ErrorReporter.fatality("CantDeserializeHeaders", new String[] {currentGroup.getName()});
         } catch (Exception other) {
-           ErrorReporter.debug("Unable to deserialize "+currentGroup.getName()+" ("+other+")");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Unable to deserialize "+currentGroup.getName()+" ("+other+")");
            ErrorReporter.fatality("CantDeserializeHeaders", new String[] {currentGroup.getName()});
 
         }
@@ -936,10 +943,10 @@ public class NNTPServer implements MessageProvider, Serializable {
      h.setField("Message-Id", (String)v.elementAt(4));
      h.setField("References", (String)v.elementAt(5));
     } catch (ArrayIndexOutOfBoundsException e) {
-     ErrorReporter.debug("constructXoverHeader: Malformed xover header. Message ignored. Header was\n++"+xoverline);
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "constructXoverHeader: Malformed xover header. Message ignored. Header was\n++"+xoverline);
      return null;
     } catch (NumberFormatException nformat) {
-     ErrorReporter.debug("constructXoverHeader: Malformed xover header (number format). Message ignored. Header was\n++"+xoverline);
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "constructXoverHeader: Malformed xover header (number format). Message ignored. Header was\n++"+xoverline);
      return null;
     }
     //h.setField("Lines", (String)v.elementAt(7)); Not implemented sometimes.
