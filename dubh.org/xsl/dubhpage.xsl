@@ -15,7 +15,13 @@
   <!-- The contact name of the author of these pages, if no author is specified -->
   <xsl:variable name="default-author-name">Brian Duff</xsl:variable>
 
+  <xsl:include href="roundedbox.xsl" />
+
   <xsl:template match="dubhpage">
+    <xsl:call-template name="main" />
+  </xsl:template>
+  
+  <xsl:template name="main">
     <html>
       <head>
         
@@ -122,7 +128,49 @@
       The actual content of the page.
   -->
   <xsl:template match="content">
-    <xsl:copy-of select="node()" />
+    <xsl:choose>
+    
+      <xsl:when test="@type='columns'">
+        <xsl:call-template name="column-content" />
+      </xsl:when>
+      
+      <xsl:otherwise>
+        <xsl:copy-of select="node()" />
+      </xsl:otherwise>
+    </xsl:choose>
+
+  </xsl:template>
+  
+  <xsl:template name="column-content">
+    <h1><xsl:value-of select="header" /></h1>
+    
+    <table width="100%" cellpadding="2" cellspacing="0" border="0">
+      <tr>
+        <xsl:for-each select="column">
+          <td valign="top" align="left">
+            <xsl:apply-templates select="box" />  
+            <xsl:apply-templates select="html" />              
+          </td>
+        </xsl:for-each>
+      </tr>
+    </table>
+    
+  </xsl:template>
+  
+  
+  <xsl:template match="box">
+    <p>
+      <xsl:call-template name="RoundedBox">
+        <xsl:with-param name="Title"><xsl:value-of select="@title" /></xsl:with-param>
+        <xsl:with-param name="Contents">
+          <xsl:copy-of select="." />
+        </xsl:with-param>
+      </xsl:call-template>
+    </p>
+  </xsl:template>
+  
+  <xsl:template match="html">
+    <xsl:copy-of select="." />
   </xsl:template>
   
   <!--
