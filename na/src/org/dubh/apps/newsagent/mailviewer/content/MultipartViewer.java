@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MultipartViewer.java,v 1.1 1999-10-17 17:03:27 briand Exp $
+//   $Id: MultipartViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   Email: dubh@btinternet.com
+//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.apps.newsagent.mailviewer.content;
+package org.javalobby.apps.newsagent.mailviewer.content;
 
 import javax.activation.*;
 import javax.swing.*;
@@ -43,7 +43,7 @@ import java.io.*;
  * as icons with context menus for performing various actions on them.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: MultipartViewer.java,v 1.1 1999-10-17 17:03:27 briand Exp $
+ * @version $Id: MultipartViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
  */
 public class MultipartViewer extends JPanel implements CommandObject
 {
@@ -202,4 +202,7 @@ public class MultipartViewer extends JPanel implements CommandObject
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/10/17 17:03:27  briand
+// Initial revision.
+//
 //

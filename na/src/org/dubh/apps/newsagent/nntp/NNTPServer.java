@@ -1,33 +1,35 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: NNTPServer.java,v 1.3 1999-06-01 00:39:12 briand Exp $
+//   $Id: NNTPServer.java,v 1.4 1999-11-09 22:34:42 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
+//   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE. 
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.apps.newsagent.nntp;
+package org.javalobby.apps.newsagent.nntp;
 
-import dubh.apps.newsagent.GlobalState;
-import dubh.apps.newsagent.dialog.ErrorReporter;
+import org.javalobby.apps.newsagent.GlobalState;
+import org.javalobby.apps.newsagent.dialog.ErrorReporter;
 import javax.swing.tree.*;
 import javax.swing.JProgressBar;
 import java.net.*;
@@ -36,8 +38,8 @@ import java.util.*;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.text.*;
-import dubh.utils.misc.StringUtils;
-import dubh.utils.misc.Debug;
+import org.javalobby.dju.misc.StringUtils;
+import org.javalobby.dju.misc.Debug;
 
 /**
  * Represents a News Server.<P>
@@ -179,7 +181,7 @@ public class NNTPServer implements MessageProvider, Serializable {
    @param connect set to true if you wish to connect to the nntp host now
    @throws java.net.UnknownHostException The DNS Name is unknown
    @throws java.io.IOException Could not connect to the server (network problem)
-   @throws dubh.apps.newsagent.NNTPServerException an NNTP Protocol error
+   @throws org.javalobby.apps.newsagent.NNTPServerException an NNTP Protocol error
    */
    public NNTPServer(String serverName, int port, boolean connect)
      throws UnknownHostException, IOException, NNTPServerException {
@@ -196,7 +198,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Opens a connection to the NNTPServer.
     @throws java.net.UnknownHostException The DNS name is unknown.
     @throws java.io.IOException Could not connect to the server (network prob?)
-    @throws dubh.apps.newsagent.NNTPServerException NNTP Error connecting
+    @throws org.javalobby.apps.newsagent.NNTPServerException NNTP Error connecting
     */
    public void openConnection() throws UnknownHostException, IOException,
      NNTPServerException {
@@ -312,7 +314,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * retrieved.
     @param head The header of the message you want to retrieve
     @returns a new MessageBody containing the body of the message
-    @throws dubh.apps.newsagent.NNTPServerException  NNTP error
+    @throws org.javalobby.apps.newsagent.NNTPServerException  NNTP error
     @throws java.io.IOException a network or IO Error occurred.
     */
    public MessageBody getBody(MessageHeader head)
@@ -345,9 +347,9 @@ public class NNTPServer implements MessageProvider, Serializable {
    /**
     * Selects the next logical article in the current newsgroup.
     @throws java.io.IOException a network or IO Error occurred.
-    @throws dubh.apps.newsagent.NNTPBadArticleException no next article
-    @throws dubh.apps.newsagent.NNTPBadNewsgroupException no current group
-    @throws dubh.apps.newsagent.NNTPServerException other NNTP error
+    @throws org.javalobby.apps.newsagent.NNTPBadArticleException no next article
+    @throws org.javalobby.apps.newsagent.NNTPBadNewsgroupException no current group
+    @throws org.javalobby.apps.newsagent.NNTPServerException other NNTP error
     @deprecated
     */
    public void nextArticle() throws IOException, NNTPServerException {
@@ -359,7 +361,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Changes the currently selected newsgroup.
     @param ng The newsgroup to select
     @throws java.io.IOException a network or IO Error occurred.
-    @throws dubh.apps.newsagent.NNTPServerException Protocol error.
+    @throws org.javalobby.apps.newsagent.NNTPServerException Protocol error.
     */
    public void selectGroup(Newsgroup ng)
     throws IOException, NNTPServerException {
@@ -439,7 +441,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Retreives the list of newsgroups on the server.
     @returns a vector containing Newsgroup items, one for each newsgroup.
     @throws java.io.IOException a network or IO Error occurred.
-    @throws dubh.apps.newsagent.NNTPServerException Protocol error.
+    @throws org.javalobby.apps.newsagent.NNTPServerException Protocol error.
     */
    private Vector listNewsgroups()
     throws IOException, NNTPServerException {
@@ -512,7 +514,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     are returned.
     @returns a vector containing Newsgroup objects
     @throws java.io.IOException a network or IO Error occurred.
-    @throws dubh.apps.newsagent.NNTPServerException Protocol error.
+    @throws org.javalobby.apps.newsagent.NNTPServerException Protocol error.
    */
    private Vector listNewGroups(String when)
     throws IOException, NNTPServerException {
@@ -653,7 +655,7 @@ public class NNTPServer implements MessageProvider, Serializable {
 
     /**
      * Disconnects an output stream previously attatched by attachStream.
-     @see dubh.apps.newsagent.NNTPServer#attachStream
+     @see org.javalobby.apps.newsagent.NNTPServer#attachStream
      */
     public void detachStream() {
            m_out = null;
@@ -720,7 +722,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     /**
      * Sets the login name and password for this server. This only makes      
      * if the server is a secure server.
-     @see dubh.apps.newsagent.NNTPServer.isSecureServer()
+     @see org.javalobby.apps.newsagent.NNTPServer.isSecureServer()
      @param login The login name to use
      @param passwd The (unencrypted) password to use
      */
@@ -732,7 +734,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     /**
      * Gets the login name used for this server. Only makes sense if the server
      * is secure.
-     @see dubh.apps.newsagent.NNTPServer.isSecureServer()
+     @see org.javalobby.apps.newsagent.NNTPServer.isSecureServer()
      */
     public String getLogin() {
      return m_userName;
@@ -741,7 +743,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     /**
      * Gets the <b>unencrypted</b> password for this server. Only makes sense if
      * the server is secure.
-     @see dubh.apps.newsagent.NNTPServer.isSecureServer()
+     @see org.javalobby.apps.newsagent.NNTPServer.isSecureServer()
      */
     public String getPassword() {
      return m_password;
@@ -958,7 +960,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Retreives a list of newsgroups from the server. Similar to getMessage().
     @returns A vector of Newsgroups.
     @throws java.io.IOException An I/O or network error occurred
-    @throws dubh.apps.newsagent.NNTPServerException an NNTP Error
+    @throws org.javalobby.apps.newsagent.NNTPServerException an NNTP Error
     */
    private synchronized Vector getNewsgroupList() throws
      IOException, NNTPServerException {
@@ -1025,7 +1027,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * Recieves a reply from the socket.
     @returns A vector of lines from the reply. May be null.
     @throws java.io.IOException An I/O or network error occurred
-    @throws dubh.apps.newsagent.NNTPServerException an NNTP Protocol error
+    @throws org.javalobby.apps.newsagent.NNTPServerException an NNTP Protocol error
     */
    private synchronized Vector getReply() throws IOException,
      NNTPServerException {
@@ -1053,7 +1055,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * sent by the server.
     @param status The status line
     @returns an integer value corresponding to the 3 digit status number
-    @throws dubh.apps.newsagent.NNTPServerException an NNTP Protocol error
+    @throws org.javalobby.apps.newsagent.NNTPServerException an NNTP Protocol error
     */
     private int getStatusNumber(String status) throws NNTPServerException {
             int statcode;
@@ -1075,7 +1077,7 @@ public class NNTPServer implements MessageProvider, Serializable {
     * throwExceptions throws any necessary exceptions resulting from the
     * reply status code from the NNTP Server.
     @param status The status line to check for exceptions
-    @throws dubh.apps.newsagent.NNTPServerException an NNTP Protocol error
+    @throws org.javalobby.apps.newsagent.NNTPServerException an NNTP Protocol error
     */
     private void throwExceptions(String status) throws NNTPServerException {
 

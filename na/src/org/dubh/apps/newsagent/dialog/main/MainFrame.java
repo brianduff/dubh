@@ -1,31 +1,33 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.7 1999-10-24 00:42:45 briand Exp $
+//   $Id: MainFrame.java,v 1.8 1999-11-09 22:34:41 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   Email: dubh@btinternet.com
+//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE. 
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.apps.newsagent.dialog.main;
+package org.javalobby.apps.newsagent.dialog.main;
 
-import dubh.utils.ui.*;
+import org.javalobby.dju.ui.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -33,37 +35,37 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.text.MessageFormat;
-import dubh.apps.newsagent.PreferenceKeys;
-import dubh.apps.newsagent.NewsAgent;
-import dubh.apps.newsagent.GlobalState;
-import dubh.apps.newsagent.HelpSystem;
-import dubh.apps.newsagent.dialog.ErrorReporter;
-import dubh.apps.newsagent.dialog.FolderSelectorDialog;
-import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
-import dubh.apps.newsagent.dialog.ServerSubscriptions;
-import dubh.apps.newsagent.dialog.composer.MessageComposer;
-import dubh.apps.newsagent.dialog.preferences.NewsAgentPreferences;
-import dubh.apps.newsagent.nntp.NNTPServer;
-import dubh.apps.newsagent.nntp.MessageBody;
-import dubh.apps.newsagent.nntp.MessageHeader;
-import dubh.apps.newsagent.nntp.Newsgroup;
-import dubh.apps.newsagent.Folder;
-import dubh.apps.newsagent.IUpdateableClass;
+import org.javalobby.apps.newsagent.PreferenceKeys;
+import org.javalobby.apps.newsagent.NewsAgent;
+import org.javalobby.apps.newsagent.GlobalState;
+import org.javalobby.apps.newsagent.HelpSystem;
+import org.javalobby.apps.newsagent.dialog.ErrorReporter;
+import org.javalobby.apps.newsagent.dialog.FolderSelectorDialog;
+import org.javalobby.apps.newsagent.dialog.NewsServerPropsDlg;
+import org.javalobby.apps.newsagent.dialog.ServerSubscriptions;
+import org.javalobby.apps.newsagent.dialog.composer.MessageComposer;
+import org.javalobby.apps.newsagent.dialog.preferences.NewsAgentPreferences;
+import org.javalobby.apps.newsagent.nntp.NNTPServer;
+import org.javalobby.apps.newsagent.nntp.MessageBody;
+import org.javalobby.apps.newsagent.nntp.MessageHeader;
+import org.javalobby.apps.newsagent.nntp.Newsgroup;
+import org.javalobby.apps.newsagent.Folder;
+import org.javalobby.apps.newsagent.IUpdateableClass;
 
-import dubh.apps.newsagent.navigator.Navigator;
-import dubh.apps.newsagent.navigator.NavigatorServiceList;
-import dubh.apps.newsagent.navigator.PropertiesService;
-import dubh.apps.newsagent.navigator.PropertyFileResolver;
+import org.javalobby.apps.newsagent.navigator.Navigator;
+import org.javalobby.apps.newsagent.navigator.NavigatorServiceList;
+import org.javalobby.apps.newsagent.navigator.PropertiesService;
+import org.javalobby.apps.newsagent.navigator.PropertyFileResolver;
 
-import dubh.utils.misc.Debug;
-import dubh.utils.misc.ReadOnlyVersion;
-import dubh.utils.misc.VersionManager;
-import dubh.utils.misc.ResourceManager;
+import org.javalobby.dju.misc.Debug;
+import org.javalobby.dju.misc.ReadOnlyVersion;
+import org.javalobby.dju.misc.VersionManager;
+import org.javalobby.dju.misc.ResourceManager;
 
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.7 1999-10-24 00:42:45 briand Exp $
+ * @version $Id: MainFrame.java,v 1.8 1999-11-09 22:34:41 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -506,7 +508,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
      try 
      {
-       verDubhUtils = VersionManager.getInstance().getVersion("dubh.utils");
+       verDubhUtils = VersionManager.getInstance().getVersion("org.javalobby.dju");
      } 
      catch (IllegalArgumentException e)
      {
@@ -781,3 +783,6 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  1999/10/24 00:42:45  briand
+// Pull out FolderTreePanel and replace with the new Navigator.
+//

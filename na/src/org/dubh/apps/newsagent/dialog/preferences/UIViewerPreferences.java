@@ -1,50 +1,52 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: UIViewerPreferences.java,v 1.2 1999-06-01 18:00:10 briand Exp $
+//   $Id: UIViewerPreferences.java,v 1.3 1999-11-09 22:34:42 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   Email: dubh@btinternet.com
+//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE. 
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.apps.newsagent.dialog.preferences;
+package org.javalobby.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.awt.event.*;
-import dubh.utils.ui.GridBagConstraints2;
+import org.javalobby.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.border.*;
-import dubh.apps.newsagent.GlobalState;
-import dubh.utils.ui.preferences.*;
-import dubh.utils.ui.*;
-import dubh.utils.misc.*;
-import dubh.apps.newsagent.PreferenceKeys;
-import dubh.apps.newsagent.MessageHeaderFields;
+import org.javalobby.apps.newsagent.GlobalState;
+import org.javalobby.dju.ui.preferences.*;
+import org.javalobby.dju.ui.*;
+import org.javalobby.dju.misc.*;
+import org.javalobby.apps.newsagent.PreferenceKeys;
+import org.javalobby.apps.newsagent.MessageHeaderFields;
 
 /**
  * Panel for displaying Identity Options in preferences.
  * @author Brian Duff
- * @version $Id: UIViewerPreferences.java,v 1.2 1999-06-01 18:00:10 briand Exp $
+ * @version $Id: UIViewerPreferences.java,v 1.3 1999-11-09 22:34:42 briand Exp $
  */
 public class UIViewerPreferences extends PreferencePage 
 {
-   private final static String RES = "dubh.apps.newsagent.dialog.preferences.res.UIViewer";
+   private final static String RES = "org.javalobby.apps.newsagent.dialog.preferences.res.UIViewer";
    public static final String ID = ResourceManager.getManagerFor(RES).getString("UIViewer.title");
 
    private final static Font DEFAULT_BODYFONT = new Font("Monospaced", Font.PLAIN, 12);
@@ -214,6 +216,14 @@ public class UIViewerPreferences extends PreferencePage
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/01 18:00:10  briand
+// Preferences in this panel are now persistent.
+//
+// The shuttle control for choosing headers to be displayed now
+// works.
+//
+// The font / color preferences now work.
+//
 // Revision 1.1  1999/06/01 00:33:14  briand
 // New preference page for configuring the message viewer.
 //

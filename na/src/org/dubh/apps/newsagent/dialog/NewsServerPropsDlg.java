@@ -1,49 +1,51 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsServerPropsDlg.java,v 1.4 1999-06-01 00:23:40 briand Exp $
+//   $Id: NewsServerPropsDlg.java,v 1.5 1999-11-09 22:34:41 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   Email: dubh@btinternet.com
+//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE. 
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.apps.newsagent.dialog;
+package org.javalobby.apps.newsagent.dialog;
 
 import java.awt.*;
 import java.io.IOException;
 import java.awt.event.*;
-import dubh.utils.ui.GridBagConstraints2;
+import org.javalobby.dju.ui.GridBagConstraints2;
 import javax.swing.*;
-import dubh.apps.newsagent.GlobalState;
-import dubh.apps.newsagent.nntp.NNTPServer;
-import dubh.apps.newsagent.nntp.NNTPServerException;
-import dubh.utils.misc.StringUtils;
-import dubh.utils.misc.ResourceManager;
-import dubh.utils.misc.Debug;
+import org.javalobby.apps.newsagent.GlobalState;
+import org.javalobby.apps.newsagent.nntp.NNTPServer;
+import org.javalobby.apps.newsagent.nntp.NNTPServerException;
+import org.javalobby.dju.misc.StringUtils;
+import org.javalobby.dju.misc.ResourceManager;
+import org.javalobby.dju.misc.Debug;
 
-import dubh.utils.ui.DubhOkCancelDialog;
+import org.javalobby.dju.ui.DubhOkCancelDialog;
 
 /**
  * Edits the preferences of a particular news server.<P>
  *
  * @author Brian Duff
- * @version $Id: NewsServerPropsDlg.java,v 1.4 1999-06-01 00:23:40 briand Exp $
+ * @version $Id: NewsServerPropsDlg.java,v 1.5 1999-11-09 22:34:41 briand Exp $
  */
 public class NewsServerPropsDlg extends DubhOkCancelDialog {
   JPanel panMain = new JPanel();
@@ -325,4 +327,7 @@ class NewsServerPropsDlg_cmdDefault_actionAdapter implements java.awt.event.Acti
 //
 // New version history:
 // $Log: not supported by cvs2svn $
+// Revision 1.4  1999/06/01 00:23:40  briand
+// Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog.
+//
 //

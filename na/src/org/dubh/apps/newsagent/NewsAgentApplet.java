@@ -1,29 +1,31 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgentApplet.java,v 1.2 1999-06-01 00:27:04 briand Exp $
+//   $Id: NewsAgentApplet.java,v 1.3 1999-11-09 22:34:40 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
-//   Email: bduff@uk.oracle.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   Email: dubh@btinternet.com
+//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1998 by the Java Lobby
+// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// 
+// This program is free software.
+// 
+// You may redistribute it and/or modify it under the terms of the JFA
+// license as described in the LICENSE file included with this 
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE. 
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package dubh.apps.newsagent;
+package org.javalobby.apps.newsagent;
 
 import javax.swing.JApplet;
 import javax.swing.JLabel;
@@ -43,7 +45,7 @@ import java.applet.Applet;
  *
  * @author Brian Duff
  * @since NewsAgent 1.1.0
- * @version $Id: NewsAgentApplet.java,v 1.2 1999-06-01 00:27:04 briand Exp $
+ * @version $Id: NewsAgentApplet.java,v 1.3 1999-11-09 22:34:40 briand Exp $
  */
 public class NewsAgentApplet extends JApplet 
 {   
@@ -86,4 +88,7 @@ public class NewsAgentApplet extends JApplet
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/01 00:27:04  briand
+// Add comment to explain that this doesn't work yet..
+//
 //
