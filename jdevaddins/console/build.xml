@@ -8,7 +8,7 @@
   <target name="init">
 
 
-    <property name="projectname" value="dubh-console" />
+    <property name="projectname" value="dubhconsole" />
   
     <property name="srcdir" value="src" />
     <property name="classdir" value="class" />
