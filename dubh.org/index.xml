@@ -42,4 +42,16 @@
   
     </content>
     
+    <cvs-info>
+      <date>
+        $Date: 2001-03-16 02:03:38 $
+      </date>
+      <author>
+        $Author: briand $
+      </author>
+      <revision>
+        $Revision: 1.8 $
+      </revision>
+    </cvs-info>
+    
 </dubhpage>
