@@ -62,6 +62,8 @@ public final class Game implements CommonConstants
 
   private int m_currentPlayer;
 
+  private Map m_map;
+
   /**
    * Construct the game
    *
@@ -78,6 +80,37 @@ public final class Game implements CommonConstants
 
     m_globalAdvances = new int[ A_LAST ];
     m_globalWonders = new int[ B_LAST ];
+    m_map = new Map();
+  }
+
+  /**
+   * Get the map.
+   */
+  public Map getMap()
+  {
+    return m_map;
+  }
+
+  /**
+   * Get the total population for the specified player.
+   *
+   * @param p the player to get the number of citizens for
+   * @return a count of the total number of citizens in all cities for the
+   *    specified player.
+   */
+  public int getCivilizationPopulation(Player p)
+  {
+    // game.c: civ_population(struct player *)
+    
+    Iterator cityIter = p.getCities();
+    int count = 0;
+    while (cityIter.hasNext())
+    {
+      City c = (City) cityIter.next();
+      count += c.getPopulation();
+    }
+
+    return count;
   }
 
   private Factories getFactories()
