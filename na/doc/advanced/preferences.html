@@ -33,6 +33,27 @@
   side) to the value (on the right hand side). The property (left hand side) is  
   <i>case sensitive<b>.</b></i> The NewsAgent preferences aren't consistent in  
   their capitalisation, so check the property keys carefully.</p> 
+<h2>Changes since 1.0.2<a name="Changes"></a></h2>
+<p>
+   NewsAgent 1.1.0 is a big release, and so we've taken the opportunity to 
+   regularize NewsAgent's preference keys. You should find that capitalisation
+   is much more consistent. Old preference files will be converted to the new
+   format when you first run NewsAgent 1.1.0 (and any old key names will always be
+   converted at startup thereafter).
+</p>
+<p>
+   You will also find that many preferences that had no effect in 1.0.x now work
+   as expected, notably the following preferences:
+   <ul>
+      <li>newsagent.ui.LookAndFeel</li>
+      <li>newsagent.send...</li>
+   </ul>
+</p>
+<p>
+   All preferences in the list below have text describing which version they
+   were first introduced (not necessarily when they started doing anything).
+   Deprecated preferences from old versions are not listed here.
+</p>
 <div align="LEFT"> 
   <h2>A Cautionary Note<a name="CautionaryNote"></a> </h2> 
 </div> 
@@ -48,8 +69,6 @@
 <p>The order of properties in the preference file is completely arbitrary, and  
   will change whenever NewsAgent writes your preference file.</p> 
 <h2>NewsAgent Properties<a name="NewsAgentProperties"></a></h2> 
-<p class="new">NEW: There are a number of new properties in version 1.02, and  
-  some preferences have been removed.</p> 
 <p>The following properties are available in this version of NewsAgent. You may  
   find properties other than these in the properties file, such properties should  
   be considered as non-finalised and subject to change in future versions.</p> 
@@ -200,8 +219,14 @@
     <a href="../dialogs/prefssendagents.html"><img src="../images/hlpTopic.gif" width="16" height="16" border="0"></a><a href="../dialogs/prefsservers.html">Servers  
     Panel</a> of the Preferences Dialogue.</dd> 
   <dt><b>newsagent.ui.LookAndFeel</b></dt> 
-  <dd>The Swing look and feel to use. Will be supported in future versions of  
-    NewsAgent (not yet)</dd> 
+  <dd>The Swing look and feel to use. Needs to be the full classname of the look and feel class.
+      E.g. to use the Java look and feel, set this preference to javax.plaf.metal.MetalLookAndFeel.
+      If you don't have this preference set, the system look and feel is used. If you want to use
+      your own look and feel, you will have to extend the classpath of newsagent. Under UNIX systems
+      or in windows on the command line, this simply involves including the location of your LAF
+      class in the CLASSPATH environment variable or -classpath argument to the java runtime (jre).
+      If you are using the Win32 launcher exe (newsagent.exe) from the start menu under Windows,
+      you will need to modify the registry. More information is here. <B>WHERE??? TO DO</B></dd> 
   <dt>&nbsp;</dt> 
 </dl> 
    
