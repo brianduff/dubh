@@ -1,6 +1,5 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
-<project class="oracle.jdeveloper.model.JProject">
+<project xmlns="http://xmlns.oracle.com/jdeveloper/902rc/jproject" nselem="project" class="oracle.jdeveloper.model.JProject">
    <defaultPackage>org.freeciv.client</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
       <Item class="java.lang.String">org.freeciv.client</Item>
@@ -188,6 +187,9 @@
          <URL path="src/org/freeciv/net/PktAllocNation.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PacketOverrunException.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PacketConstants.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -197,7 +199,13 @@
          <URL path="src/org/freeciv/net/OutStream.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/NetworkProtocolException.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/InStream.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/IncorrectPacketLengthException.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/ImprovementEffect.java"/>
@@ -246,6 +254,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/RulerTitle.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/RegistryParseException.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Registry.java"/>
@@ -377,6 +388,12 @@
          <URL path="src/org/freeciv/client/panel/QuickCommand.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/MapOverviewJumpListener.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/MapOverviewJumpEvent.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/panel/MapOverview.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -398,31 +415,49 @@
          <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/TiledPainter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/SquareTiledPainter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/Painter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/MapViewManager.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/MapViewInfo.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/MapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/MapLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/MapComponent.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/IsometricMapView.java"/>
+         <URL path="src/org/freeciv/client/map/iso/IsometricMapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/GridMapView.java"/>
+         <URL path="src/org/freeciv/client/map/grid/UnitLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/TerrainLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/GridMapView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/GridMapTileLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/GridLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/FogOfWarLayer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/grid/CityNamesLayer.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/DebugMapView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/BufferLayer.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/AbstractMapView.java"/>
@@ -440,10 +475,13 @@
          <URL path="src/org/freeciv/client/IconManager.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/HelpPanel.java"/>
+         <URL path="src/org/freeciv/client/HelpSystemImpl.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/HelpItem.java"/>
+         <URL path="src/org/freeciv/client/HelpSystem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/HelpDataParser.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHUnitInfo.java"/>
@@ -596,7 +634,7 @@
          <URL path="src/org/freeciv/client/Colors.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java" id="0"/>
+         <URL path="src/org/freeciv/client/Client.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
@@ -615,6 +653,18 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTPillage.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMoveWest.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMoveSouth.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMoveNorth.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMoveEast.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTMine.java"/>
@@ -675,6 +725,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTAutoAttack.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.PngImageNode">
+         <URL path="src/org/freeciv/client/action/res/endturn.png"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/ACTWorklists.java"/>
@@ -737,6 +790,9 @@
          <URL path="src/org/freeciv/client/action/Actions.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTHelpCopying.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/ACTFindCity.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -769,9 +825,6 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/AbstractClientAction.java"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.PngImageNode">
-         <URL path="src/org/freeciv/client/action/res/endturn.png"/>
-      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>
@@ -788,17 +841,72 @@
             </Value>
          </Item>
       </commonData>
-      <configurations class="java.util.HashMap">
+      <configurations class="java.util.TreeMap">
          <Item>
             <Key>Development</Key>
             <Value class="oracle.jdeveloper.model.JProjectConfiguration">
                <configData class="java.util.HashMap">
                   <Item>
+                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
+                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
+                        <assertionsEnabled>false</assertionsEnabled>
+                        <copyRes>
+                           <Item>.gif</Item>
+                           <Item>.properties</Item>
+                           <Item>.jpg</Item>
+                           <Item>.jpeg</Item>
+                           <Item>.xml</Item>
+                           <Item>-apf.xml</Item>
+                        </copyRes>
+                        <currentEncoding>Cp1252</currentEncoding>
+                        <debugInformation>true</debugInformation>
+                        <excludedClasses class="[Ljava.lang.String;"/>
+                        <obfuscate>false</obfuscate>
+                        <showCompileProgress>true</showCompileProgress>
+                        <showDeprecations>true</showDeprecations>
+                        <showPartialImportWarnings>false</showPartialImportWarnings>
+                        <showUnusedImportWarnings>true</showUnusedImportWarnings>
+                        <showWarnings>true</showWarnings>
+                        <updateImports>false</updateImports>
+                        <updateZipJarImports>false</updateZipJarImports>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
+                        <VMName>ojvm</VMName>
+                        <allowInput>false</allowInput>
+                        <alwaysUseTarget>false</alwaysUseTarget>
+                        <clearLogBeforeRun>false</clearLogBeforeRun>
+                        <compileBeforeRun>true</compileBeforeRun>
+                        <connectionName/>
+                        <javaOptions>-XOd -Dfreeciv.datadir=c:\cvswork\jfreeciv_bak\data</javaOptions>
+                        <logCommand>true</logCommand>
+                        <logError>true</logError>
+                        <logExit>true</logExit>
+                        <logOutput>true</logOutput>
+                        <programArguments class="java.lang.String"/>
+                        <runActiveFile>true</runActiveFile>
+                        <runDirectoryURL/>
+                        <targetURL/>
+                        <useProxy>false</useProxy>
+                     </Value>
+                  </Item>
+                  <Item>
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber id="1">1.3.1</jdkVersionNumber>
+                        <jdkVersionNumber id="0">1.3.1</jdkVersionNumber>
                         <libraries>JDeveloper Runtime</libraries>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdevimpl.config.JProjectPaths</Key>
+                     <Value class="oracle.jdevimpl.config.JProjectPaths">
+                        <additionalClassPath>
+                           <entries class="[Ljava.net.URL;"/>
+                        </additionalClassPath>
+                        <outputDirectory path="class/"/>
                      </Value>
                   </Item>
                   <Item>
@@ -827,12 +935,26 @@
                      </Value>
                   </Item>
                   <Item>
-                     <Key>oracle.jdevimpl.config.JProjectPaths</Key>
-                     <Value class="oracle.jdevimpl.config.JProjectPaths">
-                        <additionalClassPath>
-                           <entries class="[Ljava.net.URL;"/>
-                        </additionalClassPath>
-                        <outputDirectory path="classes_g/"/>
+                     <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
+                     <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
+                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
+                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
+                        <breakpointScope>workspace</breakpointScope>
+                        <remoteDebugging>false</remoteDebugging>
+                        <remoteDebuggingParameters class="java.util.HashMap">
+                           <Item>
+                              <Key>Host</Key>
+                              <Value>localhost</Value>
+                           </Item>
+                           <Item>
+                              <Key>Port</Key>
+                              <Value>4000</Value>
+                           </Item>
+                        </remoteDebuggingParameters>
+                        <remoteDebuggingParametersSaved>false</remoteDebuggingParametersSaved>
+                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
+                        <tracingEnabled class="java.lang.String"/>
                      </Value>
                   </Item>
                   <Item>
@@ -883,51 +1005,6 @@
                      </Value>
                   </Item>
                   <Item>
-                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
-                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
-                        <VMName>ojvm</VMName>
-                        <allowInput>false</allowInput>
-                        <alwaysUseTarget>false</alwaysUseTarget>
-                        <clearLogBeforeRun>false</clearLogBeforeRun>
-                        <compileBeforeRun>true</compileBeforeRun>
-                        <connectionName/>
-                        <javaOptions>-XOd -Dfreeciv.datadir=c:\cvswork\jfreeciv_bak\data</javaOptions>
-                        <logCommand>true</logCommand>
-                        <logError>true</logError>
-                        <logExit>true</logExit>
-                        <logOutput>true</logOutput>
-                        <programArguments class="java.lang.String"/>
-                        <runActiveFile>true</runActiveFile>
-                        <runDirectoryURL/>
-                        <targetURL idref="0"/>
-                        <useProxy>false</useProxy>
-                     </Value>
-                  </Item>
-                  <Item>
-                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
-                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
-                        <copyRes>
-                           <Item>.gif</Item>
-                           <Item>.properties</Item>
-                           <Item>.jpg</Item>
-                           <Item>.jpeg</Item>
-                           <Item>.xml</Item>
-                           <Item>-apf.xml</Item>
-                        </copyRes>
-                        <currentEncoding>Cp1252</currentEncoding>
-                        <debugInformation>true</debugInformation>
-                        <excludedClasses class="[Ljava.lang.String;"/>
-                        <obfuscate>false</obfuscate>
-                        <showCompileProgress>true</showCompileProgress>
-                        <showDeprecations>true</showDeprecations>
-                        <showPartialImportWarnings>false</showPartialImportWarnings>
-                        <showUnusedImportWarnings>true</showUnusedImportWarnings>
-                        <showWarnings>true</showWarnings>
-                        <updateImports>false</updateImports>
-                        <updateZipJarImports>false</updateZipJarImports>
-                     </Value>
-                  </Item>
-                  <Item>
                      <Key>oracle.jdevimpl.sqlj.config.SqljConfiguration</Key>
                      <Value class="oracle.jdevimpl.sqlj.config.SqljConfiguration">
                         <checkSemantics>false</checkSemantics>
@@ -941,28 +1018,6 @@
                         <warnVerbose>false</warnVerbose>
                      </Value>
                   </Item>
-                  <Item>
-                     <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
-                     <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
-                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
-                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
-                        <breakpointScope>workspace</breakpointScope>
-                        <remoteDebugging>false</remoteDebugging>
-                        <remoteDebuggingParameters class="java.util.HashMap">
-                           <Item>
-                              <Key>Host</Key>
-                              <Value>localhost</Value>
-                           </Item>
-                           <Item>
-                              <Key>Port</Key>
-                              <Value>4000</Value>
-                           </Item>
-                        </remoteDebuggingParameters>
-                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
-                        <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
-                        <tracingEnabled class="java.lang.String"/>
-                     </Value>
-                  </Item>
                </configData>
             </Value>
          </Item>
@@ -971,11 +1026,66 @@
             <Value class="oracle.jdeveloper.model.JProjectConfiguration">
                <configData class="java.util.HashMap">
                   <Item>
+                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
+                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
+                        <assertionsEnabled>false</assertionsEnabled>
+                        <copyRes>
+                           <Item>.gif</Item>
+                           <Item>.properties</Item>
+                           <Item>.jpg</Item>
+                           <Item>.jpeg</Item>
+                           <Item>.xml</Item>
+                           <Item>-apf.xml</Item>
+                        </copyRes>
+                        <currentEncoding>Cp1252</currentEncoding>
+                        <debugInformation>false</debugInformation>
+                        <excludedClasses class="[Ljava.lang.String;"/>
+                        <obfuscate>false</obfuscate>
+                        <showCompileProgress>true</showCompileProgress>
+                        <showDeprecations>true</showDeprecations>
+                        <showPartialImportWarnings>false</showPartialImportWarnings>
+                        <showUnusedImportWarnings>false</showUnusedImportWarnings>
+                        <showWarnings>true</showWarnings>
+                        <updateImports>false</updateImports>
+                        <updateZipJarImports>false</updateZipJarImports>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
+                        <VMName>ojvm</VMName>
+                        <allowInput>false</allowInput>
+                        <alwaysUseTarget>false</alwaysUseTarget>
+                        <clearLogBeforeRun>false</clearLogBeforeRun>
+                        <compileBeforeRun>true</compileBeforeRun>
+                        <connectionName/>
+                        <javaOptions class="java.lang.String"/>
+                        <logCommand>true</logCommand>
+                        <logError>true</logError>
+                        <logExit>true</logExit>
+                        <logOutput>true</logOutput>
+                        <programArguments class="java.lang.String"/>
+                        <runActiveFile>true</runActiveFile>
+                        <runDirectoryURL/>
+                        <targetURL/>
+                        <useProxy>false</useProxy>
+                     </Value>
+                  </Item>
+                  <Item>
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber idref="1"/>
+                        <jdkVersionNumber idref="0"/>
                         <libraries class="java.lang.String"/>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdevimpl.config.JProjectPaths</Key>
+                     <Value class="oracle.jdevimpl.config.JProjectPaths">
+                        <additionalClassPath>
+                           <entries class="[Ljava.net.URL;"/>
+                        </additionalClassPath>
+                        <outputDirectory path="classes/"/>
                      </Value>
                   </Item>
                   <Item>
@@ -1004,12 +1114,17 @@
                      </Value>
                   </Item>
                   <Item>
-                     <Key>oracle.jdevimpl.config.JProjectPaths</Key>
-                     <Value class="oracle.jdevimpl.config.JProjectPaths">
-                        <additionalClassPath>
-                           <entries class="[Ljava.net.URL;"/>
-                        </additionalClassPath>
-                        <outputDirectory path="classes/"/>
+                     <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
+                     <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
+                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
+                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
+                        <breakpointScope>workspace</breakpointScope>
+                        <remoteDebugging>false</remoteDebugging>
+                        <remoteDebuggingParameters class="java.util.HashMap"/>
+                        <remoteDebuggingParametersSaved>false</remoteDebuggingParametersSaved>
+                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
+                        <tracingEnabled class="java.lang.String"/>
                      </Value>
                   </Item>
                   <Item>
@@ -1060,51 +1175,6 @@
                      </Value>
                   </Item>
                   <Item>
-                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
-                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
-                        <VMName>ojvm</VMName>
-                        <allowInput>false</allowInput>
-                        <alwaysUseTarget>false</alwaysUseTarget>
-                        <clearLogBeforeRun>false</clearLogBeforeRun>
-                        <compileBeforeRun>true</compileBeforeRun>
-                        <connectionName/>
-                        <javaOptions class="java.lang.String"/>
-                        <logCommand>true</logCommand>
-                        <logError>true</logError>
-                        <logExit>true</logExit>
-                        <logOutput>true</logOutput>
-                        <programArguments class="java.lang.String"/>
-                        <runActiveFile>true</runActiveFile>
-                        <runDirectoryURL/>
-                        <targetURL/>
-                        <useProxy>false</useProxy>
-                     </Value>
-                  </Item>
-                  <Item>
-                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
-                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
-                        <copyRes>
-                           <Item>.gif</Item>
-                           <Item>.properties</Item>
-                           <Item>.jpg</Item>
-                           <Item>.jpeg</Item>
-                           <Item>.xml</Item>
-                           <Item>-apf.xml</Item>
-                        </copyRes>
-                        <currentEncoding>Default</currentEncoding>
-                        <debugInformation>false</debugInformation>
-                        <excludedClasses class="[Ljava.lang.String;"/>
-                        <obfuscate>false</obfuscate>
-                        <showCompileProgress>true</showCompileProgress>
-                        <showDeprecations>true</showDeprecations>
-                        <showPartialImportWarnings>false</showPartialImportWarnings>
-                        <showUnusedImportWarnings>false</showUnusedImportWarnings>
-                        <showWarnings>true</showWarnings>
-                        <updateImports>false</updateImports>
-                        <updateZipJarImports>false</updateZipJarImports>
-                     </Value>
-                  </Item>
-                  <Item>
                      <Key>oracle.jdevimpl.sqlj.config.SqljConfiguration</Key>
                      <Value class="oracle.jdevimpl.sqlj.config.SqljConfiguration">
                         <checkSemantics>false</checkSemantics>
@@ -1116,19 +1186,6 @@
                         <warnPrecision>false</warnPrecision>
                         <warnStrict>false</warnStrict>
                         <warnVerbose>false</warnVerbose>
-                     </Value>
-                  </Item>
-                  <Item>
-                     <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
-                     <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
-                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
-                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
-                        <breakpointScope>workspace</breakpointScope>
-                        <remoteDebugging>false</remoteDebugging>
-                        <remoteDebuggingParameters class="java.util.HashMap"/>
-                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
-                        <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
-                        <tracingEnabled class="java.lang.String"/>
                      </Value>
                   </Item>
                </configData>
