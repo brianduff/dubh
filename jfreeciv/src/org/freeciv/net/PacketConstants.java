@@ -73,6 +73,28 @@ public interface PacketConstants
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //... so that the first packet constant starts on line 100
   // making it easier to debug packet numbers
   public static final int PACKET_REQUEST_JOIN_GAME = Enum.start();
