@@ -1,157 +1,150 @@
-<!-- $Id: detailed.html,v 1.5 2000-02-23 00:24:45 briand Exp $ -->
-<html>
-<head>
-<title>Contributor Central: Detailed Information</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" type="text/css" href="../../style/newsagent.css">
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
 
-<body bgcolor="#FFFFFF">
-<h1>NewsAgent Contributors Information</h1>
-<h2>How to Become a Contributor</h2>
-<p>To become a contributor, fill out the short <a href="forms/application.html">application form</a>. Submit this, 
-  and I'll email you with details of your CVS account within a few days. You should 
-  have an idea about an area of NewsAgent you would like to work on or improve.</p>
-<h2>How to Access the Source</h2>
-<p>The source code is held on a CVS server on st-and.compsoc.org. CVS (concurrent 
-  version system) is a revision control system that keeps track of old versions 
-  of files and is useful in a development project involving lots of people. More 
-  information on CVS is available at <a href="http://www.cyclic.com">http://www.cyclic.com</a>. You will need to download 
-  some kind of CVS client for your machine to be able to access the NewsAgent 
-  source repository. If you want a graphical client, I recommend WinCVS, a free 
-  CVS client written for Windows and released under the GNU GPL.</p>
-<p>When your register as a contributor, you'll be given a username and password. 
-  You should then point your CVS client at the server; it has the following details:</p>
-<p>CVS Server: <b>cvs.javalobby.org<br>
-  </b>CVS repository: <b>/usr/local/cvsroot</b><br>
-  Connection method: <b>Pserver</b></p>
-<p>The following CVS modules are available:</p>
-<p><b>jfa/org/javalobby/apps/newsagent:</b> [jfa-na] NewsAgent java source code.<br>
-  <b>jfa/org/javalobby/dju:</b> [jfa-dju] Common utility code<br>
-  <b>jfa/org/javalobby/javamail:</b> [jfa-dmp] JFA Mail Providers (JavaMail implementation for NNTP)<br>
-<p>These modules are still on the old CVS server. Please email brian for access</p>
-  <b>nawin32: </b>NewsAgent windows launcher C files<br>
-  <b>dubhbuild: </b>Nightly build scripts<br>
-  <b>nareadme: </b>Readme files for NewsAgent distributions<br>
-  <b>nawininstall: </b>NewsAgent InstallShield files (warning: contains long filenames
-   with spaces)<br>
-  <b>naweb: </b>NewsAgent Web Site HTML (refreshed every hour)<br>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<META NAME="GENERATOR" Content="Visual Page 2.0 for Windows">
+	<TITLE>Contributor Central: Detailed Information</TITLE>
+	<LINK REL="stylesheet" TYPE="text/css" HREF="../../style/newsagent.css">
+</HEAD>
 
-</p>
-<p>The most useful ones to most contributors will be newsagent, javamail and dju. </p>
-<h2>Checking Out</h2>
-<p>To check out NewsAgent and begin to make some changes, you should connect your 
-  client to the CVS server and perform a checkout of the relevant modules. To 
-  work on NewsAgent, you will probably need both the najava and dju modules, unless 
-  you have a recent dju JAR file in your CLASSPATH. More information on how to 
-  check out files is available in the documentation for your client. For detailed 
-  CVS documentation, see <a href="http://www.loria.fr/~molli/cvs">http://www.loria.fr/~molli/cvs/</a>.</p>
-<h2>Making Changes</h2>
-<p>Please use a consistent coding style when making changes. There are no hard 
-  and fast rules here, but in general, it's a good idea to try to keep things 
-  consistent for maintainability.</p>
-<h3>End of Line Format</h3>
-<p>Files should be UNIX style text files. If any existing files use MSDOS eol 
-  characters, feel free to convert them.</p>
-<h3>Tabs</h3>
-<p>Generally, it's a bad idea to use hard tabs (i.e. ASCII 9, proper tab characters), 
-  because the way in which these are represented varies from platform to platform. 
-  Instead, try to use space characters. Although the current source isn't consistent, 
-  I'd recommend using three space characters for indenting.</p>
-<h3>Curly Braces</h3>
-<p>The current code is completely inconsistent with regard to curly braces. I've 
-  been conditioned at my place of work into using the following style, which I 
-  now prefer. However, I'm not too bothered by this issue, provided the code is 
-  readable...</p>
-<pre>if ( something )
+<BODY BGCOLOR="white">
+
+<FORM ACTION="http://www.egroups.com/subscribe" METHOD="GET">
+<H1>NewsAgent Contributors Information</H1>
+<H2>How to Become a Contributor</H2>
+<P>To become a contributor, send me some email (<A HREF="mailto:brian@dubh.org">brian@dubh.org</A>). Let me know
+what you're interested in helping out with...</P>
+<H2>How to Access the Source</H2>
+<P>The source code is held on a CVS server on st-and.compsoc.org. CVS (concurrent version system) is a revision
+control system that keeps track of old versions of files and is useful in a development project involving lots
+of people. More information on CVS is available at <A HREF="http://www.cyclic.com">http://www.cyclic.com</A>. You
+will need to download some kind of CVS client for your machine to be able to access the NewsAgent source repository.
+If you want a graphical client, I recommend WinCVS, a free CVS client written for Windows and released under the
+GNU GPL. </P>
+
+<P><I>&lt;plug&gt;Scarily enough, I've recently become involved in developing SCM support in Oracle's JDeveloper
+IDE. I'm personally very keen to integrate CVS, although at the moment, our main priorities are Oracle Repository,
+PVCS and ClearCase support. Nevertheless, if I can possibly get away with implementing CVS support for JDeveloper
+5.0, I will. You can download JDeveloper 3.1.1.2 at </I><A HREF="http://technet.oracle.com/software/products/jdev/software_index.htm"><I>http://technet.oracle.com/software/products/jdev/software_index.htm</I></A><I>
+(free registration required).&lt;/plug&gt;</I></P>
+
+<P>When your register as a contributor, you'll be given a username and password. You should then point your CVS
+client at the server; it has the following details:</P>
+
+<P>CVS Server: <B>dubh.org<BR>
+</B>CVS repository: <B>/usr/local/cvsroot</B><BR>
+Connection method: <B>Pserver</B></P>
+
+<P>The following CVS modules are available:</P>
+
+<P><B>na:</B> NewsAgent source code, installshield files, win32 launcher and user documentation.<BR>
+<B>dju:</B> Common utility code<BR>
+<B>dmp:</B> Mail Providers (JavaMail implementation for NNTP)<BR>
+<B>naweb:</B> The whole of the NewsAgent web site</P>
+
+<P><I>Nb. For a while, NewsAgent, DJU and DMP were part of the <A HREF="http://jfa.javalobby.org">JFA</A></I> <I>project.
+However, this project seems to have dramatically flatlined (at least its mailing list has carried no messages for
+several months). So, I've decided to move NewsAgent etc. back out of JFA again. The package namespace will change
+one day from org.javalobby to org.dubh, and the licence will (probably) revert back to GPL. Sorry for all the buggering
+about.</I></P>
+<H2>Checking Out</H2>
+<P>To check out NewsAgent and begin to make some changes, you should connect your client to the CVS server and
+perform a checkout of the relevant modules. To work on NewsAgent, you will probably need both the na, dju and dmp
+modules, unless you have recent dju and dmp JAR files in your CLASSPATH. More information on how to check out files
+is available in the documentation for your client. For detailed CVS documentation, see <A HREF="http://www.loria.fr/~molli/cvs">http://www.loria.fr/~molli/cvs/</A>.</P>
+<H2>Making Changes</H2>
+<P>Please use a consistent coding style when making changes. There are no hard and fast rules here, but in general,
+it's a good idea to try to keep things consistent for maintainability.</P>
+<H3>End of Line Format</H3>
+<P>Files should be UNIX style text files. If any existing files use MSDOS eol characters, feel free to convert
+them.</P>
+<H3>Tabs</H3>
+<P>Generally, it's a bad idea to use hard tabs (i.e. ASCII 9, proper tab characters), because the way in which
+these are represented varies from platform to platform. Instead, try to use space characters. Although the current
+source isn't consistent, I'd recommend using three space characters for indenting.</P>
+<H3>Curly Braces</H3>
+<P>The current code is completely inconsistent with regard to curly braces. I've been conditioned at my place of
+work into using the following style, which I now prefer. However, I'm not too bothered by this issue, provided
+the code is readable...</P>
+<PRE>if ( something )
 {
    doSomething();
-} </pre>
-<h3>Comments</h3>
-<p>Comment your code. Use Javadoc comments whenever possible before methods, fields 
-  or classes. Use comments inside methods to describe tricky implementations. 
-  Don't overcomment (e.g. this is a loop that counts from 1 to 10). Use /**...*/ 
-  style comments for Javadoc comments only, use // for all other comments (this 
-  allows blocks of code to be commented out more easily). </p>
-<p>Some source files have version histories in comments at the top. There is no 
-  longer any need to add information to these histories, since CVS now logs changes. 
-  Please do not remove these histories. Please don't modify the licence at the 
-  top of the source files, except to add your name as a contributor. <br>
-</p>
-<h2>Checking In</h2>
-<p>Before checking any code into the repository, please <b>make sure it builds 
-  </b>and ideally works too. I recommend you use the same compiler as the build 
-  process to make sure that your checkins are not going to break the build (see 
-  below).</p>
-<p>Again, consult your CVS client documentation on how to check files in. You 
-  should make sure you provide suitable comments for the log on what has changed.</p>
-<h2>Build Process</h2>
-<p><b>The nightly builds have not been moved to the new CVS server yet.</b></p>
+} </PRE>
+<H3>Comments</H3>
+<P>Comment your code. Use Javadoc comments whenever possible before methods, fields or classes. Use comments inside
+methods to describe tricky implementations. Don't overcomment (e.g. this is a loop that counts from 1 to 10). Use
+/**...*/ style comments for Javadoc comments only, use // for all other comments (this allows blocks of code to
+be commented out more easily).</P>
+<P>Some source files have version histories in comments at the top. There is no longer any need to add information
+to these histories, since CVS now logs changes. Please do not remove these histories. Please don't modify the licence
+at the top of the source files, except to add your name as a contributor. </P>
+<H2>Checking In</H2>
+<P>Before checking any code into the repository, please <B>make sure it builds </B>and ideally works too. I recommend
+you use the same compiler as the build process to make sure that your checkins are not going to break the build
+(see below).</P>
+<P>Again, consult your CVS client documentation on how to check files in. You should make sure you provide suitable
+comments for the log on what has changed.</P>
+<H2>Build Process</H2>
+<P><B>The nightly builds have not been moved to the new CVS server yet.</B></P>
 
-<p>A full build of all Java based components (both NewsAgent and the DJU) is performed 
-  every night, and the results are mailed out to all contributors and displayed 
-  on the archives page on <a href="http://www.egroups.com/list/dubh-contributors">
-  egroups</a>.
-  You may wish to download the nightly build scripts to verify that your source 
-  builds locally before checking in. These scripts are written for bash (a UNIX 
-  shell) and can be found in the build module.</p>
-<p>The build process uses Jikes for Linux as the compiler with the Java 1.2 rt.jar 
-  in the CLASSPATH. For NewsAgent, mail.jar (JavaMail) and activation.jar (JavaBeans 
-  Activation Framework, required by JavaMail) are also included in the CLASSPATH. 
-  To make sure that your code builds properly, please check that it compiles cleanly 
-  with Jikes (available from <a href="http://www.alphaworks.ibm.com">
-  the IBM AlphaWorks site</a>). Jikes is stricter 
-  than javac, so will sometimes throw errors with things that javac lets by. </p>
-<h2>Mailing List</h2>
-<p>
-  All mail to contributors is sent to the dubh-contributors mailing list on
-  egroups. To join this mailing list, enter your email address below. This
-  list recieves nightly build reports (only if code has actually changed) and
-  checkin reports, as well as general contributor discussions. You can send
-  messages to the list by emailing <a href=mailto:dubh-contributors@egroups.com>
-  dubh-contributors@egroups.com</a>. You can also view all past messages,
-  subscribe and unsubscribe on the web at <a href=http://www.egroups.com/list/dubh-contributors>
-  http://www.egroups.com/list/dubh-contributors</a>.
-</p>
-<p>
-<form method=GET action="http://www.egroups.com/subscribe">
-                 <input type=hidden name="listname" value="dubh-contributors">
-                 <input type=hidden name="SubmitAction" value="Subscribe">
-                 <table width=200 cellspacing=0 cellpadding=2 border=0 bgcolor=#E0E0E0>
-                 <tr>
-                  <td colspan=2 align=center>
-                    <b>Subscribe to Dubh Contributors</b>
-                  </td>
-                 </tr><tr>
-                  <td>
-                    <input type=text name="emailaddr" value="enter e-mail" size=21>
-                  </td><td>
-                    <input type=image border=0 alt="Click here to join dubh-contributors"
-                    name="Click here to join dubh-contributors" SRC="http://www.egroups.com/gifs/bevel.gif">
-                  </td>
-                 </tr><tr>
-                  <td>
-                    <a href="http://www.egroups.com/list/dubh-contributors/">dubh-contributors
-                    archive</a>
-                  </td><td>
-                    <small>Hosted by 
-                    <a href="http://www.egroups.com/">eGroups.com</A></small>
-                  </td>
-                 </tr>
-                 </TABLE>
-                 </form>
-</p>
-<p>
-We also have a mailing list that users can join to get general information
-about NewsAgent. Only contributors are allowed to post to this list, but
-anyone can join. To post, send mail to newsagent-announce@egroups.com. View
-the archive, subscribe yourself and control the group from 
-<a href="http://www.egroups.com/list/newsagent-announce">the egroups site</a>.
-</p>
-<h2>Bug Database</h2>
-<p>
-There is a bug database at <a href="../../bugs/">http://st-and.compsoc.org.uk/~briand/newsagent/bugs</a>.
-This uses wreq, which is not ideal, but at least it works.
-<!--#include virtual="../../../footer.html" -->
-</body>
-</html>
+<P>A full build of all Java based components (both NewsAgent and the DJU) is performed every night, and the results
+are mailed out to all contributors and displayed on the archives page on <A HREF="http://www.egroups.com/list/dubh-contributors">egroups</A>.
+You may wish to download the nightly build scripts to verify that your source builds locally before checking in.
+These scripts are written for bash (a UNIX shell) and can be found in the build module. [it should be easier to
+get this working now that I have my own dedicated server].</P>
+
+<P>The build process uses Jikes for Linux as the compiler with the Java 1.2 rt.jar in the CLASSPATH. For NewsAgent,
+mail.jar (JavaMail) and activation.jar (JavaBeans Activation Framework, required by JavaMail) are also included
+in the CLASSPATH. To make sure that your code builds properly, please check that it compiles cleanly with Jikes
+(available from <A HREF="http://www.alphaworks.ibm.com">the IBM AlphaWorks site</A>). Jikes is stricter than javac,
+so will sometimes throw errors with things that javac lets by.</P>
+<H2>Mailing List</H2>
+<P>All mail to contributors is sent to the dubh-contributors mailing list on egroups. To join this mailing list,
+enter your email address below. This list recieves nightly build reports (only if code has actually changed) and
+checkin reports, as well as general contributor discussions. You can send messages to the list by emailing <A HREF="mailto:dubh-contributors@egroups.com">dubh-contributors@egroups.com</A>.
+You can also view all past messages, subscribe and unsubscribe on the web at <A HREF="http://www.egroups.com/list/dubh-contributors">http://www.egroups.com/list/dubh-contributors</A>.</P>
+
+<P> <INPUT TYPE="HIDDEN" NAME="listname" SIZE="-1" VALUE="dubh-contributors"> <INPUT TYPE="HIDDEN" NAME="SubmitAction"
+SIZE="-1" VALUE="Subscribe"> 
+<TABLE BORDER="0" CELLPADDING="2" CELLSPACING="0" WIDTH="200" BGCOLOR="#E0E0E0">
+	<TR>
+		<TD ALIGN="CENTER" COLSPAN="2">
+			<P ALIGN="CENTER"><B>Subscribe to Dubh Contributors</B>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><INPUT TYPE="TEXT" NAME="emailaddr" SIZE="21" VALUE="enter e-mail">
+		</TD>
+		<TD>
+			<P><INPUT TYPE="IMAGE" NAME="Click here to join dubh-contributors" SRC="http://www.egroups.com/gifs/bevel.gif"
+			ALIGN="BOTTOM" BORDER="0">
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><A HREF="http://www.egroups.com/list/dubh-contributors/">dubh-contributors archive</A>
+		</TD>
+		<TD>
+<small>
+			<P>Hosted by <A HREF="http://www.egroups.com/">eGroups.com</A></A></small>
+		</TD>
+	</TR>
+</TABLE>
+</P>
+
+<P>We also have a mailing list that users can join to get general information about NewsAgent. Only contributors
+are allowed to post to this list, but anyone can join. To post, send mail to newsagent-announce@egroups.com. View
+the archive, subscribe yourself and control the group from <A HREF="http://www.egroups.com/list/newsagent-announce">the
+egroups site</A>. [These mailing lists are officially dead at the moment, I'm hoping to get majordomo set up on
+my own server for NewsAgent when I get round to it].</P>
+<H2>Bug Database</H2>
+<P>There is a bug database at <A HREF="../../bugs/">http://st-and.compsoc.org.uk/~briand/newsagent/bugs</A>. This
+uses wreq, which is not ideal, but at least it works. <!--#include virtual="../../../footer.html" --> [I'm hoping
+to replace this soon with something more funky].
+</FORM>
+
+</BODY>
+
+</HTML>
