@@ -1,35 +1,44 @@
 <?xml version="1.0"?>
-<?cocoon-process type="xsp"?>
+<?xml-stylesheet type="text/xsl" href="xsl/dubhpage.xsl" ?>
 
-<!-- Copyright (C) 2000 Brian Duff / Dubh.Org -->
-<!-- Testing JCVS -->
-<!-- -->
-<xsp:page 
-  language="java"
-  xmlns:xsp="http://www.apache.org/1999/XSP/Core"
-  xmlns:dtl="http://www.dubh.org/2000/DubhTagLib"  
->
-  <html>
-    <head>
-      <title>Dubh.org</title>
-      <link rel="stylesheet" href="styles.css" type="text/css" />
-    </head>
-    <body>
-      <table width="100%" border="0">
-        <tr>
-          <td valign="top">
-            <dtl:apply-xslt xmlfile="navigator.xml" 
-              xslfile="xsl/navigator.xsl" 
-              params="me='home'"
-            />
-          </td>
-          <td valign="top">
-            <p align="center">
-              <img src="images/dubh.org.midi.gif" />
-            </p>
-          </td>
-        </tr>
-      </table>
-    </body>
-  </html>
-</xsp:page>
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+
+  <title>Dubh.Org Home</title>
+  
+  <navigator>
+    <xsql:include-xsql href="navigator.xml?me=home" />
+  </navigator>
+  
+  <content>
+    <p align="center">
+      <img src="images/dubh.org.small.gif" />
+    </p>
+    <h3>
+      Welcome to Dubh.Org!
+    </h3>
+    <p>
+      Hi, this is <code>dubh.org</code>. It's kind of a mish-mash of 
+      various techy bits and bobs, maintained by Brian Duff.
+    </p>
+    <p>
+      This site is currently under construction. In other words, most
+      of those inviting looking links on the left don't actually go
+      anywhere yet.
+    </p>
+    <p>
+      The ones that work at the moment are:
+    </p>
+    <ul>
+      <li>Projects</li>
+      <li>Browse CVS</li>
+      <li>About Dubh.Org</li>
+      <li>Better Bites and Leaping Frogs</li>
+    </ul>
+    <p>
+      Come back soon, and hopefully more stuff will be here.
+    </p>
+  </content>
+    
+</dubhpage>
