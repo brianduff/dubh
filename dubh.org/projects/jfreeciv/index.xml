@@ -113,9 +113,10 @@
     
     <p>
       This "hot off the press" screenshot shows the map component displaying
-      city names after a session of map refactoring by Brian. The appearance
-      of the city names is "inspired" by Civ III (click the image to see
-      in detail):
+      city names after a session of map refactoring by Brian. It also shows
+      the new non-dithered composite alpha blended fog of war (compare with
+      the previous shot). The appearance of the city names is "inspired" by 
+      Civ III (click the image to see in detail):
     </p>
     
     <p align="center">
@@ -164,13 +165,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-12-02 08:21:21 $
+      $Date: 2001-12-02 08:24:37 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.9 $
+      $Revision: 1.10 $
     </revision>
   </cvs-info>  
   
