@@ -44,7 +44,14 @@
   <login-config>
     <auth-method>BASIC</auth-method>
     <realm-name>Bookmark Secure Zone</realm-name>
-  </login-config>  
+  </login-config> 
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.xml</welcome-file>
+    <welcome-file>index.xsql</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
   
 
 
