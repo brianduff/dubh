@@ -243,8 +243,16 @@ public class DialogManager
    */
   public String showInputDialog( String message, String initialSelectionValue )
   {
-    return JOptionPane.showInputDialog( m_client.getMainWindow(),
-                                          message,
-                                          initialSelectionValue );
+    JOptionPane pane = new JOptionPane( message,
+                                   JOptionPane.QUESTION_MESSAGE,
+                                   JOptionPane.OK_CANCEL_OPTION );
+    pane.setWantsInput( true );
+    pane.setInitialSelectionValue( initialSelectionValue );
+    
+    JDialog dialog = pane.createDialog( m_client.getMainWindow(),
+                                        m_client.APP_NAME );
+    dialog.show();
+    
+    return (String)pane.getInputValue();
   }
 }
