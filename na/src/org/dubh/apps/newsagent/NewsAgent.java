@@ -50,18 +50,20 @@ import dubh.utils.ui.*;
    public  static final String CONSOLE_FLAG = "-console";
    public  static final String DEBUG_NET_FLAG = "-debugnet";
    private  static final String DEBUG_PREFIX = "NewsAgent Debug: ";
-   private  static final String DEBUG_CONSOLE = "NewsAgent Debug Console";
+   private  static final String DEBUG_CONSOLE = "NewsAgent Debug Console";   
+   private static final String DEBUG_NETID = "debugnet";
    private static final String DEBUG_NET = "NewsAgent Network Debug Console";
+   private static final String SPLASH_IMAGE = "dubh/apps/newsagent/images/splash.gif";
 
    /** User preference that sets debugging on (equivalent to -debug) */
-   public static final String DEBUG_PREFERENCE = "newsagent.debug.DebugMessages";
+   public static final String DEBUG_PREFERENCE = PreferenceKeys.DEBUG_DEBUGMESSAGES;
 
    /** User preference that sets network debugging on (-debugnet) */
-   public static final String DEBUGNET_PREFERENCE = "newsagent.debug.ServerDump";
+   public static final String DEBUGNET_PREFERENCE = PreferenceKeys.DEBUG_SERVERDUMP;
 
    /** User preference that causes debugging output (from -debug and -debugnet)
        to go to a windowed console rather than stderr  (-console)*/
-   public static final String CONSOLE_PREFERENCE = "newsagent.debug.Console";
+   public static final String CONSOLE_PREFERENCE = PreferenceKeys.DEBUG_CONSOLE;
    
 
    /** Whether the user specified -debug on the command line */
@@ -79,6 +81,8 @@ import dubh.utils.ui.*;
 
    private static Frame frmTemp;
    private static Window winSplash;
+   
+   private static DebugFrame m_netDebug;
 
   public NewsAgent() {
   }
@@ -93,7 +97,7 @@ import dubh.utils.ui.*;
         Debug.println("Debugging output was enabled with the "+DEBUG_FLAG+" command line flag.");
 
     GlobalState.appInit();
-    hideSplashScreen();
+
     checkDebugPreferences();
     if (debugFromPrefs) setupDebugging();
 
@@ -106,7 +110,9 @@ import dubh.utils.ui.*;
     }
     
     if (debugFromPrefs)
-     Debug.println("Debugging output was enabled with the "+DEBUG_PREFERENCE+" user preference.");
+    {
+        Debug.println("Debugging output was enabled with the "+DEBUG_PREFERENCE+" user preference.");
+    }
 
   }
 
@@ -118,10 +124,13 @@ import dubh.utils.ui.*;
         checkCommandLine(args);
         newsAgent.invokedStandalone = true;
         init();
+        hideSplashScreen();
      } catch (ExceptionInInitializerError e) {
-        Debug.println("Initialization error during application initialisation:");
-        e.getException().printStackTrace(Debug.getWriter());
-        Debug.getWriter().flush();
+        if (Debug.TRACE_LEVEL_1)
+        {
+           Debug.println(1, NewsAgent.class, "Exception during initialisation.");
+           Debug.printException(1, NewsAgent.class, e.getException());
+        }
      }
   }
 
@@ -138,6 +147,14 @@ import dubh.utils.ui.*;
 
   }
 
+   public static void closeNetDebug()
+   {
+      if (m_netDebug != null)
+      {
+         m_netDebug.setVisible(false);
+      }
+   }
+
   /**
    * Set up networking debugging
    */
@@ -147,7 +164,11 @@ import dubh.utils.ui.*;
            /*
             * Create a new Auto-flushing printwriter with the output frame
             */
-           NNTPServer.debugStream = new PrintWriter(new OutputStreamFrame(DEBUG_NET), true);
+           m_netDebug = new DebugFrame(DEBUG_NETID, DEBUG_NET);
+           m_netDebug.setControlsVisible(false);
+           NNTPServer.debugStream = new PrintWriter(m_netDebug.getStream(), true);
+           m_netDebug.pack();
+           m_netDebug.setVisible(true);
         } else
            NNTPServer.debugStream = new PrintWriter(System.err, true);
      }
@@ -168,6 +189,13 @@ import dubh.utils.ui.*;
         flagDebugNet = GlobalState.getBoolPreference(DEBUGNET_PREFERENCE, false);
         netDebugFromPrefs = true;
      }
+     
+     if (flagDebug)
+     {
+        Debug.setTraceLevel(GlobalState.getPreferences().getIntPreference(PreferenceKeys.DEBUG_TRACELEVEL, 3));
+        Debug.setAssertEnabled(GlobalState.getPreferences().getBoolPreference(PreferenceKeys.DEBUG_ASSERT, true));
+     }
+
   }
 
   private static void checkCommandLine(String[] args) {
@@ -184,7 +212,7 @@ import dubh.utils.ui.*;
 
   private static void displaySplashScreen() {
      ImageIcon img;
-     img = new ImageIcon(ClassLoader.getSystemResource("dubh/apps/newsagent/images/splash.gif"));
+     img = new ImageIcon(ClassLoader.getSystemResource(SPLASH_IMAGE));
 
      // Create a new JLabel to act as our splash screen image
      JLabel labImg = new JLabel();
@@ -196,7 +224,7 @@ import dubh.utils.ui.*;
      winSplash = new Window(frmTemp);
 
      // Add the label to the window and pack the window
-     winSplash.add("Center", labImg);
+     winSplash.add(labImg, BorderLayout.CENTER);
      winSplash.pack();
 
      // Centre the window on the screen
@@ -206,8 +234,7 @@ import dubh.utils.ui.*;
                            screenSize.height/2 - winSize.height/2);
 
      winSplash.setVisible(true);
-     
-     // whoops. frmTemp.dispose();
+    
 
   }
 
