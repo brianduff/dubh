@@ -18,36 +18,41 @@
       <html>
         <h2>What is Dubh.Org?</h2>
         <p>
-          This is <code>dubh.org</code>. It's kind of a mish-mash of 
-          various techy bits and bobs, maintained by Brian Duff.
+          This is <code>dubh.org</code>, home of much that is geeky.
+        </p>
+        <h2>Tomcat 3.3 and XSQL Servlet</h2>
+        <p>
+          <i>In <a href="tech/xml">DubhTECH: XML</a></i>
         </p>
         <p>
-          This site is currently under construction. Many of the inviting
-          links on the left don't actually go anywhere yet. 
-        </p>  
+          "Although Tomcat 3.3 is still in production, it's already more stable, 
+          scalable and configurable than previous versions. This article describes
+          how to set up the XSQL Servlet, supplied with Oracle XDK 9.0.2.0.0A beta 
+          on Tomcat 3.3 milestone 4." <a href="tech/xml/tomcat33xdk.xml">more...</a>
+        </p>
       </html>
     </column>
     
     <column width="25%">
       <box title="What's New?">
-      	<xsql:include-xsql href="changelog.xml?xml-stylesheet=xsl/changelog-whatsnew.xsl" />
+        <xsql:include-xsql href="changelog.xml?xml-stylesheet=xsl/changelog-whatsnew.xsl" />
        
-       	<p>
-        	See <a href="showpage.xml?pagename=changelog.xml">all changes</a>
-       	</p>
+        <p>
+          See <a href="showpage.xml?pagename=changelog.xml">all changes</a>
+        </p>
       </box>
     </column>
   </content>
     
     <cvs-info>
       <date>
-        $Date: 2001-06-25 23:21:06 $
+        $Date: 2001-06-28 23:47:15 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.18 $
+        $Revision: 1.19 $
       </revision>
     </cvs-info>
     
