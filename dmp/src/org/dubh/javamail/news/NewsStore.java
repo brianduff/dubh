@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NewsStore.java,v 1.1 2000-02-22 23:49:39 briand Exp $
+//   $Id: NewsStore.java,v 1.2 2000-06-14 21:33:01 briand Exp $
 //   Copyright (C) 1997, 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -22,7 +22,7 @@
 // REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
-//   Contributors: 
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
@@ -31,6 +31,7 @@ package org.javalobby.javamail.news;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -42,6 +43,9 @@ import javax.mail.internet.InternetHeaders;
 
 import org.javalobby.dju.misc.Debug;
 import org.javalobby.dju.misc.StringUtils;
+import org.javalobby.dju.diagnostic.Assert;
+import org.javalobby.dju.progress.ProgressMonitor;
+import org.javalobby.dju.progress.ProgressMonitorSupport;
 
 import org.javalobby.javamail.client.ClientRegistry;
 import org.javalobby.javamail.client.news.NewsClient;
@@ -56,39 +60,44 @@ import org.javalobby.javamail.client.news.NewsStatusCodes;
  * org.javalobby.javamail.client.news.NewsClient interface.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NewsStore.java,v 1.1 2000-02-22 23:49:39 briand Exp $
+ * @version $Id: NewsStore.java,v 1.2 2000-06-14 21:33:01 briand Exp $
  */
-public class NewsStore extends Store implements NewsStatusCodes
+public class NewsStore extends Store implements NewsStatusCodes,
+   ProgressMonitorSupport
 {
    /** The protocol name: "news" */
    public static final String PROTOCOL_NAME="news";
 
+   private static final String NEWSRC_LOCATION =
+      System.getProperty("user.home")+File.separator+".newsrc.";
+
    private Hashtable m_messages;
-   
+
    private Hashtable m_groups;
-   
+
    private String m_hostName;
    private int    m_port;
-   
-   private final static int DEFAULT_PORT = 119;
-   
-   private boolean m_postingOK;
-   
-   private Newsgroup m_currentGroup;
 
+   private final static int DEFAULT_PORT = 119;
+
+   private boolean m_postingOK;
+
+   private Newsgroup m_currentGroup;
    private NewsClient m_ncClient = null;
-       
-       
-   private final static int MAX_FETCHSIZE = 1024;    
-   
+   private NewsResource m_newsrc = null;
+
+   private ProgressMonitor m_progressMonitor;
+
+   private final static int MAX_FETCHSIZE = 1024;
+
    /**
     * Should be configurable. Not yet implemented.
     */
    private final static int MAX_TIMEOUT_RETRY = 10;
-   
+
    /**
     * Construct a News Store.
-    */    
+    */
    public NewsStore(Session session, URLName urlname)
    {
       super(session, urlname);
@@ -106,10 +115,29 @@ public class NewsStore extends Store implements NewsStatusCodes
          m_ncClient = (NewsClient)ClientRegistry.getStoreClient(
             PROTOCOL_NAME
          );
+         
+         if (Assert.ENABLED)
+         {
+            Assert.that((m_ncClient != null), "Client has not been set");
+         }
       }
       return m_ncClient;
    }
-       
+
+   /**
+    * Set the progress monitor for operations on this store. The monitor will
+    * be notified of changes in progress in operations on the client.
+    */
+   public void setProgressMonitor(ProgressMonitor pm)
+   {
+      m_progressMonitor = pm;
+      NewsClient nc = getClient();
+      if (nc instanceof ProgressMonitorSupport)
+      {
+         ((ProgressMonitorSupport)nc).setProgressMonitor(pm);
+      }
+   }
+
    /**
     * Connect to an NNTP server. Calls connect() on the client. If the
     * status of this command is not READY_POSTOK or READY_NOPOSTING,
@@ -134,6 +162,13 @@ public class NewsStore extends Store implements NewsStatusCodes
    protected boolean protocolConnect(String host, int port, String userName, String password)
       throws MessagingException
    {
+      if (Assert.ENABLED)
+      {
+         Assert.that((host != null && host.trim().length() != 0),
+            "Must specify a host name"
+         );
+      }
+
 
       // Default the port if necessary
       if (port < 1)
@@ -144,9 +179,9 @@ public class NewsStore extends Store implements NewsStatusCodes
       {
          m_port = port;
       }
-      
+
       m_hostName = host;
-      
+
       try
       {
          NewsClient client = getClient();
@@ -173,7 +208,8 @@ public class NewsStore extends Store implements NewsStatusCodes
 
          System.out.println("Username is "+userName+" password is "+password);
          // Authenticate if we have been given a username and password.
-         if (userName != null && password != null)
+         if (userName != null && password != null &&
+             userName.trim().length() != 0 && password.trim().length() != 0)
          {
             System.out.println("Authorizing");
             client.authorize(userName, password);
@@ -212,7 +248,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       {
          clientException(nce);
       }
- 
+
    }
 
    /**
@@ -223,7 +259,7 @@ public class NewsStore extends Store implements NewsStatusCodes
    {
       // do nothing for now.
    }
-   
+
    /**
     * Open the specified newsgroup. Calls setCurrentGroup() on the
     * client and expects a GROUP_SELECTED or NO_SUCH_GROUP response.
@@ -264,7 +300,54 @@ public class NewsStore extends Store implements NewsStatusCodes
          }
       }
    }
-   
+
+   /**
+    * Get a list of all subscribed groups.
+    *
+    * @return a list of subscribed newsgroups.
+    */
+   Newsgroup[] getSubscribedGroups()
+      throws MessagingException
+   {
+      int subSize = getNewsResource().getSubscribedGroupCount();
+      Newsgroup[] subGroups = new Newsgroup[subSize];
+      if (subSize == 0)
+      {
+         return subGroups;
+      }
+
+      Iterator groupIter = getNewsResource().getSubscribedGroups();
+      int i = 0;
+      while(groupIter.hasNext())
+      {
+         subGroups[i++] = getNewsgroup((String)groupIter.next());
+      }
+      return subGroups;
+   }
+
+   /**
+    * Determine whether a group has been subscribed to. This uses the
+    * news resource.
+    *
+    * @param g The group to check.
+    * @return true if the group has been subscribed to. False otherwise.
+    */
+   boolean isGroupSubscribed(Newsgroup g)
+   {
+      return getNewsResource().isSubscribed(g.getName());
+   }
+
+   /**
+    * Set the subscription of a group. This will be set in the news resource.
+    *
+    * @param g The group to subscribe to or unsubscribe
+    * @param isSubscribed True if the group is subscribed, false otherwise.
+    */
+   void setGroupSubscribed(Newsgroup g, boolean isSubscribed)
+   {
+      getNewsResource().setSubscribed(g.getName(), isSubscribed);
+   }
+
    /**
     * Verify that a group actually exists on the server. Does this by
     * calling {@link #openGroup(Newsgroup)} and checking to see
@@ -282,7 +365,7 @@ public class NewsStore extends Store implements NewsStatusCodes
    {
       // Remember the old group so we can restore it later
       Newsgroup oldgroup = m_currentGroup;
-      
+
       try
       {
          openGroup(g);
@@ -295,7 +378,7 @@ public class NewsStore extends Store implements NewsStatusCodes
             // Restore the old group and return false
             if (oldgroup != null) openGroup(oldgroup);
             return false;
-         
+
          }
          else
          {
@@ -310,8 +393,8 @@ public class NewsStore extends Store implements NewsStatusCodes
       if (oldgroup != null) openGroup(oldgroup);
       return true;
    }
-   
-  
+
+
    /**
     * Retrieve a message from the list of messages. If it doesn't exist,
     * create a new NNTPMessage instance and store it.
@@ -321,9 +404,9 @@ public class NewsStore extends Store implements NewsStatusCodes
     * @return an NNTPMessage instance.
     *
     * @throws javax.mail.MessagingException if
-    */  
-   NNTPMessage getNNTPMessage(Newsgroup newsgroup, String message_id) 
-      throws MessagingException 
+    */
+   NNTPMessage getNNTPMessage(Newsgroup newsgroup, String message_id)
+      throws MessagingException
    {
       // Try to retrieve the message from our local storage
       NNTPMessage msg = (NNTPMessage)m_messages.get(message_id);
@@ -337,7 +420,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       }
       return msg;
    }
-   
+
    /**
     * Get all messages in the specified newsgroup.
     *
@@ -379,7 +462,7 @@ public class NewsStore extends Store implements NewsStatusCodes
 
       return null;
    }
-   
+
    /**
     * Get new messages since the specified date.
     *
@@ -404,7 +487,7 @@ public class NewsStore extends Store implements NewsStatusCodes
          ArrayList newIds = getClient().getNewNews(g.getName(), since);
          NNTPMessage[] new_msg = new NNTPMessage[newIds.size()];
          int response = getClient().getStatus();
-         
+
          switch (response)
          {
             case LIST_ARTICLES:
@@ -416,7 +499,7 @@ public class NewsStore extends Store implements NewsStatusCodes
                break;
             default:
                unexpectedResponse();
-               
+
          }
          return new_msg;
       }
@@ -429,7 +512,7 @@ public class NewsStore extends Store implements NewsStatusCodes
 
 
    }
-   
+
    /**                   OBSOLETE?
     * Given a number < 100, returns a double digit
     * padded version of the number as a string.
@@ -437,11 +520,11 @@ public class NewsStore extends Store implements NewsStatusCodes
     */
    private String getZeroPaddedNumeric(int num)
    {
-      if (num > 99 || num < 0) 
+      if (num > 99 || num < 0)
          throw new IllegalArgumentException("Number for getZeroPaddedNumeric must be < 100");
       return (num < 10) ? "0"+num : Integer.toString(num);
    }
-   
+
    /**
     * Get all headers for the specified message.
     *
@@ -461,12 +544,12 @@ public class NewsStore extends Store implements NewsStatusCodes
       try
       {
          String strMessageID = resolveMessageID(message);
-         
+
          // Get the header
          InputStream instrHead = getClient().getHead(strMessageID);
-         
+
          int response = getClient().getStatus();
-         
+
          switch (response)
          {
             case ARTICLE_RETRIEVED_HEAD:
@@ -481,7 +564,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       }
       return null;
    }
-   
+
    /**
     * Gets a message identifier. This method will first attempt to retrieve
     * the Message-Id field of the message. If this field doesn't exist
@@ -504,12 +587,12 @@ public class NewsStore extends Store implements NewsStatusCodes
          Newsgroup ngContainer = (Newsgroup)message.getFolder();
          if (m_currentGroup != ngContainer)
             openGroup(ngContainer);
-         
+
          return Integer.toString(message.getMessageNumber());
       }
       return strMessageID;
    }
-   
+
    /**
     * Get the content for the specified message.
     *
@@ -527,12 +610,12 @@ public class NewsStore extends Store implements NewsStatusCodes
       try
       {
          String strMessageID = resolveMessageID(message);
-         
+
          // Get the message body
          InputStream isBody = getClient().getBody(strMessageID);
-         
+
          int response = getClient().getStatus();
-         
+
          switch (response)
          {
             case ARTICLE_RETRIEVED_BODY:
@@ -541,10 +624,10 @@ public class NewsStore extends Store implements NewsStatusCodes
                byte b[] = new byte[MAX_FETCHSIZE];
 
                ByteArrayOutputStream baosStorage = new ByteArrayOutputStream();
-               
+
                while ((length = isBody.read(b, 0, MAX_FETCHSIZE))!=-1)
                baosStorage.write(b, 0, length);
-               
+
                return baosStorage.toByteArray();
             default:
                unexpectedResponse();
@@ -560,7 +643,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       }
       return null;
    }
-   
+
    /**
     * Does this server support the specified XOver header?
     */
@@ -568,7 +651,7 @@ public class NewsStore extends Store implements NewsStatusCodes
    {
       return false; // TODO
    }
-   
+
    /**
     * Using the most recent status line (must be a GROUP_SELECTED
     * message), update the newsgroup object's internal article
@@ -582,7 +665,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       g.setArticleCount(StringUtils.stringToInt(StringUtils.getWord(lastReply, 0)));
       g.setFirstArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 1)));
       g.setLastArticle(StringUtils.stringToInt(StringUtils.getWord(lastReply, 2)));
-  
+
    }
 
 
@@ -592,7 +675,7 @@ public class NewsStore extends Store implements NewsStatusCodes
     *
     * @returns a boolean value indicating whether the connection is open
     */
-   public boolean isConnected() 
+   public boolean isConnected()
    {
       return getClient().isConnected();
    }
@@ -606,7 +689,7 @@ public class NewsStore extends Store implements NewsStatusCodes
    {
       return new RootGroup(this);
    }
-   
+
    /**
     * Get a named newsgroup. Just calls {@link #getNewsgroup(String)}.
     *
@@ -617,7 +700,7 @@ public class NewsStore extends Store implements NewsStatusCodes
    {
       return getNewsgroup(name);
    }
-   
+
    /**
     * Get a newsgroup. The URL should be of the form
     * <pre>
@@ -639,7 +722,7 @@ public class NewsStore extends Store implements NewsStatusCodes
       throw new IllegalArgumentException("URL must be for protocol '"+
          PROTOCOL_NAME+"'");
    }
-   
+
    /**
     * Get the specified newsgroup if it exists. Otherwise, create a new
     * Newsgroup object for it.
@@ -650,17 +733,73 @@ public class NewsStore extends Store implements NewsStatusCodes
    private Newsgroup getNewsgroup(String name)
    {
       Newsgroup g = (Newsgroup) m_groups.get(name);
-      
+
       if (g == null)
       {
          g = new Newsgroup(name, this);
          m_groups.put(name, g);
       }
-      
+
       return g;
    }
-   
-   
+
+
+   /**
+    * Get new newsgroups since the specified date.
+    *
+    * @param since the date the list of newsgroups was last updated.
+    * @return an array of Newsgroup objects for all groups created since
+    *   the specified date.
+    * @throws javax.mail.MessagingException if the client returns
+    *   an unexpected response from getNewGroups().
+    */
+   private Newsgroup[] getNewNewsgroups(Date since) throws MessagingException
+   {
+      try
+      {
+         ArrayList newGroups = getClient().getNewGroups(since);
+
+         Newsgroup[] groupArray = new Newsgroup[newGroups.size()];
+
+         int response = getClient().getStatus();
+
+         if (groupArray.length == 0)
+         {
+            return groupArray;
+         }
+
+         switch (response)
+         {
+            case NEWSGROUP_LIST:
+               for (int i=0; i < newGroups.size(); i++)
+               {
+                  NewsClient.GroupInfo ncgiGroup =
+                     (NewsClient.GroupInfo)newGroups.get(i);
+                  Newsgroup ngNew = (Newsgroup)getFolder(
+                     ncgiGroup.getGroupName()
+                  );
+                  ngNew.setFirstArticle(ncgiGroup.getLowWaterMark());
+                  ngNew.setLastArticle(ncgiGroup.getHighWaterMark());
+                  ngNew.setPostingOK(ncgiGroup.isPostingAllowed());
+                  groupArray[i] = ngNew;
+                  getNewsResource().addNewGroup(ncgiGroup.getGroupName());
+               }
+               break;
+            default:
+               unexpectedResponse();
+         }
+
+         return groupArray;
+
+      }
+      catch (NewsClientException nce)
+      {
+         clientException(nce);
+      }
+
+      return null;
+   }
+
    /**
     * Get all newsgroups available on the server.
     *
@@ -673,16 +812,78 @@ public class NewsStore extends Store implements NewsStatusCodes
     *   throws a NewsClientException.
     *
     */
-   Newsgroup[] getNewsgroups() throws MessagingException 
+   Newsgroup[] getNewsgroups() throws MessagingException
    {
+      // Before we ask the client, see if we can get the list from the newsrc
+      NewsResource res = getNewsResource();
+
+      int resGroupCount = res.getGroupCount();
+      
+      if (resGroupCount > 0)
+      {
+         Newsgroup[] groups = new Newsgroup[resGroupCount];
+         Iterator allGroups = res.getAllGroups();
+         int i=0; 
+         while (allGroups.hasNext())
+         {
+            groups[i++] = getNewsgroup((String)allGroups.next());
+         }
+
+         // Now, decide whether to get the list of new groups. Some kind of
+         // notification / event mechanism ought to be used here so that the
+         // user can decided whether or not to retrieve new groups.
+
+         Newsgroup[] newGroups = getNewNewsgroups(res.getLastGroupUpdate());
+         res.setLastGroupUpdateNow();
+         if (newGroups != null && newGroups.length > 0)
+         {
+            Newsgroup[] oldAndNew =
+               new Newsgroup[groups.length+newGroups.length];
+
+            System.arraycopy(groups, 0, oldAndNew, 0, groups.length);
+            System.arraycopy(
+               newGroups, 0, oldAndNew, groups.length, newGroups.length
+            );
+
+            // Save the news resource
+            try
+            {
+               // Save the newsrc
+               res.saveFile(getNewsResourceFilename());
+            }
+            catch (IOException ioe)
+            {
+               throw new MessagingException(
+                  "Failed to save Newsrc "+getNewsResourceFilename(),
+                  ioe
+               );
+            }
+
+            return oldAndNew;
+         }
+
+         return groups;
+
+      }
+
+      // Otherwise, we have to go off and ask the client...
+      
+
       try
       {
          ArrayList alGroups = getClient().getListNewsgroups();
+
+         if (Debug.TRACE_LEVEL_3)
+         {
+            Debug.println(3, this,
+               "Got "+alGroups.size()+" newsgroups from the server");
+         }
+
          Newsgroup[] anGroups = new Newsgroup[alGroups.size()];
          int response = getClient().getStatus();
 
-      
-         switch (response) 
+
+         switch (response)
          {
             case NEWSGROUP_LIST:
                for (int i=0; i < alGroups.size(); i++)
@@ -696,11 +897,25 @@ public class NewsStore extends Store implements NewsStatusCodes
                   ngNew.setLastArticle(ncgiGroup.getHighWaterMark());
                   ngNew.setPostingOK(ncgiGroup.isPostingAllowed());
                   anGroups[i] = ngNew;
-
+                  res.addNewGroup(ncgiGroup.getGroupName());
                }
                break;
             default:
                unexpectedResponse();
+         }
+
+         try
+         {
+            // Save the newsrc
+            res.setLastGroupUpdateNow();
+            res.saveFile(getNewsResourceFilename());
+         }
+         catch (IOException ioe)
+         {
+            throw new MessagingException(
+               "Failed to save Newsrc "+getNewsResourceFilename(),
+               ioe
+            );
          }
          return anGroups;
       }
@@ -708,9 +923,44 @@ public class NewsStore extends Store implements NewsStatusCodes
       {
          clientException(nce);
       }
-      
+
       return null;
 
+   }
+
+   private String getNewsResourceFilename()
+   {
+      return NEWSRC_LOCATION+m_hostName;
+   }
+
+   /**
+    * Get the news resource; this contains information about subscribed
+    * groups etc.
+    */
+   private NewsResource getNewsResource()
+   {
+      if (m_newsrc == null)
+      {
+         loadNewsrc();
+      }
+      return m_newsrc;
+   }
+
+   /**
+    * Load the news resource for this server. If none exists, sets the m_newsrc
+    * field to an empty news resource
+    */
+   private void loadNewsrc()
+   {
+      m_newsrc = new NewsResource();
+      try
+      {
+         m_newsrc.loadFile(getNewsResourceFilename());
+      }
+      catch (IOException ioe)
+      {
+         // We don't care, we just use an empty resource.
+      }
    }
 
    /**
@@ -749,5 +999,9 @@ public class NewsStore extends Store implements NewsStatusCodes
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:49:39  briand
+// New news store implementation that sits on top of clients. Initial
+// revision.
+//
 //
 //

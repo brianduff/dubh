@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: Newsgroup.java,v 1.1 2000-02-22 23:49:39 briand Exp $
+//   $Id: Newsgroup.java,v 1.2 2000-06-14 21:33:01 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -37,7 +37,7 @@ import java.util.*;
  * A Javamail folder representing a newsgroup in the NNTP protocol.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: Newsgroup.java,v 1.1 2000-02-22 23:49:39 briand Exp $
+ * @version $Id: Newsgroup.java,v 1.2 2000-06-14 21:33:01 briand Exp $
  */
 class Newsgroup extends Folder
 {
@@ -293,6 +293,27 @@ class Newsgroup extends Folder
       return false;
    }
 
+   /**
+    * Subscribe or unsubscribe from the group.
+    *
+    * @param isSubscribed if true, subscribe if false, unsubscribe
+    */
+   public void setSubscribed(boolean isSubscribed)
+      throws MessagingException
+   {
+      ((NewsStore)getStore()).setGroupSubscribed(this, isSubscribed);
+   }
+
+   /**
+    * Determine whether this group is subscribed.
+    *
+    * @return true if the group is subscribed. False otherwise.
+    */
+   public boolean isSubscribed()
+   {
+      return ((NewsStore)getStore()).isGroupSubscribed(this);
+   }
+
    void setPostingOK(boolean b)
    {
       m_bPostingOK = b;
@@ -318,6 +339,10 @@ class Newsgroup extends Folder
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:49:39  briand
+// New news store implementation that sits on top of clients. Initial
+// revision.
+//
 // Revision 1.5  1999/11/11 21:26:39  briand
 // Change package and import to Javalobby JFA.
 //

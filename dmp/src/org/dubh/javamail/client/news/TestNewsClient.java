@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: TestNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+//   $Id: TestNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
 //   Copyright (C) 1999, 2000  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -47,7 +47,7 @@ import org.javalobby.javamail.client.StoreClient;
  * to change application code.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: TestNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+ * @version $Id: TestNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
  */
 public final class TestNewsClient extends AbstractNewsClient
 {
@@ -93,9 +93,9 @@ public final class TestNewsClient extends AbstractNewsClient
       }
    }
 
-   private GroupInfo getGroupInfo(String groupName)
+   private NewsClient.GroupInfo getGroupInfo(String groupName)
    {
-      return (GroupInfo)m_hashGroupStore.get(groupName);
+      return (NewsClient.GroupInfo)m_hashGroupStore.get(groupName);
    }
 
 ///////////////////////////////////////////////////////////
@@ -333,7 +333,7 @@ public final class TestNewsClient extends AbstractNewsClient
       {
          m_curGroup = groupName;
 
-         GroupInfo gi = getGroupInfo(groupName);
+         NewsClient.GroupInfo gi = getGroupInfo(groupName);
 
          setStatus(GROUP_SELECTED, ""+gi.getLowWaterMark()+" "+
             gi.getHighWaterMark()+" "+
@@ -568,4 +568,7 @@ public final class TestNewsClient extends AbstractNewsClient
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:47:35  briand
+// News client implementation initial revision.
+//
 //

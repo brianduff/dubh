@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NetworkNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+//   $Id: NetworkNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
 //   Copyright (C) 1999, 2000  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -46,16 +46,22 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import java.text.MessageFormat;
+
+import org.javalobby.dju.progress.ProgressMonitor;
+import org.javalobby.dju.progress.ProgressMonitorSupport;
+
+
 /**
  * This is an implementation of NewsClient that is based on the NNTP protocol
  * over a TCP/IP socket connection; i.e. it talks to a "real" news server over
  * the internet.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NetworkNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+ * @version $Id: NetworkNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
  */
 public class NetworkNewsClient extends AbstractNewsClient
-   implements NewsStatusCodes, NNTPCommands
+   implements NewsStatusCodes, NNTPCommands, ProgressMonitorSupport
 {
    public static final String
       ERR_BADPORT               = "BadPortNumber",
@@ -89,12 +95,28 @@ public class NetworkNewsClient extends AbstractNewsClient
 
    private boolean m_bPostingOK;
 
+   private ProgressMonitor m_progressMonitor;
+
    /**
     * Create the network news client.
     */
    public NetworkNewsClient()
    {
       m_hashGroupDescriptions = new HashMap();
+   }
+
+   /**
+    * Set the progress monitor on this client. The monitor will be notified
+    * of changes in progress.
+    */
+   public void setProgressMonitor(ProgressMonitor pm)
+   {
+      m_progressMonitor = pm;
+   }
+
+   private ProgressMonitor getProgressMonitor()
+   {
+      return m_progressMonitor;
    }
 
 ///////////////////////////////////////////////////////////
@@ -281,6 +303,9 @@ public class NetworkNewsClient extends AbstractNewsClient
    public void connect(String hostName, int portNumber)
       throws NewsClientException
    {
+      getProgressMonitor().setFixedLengthTask(false);
+      getProgressMonitor().setMessage("Attempting to connect to "+hostName+"...");
+
       checkstring(hostName, ERR_BADHOST);
       checkbool((portNumber <= 0), ERR_BADPORT);
 
@@ -301,6 +326,7 @@ public class NetworkNewsClient extends AbstractNewsClient
 
          int nStatus = getStatus();
 
+         getProgressMonitor().setMessage("Connection to "+hostName+" established");
          // Use the welcome status to figure out whether posting is OK
          // on the server.
          if (nStatus == READY_NOPOSTING)
@@ -328,7 +354,11 @@ public class NetworkNewsClient extends AbstractNewsClient
          doError(ERR_UNABLE_TO_CONNECT);
 
       }
-
+      finally
+      {
+         // Not sure if we should do this here.
+         getProgressMonitor().setFinished(true);
+      }
 
    }
 
@@ -514,24 +544,33 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getListNewsgroups()
       throws NewsClientException
    {
+      getProgressMonitor().setFixedLengthTask(false);
       checkconn();
 
       sendCommand(LIST);
 
-      return readGroupList();
+      ArrayList l =  readGroupList("Received {0} groups");
+
+      getProgressMonitor().setFinished(true);
+
+      return l;
    }
 
    private GroupListVisitor m_glvShared = new GroupListVisitor();
 
-   protected ServerListVisitor getGroupListVisitor(ArrayList destination)
+   protected ServerListVisitor getGroupListVisitor(ArrayList destination,
+      String progressMessage)
    {
       m_glvShared.setDestinationList(destination);
+      m_glvShared.setProgressMessage(progressMessage);
       return m_glvShared;
    }
 
    protected class GroupListVisitor implements ServerListVisitor
    {
       private ArrayList m_destList;
+      private String m_progressMessage;
+      private final int PROGRESS_UPDATE_INTERVAL = 10;
 
       public GroupListVisitor()
       {
@@ -540,6 +579,11 @@ public class NetworkNewsClient extends AbstractNewsClient
       protected void setDestinationList(ArrayList list)
       {
          m_destList = list;
+      }
+
+      protected void setProgressMessage(String progressMessage)
+      {
+         m_progressMessage = progressMessage;
       }
 
       /**
@@ -560,6 +604,16 @@ public class NetworkNewsClient extends AbstractNewsClient
             strName, nLow, nHigh, bPosting
          );
 
+         // Every PROGRESS_UPDATE_INTERVALth group, change the status
+         // message.
+         if (m_destList.size() % PROGRESS_UPDATE_INTERVAL == 0)
+         {
+            getProgressMonitor().setMessage(
+               MessageFormat.format(m_progressMessage, new Object[] {
+                  new Integer(m_destList.size())
+               }
+            ));
+         }
          m_destList.add(dgi);
 
          return true;
@@ -571,7 +625,7 @@ public class NetworkNewsClient extends AbstractNewsClient
     * group high low flags. You should have already sent a list command
     * of some sort to the server.
     */
-   protected ArrayList readGroupList()
+   protected ArrayList readGroupList(String progressMessage)
       throws NewsClientException
    {
       ArrayList alGroups = new ArrayList();
@@ -579,7 +633,8 @@ public class NetworkNewsClient extends AbstractNewsClient
       {
          try
          {
-            getServerList().accept(getGroupListVisitor(alGroups));
+            getServerList().accept(getGroupListVisitor(alGroups,
+               progressMessage));
          }
          catch (IOException ioe)
          {
@@ -600,23 +655,26 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getOverviewFormat()
       throws NewsClientException
    {
+      getProgressMonitor().setFixedLengthTask(false);
       checkconn();
 
       // The only way to see if xover is supported is to actually try using
       // the extended commands.
       sendCommand(LIST, "overview.fmt");
 
+      ArrayList stringList;
       // INN returns NEWSGROUP_LIST
       if (getStatus() == NEWSGROUP_LIST)
       {
-         return getStringList();
+         stringList =  getStringList("Received {0} items");
+      }
+      else
+      {
+         stringList = null;
       }
 
-      // Some other status code was retrieved, so overview doesn't seem
-      // to be supported by the server.
-
-      return null;
-
+      getProgressMonitor().setFinished(true);
+      return stringList;
    }
 
    /**
@@ -630,17 +688,24 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getArticleList(String groupName)
       throws NewsClientException
    {
+      getProgressMonitor().setFixedLengthTask(false);
       checkconn();
       checkstring(groupName, ERR_BAD_GROUPNAME);
 
       sendCommand(LISTGROUP, groupName);
 
+      ArrayList articleList;
       if (getStatus() == LIST_ARTICLES || getStatus() == GROUP_SELECTED)
       {
-         return getStringList();
+         articleList =  getStringList("Received {0} messages");
+      }
+      else
+      {
+         articleList = new ArrayList();
       }
 
-      return new ArrayList();
+      getProgressMonitor().setFinished(true);
+      return articleList;
    }
 
    /**
@@ -654,17 +719,24 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getNewGroups(Date since)
       throws NewsClientException
    {
+      getProgressMonitor().setFixedLengthTask(false);
       checkconn();
       checknull(since, ERR_INVALID_DATE);
 
       sendCommand(NEWGROUPS, getNNTPDate(since));
 
+      ArrayList groupList;
       if (getStatus() == LIST_NEWGROUPS)
       {
-         return readGroupList();
+         groupList =  readGroupList("Received {0} new groups");
+      }
+      else
+      {
+         groupList = new ArrayList();
       }
 
-      return new ArrayList();
+      getProgressMonitor().setFinished(true);
+      return groupList;
    }
 
    /**
@@ -679,19 +751,25 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getNewNews(String groupNames, Date since)
       throws NewsClientException
    {
-
+      getProgressMonitor().setFixedLengthTask(false);
       checkconn();
       checkstring(groupNames, ERR_BAD_GROUPNAME);
       checknull(since, ERR_INVALID_DATE);
 
       sendCommand(NEWNEWS, getNNTPDate(since));
 
+      ArrayList newsList;
       if (getStatus() == LIST_ARTICLES)
       {
-         return getStringList();
+         newsList =  getStringList("Received {0} new messages");
+      }
+      else
+      {
+         newsList = new ArrayList();
       }
 
-      return new ArrayList();
+      getProgressMonitor().setFinished(true);
+      return newsList;
    }
 
    /**
@@ -766,7 +844,7 @@ public class NetworkNewsClient extends AbstractNewsClient
 
          if (getStatus() == LIST_FOLLOWS || getStatus() == NEWSGROUP_LIST)
          {
-            ArrayList alGroups = getStringList();
+            ArrayList alGroups = getStringList(null);
 
             if (alGroups.size() == 1)
             {
@@ -941,13 +1019,14 @@ public class NetworkNewsClient extends AbstractNewsClient
     * returned items. If you want to do processing on each item, consider
     * using a visitor (see ServerList).
     */
-   protected ArrayList getStringList()
+   protected ArrayList getStringList(String progressMessage)
       throws NewsClientException
    {
       ArrayList alNewList = new ArrayList();
       try
       {
-         getServerList().accept(getStringListVisitor(alNewList));
+         getServerList().accept(getStringListVisitor(alNewList,
+            progressMessage));
       }
       catch (IOException ioe)
       {
@@ -959,15 +1038,19 @@ public class NetworkNewsClient extends AbstractNewsClient
 
    private StringListVisitor m_slvShared = new StringListVisitor();
 
-   protected ServerListVisitor getStringListVisitor(ArrayList dest)
+   protected ServerListVisitor getStringListVisitor(ArrayList dest,
+      String progressMessage)
    {
       m_slvShared.setDestinationList(dest);
+      m_slvShared.setProgressMessage(progressMessage);
       return m_slvShared;
    }
 
    protected class StringListVisitor implements ServerListVisitor
    {
       private ArrayList m_alDestination;
+      private String m_progressMessage;
+      private final int PROGRESS_UPDATE_INTERVAL = 10;
 
       public StringListVisitor() {}
 
@@ -976,9 +1059,21 @@ public class NetworkNewsClient extends AbstractNewsClient
          m_alDestination = al;
       }
 
+      public void setProgressMessage(String progressMessage)
+      {
+         m_progressMessage = progressMessage;
+      }
+
       public boolean visit(String item)
       {
          m_alDestination.add(item);
+         if (m_alDestination.size() % PROGRESS_UPDATE_INTERVAL == 0
+             && m_progressMessage != null)
+         {
+            getProgressMonitor().setMessage(MessageFormat.format(
+               m_progressMessage, new Object[] { new Integer(m_alDestination.size()) }
+            ));
+         }
          return true;
       }
    }
@@ -1038,4 +1133,7 @@ public class NetworkNewsClient extends AbstractNewsClient
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:47:35  briand
+// News client implementation initial revision.
+//
 //

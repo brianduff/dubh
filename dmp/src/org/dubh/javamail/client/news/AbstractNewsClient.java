@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: AbstractNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+//   $Id: AbstractNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
 //   Copyright (C) 1999, 2000  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -39,7 +39,7 @@ import org.javalobby.javamail.client.StoreClient;
  * properly.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: AbstractNewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+ * @version $Id: AbstractNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
  */
 public abstract class AbstractNewsClient implements NewsClient
 {
@@ -47,7 +47,7 @@ public abstract class AbstractNewsClient implements NewsClient
     * When using getListNewsgroups(), an array list of objects
     * implementing this interface are returned.
     */
-   protected class DefaultGroupInfo implements GroupInfo
+   protected class DefaultGroupInfo implements NewsClient.GroupInfo
    {
       private String  m_strGroupName;
       private int    m_lLow;
@@ -125,4 +125,7 @@ public abstract class AbstractNewsClient implements NewsClient
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:47:35  briand
+// News client implementation initial revision.
+//
 //
