@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.9 1999-12-12 03:31:51 briand Exp $
+//   $Id: MainFrame.java,v 1.10 2000-06-14 21:36:45 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -19,7 +19,7 @@
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
@@ -65,7 +65,7 @@ import org.javalobby.dju.misc.ResourceManager;
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.9 1999-12-12 03:31:51 briand Exp $
+ * @version $Id: MainFrame.java,v 1.10 2000-06-14 21:36:45 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -88,20 +88,20 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
    class TestList implements NavigatorServiceList
    {
-      public ArrayList getServices()
+      public java.util.List getServices()
       {
          ArrayList l = new ArrayList();
-         l.add(new PropertiesService("news",       
+         l.add(new PropertiesService("news",
             PropertyFileResolver.getDefaultedProperties(
-               "navigator"+File.separator+"services"+File.separator+"news", 
-               "news.properties", 
+               "navigator"+File.separator+"services"+File.separator+"news",
+               "news.properties",
                "org/javalobby/apps/newsagent/navigator/services/news",
                "news.properties"
              )
          ));
-         
+
          return l;
-      }   
+      }
    }
 
 
@@ -131,7 +131,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public MainFrame() {
      // Initialise the window
-     super(GlobalState.appName);     
+     super(GlobalState.appName);
      setName("newsagentMain");
 
      m_vertical.setContinuousLayout(false);
@@ -163,9 +163,15 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   }
 
+
 /**************************
  * Public Parts           *
  **************************/
+
+   public Navigator getNavigator()
+   {
+      return m_folders;
+   }
 
   public void setStatus(String s) {
      m_status.setText(s);
@@ -280,11 +286,11 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void editCopy() {
-     m_message.copy();   
+     m_message.copy();
   }
 
   public void editSelectAll() {
-     Debug.println("Not yet implemented.");   
+     Debug.println("Not yet implemented.");
   }
 
   public void editPreferences() {
@@ -386,7 +392,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      MessageComposer composer = new MessageComposer(server, group);
      composer.pack();
      composer.show();
-     
+
      */
   }
 
@@ -498,37 +504,37 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void helpAbout() {
-     
+
      ResourceManager rm = ResourceManager.getManagerFor("Menus");
      Icon i = rm.getImage("imgAbout");
-     
+
      ReadOnlyVersion verDubhUtils;
      ReadOnlyVersion verSwing;
      ReadOnlyVersion[] dependencies = new ReadOnlyVersion[2];
 
-     try 
+     try
      {
        verDubhUtils = VersionManager.getInstance().getVersion("org.javalobby.dju");
-     } 
+     }
      catch (IllegalArgumentException e)
      {
-        verDubhUtils = new DummyVersion("Dubh Java Utilities");   
+        verDubhUtils = new DummyVersion("Dubh Java Utilities");
      }
-     
-     try 
+
+     try
      {
        verSwing = VersionManager.getInstance().getVersion("javax.swing");
-     } 
+     }
      catch (IllegalArgumentException e)
      {
-        verSwing = new DummyVersion("Swing");   
-     }     
-     
-     
+        verSwing = new DummyVersion("Swing");
+     }
+
+
      dependencies[0] = verDubhUtils;
      dependencies[1] = verSwing;
-     
-     
+
+
      AboutPanel.doDialog(this, GlobalState.getVersion(), dependencies, i);
 
   }
@@ -705,14 +711,14 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      public void valueChanged(TreeSelectionEvent e) {
         Object obj = ((DefaultMutableTreeNode)e.getPath().getLastPathComponent()).getUserObject();
         boolean selected = e.isAddedPath();
-        if (obj instanceof MessageHeader) 
+        if (obj instanceof MessageHeader)
         {
           selMessageSelected((MessageHeader)obj, selected);
         }
      }
   }
-  
-  
+
+
     class DummyVersion implements ReadOnlyVersion
     {
         private String m_name;
@@ -722,24 +728,24 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
            m_name = name;
         }
 
-        public int    getMajorVersion() { return 0; }   
-        public int    getMinorVersion() { return 0; }   
-        public int    getMicroVersion() { return 0; }   
+        public int    getMajorVersion() { return 0; }
+        public int    getMinorVersion() { return 0; }
+        public int    getMicroVersion() { return 0; }
         public int    getBuildNumber()  { return 0; }
-        public String getBuildLabel()   { return ""; }  
-        public String getProductName() { return m_name; }   
-        public String getProductCopyright() { return ""; }   
+        public String getBuildLabel()   { return ""; }
+        public String getProductName() { return m_name; }
+        public String getProductCopyright() { return ""; }
         public Date   getReleaseDate() { return new Date(); }
         public String getVersionDescription(String format) { return m_name + " - unknown version"; }
         public String getShortDescription() { return "unknown version"; }
-        public String getLongDescription() { return getVersionDescription(""); }    
+        public String getLongDescription() { return getVersionDescription(""); }
 
    }
 
 }
 
 //
-// Old Version History: 
+// Old Version History:
  // <LI>0.1 [07/03/98]: Initial Revision
  // <LI>0.2 [23/03/98]: Revised to use FolderTreePanel
  // <LI>0.3 [24/03/98]: Added lots of Actions for PopupMenus on FolderTreePanel.
@@ -778,11 +784,16 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
  //   implemented a temporary file->exit.
  // <LI>1.03 [08/11/98]: Fixed a bug with menu enablement when a message is selected.
  // <LI>1.04 [23/11/98]: Changed about box variable feed to use new version information.
- 
+
 //
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  1999/12/12 03:31:51  briand
+// More bugfixes necessary due to move to javalobby. Mostly changing path from
+// dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
+// top level properties files.
+//
 // Revision 1.8  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //

@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.13 1999-12-16 22:09:11 briand Exp $
+//   $Id: NewsAgent.java,v 1.14 2000-06-14 21:36:45 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -19,7 +19,7 @@
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
@@ -36,14 +36,17 @@ import org.javalobby.apps.newsagent.nntp.NNTPServer;
 import org.javalobby.dju.misc.*;
 import org.javalobby.dju.ui.*;
 
+import org.javalobby.javamail.client.ClientRegistry;
+
+
 /**
- * NewsAgent main program. This class initialises NewsAgent, reading in 
+ * NewsAgent main program. This class initialises NewsAgent, reading in
  * various preferences and parsing the command line. It creates the main
  * window, and displays a splash screen until it appears.
  *
  * @author Brian Duff
  * @see org.javalobby.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.13 1999-12-16 22:09:11 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.14 2000-06-14 21:36:45 briand Exp $
  */
  public class NewsAgent {
 
@@ -51,7 +54,7 @@ import org.javalobby.dju.ui.*;
    public  static final String CONSOLE_FLAG = "-console";
    public  static final String DEBUG_NET_FLAG = "-debugnet";
    private static final String DEBUG_PREFIX = "NewsAgent Debug: ";
-   private static final String DEBUG_CONSOLE = "NewsAgent Debug Console";   
+   private static final String DEBUG_CONSOLE = "NewsAgent Debug Console";
    private static final String DEBUG_NETID = "debugnet";
    private static final String DEBUG_NET = "NewsAgent Network Debug Console";
    private static final String SPLASH_IMAGE = "org/javalobby/apps/newsagent/images/splash.gif";
@@ -65,7 +68,7 @@ import org.javalobby.dju.ui.*;
    /** Whether net debugging was enabled from the command line or from prefs */
    private static boolean netDebugFromPrefs;
    private static boolean debugFromPrefs;
-   
+
    /** The output stream for network debugging. */
    public static PrintWriter pwDebugNet;
 
@@ -73,24 +76,24 @@ import org.javalobby.dju.ui.*;
    private static Frame frmTemp;
    /** The splashscreen */
    private static Window winSplash;
-   
+
    /** Network debugging frame */
    private static DebugFrame m_netDebug;
-   
-   
+
+
    public NewsAgent() {
    }
 
    /**
     * Initialise the NewsAgent application.
     */
-   public static void init() 
+   public static void init()
    {
       //
       // Set up debugging before we do appInit(), in case there are any debug
       // messages during application initialisation
       //
-      
+
       setupDebugging();
       if (flagDebug)
          Debug.println("Debugging output was enabled with the "+DEBUG_FLAG+" command line flag.");
@@ -100,7 +103,7 @@ import org.javalobby.dju.ui.*;
       checkDebugPreferences();
       if (debugFromPrefs) setupDebugging();
 
-      if (flagDebugNet) 
+      if (flagDebugNet)
       {
          setupNetDebugging();
          if (netDebugFromPrefs)
@@ -108,7 +111,7 @@ import org.javalobby.dju.ui.*;
          else
            NNTPServer.debugStream.println("Network debugging output was enabled with the "+DEBUG_NET_FLAG+" command line flag.");
       }
-    
+
       if (debugFromPrefs)
       {
          Debug.println("Debugging output was enabled with the "+PreferenceKeys.DEBUG_DEBUGMESSAGES+" user preference.");
@@ -116,7 +119,7 @@ import org.javalobby.dju.ui.*;
 
    }
 
- 
+
 
    /**
     * The main NewsAgent application.
@@ -128,6 +131,11 @@ import org.javalobby.dju.ui.*;
         displaySplashScreen();
         checkCommandLine(args);
         init();
+
+        // Register the NNTP client. Probably doesn't belong here.
+        ClientRegistry.setStoreClient("news", "org.javalobby.javamail.client.news.NetworkNewsClient");
+
+
         hideSplashScreen();
      } catch (ExceptionInInitializerError e) {
         if (Debug.TRACE_LEVEL_1)
@@ -184,7 +192,7 @@ import org.javalobby.dju.ui.*;
    */
   private static void checkDebugPreferences() {
      UserPreferences p = GlobalState.getPreferences();
-     
+
      if (!flagDebug) {
         flagDebug = p.getBoolPreference(PreferenceKeys.DEBUG_DEBUGMESSAGES, false);
         debugFromPrefs = true;
@@ -195,7 +203,7 @@ import org.javalobby.dju.ui.*;
         flagDebugNet = p.getBoolPreference(PreferenceKeys.DEBUG_SERVERDUMP, false);
         netDebugFromPrefs = true;
      }
-     
+
      if (flagDebug)
      {
         Debug.setTraceLevel(GlobalState.getPreferences().getIntPreference(PreferenceKeys.DEBUG_TRACELEVEL, 3));
@@ -240,7 +248,7 @@ import org.javalobby.dju.ui.*;
                            screenSize.height/2 - winSize.height/2);
 
      winSplash.setVisible(true);
-    
+
 
   }
 
@@ -249,10 +257,13 @@ import org.javalobby.dju.ui.*;
      winSplash.dispose();
      frmTemp.dispose();
   }
-}    
+}
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  1999/12/16 22:09:11  briand
+// Yet another delta to test JFABuilder.
+//
 // Revision 1.12  1999/12/16 21:57:14  briand
 // Testing builder again.
 //

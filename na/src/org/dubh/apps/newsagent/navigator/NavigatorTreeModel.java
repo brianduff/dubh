@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorTreeModel.java,v 1.4 1999-12-13 22:32:43 briand Exp $
+//   $Id: NavigatorTreeModel.java,v 1.5 2000-06-14 21:36:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -19,7 +19,7 @@
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
@@ -28,7 +28,7 @@
 package org.javalobby.apps.newsagent.navigator;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.tree.*;
 import javax.swing.event.*;
@@ -39,8 +39,10 @@ import javax.mail.*;
 
 import org.javalobby.dju.misc.Debug;
 
+import org.javalobby.dju.ui.LazyTreeNode;
+
 /**
- * This is the data model for the navigator tree. A number of 
+ * This is the data model for the navigator tree. A number of
  * .properties files are used to persist the navigator tree.
  * These are stored in the NewsAgent directory.
  *
@@ -54,7 +56,7 @@ import org.javalobby.dju.misc.Debug;
  * </pre>
  * These specify the services for the navigator.
  * Each service has a .properties file containing information about
- * the providers it contains: e.g. news.properties: 
+ * the providers it contains: e.g. news.properties:
  * <pre>
  * service.niceName = Network News
  * service.icon = dubh/apps/newsagent/navigator/services/nntp/images/service.gif
@@ -77,193 +79,22 @@ import org.javalobby.dju.misc.Debug;
  * about the provider.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorTreeModel.java,v 1.4 1999-12-13 22:32:43 briand Exp $
+ * @version $Id: NavigatorTreeModel.java,v 1.5 2000-06-14 21:36:46 briand Exp $
  */
-public class NavigatorTreeModel implements TreeModel
-{  
-   protected NavigatorServiceList m_nslServices;
-   protected ArrayList m_alListeners;
-   private static NavigatorNode ROOT = new NavigatorRoot();
-   private Hashtable m_hashChildren;
-   
+public class NavigatorTreeModel extends DefaultTreeModel
+{
+
    /**
     * Construct a tree model for a navigator.
     * @param nsl An object which provides a list of services
     */
    public NavigatorTreeModel(NavigatorServiceList nsl)
    {
-      m_nslServices = nsl;
-      m_alListeners = new ArrayList();
-      m_hashChildren = new Hashtable();
+      super(new NavigatorRoot(nsl.getServices()));
    }
- 
-   public void throwAwayCache()
-   {
-      m_hashChildren.clear();
-   }
-   
-   protected ArrayList getChildrenFromCache(Object parent)
-   {
-      ArrayList kids = (ArrayList)m_hashChildren.get(parent);
-      if (kids == null)
-      {
-         // For the root object, return a service.
-         if (parent == ROOT)
-         {
-            kids =  m_nslServices.getServices();
-         }
-         
-         // For services, get a service provider
-         if (parent instanceof NavigatorService)
-         {
-            kids =  ((NavigatorService)parent).getServiceProviders();
-          //  if (Debug.TRACE_LEVEL_3)
-          //  {
-          //     Debug.println(3, this, "First provider is "+kids.get(0)+" with name "+((NavigatorServiceProvider)kids.get(0)).getName());
-          //  }
-         }
-         
-         try
-         {
-            // For service providers, get a folder
-            if (parent instanceof NavigatorServiceProvider)
-            {
-               Folder[] f = ((NavigatorServiceProvider)parent).getRootFolder().list();
-               kids = new ArrayList(f.length);
-               for (int i=0; i < f.length; i++)
-               {
-                  kids.add(new NavigatorFolderWrapper(
-                     (NavigatorServiceProvider)parent,
-                     f[i]
-                  ));
-               }
-            }
-            
-            // For a folder, get a sub folder
-            if (parent instanceof NavigatorFolderWrapper)
-            {
-               NavigatorFolderWrapper parentWrapper = (NavigatorFolderWrapper)parent;
-               Folder f = parentWrapper.getFolder();
-               if ((f.getType() & Folder.HOLDS_FOLDERS) > 0)
-               {   
-                  Folder[] folds = f.list();
-                  kids = new ArrayList(folds.length);
-                  for (int i=0; i < folds.length; i++)
-                  {
-                     kids.add(new NavigatorFolderWrapper(
-                        getProviderForFolder(f), 
-                        folds[i]
-                     ));
-                  }
-               }
-               else
-               {
-                  kids = new ArrayList(0);
-               }
-            }
-         }
-         catch (MessagingException me)
-         {
-            if (Debug.TRACE_LEVEL_1)
-            {
-               Debug.println(1, this,
-                  "Failure to set up tree model: A messaging exception was thrown."
-               );
 
-               Debug.printException(1, this,
-                  me
-               );
-            }
+/* What is this used for?
 
-            // TODO: This prob. means we are offline; need to deal with this
-            // sensibly.
-            //System.out.println("NavigatorTreeMode: add implementation for MessagingException");
-         }
-         
-         
-         if (kids == null)
-         {
-            throw new IllegalArgumentException(
-               "Unknown node type in navigator "+parent+" (type: "+parent.getClass().getName()+")"
-            );
-         }
-         
-         
-         m_hashChildren.put(parent, kids);
-      }
-      
-      return kids;
-      
-   }
- 
-   public void addTreeModelListener(TreeModelListener tml)
-   {
-      m_alListeners.add(tml);
-   }
-   
-   /**
-    * Get the child of the specified node
-    */
-   public Object getChild(Object parent, int index)
-   {
-      return getChildrenFromCache(parent).get(index);
-   }
-   
-   /**
-    * Get the number of children of the specified node
-    */
-   public int getChildCount(Object parent)
-   {
-      return getChildrenFromCache(parent).size();
-   }
-   
-   /**
-    * Get the index of a child node within its parent
-    */
-   public int getIndexOfChild(Object parent, Object child)
-   {
-      int numChildren = getChildCount(parent);
-      for (int i=0; i < numChildren; i++)
-      {
-         if (getChild(parent, i).equals(child))
-         {
-            return i;
-         }
-      }
-      
-      return -1;
-   }
-   
-   /**
-    * Returns the root. This should never be displayed for the 
-    * navigator.
-    */
-   public Object getRoot()
-   {
-      return ROOT;
-   }
-   
-   /**
-    * Returns true if the specified node is a leaf node
-    */
-   public boolean isLeaf(Object node)
-   {
-      return (getChildCount(node) == 0);
-   }
-   
-   public void removeTreeModelListener(TreeModelListener tml)
-   {
-      m_alListeners.remove(tml);
-   }
-   
-   /**
-    * Called when a tree value has been edited
-    */
-   public void valueForPathChanged(TreePath tp, Object newValue)
-   {
-      // TODO
-   }
-   
    public NavigatorServiceProvider getProviderForFolder(Folder f)
       throws MessagingException
    {
@@ -284,26 +115,53 @@ public class NavigatorTreeModel implements TreeModel
             }
          }
       }
-         
-      return null;   
+
+      return null;
    }
+*/
 
-
-   static class NavigatorRoot implements NavigatorNode
+   /**
+    * The root node.
+    */
+   static class NavigatorRoot extends LazyTreeNode implements NavigatorNode
    {
+      private List m_services;
+
+      public NavigatorRoot(List services)
+      {
+         m_services = services;
+      }
+      /**
+       * Populate the children of the root node.
+       */
+      protected void populate()
+      {
+         for (int i=0; i < m_services.size(); i++)
+         {
+            NavigatorService ns = (NavigatorService)m_services.get(i);
+            ns.setParent(NavigatorRoot.this);
+            addChild(ns);
+         }
+      }
+
       public Class[] getCommandList()
       {
          return new Class[0];
       }
-      
+
       public Icon getDisplayedNodeIcon()
       {
          return null;
       }
-      
+
       public String getDisplayedNodeName()
       {
          return "<<ROOT>>";
+      }
+
+      public String toString()
+      {
+         return getDisplayedNodeName();
       }
    }
 
@@ -311,6 +169,12 @@ public class NavigatorTreeModel implements TreeModel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  1999/12/13 22:32:43  briand
+// Move to Javalobby changed the paths to various resources. Added fixes to that
+// most things work again. Also patched the PropertyFileResolver to create parent
+// directories properly. Managed to get NewsAgent to run with the brand new JRE
+// 1.2.2 for Linux!!
+//
 // Revision 1.3  1999/11/09 22:34:42  briand
 // Move NewsAgent source to Javalobby.
 //

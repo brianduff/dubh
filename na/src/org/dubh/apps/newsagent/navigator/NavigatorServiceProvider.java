@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorServiceProvider.java,v 1.3 1999-11-09 22:34:42 briand Exp $
+//   $Id: NavigatorServiceProvider.java,v 1.4 2000-06-14 21:36:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -19,7 +19,7 @@
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
@@ -27,65 +27,116 @@
 //   See bottom of file for revision history
 package org.javalobby.apps.newsagent.navigator;
 
+import java.io.IOException;
+
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.Store;
 
 import javax.swing.Icon;
+import javax.swing.tree.TreeNode;
 
 import org.javalobby.dju.misc.UserPreferences;
+import org.javalobby.dju.ui.LazyTreeNode;
+import org.javalobby.dju.diagnostic.Assert;
 
 /**
  * A navigator service provider contains a (possibly nested)
  * set of folders which in turn contain objects of some kind.
- * The service provider provides information about which 
- * folders to display. 
- * 
+ * The service provider provides information about which
+ * folders to display.
+ *
  * Folders are JavaMail Folder objects.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorServiceProvider.java,v 1.3 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: NavigatorServiceProvider.java,v 1.4 2000-06-14 21:36:46 briand Exp $
  */
-public interface NavigatorServiceProvider extends NavigatorNode
-{ 
-   public UserPreferences getPreferences();
-  
+public abstract class NavigatorServiceProvider extends LazyTreeNode implements NavigatorNode
+{
+   /**
+    * Populate the service provider node.
+    */
+   protected void populate()
+   {
+      try
+      {
+         Folder root = getRootFolder();
+
+         Folder[] kids = root.listSubscribed();
+
+
+         if (kids != null)
+         {
+            for (int i=0; i < kids.length; i++)
+            {
+               addChild(new NavigatorFolderWrapper(this, kids[i]));
+            }
+         }
+      }
+      catch (MessagingException me)
+      {
+         // TODO: Handle this error
+         me.printStackTrace();
+      }
+   }
+
+   /**
+    * The service provider should delete its storage (eg. the user
+    * preferences file)
+    */
+   public abstract void delete() throws IOException;
+
+   public abstract UserPreferences getPreferences();
+
    /**
     * Get the root folder, which is assumed to contain all other
     * folders on the service. The root folder is usually not displayed.
     */
-   public Folder getRootFolder() throws MessagingException; 
+   public abstract Folder getRootFolder() throws MessagingException;
 
    /**
     * Set the internal name of the service. This will be used by
     * the NavigatorService to set your service instance's name
     * when the service provider is instantiated.
     */
-   public void setName(String name);
+   public abstract void setName(String name);
 
    /**
-    * The NavigatorService will register itself with all it's child
-    * providers after instantiation.
+    * Get the service for this service provider. This is usually the
+    * parent node.
     */
-   public void setService(NavigatorService s);
+   public NavigatorService getService()
+   {
+      TreeNode tnParent = getParent();
+      if (Assert.ENABLED)
+      {
+         Assert.that((tnParent != null),
+            "Service Provider doesn't have a parent!!!");
+         Assert.that((tnParent instanceof NavigatorService),
+            "Service Provider's parent is not a service!!");
+      }
 
-   public NavigatorService getService();
-   
+      return (NavigatorService)tnParent;
+   }
+
    /**
     * Get the (internal) name of the service.
     */
-   public String getName();
+   public abstract String getName();
 
    /**
     * Get the nice name of the service as it will be displayed to the user.
     * This can be the same as the internal name if you like.
     */
-   public String getNiceName();
-   
+   public abstract String getNiceName();
+
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.2  1999/10/24 00:44:38  briand
 // Interface changes.
 //

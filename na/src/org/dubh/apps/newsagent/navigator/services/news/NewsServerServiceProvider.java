@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsServerServiceProvider.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+//   $Id: NewsServerServiceProvider.java,v 1.3 2000-06-14 21:36:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -19,7 +19,7 @@
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
@@ -34,39 +34,65 @@ import javax.mail.MessagingException;
 
 import javax.swing.Icon;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 import java.util.MissingResourceException;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.javalobby.dju.misc.UserPreferences;
 import org.javalobby.dju.misc.ResourceManager;
+import org.javalobby.dju.diagnostic.Assert;
+
+import org.javalobby.apps.newsagent.GlobalState;
 
 import org.javalobby.apps.newsagent.navigator.NavigatorServiceProvider;
 import org.javalobby.apps.newsagent.navigator.NavigatorService;
 import org.javalobby.apps.newsagent.navigator.PropertyFileResolver;
+
+// By doing this, we break the ability to switch in a different javamail
+// nntp provider. I'm not too bothered about this, and at any rate, javamail's
+// interface is not rich enough to let us get all the information we need about
+// the server.
+// Nevertheless, try to use methods on Store rather than NewsStore, this
+// makes it easier for NewsAgent code to branch and use other javamail providers.
+import org.javalobby.javamail.news.NewsStore;
+
 /**
- * This represents a news server in the navigator 
+ * This represents a news server in the navigator
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NewsServerServiceProvider.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: NewsServerServiceProvider.java,v 1.3 2000-06-14 21:36:46 briand Exp $
  */
-public class NewsServerServiceProvider implements NavigatorServiceProvider 
-{ 
+public class NewsServerServiceProvider extends NavigatorServiceProvider
+{
    protected UserPreferences m_properties = null;
    protected String m_strName;
-   protected NavigatorService m_nsParent;
-   protected final static String STORAGE_PATH = "navigator"+File.separator;
+   protected final static String STORAGE_PATH = "navigator"+File.separator+"services"+File.separator+"news";
    protected Store m_stoServer = null;
    protected Folder m_folRoot = null;
-   
-   protected final static String 
+
+   protected final static String
       PREF_USERNAME = "username",
       PREF_PASSWORD = "password",
       PREF_NICENAME = "nicename",
-      PREF_PORT     = "port";
+      PREF_PORT     = "port",
+      PREF_HOST     = "host",
+      PREF_GROUP_UPDATE = "groupupdate";
 
    private final static String RES = "org.javalobby.apps.newsagent.navigator.services.news.res.Command";
+
+   /**
+    * Default constructor
+    */
+   public NewsServerServiceProvider()
+   {
+
+   }
+
+
 
    /**
     * Get internationalized resources for News
@@ -85,33 +111,62 @@ public class NewsServerServiceProvider implements NavigatorServiceProvider
       }
    }
 
+   /**
+    * Get the JavaMail store for this server.
+    */
+   public Store getStore()
+   {
+      // TODO
+
+      return m_stoServer;
+   }
 
    /**
-    * Get the user preferences for this provider. 
+    * Convenience method that gets all newsgroups from the root folder. Folders
+    * in the context of news are NewsGroups.
+    */
+   public Folder[] getAllFolders()
+      throws MessagingException
+   {
+      return getRootFolder().list();
+   }
+
+
+   /**
+    * Get the user preferences for this provider.
     */
    public UserPreferences getPreferences()
    {
       if (m_properties == null)
       {
-         m_properties = PropertyFileResolver.getPreferences(
-            STORAGE_PATH+m_nsParent.getServiceProtocolName()+"."+getName()+".properties"
-         );
+         String prefsPath = STORAGE_PATH+getService().getServiceProtocolName()+
+            "."+getName()+".properties";
+
+         m_properties = PropertyFileResolver.getPreferences(prefsPath);
+
+         if (Assert.ENABLED)
+         {
+            Assert.that((m_properties != null),
+               "Failed to find News Service Provider prefs at "+prefsPath
+            );
+         }
       }
-      
+
       return m_properties;
    }
-  
-  
+
+
    /**
     * Get the root folder, which is assumed to contain all other
     * folders on the service. The root folder is usually not displayed.
+    * This command will cause a connection to be opened to the host.
     */
    public Folder getRootFolder()
       throws MessagingException
    {
-      
+
       // Connect if necessary
-      
+
       if (m_stoServer != null)
       {
          if (!m_stoServer.isConnected())
@@ -124,19 +179,19 @@ public class NewsServerServiceProvider implements NavigatorServiceProvider
       {
          Properties props = System.getProperties();
          Session session = Session.getDefaultInstance(props, null);
-         m_stoServer = session.getStore(m_nsParent.getServiceProtocolName());  
-         connect();       
+         m_stoServer = session.getStore(getService().getServiceProtocolName());
+         connect();
       }
-      
+
       // Get the root folder if necessary
-      
+
       if (m_folRoot == null)
       {
          m_folRoot = m_stoServer.getDefaultFolder();
-      }   
-      
+      }
+
       return m_folRoot;
-   
+
    }
 
    /**
@@ -148,28 +203,22 @@ public class NewsServerServiceProvider implements NavigatorServiceProvider
    {
       m_strName = name;
    }
-   
-   
-   public void setService(NavigatorService service)
-   {
-      m_nsParent = service;
-   }
-   
+
    public NavigatorService getService()
    {
-      return m_nsParent;
+      return (NavigatorService)getParent();
    }
 
    public Class[] getCommandList()
    {
       return getService().getProviderCommandList();
    }
-   
+
    public String getDisplayedNodeName()
    {
       return getNiceName();
    }
-   
+
    public Icon getDisplayedNodeIcon()
    {
       return getService().getProviderIcon();
@@ -182,20 +231,25 @@ public class NewsServerServiceProvider implements NavigatorServiceProvider
    {
       return m_strName;
    }
-   
-   
+
+   public String toString()
+   {
+      return m_strName;
+   }
+
+
    public void connect()
       throws MessagingException
    {
-      m_stoServer.connect(getName(), getPort(), getUserName(), getPassword());      
+      m_stoServer.connect(getName(), getPort(), getUserName(), getPassword());
    }
-   
+
    public void close()
       throws MessagingException
    {
       m_stoServer.close();
    }
-   
+
    /**
     * Get the nice name of the service as it will be displayed to the user.
     * This can be the same as the internal name if you like.
@@ -203,26 +257,116 @@ public class NewsServerServiceProvider implements NavigatorServiceProvider
    public String getNiceName()
    {
       return getPreferences().getPreference(PREF_NICENAME);
-   } 
-   
-   public String getUserName()
-   {
-      return getPreferences().getPreference(PREF_USERNAME, null);      
    }
 
+   /**
+    * Set the nice name of the service.
+    */
+   public void setNiceName(String niceName)
+   {
+      getPreferences().setPreference(PREF_NICENAME, niceName);
+   }
+
+   /**
+    * Get the username that is used to connect to the news server.
+    * This is null if none has been specified
+    */
+   public String getUserName()
+   {
+      return getPreferences().getPreference(PREF_USERNAME, null);
+   }
+
+   /**
+    * Set the username that is used to connect to the news server.
+    */
+   public void setUserName(String userName)
+   {
+      getPreferences().setPreference(PREF_USERNAME, userName);
+   }
+
+   /**
+    * Get the password used to connect to the server
+    * This is null if none has been specified
+    */
    public String getPassword()
    {
-      return getPreferences().getPreference(PREF_PASSWORD, null);   
+      return getPreferences().getPreference(PREF_PASSWORD, null);
    }
-   
+
+   /**
+    * Set the password that is used to connect to the server
+    */
+   public void setPassword(String password)
+   {
+      getPreferences().setPreference(PREF_PASSWORD, password);
+   }
+
+   /**
+    * Get the port number that the news server is on. Returns
+    * the default (119) if none has been set.
+    */
    public int getPort()
    {
-      return getPreferences().getIntPreference(PREF_PORT, 119);   
+      return getPreferences().getIntPreference(PREF_PORT, 119);
+   }
+
+   /**
+    * Set the port number that the news server is on.
+    */
+   public void setPort(int portNum)
+   {
+      getPreferences().setIntPreference(PREF_PORT, 119);
+   }
+
+   /**
+    * Get the host name that the server is on. This is just
+    * the (internal) name of this service provider if none has been
+    * set.
+    */
+   public String getHost()
+   {
+      String host = getPreferences().getPreference(PREF_HOST);
+      if (host == null)
+      {
+         return getName();
+      }
+      return host;
+   }
+
+   /**
+    * Set the hostname to connect to.
+    */
+   public void setHost(String hostName)
+   {
+      getPreferences().setPreference(PREF_HOST, hostName);
+      if (getName() == null)
+      {
+         setName(hostName);
+      }
+   }
+
+   /**
+    * Save the preferences stored in this object.
+    */
+   public void save() throws IOException
+   {
+      getPreferences().save();
+   }
+
+   /**
+    * The service provider should delete its physical sroage
+    */
+   public void delete() throws IOException
+   {
+      getPreferences().delete();
    }
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/10/24 00:47:57  briand
 // Initial revision.
 //
