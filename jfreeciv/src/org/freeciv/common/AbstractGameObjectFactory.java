@@ -3,9 +3,6 @@ package org.freeciv.common;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.net.Packet;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  * The superclass for all the game object factories in freeciv. This
  * provides some useful utilities for retrieving objects. Subclasses should

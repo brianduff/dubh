@@ -22,7 +22,9 @@ public final  class Tile
 
   private Object m_data;
 
-  Tile()
+  private Game m_game;
+
+  Tile(Game g)
   {
     m_type = CommonConstants.T_UNKNOWN; 
   //  m_special = null; // S_NO_SPECIAL
@@ -32,6 +34,8 @@ public final  class Tile
     m_known = CommonConstants.TILE_UNKNOWN;
     // todo unit_list_init().
     m_units = new ArrayList();
+
+    m_game = g;
   }
 
   public Object getData()
@@ -113,6 +117,15 @@ public final  class Tile
   public int getTerrain()
   {
     return m_type;
+  }
+
+  /**
+   * Get the terrain type for this tile
+   */
+  public TerrainType getTerrainType()
+  {
+    return (TerrainType)
+      m_game.getFactories().getTerrainTypeFactory().findById( getTerrain() );
   }
 
   public void setTerrain(int terrain)

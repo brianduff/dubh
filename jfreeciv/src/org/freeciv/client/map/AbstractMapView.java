@@ -18,6 +18,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Collection;
 
 
 import javax.swing.Icon;
@@ -32,10 +33,14 @@ import javax.swing.SwingConstants;
 import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
 import org.freeciv.client.Localize;
+import org.freeciv.client.Options;
 import org.freeciv.client.panel.MapOverviewJumpEvent;
 import org.freeciv.common.Assert;
 import org.freeciv.common.Map;
+import org.freeciv.common.Player;
+import org.freeciv.common.TerrainType;
 import org.freeciv.common.Tile;
+import org.freeciv.common.Unit;
 
 /**
  * Abstract superclass for map views. The two concrete subclasses of this
@@ -43,7 +48,7 @@ import org.freeciv.common.Tile;
  *
  * @author Brian Duff
  */
-abstract class AbstractMapView implements MapView, Constants
+public abstract class AbstractMapView implements MapView, Constants
 {
 
   private Client m_client;
@@ -67,7 +72,6 @@ abstract class AbstractMapView implements MapView, Constants
   private Dimension m_tileSize;
   private Dimension m_mapSize;
 
-
   /**
    * Construct the abstract map view. Concrete subclasses should call the super
    * constructor to ensure the abstract map is initialized properly.
@@ -77,18 +81,20 @@ abstract class AbstractMapView implements MapView, Constants
   protected AbstractMapView(Client c)
   {
     m_client = c;
-    m_component = new MapComponent( createPainter(), this );
-
-    m_scrollPane = new JScrollPane();
+    m_tileSize = new Dimension( c.getTileSpec().getNormalTileWidth(),
+      c.getTileSpec().getNormalTileHeight()
+    );
+    m_scrollPane = new JScrollPane();    
     
+    m_component = new MapComponent( getLayers(), new InnerMapViewInfo() );
+
+
     Icon intro = getClient().getTileSpec().getImage( "main_intro_file" );
     Assert.that( intro != null );
     m_scrollPane.setViewportView( new JLabel( intro ) );
   
 
-    m_tileSize = new Dimension( c.getTileSpec().getNormalTileWidth(),
-      c.getTileSpec().getNormalTileHeight()
-    );
+
 
 
   }
@@ -100,9 +106,15 @@ abstract class AbstractMapView implements MapView, Constants
     centerOnTile( moje.getPosition().x, moje.getPosition().y );
   }
 
-  protected abstract Painter createPainter();
+  /**
+   * Get the map layer painters.
+   *
+   * @return a collection of MapLayer instances which are requested to paint
+   *  in order
+   */
+  protected abstract Collection getLayers();
 
-  abstract void paintTile( Graphics2D g, Point tilePos, Point screenPos );
+  //abstract void paintTile( Graphics2D g, Point tilePos, Point screenPos );
 
   public final void refreshTileMapCanvas( int x, int y )
   {
@@ -123,7 +135,7 @@ abstract class AbstractMapView implements MapView, Constants
 
     //if ( isTileVisible( tilex, tiley ) )
     //{
-      m_component.updateTileAt( tilex, tiley, tilew, tileh, repaint );
+     // m_component.updateTileAt( tilex, tiley, tilew, tileh, repaint );
     //}
   }
 
@@ -337,13 +349,6 @@ abstract class AbstractMapView implements MapView, Constants
     getClient().getMainWindow().getMapOverview().refresh();
   }
 
-  /**
-   * Show city descriptions ?
-   */
-  protected final void showCityDescriptions()
-  {
-    // TODO
-  }
 
 
   protected final String _(String s)
@@ -358,7 +363,114 @@ abstract class AbstractMapView implements MapView, Constants
   }
   */
 
+  private class InnerMapViewInfo implements MapViewInfo
+  {
+    /**
+     * Get the portion of the map component which is visible to the user through
+     * this view.
+     *
+     * @return a rectangle indicating (in pixels) the portion of the map 
+     *    component which the user can currently see
+     */
+    public Rectangle getVisibleRectangle()
+    {
+      return m_component.getVisibleRect();
+    }
 
+    /**
+     * Get the size of a tile
+     *
+     * @return a Dimension indicating the pixel width and height of a tile
+     */
+    public Dimension getTileSize()
+    {
+      return m_tileSize;
+    }
+
+    /**
+     * Get the size of the map in tiles.
+     *
+     * @return a Dimension indicating how big the map is in tiles
+     */
+    public Dimension getMapSizeInTiles()
+    {
+      return m_mapSize;
+    }
+
+    /**
+     * Get options for the view.
+     *
+     * @return an Options object that provides information about the options
+     *    set for this view
+     */
+    public Options getOptions()
+    {
+      return getClient().getOptions();  /// TODO Options per view
+    }
+
+    /**
+     * Get an image from the tilespec used by this view
+     *
+     * @param imageKey the key of an image
+     * @return an image
+     */
+    public Icon getImage( String key )
+    {
+      return getClient().getTileSpec().getImage( key );
+    }
+
+    /**
+     * Get information about a tile.
+     *
+     * @param mapPos the map position to get tile information for
+     * @return a Tile object for the specified position
+     */
+    public Tile getTile( Point mapPos )
+    {
+      return getClient().getGame().getMap().getTile( mapPos.x, mapPos.y );
+    }
+
+    /**
+     * Get the map
+     *
+     * @return Map information about the map
+     */
+    public Map getMap()
+    {
+      return getClient().getGame().getMap();
+    }
+
+    /**
+     * Get terrain type of the specified id
+     */
+    public TerrainType getTerrainType( int id )
+    {
+      return (TerrainType)
+        getClient().getGame().getFactories().getTerrainTypeFactory().findById( id );
+    }
+
+    /**
+     * Get the unit in focus
+     */
+    public Unit getUnitInFocus()
+    {
+      return getClient().getUnitInFocus();
+    }
+
+    /**
+     * Are flags in the tilespec transparent?
+     */
+    public boolean areFlagsTransparent()
+    {
+      return getClient().getTileSpec().areFlagsTransparent();
+    }
+
+    public Player getCurrentPlayer()
+    {
+      return getClient().getGame().getCurrentPlayer();
+    }
+
+  }
 
 
 }

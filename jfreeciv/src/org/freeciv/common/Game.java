@@ -80,7 +80,7 @@ public final class Game implements CommonConstants
 
     m_globalAdvances = new int[ A_LAST ];
     m_globalWonders = new int[ B_LAST ];
-    m_map = new Map();
+    m_map = new Map( this );
   }
 
   public Factories getFactories()

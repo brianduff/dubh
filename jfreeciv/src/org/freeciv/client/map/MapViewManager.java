@@ -7,6 +7,8 @@ import javax.swing.SwingUtilities;
 
 import org.freeciv.client.Client;
 import org.freeciv.common.Assert;
+import org.freeciv.client.map.grid.GridMapView;
+import org.freeciv.client.map.iso.IsometricMapView;
 
 /**
  * The client map class is responsible for creating MapView instances and for
@@ -124,11 +126,12 @@ public final class MapViewManager
   {
     MapView mv;
 
-    if ( DEBUG_MODE )
-    {
-      mv = new DebugMapView( m_client );
-    }
-    else if ( m_client.getTileSpec().isIsometric() )
+    //if ( DEBUG_MODE )
+    //{
+    //  mv = new DebugMapView( m_client );
+    //}
+    //else 
+    if ( m_client.getTileSpec().isIsometric() )
     {
       mv = new IsometricMapView( m_client );
     }

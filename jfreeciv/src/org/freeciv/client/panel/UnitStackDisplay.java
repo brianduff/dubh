@@ -99,10 +99,7 @@ public final class UnitStackDisplay extends JPanel
 
     private void initIcon()
     {
-      List spriteList = new ArrayList();
-      boolean[] solidBg = new boolean[1];
-      m_client.getTileSpec().fillUnitSprites( spriteList, m_unit, solidBg );
-      setIcon( new CompoundIcon( spriteList ) );
+      setIcon( m_unit.getSprite() );
     }
 
     private void initToolTip()
@@ -190,37 +187,5 @@ public final class UnitStackDisplay extends JPanel
 
   }
 
-  /**
-   * A compound icon is an icon consisting of several icons drawn on top of each
-   * other.
-   */
-  private class CompoundIcon implements Icon
-  {
-    List m_icons;
-
-    private CompoundIcon( List icons )
-    {
-      m_icons = icons;
-    }
-
-    public int getIconWidth()
-    {
-      return ((Icon)m_icons.get(0)).getIconWidth();
-    }
-
-    public int getIconHeight()
-    {
-      return ((Icon)m_icons.get(0)).getIconHeight();
-    }
-
-    public void paintIcon( Component c, Graphics g, int x, int y )
-    {
-      Iterator i = m_icons.iterator();
-      while ( i.hasNext() )
-      {
-        ((Icon)i.next()).paintIcon( c, g, x, y );
-      }
-    }
-  }
 
 }

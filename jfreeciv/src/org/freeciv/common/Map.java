@@ -29,6 +29,8 @@ public final class Map implements CommonConstants
   private MapPosition[] m_startPositions;
   private Tile m_voidTile;
 
+  private Game m_game;
+
   public static final int[] DIR_DX = new int[] 
   {
     -1, 0, 1, -1, 1, -1, 0, 1
@@ -48,10 +50,10 @@ public final class Map implements CommonConstants
     -1, -1, 0, 1, 1, 1, 0, -1
   };
 
-  Map()
+  Map( Game game )
   {
     m_startPositions = new MapPosition[ MAX_NUM_NATIONS ];
-    m_voidTile = new Tile();
+    m_voidTile = new Tile( m_game );
   }
 
   public MapPosition normalizeMapPosition( int x, int y )
@@ -138,7 +140,7 @@ public final class Map implements CommonConstants
       {
         for (int x = 0; x < getWidth(); x++)
         {
-          m_tiles[ getTileArrayIndex( x, y ) ] = new Tile();
+          m_tiles[ getTileArrayIndex( x, y ) ] = new Tile( m_game );
         }
       }
     }

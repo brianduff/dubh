@@ -3,6 +3,7 @@ package org.freeciv.common;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.Icon;
 
 import org.freeciv.net.PktCityInfo;
 import org.freeciv.net.WorkList;
@@ -475,6 +476,53 @@ public final class City implements CommonConstants
         m_cityMap[x][y] = type;
       }
     }
+  }
+
+  // Sprites for the client. Don't really belong here, don't really belong
+  // anywhere else.
+
+  public Icon getNationalFlagSprite()
+  {
+    return getOwner().getNation().getFlagSprite();
+  }
+
+  public Icon getOccupiedSprite()
+  {
+    return getStyle().getTileSprite( getStyle().getNumTiles() + 1 );
+  }
+
+  public Icon getSprite( boolean isometric )
+  {
+    CityStyle cs = getStyle();
+    int size;
+    for( size=0; size < cs.getNumTiles(); size++)
+    {
+      if ( getSize() < cs.getThreshold( size ) )
+      {
+        break;
+      }
+    }
+
+    if ( isometric )
+    {
+      if ( hasWalls() )
+      {
+        return cs.getWallSprite( size-1 );
+      }
+      else
+      {
+        return cs.getTileSprite( size - 1);
+      }
+    }
+    else
+    {
+      return cs.getTileSprite( size - 1 );
+    }    
+  }
+
+  public Icon getCityWallSprite( )
+  {
+    return getStyle().getTileSprite( getStyle().getNumTiles() );
   }
 
 

@@ -1,5 +1,7 @@
 package org.freeciv.common;
 
+import javax.swing.Icon;
+
 import org.freeciv.net.PktUnitInfo;
 
 /**
@@ -357,5 +359,17 @@ public final class Unit implements CommonConstants
     return false;
   }
 
+  /**
+   * Get the national flag sprite for this unit
+   */
+  public Icon getNationalFlagSprite()
+  {
+    return getOwner().getNation().getFlagSprite();
+  }
+
+  public Icon getSprite()
+  {
+    return getUnitType().getSprite();
+  }
   
 }

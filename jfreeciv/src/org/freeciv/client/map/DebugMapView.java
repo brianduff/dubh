@@ -14,11 +14,11 @@ import org.freeciv.common.Tile;
  *
  * @author Brian Duff
  */
-public class DebugMapView extends GridMapView
+public class DebugMapView 
 {
   DebugMapView( Client c)
   {
-    super( c );
+    //super( c );
   }
 
   private Color getTileColor( Tile t )
@@ -30,7 +30,7 @@ public class DebugMapView extends GridMapView
 
     return Color.green;
   }
-
+/*
   protected void paintTile( Graphics2D g, Point tilePos, Point screenPos )
   {
     Tile t = getMap().getTile( tilePos.x, tilePos.y );
@@ -54,4 +54,5 @@ public class DebugMapView extends GridMapView
       getNormalTileWidth(), getNormalTileHeight()
     );    
   }
+  */
 }
