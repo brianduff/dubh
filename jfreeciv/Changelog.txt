@@ -1,3 +1,10 @@
+04.11.01 [bduff]
+
+The unit stack and unit info displays now work.
+
+The game now handles unit focus correctly internally and
+sets initial focus on startup. No flashing units yet, though.
+
 29.10.01 [bduff]
 
 Removed the old map implementation because it's not working.
