@@ -1,5 +1,13 @@
 package org.freeciv.net;
 
+import java.io.IOException;
+
+/**
+ * Packet representing information about a player.
+ *
+ * Verified 1.12.cvs
+ * @author Brian.Duff@dubh.org
+ */
 public class PktPlayerInfo extends AbstractPacket
 {
 	public int playerno;
@@ -12,6 +20,9 @@ public class PktPlayerInfo extends AbstractPacket
 	public boolean turn_done;
 	public int nturns_idle;
 	public boolean is_alive;
+  public int reputation;
+  public PlayerDiplomacyState[] diplstates = 
+      new PlayerDiplomacyState[ MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ];
 	public int gold;
 	public int tax;
 	public int science;
@@ -23,12 +34,12 @@ public class PktPlayerInfo extends AbstractPacket
 	public int tech_goal; //ptr??
 	public boolean[] inventions; // = new boolean[A_LAST+1];
 	public boolean is_connected;
-	public String addr;
 	public int revolution;
 	public boolean ai;
 	public boolean is_barbarian;
 	public String capability;
 	public WorkList[] worklists = new WorkList[MAX_NUM_WORKLISTS];
+  public int gives_shared_vision;
 
 	public PktPlayerInfo()
 	{
@@ -36,12 +47,58 @@ public class PktPlayerInfo extends AbstractPacket
 	}
 	
 	public PktPlayerInfo(InStream in) {
-	  super(in);
+    super(in);
   }
 
-  public void send(OutStream out) throws java.io.IOException
+  public void send(OutStream out) throws IOException
   {
-    // NYI
+    out.writeUnsignedByte(playerno);
+    out.writeZeroString(name);
+
+    out.writeUnsignedByte(is_male?1:0);
+    out.writeUnsignedByte(government);
+    out.writeInt(embassy);
+    out.writeUnsignedByte(city_style);
+    out.writeUnsignedByte(nation);
+    out.writeUnsignedByte(turn_done?1:0);
+    out.writeShort(nturns_idle);
+    out.writeUnsignedByte(is_alive?1:0);
+
+    out.writeInt(reputation);
+
+    for (int i=0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++)
+    {
+      out.writeInt(diplstates[i].getType());
+      out.writeInt(diplstates[i].getTurnsLeft());
+      out.writeInt(diplstates[i].getReasonToCancel());
+    }
+
+    out.writeInt(gold);
+    out.writeUnsignedByte(tax);
+    out.writeUnsignedByte(science);
+    out.writeUnsignedByte(luxury);
+
+    out.writeInt(researched);
+    out.writeInt(researchpoints);
+    out.writeUnsignedByte(researching);
+
+    out.writeBitString(inventions);
+    out.writeShort(future_tech);
+
+    out.writeUnsignedByte(is_connected?1:0);
+
+    out.writeUnsignedByte(revolution);
+    out.writeUnsignedByte(tech_goal);
+    out.writeUnsignedByte(ai?1:0);
+    out.writeUnsignedByte(is_barbarian?1:0);
+
+    for (int i=0; i < MAX_NUM_WORKLISTS; i++)
+    {
+      putWorkList(out, worklists[i]);
+    }
+
+    out.writeInt(gives_shared_vision);
+
   }
 
   public void receive(InStream in)
@@ -53,33 +110,49 @@ public class PktPlayerInfo extends AbstractPacket
 		embassy = in.readInt();
 		city_style = in.readUnsignedByte();
 		nation = in.readUnsignedByte();
-		turn_done = in.readByte() != 0;
+		turn_done = in.readUnsignedByte() != 0;
 		nturns_idle = in.readShort();
-		is_alive = in.readByte() !=0;
+		is_alive = in.readUnsignedByte() !=0;
+
+    reputation = in.readInt();
+
+    for (int i=0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++)
+    {
+      if (diplstates[i] == null)
+      {
+        diplstates[i] = new PlayerDiplomacyState();
+      }
+      diplstates[i].setType(in.readInt());
+      diplstates[i].setTurnsLeft(in.readInt());
+      diplstates[i].setReasonToCancel(in.readInt());
+    }
 		
 		gold = in.readInt();
-		tax = in.readByte();
-		science = in.readByte();
-		luxury = in.readByte();
+		tax = in.readUnsignedByte();
+		science = in.readUnsignedByte();
+		luxury = in.readUnsignedByte();
 		
 		researched = in.readInt();
 		researchpoints = in.readInt();
-		researching = in.readByte();
+		researching = in.readUnsignedByte();
+    
 		inventions = in.readBitString();
 		future_tech = in.readShort();
 		
-		is_connected = in.readByte() != 0;
-		addr = in.readZeroString();
-		revolution = in.readByte();
-		tech_goal = in.readByte();
-		ai = in.readByte() != 0;
-		is_barbarian = in.readByte() > 0;
+		is_connected = in.readUnsignedByte() != 0;
+    
+		revolution = in.readUnsignedByte();
+		tech_goal = in.readUnsignedByte();
+		ai = in.readUnsignedByte() != 0;
+		is_barbarian = in.readUnsignedByte() > 0;
 		capability = in.readZeroString();
 		
 		for (int i=0; i< MAX_NUM_WORKLISTS; i++)
 		{
 		  worklists[i] = getWorkList(in, worklists[i]);
 		}
+
+    gives_shared_vision = in.readInt();
 	}
 }
 

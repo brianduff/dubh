@@ -5,10 +5,6 @@ public class PktMoveUnit extends AbstractPacket {
 	public int unitId;
 	public int nx;
 	public int ny;
-
-	public PktMoveUnit() {
-	  super();
-	}
 	
 	public PktMoveUnit(InStream in)
 	{

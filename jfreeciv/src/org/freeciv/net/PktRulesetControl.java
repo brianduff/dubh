@@ -11,6 +11,7 @@ public class PktRulesetControl extends AbstractPacket
    public int add_to_size_limit;
    public int num_unit_types;
    public int num_tech_types;
+   public int num_impr_types;
    public class c_rtech
    {
       public int get_bonus_tech;
@@ -29,10 +30,6 @@ public class PktRulesetControl extends AbstractPacket
    public int playable_nation_count;
    public int style_count;
 
-   public PktRulesetControl()
-   {
-      super();
-   }
    public PktRulesetControl(InStream in)
    {
       super(in);
@@ -55,6 +52,7 @@ public class PktRulesetControl extends AbstractPacket
       government_when_anarchy = in.readUnsignedByte();
 
       num_unit_types = in.readUnsignedByte();
+      num_impr_types = in.readUnsignedByte();
       num_tech_types = in.readUnsignedByte();
 
       nation_count = in.readUnsignedByte();

@@ -6,7 +6,7 @@ public class PktGameInfo extends AbstractPacket
 	public int gold;
 	public int civstyle;
 	public int tech;
-	public int techlevel;
+	public int researchcost;
 	public int skill_level;
 	public int timeout;
 	public int end_year;
@@ -15,6 +15,8 @@ public class PktGameInfo extends AbstractPacket
 	public int player_idx;
 	public int globalWarming;
 	public int heating;
+  public int nuclearwinter;
+  public int cooling;
 	public int cityfactor;
 	public int unhappysize;
 	public int diplcost,freecost,conquercost;
@@ -23,25 +25,61 @@ public class PktGameInfo extends AbstractPacket
 	public int foodbox;
 	public int techpenalty;
 	public int spacerace;
-
-
-	public PktGameInfo()
-	{
-	  super();
-	}
+  public int seconds_to_turndone;
 
 	public PktGameInfo(InStream in) {
 	  super(in);
 	}
 	
-	public void send(OutStream os) throws java.io.IOException
-	{}
+	public void send(OutStream out) throws java.io.IOException
+	{
+    out.writeShort(gold);
+    out.writeInt(tech);
+    out.writeUnsignedByte(researchcost);
+
+    out.writeInt(skill_level);
+    out.writeShort(timeout);
+    out.writeInt(end_year);
+    out.writeInt(year);
+    out.writeUnsignedByte(min_players);
+    out.writeUnsignedByte(max_players);
+    out.writeUnsignedByte(nplayers);
+    out.writeUnsignedByte(player_idx);
+    out.writeInt(globalWarming);
+    out.writeInt(heating);
+    out.writeInt(nuclearwinter);
+    out.writeInt(cooling);
+
+    out.writeUnsignedByte(cityfactor);
+    out.writeUnsignedByte(diplcost);
+    out.writeUnsignedByte(freecost);
+    out.writeUnsignedByte(conquercost);
+    out.writeUnsignedByte(unhappysize);
+
+    for (int i=0; i < A_LAST; i++)
+    {
+      out.writeUnsignedByte(global_advances[i]);
+    }
+
+    for (int i=0; i < B_LAST; i++)
+    {
+      out.writeUnsignedByte(global_wonders[i]);
+    }
+
+    out.writeUnsignedByte(techpenalty);
+    out.writeUnsignedByte(foodbox);
+    out.writeUnsignedByte(civstyle);
+    out.writeUnsignedByte(spacerace);
+
+    out.writeInt(seconds_to_turndone);
+  }
 	
 	public void receive(InStream in)
 	{
 		gold = in.readShort();
 		tech = in.readInt();
-		techlevel = in.readUnsignedByte();
+		researchcost = in.readUnsignedByte();
+    
 		skill_level = in.readInt();
 		timeout = in.readShort();
 		end_year = in.readInt();
@@ -52,6 +90,9 @@ public class PktGameInfo extends AbstractPacket
 		player_idx = in.readUnsignedByte();
 		globalWarming = in.readInt();
 		heating = in.readInt();
+    nuclearwinter = in.readInt();
+    cooling = in.readInt();
+    
 		cityfactor = in.readUnsignedByte();
 		diplcost = in.readUnsignedByte();
 		freecost = in.readUnsignedByte();
@@ -69,7 +110,7 @@ public class PktGameInfo extends AbstractPacket
 		civstyle = in.readUnsignedByte();
 		spacerace = in.readUnsignedByte();
 
-
+    seconds_to_turndone = in.readInt();
 	}
 
 

@@ -37,7 +37,7 @@ public class PktPlayerRequest extends AbstractPacket
 		out.writeUnsignedByte(government);
 		out.writeUnsignedByte(tech);
 		putWorkList(out, worklist);
-		out.writeShort(wl_idx);
+		out.writeUnsignedByte(wl_idx);
 		out.sendPacket();
 	}
 	
@@ -51,7 +51,7 @@ public class PktPlayerRequest extends AbstractPacket
 	  government = in.readUnsignedByte();
 	  tech = in.readUnsignedByte();
 	  worklist = getWorkList(in, worklist);
-	  wl_idx = in.readShort();
+	  wl_idx = in.readUnsignedByte();
 	}
 
 

@@ -3,7 +3,7 @@
 package org.freeciv.net;
 
 /**
- * Diplomacy information
+ * Diplomacy information verified 1.12.cvs
  *
  * @author Brian Duff
  */

@@ -22,9 +22,9 @@ public class PktRulesetTech extends AbstractPacket implements  HelpItem {
 	
 	public void receive(InStream in)
 	{
-		id = in.readByte();
-		req[0] = in.readByte();
-		req[1] = in.readByte();
+		id = in.readUnsignedByte();
+		req[0] = in.readUnsignedByte();
+		req[1] = in.readUnsignedByte();
 		flags = in.readInt();
 		name = in.readZeroString();
     if (in.hasMoreData())

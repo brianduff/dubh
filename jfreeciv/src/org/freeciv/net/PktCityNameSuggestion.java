@@ -1,7 +1,6 @@
 package org.freeciv.net;
 
 public class PktCityNameSuggestion  extends AbstractPacket
-  implements org.freeciv.client.Constants
 {
 
   public int id;

@@ -7,6 +7,8 @@ public class PktRulesetTerrainControl  extends AbstractPacket  // should also be
   public boolean may_irrigate;
   public boolean may_mine;
   public boolean may_transform;
+  public int ocean_reclaim_requirement;
+  public int land_channel_requirement;
   public int river_move_mode;     // boolean?
   public int river_defense_bonus;
   public int river_trade_incr;
@@ -19,6 +21,9 @@ public class PktRulesetTerrainControl  extends AbstractPacket  // should also be
   public int pollution_food_penalty;
   public int pollution_shield_penalty;
   public int pollution_trade_penalty;
+  public int fallout_food_penalty;
+  public int fallout_shield_penalty;
+  public int fallout_trade_penalty;  
   public String river_help_text;
 
 
@@ -39,6 +44,8 @@ public class PktRulesetTerrainControl  extends AbstractPacket  // should also be
     may_irrigate = in.readUnsignedByte() != 0;
     may_mine = in.readUnsignedByte()!=0;
     may_transform = in.readUnsignedByte()!=0;
+    ocean_reclaim_requirement = in.readUnsignedByte();
+    land_channel_requirement = in.readUnsignedByte();
     river_move_mode = in.readUnsignedByte();
     river_defense_bonus = in.readShort();
     river_trade_incr = in.readShort();
@@ -51,6 +58,10 @@ public class PktRulesetTerrainControl  extends AbstractPacket  // should also be
     pollution_food_penalty = in.readShort();
     pollution_shield_penalty = in.readShort();
     pollution_trade_penalty = in.readShort();
+
+    fallout_food_penalty = in.readShort();
+    fallout_shield_penalty = in.readShort();
+    fallout_trade_penalty = in.readShort();
 
     if (in.hasMoreData())
     {

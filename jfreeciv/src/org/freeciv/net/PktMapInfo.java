@@ -2,7 +2,7 @@ package org.freeciv.net;
 
 public class PktMapInfo extends AbstractPacket
  {
-// Checked against 1.10.0
+// Checked against 1.12.cvs
 	public int xsize;
 	public int ysize;
 	public boolean isEarth;

@@ -1,11 +1,11 @@
 package org.freeciv.net;
 
-import org.freeciv.client.Constants;
 import java.io.IOException;
 
 
-public class PktCityInfo extends AbstractPacket {
-// BD Checked against 1.9.0.
+public class PktCityInfo extends AbstractPacket 
+{
+// BD Checked against 1.12.cvs
 
 	public int id;
 	public int owner;
@@ -13,7 +13,7 @@ public class PktCityInfo extends AbstractPacket {
 	public String name;
 
 	public int size;
-	public int ppl_happy, ppl_content, ppl_unhappy;
+	public int[] ppl_happy = new int[5], ppl_content = new int[5], ppl_unhappy = new int[5];
 	public int ppl_elvis, ppl_scientist, ppl_taxman;
 
 	public int food_prod, food_surplus;
@@ -24,13 +24,20 @@ public class PktCityInfo extends AbstractPacket {
 	public int luxury_total, tax_total, science_total;
 
 	public WorkList worklist;
-	/* the physics */
 	public int food_stock;
 	public int shield_stock;
 	public int pollution;
 
 	public boolean is_building_unit;
 	public int currently_building;
+
+  public int turn_last_built;
+  public int turn_changed_target;
+  public int changed_from_id;
+  public int before_change_shields;
+
+  public int disbanded_shields;
+  public int caravan_shields;
 
 	public boolean[] improvements;
 	public char[] city_map = new char[26];
@@ -40,6 +47,7 @@ public class PktCityInfo extends AbstractPacket {
 	public boolean was_happy;
 	public boolean airlift;
 	public boolean diplomat_investigate;
+  public boolean changed_from_is_unit;
 	public int city_options;
 
 	public PktCityInfo() {
@@ -59,21 +67,24 @@ public class PktCityInfo extends AbstractPacket {
 	public void receive(InStream in)
 	{
 		id = in.readShort();
-		owner = in.readByte();
+		owner = in.readUnsignedByte();
 		x = in.readUnsignedByte();
 		y = in.readUnsignedByte();
 		name = in.readZeroString();
 
-		size = in.readByte();
-		ppl_happy = in.readByte();
-		ppl_content = in.readByte();
-		ppl_unhappy = in.readByte();
-		ppl_elvis = in.readByte();
-		ppl_scientist = in.readByte();
-		ppl_taxman= in.readByte();
+		size = in.readUnsignedByte();
+    for (int i=0; i < 5; i++)
+    {
+      ppl_happy[i] = in.readUnsignedByte();
+      ppl_content[i] = in.readUnsignedByte();
+      ppl_unhappy[i] = in.readUnsignedByte();
+    }
+		ppl_elvis = in.readUnsignedByte();
+		ppl_scientist = in.readUnsignedByte();
+		ppl_taxman= in.readUnsignedByte();
 
-		food_prod = in.readByte();
-		food_surplus = in.readByte();
+		food_prod = in.readUnsignedByte();
+		food_surplus = in.readUnsignedByte();
 		if ( food_surplus > 127 ) //??
 			food_surplus -=256;
 		shield_prod = in.readShort();
@@ -90,11 +101,20 @@ public class PktCityInfo extends AbstractPacket {
 		food_stock = in.readShort();
 		shield_stock = in.readShort();
 		pollution = in.readShort();
-		currently_building = in.readByte();
+		currently_building = in.readUnsignedByte();
+
+
+    turn_last_built = in.readShort(); //!! SIGNED
+    turn_changed_target = in.readShort(); // !! SIGNED
+    changed_from_id = in.readUnsignedByte();
+    before_change_shields = in.readShort();
+
+    disbanded_shields = in.readShort();
+    caravan_shields = in.readShort();
 
 		getWorkList(in, worklist);
 		
-		int data = in.readByte();
+		int data = in.readUnsignedByte();
 
 		is_building_unit = ((data&1) !=0);
 		did_buy = (((data>>=1)&1) !=0);
@@ -102,22 +122,22 @@ public class PktCityInfo extends AbstractPacket {
 		was_happy = (((data>>=1)&1) !=0);
 		airlift = (((data>>=1)&1) !=0);
 		diplomat_investigate = (((data>>=1)&1) !=0);
+    changed_from_is_unit = (((data>>=1)&1) !=0);
 
 		
 		city_map = in.readCityMap();
 
 		improvements = in.readBitString();
-		city_options = in.readByte();
+		city_options = in.readUnsignedByte();
 
 		for(data=0;data<4;data++)
 		{
 			if ( !in.hasMoreData () )
 				break;
 			trade[data]= in.readShort();
-			trade_value[data] = in.readByte();
+			trade_value[data] = in.readUnsignedByte();
 		}
 
-		// it is not needed first time, but same object can be refilled
 		for(;data<4;data++)
 		{
 			trade_value[data]=trade[data]=0;

@@ -36,36 +36,36 @@ public class PktRulesetUnit extends AbstractPacket implements  HelpItem
 	public PktRulesetUnit(InStream in) {
 	  super(in);
 	}
-	
-	public PktRulesetUnit()
-	{
-	  super();
-	}
-	
+
+  public PktRulesetUnit()
+  {
+    super();
+  }
+
 	public void receive(InStream in)
 	{
-		id = in.readByte();
-		move_type = in.readByte();
+		id = in.readUnsignedByte();
+		move_type = in.readUnsignedByte();
 		build_cost = in.readShort();
-		attack_strength = in.readByte();
-		defense_strength =in.readByte();
-		move_rate = in.readByte();
-		tech_requirement = in.readByte();
-		vision_range =in.readByte();
-		transport_capacity = in.readByte();
-		hp = in.readByte();
-		firepower =in.readByte();
-		obsoleted_by = in.readByte();
+		attack_strength = in.readUnsignedByte();
+		defense_strength =in.readUnsignedByte();
+		move_rate = in.readUnsignedByte();
+		tech_requirement = in.readUnsignedByte();
+		vision_range =in.readUnsignedByte();
+		transport_capacity = in.readUnsignedByte();
+		hp = in.readUnsignedByte();
+		firepower =in.readUnsignedByte();
+		obsoleted_by = in.readUnsignedByte();
 
 		if ( obsoleted_by>127 )
 			obsoleted_by-=256;
-		fuel = in.readByte();
+		fuel = in.readUnsignedByte();
 		flags = in.readInt();
 		roles = in.readInt();
-		happy_cost = in.readByte();
-		shield_cost = in.readByte();
-		food_cost = in.readByte();
-		gold_cost = in.readByte();
+		happy_cost = in.readUnsignedByte();
+		shield_cost = in.readUnsignedByte();
+		food_cost = in.readUnsignedByte();
+		gold_cost = in.readUnsignedByte();
 		name = in.readZeroString();		
 		graphic_str = in.readZeroString();
 		graphic_alt = in.readZeroString();
@@ -73,8 +73,8 @@ public class PktRulesetUnit extends AbstractPacket implements  HelpItem
 		if ((flags & (1L << Constants.F_PARATROOPERS)) != 0) // check this
 		{
 		  paratroopers_range = in.readShort();
-		  paratroopers_mr_req = in.readByte();
-		  paratroopers_mr_sub = in.readByte();
+		  paratroopers_mr_req = in.readUnsignedByte();
+		  paratroopers_mr_sub = in.readUnsignedByte();
 		}
 		else
 		{
@@ -138,6 +138,11 @@ public class PktRulesetUnit extends AbstractPacket implements  HelpItem
 	{
 		return name;
 	}
+
+  protected boolean unitFlag(int flag)
+  {
+    return ((flags & (1<<flag)) != 0);
+  }
 
 
 }

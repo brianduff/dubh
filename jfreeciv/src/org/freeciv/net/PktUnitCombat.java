@@ -30,6 +30,7 @@ public class PktUnitCombat extends AbstractPacket
 	
 	public void send(OutStream out) throws java.io.IOException
 	{
+    out.setType( PACKET_UNIT_COMBAT );
 	  out.writeShort(attacker_unit_id);
 	  out.writeShort(defender_unit_id);
 	  out.writeUnsignedByte(attacker_hp);

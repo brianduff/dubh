@@ -1,21 +1,18 @@
-
-
 package org.freeciv.net;
+
 
 /**
  * Diplomat action
  *
  * @author Brian Duff
  */
-public class PktDiplomatAction extends AbstractPacket implements org.freeciv.client.Constants {
-
-  public int action_type;
-  public int diplomat_id;
-  public int target_id;
-  public int value;
+public class PktDiplomatAction extends AbstractPacket 
+{
+   public int action_type;
+   public int diplomat_id;
+   public int target_id;
+   public int value;
 	
-
-
 	public PktDiplomatAction()
 	{
 	  super();

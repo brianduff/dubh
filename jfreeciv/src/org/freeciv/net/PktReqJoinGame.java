@@ -5,7 +5,7 @@ import org.freeciv.client.Constants;
 
 public class PktReqJoinGame extends AbstractPacket
 {
-// BD: Upgraded for 1.9.0
+// BD: Verified with 1.12.cvs
 	public String short_name;
 	public int majorVer;
 	public int minorVer;
