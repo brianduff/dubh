@@ -45,12 +45,16 @@ public interface Constants {
   public static final int E_LAST = Enum.get();
 
 
+  // Defined in freeciv/common/shared.h
    public static final int GAME_START_YEAR = -4000;
-   public static final int MAX_NUM_PLAYERS = 14;
+   public static final int MAX_NUM_PLAYERS = 30;
+   public static final int MAX_NUM_BARBARIANS = 2;
    public static final int MAX_NUM_ITEMS = 200;
    public static final int MAX_NUM_TECH_LIST = 10;
    public static final int MAX_LEN_NAME = 32;
    public static final int MAX_LEN_ADDR = 32;
+
+
 
 
    public static final int MAX_LEN_WORKLIST = 16;
@@ -389,6 +393,10 @@ public interface Constants {
    public static final int MAX_LEN_CAPSTR = 512;
 
 
+   // The different types of packet. This must be synched up with the latest
+   // FreeCiv enumeration in source/common/packets.h
+
+
    public static final int PACKET_REQUEST_JOIN_GAME = Enum.start();
    public static final int PACKET_JOIN_GAME_REPLY = Enum.get();
    public static final int PACKET_SERVER_SHUTDOWN = Enum.get();
@@ -448,6 +456,7 @@ public interface Constants {
    public static final int PACKET_INCITE_INQ = Enum.get();
    public static final int PACKET_INCITE_COST = Enum.get();
    public static final int PACKET_UNIT_UPGRADE = Enum.get();
+   public static final int PACKET_PLAYER_CANCEL_PACT = Enum.get();
    public static final int PACKET_RULESET_TECH = Enum.get();
    public static final int PACKET_RULESET_UNIT = Enum.get();
    public static final int PACKET_RULESET_BUILDING = Enum.get();
@@ -466,6 +475,20 @@ public interface Constants {
    public static final int PACKET_UNIT_PARADROP_TO = Enum.get();
    public static final int PACKET_RULESET_CITY = Enum.get();
    public static final int PACKET_UNIT_CONNECT = Enum.get();
+   public static final int PACKET_SABOTAGE_LIST = Enum.get();
+   public static final int PACKET_ADVANCE_FOCUS = Enum.get();
+   public static final int PACKET_RULESET_GAME = Enum.get();
+   public static final int PACKET_CONN_INFO = Enum.get();
+   public static final int PACKET_SHORT_CITY = Enum.get();
+   public static final int PACKET_PLAYER_REMOVE_VISION = Enum.get();
+   public static final int PACKET_GOTO_ROUTE = Enum.get();
+   public static final int PACKET_PATROL_ROUTE = Enum.get();
+   public static final int PACKET_CONN_PING = Enum.get();
+   public static final int PACKET_CONN_PONG = Enum.get();
+   public static final int PACKET_UNIT_AIRLIFT = Enum.get();
+   public static final int PACKET_LAST = Enum.get();
+
+
 
    public static final int REPORT_WONDERS_OF_THE_WORLD = Enum.start();
    public static final int REPORT_TOP_5_CITIES = Enum.get();
@@ -642,11 +665,8 @@ public interface Constants {
 
 
    public static final int MAJOR_VERSION = 1;
-   public static final int MINOR_VERSION = 10;
-   public static final int PATCH_VERSION = 0;
-
-
-
-
-
+   public static final int MINOR_VERSION = 11;
+   public static final int PATCH_VERSION = 7;
+  public static final String VERSION_LABEL = "-devel";
+  public static final int IS_DEVEL_VERSION = 1;
 }
