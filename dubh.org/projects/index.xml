@@ -25,7 +25,7 @@
           </td>
           <td valign="top">
             <h1>Projects</h1>
-            <dtl:apply-xslt xmlfile="projectlist.xml" xslfile="projectlist.xsl" />
+            <dtl:apply-xslt xmlfile="projectlist.xml" xslfile="../xsl/sectionedpage.xsl" />
           </td>
         </tr>
       </table>

@@ -2,21 +2,21 @@
 
 <!-- Copyright (C) 2000 Brian Duff / Dubh.org -->
 
-<projectlist>
+<sectionedpage>
 
-  <project name="NewsAgent" href="newsagent/index.xml">
-    <description>
+  <section id="na" name="NewsAgent" link="newsagent/index.xml">
+    <html>
       <p>
         NewsAgent is a USENET Newsreader written completely in Java. It was
         originally my final year project at University, but I later released
         it as open source and have been working on it on and off for two 
         years.
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="Java Utilities" href="dju/index.xml">
-    <description>
+  <section name="Java Utilities" link="dju/index.xml">
+    <html>
       <p>
         While developing <a href="newsagent/index.xml">NewsAgent</a>, I had
         some vague general feeling that keeping stuff which might possibly
@@ -29,11 +29,11 @@
         and funky UI widgets using Swing. The code is really due for a big
         tidyup any time soon.
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="Mail Providers" href="dmp/index.xml">
-    <description>
+  <section name="Mail Providers" link="dmp/index.xml">
+    <html>
       <p>
         <a href="http://www.sun.com">Sun</a> didn't announce JavaMail until
         well after I had finished the first version of NewsAgent. When JavaMail
@@ -41,11 +41,11 @@
         dodgy networking code in NewsAgent into a nice generic NNTP provider
         for JavaMail. This took a little longer than I expected, though :)
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="JFreeCiv" href="jfreeciv/index.xml">
-    <description>
+  <section name="JFreeCiv" link="jfreeciv/index.xml">
+    <html>
       <p>
         I'm completely addicted to strategy games of any kind. But in
         particular, I've been playing Civilization in various forms since
@@ -57,11 +57,11 @@
         don't really like C much. ..name goes here.. wrote a Java version, and
         I'm currently maintaining it...
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="Dev Tools" href="buildtools/index.xml">
-    <description>
+  <section name="Dev Tools" link="buildtools/index.xml">
+    <html>
       <p>
         It can be a bit of a pain to build all these projects using disparate
         build systems. Javac is great, but it's just a compiler. To get cool
@@ -77,11 +77,11 @@
         Hence, Dubh Dev Tools are a bunch of "Task"s for Ant, as well as some
         other useful stuff for building the projects on this site.
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="EWatcher" href="ewatcher/index.xml">
-    <description>
+  <section name="EWatcher" link="ewatcher/index.xml">
+    <html>
       <p>
         EWatcher is an attempt to define a Java framework for push technology.
         My original idea was that I'd like to have a ticker-tape-esque application
@@ -90,11 +90,11 @@
         pages, clock events, file changes on the network etc.) and displaying
         these prioritized in the ticker.
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
   
-  <project name="JDav" href="jdav/index.xml">
-    <description>
+  <section name="JDav" link="jdav/index.xml">
+    <html>
       <p>
         Something I'm doing at work involves <a href="http://www.webdav.org">
         WebDAV</a>, so I did a little research into it. Then in a furious few 
@@ -102,8 +102,8 @@
         in a convenient way. I did this at home, rather than at work, so it's
         all open source, and I'll probably develop it further.
       </p>
-    </description>
-  </project>
+    </html>
+  </section>
 
 
-</projectlist>
+</sectionedpage>
