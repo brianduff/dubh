@@ -1,3 +1,81 @@
+00.04.26 [bduff]
+  - Took over as maintainer
+
+o Updated Constants.java to reflect 1.10.0 constants. I think this is
+mostly correct, but I'll probably need to check it. I've used some
+static trickery to simulate enums rather than hard coding constants,
+which was prone to errors. This means that the enum constants (which are
+static and final) are nevertheless not constant at compile time and
+therefore can't be used in switch() statements.
+
+o Updated all net/Pkt*.java and added all missing packets for 1.10.0.
+
+o Created AbstractPacket as a supertype of all net/Pkt*. Standardized
+the interface for sending and receiving packets.
+
+o Implemented handlers for dealing with incoming packets from the
+server. This replaces all the handle...() methods in Client.java with
+subclasses of PacketHandler, one for each type of packet that can be
+received. PacketDispacher dispaches incoming packets to the correct
+handler.
+
+o Created a RulesetManager that maintains references to all ruleset
+packets and does some hashing. Client holds on to one RulesetManager
+instance.
+
+o Upgraded the race (now nation) dialog and connection dialogs, and
+moved them into the dialog package. Provided an interface to the two
+dialogs and wrote a DialogManager that the client holds on to and can
+use to retrieve dialogs and manipulate them.
+
+o Changed the server listening stuff in Client to run on a different
+thread so that incoming packets can easily influence dialogs that are on
+screen. This was needed so that the nations selected by other players
+can be disabled while the nation dialog is on the screen. This kind of
+thing will probably crop up in other places.
+
+o Provided command classes for all menu items and a base Command class
+that subclasses AbstractAction. Restructured all the client menus to
+match the 1.10.0 C client.
+
+o Rewrote parts of the UI of the main window (civ info & civ status) so
+that they are closer to the 1.10.0 C client. Also made the panels
+detachable like the gtk client. These still haven't been fully wired up.
+
+o Converted registry.c and inputfile.c to Java. Needed to do this to
+support loading of many client configuration files (e.g. tilespec).
+Tested new code on all of the files included in 1.10.0.
+
+o Wrote a quick XPM parser and an XPMImageIcon class which is a Swing
+ImageIcon representing an XPM image. I probably ought to use an external
+library to do this, but the parser is pretty swift. Tested this with
+numerous client images from both engels and trident tilesets and
+intro.xpm etc. Added support for creating an XPMImageIcon for a
+specified area of an XPM image.
+
+o Started writing TileSpec.java which provides similar functionality to
+tilespec.c. Was missing numerous utilites so:
+
+o Wrote Logger.java which provides a logging interface identical in
+function to log.c. Wrote Shared.java which is for static functions that
+are mostly in shared.c. I've implemented getDataFilename() which
+retrieves a full path to a specified data file.
+
+o Got the basics of CivMap working again using the TileSet code for
+terrain. The map is being displayed for the first time since I started
+working on this stuff, but no units, improvements or cities yet. I'm a
+bit concerned about performance; I need to pull the original code from
+CVS and compare the map rendering speeds to see whether it's something
+I've done. Maybe need to use an offscreen buffer. Kudos to Artur for his
+extremely cool tilemap code; took me a while to get the hang of it but
+it all makes sense now :)
+
+o Partial pruning of Client.java; removing methods that I've made
+obsolete by restructuring other bits of the source. Still far from
+complete (see below).
+
+o Used jikes. A lot.  
+
 99.10.01
   - doubled size of citizens in city dialog; it should be configurable
   - already built list now shows upkeep cost instead of build cost
@@ -13,16 +91,16 @@
   - 'Force tileset reload' command added
   - divide moves/3 to get correct number
   - unit stack pane now have 3x3 std size (there is still problem with
-	resizing)
+  resizing)
   - after scaling/changing tileset center of map no longer is moved
-	elsewhere
+  elsewhere
 
 99.09.17
   - map now reacts to splitpane resizes - centering works correctly 
 
 99.09.16
   - removed nuke animation from left mouse button - it became to be tiring
-	now you have to get real nukes to see it
+  now you have to get real nukes to see it
   - tilesets can be changed during runtime (try out trident scaled x3/2)
 
 99.09.14
@@ -48,11 +126,11 @@
 
 99.09.05
   - changed scaling routine, so no longer scaling down and up
-	lowers quality
+  lowers quality
 
 99.09.04
   - started TriangleSlider which will be used in lux/science/gold tax
-	setting
+  setting
 
 99.09.02
   - None tech does not longer appers in tech menu
@@ -62,20 +140,20 @@
   - mapFrame reacts to main frame resize
   - confirm dialog for disband unit
   - replaced Point with Coords class in many places in tile package to
-	have more obvious meanings of return types of various methods
+  have more obvious meanings of return types of various methods
   - added TripletCoords methods to HexMap to support three-axis hex
-	coordinates (a lot easier in some computations)
+  coordinates (a lot easier in some computations)
   - added shadows to edges of visible map (not very pretty for now)
   - plain TileMap now also is painted layer by layer, not stack by stack
   (helps for long city names and maybe performance)
 
 99.08.31
   - totally change image load system - now only needed images are loaded,
-	plus all not used at the moment are softreferenced so they will get
-	cleared when memory is low; additionally implemented FileImageSource
-	which clears it's data as soon as possible, reloading from file when
-	needed; all this reduced heap usage at start from 13M to 3M and should
-	save at least 4-5M even in late game  
+  plus all not used at the moment are softreferenced so they will get
+  cleared when memory is low; additionally implemented FileImageSource
+  which clears it's data as soon as possible, reloading from file when
+  needed; all this reduced heap usage at start from 13M to 3M and should
+  save at least 4-5M even in late game  
 
 99.08.30
   - added goto command
@@ -84,31 +162,31 @@
 
 99.08.29
   - changed GlassTile to use fill3DRect - now city/settler overlays
-	look a lot better
+  look a lot better
   - changed all menu actions to AbstractActions/UnitActions and tied their
-	enable/disable to menuitems
+  enable/disable to menuitems
   - added autosettler,autoattack,irriagte,mine,fortify,fortification,
-	pillage,explore, showgridlines commands
+  pillage,explore, showgridlines commands
 
 99.08.28
   - moved image/sound loading to separate thread - now login panel appears
-	much faster
+  much faster
   - corrected bug in setShowingCityRange - now city range is shown after
-	switching it here and back
+  switching it here and back
   - added VectorListModel with compareAndReplace method - reduces flicking
-	in lists during city updates
+  in lists during city updates
   - added basic custom renderers and sorting to lists in CityDialog - need
-	more work on that
+  more work on that
   - remove city packet for not known city do not longer raise exception
   - added untested support for REMOVE_PLAYER packet
 
 99.08.27
   - added i18n hooks in many classes - all that's left is to provide
-	translation files :)
+  translation files :)
 
 99.08.26
   - HexMap now paints by layers not stacks - allows more complicated terrain
-	overlays
+  overlays
 
 99.08.24
   - added PktRulesetTerrain for future use
@@ -116,8 +194,8 @@
 
 99.08.23
   - changed few repaintTiles(x,y,width,height) to
-	repaintOneTile/repaintTilesAround in CivMap to make later integration
-	of HexMap easier
+  repaintOneTile/repaintTilesAround in CivMap to make later integration
+  of HexMap easier
   - moved few methods to GenericMap
 
 99.08.22
@@ -126,11 +204,11 @@
 
 99.08.21
   - corrected few bugs in unit stack handling (I'm shocked it almost worked
-	all that time), but still there is at least one remaining
+  all that time), but still there is at least one remaining
 
 99.08.20
   - added few utility methods to HexMap for getting nearby hex coordinates
-	(nextHex(...))
+  (nextHex(...))
   - now cancel in build city dialog really cancels city build
   - added next unit/next idle unit commands
 
@@ -138,18 +216,18 @@
   - now settler overlapping with city puts red tiles
   - added menu item to control showing of city range glasses
   - corrected bug in city change production scrap detection - ifs were
-	structured wrong
+  structured wrong
 
 99.08.18
   - added experiment with transparent panels
   - finished HexMap
   - added glass overlay for showing possible unit movement, scraped it
-	and added glass overlay for settler city range
+  and added glass overlay for settler city range
 
 99.08.17
   - when more than one unit is present in stack, next one is visible
-	under flashing one - at slightly different position to differatiate in
-	case of units of same type
+  under flashing one - at slightly different position to differatiate in
+  case of units of same type
   - now minimap will react on big map resize (visible rectangle change)
   - added sound support - now just need to add hooks everywhere
   - added hook for nuclear explosion sound
@@ -157,9 +235,9 @@
   - LabelledMenuItem now grays out key desc when disabled
   - Orders menu is enabled/disabled depending on unit active
   - Map is added only after receiving game running state - it saves
-	tile by tile repainting of map
+  tile by tile repainting of map
   - started HexMap implementation and moved some common code from
-	TileMap to GenericMap
+  TileMap to GenericMap
 
 99.08.13
   - units and cities now display flag
@@ -168,12 +246,12 @@
   - squashed bug in PktUnitInfo.send, now activity is send correctly
   - added road and rail display
   - update also diagonal terrains (should correct bug with diagonal
-	ocean corner missing sometimes)
+  ocean corner missing sometimes)
   - merged changeActivity commands and made them not changing activity
-	(it will be handled by server)
+  (it will be handled by server)
   - added unit combat display
   - removed EnhancedMenuItem to not rely on GPL code, instead created own
-  	replacement (org.freeciv.LabelledMenuItem)
+    replacement (org.freeciv.LabelledMenuItem)
 
 99.08.12
   - changed some read/writeByte to UnsignedByte to handle maps > 127
@@ -187,11 +265,11 @@
   - research dialog now updates when visible
   - research dialog can change tech and tech goal
   - added onClose handling to research dialog and city dialog to clean
-	references to themselves
+  references to themselves
   - corrected bug with ocean overlays being added despite of tile itself
-	being invisible
+  being invisible
   - added handling for PACKET_PAGE_MSG, PACKET_REMOVE_CITY,
-	PACKET_NUKE_TILE, PACKET_SERVER_SHUTDOWN
+  PACKET_NUKE_TILE, PACKET_SERVER_SHUTDOWN
   - multiple nukes will wait in queqe now (I hope)
   - chat area now jumps to end when new message appears
   - can move units with numpad
@@ -214,16 +292,16 @@
 
 99.08.08
   - I hope that I've squashed repaint bug - tiles was not repainting
-	correctly when we were at right edge of map (left wrapped edge was
-	not updated). Still have to work on vWrap and bothWrap cases. This
-	is only about repaintTiles method - direct repaint works
+  correctly when we were at right edge of map (left wrapped edge was
+  not updated). Still have to work on vWrap and bothWrap cases. This
+  is only about repaintTiles method - direct repaint works
   - changed minimap to work with borders
   - nuke animation do not longer follows center of screen
   - added intro image to splash screen
   - added choose build list to city dialog with buttons to select categories
-	(do not sets production yet, it's just interface)
+  (do not sets production yet, it's just interface)
   - corrected bug with reading short and int from InStream (problem with byte
-	array being signed and thus need for manual chipping of bits)
+  array being signed and thus need for manual chipping of bits)
 
 99.08.06
   - change menu actions to separate ActionListener classes so they

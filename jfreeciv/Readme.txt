@@ -1,21 +1,17 @@
 Freeciv java client.
 
 For more info about freeciv check http://www.freeciv.org.
+The Freeciv java client web page is at http://www.dubh.org/projects/jfreeciv/index.xml
 
 To run this code you need JDK 1.2 or 1.3(but it has some problems with keybindings).
 
-You have to check out code from CVS.
+Instructions on getting the source code are here:
 
-CVSROOT=:pserver:anoncvs@cvs.gjt.org:/gjt/cvsroot
-passwd: anoncvs
+http://cvs.dubh.org/access.html
 
-modules to checkout:
+You need to check out the jfreeciv module.
 
-java/com/sixlegs/image/png
-java/org/freeciv
-java/org/gjt/abies
-
-If you don't know what CVS is, checkout http://www.cyclic.com and/or www.gjt.org.
+If you don't know what CVS is, read http://www.cvshome.com
 
 To run this thing you need to compile all sources and either copy/move
 org/freeciv/data directory to top directory (java/ in this case) or add
@@ -39,5 +35,9 @@ add -Dfreeciv.sound=/path/to/dir option on command line (after java, before org.
 It is easiest to just put wavs into org/freeciv/data/sound and then run
 java -Dfreeciv.sound=org/freeciv/data/sound org.freeciv.client.Client
 
-Artur
-<abies@pg.gda.pl>
+Note, the code is currently in a pretty disfunctional state.
+
+Artur                           Brian
+<abies@pg.gda.pl>               <Brian.Duff@dubh.org>
+
+

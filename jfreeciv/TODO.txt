@@ -19,3 +19,59 @@
 - make settings persistent - sizes of dialogs, interface options, etc
 - make keybindings settable either online or in file
 - correct UnitStack display - reintroduce ScrollPane ?
+
+
+What still needs to be done? [bduff, April 2000]
+----------------------------
+
+o Dialogs
+
+Most of the dialogs in freeciv haven't been implemented, or need looking
+at:
+  - City Screen
+  - Worklists
+  - Message Window
+  - Advances
+  - Numerous others that I don't have a clear idea of yet.
+
+o UI
+
+In general there are some UI improvements we'd like to see in freeciv4j.
+
+
+    - textured dialog backgrounds would be quite nice and would give
+things more of a "civ2" feel.
+
+    - .. other stuff to follow
+
+o Networking
+
+Packets involved past the very start of the game still need to be
+tested.
+
+Handlers need to be written for a large number of incoming packets that
+can be received after the game has been launched on the server.
+
+o Infrastructure
+
+The interface to Client.java needs to be properly pinned down. At the
+moment, lots of stuff is exposed that shouldn't be, and there are
+screeds of redundant code.
+
+Need to write some documentation on the internals.
+
+Need to set up a web site.
+
+Need to branch the CVS code so that other people can access this code;
+also need to provide access to old (1.8) stable code from the web site,
+ideally with a compiled version.
+
+o I18n
+
+I may have un-internationalized some stuff while I've been working; need
+to go through and check that strings are properly _()ed.
+
+o Other stuff
+
+I'm sure there's a huge amount of other stuff to be done; I'll add it as
+I think of it.
