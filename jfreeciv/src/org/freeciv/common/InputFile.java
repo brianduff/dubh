@@ -357,7 +357,7 @@ public class InputFile
          int c = inf.m_curLinePos;
 
          while (c < inf.m_curLine.length() &&
-                Character.isSpace(inf.m_curLine.charAt(c)))
+                Character.isWhitespace(inf.m_curLine.charAt(c)))
          {
             c++;
          }
@@ -368,7 +368,7 @@ public class InputFile
          int start = c;
 
          while (c < inf.m_curLine.length() &&
-                !Character.isSpace(inf.m_curLine.charAt(c)) &&
+                !Character.isWhitespace(inf.m_curLine.charAt(c)) &&
                 inf.m_curLine.charAt(c) != '=' &&
                 !inf.isComment(inf.m_curLine.charAt(c)))
          {
@@ -376,7 +376,7 @@ public class InputFile
          }
 
          if (!((c < inf.m_curLine.length()) && (
-            Character.isSpace(inf.m_curLine.charAt(c)) ||
+            Character.isWhitespace(inf.m_curLine.charAt(c)) ||
             (inf.m_curLine.charAt(c) == '='))))
          {
             return null;
@@ -419,7 +419,7 @@ public class InputFile
             c = inf.m_curLinePos;
 
             while (c < inf.m_curLine.length() &&
-                   Character.isSpace(inf.m_curLine.charAt(c)))
+                   Character.isWhitespace(inf.m_curLine.charAt(c)))
             {
                c++;
             }
@@ -462,7 +462,7 @@ public class InputFile
 
          inf.debug("Curline is "+inf.m_curLine);
          while (c < inf.m_curLine.length() &&
-                Character.isSpace(inf.m_curLine.charAt(c)))
+                Character.isWhitespace(inf.m_curLine.charAt(c)))
          {
             c++;
          }
@@ -522,7 +522,7 @@ public class InputFile
          inf.debug("In VALUEGETTER getToken. line is "+ln);
 
          // Skip any initial whitespace
-         while (c < ln.length() && Character.isSpace(ln.charAt(c))) {
+         while (c < ln.length() && Character.isWhitespace(ln.charAt(c))) {
             c++;
          }
 
@@ -545,7 +545,7 @@ public class InputFile
 
             /* check that the trailing stuff is ok: */
             if (!(!(c < ln.length()) || ln.charAt(c) == ',' ||
-                    Character.isSpace(ln.charAt(c)) ||
+                    Character.isWhitespace(ln.charAt(c)) ||
                     inf.isComment(ln.charAt(c))))
             {
                inf.debug("Returning null bigcond");
@@ -572,7 +572,7 @@ public class InputFile
             has_i18n_marking = true;
             c += 2;
 
-            while (c < ln.length() && Character.isSpace(ln.charAt(c)))
+            while (c < ln.length() && Character.isWhitespace(ln.charAt(c)))
             {
                c++;
             }
