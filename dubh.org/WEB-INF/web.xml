@@ -15,7 +15,7 @@
    <servlet-name>oracle-xsql-servlet</servlet-name>
    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
-
+ <!--
  <welcome-file-list>
    <welcome-file>index.xml</welcome-file>
  </welcome-file-list>
@@ -33,7 +33,7 @@
  </servlet-mapping>
  
   
-  <!-- brian/bookmark/secure is a secure zone (it updates the database) -->
+   brian/bookmark/secure is a secure zone (it updates the database) 
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Bookmark Secure Zone</web-resource-name>
@@ -52,6 +52,8 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Bookmark Secure Zone</realm-name>
   </login-config>  
+  
+  -->
 
 
 </web-app>
