@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.12 2000-08-20 21:03:27 briand Exp $ -->
+<!-- $Id: build.xml,v 1.13 2000-08-20 21:28:54 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -24,6 +24,8 @@
     <property name="javadocdir" value="${docdir}/api" />
     <property name="javadocpkg" value="org.javalobby.dju.*" />
     <property name="javadoctitle" value="${product} ${majorversion}.${minorversion}.${dubh.buildnumber}" />
+    <property name="distribtmp" value="distribtmp" />
+    <property name="distribname" value="${cvsmodule}/${cvsmodule}-${majorversion}.${minorversion}.${dubh.buildnumber}-distrib.zip" />
 
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
@@ -82,14 +84,33 @@
   </target>
 
   <!-- The all target -->
-  <target name="all" depends="jar,src-snapshot" />
+  <target name="all" depends="jar,src-snapshot,javadoc" />
 
-  <!-- The clean target obliterates all traces of dju from the build dir -->
+  <!-- The clean target obliterates all traces of the module from the build dir -->
   <target name="clean" depends="init">
     <deltree dir="${cvsmodule}" />
   </target>
 
-  <!-- The distrib target creates a distribution of DJU and zips it up -->
+  <!-- The distrib target creates a binary distribution of the module and zips
+    -- it up.
+    -- The distribution consists of all the directories after building,
+    -- excluding the srcdir and classdir. -->
+  <target name="distrib" depends="all">
+    <!-- Remove any existing distribtmp -->
+    <deltree dir="${distribtmp}" />
+    <mkdir dir="${distribtmp}" />
+
+    <copydir  src="${cvsmodule}"
+              dest="${distribtmp}"
+              excludes="${srcdir},${classdir}"
+    />
+
+    <zip      zipfile="${distribname}"
+              basedir="${distribtmp}/${cvsmodule}"
+    />
+
+    <deltree dir="${distribtmp}" />
+  </target>
 
   
 </project>
