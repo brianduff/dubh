@@ -1,0 +1,246 @@
+99.10.01
+  - doubled size of citizens in city dialog; it should be configurable
+  - already built list now shows upkeep cost instead of build cost
+
+99.09.30
+  - finally moved unit description pane to left edge of screen 
+
+99.09.29
+  - added few packet id enums in anticipation of freeciv 1.9.0
+
+99.09.28
+  - Changed default tileset to be trident and renamed default/ to engels/
+  - 'Force tileset reload' command added
+  - divide moves/3 to get correct number
+  - unit stack pane now have 3x3 std size (there is still problem with
+	resizing)
+  - after scaling/changing tileset center of map no longer is moved
+	elsewhere
+
+99.09.17
+  - map now reacts to splitpane resizes - centering works correctly 
+
+99.09.16
+  - removed nuke animation from left mouse button - it became to be tiring
+	now you have to get real nukes to see it
+  - tilesets can be changed during runtime (try out trident scaled x3/2)
+
+99.09.14
+  - squashed hopefully last bug in change stack order code
+  - updated image files with ones from cvs
+
+99.09.13
+  - corrected bug with movement cross map wrap (x and y wasn't adjusted)
+  - changed components to be semitransparent over map 
+
+99.09.12
+  - shadow borders can be turned on/off
+  - corrected helptext loading - still missing real help display
+
+99.09.11
+  - corrected bugs in dekstop pane handling - now internal frames are
+  really layered
+  - added trident tileset
+
+99.09.09
+  - added citizen display to CityDialog
+
+
+99.09.05
+  - changed scaling routine, so no longer scaling down and up
+	lowers quality
+
+99.09.04
+  - started TriangleSlider which will be used in lux/science/gold tax
+	setting
+
+99.09.02
+  - None tech does not longer appers in tech menu
+
+99.09.01
+  - after scaling new images are loaded scaled (corrected bug)
+  - mapFrame reacts to main frame resize
+  - confirm dialog for disband unit
+  - replaced Point with Coords class in many places in tile package to
+	have more obvious meanings of return types of various methods
+  - added TripletCoords methods to HexMap to support three-axis hex
+	coordinates (a lot easier in some computations)
+  - added shadows to edges of visible map (not very pretty for now)
+  - plain TileMap now also is painted layer by layer, not stack by stack
+  (helps for long city names and maybe performance)
+
+99.08.31
+  - totally change image load system - now only needed images are loaded,
+	plus all not used at the moment are softreferenced so they will get
+	cleared when memory is low; additionally implemented FileImageSource
+	which clears it's data as soon as possible, reloading from file when
+	needed; all this reduced heap usage at start from 13M to 3M and should
+	save at least 4-5M even in late game  
+
+99.08.30
+  - added goto command
+  - drawing routine for 3d hex outlines in HexMap
+  - added scale command
+
+99.08.29
+  - changed GlassTile to use fill3DRect - now city/settler overlays
+	look a lot better
+  - changed all menu actions to AbstractActions/UnitActions and tied their
+	enable/disable to menuitems
+  - added autosettler,autoattack,irriagte,mine,fortify,fortification,
+	pillage,explore, showgridlines commands
+
+99.08.28
+  - moved image/sound loading to separate thread - now login panel appears
+	much faster
+  - corrected bug in setShowingCityRange - now city range is shown after
+	switching it here and back
+  - added VectorListModel with compareAndReplace method - reduces flicking
+	in lists during city updates
+  - added basic custom renderers and sorting to lists in CityDialog - need
+	more work on that
+  - remove city packet for not known city do not longer raise exception
+  - added untested support for REMOVE_PLAYER packet
+
+99.08.27
+  - added i18n hooks in many classes - all that's left is to provide
+	translation files :)
+
+99.08.26
+  - HexMap now paints by layers not stacks - allows more complicated terrain
+	overlays
+
+99.08.24
+  - added PktRulesetTerrain for future use
+  - added preliminary Help dialog
+
+99.08.23
+  - changed few repaintTiles(x,y,width,height) to
+	repaintOneTile/repaintTilesAround in CivMap to make later integration
+	of HexMap easier
+  - moved few methods to GenericMap
+
+99.08.22
+  - added SystemInfoPanel
+  - UnitDescription pane now uses own renderer
+
+99.08.21
+  - corrected few bugs in unit stack handling (I'm shocked it almost worked
+	all that time), but still there is at least one remaining
+
+99.08.20
+  - added few utility methods to HexMap for getting nearby hex coordinates
+	(nextHex(...))
+  - now cancel in build city dialog really cancels city build
+  - added next unit/next idle unit commands
+
+99.08.19
+  - now settler overlapping with city puts red tiles
+  - added menu item to control showing of city range glasses
+  - corrected bug in city change production scrap detection - ifs were
+	structured wrong
+
+99.08.18
+  - added experiment with transparent panels
+  - finished HexMap
+  - added glass overlay for showing possible unit movement, scraped it
+	and added glass overlay for settler city range
+
+99.08.17
+  - when more than one unit is present in stack, next one is visible
+	under flashing one - at slightly different position to differatiate in
+	case of units of same type
+  - now minimap will react on big map resize (visible rectangle change)
+  - added sound support - now just need to add hooks everywhere
+  - added hook for nuclear explosion sound
+  - added hook for unit combat sounds
+  - LabelledMenuItem now grays out key desc when disabled
+  - Orders menu is enabled/disabled depending on unit active
+  - Map is added only after receiving game running state - it saves
+	tile by tile repainting of map
+  - started HexMap implementation and moved some common code from
+	TileMap to GenericMap
+
+99.08.13
+  - units and cities now display flag
+  - minimap can now have pixels greater that 1x1
+  - players array now created only on first gameinfo packet
+  - squashed bug in PktUnitInfo.send, now activity is send correctly
+  - added road and rail display
+  - update also diagonal terrains (should correct bug with diagonal
+	ocean corner missing sometimes)
+  - merged changeActivity commands and made them not changing activity
+	(it will be handled by server)
+  - added unit combat display
+  - removed EnhancedMenuItem to not rely on GPL code, instead created own
+  	replacement (org.freeciv.LabelledMenuItem)
+
+99.08.12
+  - changed some read/writeByte to UnsignedByte to handle maps > 127
+
+99.08.11
+  - added unit stack display/select
+  - sentry deselects units
+
+99.08.10
+  - added PktPlayerRequest packet class
+  - research dialog now updates when visible
+  - research dialog can change tech and tech goal
+  - added onClose handling to research dialog and city dialog to clean
+	references to themselves
+  - corrected bug with ocean overlays being added despite of tile itself
+	being invisible
+  - added handling for PACKET_PAGE_MSG, PACKET_REMOVE_CITY,
+	PACKET_NUKE_TILE, PACKET_SERVER_SHUTDOWN
+  - multiple nukes will wait in queqe now (I hope)
+  - chat area now jumps to end when new message appears
+  - can move units with numpad
+  - can move map with shift + numpad
+  - added hp display to units
+  - research dialog will ask before changing research and losing points
+  - added 5 report requests
+  - made page messages (reports) use monospaced font for options to line up
+  - worker placement for city dialog
+  - corrected setUpperLeftXY in TileMap
+
+99.08.09
+  - change production list works now - with dblclick
+  - added already built improvements list in citydialog
+  - added confirm dialog when changing production with loss
+  - filered out already build improvements and wonders from build choice
+  - unit selection will now persist (hopefully)
+  - added mouse onOver tile report
+  - added preliminary research dialog
+
+99.08.08
+  - I hope that I've squashed repaint bug - tiles was not repainting
+	correctly when we were at right edge of map (left wrapped edge was
+	not updated). Still have to work on vWrap and bothWrap cases. This
+	is only about repaintTiles method - direct repaint works
+  - changed minimap to work with borders
+  - nuke animation do not longer follows center of screen
+  - added intro image to splash screen
+  - added choose build list to city dialog with buttons to select categories
+	(do not sets production yet, it's just interface)
+  - corrected bug with reading short and int from InStream (problem with byte
+	array being signed and thus need for manual chipping of bits)
+
+99.08.06
+  - change menu actions to separate ActionListener classes so they
+    can be use for keys/buttons
+  - added key handling
+  - added gold and year labels
+  - added disband,sentry and wakeup unit actions
+  - incomporated EnhancedMenuItem from jedit to display keyboard shortcuts
+  - reindented source with jstyle using tabs
+  - added progress splash dialog
+
+99.08.05
+  - added click handling to minimap
+  - added split pane display and started laying out all
+    needed components - buttons, info area and chat dialog
+  - messages now adds themselves to chat text area
+  - message input works
+
+Before 99.08.05
+  Done a lot, but it is not described here.

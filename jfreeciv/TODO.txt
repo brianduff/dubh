@@ -1,0 +1,21 @@
+- check if there is a race possibility in outstream when sending few packets at once
+- make keys etc configurable from file
+? gray out hp display if unit itself is grayed
+- change ResearchDialog.GoalDialog to InternalFrame to get uniform
+	l&f
+- b appears on name city dialog - it is not consumed ??
+- implement modes for minimap
+	a) normal
+	b) terrain types + cities?
+	c) units+cities one color for player (with only land/ocean difference)
+- do not create new unit every time, only update, as with cities
+? make sound system use soft references and/or link unit instances to sounds ??
+? add red glass for attack movement
+- not-so-small map in window ?
+- change LoginPanel to use internal frame -but how to make it modal ?
+- some way to move map with mouse without deactivating unit (for goto)
+- add Goto tag over destination point for units on goto ?
+- added progress dialog to icon scale; wait till images load on scale
+- make settings persistent - sizes of dialogs, interface options, etc
+- make keybindings settable either online or in file
+- correct UnitStack display - reintroduce ScrollPane ?
