@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.6 2000-08-20 19:04:00 briand Exp $ -->
+<!-- $Id: build.xml,v 1.7 2000-08-20 19:05:29 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -73,7 +73,7 @@
               version="true"
               use="true"
               windowtitle="${javadoctitle}"
-              doctitle="<h1>${javadoctitle}</h1>"
+              doctitle="&lt;h1&gt;${javadoctitle}&lt;/h1&gt;"
               packagenames="${javadocpkg}"
     />
   </target>
