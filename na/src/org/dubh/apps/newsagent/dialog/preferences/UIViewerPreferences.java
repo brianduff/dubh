@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: UIViewerPreferences.java,v 1.1 1999-06-01 00:33:14 briand Exp $
+//   $Id: UIViewerPreferences.java,v 1.2 1999-06-01 18:00:10 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,16 +35,26 @@ import dubh.utils.ui.preferences.*;
 import dubh.utils.ui.*;
 import dubh.utils.misc.*;
 import dubh.apps.newsagent.PreferenceKeys;
+import dubh.apps.newsagent.MessageHeaderFields;
 
 /**
  * Panel for displaying Identity Options in preferences.
  * @author Brian Duff
- * @version $Id: UIViewerPreferences.java,v 1.1 1999-06-01 00:33:14 briand Exp $
+ * @version $Id: UIViewerPreferences.java,v 1.2 1999-06-01 18:00:10 briand Exp $
  */
 public class UIViewerPreferences extends PreferencePage 
 {
    private final static String RES = "dubh.apps.newsagent.dialog.preferences.res.UIViewer";
    public static final String ID = ResourceManager.getManagerFor(RES).getString("UIViewer.title");
+
+   private final static Font DEFAULT_BODYFONT = new Font("Monospaced", Font.PLAIN, 12);
+   private final static Font DEFAULT_SIGFONT  = new Font("Monospaced", Font.PLAIN, 12);
+   private final static Font DEFAULT_QUOTEFONT = new Font("Monospaced", Font.ITALIC, 12);
+   
+   private final static Color DEFAULT_BODYCOLOR = Color.black;
+   private final static Color DEFAULT_SIGCOLOR = Color.black;
+   private final static Color DEFAULT_QUOTECOLOR = Color.green;
+      
 
    private JPanel panMain = new JPanel();
    
@@ -57,7 +67,8 @@ public class UIViewerPreferences extends PreferencePage
    private JCheckBox cbCreateHyperlinks = new JCheckBox();
    private JCheckBox cbAllowHTML = new JCheckBox();
    private JCheckBox cbWrap = new JCheckBox();
-   private FormatBar fbBodyFormat = new FormatBar();
+   private FormatBar fbBodyFormat = new FormatBar();   
+   private FormatBar fbQuoteFormat = new FormatBar();
    
    private IconicPreferencePanel ippSignature = new IconicPreferencePanel();
    private JCheckBox cbHideSig = new JCheckBox();
@@ -98,9 +109,15 @@ public class UIViewerPreferences extends PreferencePage
       group.addRow(cbShowHeaders);
       
       group.addSpacerRow(shlHeaders);
+
+      ResourceManager r = ResourceManager.getManagerFor(RES);
+      shlHeaders.setLeftListDescription(r.getString("MainPanel.Headers.Controls.Shuttle.LeftList.text"));
+      shlHeaders.setRightListDescription(r.getString("MainPanel.Headers.Controls.Shuttle.RightList.text"));
+      
       //
-      // TODO : Set shuttle labels
+      // Set the left list in the shuttle
       //
+      shlHeaders.setLeftListItems(MessageHeaderFields.ALL_HEADERS);
       
       cmdOtherHeader.setName("OtherHeader");
       group.addRow(cmdOtherHeader);
@@ -122,7 +139,10 @@ public class UIViewerPreferences extends PreferencePage
       group.addRow(cbWrap);
       
       group.addRow(fbBodyFormat);
-      // TODO set sample text of formatbar
+      group.addRow(fbQuoteFormat);
+      ResourceManager res = ResourceManager.getManagerFor(RES);
+      fbBodyFormat.setSampleLabel(res.getString("MainPanel.Body.Controls.BodyFormat.sampleText"));
+      fbQuoteFormat.setSampleLabel(res.getString("MainPanel.Body.Controls.QuoteFormat.sampleText"));
    }
    
    private void initSignature()
@@ -137,7 +157,9 @@ public class UIViewerPreferences extends PreferencePage
       group.addRow(cbShowVCard);
       
       group.addRow(fbSigFormat);
-      // Todo format sample text
+      fbSigFormat.setSampleLabel(ResourceManager.getManagerFor(RES).getString(
+         "MainPanel.Signature.Controls.SigFormat.sampleText"
+      ));
    }
 
   /**
@@ -145,26 +167,54 @@ public class UIViewerPreferences extends PreferencePage
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-  public void revert(UserPreferences p) {
-  /* tfRealName.setText(GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_REALNAME, ""));
-   tfEmail.setText(GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_EMAIL, ""));
-   tfOrganisation.setText(GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_ORGANISATION, ""));
-  */
+  public void revert(UserPreferences p) 
+  {
+     cbShowHeaders.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_SHOWHEADERS, true));
+     shlHeaders.setRightListItems(p.getStringArrayPreference(PreferenceKeys.VIEWER_DISPLAYEDHEADERS, MessageHeaderFields.DEFAULT_VIEWER_HEADERS));
+     
+     cbCreateHyperlinks.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_HYPERLINKS, true));
+     cbAllowHTML.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_ALLOWHTML, true));
+     cbWrap.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_WRAP, true));
+     fbBodyFormat.setFormatFont(p.getFontPreference(PreferenceKeys.VIEWER_NORMALFONT, DEFAULT_BODYFONT));
+     fbBodyFormat.setFormatColor(p.getColorPreference(PreferenceKeys.VIEWER_NORMALCOLOR, DEFAULT_BODYCOLOR));
+     fbQuoteFormat.setFormatFont(p.getFontPreference(PreferenceKeys.VIEWER_QUOTEDFONT, DEFAULT_QUOTEFONT));
+     fbQuoteFormat.setFormatColor(p.getColorPreference(PreferenceKeys.VIEWER_QUOTEDCOLOR, DEFAULT_QUOTECOLOR));
+     
+     cbHideSig.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_HIDESIG, false));
+     cbShowVCard.setSelected(p.getBoolPreference(PreferenceKeys.VIEWER_SHOWVCARD, false));
+     fbSigFormat.setFormatFont(p.getFontPreference(PreferenceKeys.VIEWER_SIGFONT, DEFAULT_SIGFONT));
+     fbSigFormat.setFormatColor(p.getColorPreference(PreferenceKeys.VIEWER_SIGCOLOR, DEFAULT_SIGCOLOR));
   }
 
   /**
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-  public void save(UserPreferences p) {
-   /*GlobalState.getPreferences().setPreference(PreferenceKeys.IDENTITY_REALNAME, tfRealName.getText());
-   GlobalState.getPreferences().setPreference(PreferenceKeys.IDENTITY_EMAIL, tfEmail.getText());
-   GlobalState.getPreferences().setPreference(PreferenceKeys.IDENTITY_ORGANISATION, tfOrganisation.getText());
-*/
+  public void save(UserPreferences p) 
+  {
+     p.setBoolPreference(PreferenceKeys.VIEWER_SHOWHEADERS, cbShowHeaders.isSelected());
+     p.setPreference(PreferenceKeys.VIEWER_DISPLAYEDHEADERS, StringUtils.createSentence(shlHeaders.getRightListItems()));
+     
+     p.setBoolPreference(PreferenceKeys.VIEWER_HYPERLINKS, cbCreateHyperlinks.isSelected());
+     p.setBoolPreference(PreferenceKeys.VIEWER_ALLOWHTML, cbAllowHTML.isSelected());
+     p.setBoolPreference(PreferenceKeys.VIEWER_WRAP, cbWrap.isSelected());
+     p.setFontPreference(PreferenceKeys.VIEWER_NORMALFONT, fbBodyFormat.getFormatFont());
+     p.setColorPreference(PreferenceKeys.VIEWER_NORMALCOLOR, fbBodyFormat.getFormatColor());
+     p.setFontPreference(PreferenceKeys.VIEWER_QUOTEDFONT, fbQuoteFormat.getFormatFont());
+     p.setColorPreference(PreferenceKeys.VIEWER_QUOTEDCOLOR, fbQuoteFormat.getFormatColor());
+     
+     p.setBoolPreference(PreferenceKeys.VIEWER_HIDESIG, cbHideSig.isSelected());
+     p.setBoolPreference(PreferenceKeys.VIEWER_SHOWVCARD, cbShowVCard.isSelected());
+     p.setFontPreference(PreferenceKeys.VIEWER_SIGFONT, fbSigFormat.getFormatFont());
+     p.setColorPreference(PreferenceKeys.VIEWER_SIGCOLOR, fbSigFormat.getFormatColor());
+     
   }
 
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/06/01 00:33:14  briand
+// New preference page for configuring the message viewer.
+//
 //
