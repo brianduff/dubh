@@ -1,0 +1,2894 @@
+package org.freeciv.client;
+
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.*;
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
+import com.sixlegs.image.png.PngImage;
+import org.freeciv.net.*;
+import org.freeciv.tile.*;
+import org.gjt.abies.SystemInfoPanel;
+import java.awt.*;
+
+
+
+
+
+// This is bad example of mixing GUI and logic, but it is easier this way :)
+
+public class Client extends JFrame implements ComponentListener {
+
+   private InStream in;
+   private OutStream out;
+   String server;
+   int port;
+   String name;
+   String serverCapabilities;
+   SndSystem sound;
+
+
+   private SoftReference[] tileIcons = new SoftReference[400];
+   private SoftReference[] unitIcons = new SoftReference[60];
+   private SoftReference[] unitIconsDim = new SoftReference[60];
+   private SoftReference[] smallIcons = new SoftReference[31];
+   private SoftReference[] dblsizeSmallIcons = new SoftReference[31];
+   private SoftReference[] roadIcons = new SoftReference[64];
+   private SoftReference[] flagIcons = new SoftReference[28];
+   private SoftReference[] spaceIcons;
+   private SoftReference[] darkIcons = new SoftReference[16];
+
+
+
+   int origTileWidth = -1;
+   int origTileHeight = -1;
+
+   CivMap map;
+
+   boolean alive = true;
+   int clientGameState = Constants.CLIENT_BOOT_STATE;
+
+   ChooseRaceDialog chooseRaceDialog;
+   String leaderName;
+   String raceName;
+   int raceNumber;
+
+   Terrain[] terrains = new Terrain[400]; // more or less ...
+   Terrain[] unknownTerrains = new Terrain[Constants.T_LAST];
+   RoadOverlay[] roadOverlays = new RoadOverlay[16*4];
+   RoadOverlay emptyRoad;
+   RoadOverlay emptyRail;
+
+   PktRulesetControl rulesetControl;
+   PktRulesetUnit[] rulesetUnitArr = new PktRulesetUnit[Constants.U_LAST];
+   PktRulesetTech[] rulesetTechArr = new PktRulesetTech[Constants.A_LAST];
+   PktRulesetBuilding[] rulesetBuildingArr = new PktRulesetBuilding[Constants.B_LAST];
+   HashMap rulesetUnitHash = new HashMap();
+   HashMap rulesetTechHash = new HashMap();
+   HashMap rulesetBuildingHash = new HashMap();
+
+   ArrayList units = new ArrayList(1000);
+   ArrayList cities = new ArrayList(1000);
+   PktPlayerInfo[] players;
+   PktGameInfo gameInfo;
+   PktPlayerInfo currentPlayer;
+
+// JPanel mapPanel = new JPanel(new BorderLayout());
+   JComponent mapPanel;
+   JDesktopPane desktop = new JDesktopPane();
+   JInternalFrame mapFrame;
+   JSplitPane splitPane;
+   JButton buttons[] = new JButton[8];
+   JPanel chatArea;
+   JTextArea chatText = new JTextArea("",2,80);
+   JTextField chatInput;
+   JScrollPane chatTextScroll = new JScrollPane(chatText);;
+   JPanel controls;
+   JPanel leftControls;
+   JLabel goldLabel = new JLabel("Gold    ");
+   JLabel yearLabel = new JLabel("Year    ");
+   JLabel introLabel;
+   UnitDescription unitDescription;
+   UnitStackDisplay unitStack;
+   HelpPanel helpPanel;
+   JInternalFrame helpFrame;
+   String dataDir;
+   File cacheDir;
+
+   int scaleDiv = 1;
+   int scaleMul = 1;
+   int gameState;
+
+
+
+   public Client(){
+      super("Freeciv ver " + version);
+      dataDir = System.getProperty("freeciv.datadir","data");
+      cacheDir = new File(dataDir,"cache");
+      String currentTileset = System.getProperty("freeciv.tileset","trident");
+      cacheDir = new File(cacheDir, currentTileset);
+      setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+      getContentPane().add(desktop);
+      String soundDir = System.getProperty("freeciv.sound");
+      if ( soundDir == null )
+      {
+         sound = new SndSystem();
+      }
+      else
+      {
+         try {
+            sound = new RealSndSystem(soundDir);
+         } catch ( IOException e )
+            {
+               System.out.println(_("Sound init failed\n") + e);
+            }
+      }
+
+      fillSoft(tileIcons);
+      fillSoft(unitIcons);
+      fillSoft(unitIconsDim);
+      fillSoft(roadIcons);
+      fillSoft(flagIcons);
+      fillSoft(darkIcons);
+      fillSoft(smallIcons);
+      fillSoft(dblsizeSmallIcons);
+      initTileMetrics();
+      for ( int i =0; i < Constants.T_LAST; i++ )
+         unknownTerrains[i] = new UnknownTerrain(i);
+      emptyRoad = new RoadOverlay(null,false);
+      emptyRoad.setVisible(false);
+      emptyRail = new RoadOverlay(null,true);
+      emptyRail.setVisible(false);
+      addComponentListener(this);
+   }
+
+   SoftReference softProxy = new SoftReference(null);
+
+   private void fillSoft( SoftReference[] table)
+   {                             
+      for ( int i =0; i < table.length; i++)
+      {
+         table[i] = softProxy;
+      }
+   }
+
+
+// JScrollPane unitStackScrollPane;
+
+   public void setupComponents()
+   {
+      mapFrame = new JInternalFrame(_("Map"),true,false,true,true);
+      setupMenus();
+      desktop.add(mapFrame,MAP_PANEL_LAYER);
+
+
+
+      chatInput = new JTextField("",80);
+      chatInput.addActionListener(new ActionListener() {
+                              public void actionPerformed(ActionEvent e)
+                              {
+                                 sendMessage(chatInput.getText());
+                                 chatInput.setText("");
+                              }
+                           });
+
+      chatText.setMinimumSize(new Dimension(100,30));
+      chatText.setEditable(false);
+      chatArea = new JPanel();
+      chatArea.setLayout(new BoxLayout(chatArea,BoxLayout.Y_AXIS));
+      chatArea.add(chatTextScroll);
+      chatArea.add(chatInput);
+      chatArea.setMinimumSize(new Dimension(100,40));
+
+      controls = new JPanel(new BorderLayout());
+      controls.setOpaque(false);
+//    controls = new TransparentPanel(new Color(0,150,0),0.30f);
+//    controls.setLayout(new BorderLayout());
+
+
+      unitStack = new UnitStackDisplay(getIcon(roadIcons,"roads",0),2,this);
+
+      unitStack.addMouseListener( new MouseAdapter() {
+         public void mouseClicked(MouseEvent e )
+         {
+            Unit u = unitStack.getUnitAt(e.getX(),e.getY());
+            if ( u != null )
+               map.activateUnit(u);
+         }
+      });
+
+
+      JPanel buttonPane = new JPanel(new GridLayout(4,2));
+      buttonPane.setBorder(new TitledBorder(_("Buttons")));
+      Dimension d = new Dimension(51,51);
+      for ( int i=0; i < 8; i++ )
+      {
+         buttons[i] = new JButton("But " + i);
+         buttons[i].setPreferredSize(d);
+         buttons[i].setMinimumSize(d);
+         buttonPane.add(buttons[i]);
+      }
+
+      leftControls = new JPanel();
+      leftControls.setOpaque(false);
+      leftControls.setAlignmentX(0.0f);
+      leftControls.setLayout(new BoxLayout(leftControls,BoxLayout.Y_AXIS));
+
+
+      unitDescription = new UnitDescription(this);
+      unitDescription.setUnit(null);
+      unitDescription.setAlignmentX(1.0f);
+      updateOrdersMenu(null);
+
+      goldLabel.setHorizontalAlignment(SwingConstants.LEFT);
+      goldLabel.setAlignmentX(1.0f);
+      goldLabel.setOpaque(false);
+      yearLabel.setHorizontalAlignment(SwingConstants.LEFT);
+      yearLabel.setAlignmentX(1.0f);
+      yearLabel.setOpaque(false);
+
+//    unitStackScrollPane = new JScrollPane(unitStack);
+//    controls.add(BorderLayout.CENTER,unitStackScrollPane);
+      controls.add(BorderLayout.CENTER,unitStack);
+
+//    controls.add(BorderLayout.SOUTH,buttonPane);
+      controls.add(BorderLayout.NORTH, leftControls);
+
+
+      introLabel = null;
+//    mapPanel = new JPanel( new BorderLayout() );
+//    mapPanel.add(BorderLayout.WEST, controls);
+      mapPanel = new JLayeredPane();
+      controls.setSize(150,700);
+      mapPanel.add(controls,new Integer(5));
+
+
+      splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,true,chatArea,mapPanel);
+      splitPane.setOneTouchExpandable(true);
+      mapFrame.getContentPane().add(splitPane);
+      mapFrame.pack();
+      mapFrame.show();
+      componentResized(null);
+   }
+
+
+   private void initTileMetrics()
+   {
+      try {
+         ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(
+            new FileInputStream(new File(cacheDir,"cache.timestamp"))));
+         Dimension d = (Dimension)ois.readObject();
+         ois.close();
+         origTileWidth = d.width;
+         origTileHeight = d.height;
+
+      } catch (Exception e )
+         {
+            System.out.println(e);
+            e.printStackTrace();
+            System.exit(1);
+         }
+
+   }
+
+
+   private FlashingImageIcon getIcon( SoftReference[] table, String name, int id)
+   {
+      if ( table[id].get() == null )
+      {
+         Image i =Toolkit.getDefaultToolkit().createImage(new FileImageSource(
+                  new File(cacheDir,name+"." + id)
+               ));
+         if ( scaleMul != scaleDiv )
+         {
+            int w = -1;
+            int h = -1;
+            while ( (w=i.getWidth(null)) < 0 )
+               sleep(100);
+            while ( (h=i.getHeight(null)) < 0 )
+               sleep(100);
+            i = i.getScaledInstance(scaleMul*w/scaleDiv,scaleMul*h/scaleDiv,Image.SCALE_FAST );
+         }
+         FlashingImageIcon fii = new FlashingImageIcon(i);
+         table[id] = new SoftReference(fii);
+         return fii;
+      }
+
+      return (FlashingImageIcon)table[id].get();
+   }
+
+   private FlashingImageIcon getUnscalableIcon( SoftReference[] table, String name, int id)
+   {
+      if ( table[id].get() == null )
+      {
+         Image i =Toolkit.getDefaultToolkit().createImage(new FileImageSource(
+                  new File(cacheDir,name+"." + id)
+               ));
+         FlashingImageIcon fii = new FlashingImageIcon(i);
+         table[id] = new SoftReference(fii);
+         return fii;
+      }
+
+      return (FlashingImageIcon)table[id].get();
+   }
+
+   private FlashingImageIcon getDblsizeUnscalableIcon( SoftReference[] table, String name, int id)
+   {
+      if ( table[id].get() == null )
+      {
+         Image i =Toolkit.getDefaultToolkit().createImage(new FileImageSource(
+                  new File(cacheDir,name+"." + id)
+               ));
+         i = i.getScaledInstance(i.getWidth(null)*2,i.getHeight(null)*2,
+            Image.SCALE_SMOOTH);
+         FlashingImageIcon fii = new FlashingImageIcon(i);
+         table[id] = new SoftReference(fii);
+         return fii;
+      }
+
+      return (FlashingImageIcon)table[id].get();
+   }
+
+
+
+
+   public static final int BORDER_TILES = Constants.T_LAST;
+   
+   int[] fewTerrainIndex = new int[] {
+      2,2,3,3,
+      2,2,3,3,
+      1,1,0,0,
+      1,1,0,0
+   };
+
+
+   private int findTerrainIconIndex(int id, int variation)
+   {
+      switch (id)
+      {
+         case Constants.T_GRASSLAND:
+            return variation+1*20;
+         case Constants.T_DESERT:
+            return variation+2*20;
+         case Constants.T_ARCTIC:
+            return variation+3*20;
+         case Constants.T_JUNGLE:
+            return variation+4*20;
+         case Constants.T_PLAINS:
+            return variation+5*20;
+         case Constants.T_SWAMP:
+            return variation+6*20;
+         case Constants.T_TUNDRA:
+            return variation+7*20;
+         case Constants.T_RIVER:
+            return 15-variation+8*20;
+         case Constants.T_OCEAN:
+            return variation+9*20;
+         case Constants.T_HILLS:
+            return fewTerrainIndex[variation] + 10*20;
+         case Constants.T_FOREST:
+            return fewTerrainIndex[variation] +10*20+4;
+         case Constants.T_MOUNTAINS:
+            return fewTerrainIndex[variation] +10*20+8;
+         case BORDER_TILES:
+            return variation + 0*20;
+
+         default:
+            throw new RuntimeException("Unknown terrain type " + id);
+      }
+   }
+
+
+   public Terrain getTerrain(int id, int variation )
+   {
+      int index = id*16 + variation;
+      if ( terrains[index] == null )
+      {
+         terrains[index] = new Terrain(getIcon(tileIcons,"tiles",
+            findTerrainIconIndex(id,variation)),id);
+      }
+      return terrains[index];
+   }
+
+   public Terrain getUnknownTerrain(int id)
+   {
+      return unknownTerrains[id];
+   }
+
+   public FlashingIcon getRiverDelta(int direction)
+   {
+      return getIcon(tileIcons,"tiles" ,8*20+16+direction);
+   }
+
+   public FlashingIcon getEmptyIcon()
+   {
+      return getIcon(unitIcons,"units",59);
+   }
+
+   private Icon getFlagIcon(int id)
+   {
+      return getIcon(flagIcons,"flags",id);
+   }
+
+   public Icon getFlagIcon(PktPlayerInfo plr)
+   {
+      return getFlagIcon(plr.nation);
+   }
+
+   public Icon getFlagForPlayer(int plrid)
+   {
+      return getFlagIcon(players[plrid].nation);
+   }
+
+   private FlashingIcon getRoadInternal(int index)
+   {
+      if ( roadOverlays[index] == null )
+      {
+         roadOverlays[index] = new RoadOverlay(getIcon(roadIcons,
+            "roads",index), index >= 32);
+      }
+      return roadOverlays[index];
+   }
+
+   public FlashingIcon getNormalRoadOverlay(int type)
+   {
+      return getRoadInternal(type);
+   }
+
+   public FlashingIcon getDiagonalRoadOverlay(int type)
+   {
+      return getRoadInternal(type+16);
+   }
+
+   public FlashingIcon getNormalRailOverlay(int type)
+   {
+      return getRoadInternal(type+32);
+   }
+
+   public FlashingIcon getDiagonalRailOverlay(int type)
+   {
+      return getRoadInternal(type+48);
+   }
+
+   public FlashingIcon getEmptyRoad()
+   {
+      return emptyRoad;
+   }
+
+
+   public FlashingIcon getEmptyRail()
+   {
+      return emptyRail;
+   }
+
+   public FlashingIcon getUnitIcon(int gid)
+   {
+      return getIcon(unitIcons,"units",gid);
+   }
+
+   public FlashingIcon getUnitIconDim(int gid)
+   {
+      return getIcon(unitIconsDim,"units_dim",gid);
+   }
+
+   public FlashingIcon getHpIcon(int hp11)
+   {
+      return getIcon(tileIcons,"tiles",16*20+hp11);
+   }
+
+   public FlashingIcon getTerrainSpecial( int id)
+   {
+      return getIcon(tileIcons,"tiles",11*20+id);
+   }
+
+   public FlashingIcon getDarkOverlay( int variation )
+   {
+      FlashingIcon i = getIcon(darkIcons,"dark",variation);
+      i.setVisible(showShadowBordersMI.isSelected());
+      return i;
+   }
+
+   public FlashingIcon getHutIcon()
+   {
+      return getIcon(tileIcons,"tiles",12*20+14);
+
+   }
+
+   public FlashingIcon getCityIcon()
+   {
+      return getIcon(tileIcons,"tiles",12*20+12);
+   }
+
+   public FlashingIcon getWorkerIcon()
+   {
+      return getIcon(unitIcons,"units",41);
+   }
+
+   public FlashingIcon getSmallIcon( int id )
+   {
+      return getUnscalableIcon(smallIcons,"small",id);
+   }
+
+   public FlashingIcon getDblsizeSmallIcon( int id )
+   {
+      return getDblsizeUnscalableIcon(dblsizeSmallIcons,"small",id);
+   }
+
+
+   public FlashingIcon getScienceBulb(int fullness0_7 )
+   {
+      return getSmallIcon(fullness0_7);
+   }
+
+   public FlashingIcon getGovernmentIcon( int gvr )
+   {
+      return getSmallIcon(gvr + 8);
+   }
+
+   public FlashingIcon getSmallBalls( int id ) // ???
+   {
+      return getSmallIcon(id+14);
+   }
+
+   public FlashingIcon getElvisIcon()
+   {
+      return getDblsizeSmallIcon(22);
+   }
+
+   public FlashingIcon getSciencistIcon()
+   {
+      return getDblsizeSmallIcon(23);
+   }
+
+   public FlashingIcon getTaxmanIcon()
+   {
+      return getDblsizeSmallIcon(24);
+   }
+
+   public FlashingIcon getNormalCitizenIcon(boolean female)
+   {
+      return getDblsizeSmallIcon(25+ (female ? 1 : 0));
+   }
+
+   public FlashingIcon getHappyCitizenIcon(boolean female)
+   {
+      return getDblsizeSmallIcon(27+ (female ? 1 : 0));
+   }
+
+   public FlashingIcon getAngryCitizenIcon(boolean female)
+   {
+      return getDblsizeSmallIcon(29);
+   }
+
+
+
+
+   private void scaleIconArray( SoftReference[] icons, String name,
+      int xsize, int ysize )
+   {
+      for ( int i=0; i < icons.length; i++)
+      {
+         if ( icons[i].get() == null )
+            continue;
+         ImageIcon ii = (ImageIcon)icons[i].get();
+//       ii.setImage(ii.getImage().getScaledInstance(xsize,ysize,Image.SCALE_FAST));
+         ii.setImage(Toolkit.getDefaultToolkit().createImage(
+            new FileImageSource(new File(cacheDir, name + "." + i) )
+               ).getScaledInstance(xsize,ysize,Image.SCALE_FAST ));
+      }
+   }
+
+
+   public void scaleIcons(int mul, int div)
+   {
+      Coords c = map.getCentralTile();
+      System.out.println("Started scaling");
+      long start = System.currentTimeMillis();
+      scaleMul = mul;
+      scaleDiv = div;
+
+
+      scaleIconArray(tileIcons,"tiles",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      scaleIconArray(unitIcons,"units",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      scaleIconArray(unitIconsDim,"units_dim",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      scaleIconArray(roadIcons,"roads",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      scaleIconArray(flagIcons,"flags",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      scaleIconArray(darkIcons,"dark",
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+      // do not scale smallIcons
+
+      map.changeTileSize(
+         mul*origTileWidth/div,mul*origTileHeight/div);
+
+
+      mapPanel.invalidate();
+
+      System.gc();
+      System.out.println("Scaled in " + (System.currentTimeMillis()-start) );
+      map.centerOnTile(c.x,c.y);
+
+   }
+
+   public void changeTileset(String dir)
+   {
+      Coords c = map.getCentralTile();
+      File nCacheDir = new File(dataDir,"cache");
+      boolean recompute = false;
+      String iDir = dir;
+      if ( dir != null )
+      {
+         nCacheDir = new File(nCacheDir,dir);
+         recompute = !(new File(nCacheDir,"cache.timestamp" )).exists();
+      }
+      else
+      {
+         recompute = true;
+         nCacheDir = cacheDir;
+         iDir = cacheDir.getName();
+      }
+
+      if ( recompute )
+      {
+         File imgDir = new File(dataDir,"images");
+         imgDir = new File(imgDir, iDir);
+         try {
+            new ImageSplitAndWrite().run(imgDir,nCacheDir);
+         } catch ( IOException e )
+            {
+               System.out.println(e);
+               System.exit(1);
+            }
+      }
+      cacheDir = nCacheDir;
+      initTileMetrics();
+      map.centerOnTile(c.x,c.y);
+      if ( dir != null )
+         scaleIcons(1,1);
+   }
+
+
+
+
+   private JMenuItem createMenuItem(String name,Action action,
+      KeyStroke keyStroke)
+   {
+      JMenuItem jmi = new LabelledMenuItem(name,keyStroke,action);
+      if ( keyStroke != null )
+         mapFrame.registerKeyboardAction(action,
+            keyStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+      if ( action instanceof UnitAction )
+         registerUnitAction(action);
+      return jmi;
+   }
+
+   private JCheckBoxMenuItem createCheckBoxMenuItem(String name,
+      ActionListener action, KeyStroke keyStroke )
+   {
+      JCheckBoxMenuItem jmi = //new LabelledMenuItem(name,key);
+         new JCheckBoxMenuItem(name,false);
+         
+      if ( keyStroke != null )
+         jmi.setAccelerator(keyStroke);
+
+      jmi.addActionListener(action);
+      if ( keyStroke != null )
+         mapFrame.registerKeyboardAction(action,
+            keyStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+      return jmi;
+   }
+
+   private void setupMenus()
+   {
+
+      JMenuBar jmb = new JMenuBar();
+
+      JMenu jm = new JMenu(_("Game"));
+
+      jm.add( createMenuItem(_("Revolution"),
+         revolutionAction, null));
+
+      jm.add( createMenuItem(_("End turn"),
+         endTurnAction,KeyStroke.getKeyStroke(KeyEvent.VK_E,Event.CTRL_MASK)) );
+      jm.addSeparator();
+
+      JMenu jm1 = new JMenu(_("Scale tiles"));
+
+      jm1.add(createMenuItem(_("Scale 1/2x"),scale050xAction, null ));
+      jm1.add(createMenuItem(_("Scale 2/3x"),scale066xAction, null ));
+      jm1.add(createMenuItem(_("Scale 1x"),scale100xAction, null ));
+      jm1.add(createMenuItem(_("Scale 4/3x"),scale133xAction, null ));
+      jm1.add(createMenuItem(_("Scale 3/2x"),scale150xAction, null ));
+      jm1.add(createMenuItem(_("Scale 2x"),scale200xAction, null ));
+
+      jm.add(jm1);
+
+      jm1 = new JMenu(_("Change tileset"));
+      File imgDir = new File(dataDir,"images");
+      File[] list = imgDir.listFiles();
+      for ( int i =0; i < list.length; i++ )
+      {
+         if ( list[i].isDirectory() && new File(list[i],"tiles.png").exists() )
+            jm1.add(createMenuItem(list[i].getName(),
+               new ChangeTilesetAction(list[i].getName()), null));
+      }
+      jm1.addSeparator();
+      jm1.add(createMenuItem(_("Force tileset reload"),reloadTilesetAction,
+         null) );
+
+      jm.add(jm1);
+
+      jm.addSeparator();
+      jm.add( createMenuItem(_("System info"),
+         systemInfoAction, null ) );
+
+
+
+      jmb.add(jm);
+
+      jm = new JMenu(_("Control"));
+
+      jm.add(createMenuItem( _("Next idle unit"),
+         nextIdleUnitAction,KeyStroke.getKeyStroke(KeyEvent.VK_N,0) ) );
+      jm.add(createMenuItem( _("Next unit"),
+         nextUnitAction,KeyStroke.getKeyStroke(KeyEvent.VK_N,Event.SHIFT_MASK)));
+
+      // find city
+
+      jm.addSeparator();
+      jm.add(showCityRangesMI = createCheckBoxMenuItem(_("Show City Ranges"),
+         showCityRangesAction, KeyStroke.getKeyStroke(KeyEvent.VK_C,0)));
+      showCityRangesMI.setSelected(true);
+      jm.add(showShadowBordersMI = createCheckBoxMenuItem(_("Show Shadow Borders"),
+         showShadowBordersAction, null ));
+      showShadowBordersMI.setSelected(true);
+      jm.add(showMapGridsMI = createCheckBoxMenuItem(_("Show Map Grids"),
+         showMapGridsAction, null ));
+      jm.add(showSmallMapMI = createCheckBoxMenuItem(_("Show Small Map"),
+         showSmallMapAction, KeyStroke.getKeyStroke(KeyEvent.VK_M,Event.CTRL_MASK) ));
+      showSmallMapMI.setSelected(true);
+
+
+
+
+      jmb.add(jm);
+
+
+
+
+      jm = new JMenu(_("Orders"));
+      ordersMenu = jm;
+
+      jm.add(createMenuItem(_("Auto attack"),
+         autoCombatAction, null ));
+      jm.add(createMenuItem(_("Goto"),
+         gotoAction,KeyStroke.getKeyStroke(KeyEvent.VK_G,0)));
+      jm.add(createMenuItem(_("Sentry unit"),
+         sentryUnitAction,KeyStroke.getKeyStroke(KeyEvent.VK_S,0)));
+      jm.add(createMenuItem(_("Fortify"),
+         fortifyAction,KeyStroke.getKeyStroke(KeyEvent.VK_F,0)));
+      jm.add(createMenuItem(_("Wakeup unit"),
+         wakeupUnitAction,KeyStroke.getKeyStroke(KeyEvent.VK_W,0)) );
+      jm.add(createMenuItem(_("Pillage"),
+         pillageAction, null));
+      jm.add(createMenuItem(_("Explore"),
+         exploreAction, null));
+      jm.add(createMenuItem(_("Disband unit"),
+         disbandUnitAction,KeyStroke.getKeyStroke(KeyEvent.VK_D,Event.ALT_MASK|Event.CTRL_MASK)) );
+
+      jm.addSeparator();
+
+      jm.add(createMenuItem( _("Auto settler"),
+         autoSettlerAction, null));
+      jm.add(createMenuItem( _("Build city"),
+         buildCityAction,KeyStroke.getKeyStroke(KeyEvent.VK_B,0) ) );
+      jm.add(createMenuItem(_("Build road"),
+         unitBuildRoadAction,KeyStroke.getKeyStroke(KeyEvent.VK_R,0)));
+      jm.add(createMenuItem(_("Irrigate"),
+         irrigateAction,KeyStroke.getKeyStroke(KeyEvent.VK_I,0)));
+      jm.add(createMenuItem(_("Mine"),
+         mineAction,KeyStroke.getKeyStroke(KeyEvent.VK_M,0)));
+      jm.add(createMenuItem(_("Fortress"),
+         fortressAction,null));
+
+
+      // homecity
+      // unload
+      // wait
+      // transform
+      // gotocity
+      // build_wonder
+      // trade_route
+      // done
+      // nuke
+
+      jmb.add(jm);
+
+
+
+
+
+      jm = new JMenu(_("Reports"));
+
+      // city
+      // trade
+      // active units
+      // spaceship
+      // tax rate
+      // revolution
+
+      jm.add(createMenuItem(_("Research"),
+         researchAction,KeyStroke.getKeyStroke(KeyEvent.VK_F6,0)));
+      jm.add(createMenuItem(_("Wonders"),
+         wondersReportAction, KeyStroke.getKeyStroke(KeyEvent.VK_F7,0)));
+      jm.add(createMenuItem(_("Top 5 Cities"),
+         top5CitiesReportAction, KeyStroke.getKeyStroke(KeyEvent.VK_F8,0)));
+      jm.add( createMenuItem(_("Demographics"),
+         demographicsReportAction, KeyStroke.getKeyStroke(KeyEvent.VK_F11,0)));
+      jm.addSeparator();
+      jm.add(createMenuItem(_("Serv Opt Initial"),
+         serverOptions1ReportAction, null));
+      jm.add(createMenuItem(_("Serv Opt Ongoing"),
+         serverOptions2ReportAction, null));
+
+
+      jmb.add(jm);
+
+
+      jm = new JMenu(_("Help"), true);
+      jm.add(createMenuItem(_("Help"),
+         helpAction, KeyStroke.getKeyStroke(KeyEvent.VK_F1,0) ) );
+
+
+      jmb.add(jm);
+
+      mapFrame.setJMenuBar(jmb);
+
+
+      mapFrame.registerKeyboardAction(moveN,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveNE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD6,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveSE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveS,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveSW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveNW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD7,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+      mapFrame.registerKeyboardAction(moveMapN,
+         KeyStroke.getKeyStroke(KeyEvent.VK_8,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapNE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_9,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_6,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapSE,
+         KeyStroke.getKeyStroke(KeyEvent.VK_3,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapS,
+         KeyStroke.getKeyStroke(KeyEvent.VK_2,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapSW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_1,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_4,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+      mapFrame.registerKeyboardAction(moveMapNW,
+         KeyStroke.getKeyStroke(KeyEvent.VK_7,0),
+         JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+   }
+
+   ArrayList unitActions = new ArrayList();
+
+   private void registerUnitAction( Action act )
+   {
+      unitActions.add(act);
+   }
+
+
+
+   public void updateOrdersMenu(Unit u)
+   {
+      if ( u == null )
+      {
+         ordersMenu.setEnabled(false);
+         return;
+      }
+      
+      ordersMenu.setEnabled(true);
+
+      for ( int i =0; i < unitActions.size(); i++)
+      {
+         UnitAction ua = (UnitAction)unitActions.get(i);
+         ua.setEnabled(ua.isEnabledForUnit(u));
+      }
+
+
+
+   }
+
+
+   public int performLogin()
+   {
+      LoginPanel lp = new LoginPanel();
+      int answer= lp.showDialog(this);
+      if ( answer == -1  )
+      {
+         setVisible(false);
+         return -1;
+      }
+      if ( answer == 0 )
+         return 0;
+      in = new InStream(lp.input);
+      out = new OutStream(lp.output);
+      server = lp.server.getText();
+      port = Integer.parseInt(lp.port.getText());
+      name = lp.name.getText();
+      while (!joinGame())
+      {
+         //      setVisible(false);
+         return 0;
+      }
+      return 1;
+   }
+
+   private boolean joinGame()
+   {
+      // join_req_packet
+      try {
+         PktReqJoinGame prjg = new PktReqJoinGame();
+         prjg.name = name;
+         prjg.majorVer = majorVer;
+         prjg.minorVer = minorVer;
+         prjg.patchVer = patchVer;
+         prjg.capabilities = capabilities;
+         prjg.send(out);
+
+         in.recvPacket();
+         if ( in.getInputPacketType() != Constants.PACKET_JOIN_GAME_REPLY )
+         {
+            JOptionPane.showMessageDialog(this,
+               _("Strange response for join game request"),_("Fatal Error"),
+               JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+         PktJoinGameReply pjgr = new PktJoinGameReply(in);
+
+         if ( !pjgr.youCanJoin)
+         {
+            JOptionPane.showMessageDialog(this,
+               pjgr.message,_("Join game refused"),JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+         message(pjgr.message);
+         serverCapabilities = pjgr.capabilities;
+         clientGameState = Constants.CLIENT_PRE_GAME_STATE;
+      } catch ( IOException e )
+      {
+         JOptionPane.showMessageDialog(this,
+            _("Error connection to server"),_("Fatal Error"),JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      return true;
+   }
+
+   public void message(String str )
+   {
+//    System.out.println("MSG: " + str);
+      chatText.setRows(chatText.getRows()+1);
+      chatText.append(str + "\n");
+      int y = chatText.getHeight()-chatTextScroll.getHeight();
+
+      chatTextScroll.getViewport().setViewPosition(new Point(0,y));
+
+   }
+
+
+   public void hideAllWindows()
+   {
+      setVisible(false);
+      dispose();
+   }
+
+   public void setInfo(String str)
+   {
+//    infoPane.setText(str);
+   }
+
+   public String showNameCityDialog( String proposedName )
+   {
+      return (String)
+      JOptionPane.showInternalInputDialog(desktop,
+         _("Choose city name"),_("New city"),
+            JOptionPane.QUESTION_MESSAGE,null,null,proposedName);
+   }
+   
+   /**
+    * Displays the "do you want a revolution?" dialog
+    */
+   public boolean showRevolutionDialog()
+   {
+      return 
+         (JOptionPane.showConfirmDialog(desktop, _("Do you really want a revolution?"), 
+            _("Revolution"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION);
+   }
+
+
+   public void setRaceInfo(int aRaceNumber, String aRaceName, String aLeaderName )
+   {
+      raceNumber = aRaceNumber;
+      raceName = aRaceName;
+      leaderName = aLeaderName;
+   }
+
+   public void setUnitStack(Unit u)
+   {
+/*    Dimension d =unitStack.getWantedSize();
+      unitStackScrollPane.setSize(d);
+      unitStackScrollPane.setPreferredSize(d);
+*/    
+      unitStack.removeAllUnits();
+      if ( u != null )
+      {
+         unitStack.addUnitStack(u);
+      }
+      unitStack.repaint();
+   }
+
+
+   public void changedActiveUnit( Unit u )
+   {
+      unitDescription.setUnit(u);
+      setUnitStack(u);
+      updateOrdersMenu(u);
+   }
+
+
+   private void updatePlayerDisplay()
+   {
+      goldLabel.setText(_("Gold ") + currentPlayer.gold);
+      if ( researchDialog != null )
+         researchDialog.updateComponents();
+   }
+
+   public void playSound(String id)
+   {
+      sound.play(id);
+   }
+
+   public void showHelp(String category, String item)
+   {
+      if ( helpPanel == null )
+      {
+         try {
+            helpPanel = new HelpPanel(this,
+               new File(new File(dataDir,"help"),"helpdata.txt"));
+         } catch ( IOException e )
+            {
+               // add verbose error panel here
+               JOptionPane.showInternalMessageDialog(desktop,
+                  _("No help available on this subject"),
+                  _("No Help"), JOptionPane.WARNING_MESSAGE);
+               System.out.println(e);
+               return;
+            }
+      }
+
+      if ( helpFrame != null )
+      {
+         helpFrame.getContentPane().removeAll();
+         helpFrame.setVisible(false);
+         helpFrame.dispose();
+         desktop.remove(helpFrame);
+      }
+
+      helpFrame = new JInternalFrame(_("Help"),true,true,true/*,true*/);
+      desktop.add(helpFrame,HELP_DIALOG_LAYER);
+      helpFrame.getContentPane().add(helpPanel);
+      helpFrame.pack();
+      helpFrame.show();
+      helpPanel.showHelp(category, item);
+   }
+
+
+
+   // main packet input handle loop
+   public void listen()
+   {
+      while ( alive )
+      {
+         try {
+            in.recvPacket();
+         } catch ( IOException e )
+         {
+            JOptionPane.showMessageDialog(this,
+               e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
+            hideAllWindows();
+            return;
+         }
+
+//       System.out.println(in.dumpData());
+
+         System.out.print(in.getInputPacketType()+"..");
+         switch ( in.getInputPacketType() )
+         {
+            case Constants.PACKET_RULESET_CONTROL:
+               handleRulesetControl(new PktRulesetControl(in));
+               break;
+            case Constants.PACKET_SELECT_NATION:
+               handleSelectRace(new PktGenericValues(in));
+               break;
+            case Constants.PACKET_CHAT_MSG:
+               handleChatMessage(new PktGenericMessage(in));
+               break;
+            case Constants.PACKET_MAP_INFO:
+               handleMapInfo( new PktMapInfo(in));
+               break;
+            case Constants.PACKET_RULESET_TECH:
+               handleRulesetTech(new PktRulesetTech(in));
+               break;
+            case Constants.PACKET_RULESET_UNIT:
+               handleRulesetUnit(new PktRulesetUnit(in));
+               break;
+            case Constants.PACKET_RULESET_BUILDING:
+               handleRulesetBuilding(new PktRulesetBuilding(in));
+               break;
+            case Constants.PACKET_GAME_INFO:
+               handleGameInfo(new PktGameInfo(in));
+               break;
+            case Constants.PACKET_PLAYER_INFO:
+               handlePlayerInfo(new PktPlayerInfo(in));
+               break;
+/*            case Constants.PACKET_SPACESHIP_INFO:
+               handleSpaceshipInfo(new PktSpaceshipInfo(in));
+               break;
+*/
+            case Constants.PACKET_TILE_INFO:
+               handleTileInfo(new PktTileInfo(in));
+               break;
+            case Constants.PACKET_UNIT_INFO:
+               handleUnitInfo(  new Unit(this, in) );
+               break;
+            case Constants.PACKET_REMOVE_UNIT:
+               handleRemoveUnit( new PktGenericInteger(in) );
+               break;
+            case Constants.PACKET_CITY_INFO:
+               handleCityInfo(in);
+               break;
+            case Constants.PACKET_GAME_STATE:
+               handleGameState(new PktGenericInteger(in) );
+               break;
+            case Constants.PACKET_NEW_YEAR:
+               handleNewYear(new PktNewYear(in) );
+               break;
+            case Constants.PACKET_PAGE_MSG:
+               handlePageMessage(new PktGenericMessage(in));
+               break;
+            case Constants.PACKET_REMOVE_CITY:
+               handleRemoveCity(new PktGenericInteger(in));
+               break;
+            case Constants.PACKET_REMOVE_PLAYER:
+               handleRemovePlayer(new PktGenericInteger(in));
+               break;
+            case Constants.PACKET_NUKE_TILE:
+               handleNukeTile(new PktNukeTile(in));
+               break;
+            case Constants.PACKET_BEFORE_NEW_YEAR:
+               in.consume();
+               handleBeforeNewYear();
+               break;
+            case Constants.PACKET_SERVER_SHUTDOWN:
+               handleServerShutdown(new PktGenericMessage(in));
+               break;
+            case Constants.PACKET_UNIT_COMBAT:
+               handleUnitCombat(new PktUnitCombat(in));
+               break;
+            default:
+               System.out.println(_("Urecognized packet ") + in.getInputPacketType());
+               System.out.println(in.dumpData());
+               in.consume();
+               break;
+         }
+      }
+   }
+
+
+
+   public void handleSelectRace(PktGenericValues pkt)
+   {
+      if ( pkt.value1 < 0 )
+      {
+         if (chooseRaceDialog != null)
+         {
+            chooseRaceDialog.setVisible(false);
+            chooseRaceDialog.dispose();
+            clientGameState = Constants.CLIENT_PRE_GAME_STATE;
+         }
+         return;
+      }
+
+      if ( clientGameState == Constants.CLIENT_PRE_GAME_STATE )
+      {
+         clientGameState = Constants.CLIENT_SELECT_RACE_STATE;
+         chooseRaceDialog = new ChooseRaceDialog(Client.this);
+      }
+      // BD: TODO: Set toggles
+      //chooseRaceDialog.toggleAvailableRace(pkt.value);
+   }
+
+   public void handleChatMessage( PktGenericMessage pkt )
+   {
+      message(pkt.message);
+   }
+
+
+   public void handleMapInfo(PktMapInfo pkt)
+   {
+      map = new CivMap(this,pkt.xsize,pkt.ysize,origTileWidth,origTileHeight,
+                  true, false);
+      // map.isEarth ??
+      // set map display
+      map.setSize(mapFrame.getContentPane().getSize());
+      mapPanel.add(map,new Integer(1));
+      mapPanel.addComponentListener(new ComponentAdapter() {
+
+         public void componentResized(ComponentEvent e)
+         {
+            map.setSize(mapPanel.getSize());
+         }
+      });
+
+   }
+   
+   public void handleRulesetControl( PktRulesetControl pkt)
+   {
+      rulesetControl = pkt;
+   }
+
+   public void handleRulesetTech( PktRulesetTech pkt )
+   {
+      rulesetTechArr[pkt.id] = pkt;
+      rulesetTechHash.put(pkt.name,pkt);
+   }
+
+   public void handleRulesetUnit( PktRulesetUnit pkt )
+   {
+      rulesetUnitArr[pkt.id] = pkt;
+      rulesetUnitHash.put(pkt.name,pkt);
+   }
+
+   public void handleRulesetBuilding( PktRulesetBuilding pkt )
+   {
+      rulesetBuildingArr[pkt.id] = pkt;
+      rulesetBuildingHash.put(pkt.name,pkt);
+   }
+
+   public void handleGameInfo( PktGameInfo pkt )
+   {
+      if ( gameInfo == null )
+      {
+         players = new PktPlayerInfo[pkt.max_players];
+      }
+      gameInfo = pkt;
+   }
+
+   boolean mapAdded = false;
+
+   public void handleGameState( PktGenericInteger pkt )
+   {
+      System.out.println(_("Game state ") + pkt.value);
+      gameState = pkt.value;
+      if ( pkt.value == Constants.CLIENT_GAME_RUNNING_STATE )
+      {
+         if ( !mapAdded )
+         {
+            leftControls.add(map.smallMap);
+            leftControls.add(goldLabel);
+            leftControls.add(yearLabel);
+            leftControls.add(unitDescription);
+            leftControls.setSize(leftControls.getPreferredSize());
+            controls.setSize(controls.getPreferredSize());
+            splitPane.resetToPreferredSizes();
+/*          Dimension d =unitStack.getWantedSize();
+            unitStackScrollPane.setSize(d);
+            unitStackScrollPane.setPreferredSize(d);
+*/          Unit u;
+            java.util.Iterator i = units.iterator();
+            while ( (u = (Unit)i.next()) == null )
+               /*noop*/;
+            if ( u != null )
+               map.centerOnTile(u.x,u.y);
+            mapAdded = true;
+         }
+         map.updateAllOverlays();
+      }
+   }
+
+   public void handlePlayerInfo( PktPlayerInfo pkt )
+   {
+      players[pkt.playerno] =pkt;
+      if ( pkt.playerno == gameInfo.player_idx )
+      {
+         currentPlayer = pkt;
+         updatePlayerDisplay();
+         
+         if (rulesetControl == null)
+         {
+            System.out.println("Never recieved ruleset control packet.");
+         }
+         else
+         {
+            System.out.println("PLAYER REVOLUTION IS "+pkt.revolution);
+            System.out.println("PLAYER GOVERNMENT IS "+pkt.government);
+            if (pkt.revolution < 1 || pkt.revolution > 5 &&
+               pkt.government == rulesetControl.government_when_anarchy)
+            {
+               System.out.println("NEED TO POP UP GOVERNMENT DIALOG");
+            }
+         }
+      }
+   }
+
+   public void handleSpaceshipInfo( PktSpaceshipInfo pkt )
+   {
+   }
+
+   public void handleTileInfo( PktTileInfo pkt )
+   {
+      map.setTerrain(pkt, gameState == Constants.CLIENT_GAME_RUNNING_STATE);
+   }
+
+   public void handleUnitInfo( Unit unit )
+   {
+      growArray(units,unit.id);
+      Unit oldUnit = (Unit)units.get(unit.id);
+      // maybe skip it for simple updates ?
+      synchronized(map){
+         if ( oldUnit != null )
+         {
+            units.set(unit.id,null);
+            map.removeUnit(oldUnit);
+         }
+         units.set(unit.id, unit);
+         map.addUnit(unit);
+      }
+   }
+
+   public void handleRemoveUnit(PktGenericInteger pkt )
+   {
+      growArray(units,pkt.value);
+      Unit oldUnit = (Unit)units.get(pkt.value);
+      if ( oldUnit != null )
+      {
+         units.set(pkt.value,null);
+         synchronized(map){
+            map.removeUnit(oldUnit);
+         }
+      }
+   }
+
+   public void handleCityInfo(InStream in)
+   {
+      int id = in.readShort();
+      in.rewind();
+      growArray(cities,id);
+      City c = (City)cities.get(id);
+      if ( c == null )
+      {
+         // new city
+         c = new City(this,in);
+         cities.set(c.id,c);
+         synchronized(map){
+            map.addCity(c);
+         }
+      }
+      else
+      {
+         // old city changes data
+         c.receive(in);
+      }
+   }
+
+   public void handleNewYear(PktNewYear pkt)
+   {
+      if ( pkt.year < 0 )
+         yearLabel.setText(_("Year ") + (-pkt.year) + _("BC"));
+      else
+         yearLabel.setText(_("Year ") + (pkt.year) + _("AD"));
+   }
+
+   public void handlePageMessage(PktGenericMessage msg)
+   {
+      String text = msg.message;
+      String title = text.substring(0,text.indexOf('\n'));
+      text = text.substring(title.length()+1);
+      Vector v = new Vector();
+      int i;
+      while ( (i = text.indexOf('\n')) >= 0 )
+      {
+         JLabel jl = new JLabel(text.substring(0,i),JLabel.LEFT);
+         jl.setFont(new Font("monospaced",Font.PLAIN,12));
+         v.add(jl);
+         if ( text.length() > i+1 )
+            text = text.substring(i+1);
+         else
+            break;
+      }
+      JOptionPane.showInternalMessageDialog(mapFrame,
+         v.toArray(),title,JOptionPane.INFORMATION_MESSAGE);
+      mapFrame.requestFocus();
+   }
+
+   public void handleRemoveCity(PktGenericInteger pkt)
+   {
+      growArray(cities,pkt.value);
+      City c = (City)cities.remove(pkt.value);
+      if ( c == null )
+         return;
+      synchronized(map){
+         map.removeCity(c);
+      }
+      c.closeDialogs();
+   }
+
+   public void handleRemovePlayer(PktGenericInteger pkt)
+   {
+      synchronized (map)
+      {
+         System.out.println("Remove player not tested !!!");
+         int n = pkt.value;
+         if ( n < gameInfo.nplayers-1 )
+            System.arraycopy(players,n+1,players,n,gameInfo.nplayers-n-1);
+
+         players[gameInfo.nplayers-1] = null;
+         gameInfo.nplayers--;
+         for( int i=0; i < units.size(); i++ )
+         {
+            Unit u = (Unit)units.get(i);
+            if (  u!= null )
+            {
+               if (  u.owner == n )
+               {
+                  units.set(i,null);
+                  map.removeUnit(u);
+               }
+               else if ( u.owner > n )
+               {
+                  u.owner--;
+               }
+            }
+         }
+         for( int i=0; i < cities.size(); i++ )
+         {
+            City c = (City)cities.get(i);
+            if ( c != null )
+            {
+               if ( c.owner == n )
+               {
+                  cities.set(i,null);
+                  map.removeCity(c);
+               }
+               else if ( c.owner > n )
+               {
+                  c.owner--;
+               }
+            }
+         }
+      }
+
+   }
+
+   public void handleNukeTile(PktNukeTile pkt )
+   {
+      map.explodeNuke(pkt.x,pkt.y);
+   }
+
+   public void handleBeforeNewYear()
+   {
+   }
+
+   public void handleServerShutdown(PktGenericMessage pkt)
+   {
+      JOptionPane.showMessageDialog(this,
+         pkt.message,
+         _("Server shutdown"),JOptionPane.WARNING_MESSAGE);
+      System.exit(1); // ??
+   }
+
+   public void handleUnitCombat(PktUnitCombat pkt)
+   {
+      map.showUnitCombat(pkt);
+   }
+
+
+   public void sendRaceInfo()
+   {
+      PktAllocNation par = new PktAllocNation();
+      par.nation_no = raceNumber;
+      par.name = leaderName;
+      try {
+         par.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void sendMessage(String str)
+   {
+      PktGenericMessage pkt = new PktGenericMessage();
+      pkt.message = str;
+      pkt.setType(Constants.PACKET_CHAT_MSG);
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   /**
+    * Actually do a revolution
+    */
+   public void commandDoRevolution()
+   {
+      PktPlayerRequest pkt = new PktPlayerRequest();
+      pkt.setType(Constants.PACKET_PLAYER_REVOLUTION);
+      try
+      {
+         pkt.send(out);
+      }
+      catch (IOException ioe)
+      {
+         serverError(ioe);
+      }
+      
+   }
+
+   public void commandMoveUnit(Unit u, int nx, int ny)
+   {
+      PktMoveUnit pkt = new PktMoveUnit();
+      pkt.nx = nx;
+      pkt.ny = ny;
+      pkt.unitId = u.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+
+   public void commandNextTurn()
+   {
+      PktGenericMessage pkt = new PktGenericMessage();
+      pkt.setType(Constants.PACKET_TURN_DONE);
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   // precond u!=null, name!=null
+   public void commandBuildCity( Unit u, String name )
+   {
+      PktUnitRequest pkt = new PktUnitRequest();
+      pkt.setType(Constants.PACKET_UNIT_BUILD_CITY);
+      pkt.unit_id = u.id;
+      //    pkt.x = u.x;
+      //    pkt.y = u.y;
+      pkt.name = name;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandDisbandUnit(Unit u)
+   {
+      PktUnitRequest pkt = new PktUnitRequest();
+      pkt.setType(Constants.PACKET_UNIT_DISBAND);
+      pkt.unit_id = u.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   private void commandChangeActivity(Unit u, int nAct)
+   {
+      int oldAct = u.activity;
+      u.activity = nAct;
+      u.setPktType(Constants.PACKET_UNIT_INFO);
+      try {
+         u.send(out);
+      } catch ( IOException e )
+         {
+            serverError(e);
+         }
+      u.activity = oldAct;
+
+   }
+
+   public void commandSentryUnit(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_SENTRY);
+   }
+
+   public void commandWakeupUnit(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_IDLE);
+
+   }
+
+   public void commandUnitBuildRoad(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_ROAD);
+   }
+
+   public void commandUnitBuildRail(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_RAILROAD);
+   }
+
+   public void commandUnitIrrigate(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_IRRIGATE);
+   }
+
+   public void commandUnitMine(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_MINE);
+   }
+
+   public void commandUnitFortress(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_FORTRESS);
+   }
+
+   public void commandUnitPollution(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_POLLUTION);
+   }
+
+   public void commandUnitFortify(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_FORTIFY);
+   }
+
+   public void commandUnitPillage(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_PILLAGE);
+   }
+
+   public void commandUnitExplore(Unit u)
+   {
+      commandChangeActivity(u,Constants.ACTIVITY_EXPLORE);
+   }
+
+
+
+
+
+   public void commandChangeCityProduction(City c, PktRulesetUnit unit)
+   {
+      PktCityRequest pkt = new PktCityRequest();
+      pkt.setPktType(Constants.PACKET_CITY_CHANGE);
+      pkt.is_build_id_unit_id = true;
+      pkt.city_id = c.id;
+      pkt.build_id = unit.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+
+   }
+
+   public void commandChangeCityProduction(City c, PktRulesetBuilding build)
+   {
+      PktCityRequest pkt = new PktCityRequest();
+      pkt.setPktType(Constants.PACKET_CITY_CHANGE);
+      pkt.is_build_id_unit_id = false;
+      pkt.city_id = c.id;
+      pkt.build_id = build.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandChangeResearch(PktRulesetTech tech)
+   {
+      PktPlayerRequest pkt = new PktPlayerRequest();
+      pkt.setType(Constants.PACKET_PLAYER_RESEARCH);
+      pkt.tech = tech.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandChangeTechGoal(PktRulesetTech tech)
+   {
+      PktPlayerRequest pkt = new PktPlayerRequest();
+      pkt.setType(Constants.PACKET_PLAYER_TECH_GOAL);
+      pkt.tech = tech.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandReportRequest(int type)
+   {
+      PktGenericInteger pkt = new PktGenericInteger();
+      pkt.setType(Constants.PACKET_REPORT_REQUEST);
+      pkt.value = type;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+
+   public void commandMakeWorker(City c, int x, int y)
+   {
+      PktCityRequest pkt = new PktCityRequest();
+      pkt.setPktType(Constants.PACKET_CITY_MAKE_WORKER);
+      pkt.city_id = c.id;
+      pkt.worker_x = x;
+      pkt.worker_y = y;
+        try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandMakeSpecialist(City c, int x, int y)
+   {
+      PktCityRequest pkt = new PktCityRequest();
+      pkt.setPktType(Constants.PACKET_CITY_MAKE_SPECIALIST);
+      pkt.city_id = c.id;
+      pkt.worker_x = x;
+      pkt.worker_y = y;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandAutoUnit( Unit u)
+   {
+      PktUnitRequest pkt = new PktUnitRequest();
+      pkt.setType(Constants.PACKET_UNIT_AUTO);
+      pkt.unit_id = u.id;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+   public void commandGotoUnit( Unit u, int x, int y)
+   {
+      PktUnitRequest pkt = new PktUnitRequest();
+      pkt.setType(Constants.PACKET_UNIT_GOTO_TILE);
+      pkt.unit_id = u.id;
+      pkt.x = x;
+      pkt.y = y;
+      try {
+         pkt.send(out);
+      } catch ( IOException e )
+      {
+         serverError(e);
+      }
+   }
+
+
+
+   private void serverError(IOException e)
+   {
+      JOptionPane.showMessageDialog(this,
+                           e.toString(),_("Fatal Server Connetion Error"),JOptionPane.ERROR_MESSAGE);
+      System.exit(1); // ??
+   }
+
+
+   public void componentResized(ComponentEvent evt)
+   {
+      if ( mapFrame != null )
+      {
+         getContentPane().invalidate();
+         Dimension d = getSize();
+         try{
+         mapFrame.setMaximum(false);
+         mapFrame.setMaximum(true);
+         } catch (Exception e)
+            {}
+      }
+   }
+
+   public void componentMoved(ComponentEvent e)
+   {
+      //TODO: implement this java.awt.event.ComponentListener method;
+   }
+
+   public void componentShown(ComponentEvent e)
+   {
+      //TODO: implement this java.awt.event.ComponentListener method;
+   }
+
+   public void componentHidden(ComponentEvent e)
+   {
+      //TODO: implement this java.awt.event.ComponentListener method;
+   }
+
+
+
+   AlphaComposite calpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.50f);
+   Color ccolor = new Color(0,0,200);
+
+   public AlphaComposite getComponentAlpha()
+   {
+      return calpha;
+   }
+
+   public Color getComponentColor()
+   {
+      return ccolor;
+   }
+
+
+
+   // ------- ACTIONS -----------
+
+   JMenu ordersMenu;
+
+   Runnable revolutionActionCallback = new Runnable()
+      {
+         public void run()
+         {
+            boolean doIt = showRevolutionDialog();
+            if (doIt)
+               commandDoRevolution();
+         }
+      };
+
+
+   Runnable buildCityActionCallback = new Runnable()
+      {
+         public void run()
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               String name = showNameCityDialog("CityName");
+               if ( name != null )
+                  commandBuildCity(u,name);
+            }
+         }
+      };
+
+   AbstractAction revolutionAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            SwingUtilities.invokeLater(revolutionActionCallback);
+         }
+      };
+
+   UnitAction buildCityAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+/*          Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               String name = showNameCityDialog("CityName");
+               commandBuildCity(u,name);
+            }
+*/          SwingUtilities.invokeLater(buildCityActionCallback);
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+      };
+
+
+   AbstractAction nextIdleUnitAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            map.deactivateUnit();
+            int lastId = map.lastActiveUnitId;
+            for ( int i = lastId+1; i < units.size(); i++ )
+            {
+               Unit u = (Unit)units.get(i);
+               if ( u != null && u.owner == currentPlayer.playerno
+                  && u.wantToBeSelected() )
+               {
+                  map.activateUnit(u);
+                  return;
+               }
+            }
+            for ( int i = 0; i <= lastId; i++ )
+            {
+               Unit u = (Unit)units.get(i);
+               if ( u != null && u.owner == currentPlayer.playerno
+                  && u.wantToBeSelected() )
+               {
+                  map.activateUnit(u);
+                  return;
+               }
+            }
+         }
+      };
+
+
+   AbstractAction nextUnitAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            map.deactivateUnit();
+            int lastId = map.lastActiveUnitId;
+            for ( int i = lastId+1; i < units.size(); i++ )
+            {
+               Unit u = (Unit)units.get(i);
+               if ( u != null && u.owner == currentPlayer.playerno )
+               {
+                  map.activateUnit(u);
+                  return;
+               }
+            }
+            for ( int i = 0; i <= lastId; i++ )
+            {
+               Unit u = (Unit)units.get(i);
+               if ( u != null && u.owner == currentPlayer.playerno)
+               {
+                  map.activateUnit(u);
+                  return;
+               }
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return true;
+         }
+      };
+
+
+
+   AbstractAction endTurnAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            commandNextTurn();
+         }
+      };
+
+
+   UnitAction disbandUnitAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               int result = JOptionPane.showInternalConfirmDialog(desktop,
+                           _("Do you really want to disband " + u),
+                           _("Disband unit"),JOptionPane.YES_NO_OPTION);
+
+               if ( result != JOptionPane.YES_OPTION )
+                  return;
+               commandDisbandUnit(u);
+               //mapFrame.show(); // return focus to mapFrame ?
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return true;
+         }
+      };
+
+
+   UnitAction sentryUnitAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandSentryUnit(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return (u.activity == Constants.ACTIVITY_IDLE);
+         }
+      };
+
+
+
+   UnitAction wakeupUnitAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandWakeupUnit(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return (u.activity == Constants.ACTIVITY_SENTRY);
+         }
+      };
+
+
+   UnitAction unitBuildRoadAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               if ( map.getRoad(u.x,u.y) == null )
+               {
+                  commandUnitBuildRoad(u);
+               }
+               else
+               {
+                  commandUnitBuildRail(u);
+               }
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+      };
+
+   UnitAction irrigateAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitIrrigate(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+
+      };
+
+   UnitAction mineAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitMine(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+      };
+
+
+   UnitAction fortressAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitFortress(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+      };
+
+
+   UnitAction pollutionAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitPollution(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isSettler();
+         }
+      };
+
+
+   UnitAction fortifyAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitFortify(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.movesleft > 0 && u.isGroundMoving() && !u.isSettler();
+         }
+      };
+
+
+
+   UnitAction autoSettlerAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null && u.isSettler() )
+            {
+               map.deactivateUnit();
+               commandAutoUnit(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.isSettler();
+         }
+      };
+
+   UnitAction autoCombatAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null && u.isMilitary() && map.getCityAt(u.x,u.y) != null)
+            {
+               map.deactivateUnit();
+               commandAutoUnit(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.isMilitary() && (map.getCityAt(u.x,u.y) != null);
+
+         }
+      };
+
+
+   UnitAction pillageAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitPillage(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return u.isGroundMoving() &&
+            ( map.getRoad(u.x,u.y) != null || map.getIrrigation(u.x,u.y) != null);
+         }
+      };
+
+
+   UnitAction exploreAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               map.deactivateUnit();
+               commandUnitExplore(u);
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return true;
+         }
+      };
+
+
+      
+   UnitAction gotoAction = new UnitAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Unit u = map.activeUnit;
+            if ( u != null )
+            {
+               if ( map.isGotoMode() )
+               {
+                  map.setGotoMode(false);
+               }
+               else
+               {
+                  map.setGotoMode(true);
+               }
+            }
+         }
+
+         boolean isEnabledForUnit(Unit u)
+         {
+            return true;
+         }
+      };
+
+
+
+
+
+   ResearchDialog researchDialog;
+
+
+   AbstractAction researchAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            if ( researchDialog == null )
+            {
+               researchDialog = new ResearchDialog(Client.this);
+               desktop.add(researchDialog,ADVISOR_DIALOG_LAYER);
+            }
+            researchDialog.show();
+         }
+      };
+
+   JCheckBoxMenuItem showCityRangesMI;
+   AbstractAction showCityRangesAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            map.setShowingCityRanges(!map.isShowingCityRanges());
+            showCityRangesMI.setSelected(map.isShowingCityRanges());
+         }
+      };
+
+
+   Color gridColor = Color.gray;
+   JCheckBoxMenuItem showMapGridsMI;
+   AbstractAction showMapGridsAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            Color c= map.getGridlineColor();
+            if ( c == null )
+            {
+               map.setGridlineColor(gridColor);
+               showMapGridsMI.setSelected(true);
+            }
+            else
+            {
+               map.setGridlineColor(null);
+               showMapGridsMI.setSelected(false);
+            }
+         }
+      };
+
+
+   JCheckBoxMenuItem showShadowBordersMI;
+   AbstractAction showShadowBordersAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            boolean b = showShadowBordersMI.isSelected();
+            for ( int i = 0; i < darkIcons.length; i++ )
+            {
+               if ( darkIcons[i].get() != null )
+                  ((FlashingIcon)darkIcons[i].get()).setVisible(b);
+            }
+            map.repaint();
+         }
+      };
+
+   JCheckBoxMenuItem showSmallMapMI;
+   AbstractAction showSmallMapAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            map.smallMap.setVisible(!map.smallMap.isVisible());
+         }
+      };
+
+
+
+
+   AbstractAction systemInfoAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            JInternalFrame jif = new JInternalFrame(_("System info"),true,true);
+            jif.getContentPane().add(new SystemInfoPanel(new ClientInfo(),"Freeciv info"));
+            desktop.add(jif, SYSTEM_INFO_DIALOG_LAYER);
+            jif.pack();
+            jif.show();
+         }
+      };
+
+
+   AbstractAction helpAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showHelp(null,null);
+         }
+      };
+
+
+
+   class MoveUnitAction extends AbstractAction
+   {
+      int dx, dy;
+      public MoveUnitAction(int adx, int ady)
+      {
+         dx = adx;
+         dy = ady;
+      }
+
+      public void actionPerformed(ActionEvent e)
+      {
+         Unit u = map.activeUnit;
+         if ( u != null )
+         {
+            commandMoveUnit(u,map.adjustX(u.x+dx),map.adjustY(u.y+dy));
+         }
+      }
+   }
+
+   AbstractAction
+      moveN = new MoveUnitAction(0,-1),
+      moveNE = new MoveUnitAction(1,-1),
+      moveE = new MoveUnitAction(1,0),
+      moveSE = new MoveUnitAction(1,1),
+      moveS = new MoveUnitAction(0,1),
+      moveSW = new MoveUnitAction(-1,1),
+      moveW = new MoveUnitAction(-1,0),
+      moveNW = new MoveUnitAction(-1,-1)
+      ;
+
+   class MoveMapAction extends AbstractAction
+   {
+      int dx, dy;
+      public MoveMapAction(int adx, int ady)
+      {
+         dx = adx;
+         dy = ady;
+      }
+
+      public void actionPerformed(ActionEvent e)
+      {
+         map.setUpperLeftXY(
+            map.getUpperLeftX() + dx*map.getSingleTileWidth(),
+            map.getUpperLeftY() + dy*map.getSingleTileHeight()
+         );
+      }
+   }
+
+   AbstractAction
+      moveMapN = new MoveMapAction(0,-1),
+      moveMapNE = new MoveMapAction(1,-1),
+      moveMapE = new MoveMapAction(1,0),
+      moveMapSE = new MoveMapAction(1,1),
+      moveMapS = new MoveMapAction(0,1),
+      moveMapSW = new MoveMapAction(-1,1),
+      moveMapW = new MoveMapAction(-1,0),
+      moveMapNW = new MoveMapAction(-1,-1)
+      ;
+
+
+
+
+   class ReportRequestAction extends AbstractAction
+   {
+      public int type;
+
+      public ReportRequestAction(int aType)
+      {
+         type = aType;
+      }
+
+      public void actionPerformed(ActionEvent e)
+      {
+         commandReportRequest(type);
+      }
+
+   }
+
+
+
+   AbstractAction
+      demographicsReportAction = new ReportRequestAction(Constants.REPORT_DEMOGRAPHIC),
+      serverOptions1ReportAction = new ReportRequestAction(Constants.REPORT_SERVER_OPTIONS1),
+      serverOptions2ReportAction = new ReportRequestAction(Constants.REPORT_SERVER_OPTIONS2),
+      top5CitiesReportAction = new ReportRequestAction(Constants.REPORT_TOP_5_CITIES),
+      wondersReportAction = new ReportRequestAction(Constants.REPORT_WONDERS_OF_THE_WORLD)
+   ;
+
+
+   AbstractAction scale200xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(2,1);
+         }
+      };
+
+   AbstractAction scale050xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(1,2);
+         }
+      };
+
+
+   AbstractAction scale066xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(2,3);
+         }
+      };
+
+   AbstractAction scale150xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(3,2);
+         }
+      };
+
+
+
+   AbstractAction scale133xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(4,3);
+         }
+      };
+
+   AbstractAction scale100xAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            scaleIcons(1,1);
+         }
+      };
+
+   class ChangeTilesetAction extends AbstractAction
+   {
+      String dir;
+
+      ChangeTilesetAction(String aDir)
+      {
+         dir = aDir;
+      }
+
+      public void actionPerformed(ActionEvent e)
+      {
+         changeTileset(dir);
+      }
+   }
+
+   AbstractAction reloadTilesetAction = new AbstractAction()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            changeTileset(null);
+         }
+      };
+
+
+
+   static class ImageSplitAndWrite
+   {
+
+      ImageSplitAndWrite()
+      {
+      }
+
+      public void run(File dataDir, File cacheDir) throws IOException
+      {
+         System.out.println("Preparing image cache");
+         int tileWidth = 0;
+         int tileHeight =0;
+         PngImage img;
+         ImageSplitter is;
+         long startTime = System.currentTimeMillis();
+         if ( !cacheDir.exists() )
+            if ( !cacheDir.mkdirs() )
+            {
+               throw new IOException("Cannot create cache directory " + cacheDir);
+
+            }
+         File f;
+
+         f = new File(dataDir,"tiles.png");
+
+         System.out.print("Tiles 380: " );
+         img = new PngImage(f.toString());
+         tileWidth = img.getWidth()/20;
+         tileHeight = img.getHeight()/19;
+         System.out.println(tileWidth);
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    tileWidth,tileHeight );
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "tiles",tileWidth,tileHeight);
+         System.out.println();
+
+
+         f = new File(dataDir,"units.png");
+
+         System.out.print("Units 60: " );
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    img.getWidth()/20, img.getHeight()/3);
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "units",tileWidth,tileHeight);
+         System.out.println();
+         System.out.print("Dimmed units 60: ");
+         int[][][] data = is.getData();
+         for ( int x = 0; x < data.length; x++ )
+            for ( int y = 0; y < data[x].length; y++)
+            {
+               int[] pixels = data[x][y];
+               for ( int i =0; i < pixels.length;i++ )
+               {
+                  int _rgb = pixels[i] & 0x00ffffff;
+                  int sum = (((_rgb >>16)&0xff) + ((_rgb>>8)&0xff) + (_rgb&0xff))/3;
+                  pixels[i] = (pixels[i]&0xff000000) | (sum<<16) | (sum <<8) | sum;
+               }
+
+            }
+         writeImages(data,cacheDir, "units_dim",tileWidth,tileHeight);
+         System.out.println();
+
+
+
+         f = new File(dataDir,"small.png");
+
+         System.out.print("Small icons 31: " );
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    img.getWidth()/31, img.getHeight());
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "small",img.getWidth()/31,img.getHeight());
+         System.out.println();
+
+         f = new File(dataDir,"roads.png");
+
+         System.out.print("Roads 64: ");
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    img.getWidth()/16, img.getHeight()/4);
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "roads",tileWidth,tileHeight);
+         System.out.println();
+
+
+
+         f = new File(dataDir,"flags.png");
+
+         System.out.print("Flags 42: ");
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    img.getWidth()/14, img.getHeight()/3);
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "flags",tileWidth,tileHeight);
+         System.out.println();
+
+
+         f = new File(dataDir,"space.png");
+
+         System.out.print("Space 6: ");
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    img.getWidth()/6, img.getHeight());
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "space",img.getWidth()/6,img.getHeight());
+         System.out.println();
+
+
+         
+         f = new File(dataDir,"darkrow.png");
+
+         System.out.print("Dark tiles 16: " );
+         img = new PngImage(f.toString());
+         is = new ImageSplitter(img.getWidth(), img.getHeight(),
+                                    //tileWidth,tileHeight );
+                                 img.getWidth()/16, img.getHeight());
+         img.startProduction(is);
+         writeImages(is.getData(),cacheDir, "dark",tileWidth,tileHeight);
+         System.out.println();
+
+
+
+
+         f = new File(dataDir,"treaty.png");
+
+         img = new PngImage(f.toString());
+         // it is a special case
+
+
+
+         f = new File(cacheDir,"cache.timestamp");
+         ObjectOutputStream oos = new ObjectOutputStream(
+            new BufferedOutputStream( new FileOutputStream(f) ) );
+         Dimension d = new Dimension(tileWidth, tileHeight);
+         oos.writeObject(d);
+         oos.flush();
+         oos.close();
+
+
+         System.out.println();
+         System.out.println(_("Loaded and splitted images into cache in ") +
+            (System.currentTimeMillis() - startTime) + _("ms"));
+
+      }
+
+      private void writeImages(int[][][] data, File dir, String basename, int width,
+         int height)
+         throws IOException
+      {
+         int maxX = data.length;
+         int maxY = data[0].length;
+         int i =0;
+         for ( int y =0; y < maxY; y++ )
+            for ( int x =0; x < maxX; x++)
+            {
+               File f = new File(dir,basename+"." +i);
+               ObjectOutputStream oos = new ObjectOutputStream(
+                  new BufferedOutputStream( new FileOutputStream(f) ) );
+               FileImageSource.Data d = new FileImageSource.Data();
+               d.data = data[x][y];
+               d.w = width;
+               d.h = height;
+               oos.writeObject(d);
+               oos.flush();
+               oos.close();
+               System.out.print('.');
+               i++;
+            }
+      }
+
+   }
+
+   class ClientInfo extends JPanel
+   {
+
+      ClientInfo()
+      {
+         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+         int loadedTiles = 0;
+         for ( int i =0; i < tileIcons.length; i++ )
+            if (tileIcons[i].get() != null )
+               loadedTiles++;
+         add(new JLabel("Loaded tiles " + loadedTiles));
+         int loadedUnits = 0;
+         for ( int i =0; i < unitIcons.length; i++ )
+            if (unitIcons[i].get() != null )
+               loadedUnits++;
+
+         add(new JLabel("Loaded units " + loadedUnits));
+         add(new JLabel("FileImageSources in memory " + FileImageSource.count)); 
+      }
+   }
+
+
+
+   abstract class UnitAction extends AbstractAction
+   {
+      UnitAction()
+      {
+         super();
+      }
+
+      abstract boolean isEnabledForUnit(Unit u);
+   }
+
+
+
+   // ----------------------------
+
+
+
+   public static final int majorVer = Constants.MAJOR_VERSION;
+   public static final int minorVer = Constants.MINOR_VERSION;
+   public static final int patchVer = Constants.PATCH_VERSION;
+   public static final String version = "" + majorVer + "." + minorVer + "." + patchVer;
+   public static final String capabilities = "+1.10";
+
+   public static final Integer MAP_PANEL_LAYER = new Integer(0);
+   public static final Integer CITY_DIALOG_LAYER = new Integer(2);
+   public static final Integer ADVISOR_DIALOG_LAYER = new Integer(3);
+   public static final Integer HELP_DIALOG_LAYER = new Integer(4);
+   public static final Integer SYSTEM_INFO_DIALOG_LAYER = new Integer(5);
+
+
+   public static void growArray( ArrayList l, int len )
+   {
+      for ( int i = len - l.size() +1;i > 0; i-- )
+         l.add(null);
+   }
+
+
+   private static void sleep(int ms)
+   {
+      try{
+         Thread.currentThread().sleep(ms);
+      } catch ( InterruptedException e )
+         {}
+   }
+
+   private static String _(String txt)
+   {
+      return Localize.translation.translate(txt);
+   }
+
+   private static int WIPEBIT (int val, int no)
+   {
+      return ((~(-1<<no))&val)  |   ((  (-1<<(no+1)) &val) >>1);
+   }
+
+
+
+
+   public static void main(String[] argv)
+   {
+      // split images ?
+      String baseDir = System.getProperty("freeciv.datadir","data");
+      String tileset = System.getProperty("freeciv.tileset","trident");
+      File cacheDir = new File(baseDir,"cache");
+      cacheDir = new File(cacheDir,tileset);
+      if ( argv.length > 0 && argv[0].equals("-rc") ||
+         !(new File(cacheDir,"cache.timestamp" )).exists())
+      {
+         File imgDir = new File(baseDir,"images");
+         imgDir = new File(imgDir, tileset );
+         try {
+            new ImageSplitAndWrite().run(imgDir,cacheDir);
+         } catch ( IOException e )
+            {
+               System.out.println(e);
+               return;
+            }
+      }
+
+      //parse args..
+      Client c = new Client();
+      c.show();
+      while ( true )
+      {
+         switch ( c.performLogin() )
+         {
+            case -1:
+               break;
+            case 0:
+               continue;
+            case 1:
+               c.setupComponents();
+               c.listen();
+         }
+         break;
+      }
+      System.exit(0);
+   }
+
+
+}
