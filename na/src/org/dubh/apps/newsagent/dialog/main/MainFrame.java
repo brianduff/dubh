@@ -28,6 +28,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.text.MessageFormat;
+import dubh.apps.newsagent.NewsAgent;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.HelpSystem;
 import dubh.apps.newsagent.dialog.ErrorReporter;
@@ -141,8 +142,8 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public MainFrame() {
      // Initialise the window
-     super("newsagentMain");
-     setTitle(GlobalState.appName);
+     super(GlobalState.appName);     
+     setName("newsagentMain");
 
      // Set up the SplitPanes
      m_vertical.setTopComponent(m_thread);
@@ -280,6 +281,9 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public void fileExit() {
      Debug.println("fileExit: TODO: Tidy up, save cache etc.");
+     Debug.closeWindow();
+     NewsAgent.closeNetDebug();
+     setVisible(false);
      System.exit(0);
   }
 
