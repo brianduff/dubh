@@ -1,3 +1,31 @@
+28.10.01 [bduff]
+
+Major change to the Client.java and MainWindow.java code with
+a corresponding knock on effect throughout the code. I've moved
+a lot of code corresponding to the main window into MainWindow, 
+and also substantially changed ( improved hopefully ) the look 
+of the main window, including:
+
+o Putting the menu bar and the "dockables" on the main window
+instead of the MDI frame
+
+o Changing the appearance of the "dockable" panels to conform
+more closely to Microsoft's recent apps, but with a bit of a
+nice gradient caption.
+
+o Adding a "quick command" panel, which should be quite useful
+during gameplay
+
+o Superimposing the version number and "Java edition" on the
+startup minimap image.
+
+It remains to be seen whether we'll actually make the dockables
+actually dockable...
+
+BTW: The main map view is currently broken: Needs lots of work.
+
+In addition, moved up the version number to 1.12.0.
+
 25.10.01 [bduff]
 
 Checked in org.freeciv.util.Localize, which adds localization
