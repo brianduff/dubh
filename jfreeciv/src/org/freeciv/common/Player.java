@@ -73,6 +73,14 @@ public class Player implements GameObject, CommonConstants
   // TODO: other defaults? (player.c)
     m_units = new HashMap();
   }
+  
+  /**
+   * Returns the game that this player is in.
+   */
+  private Game getGame()
+  {
+    return m_playerFactory.getParent().getGame() ;
+  }
 
   /**
    * Initialize the focus status of all units belonging to this player
@@ -249,6 +257,43 @@ public class Player implements GameObject, CommonConstants
   {
     return m_government;
   }
+  
+  /**
+   * Gets the ruler title for this player
+   * 
+   * government.c:get_ruler_title()
+   */
+  public String getRulerTitle()
+  {
+    RulerTitle best = null;
+    for( int i = 0; i < getGovernment().getNumberOfRulerTitles(); i++ )
+    {
+      final RulerTitle title = getGovernment().getRulerTitle( i );
+      if( title.getNationId() == RulerTitle.DEFAULT_TITLE && best == null )
+      {
+        best = title;
+      }
+      else if( title.getNationId() == getNation().getId() )
+      {
+        best = title;
+        break;
+      }
+    }
+    
+    if( best != null )
+    {
+      return isMale() ? best.getMaleTitle() : best.getFemaleTitle();
+    }
+    else
+    {
+      Logger.log( Logger.LOG_ERROR,
+                  "getRulerTitle: found no title for government "
+                    + getGovernment().getName()
+                    + " nation " + getNation().getName(),
+                  this );
+      return isMale() ? "Mr." : "Ms.";
+    }
+  }
 
   public void setEmbassy( int embassy )
   {
@@ -347,6 +392,20 @@ public class Player implements GameObject, CommonConstants
   public Research getResearch()
   {
     return m_research;
+  }
+  
+  /**
+   * Returns number of turns to complete an advance   * (assuming current state of civilization)   *    * tech.c:tech_turns_to_advance()
+   */
+  public int getTurnsToAdvance()
+  {
+    int res = 0;
+        for( Iterator i = getCities(); i.hasNext(); )    {
+      res += ( (City)i.next() ).getScienceTotal();    }
+        if ( res <= 0 )    {
+      return 999;    }
+
+    return ( getResearch().getResearchPointCost() + res - 1) / res;
   }
 
   public void setFutureTech( int futureTech)
@@ -453,21 +512,8 @@ public class Player implements GameObject, CommonConstants
 
   }
   
-  /**
-   * Returns true if the player knows the specified tech
-   */
-  public boolean hasInvention( int techId )
-  {
-    return m_research.hasInvention( techId );
-  }
   
-  /**
-   * Returns true if the player knows the specified tech
-   */
-  public boolean hasInvention( Advance adv )
-  {
-    return m_research.hasInvention( adv );
-  }
+  
   
   /**
    * Returns true if this player has an embasy with the specified player
@@ -548,6 +594,14 @@ public class Player implements GameObject, CommonConstants
     private int m_researched;
     private int m_researchPoints;
     private int m_currentlyResearching;
+    /**
+     * NOTE: that in C freeciv the m_hasInvention equivalent is an array of 
+     * ints that can represent "reachable" techs as well as having a way to 
+     * mark techs while counting.  These values are used mostly by the 
+     * server and AI, and in the client, they are only used in the dialog 
+     * allowing you to select new research.  The Java client has a different 
+     * implementaion.
+     */
     private boolean[] m_hasInvention;
 
     private Research()
@@ -610,6 +664,54 @@ public class Player implements GameObject, CommonConstants
     {
       setHasInvention( adv.getId(), has );
     }
-
+    
+    /**
+     * Returns the amount of points it takes to research a new technology.
+     * 
+     * game.c:research_time()
+     */
+    public int getResearchPointCost()
+    {
+      int timemod = getGame().getYear() > 0 ? 2 : 1;
+      return timemod * getResearchPoints() * getGame().getResearchCost();
+    }
+    
+    /**
+     * Recursively count techs 'till goal.
+     * 
+     * @param goal the id of the tech that is our goal
+     * @param marked a boolean array of techs that we've already counted,
+     *    to avoid loops.
+     */
+    private int getTechGoalStepsRecursive( int goal, boolean[] marked )
+    {
+      // if we know it, don't recurse
+      if( goal == A_NONE || !getGame().advanceExists( goal )
+         || hasInvention( goal ) || marked[ goal ] )
+      {
+        return 0;
+      }
+      // count this advance
+      marked[ goal ] = true;
+      int steps = 1;
+      // count required advances
+      final Advance goalA = (Advance)getGame().getFactories().getAdvanceFactory().findById( goal );
+      for( Iterator i = goalA.getRequiredAdvanceIds(); i.hasNext(); )
+      {
+       steps += getTechGoalStepsRecursive( ( (Integer)i.next() ).intValue(),
+                                           marked);
+      }
+      return steps;
+    }
+    
+    /**
+     * How many steps are there until we get our tech goal?
+     * 
+     * @param goal the id of the tech that is our goal
+     */
+    public int getTechGoalSteps( int goal )
+    {
+      return getTechGoalStepsRecursive( goal, new boolean[ A_LAST ] );
+    }
   }
 }

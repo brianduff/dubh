@@ -11,7 +11,7 @@ public class ACTWorklists extends AbstractClientAction
     putValue( NAME, _( "Worklists" ) );
     setMnemonic( 'l' );
     setAccelerator( KeyEvent.VK_W, Event.SHIFT_MASK );
-    setEnabled( true );
+    setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )
   {

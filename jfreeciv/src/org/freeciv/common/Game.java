@@ -409,6 +409,25 @@ public final class Game implements CommonConstants
   {
     return m_year;
   }
+  
+  /**
+   * Gets a string version of the year, with B.C./A.D.
+   */
+  public String getYearString()
+  {
+    StringBuffer yearString = new StringBuffer(8);
+    yearString.append( String.valueOf( Math.abs( getYear() ) ) );
+    yearString.append( ' ' );
+    if ( getYear() < 0 )
+    {
+      yearString.append( "B.C." );
+    }
+    else
+    {
+      yearString.append( "A.D." );
+    }
+    return yearString.toString();
+  }
 
   /**
    * Determine what the next year after the specified year

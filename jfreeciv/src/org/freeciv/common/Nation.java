@@ -108,4 +108,13 @@ public class Nation implements GameObject
     return m_cityStyle;
   }
   
+  /**
+   * Nation is equal to any other object if the object is also a nation
+   * and it has the same id.
+   */
+  public boolean equals( Object o )
+  {
+    return o instanceof Nation && ( (Nation)o ).getId() == getId();
+  }
+  
 }

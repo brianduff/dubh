@@ -825,7 +825,7 @@ public final class City implements CommonConstants
   public boolean canBuildImprovement( int id )
   {
     if( !m_game.buildingExists( id ) )    {
-      return false;    }    if( !getOwner().hasInvention( getBuilding( id ).getRequiredAdvanceId() ) )    {
+      return false;    }    if( !getOwner().getResearch().hasInvention( getBuilding( id ).getRequiredAdvanceId() ) )    {
       return false;    }
     return couldBuildImprovement( id );
   }
@@ -842,7 +842,7 @@ public final class City implements CommonConstants
     }
     final UnitType unt = getUnitType( id );
     if( ( unt.getFlags() & ( 1 << F_NUCLEAR ) ) != 0 && m_game.getGlobalWonder( B_MANHATTEN ) == 0 )    {
-      return false;    }    if( !getOwner().hasInvention( unt.getRequiredAdvanceId() ) )    {
+      return false;    }    if( !getOwner().getResearch().hasInvention( unt.getRequiredAdvanceId() ) )    {
       return false;    }    //TODO: check terrain
     //if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
     //  return 0;

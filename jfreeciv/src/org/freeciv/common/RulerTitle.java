@@ -7,6 +7,7 @@ import org.freeciv.net.PktRulesetGovernmentRulerTitle;
  */
 public final class RulerTitle 
 {
+  public static final int DEFAULT_TITLE = CommonConstants.MAX_NUM_ITEMS;
 
   private Factories m_factories;
   private PktRulesetGovernmentRulerTitle m_packet;
@@ -50,6 +51,11 @@ public final class RulerTitle
     //return m_nation;
     //return null;
   //}
+
+  public int getNationId()
+  {
+    return m_packet.nation;
+  }
 
   public int getId()
   {

@@ -10,9 +10,10 @@ public class ACTScienceReport extends AbstractClientAction
     super();
     putValue( NAME, _( "Science Report" ) );
     setAccelerator( KeyEvent.VK_F6 );
+    setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+    getClient().getDialogManager().getScienceReportDialog().display();
   }
 }

@@ -21,6 +21,7 @@ public class DialogManager
   ImplFindCity m_findCity;
   ImplCityReport m_cityReport;
   ImplPlayers m_players;
+  ImplScienceReport m_scienceReport;
   ArrayList m_alVisibleDialogs;
   public DialogManager( Client c )
   {
@@ -175,6 +176,14 @@ public class DialogManager
       m_players = new ImplPlayers( this, m_client );
     }
     return m_players;
+  }
+  public DlgScienceReport getScienceReportDialog()
+  {
+    if( m_scienceReport == null )
+    {
+      m_scienceReport = new ImplScienceReport( this, m_client );
+    }
+    return m_scienceReport;
   }
   class MessageDialogRunnable implements Runnable
   {

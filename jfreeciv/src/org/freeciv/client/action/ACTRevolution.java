@@ -9,7 +9,7 @@ public class ACTRevolution extends AbstractClientAction
   {
     super();
     putValue( NAME, _( "Revolution" ) );
-    setEnabled( true );
+    setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )
   {
