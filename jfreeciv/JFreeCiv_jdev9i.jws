@@ -1,21 +1,14 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<!DOCTYPE workspace PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Workspace//EN" "">
-<?Oracle-JDeveloper Object2Dom = '1.0'?>
-<workspace class="oracle.ide.model.Workspace">
+<workspace xmlns="http://xmlns.oracle.com/jdeveloper/902rc/workspace" nselem="workspace" class="oracle.ide.model.Workspace">
    <activeProjectURL path="freeciv_jdev9i.jpr" id="0"/>
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.ide.model.Reference">
-         <URL path="abiesutils_jdev9i.jpr"/>
-         <nodeClass id="1">oracle.jdeveloper.model.JProject</nodeClass>
-      </Item>
-      <Item class="oracle.ide.model.Reference">
          <URL idref="0"/>
-         <nodeClass idref="1"/>
+         <nodeClass id="1">oracle.jdeveloper.model.JProject</nodeClass>
       </Item>
       <Item class="oracle.ide.model.Reference">
          <URL path="Project1/Project1.jpr"/>
          <nodeClass idref="1"/>
       </Item>
    </listOfChildren>
-   <packageCounter>5</packageCounter>
 </workspace>

@@ -1,11 +1,14 @@
 package org.freeciv.client.handler;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
+import org.freeciv.common.Logger;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktJoinGameReply;
+import org.freeciv.util.Localize;
 
 
 /**
@@ -39,8 +42,18 @@ public class PHJoinGameReply implements ClientPacketHandler
         "You were rejected from the game: " + p.message 
       );
 
-      // Not sure about this.
-      c.disconnect();
+      try
+      {
+        // Not sure about this.
+        c.disconnect();
+      }
+      catch ( IOException ioe )
+      {
+        c.getDialogManager().showMessageDialog(
+          _( "An error occurred disconnecting from the server" )
+        );
+        Logger.log( Logger.LOG_ERROR, ioe );
+      }
       
       return ;
     }
@@ -55,5 +68,10 @@ public class PHJoinGameReply implements ClientPacketHandler
     c.getMainWindow().getConsole().println( "Client capability string: "+ c.getCapabilities() );
     c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities );     
 
+  }
+
+  private static String _(String s)
+  {
+    return Localize.translate( s );
   }
 }

@@ -36,6 +36,8 @@ public class CityNamesLayer extends GridMapTileLayer
   private static final AlphaComposite BG_COMPOSITE =
     AlphaComposite.getInstance( AlphaComposite.SRC_OVER, CITY_NAME_BG_TRANSPARENCY );
 
+  private static final int PAD = 2;
+
   public CityNamesLayer(GridMapView gmv)
   {
     super( gmv );
@@ -48,12 +50,8 @@ public class CityNamesLayer extends GridMapTileLayer
 
   public void paintTile(Graphics g, Point mapPos, Point gPos, MapViewInfo info)
   {
-    // This is not an ideal way of implementing this functionality, since
-    // long city names tend to get chopped off at the edges of the map
-    // *probably* the city names should not be in the buffer layer....and
-    // that might just solve the problem...
     City c = info.getMap().getCity( mapPos.x, mapPos.y );
-    if ( c != null )
+    if ( c != null && info.getOptions().drawCityNames )
     {
       ((Graphics2D)g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, 
       RenderingHints.VALUE_ANTIALIAS_ON );
@@ -65,28 +63,55 @@ public class CityNamesLayer extends GridMapTileLayer
       String citySize = String.valueOf( c.getSize() );
       int sizeWidth = g.getFontMetrics().stringWidth( citySize );
 
-      int boxx = gPos.x + ( info.getTileSize().width / 2 ) - (cityNameWidth + sizeWidth + 6) / 2 - 4;
+      String buildString = "";
+      int buildWidth = 0;
+      if ( c.getOwner() == info.getCurrentPlayer() && info.getOptions().drawCityProductions )
+      {
+        buildString = c.getCurrentlyBuildingDescription() + " : " + c.getTurnsToBuild();
+        buildWidth = g.getFontMetrics().stringWidth( buildString );
+      }
 
-      int y = gPos.y + info.getTileSize().height;
+      int fontHeight = g.getFontMetrics().getHeight();
+      int longestString = Math.max( buildWidth, cityNameWidth );
+      int boxW = longestString + sizeWidth + 4*PAD;
+      int boxX = gPos.x + (( info.getTileSize().width - boxW )/ 2);
+      int boxY = gPos.y + info.getTileSize().height + PAD;
+      int boxH = fontHeight * (buildWidth == 0 ? 1 : 2) + (buildWidth==0 ? 2 : 4)*PAD;
 
-      y += g.getFontMetrics().getHeight();
-      Composite oldComp = ((Graphics2D)g).getComposite();
-      ((Graphics2D)g).setComposite( BG_COMPOSITE );
+      // Draw the alpha composite (translucent) background
+      Graphics2D g2d = (Graphics2D)g;
+      Composite oldComp = g2d.getComposite();
+      g2d.setComposite( BG_COMPOSITE );
       g.setColor( BG_COLOR );
-      g.fillRect( boxx, gPos.y + info.getTileSize().height + 1, cityNameWidth + sizeWidth + 6, g.getFontMetrics().getHeight() + 2 );
-      ((Graphics2D)g).setComposite( oldComp );
+      g.fillRect( boxX, boxY, boxW, boxH );
+      g2d.setComposite( oldComp );
 
-      g.setColor( Colors.getPlayerColor( c.getOwner() ));
-      g.fillRect( boxx, gPos.y + info.getTileSize().height + 1, sizeWidth + 2, g.getFontMetrics().getHeight() + 2 );
-
-      g.setColor( Color.white );
-      g.drawString( citySize, boxx + 2, y );
+      // Draw a line through the center of the box
+      g.setColor( Colors.getPlayerColor( c.getOwner() ) );
+      if ( buildWidth > 0 )
+      {
+        g.drawLine( boxX, boxY + fontHeight + 3*PAD, boxX + boxW, boxY + fontHeight + 3*PAD );
+      }
       
-      g.setColor( BG_COLOR);
-      g.drawRect( boxx, gPos.y + info.getTileSize().height + 1, cityNameWidth + sizeWidth + 6, g.getFontMetrics().getHeight() + 2 );
-
+      // Draw the city size in a colored box
+      g.fillRect( boxX, boxY, sizeWidth + (2*PAD), boxH );
       g.setColor( Color.white );
-      g.drawString( c.getName(), boxx + sizeWidth + 6, y );
+      g.drawString( citySize, boxX + PAD, boxY + fontHeight );  // prob lower
+
+      // Draw the city name
+      int cnameX = boxX + PAD*3 + sizeWidth + ( longestString /2 ) - (cityNameWidth / 2 );
+      g.drawString( c.getName(), cnameX, boxY + fontHeight );
+
+      // Draw the city production
+      if ( buildWidth > 0 )
+      {
+        int prodX = boxX + PAD*3 + sizeWidth + ( longestString /2 ) - (buildWidth / 2 );
+        g.drawString( buildString, prodX, boxY + PAD*3 + fontHeight*2 );
+      }
+
+      // Finally, draw a nice black outline.
+      g.setColor( BG_COLOR );
+      g.drawRect( boxX, boxY, boxW, boxH );
     }
   }
 }

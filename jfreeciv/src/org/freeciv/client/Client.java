@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
 
 package org.freeciv.client;
 
@@ -48,6 +49,7 @@ import org.freeciv.client.dialog.DlgLogin;
 import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.net.InStream;
 import org.freeciv.net.OutStream;
+import org.freeciv.net.NetworkProtocolException;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
@@ -59,7 +61,7 @@ import org.freeciv.net.PktReqJoinGame;
  * @author Artur Biesiadowski
  * @author Brian Duff
  */
-public class Client implements Constants
+public final class Client implements Constants
 {
 
   // The tile spec holds all the images that the client uses
@@ -224,7 +226,7 @@ public class Client implements Constants
   {
     return m_actions.getAction( actionClass );
   }
-  
+
   /**
    * Enables or disables an action. Guaranteed to take place on
    * the UI thread.
@@ -300,11 +302,11 @@ public class Client implements Constants
   {
     unitActions.add( act );
   }
-  
+
   public void updateOrdersMenu( Unit u )
   {
   }
-  
+
   /**
    * Display the login dialog, wait for it to return, connect
    * to the server and attempt to join the game.
@@ -326,14 +328,14 @@ public class Client implements Constants
   }
 
   /**
-   * Create a new packet of the specified class. 
+   * Create a new packet of the specified class.
    */
   public Packet createPacket( Class packetClass )
   {
     try
     {
-      Packet p = (Packet) packetClass.getDeclaredConstructors()[0].newInstance( 
-        new Object[] { in } 
+      Packet p = (Packet) packetClass.getDeclaredConstructors()[0].newInstance(
+        new Object[] { in }
       );
       return p;
     }
@@ -344,7 +346,7 @@ public class Client implements Constants
 
     return null;
   }
-  
+
   /**
    * Send the specified packet to the server.
    * Returns false if the send failed. This normally means
@@ -461,7 +463,7 @@ public class Client implements Constants
   {
     return m_bConnected;
   }
-  
+
   /**
    * Sets the connected flag.
    */
@@ -473,15 +475,15 @@ public class Client implements Constants
 
   /**
    * Connect to the specified host and port
-   * 
-   * @param host the host to connect to 
+   *
+   * @param host the host to connect to
    * @param port the port to connect to
    */
   public synchronized void connect( String username, String host, int port )
     throws IOException
   {
     Socket civserver = new Socket( host, port );
-    
+
     InputStream input = civserver.getInputStream();
     OutputStream output = civserver.getOutputStream();
 
@@ -495,15 +497,22 @@ public class Client implements Constants
   /**
    * Actually disconnect
    */
-  public synchronized void disconnect()
+  public synchronized void disconnect() throws IOException
   {
 
-    sendMessage( "remove "+ m_userName );// Should it remove the player? Make it
-                                    // ai?  JR
+    sendMessage( "remove "+ m_userName ); // ? is this right?
+
     out.close();
     in.close();
+    out = null;
+    in = null;
 
     setConnected( false );
+
+
+
+    getDialogManager().hideAllDialogs();
+
   }
   /**
    * The runnable object that receives incoming packets from the server.
@@ -553,14 +562,15 @@ public class Client implements Constants
         {
           if ( m_client.isConnected() )
           {
-            System.err.println( "Server io exception" + e );
-            e.printStackTrace();
-            // Need to do these in an invokeLater
-            //JOptionPane.showMessageDialog(c,
-            //   e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
-            //c.hideAllWindows();
+            Logger.log( Logger.LOG_ERROR, "Server IO Exception" );
+            Logger.log( Logger.LOG_ERROR, e );
             return ;
           }
+        }
+        catch ( NetworkProtocolException nep )
+        {
+          Logger.log( Logger.LOG_ERROR, "Network protocol exception" );
+          Logger.log( Logger.LOG_ERROR, nep );
         }
       }
     }
@@ -797,7 +807,7 @@ public class Client implements Constants
   /**
    * @deprecated use getMainWindow().getMapViewManager().refreshTileMapCanvas()
    */
-  public void refreshTileMapCanvas( final int x, final int y, 
+  public void refreshTileMapCanvas( final int x, final int y,
     final boolean updateView )
   {
     getMainWindow().getMapViewManager().refreshTileMapCanvas( x, y );
@@ -910,28 +920,28 @@ public class Client implements Constants
     }
 
     if ( oldFocus != null
-         && ( u == null 
-              || !getGame().getMap().isSamePosition( 
+         && ( u == null
+              || !getGame().getMap().isSamePosition(
                   oldFocus.getX(), oldFocus.getY(), u.getX(), u.getY() )))
     {
       refreshTileMapCanvas( oldFocus.getX(), oldFocus.getY(), true );
     }
-    
+
     updateUnitInfoLabel( u );
-    updateUnitActions( u ); 
+    updateUnitActions( u );
   }
 
 
   private void autoCenterOnFocusUnit()
   {
     // control.c: auto_center_on_focus_unit()
-    
-    if ( m_focusUnit != null 
+
+    if ( m_focusUnit != null
          && getOptions().autoCenterOnUnit
          // TODO: Extra condition here
          )
     {
-      getMainWindow().getMapViewManager().centerOnTile( 
+      getMainWindow().getMapViewManager().centerOnTile(
         m_focusUnit.getX(), m_focusUnit.getY()
       );
     }
@@ -946,9 +956,9 @@ public class Client implements Constants
   public void updateUnitFocus()
   {
     // control.c: update_unit_focus()
-    
+
     org.freeciv.common.Unit focus = getUnitInFocus();
-    if ( focus == null 
+    if ( focus == null
          || (focus.getActivity() != ACTIVITY_IDLE
              && focus.getActivity() != ACTIVITY_GOTO)
          || focus.getMovesLeft() == 0
@@ -1039,7 +1049,7 @@ public class Client implements Constants
       {
         if ( unit.getFocusStatus() == unit.FOCUS_AVAIL
              && unit.getActivity() == unit.ACTIVITY_IDLE
-             && unit.getMovesLeft() > 0 
+             && unit.getMovesLeft() > 0
              && !unit.getAI().isControlled() )
         {
           int d = getGame().getMap().getSquareMapDistance(
@@ -1055,7 +1065,7 @@ public class Client implements Constants
     }
 
     return bestCandidate;
-    
+
   }
 
   /**
@@ -1069,7 +1079,7 @@ public class Client implements Constants
     int x = city.getX();
     int y = city.getY();
 
-    Logger.log( Logger.LOG_DEBUG, 
+    Logger.log( Logger.LOG_DEBUG,
       "Removing city "+ city.getName() + ", "+
       city.getOwner().getNation().getName() + "(" +
       x + " " + y + ")");

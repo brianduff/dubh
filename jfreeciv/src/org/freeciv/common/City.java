@@ -16,6 +16,10 @@ public final class City implements CommonConstants
 {
   private static HashMap s_cities = new HashMap();
 
+  private static final int
+    TYPE_UNIT = 0,
+    TYPE_NORMAL_IMPROVEMENT = 1,
+    TYPE_WONDER = 2;
 
   private List m_presentUnits;
   private int m_id;
@@ -90,9 +94,9 @@ public final class City implements CommonConstants
   private List m_infoUnitsPresent;
 
   private CityAI m_ai;
-  
-  
-  
+
+
+
 
   // city.h: CITY_MAP_SIZE
   public static final int MAP_SIZE = 5;
@@ -209,7 +213,7 @@ public final class City implements CommonConstants
   private boolean improvementExists( int id )
   {
     // improvement.c: improvement_exists()
-  
+
     if ( id < 0 || id >= B_LAST || id >= m_game.getNumberOfImprovementTypes() )
     {
       return false;
@@ -248,12 +252,12 @@ public final class City implements CommonConstants
       return true;
     }
 
-    if ( id == B_MANHATTEN ) 
+    if ( id == B_MANHATTEN )
     {
       return ( m_game.getGlobalWonder( id ) != 0 );
     }
 
-    City tmpCity = getOwner().getCity( 
+    City tmpCity = getOwner().getCity(
       m_game.getGlobalWonder( id )
     );
 
@@ -300,17 +304,24 @@ public final class City implements CommonConstants
         }
       default:
         return false;
-  
+
     } */
     return true; // TODO;
-    
+
   }
 
   private Building getBuilding( int buildingId )
   {
-    return (Building) 
+    return (Building)
       m_game.getFactories().getBuildingFactory().findById( buildingId );
   }
+
+  private UnitType getUnitType( int unitId )
+  {
+    return (UnitType)
+      m_game.getFactories().getUnitTypeFactory().findById( unitId );
+  }
+
 
   /**
    * Returns true if either this city has city walls, or the city is affected
@@ -319,7 +330,7 @@ public final class City implements CommonConstants
    * @return true if this city has walls or appears to have walls as an effect
    *    of a wonder
    */
-  public boolean hasWalls() 
+  public boolean hasWalls()
   {
     if ( hasBuilding( B_CITY ) )
     {
@@ -328,7 +339,7 @@ public final class City implements CommonConstants
     return isCityAffectedByWonder( B_WALL );
   }
 
-  public boolean isUnhappy() 
+  public boolean isUnhappy()
   {
     return (m_pplHappy[4] < m_pplUnhappy[4]);
   }
@@ -367,6 +378,132 @@ public final class City implements CommonConstants
   public int getCurrentlyBuildingId()
   {
     return m_currentlyBuilding;
+  }
+
+  /**
+   * Compute the change production penalty for the given production change
+   * (target, is_unit) in this city.
+   *
+   */
+  private int getChangeProductionCharge( int target, boolean isUnit )
+  {
+    int shieldStockAfterAdjustment;
+    int origClass;
+    int newClass;
+    boolean putPenalty;
+
+    if ( m_changedFromIsUnit )
+    {
+      origClass = TYPE_UNIT;
+    }
+    else if ( getBuilding( m_changedFromId ).isWonder() )
+    {
+      origClass = TYPE_WONDER;
+    }
+    else
+    {
+      origClass = TYPE_NORMAL_IMPROVEMENT;
+    }
+
+    if ( isUnit )
+    {
+      newClass = TYPE_UNIT;
+    }
+    else if ( getBuilding( target ).isWonder() )
+    {
+      newClass = TYPE_WONDER;
+    }
+    else
+    {
+      newClass = TYPE_NORMAL_IMPROVEMENT;
+    }
+
+    putPenalty = ( origClass != newClass &&
+      m_game.nextYear( m_turnLastBuilt ) < m_game.getYear() );
+
+    if ( putPenalty )
+    {
+      shieldStockAfterAdjustment =
+        m_beforeChangeShields / 2;
+    }
+    else
+    {
+      shieldStockAfterAdjustment =
+        m_beforeChangeShields;
+    }
+
+    shieldStockAfterAdjustment += m_disbandedShields;
+
+    if ( newClass == TYPE_WONDER )
+    {
+      shieldStockAfterAdjustment
+        += m_caravanShields;
+    }
+    else
+    {
+      shieldStockAfterAdjustment +=
+        m_caravanShields / 2;
+    }
+
+    return shieldStockAfterAdjustment;
+
+  }
+
+  /**
+   * Get the number of turns before the unit or building being built will
+   * be complete
+   *
+   * @return the number of turns until the building is complete
+   */
+  public int getTurnsToBuild()
+  {
+
+    int improvement_cost = isBuildingUnit() ?
+      getUnitType( getCurrentlyBuildingId() ).getBuildCost() :
+      getBuilding( getCurrentlyBuildingId() ).getBuildCost();
+
+    if ( m_shieldStock >= improvement_cost )
+    {
+      return 1;
+    }
+
+    int city_shield_surplus = m_shieldSurplus;
+    int city_shield_stock = getChangeProductionCharge(
+      getCurrentlyBuildingId(), isBuildingUnit()
+    );
+
+    if ( city_shield_surplus > 0 )
+    {
+      return
+        (improvement_cost - city_shield_stock +
+          city_shield_surplus - 1 ) /
+            city_shield_surplus;
+    }
+    else
+    {
+      return 999;
+    }
+
+  }
+
+  /**
+   * Get a description of what is currently being built in this city
+   */
+  public String getCurrentlyBuildingDescription()
+  {
+    if ( isBuildingUnit() )
+    {
+      UnitType ut =
+        (UnitType)m_game.getFactories().getUnitTypeFactory().findById( getCurrentlyBuildingId() );
+
+      return ut.getName();
+    }
+    else
+    {
+      Building b =
+        (Building) m_game.getFactories().getBuildingFactory().findById( getCurrentlyBuildingId() );
+      return b.getName();
+    }
   }
 
   /**
@@ -450,6 +587,7 @@ public final class City implements CommonConstants
     }
   }
 
+
   /**
    * Unpackage a city info packet into this object
    */
@@ -459,9 +597,9 @@ public final class City implements CommonConstants
     m_x = pkt.x;
     m_y = pkt.y;
     m_name = pkt.name;
-    
+
     m_size = pkt.size;
-    
+
     if( pkt.happy )
     {
       m_pplHappy[4] = m_size;
@@ -472,15 +610,15 @@ public final class City implements CommonConstants
       m_pplUnhappy[4] = m_size;
       m_pplHappy[4] = 0;
     }
-    
+
     m_improvements[B_PALACE] = pkt.capital;
     m_improvements[B_CITY] = pkt.walls;
-    
-    if( newCity ) 
+
+    if( newCity )
     {
       m_worklist = null; // is this valid?
     }
-    
+
     // just set dummy values for everything else, to be on the safe side
     m_pplElvis = m_size;
     m_pplScientist = 0;
@@ -544,7 +682,7 @@ public final class City implements CommonConstants
     }
     // end dummy values
   }
-  
+
   private void setWorkerCity( int x, int y, char type )
   {
     int map_x = getX() + x - CITY_MAP_SIZE/2;
@@ -612,7 +750,7 @@ public final class City implements CommonConstants
     else
     {
       return cs.getTileSprite( size - 1 );
-    }    
+    }
   }
 
   public Icon getCityWallSprite( )
@@ -625,5 +763,5 @@ public final class City implements CommonConstants
   {
     // TODO
   }
-  
+
 }

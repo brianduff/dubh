@@ -99,6 +99,11 @@ public abstract class AbstractMapView implements MapView, Constants
 
   }
 
+  protected MapComponent getMapComponent()
+  {
+    return m_component;
+  }
+
   public final void mapOverviewJumped( MapOverviewJumpEvent moje )
   {
     // TODO: some map views will optionally not be slaved to the overview

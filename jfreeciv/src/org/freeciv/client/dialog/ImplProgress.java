@@ -3,6 +3,10 @@ import org.freeciv.client.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.IOException;
+
+import org.freeciv.common.Assert;
+
 class ImplProgress extends JPanel implements DlgProgress
 {
   private Client m_client;
@@ -12,7 +16,7 @@ class ImplProgress extends JPanel implements DlgProgress
   private JButton m_butCancel;
   private JDialog m_dialog;
   private Class m_clsCurrent;
-  public ImplProgress( Client c ) 
+  public ImplProgress( Client c )
   {
     m_client = c;
     m_dlgManager = c.getDialogManager();
@@ -24,12 +28,18 @@ class ImplProgress extends JPanel implements DlgProgress
     add( m_labMainMessage, BorderLayout.NORTH );
     add( m_pbProgress, BorderLayout.CENTER );
     add( m_butCancel, BorderLayout.SOUTH );
-    m_butCancel.addActionListener( new ActionListener() 
+    m_butCancel.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
-        m_client.disconnect();
-        m_client.getDialogManager().hideAllDialogs();
+        try
+        {
+          m_client.disconnect();
+        }
+        catch (IOException ioe)
+        {
+          Assert.fail( ioe );
+        }
       }
     } );
   }
@@ -53,7 +63,7 @@ class ImplProgress extends JPanel implements DlgProgress
   class AdvancerRunnable implements Runnable
   {
     private String m_message;
-    public AdvancerRunnable( String message ) 
+    public AdvancerRunnable( String message )
     {
       m_message = message;
     }

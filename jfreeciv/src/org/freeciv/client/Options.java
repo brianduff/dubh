@@ -27,7 +27,7 @@ public class Options implements Constants
   // View options
   public boolean drawMapGrid = false;
   public boolean drawCityNames = true;
-  public boolean drawCityProductions = false;
+  public boolean drawCityProductions = true;
   public boolean drawTerrain = true;
   public boolean drawCoastline = false;
   public boolean drawRoadsRails = true;
@@ -41,13 +41,13 @@ public class Options implements Constants
   public boolean drawUnits = true;
   public boolean drawFocusUnit = false;
   public boolean drawFogOfWar = true;
-  
+
   public void initMessagesWhere()
   {
     messages_where = new int[ E_LAST ];
-    int out_only[] = 
+    int out_only[] =
     {
-      E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT, E_UNIT_LOST_ATT, 
+      E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT, E_UNIT_LOST_ATT,
       E_UNIT_WIN_ATT
     };
     int i;
@@ -60,11 +60,11 @@ public class Options implements Constants
       messages_where[ out_only[ i ] ] = MW_OUTPUT;
     }
   }
-  
+
   public int getMessageWhere( int i )
   {
     return messages_where[ i ];
   }
 
-  
+
 }
