@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: FileSystemModel.java,v 1.3 1999-11-11 21:24:36 briand Exp $
+//   $Id: FileSystemModel.java,v 1.4 2000-10-09 00:04:57 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -22,8 +22,15 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 package org.javalobby.dju.ui.treetable;
+
 import java.io.File;
 import java.util.Date;
+
+import javax.swing.tree.*;
+
+import java.util.Enumeration;
+
+import org.javalobby.dju.misc.ArrayEnumeration;
 
 /**
  * FileSystemModel is a TreeTableModel representing a hierarchical file 
@@ -31,144 +38,61 @@ import java.util.Date;
  * are directory nodes, cache their children to avoid repeatedly querying 
  * the real file system. 
  * 
- * @version %I% %G%
- *
- * @author Philip Milne
- * @author Scott Violet
+ * @author Brian Duff - rewritten to use a delegate tree model
  */
 
 public class FileSystemModel extends AbstractTreeTableModel 
-                             implements TreeTableModel {
+{
 
-    // Names of the columns.
-    static protected String[]  cNames = {"Name", "Size", "Type", "Modified"};
+   // Names of the columns.
+   static protected String[]  cNames = {"Name", "Size", "Type", "Modified"};
 
-    // Types of the columns.
-    static protected Class[]  cTypes = {TreeTableModel.class, Integer.class, String.class, Date.class};
+   // Types of the columns.
+   static protected Class[]  cTypes = {TreeTableModel.class, Integer.class, String.class, Date.class};
 
-    // The the returned file length for directories. 
-    public static final Integer ZERO = new Integer(0); 
+   // The the returned file length for directories. 
+   public static final Integer ZERO = new Integer(0); 
 
-    public FileSystemModel() { 
-   super(new FileNode(new File(File.separator))); 
-    }
-
-    //
-    // Some convenience methods. 
-    //
-
-    protected File getFile(Object node) {
-   FileNode fileNode = ((FileNode)node); 
-   return fileNode.getFile();       
-    }
-
-    protected Object[] getChildren(Object node) {
-   FileNode fileNode = ((FileNode)node); 
-   return fileNode.getChildren(); 
-    }
-
-    //
-    // The TreeModel interface
-    //
-
-    public int getChildCount(Object node) { 
-   Object[] children = getChildren(node); 
-   return (children == null) ? 0 : children.length;
-    }
-
-    public Object getChild(Object node, int i) { 
-   return getChildren(node)[i]; 
-    }
-
-    // The superclass's implementation would work, but this is more efficient. 
-    public boolean isLeaf(Object node) { return getFile(node).isFile(); }
-
+   public FileSystemModel()
+   {
+      super(new DefaultTreeModel(new FileNode(new File(File.separator))));
+   }
     //
     //  The TreeTableNode interface. 
     //
 
-    public int getColumnCount() {
-   return cNames.length;
-    }
+   public int getColumnCount()
+   {
+      return cNames.length;
+   }
 
-    public String getColumnName(int column) {
-   return cNames[column];
-    }
+   public String getColumnName(int column)
+   {
+      return cNames[column];
+   }
 
-    public Class getColumnClass(int column) {
-   return cTypes[column];
-    }
+   public Class getColumnClass(int column)
+   {
+      return cTypes[column];
+   }
  
-    public Object getValueAt(Object node, int column) {
-   File file = getFile(node); 
-   try {
-       switch(column) {
-       case 0:
-      return file.getName();
-       case 1:
-      return file.isFile() ? new Integer((int)file.length()) : ZERO;
-       case 2:
-      return file.isFile() ?  "File" : "Directory";
-       case 3:
-      return new Date(file.lastModified());
-       }
-   }
-   catch  (SecurityException se) { }
-   
-   return null; 
-    }
-}
+   public Object getValueAt(Object node, int column)
+   {
+      File file = ((FileNode)node).getFile();
 
-/* A FileNode is a derivative of the File class - though we delegate to 
- * the File object rather than subclassing it. It is used to maintain a 
- * cache of a directory's children and therefore avoid repeated access 
- * to the underlying file system during rendering. 
- */
-class FileNode { 
-    File     file; 
-    Object[] children; 
-
-    public FileNode(File file) { 
-   this.file = file; 
-    }
-
-    // Used to sort the file names.
-    static private MergeSort  fileMS = new MergeSort() {
-   public int compareElementsAt(int a, int b) {
-       return ((String)toSort[a]).compareTo((String)toSort[b]);
-   }
-    };
-
-    /**
-     * Returns the the string to be used to display this leaf in the JTree.
-     */
-    public String toString() { 
-   return file.getName();
-    }
-
-    public File getFile() {
-   return file; 
-    }
-
-    /**
-     * Loads the children, caching the results in the children ivar.
-     */
-    protected Object[] getChildren() {
-   if (children != null) {
-       return children; 
-   }
-   try {
-       String[] files = file.list();
-       if(files != null) {
-      fileMS.sort(files); 
-      children = new FileNode[files.length]; 
-      String path = file.getPath();
-      for(int i = 0; i < files.length; i++) {
-          File childFile = new File(path, files[i]); 
-          children[i] = new FileNode(childFile);
+      switch(column)
+      {
+         case 0:
+            return file.getName();
+         case 1:
+            return file.isFile() ? new Integer((int)file.length()) : ZERO;
+         case 2:
+            return file.isFile() ?  "File" : "Directory";
+         case 3:
+            return new Date(file.lastModified());
       }
-       }
-   } catch (SecurityException se) {}
-   return children; 
-    }
+
+      return null;
+   }
 }
+
