@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $
+//   $Id: MainFrame.java,v 1.7 1999-10-24 00:42:45 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -50,6 +50,11 @@ import dubh.apps.newsagent.nntp.Newsgroup;
 import dubh.apps.newsagent.Folder;
 import dubh.apps.newsagent.IUpdateableClass;
 
+import dubh.apps.newsagent.navigator.Navigator;
+import dubh.apps.newsagent.navigator.NavigatorServiceList;
+import dubh.apps.newsagent.navigator.PropertiesService;
+import dubh.apps.newsagent.navigator.PropertyFileResolver;
+
 import dubh.utils.misc.Debug;
 import dubh.utils.misc.ReadOnlyVersion;
 import dubh.utils.misc.VersionManager;
@@ -58,7 +63,7 @@ import dubh.utils.misc.ResourceManager;
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $
+ * @version $Id: MainFrame.java,v 1.7 1999-10-24 00:42:45 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -79,6 +84,23 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
         POPUP_SERVERS     =  "popupServers";
   private static final String TOOLBAR = "mainToolBar";
 
+   class TestList implements NavigatorServiceList
+   {
+      public ArrayList getServices()
+      {
+         ArrayList l = new ArrayList();
+         l.add(new PropertiesService("news",       
+            PropertyFileResolver.getDefaultedProperties(
+               "navigator"+File.separator+"services"+File.separator+"news", 
+               "news.properties", 
+               "dubh/apps/newsagent/navigator/services/news", 
+               "news.properties"
+             )
+         ));
+         
+         return l;
+      }   
+   }
 
 
   private BorderLayout m_layoutMain = new BorderLayout();
@@ -86,7 +108,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   private MsgDisplayPanel m_message = new MsgDisplayPanel();
   private JSplitPane m_horizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
   private JSplitPane m_vertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
-  private FolderTreePanel m_folders = new FolderTreePanel();
+  private Navigator m_folders = new Navigator(new TestList());
   private StatusBar m_status = new StatusBar();
   private JToolBar m_toolBar;
   private JMenuBarResource m_menuBar;
@@ -110,10 +132,12 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      super(GlobalState.appName);     
      setName("newsagentMain");
 
+     m_vertical.setContinuousLayout(false);
+     m_horizontal.setContinuousLayout(false);
      // Set up the SplitPanes
      m_vertical.setTopComponent(m_thread);
      m_vertical.setBottomComponent(m_message);
-     m_horizontal.setLeftComponent(m_folders);
+     m_horizontal.setLeftComponent(m_folders.getComponent());
      m_horizontal.setRightComponent(m_vertical);
 
      // Layout the main window's content pane
@@ -131,7 +155,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
      // Add event bindings
      m_thread.addTreeSelectionListener(new ThreadTreeSelectionListener());
-     m_folders.addTreeSelectionListener(new FolderTreeSelectionListener());
+    // m_folders.addTreeSelectionListener(new FolderTreeSelectionListener());
 
      selInit();
 
@@ -183,7 +207,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
    @deprecated since NewsAgent 1.02. Classes that use this method are due for
    * a rewrite.
    */
-  public FolderTreePanel getFolderTreePanel() { return m_folders; }
+  //public FolderTreePanel getFolderTreePanel() { return m_folders; }
 
   /**
    * Get an action
@@ -220,16 +244,17 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
  **************************/
 
   public void fileNewFolder() {
-     String folderName = ErrorReporter.getInput("EnterFolderName");
+  /*   String folderName = ErrorReporter.getInput("EnterFolderName");
      if (folderName != null) {
         GlobalState.getStorageManager().createFolder(folderName);
         m_folders.selectItem(0);
         m_folders.treeUpdate();
      }
+     */
   }
 
   public void fileDeleteFolder() {
-     Object cursel = m_folders.getSelectedItem();
+  /*   Object cursel = m_folders.getSelectedItem();
      if (cursel instanceof Folder) {
         Folder theFolder = (Folder) cursel;
         if (theFolder != null) {
@@ -237,7 +262,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
            m_folders.selectItem(0);
            m_folders.treeUpdate();
         }
-     }
+     } */
   }
 
   public void fileExportFolder() {
@@ -273,12 +298,12 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      );
      newserver.pack();
      newserver.showAtCentre();
-     m_folders.treeUpdate();
+  //   m_folders.treeUpdate();
      GlobalState.getStorageManager().serializeServers();
   }
 
   public void serversRemove() {
-     Object cursel = m_folders.getSelectedItem();
+ /*    Object cursel = m_folders.getSelectedItem();
      if (cursel instanceof NNTPServer) {
         NNTPServer thisserver = (NNTPServer) cursel;
         // Check the user really wants to delete the server.
@@ -293,11 +318,11 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
               Debug.println("serversRemove: Unable to disconnect from "+thisserver);
            } // try
         }  // if
-     }
+     } */
   }
 
   public void serversProperties() {
-     Object selection = m_folders.getSelectedItem();
+ /*    Object selection = m_folders.getSelectedItem();
      if (selection instanceof NNTPServer) {
         NewsServerPropsDlg props = new NewsServerPropsDlg(
            this,
@@ -318,7 +343,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
            GlobalState.getMainFrame().getFolderTreePanel().treeUpdate();
         // Save the changes
         GlobalState.getStorageManager().serializeServers();
-     }
+     } */
   }
 
   public void serversPrefs() {
@@ -326,12 +351,13 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void serversSubscriptions() {
-     ServerSubscriptions subs = new ServerSubscriptions(
+ /*    ServerSubscriptions subs = new ServerSubscriptions(
         GlobalState.getMainFrame(),
         GlobalState.getRes().getString("MainFrame.Subscriptions"),
         true
      );
      subs.showAtCentre();
+     */
   }
 
   public void serversConnected() {
@@ -343,12 +369,12 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      // Disable the GoOffline action.
      m_menuBar.setActionEnabled("serversGoOffline", false);
      // redraw the folder tree panel.
-     GlobalState.getMainFrame().getFolderTreePanel().repaint();
+//     GlobalState.getMainFrame().getFolderTreePanel().repaint();
 
   }
 
   public void messagesPost() {
-     NNTPServer server = m_folders.getLastSelectedServer();
+  /*   NNTPServer server = m_folders.getLastSelectedServer();
      Newsgroup  group  = m_folders.getLastSelectedNewsgroup();
      if (server == null || group == null) {
         Debug.println("messagesPost: No current server and newsgroup to post to.");
@@ -358,10 +384,12 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      MessageComposer composer = new MessageComposer(server, group);
      composer.pack();
      composer.show();
+     
+     */
   }
 
   public void messagesReplyPost() {
-     String quotetype;
+ /*    String quotetype;
      NNTPServer server = m_folders.getLastSelectedServer();
      Newsgroup  group  = m_folders.getLastSelectedNewsgroup();
      MessageHeader head = m_thread.getSelectedHeader();
@@ -404,7 +432,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
 
      composer.pack();
-     composer.show();
+     composer.show(); */
 
   }
 
@@ -752,4 +780,4 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 //
 // New history:
 //
-// $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $
+// $Log: not supported by cvs2svn $
