@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.14 2000-08-20 21:31:47 briand Exp $ -->
+<!-- $Id: build.xml,v 1.15 2000-08-20 21:38:15 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -13,8 +13,10 @@
     <property name="cvsmodule" value="dju" />
     <buildnumber propertyfile="${cvsmodule}-build.properties" />
     <property file="${cvsmodule}-build.properties" />
-    <property name="srcdir" value="${cvsmodule}/src" />
-    <property name="classdir" value="${cvsmodule}/class" />
+    <property name="srcbase" value="src" />
+    <property name="classbase" value="class" />
+    <property name="srcdir" value="${cvsmodule}/${srcbase}" />
+    <property name="classdir" value="${cvsmodule}/${classbase}" />
     <property name="jardir" value="${cvsmodule}/lib" />
     <property name="jarfile" value="${jardir}/${cvsmodule}-${majorversion}.${minorversion}.jar" />
     <property name="cvsroot" value="/usr/local/cvsroot" />
@@ -95,19 +97,26 @@
   <!-- The distribution consists of all the directories after building, -->
   <!-- excluding the srcdir and classdir. -->
   <target name="distrib" depends="all">
+    <!-- Remove any existing distribution -->
+    <delete file="${distribname}" />
     <!-- Remove any existing distribtmp -->
     <deltree dir="${distribtmp}" />
     <mkdir dir="${distribtmp}" />
 
     <copydir  src="${cvsmodule}"
               dest="${distribtmp}"
-              excludes="${srcdir},${classdir}"
+              excludes="${srcbase}/**,${classbase}/**"
     />
+
+    <!-- Get rid of empty directories in case they exist -->
+    <deltree dir="${distribtmp}/${srcbase}" />
+    <deltree dir="${distribtmp}/${classbase}" />
 
     <zip      zipfile="${distribname}"
-              basedir="${distribtmp}/${cvsmodule}"
+              basedir="${distribtmp}"
     />
 
+    <!-- And get rid of the temporary directory -->
     <deltree dir="${distribtmp}" />
   </target>
 
