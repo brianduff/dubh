@@ -14,7 +14,7 @@ package org.gjt.abies;
 public final class ArrayMangler
 {
 
-  // no need to instantiate sdfsdf
+  // no need to instantiate
   private ArrayMangler()
   {
   }
