@@ -3,7 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 <title>
-<%= request.getParameter( "title" ) %>
+
+<%
+  String fixedTitle = request.getParameter( "title" ).replace( '_', ' ' );
+%>
+
+<%= fixedTitle %>
 </title>
 
 <link rel="stylesheet" href="/styles.css" type="text/css" />
@@ -11,7 +16,7 @@
 </head>
 <body>
 <h1>
-  <%= request.getParameter( "title" ) %>
+  <%= fixedTitle %>
 </h1>
 <p>
 
