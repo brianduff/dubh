@@ -10,7 +10,6 @@
   <content>
     <xsql:include-xsql href="answer.xsql" />
   </content>
-  
-  <cvs-info redirect="../faq/answer.xsl" />
+ 
 
 </dubhpage> 
