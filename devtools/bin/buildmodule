@@ -8,7 +8,7 @@
 #
 
 BUILD_DIR=~admin/build
-EXTRA_CLASSPATH=devtools/lib/devtools-1.0.jar:devtools/lib/ant.jar:devtools/lib/xalan_1_0_1.jar:devtools/lib/optional.jar
+EXTRA_CLASSPATH=devtools/lib/devtools-1.0.jar:devtools/lib/jaxp.jar:devtools/lib/parser.jar:devtools/lib/ant.jar:devtools/lib/xalan_1_0_1.jar:devtools/lib/optional.jar
 ANT_HOME=/usr/local/javalib-distrib/jakarta-ant
 ANT_MAIN=org.apache.tools.ant.Main
 
