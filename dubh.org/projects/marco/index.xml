@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org: Project Marco</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../navigator.xml?me=marco" />
+  </navigator>  
+  
+  <content>
+    <h1>Project Marco: Hosted Bookmarks Service</h1>
+    
+    <h2>Aims &amp; Objective</h2>
+    
+    <p>
+      Many users today work from multiple sites (e.g. both
+      home and work), or use multiple web browsers for different tasks. It
+      can be cumbersome trying to keep these different sets of bookmarks
+      in synch with each other.
+    </p>
+    <p>
+      Such a problem lends itself well to a hosted solution. Rather than
+      keeping bookmarks separately in each browser, bookmarks are stored
+      on an internet server, and can be easily accessed and updated from
+      any location with internet access.
+    </p>
+    <p>
+      So the objective of project Marco is as follows:
+    </p>
+    
+    <div align="center">
+      <p class="boxout">
+        To provide a hosted bookmarks service that can be used to access and
+        maintain a list of bookmarks for multiple users over the internet.
+      </p>
+    </div>
+    
+    <h2>Background</h2>
+    
+    <p>
+      As a "proof of concept", I've developed a single-user hosted bookmarks
+      application, which I am currently using both at home and at work. This
+      can be found 
+      <a href="../../brian/bookmarks/showbookmarks.xsql?editmode=false">here</a>.
+      It requires a modern browser (Mozilla 0.8 or Internet Explorer 5.5 will
+      do nicely).
+    </p>
+    <p>
+      It has the following features:
+    </p>
+    <ul>
+      <li>
+        HTML viewing mode, with collapsable categories
+      </li>
+      <li>
+        HTML editing mode, with links for deleting and maintaining categories
+        and bookmarks
+      </li>
+      <li>
+        HTML forms for editing / creating bookmarks and categories. 
+      </li>
+      <li>
+        Simple
+        digest authentication to prevent unauthorized modifications.
+      </li>
+      <li>
+        XML output for application interoperability.
+      </li>
+    </ul>
+    
+    <p>
+      And uses the following technologies:
+    </p>
+   
+    <ul>
+      <li>
+        mySQL 3.23.32 database
+      </li>
+      <li>
+        Oracle XDK to produce XML from SQL and transform it to HTML using XSLT
+      </li>
+      <li>
+        Jakarta Tomcat servlet engine
+      </li>
+      <li>
+        W3C DOM level 2 and CSS level 2 for client niceties (form validation,
+        collapsing categories etc.)
+      </li>
+    </ul>
+    
+  </content>
+  
+</dubhpage>

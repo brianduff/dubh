@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Project Marco: Draft Requirements</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../../navigator.xml?me=marco" />
+  </navigator>  
+  
+  <content>
+    <h1>Project Marco: Draft Requirements</h1>
+    
+    <h2>Abstract</h2>
+    
+    <p>
+      This document is a draft set of requirements for the Marco project.
+    </p>
+    
+    <h2>Goals</h2>
+    
+    <p>
+      Marco has the following goals:
+    </p>
+    
+    <ul>
+      <li>Provide a hosted bookmark service</li>
+      <li>Provide access for multiple users</li>
+      <li>Work using the latest technologies</li>
+    </ul>
+    
+    
+    
+    <h2>Requirements</h2>
+    
+    <h3 class="must">1. Must Allow Bookmarks to be Viewed Over the Web</h3>
+    
+    <p>
+      The service must allow bookmarks to be viewed on a web page in a format
+      that is convenient.
+    </p>
+    
+    <div class="indent" >
+      
+      <h3 class="must">1.1 Must Display Bookmarks for an Individual User</h3>
+      
+      <p>
+        For each user, there are a set of bookmarks. The main way to view
+        bookmarks will be to show all the bookmarks for a particular user.
+      </p>
+      
+      <div class="indent">
+        <h3 class="could">1.1.1 Could Allow Users to View Other User's Bookmarks</h3>
+        
+        <p>
+          Used in combination with a "publishing" scheme - see requirement
+          x.x below.
+        </p>
+      </div>
+      
+      
+      <h3 class="must">1.2 Must Display Bookmarks by Title</h3>
+      
+      <p>
+        The natural way to represent bookmarks is using a symbolic title
+        provided by the user.
+      </p>
+      
+      <h3 class="must">1.3 Must Allow Each Bookmark to Jump to a URL</h3>
+      
+      <p>
+        Bookmarks also consist of a URL. No two bookmarks with the same URL
+        can exist. The URL identifies the target location of the bookmark.
+      </p>
+      
+      <h3 class="must">1.4 Must Group Bookmarks Into Categories</h3>
+      
+      <p>
+        Most web browsers which store bookmarks store them in nested
+        categories, which makes it easier to locate bookmarks.
+      </p>
+      
+      <div class="indent">
+      
+        <h3 class="must">1.4.1 Must Allow View to be Restricted to a Subset of Categories</h3>
+        
+        <p>
+          Displaying all bookmarks in all categories all the time will make it
+          difficult to locate bookmarks, even if you have an idea which
+          category it is in.
+        </p>
+        
+        <h3 class="should">1.4.2 Should Allow Bookmarks to Appear in More Than One Category</h3>
+        
+        <p>
+          Sometimes it is convenient to put a bookmark in two or more
+          different categories.
+        </p>
+        
+        <h3 class="should">1.4.3 Should Display Uncategorized Bookmarks</h3>
+        
+        <p>
+          The user may choose to categorize bookmarks at a later date.
+        </p>
+      
+      </div>
+      
+      
+    </div>
+    
+    <h3 class="must">2. Must Allow Bookmarks to be Edited Over the Web</h3>
+    
+    <div class="indent">
+      
+      <h3 class="must">2.1 Must Provide User-Level Authentication</h3>
+      
+      <p>
+        It's essential that the service prevents users from modifying
+        bookmarks for which they do not have authorization.
+      </p>
+      
+      <h3 class="must">2.2 Must Allow Bookmarks to be Edited</h3>
+      
+      <div class="indent">
+        <h3 class="must">2.2.1 Must Allow A Bookmark to be Renamed</h3>
+        
+        <h3 class="must">2.2.2 Must Allow the URL of A Bookmark to be Changed</h3>
+        
+        <h3 class="must">2.2.3 Must Allow A Bookmark to be Re-ordered in Its Category</h3>
+        
+        <h3 class="must">2.2.4 Must Allow A Bookmark to be Moved to a Different Category</h3>
+        
+        <h3 class="must">2.2.5 Must Allow A Bookmark to be Deleted</h3>
+        
+        <h3 class="should">2.2.6 Should Allow A Bookmark to be Uncategorized</h3>
+      </div>
+      
+      <h3 class="must">2.3 Must Allow Categories to be Edited</h3>
+      
+      <div class="indent">
+        <h3 class="must">2.3.1 Must Allow A Category to be Renamed</h3>
+        
+        <h3 class="must">2.3.2 Must Allow A Category to be Deleted</h3>
+        
+        <h3 class="must">2.3.3 Must Allow A Category to be Re-ordered in Its Parent Category</h3>
+        
+        <h3 class="should">2.3.4 Should Allow A Category to be Reparented</h3>
+        
+        <p>
+          Categories are hierarchical. It should be possible to move categories
+          about in the hierarchy.
+        </p>
+        
+        <h3 class="could">2.3.5 Could Allow Categories to be Published</h3>
+      
+        <p>
+          Publishing a category would allow other users to see all bookmarks
+          and published subcategories.
+        </p>
+
+      </div>
+      
+    </div>
+    
+    <h3 class="must">3. Must Allow User to Administer Their Account Over the Web</h3>
+    
+    <div class="indent">
+      
+      <h3 class="must">3.1 Must Allow a User to Create a New Account</h3>
+      
+      <p>
+        Each user is identified by their account on the service. New users
+        should be able to create an account. An account consists of an
+        email address, name and password.
+      </p>
+      
+      <h3 class="must">3.2 Must Allow a User to Change the Email Address of Their Account</h3>
+      
+      <h3 class="must">3.3 Must Allow a User to Change the Password of Their Account</h3>
+      
+      <h3 class="must">3.4 Must Allow a User to Change the Name of Their Account</h3>
+      
+      <h3 class="must">3.5 Must Allow a User to Close Their Account</h3>
+      
+      <h3 class="should">3.6 Should Allow a User to Mail a Password, Given an Email Address</h3>
+      
+      <p>
+        This is a common way of reminding users what their password is.
+      </p>
+      
+    </div>
+    
+    
+    <h3 class="should">4. Should Provide Web-Based Administrative Control Over the Service</h3>
+    
+      <div class="indent">
+      <h3 class="should">4.1 Should Allow User Accounts to Be Administered</h3>
+      
+      <p>
+        All functionality listed under requirement 3 should be available to
+        the administrator for any account on the service.
+      </p>
+      
+      </div>
+    
+    <h3 class="should">5. Should Allow Bookmarks to be Retrieved in XML Format</h3>
+    
+    <p>
+      Providing access to bookmarks in XML allows easier application
+      interoperability. For instance, an XML bookmarks document could be 
+      transformed using XSLT into RDF, or into XUI for embedding in Mozilla.
+    </p>
+    
+    <h3 class="should">6. Should Allow Bookmarks to be Queried and Modified 
+      Programatically</h3>
+    
+    <p>
+      Again, for application interoperability, it would be nice if the bookmarks 
+      service could be controlled and queried programatically. This should be
+      as language-neutral as possible, for instance, as a SOAP web service.
+    </p>
+    
+  </content>
+  
+</dubhpage>

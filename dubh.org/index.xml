@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0"?> 
 <?xml-stylesheet type="text/xsl" href="xsl/dubhpage.xsl" ?>
 
 <!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
@@ -44,13 +44,13 @@
     
     <cvs-info>
       <date>
-        $Date: 2001-03-16 02:03:38 $
+        $Date: 2001-05-07 02:18:16 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.8 $
+        $Revision: 1.9 $
       </revision>
     </cvs-info>
     
