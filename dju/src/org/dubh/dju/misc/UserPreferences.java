@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: UserPreferences.java,v 1.8 1999-11-11 21:24:35 briand Exp $
+//   $Id: UserPreferences.java,v 1.9 2000-06-14 21:25:21 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -31,14 +31,18 @@ import java.util.*;
 import java.io.*;
 import java.beans.*;
 import java.awt.*;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+
 /**
  * Represents a set of user preferences for an application. The methods in this
- * class allow you to store preferences of a variety of different types in a 
+ * class allow you to store preferences of a variety of different types in a
  * properties file or object.
  * <br>
  * <b>The event handling for this class is not thread safe.</b>
  * @author Brian Duff
- * @version $Id: UserPreferences.java,v 1.8 1999-11-11 21:24:35 briand Exp $
+ * @version $Id: UserPreferences.java,v 1.9 2000-06-14 21:25:21 briand Exp $
  */
 public class UserPreferences implements Serializable {
 
@@ -65,7 +69,7 @@ public class UserPreferences implements Serializable {
    */
   public UserPreferences(Properties p) {
      m_props = p;
-  } 
+  }
 
   /**
    * Create a new UserPreferences object using the specified filename as the
@@ -118,8 +122,8 @@ public class UserPreferences implements Serializable {
      m_hashListCache = new Hashtable();
      m_hashListIndices = new Hashtable();
      //m_listeners = new PropertyChangeSupport(this);
-  }     
-  
+  }
+
   /**
    * Create user preferences based on a properties input stream.
    * You must call setFile at some point, or the properties will
@@ -129,11 +133,11 @@ public class UserPreferences implements Serializable {
      throws IOException
   {
      m_propsfile = null;
-     revert(is);  
+     revert(is);
      m_hashListCache = new Hashtable();
      m_hashListIndices = new Hashtable();
   }
-  
+
    /**
     * Compares keys in a properties list so that they can
     * be sorted
@@ -150,20 +154,20 @@ public class UserPreferences implements Serializable {
          int int2 = Integer.parseInt(seqNo2);
          return (int1-int2);
       }
-      
+
       public boolean equals(Object o)
       {
          return (o instanceof KeyComparator);
       }
-   }   
-   
+   }
+
    /**
     * Get a sorted list of keys from this UserPreferences object
     * that start with the specified baseKey and end with a number.
-    * E.g. 
-    * value.1 = 
-    * value.5 = 
-    * value.6 = 
+    * E.g.
+    * value.1 =
+    * value.5 =
+    * value.6 =
     * @param baseKey the key that provides the base of the list.
     * @return a sorted list of keys conforming to the above description
     */
@@ -179,15 +183,15 @@ public class UserPreferences implements Serializable {
          if (curKey.startsWith(baseKey+"."))
          {
             keyList.add(curKey);
-            System.out.println("Made it into the list: "+curKey);            
+            System.out.println("Made it into the list: "+curKey);
          }
       }
-      
+
       Collections.sort(keyList, new KeyComparator());
-      
+
       return keyList;
-   }  
-  
+   }
+
    /**
     * Provides support for a list of values in a properties file
     * that take the form: <pre>
@@ -202,7 +206,7 @@ public class UserPreferences implements Serializable {
     * the cached version is returned on subsequent calls. If you
     * want to add or remove items from the list, you must use
     * addToMultiKeyList and removeFromMultiKeyList. Don't add
-    * items to the returned lists or they will not be 
+    * items to the returned lists or they will not be
     * saved properly.
     *
     * Saving will cause all loaded lists to be set as properties
@@ -213,19 +217,19 @@ public class UserPreferences implements Serializable {
     */
    public ArrayList getMultiKeyList(String baseKey)
    {
-      if (m_hashListCache == null) 
+      if (m_hashListCache == null)
          m_hashListCache = new Hashtable();
       if (m_hashListIndices == null)
          m_hashListIndices = new Hashtable();
-            
+
       ArrayList values = (ArrayList)m_hashListCache.get(baseKey);
-      
+
       if (values == null)
       {
          ArrayList keys = getSortedKeyList(baseKey);
-         values = new ArrayList(keys.size()); 
+         values = new ArrayList(keys.size());
          ArrayList indices = new ArrayList(keys.size());
-         
+
          for (int i=0; i < keys.size(); i++)
          {
             String key = (String)keys.get(i);
@@ -237,8 +241,8 @@ public class UserPreferences implements Serializable {
          m_hashListIndices.put(baseKey, indices);
       }
       return values;
-   }  
-  
+   }
+
    /**
     * Add to a multi key list
     */
@@ -248,13 +252,21 @@ public class UserPreferences implements Serializable {
       // Get the indices for this key
       ArrayList indices = (ArrayList)m_hashListIndices.get(baseKey);
       // Find out the highest index
-      Integer biggest = (Integer)indices.get(indices.size()-1);
+      Integer biggest;
+      if (indices.size() > 0)
+      {
+         biggest = (Integer)indices.get(indices.size()-1);
+      }
+      else
+      {
+         biggest = new Integer(-1);
+      }
       // Store the new item at highest_index+1
       Integer newIndex = new Integer(biggest.intValue()+1);
       indices.add(newIndex);
       return newIndex.intValue();
    }
-  
+
    /**
     * Returns the index of the specified item in the multi
     * key list
@@ -265,12 +277,12 @@ public class UserPreferences implements Serializable {
       ArrayList mkl = getMultiKeyList(baseKey);
       // and the index maps
       ArrayList indices = (ArrayList)m_hashListIndices.get(baseKey);
-      
+
       // Now get the index of o
       int index = mkl.indexOf(o);
       return ((Integer)indices.get(index)).intValue();
    }
-  
+
    /**
     * Remove from a multi key list
     */
@@ -278,12 +290,17 @@ public class UserPreferences implements Serializable {
    {
       ArrayList list = getMultiKeyList(baseKey);
       int itemIndex = list.indexOf(o);
+      if (itemIndex < 0)
+      {
+         // Didn't find the item
+         return;
+      }
       list.remove(itemIndex);
       Integer keyIndex = (Integer)((ArrayList)m_hashListIndices.get(baseKey)).get(itemIndex);
       ((ArrayList)m_hashListIndices.get(baseKey)).remove(itemIndex);
       removeKey(baseKey+"."+keyIndex);
    }
-   
+
    /**
     * Dump down all cached multi key lists into the properties
     * object ready for saving.
@@ -296,15 +313,15 @@ public class UserPreferences implements Serializable {
          String listKey = (String)lists.nextElement();
          ArrayList alItems = (ArrayList)m_hashListCache.get(listKey);
          ArrayList alIndices = (ArrayList)m_hashListIndices.get(listKey);
-         
+
          for (int i=0; i < alItems.size(); i++)
          {
             String fullKey = listKey+"."+alIndices.get(i);
-            setPreference(fullKey, (String)alItems.get(i));
+            setPreference(fullKey, alItems.get(i).toString());
          }
       }
    }
-  
+
   /**
    * Set the file that this UserPreferences object reads/writes from.
    */
@@ -320,7 +337,7 @@ public class UserPreferences implements Serializable {
      m_props = new Properties();
      m_props.load(i); // throws IOException
      i.close();
-     firePropertyChange("", "", "");  
+     firePropertyChange("", "", "");
   }
   /**
    * Reverts preferences to the last saved version. This discards all
@@ -328,8 +345,8 @@ public class UserPreferences implements Serializable {
    * was made.
    @throws java.io.IOException the preferences file couldn't be read
    */
-  public void revert() 
-     throws IOException 
+  public void revert()
+     throws IOException
   {
      if (m_propsfile != null)
      {
@@ -345,7 +362,7 @@ public class UserPreferences implements Serializable {
      if (m_propsfile != null) {
         dumpMultiKeyLists();
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(m_propsfile));
-        
+
         m_props.store(bos, m_header);      // Requires JDK 1.2
         bos.flush();
         bos.close();
@@ -391,7 +408,7 @@ public class UserPreferences implements Serializable {
      m_props.put(key, value);
     // Debug.println("UserPreferences is firing a property change event for "+key);
      if (oldVal != null) firePropertyChange(key, oldVal, value);
-     else firePropertyChange(key, "", value); 
+     else firePropertyChange(key, "", value);
   }
 
   /**
@@ -468,7 +485,7 @@ public class UserPreferences implements Serializable {
   public void setYesNoPreference(String key, boolean value) {
      setPreference(key, booleanToYesNoString(value));
   }
-  
+
 
   /**
    * Sets a Font preference. The font is stored as a string in the form
@@ -496,9 +513,9 @@ public class UserPreferences implements Serializable {
   }
 
   /**
-   * Sets a colour preference. The preference is stored as a 
+   * Sets a colour preference. The preference is stored as a
    * six digit hexadecimal number prefixed by a hash character, i.e.
-   * <pre>#rrggbb</pre>. 
+   * <pre>#rrggbb</pre>.
    */
   public void setColorPreference(String key, Color col) {
      setPreference(key, encodeColor(col));
@@ -543,6 +560,45 @@ public class UserPreferences implements Serializable {
      return StringUtils.getWords(getPreference(key, StringUtils.createSentence(def)));
   }
 
+  /**
+   * Sets a date preference.
+   */
+  public void setDatePreference(String key, Date date)
+  {
+     DateFormat f = DateFormat.getInstance();
+
+     setPreference(key, f.format(date));
+  }
+
+  /**
+   * Gets a date preference.
+   *
+   * @param key the key to look up
+   * @param def the default date to return if the key is not found
+   * @return def, or the date corresponding to key in the preferences.
+   *
+   */
+  public Date getDatePreference(String key, Date def)
+  {
+      // BRIAN: Test this in EN-US locale...
+      try
+      {
+         String dateString = getPreference(key);
+         if (dateString == null)
+         {
+            return def;
+         }
+         DateFormat f = DateFormat.getInstance();
+         return f.parse(dateString);
+      }
+      catch (ParseException pe)
+      {
+         pe.printStackTrace();
+      }
+      return def;
+
+  }
+
    /**
     * Remove a key and its value from the user preferences.
     */
@@ -563,10 +619,10 @@ public class UserPreferences implements Serializable {
   public void removePropertyChangeListener(PropertyChangeListener p) {
      m_proplisteners.remove(p);
   }
- 
+
 
   protected void firePropertyChange(String propname, Object oldVal, Object newVal) {
-     
+
      PropertyChangeEvent e = new PropertyChangeEvent(this, propname, oldVal, newVal);
 
      for (int i=0; i < m_proplisteners.size(); i++)
@@ -575,7 +631,7 @@ public class UserPreferences implements Serializable {
      }
   }
 
-  
+
 
 
 
@@ -599,12 +655,12 @@ public class UserPreferences implements Serializable {
   private String booleanToTrueFalseString(boolean b) {
    return (b ? "true" : "false");
   }
-  
+
   /**
    * Can't seem to find a way to encode fonts in the format that Font.decode()
-   * expects in the AWT toolkit. One would assume Font.toString() would do this, 
+   * expects in the AWT toolkit. One would assume Font.toString() would do this,
    * but it doesn't. D'oh!.
-   * Another good example of the shoddy quality of documentation for Java, I had to 
+   * Another good example of the shoddy quality of documentation for Java, I had to
    * actually look at the source code to figure out what format decode expects
    * the font string to be in. It would have been so easy for Sun to add a description to
    * the javadoc.
@@ -612,35 +668,50 @@ public class UserPreferences implements Serializable {
   private String encodeFont(Font f)
   {
      StringBuffer sbFontCode = new StringBuffer(10);
-     
+
      sbFontCode.append(f.getName());
      sbFontCode.append("-");
-     
+
      int style = f.getStyle();
-     
+
      if (style == Font.PLAIN) sbFontCode.append("plain");
      else if (style == Font.BOLD) sbFontCode.append("bold");
      else if (style == Font.ITALIC) sbFontCode.append("italic");
      else if (style == Font.BOLD + Font.ITALIC) sbFontCode.append("bolditalic");
 
      sbFontCode.append("-"+f.getSize());
-     
+
      return sbFontCode.toString();
-     
+
   }
 
   private String encodeColor(Color c)
   {
      StringBuffer sbColorCode = new StringBuffer(7);
-     
+
      sbColorCode.append('#');
-     
+
      sbColorCode.append(StringUtils.makeDoubleHex(c.getRed()));
      sbColorCode.append(StringUtils.makeDoubleHex(c.getGreen()));
      sbColorCode.append(StringUtils.makeDoubleHex(c.getBlue()));
-     
+
      return sbColorCode.toString();
-     
+
+  }
+
+
+  /**
+   * Delete the physical file for the user preferences object.
+   */
+  public void delete() throws IOException
+  {
+     if (m_propsfile != null)
+     {
+        if (m_propsfile.exists())
+        {
+           m_propsfile.delete();
+        }
+     }
   }
 
 
@@ -657,7 +728,7 @@ public class UserPreferences implements Serializable {
  *   added property change event support.
  * <LI>0.3 [18/06/98]: Added empty constructor. Made serializable.
  * <LI>0.4 [08/12/98]: Changed to use a buffered output stream for saving props
- * <LI>1.0 [26/01/99]: Now requires JDK 1.2. (Properties.save() changed to 
+ * <LI>1.0 [26/01/99]: Now requires JDK 1.2. (Properties.save() changed to
  *                     Properties.store() )
  *</UL>
  */
@@ -666,6 +737,9 @@ public class UserPreferences implements Serializable {
 // New Log
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  1999/11/11 21:24:35  briand
+// Change package and import to Javalobby JFA.
+//
 // Revision 1.7  1999/11/02 19:53:14  briand
 // Commit changes before move to JFA.
 //

@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: SelectionContextCommandManager.java,v 1.2 1999-11-11 21:24:34 briand Exp $
+//   $Id: SelectionContextCommandManager.java,v 1.3 2000-06-14 21:25:21 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -37,14 +37,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.tree.TreePath;
 
 import javax.swing.JList;
+import javax.swing.JTree;
 
 /**
  * This command manager listens for selection changes and
- * changes its context based on the current selection. 
+ * changes its context based on the current selection.
  * The context is then passed into the command invokation.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: SelectionContextCommandManager.java,v 1.2 1999-11-11 21:24:34 briand Exp $
+ * @version $Id: SelectionContextCommandManager.java,v 1.3 2000-06-14 21:25:21 briand Exp $
  */
 public class SelectionContextCommandManager extends CommandManager
    implements TreeSelectionListener, ListSelectionListener
@@ -55,12 +56,12 @@ public class SelectionContextCommandManager extends CommandManager
    {
       m_context = o;
    }
-   
+
    protected void actuallyDoCommand(Command c)
    {
       c.doCommand(m_context);
    }
-   
+
    public void valueChanged(ListSelectionEvent lse)
    {
       if (!(lse.getSource() instanceof JList))
@@ -88,35 +89,38 @@ public class SelectionContextCommandManager extends CommandManager
          setContext(alst);
       }
    }
-   
+
    public void valueChanged(TreeSelectionEvent tse)
    {
-      TreePath[] tp = tse.getPaths();
-      if (tp.length == 1)
+      JTree tree = (JTree)tse.getSource();
+
+      TreePath[] paths = tree.getSelectionPaths();
+
+      if (paths == null)
       {
-         if (tse.isAddedPath())
-         {
-            setContext(tse.getPath().getLastPathComponent());   
-         }
+         return;
       }
-      else
+      if (paths.length == 1)
       {
-         ArrayList lst = new ArrayList();
-         for (int i=0; i < tp.length; i++)
+         setContext(paths[0].getLastPathComponent());
+      }
+      else if (paths.length > 1)
+      {
+         ArrayList selectionlist = new ArrayList(paths.length);
+         for (int i=0; i < paths.length; i++)
          {
-            TreePath p = tp[i];
-            if (tse.isAddedPath(p))
-            {
-               lst.add(p.getLastPathComponent());
-            }
+            selectionlist.add(paths[i].getLastPathComponent());
          }
-         setContext(lst);
+         setContext(selectionlist);
       }
    }
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/11 21:24:34  briand
+// Change package and import to Javalobby JFA.
+//
 // Revision 1.1  1999/10/24 00:38:17  briand
 // New Command mechanism.
 //

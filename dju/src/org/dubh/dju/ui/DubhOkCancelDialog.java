@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: DubhOkCancelDialog.java,v 1.5 1999-11-11 21:24:35 briand Exp $
+//   $Id: DubhOkCancelDialog.java,v 1.6 2000-06-14 21:25:22 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
 // ---------------------------------------------------------------------------
 // Copyright (c) 1998 by the Java Lobby
 // <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+//
 // This program is free software.
-// 
+//
 // You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
 // you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
 //
@@ -43,9 +43,9 @@ import org.javalobby.dju.error.ErrorManager;
  * BorderLayout, and the two buttons are in the SOUTH location), or just
  * use the setPanel() method with an instance of this class.
  * @author Brian Duff
- * @version $Id: DubhOkCancelDialog.java,v 1.5 1999-11-11 21:24:35 briand Exp $
+ * @version $Id: DubhOkCancelDialog.java,v 1.6 2000-06-14 21:25:22 briand Exp $
  */
-public class DubhOkCancelDialog extends DubhDialog 
+public class DubhOkCancelDialog extends DubhDialog
 {
 
   protected JButton cmdOk = new JButton();
@@ -53,10 +53,10 @@ public class DubhOkCancelDialog extends DubhDialog
   protected JPanel  panButtons = new JPanel();
   protected FlowLayout layoutButtons = new FlowLayout(FlowLayout.RIGHT);
   private   JPanel  m_myPanel;
-  
+
   public static final int s_OK_BUTTON = 0, s_CANCEL_BUTTON = 1;
-  
-  private ValidationChangeListener m_validationListener = 
+
+  private ValidationChangeListener m_validationListener =
      new ValidationChangeListener() {
         public void validationStateChanged(ValidationChangeEvent e)
         {
@@ -66,22 +66,23 @@ public class DubhOkCancelDialog extends DubhDialog
 
   protected boolean m_isCancelled = true;
 
-  public DubhOkCancelDialog(Frame frame, String title, boolean modal) {
-    super(frame, title, modal);
+  public DubhOkCancelDialog(Component parent, String title, boolean modal) {
+    super(JOptionPane.getFrameForComponent(parent), title, modal);
     initButtons();
   }
 
-  public DubhOkCancelDialog(Frame frame) {
-    this(frame, "", false);
+  public DubhOkCancelDialog(Component parent) {
+    this(parent, "", false);
   }
 
-  public DubhOkCancelDialog(Frame frame, boolean modal) {
-    this(frame, "", modal);
+  public DubhOkCancelDialog(Component parent, boolean modal) {
+    this(parent, "", modal);
   }
 
-  public DubhOkCancelDialog(Frame frame, String title) {
-    this(frame, title, false);
+  public DubhOkCancelDialog(Component parent, String title) {
+    this(parent, title, false);
   }
+
 
   private void initButtons() {
      ButtonListener b = new ButtonListener();
@@ -100,17 +101,17 @@ public class DubhOkCancelDialog extends DubhDialog
   }
 
   public JPanel getPanel()
-  {  
+  {
      if (m_myPanel == null) setPanel(new JPanel());
      return m_myPanel;
   }
-  
+
   /**
    * Set the panel that is being displayed in the dialogue.
    */
   public void setPanel(JPanel pan) {
 
-  
+
      if (m_myPanel instanceof ValidatorPanel)
      {
         ((ValidatorPanel)m_myPanel).removeValidationChangeListener(m_validationListener);
@@ -122,22 +123,22 @@ public class DubhOkCancelDialog extends DubhDialog
      catch (Throwable t) {}
      m_myPanel = pan;
      getContentPane().add(m_myPanel, BorderLayout.CENTER);
-     
+
      cmdOk.setEnabled(true);
-     
+
      if (m_myPanel instanceof ValidatorPanel)
      {
         cmdOk.setEnabled(((ValidatorPanel)m_myPanel).isValid());
         ((ValidatorPanel)m_myPanel).addValidationChangeListener(m_validationListener);
      }
   }
-  
+
   public void setButtonVisible(int button, boolean visible)
   {
      if (button == s_OK_BUTTON) cmdOk.setVisible(visible);
      if (button == s_CANCEL_BUTTON) cmdCancel.setVisible(visible);
   }
-  
+
   public boolean isButtonVisible(int button)
   {
      if (button == s_OK_BUTTON) return cmdOk.isVisible();
@@ -159,7 +160,7 @@ public class DubhOkCancelDialog extends DubhDialog
   public void setOKText(String text) { cmdOk.setText(text); }
   /** Get label for the OK button */
   public String getOKText() { return cmdOk.getText(); }
-  
+
 
    /**
     * Override this method in a subclass to do extra work before
@@ -169,14 +170,14 @@ public class DubhOkCancelDialog extends DubhDialog
     * do your additional work if it returns true.
     */
    public boolean okClicked()
-   {      
+   {
       if (getPanel() instanceof ValidatorPanel)
       {
          Vector messageValidators = ((ValidatorPanel)getPanel()).getMessageValidators();
          for (int i=0; i < messageValidators.size(); i++)
          {
             ValidatorPanel.MessageValidator mv = (ValidatorPanel.MessageValidator)messageValidators.elementAt(i);
-            
+
             if (!mv.isValid())
             {
                Object[] subst = mv.getSubstitutions();
@@ -188,7 +189,7 @@ public class DubhOkCancelDialog extends DubhDialog
                else
                {
                   ErrorManager.display(getPanel(), mv.getErrorMessage());
-                  return false;               
+                  return false;
                }
             }
          }
@@ -199,10 +200,10 @@ public class DubhOkCancelDialog extends DubhDialog
     * Override this method in a subclass to do extra work before
     * the dialog is dismissed. If you return false, the dialog
     * will not be dismissed.
-    */   
+    */
    public boolean cancelClicked()
    {
-      return true;   
+      return true;
    }
 
   class ButtonListener implements ActionListener {
@@ -222,7 +223,7 @@ public class DubhOkCancelDialog extends DubhDialog
         }
      }
   }
- 
+
 
 }
 
@@ -238,8 +239,11 @@ public class DubhOkCancelDialog extends DubhDialog
  */
 
 
-// 
+//
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/11 21:24:35  briand
+// Change package and import to Javalobby JFA.
+//
 // Revision 1.4  1999/11/02 19:53:14  briand
 // Commit changes before move to JFA.
 //
