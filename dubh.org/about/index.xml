@@ -72,7 +72,8 @@
   <h2>Software</h2>
 
       <p>
-        I use the tools in the <b>Oracle XDK</b>
+        I use <a href="http://otn.oracle.com/tech/xml/xdk_java/content.html">
+        Oracle XDK 9.0.2.0.0</a>
         to dynamically transform <b>XML</b> documents on the
         server. This technology lets me just define the content for each
         page in XML, and dynamically build up all the other stuff (heading, 
@@ -82,8 +83,8 @@
       <p>
         One of the XDK components, The <b>XSQL servlet</b> is also used to 
         pull data out of the 
-        <b>MySQL</b> database I have on my server in XML format and
-        transform it to readable <b>HTML</b>. (I'd use Oracle, but 
+        <a href="http://www.mysql.org">MySQL</a> database I have on my server 
+        in XML format and transform it to readable <b>HTML</b>. (I'd use Oracle, but 
         trying to upload it to my server would be immensely time consuming, 
         and MySQL came preinstalled on the RAQ. Then there are the licensing
         issues...).
@@ -91,11 +92,12 @@
         
       <p>
         The XSQL Servlet relies on <b>servlets</b> and <b>JDBC</b>, two
-        integral components of <b>Java 2 Enterprise Edition</b>. The 
-        <b>Tomcat Servlet Engine</b> is a key technology - a cleanly
-        implemented, open source servlet engine, which is now the
-        reference servlet implementation for Java 2 EE. The 
-        <b>Apache Web Server</b> is used to serve static content.
+        integral components of <a href="http://java.sun.com/j2ee/">
+        Java 2 Enterprise Edition</a>. I'm using <a 
+        href="http://otn.oracle.com/tech/java/oc4j/content.html>
+        Oracle's OC4J</a> J2EE container,
+        which forms part of <a href="http://otn.oracle.com/products/ias/content.html">
+        Oracle9<i>i</i> Application Server</a>.
       </p>
       
       <p>
@@ -110,7 +112,7 @@
         for the site is currently developed using 
         <b>Oracle9<i>i</i> JDeveloper </b> (I work on the development team
         at Oracle for this product). You can download a copy of the
-        Oracle9<i>i</i> Release Candidate for <b>free</b> from
+        Oracle9<i>i</i> Release Candidate 2 for <b>free</b> from
         <a href="http://otn.oracle.com/products/jdev">the
         Oracle Technical Network (OTN)</a> (free registration
         required).
@@ -197,13 +199,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-12-17 02:55:28 $
+      $Date: 2002-03-30 05:06:23 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.6 $
+      $Revision: 1.7 $
     </revision>
   </cvs-info> 
   
