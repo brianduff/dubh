@@ -135,4 +135,14 @@
     </description>
   </change>
   
+  <change>
+    <date year="2001" month="10" day="28" />
+    
+    <description>
+      <p>
+        Added a new screenshot for <a href="/projects/jfreeciv/index.xml">
+        JFreeCiv</a>.
+      </p>
+    </description>
+  
 </changelog>
