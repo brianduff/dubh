@@ -15,9 +15,14 @@ import javax.swing.ImageIcon;
  *
  * @author Brian Duff
  */
-public final class JavaImageSprite implements Sprite
+public class JavaImageSprite implements Sprite
 {
-  private ImageIcon m_baseImageIcon;
+  protected ImageIcon m_baseImageIcon;
+
+  protected JavaImageSprite()
+  {
+
+  }
 
   /**
    * Construct a JavaImageSprite based on the specified URL
@@ -29,7 +34,7 @@ public final class JavaImageSprite implements Sprite
     m_baseImageIcon = new ImageIcon( u );
   }
 
-  public Icon getIcon()
+  public final Icon getIcon()
   {
     return m_baseImageIcon;
   }
@@ -38,7 +43,7 @@ public final class JavaImageSprite implements Sprite
    * Call this to retrieve a portion of the image as an icon for
    * the sprite.
    */
-  public Icon getSegmentIcon( int x, int y, int w, int h )
+  public final Icon getSegmentIcon( int x, int y, int w, int h )
   {
     Image srcImage = m_baseImageIcon.getImage();
     ImageFilter cropFilter = new CropImageFilter( x, y, w, h );

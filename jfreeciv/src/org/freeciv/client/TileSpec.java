@@ -18,6 +18,7 @@ public class TileSpec implements Constants
   // roughly corresponds to tilespec.c
 
   private final static String XPM_EXT = "xpm";
+  private final static String PNG_EXT = "png";
   // We try all these extensions in order.
   private final static String EXTENSIONS = "png gif jpg jpeg xpm";
   private final static String TILESET_DEFAULT = "trident";
@@ -496,6 +497,11 @@ public class TileSpec implements Constants
     {
       return new XPMFile( url );
     }
+    else if ( PNG_EXT.equalsIgnoreCase( strExt ) )
+    {
+      // Use the sixlegs PNG decoder, because Java's built in one is shit.
+      return new PNGSprite( url );
+    }
 
     // For all other image extensions, try the java built in image handler
     return new JavaImageSprite( url );
@@ -591,7 +597,7 @@ public class TileSpec implements Constants
 
     return null;
   }
-  
+
   /**
    * Is this private or is this okay to access? -- BenM
    */

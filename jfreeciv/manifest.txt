@@ -1,4 +1,5 @@
 Main-Class: org.freeciv.client.Client
+Class-Path: png.jar
 Implementation-Title: Freeciv for Java
 Implementation-Version: 1.0
 Implementation-Vendor: The JFreeciv Team

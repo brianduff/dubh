@@ -238,6 +238,9 @@
          <URL path="src/org/freeciv/common/Registry.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/PNGSprite.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Player.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -254,6 +257,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Logger.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/JavaImageSprite.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/InputFile.java"/>
@@ -895,7 +901,7 @@
                         <clearLogBeforeRun>false</clearLogBeforeRun>
                         <compileBeforeRun>true</compileBeforeRun>
                         <connectionName/>
-                        <javaOptions>-XOd</javaOptions>
+                        <javaOptions>-XOd -Dfreeciv.datadir=c:\freeciv-1.12.0\data</javaOptions>
                         <logCommand>true</logCommand>
                         <logError>true</logError>
                         <logExit>true</logExit>
@@ -919,7 +925,9 @@
                      <Key>oracle.jdevimpl.config.JProjectPaths</Key>
                      <Value class="oracle.jdevimpl.config.JProjectPaths">
                         <additionalClassPath>
-                           <entries class="[Ljava.net.URL;"/>
+                           <entries>
+                              <Item path="lib/png.jar" jar-entry=""/>
+                           </entries>
                         </additionalClassPath>
                         <outputDirectory path="class/"/>
                      </Value>

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.15 2001-12-15 23:25:38 briand Exp $ -->
+<!-- $Id: build.xml,v 1.16 2001-12-17 02:01:21 briand Exp $ -->
 
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
@@ -31,7 +31,7 @@
     <property name="datadir" value="data" />
 
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
-    <property name="classpath" value="" />
+    <property name="classpath" value="${jardir}/png.jar" />
     <property name="snapshot" value="${cvsmodule}-src.zip" />
     <property name="docdir" value="doc" />    
     <property name="javadocdir" value="javadoc" />
@@ -161,7 +161,7 @@
   <!-- The clean target obliterates all traces of the module from the build dir -->
   <target name="clean" depends="init">
     <delete dir="${classdir}" />
-    <delete dir="${jardir}" />
+    <delete file="${jarfile}" />
     <delete dir="${javadocdir}" />
     <delete file="${snapshot}" />
     <delete dir="${distdir}" />
