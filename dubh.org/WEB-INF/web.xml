@@ -30,7 +30,7 @@
    <servlet-class>com.ice.jcvslet.JCVSlet</servlet-class>
    <init-param>
     <param-name>JCVSLET_HOME</param-name>
-    <param-value>WEB-INF/jcvslet</param-value>
+    <param-value>/home/sites/www.dubh.org/cvs_web/WEB-INF/jcvslet</param-value>
    </init-param>
  </servlet>
  
