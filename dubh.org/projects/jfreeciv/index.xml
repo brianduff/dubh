@@ -58,7 +58,7 @@
     <h2>Bugs</h2>
     
     <p>
-      You can use the <a href="http://bug.dubh.org">Bug Database</a> to report
+      You can use the <a href="http://bug.dubh.org:8080">Bug Database</a> to report
       problems with JFreeciv, or submit patches for existing bugs.
       Please use this to report problems with implemented
       functionality, rather than to track functionality that just hasn't been
@@ -182,13 +182,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-12-02 09:53:58 $
+      $Date: 2001-12-09 03:48:11 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.11 $
+      $Revision: 1.12 $
     </revision>
   </cvs-info>  
   
