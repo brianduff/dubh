@@ -148,7 +148,7 @@ public class City extends PktCityInfo implements FlashingIcon
       setContentPane( new JPanel() );
       reshape( 200, 200, 1, 1 ); // later will be packed
       //c.desktop.add(this,c.CITY_DIALOG_LAYER);
-      bigMap = c.getMap();
+      bigMap = null; // TODOc.getMap();
       setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
       for( int x = 0;x < 5;x++ )
       {
@@ -531,7 +531,7 @@ public class City extends PktCityInfo implements FlashingIcon
     {
       cityDialog = null;
       //		client.desktop.remove(this); // is this needed ?
-      client.getMap().requestFocus();
+      //client.getMap().requestFocus();
     }
     public void internalFrameIconified( InternalFrameEvent e )
     {
