@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AboutPanel.java,v 1.7 2001-02-11 02:52:11 briand Exp $
+//   $Id: AboutPanel.java,v 1.8 2001-02-11 15:36:39 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -27,10 +27,23 @@
 
 package org.dubh.dju.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-import org.dubh.dju.ui.GridBagConstraints2;
-import javax.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.AbstractListModel;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import org.dubh.dju.version.ComponentInfo;
+import org.dubh.dju.version.ComponentInfoFactory;
+
+
 
 /**
  * A generic about dialog that can display information about the versions
@@ -38,9 +51,10 @@ import javax.swing.*;
  * in Java 2.
  *
  * @author Brian Duff
- * @version $Id: AboutPanel.java,v 1.7 2001-02-11 02:52:11 briand Exp $
+ * @version $Id: AboutPanel.java,v 1.8 2001-02-11 15:36:39 briand Exp $
  */
-public class AboutPanel extends JPanel {
+public class AboutPanel extends JPanel
+{
    private JButton     m_cmdOK;
    private JLabel      m_labIcon;
    private JLabel      m_labAppName;
@@ -49,12 +63,14 @@ public class AboutPanel extends JPanel {
    private JList       m_lstDepVersions;
    private JScrollPane m_scrDepVersions;
 
-   public AboutPanel() {
+   public AboutPanel()
+   {
       init();
       initLayout();
    }
 
-   private void init() {
+   private void init()
+   {
       m_labIcon        = new JLabel();
       m_labAppName     = new JLabel();
       m_labVersion     = new JLabel();
@@ -64,34 +80,35 @@ public class AboutPanel extends JPanel {
 
    }
 
-   private void initLayout() {
+   private void initLayout()
+   {
 
       setLayout(new GridBagLayout());
-      add(m_labIcon, new GridBagConstraints2(
+      add(m_labIcon, new GridBagConstraints(
          0, 0, 1, 3, 0.0, 0.0, GridBagConstraints.EAST,
          GridBagConstraints.BOTH, new Insets(5, 5, 5, 5),
          0, 0
       ));
 
-      add(m_labVendor, new GridBagConstraints2(
+      add(m_labVendor, new GridBagConstraints(
          1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
 
-      add(m_labAppName, new GridBagConstraints2(
+      add(m_labAppName, new GridBagConstraints(
          1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
 
-      add(m_labVersion, new GridBagConstraints2(
+      add(m_labVersion, new GridBagConstraints(
          1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
 
-      add(m_scrDepVersions, new GridBagConstraints2(
+      add(m_scrDepVersions, new GridBagConstraints(
          0, 3, 2, 1, 1.0, 1.0, GridBagConstraints.CENTER,
          GridBagConstraints.BOTH, new Insets(0, 5, 5, 5),
          0, 75
@@ -102,79 +119,54 @@ public class AboutPanel extends JPanel {
     * Set the icon to display at the left of the dialogue.
     * @param icon any Icon object.
     */
-   public void setIcon(Icon icon) {
+   public void setIcon(Icon icon)
+   {
       m_labIcon.setIcon(icon);
    }
 
    /**
    * Set the version information for the main product.
    *
-   * @param mainPackage the main package for the product. Versioning information
-   * for this product should be stored in the JAR manifest.
+   * @param component a DJU ComponentInfo object that contains information
+   *     about the main component in the application (i.e. the application
+   *     itself)
    */
-   public void setProductVersion(String mainPackageName)
+   public void setProduct(ComponentInfo component)
    {
-      Package mainPackage = Package.getPackage(mainPackageName);
-
-      if (mainPackage != null)
-      {
-         m_labVendor.setText(mainPackage.getImplementationVendor());
-         m_labAppName.setText(mainPackage.getImplementationTitle());
-         m_labVersion.setText(mainPackage.getImplementationVersion());
-      }
-      else
-      {
-         m_labAppName.setText(mainPackage.toString());
-         m_labVersion.setText("Unknown Version");
-      }
+      m_labVendor.setText(component.getVendor());
+      m_labAppName.setText(component.getName());
+      m_labVersion.setText(component.getShortVersion());
    }
 
    /**
-   * Add a version information for a product on which this
-   * product is dependent.
+   * Add version information for a components on which this
+   * application is dependent.
+   *
+   * @param components an array of components on which the application depends
    */
-   public void setDependencies(String[] pkglist)
+   public void setDependencies(ComponentInfo[] components)
    {
-      m_lstDepVersions.setModel(new DependenciesListModel(pkglist));
+      m_lstDepVersions.setModel(new DependenciesListModel(components));
    }
 
 
+   /**
+    * Simple list model
+    */
    class DependenciesListModel extends AbstractListModel
    {
-      private String[] m_versions;
+      private ComponentInfo[] m_versions;
 
-      public DependenciesListModel(String[] pkglist)
+      public DependenciesListModel(ComponentInfo[] pkglist)
       {
          m_versions = pkglist;
       }
 
       public Object getElementAt(int index)
       {
-         Package pck = Package.getPackage(m_versions[index]);
+         ComponentInfo c = m_versions[index];
 
-         if (pck == null)
-         {
-            return "Unrecognized Package: "+m_versions[index];
-         }
-         String specVendor = pck.getImplementationVendor();
-         String specTitle = pck.getImplementationTitle();
-         String specVersion = pck.getImplementationVersion();
-
-         if (specVendor == null)
-            specVendor = "Unknown Vendor";
-
-         if (specVersion == null)
-            specVersion = "Unknown Version";
-
-         if (specTitle == null)
-         {
-            specTitle = pck.getSpecificationTitle();
-            if (specTitle == null)
-            {
-               specTitle = m_versions[index];
-            }
-         }
-         return specVendor+" "+specTitle+" version "+specVersion;
+         return c.getVendor() + " " + c.getName() + " " + c.getShortVersion();
       }
 
       public int getSize()
@@ -183,23 +175,23 @@ public class AboutPanel extends JPanel {
       }
    }
 
-   public static AboutPanel doDialog(JFrame parent, String product,
-      String[] dependencies)
+   public static AboutPanel doDialog(JFrame parent, ComponentInfo product,
+      ComponentInfo[] dependencies)
    {
       return doDialog(parent, product, dependencies, null);
    }
 
-   public static AboutPanel doDialog(JFrame parent, String product)
+   public static AboutPanel doDialog(JFrame parent, ComponentInfo product)
    {
       return doDialog(parent, product, null);
    }
 
-   public static AboutPanel doDialog(JFrame parent, String product,
-      String[] dependencies, Icon icon)
+   public static AboutPanel doDialog(JFrame parent, ComponentInfo product,
+      ComponentInfo[] dependencies, Icon icon)
    {
       AboutPanel ap = new AboutPanel();
       if (icon != null) ap.setIcon(icon);
-      ap.setProductVersion(product);
+      ap.setProduct(product);
       if (dependencies != null) ap.setDependencies(dependencies);
       AboutPanelDialog apd = ap.new AboutPanelDialog(parent);
       apd.setPanel(ap);
