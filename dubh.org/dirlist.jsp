@@ -59,14 +59,14 @@
   java.io.File f = children[i];
   long length = f.length();
 
-  String color = (i % 2 == 0) ? "#D7D5FD" : "#FFFFFF";
+  String color = (i % 2 == 0) ? "#E7E5FD" : "#FFFFFF";
   
   %>
   <tr>
 
   <td><img src="/images/document.png" alt="*" /></td>
 
-  <td bgcolor="<%= color %>">
+  <td bgcolor="<%= color %>" width="60%" >
   <a href="<%=f.getName() %>">
   <%= new Date(f.lastModified()).toString() %>
   </a>
