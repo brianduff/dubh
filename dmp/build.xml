@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.1 2000-08-20 23:42:49 briand Exp $ -->
+<!-- $Id: build.xml,v 1.2 2000-08-20 23:47:11 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -38,7 +38,7 @@
     <property name="jarfile" value="${jardir}/${moduleshort}.jar" />
 
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
-    <property name="classpath" value="" />
+    <property name="classpath" value="${jardir}/mail.jar:${jardir}/activation.jar" />
     <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
     <property name="docdir" value="${cvsmodule}/doc" />    
     <property name="javadocdir" value="${docdir}/api" />
