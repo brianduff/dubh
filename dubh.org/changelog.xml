@@ -146,4 +146,16 @@
     </description>
   </change>
   
+  
+  <change>
+    <date year="2002" month="03" day="30" />
+    
+    <description>
+      <p>
+        Replaced Tomcat with OC4J. It truly is a testament to the portability
+        of J2EE that this required practically zero code changes :).
+      </p>
+    </description>
+  </change>
+  
 </changelog>
