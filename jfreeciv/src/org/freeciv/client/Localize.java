@@ -1,16 +1,16 @@
 package org.freeciv.client;
-import org.gjt.abies.TranslationFile;
+
+/**
+ * Old localization support
+ *
+ * @deprecated Use org.freeciv.util.Localize instead
+ */
 public class Localize
 {
-  public static TranslationFile translation;
-  static
-  {
-    translation = TranslationFile.createTranslationFile( Localize.class.getClassLoader(), "org/freeciv/client/translation" );
-    if( translation == null )
-    {
-      translation = new TranslationFile();
-    }
-    translation.setVerbose( false );
-    translation.setDevelopmentOutput( "freecivclient.translation" );
-  }
+
+  /**
+   * Hack until this class is removed
+   */
+  public static org.freeciv.util.Localize translation;
+
 }
