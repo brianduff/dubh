@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -116,6 +117,9 @@ public class Client implements Constants
 
 
   private MainWindow m_mainWindow;
+
+  // The currently focused unit
+  private org.freeciv.common.Unit m_focusUnit;
 
   /**
    * Instantiate the client
@@ -831,8 +835,7 @@ public class Client implements Constants
 
   public org.freeciv.common.Unit getUnitInFocus()
   {
-     // TODO
-     return null;
+     return m_focusUnit;
   }
 
   public org.freeciv.common.Unit getAttackingUnit()
@@ -849,7 +852,202 @@ public class Client implements Constants
 
   public boolean isUnitInFocus( org.freeciv.common.Unit unit )
   {
-    return false;
+    return ( m_focusUnit == unit );
+  }
+
+  public void updateUnitInfoLabel( org.freeciv.common.Unit u )
+  {
+    // TODO
+
+    // Hmm not sure about this
+    getMainWindow().getUnitStack().update(
+      u.getX(), u.getY(), u
+    );
+    getMainWindow().getUnitInfo().setUnit( u );
+  }
+
+  /**
+   * Enable or disable unit actions
+   */
+  private void updateUnitActions( org.freeciv.common.Unit u )
+  {
+    // TODO
+  }
+
+  /**
+   * Focus and select the specified unit
+   */
+  public void setUnitFocusAndSelect( org.freeciv.common.Unit u )
+  {
+    setUnitFocus( u );
+    // Todo: put cross overlay tile.
+  }
+
+  /**
+   * Set the focused unit.
+   *
+   * @param u the new focused unit
+   */
+  public void setUnitFocus( org.freeciv.common.Unit u )
+  {
+    org.freeciv.common.Unit oldFocus = m_focusUnit;
+
+    m_focusUnit = u;
+
+    if ( u != null )
+    {
+      autoCenterOnFocusUnit();
+      u.setFocusStatus( u.FOCUS_AVAIL );
+      refreshTileMapCanvas( u.getX(), u.getY(), true );
+    }
+
+    if ( oldFocus != null
+         && ( u == null 
+              || !getGame().getMap().isSamePosition( 
+                  oldFocus.getX(), oldFocus.getY(), u.getX(), u.getY() )))
+    {
+      refreshTileMapCanvas( oldFocus.getX(), oldFocus.getY(), true );
+    }
+    
+    updateUnitInfoLabel( u );
+    updateUnitActions( u ); 
+  }
+
+
+  private void autoCenterOnFocusUnit()
+  {
+    // control.c: auto_center_on_focus_unit()
+    
+    if ( m_focusUnit != null 
+         && getOptions().autoCenterOnUnit
+         // TODO: Extra condition here
+         )
+    {
+      getMainWindow().getMapViewManager().centerOnTile( 
+        m_focusUnit.getX(), m_focusUnit.getY()
+      );
+    }
+  }
+
+  /**
+   * If there is no unit currently in focus, or if the current unit in focus
+   * should not be in focus, then get a new focus unit.
+   * We let GOTO-int units stay in focus, so that if they have moves left at
+   * the end of the goto, then they are still in focus
+   */
+  public void updateUnitFocus()
+  {
+    // control.c: update_unit_focus()
+    
+    org.freeciv.common.Unit focus = getUnitInFocus();
+    if ( focus == null 
+         || (focus.getActivity() != ACTIVITY_IDLE
+             && focus.getActivity() != ACTIVITY_GOTO)
+         || focus.getMovesLeft() == 0
+         || focus.getAI().isControlled() )
+    {
+      advanceUnitFocus();
+    }
+  }
+
+  /**
+   * Actually figure out the next unit to focus
+   */
+  private void advanceUnitFocus()
+  {
+    // control.c: advance_unit_focus()
+    org.freeciv.common.Unit oldFocus = m_focusUnit;
+
+    m_focusUnit = findBestFocusCandidate();
+    // setHoverState()...
+
+    if ( m_focusUnit == null )
+    {
+      Iterator i = getGame().getCurrentPlayer().getUnits();
+      while (i.hasNext())
+      {
+        org.freeciv.common.Unit punit = (org.freeciv.common.Unit)i.next();
+
+        if ( punit.getFocusStatus() == punit.FOCUS_WAIT )
+        {
+          punit.setFocusStatus( punit.FOCUS_AVAIL );
+        }
+      }
+      m_focusUnit = findBestFocusCandidate();
+      if ( m_focusUnit == oldFocus )
+      {
+        // Ideally, we don't want the same unit as before
+        m_focusUnit = findBestFocusCandidate();
+        if ( m_focusUnit == null )
+        {
+          // But if it's the only one, we'll take it.
+          m_focusUnit = findBestFocusCandidate();
+        }
+      }
+    }
+
+    if ( oldFocus != null && oldFocus != m_focusUnit )
+    {
+      refreshTileMapCanvas( oldFocus.getX(), oldFocus.getY(), true );
+    }
+
+    setUnitFocus( m_focusUnit );
+
+    if ( getOptions().autoTurnDone && oldFocus != null && m_focusUnit == null )
+    {
+      // TODO: Programmatic end turn
+    }
+  }
+
+  /**
+   * Find the nearest available unit for focus, excluding the current unit
+   * in focus ( if any ). If the current focus unit is the only
+   * possible unit, or if there is no possible unit, returns null
+   */
+  private org.freeciv.common.Unit findBestFocusCandidate()
+  {
+    org.freeciv.common.Unit bestCandidate;
+    int bestDist = 99999;
+    int x, y;
+
+    if ( m_focusUnit != null )
+    {
+      x = m_focusUnit.getX();
+      y = m_focusUnit.getY();
+    }
+    else
+    {
+      // Hmm. the c client asks the map for this.
+      x = getGame().getMap().getWidth() / 2;
+      y = getGame().getMap().getHeight() / 2;
+    }
+
+    bestCandidate = null;
+    Iterator i = getGame().getCurrentPlayer().getUnits();
+    while ( i.hasNext() )
+    {
+      org.freeciv.common.Unit unit = (org.freeciv.common.Unit) i.next();
+      if ( unit != m_focusUnit )
+      {
+        if ( unit.getFocusStatus() == unit.FOCUS_AVAIL
+             && unit.getActivity() == unit.ACTIVITY_IDLE
+             && unit.getMovesLeft() > 0 
+             && !unit.getAI().isControlled() )
+        {
+          int d = getGame().getMap().getSquareMapDistance(
+            unit.getX(), unit.getY(), x, y
+          );
+          if ( d < bestDist )
+          {
+            bestCandidate = unit;
+            bestDist = d;
+          }
+        }
+      }
+    }
+
+    return bestCandidate;
+    
   }
 
   /**
