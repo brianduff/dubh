@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.11 2001-02-11 03:40:42 briand Exp $
+//   $Id: ResourceManager.java,v 1.12 2001-02-11 15:37:42 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -45,6 +45,7 @@ import org.dubh.dju.misc.Debug;
  * strings, as well as initialise components from a resource bundle.<P>
  *
  * @author Brian Duff
+ * @version $Id: ResourceManager.java,v 1.12 2001-02-11 15:37:42 briand Exp $
  */
 public class ResourceManager
 {
@@ -358,4 +359,7 @@ public class ResourceManager
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2001/02/11 03:40:42  briand
+// Couple of cosmetic source file changes (braces etc)
+//
 //
