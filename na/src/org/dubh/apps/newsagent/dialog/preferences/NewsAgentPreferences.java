@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgentPreferences.java,v 1.1 1999-03-22 23:44:27 briand Exp $
+//   $Id: NewsAgentPreferences.java,v 1.2 1999-06-01 00:36:25 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -31,14 +31,13 @@ import java.util.*;
 import dubh.utils.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.event.*;
-import dubh.apps.newsagent.dialog.NFrame;
 import dubh.apps.newsagent.GlobalState;
 import dubh.utils.ui.preferences.*;
 
 /**
  * The NewsAgent Preferences dialog.
  * @author Brian Duff
- * @version $Id: NewsAgentPreferences.java,v 1.1 1999-03-22 23:44:27 briand Exp $
+ * @version $Id: NewsAgentPreferences.java,v 1.2 1999-06-01 00:36:25 briand Exp $
  */
 public class NewsAgentPreferences extends PreferencesDialog {
 
@@ -46,7 +45,7 @@ public class NewsAgentPreferences extends PreferencesDialog {
 
    private NewsAgentPreferences()
    {
-      super(GlobalState.appName+" "+GlobalState.getResString("OptionsFrame.Preferences"),
+      super(GlobalState.appName+" "+GlobalState.getRes().getString("OptionsFrame.Preferences"),
             "naprefs", GlobalState.getMainFrame(), GlobalState.getPreferences());
    
       GeneralOptionsPanel general = new GeneralOptionsPanel();
@@ -55,6 +54,7 @@ public class NewsAgentPreferences extends PreferencesDialog {
       IdentityOptionsPanel identity = new IdentityOptionsPanel();
       SendAgentsOptionsPanel sendagents = new SendAgentsOptionsPanel();
       ListAgentsOptionsPanel listagents = new ListAgentsOptionsPanel();
+      UIViewerPreferences uiviewer = new UIViewerPreferences();
 
       addPage(general);
       addPage(send);
@@ -62,7 +62,9 @@ public class NewsAgentPreferences extends PreferencesDialog {
       addPage(identity);
       addPage(sendagents);
       addPage(listagents);
+      addPage(uiviewer);
   }
+  
   
    public static void showDialog()
    {
@@ -76,8 +78,25 @@ public class NewsAgentPreferences extends PreferencesDialog {
       m_singleton.setVisible(true);
    }  
 
+   /**
+    * Show the dialog open at a specific page.
+    */
+   public static void showDialog(String pageName)
+   {
+      if (m_singleton == null)
+         m_singleton = new NewsAgentPreferences();
+      
+      m_singleton.revertAll();
+      m_singleton.pack();
+      m_singleton.selectPage(pageName);
+      m_singleton.setVisible(true);
+   }
+
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/03/22 23:44:27  briand
+// The new NewsAgent preferences dialog.
+//
 //
