@@ -1,5 +1,8 @@
 package org.freeciv.net;
-public class PktSpaceshipInfo extends AbstractPacket implements org.freeciv.client.Constants /* bduff: bad*/
+
+import org.freeciv.common.CommonConstants;
+
+public class PktSpaceshipInfo extends AbstractPacket implements CommonConstants
 {
   int player_num;
   int sship_state;

@@ -1,7 +1,6 @@
 package org.freeciv.net;
 
-// !bduff bad import
-import org.freeciv.client.Constants;
+import org.freeciv.common.CommonConstants;
 
 public class PktRulesetUnit extends AbstractPacket
 {
@@ -70,7 +69,7 @@ public class PktRulesetUnit extends AbstractPacket
     name = in.readZeroString();
     graphic_str = in.readZeroString();
     graphic_alt = in.readZeroString();
-    if( ( flags & ( 1L << Constants.F_PARATROOPERS ) ) != 0 ) // check this
+    if( ( flags & ( 1L << CommonConstants.F_PARATROOPERS ) ) != 0 ) // check this
     {
       paratroopers_range = in.readShort();
       paratroopers_mr_req = in.readUnsignedByte();
@@ -105,16 +104,16 @@ public class PktRulesetUnit extends AbstractPacket
   
   public boolean isSettler()
   {
-    return ( flags & ( 1 << Constants.F_SETTLERS ) ) != 0;
+    return ( flags & ( 1 << CommonConstants.F_SETTLERS ) ) != 0;
   }
   
   public boolean isMilitary()
   {
-    return ( flags & ( 1 << Constants.F_NONMIL ) ) == 0;
+    return ( flags & ( 1 << CommonConstants.F_NONMIL ) ) == 0;
   }
   public boolean isGroundMoving()
   {
-    return move_type == Constants.LAND_MOVING;
+    return move_type == CommonConstants.LAND_MOVING;
   }
 
   protected boolean unitFlag( int flag )
