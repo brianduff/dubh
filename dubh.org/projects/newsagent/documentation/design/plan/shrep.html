@@ -1,0 +1,1578 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="subject" content="SH Computer Science">
+<meta name="Template"
+content="D:\Documents\Academic\Computing\Hons Practical Report.dot">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>NewsAgent Project Plan</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<blockquote>
+    <blockquote>
+        <blockquote>
+            <p><font size="6" face="Arial"><b>NewsAgent</b></font></p>
+            <p><font size="2" face="Arial"><b>SH Project Plan</b></font></p>
+            <p><font size="2" face="Arial">Brian Duff</font></p>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<hr size="0" width="72%">
+
+<p align="right"><a name="_Toc404054989"><font size="4"
+face="Arial Black"><b>Problem Definition</b></font></a></p>
+
+<p><a name="_Toc404054990"><font size="4" face="Arial"><b>Project
+Objectives</b></font></a></p>
+
+<p><font size="2" face="Arial">The Internet is a global network
+of computer networks. A number of applications of Internet
+technology are possible, and many services, such as e-mail and
+the world wide web, are popular with thousands of users across
+the world.</font></p>
+
+<p><font size="2" face="Arial">One popular Internet service is
+&quot;Network News&quot;, otherwise known as USENET. This service
+is potentially available to any user with an Internet connection.
+Network news supports a large number of discussion groups in
+specific categories. Users can post messages to groups or ranges
+of groups, and can read messages posted to the groups. </font></p>
+
+<p><font size="2" face="Arial">Unfortunately, the usefulness of
+Network News is greatly reduced by a number of important
+problems, which make it difficult or impossible to retrieve
+information that is useful and relevant from the vast amount of
+text posted to Newsservers daily.</font></p>
+
+<p><font size="2" face="Arial">The aim of this project is to
+provide a newsreader that can deal sensibly with some or all of
+these problems, in order to make reading news more efficient and
+productive for the user.</font></p>
+
+<p><font size="2" face="Arial">The final program will aim to
+provide similar functionality to existing newsreaders, but to
+contain &quot;intelligent&quot; features, which are capable of
+detecting and avoiding some of the most common problems.</font></p>
+
+<p><font size="2" face="Arial">The most important aspect of the
+project will be to implement a number of &quot;agents&quot;,
+which are responsible for pre- and post- processing messages in
+newsgroups. Examples of agents are conversation thread
+summarisers, relevance detection and content type checking. </font></p>
+
+<p><font size="2" face="Arial">The use of agents will ideally be
+easily extensible, it would be of great benefit if agents could
+be 'slotted' in and out of the software as required.</font></p>
+
+<p align="right"><a name="_Toc404054991"><font size="4"
+face="Arial Black"><b>Context Survey</b></font></a></p>
+
+<p><a name="_Toc404054992"><font size="4" face="Arial"><b>Background</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>Introduction</b></font></p>
+
+<p><font size="2" face="Arial">We now provide a more detailed
+look at the way in which Network News works, and detail some of
+the terminology that is commonly used in network news software.
+We also outline the main perceived reasons why the usefulness of
+News is diminished. </font></p>
+
+<p><font size="2" face="Arial">Each user requires a
+&quot;Newsreader&quot;, which acts as the client side of an
+Internet protocol (TCP/IP) connection. Another piece of software,
+the News server (or Network News Transfer Protocol (NNTP) host)
+is responsible for gathering together messages and communicating
+with both newsreader clients and other NNTP hosts.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image2.gif" width="463" height="204"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 1&#150;
+NNTP Clients &amp; Servers</b></font></p>
+
+<p><font size="2" face="Arial"><b>Problems with Network News</b></font></p>
+
+<p><font size="2" face="Arial">Since the advent of the WWW, the
+Internet has become hugely popular, with users in the millions.
+Due to the naturally chaotic nature of USENET in general, and
+it&#146;s popularity in particular, it is becoming increasingly
+impossible for users to cope with the massive numbers of messages
+passing through their local news server every day. </font></p>
+
+<p><font size="2" face="Arial">A number of major problems are
+apparent. We attempt to identify some of the most crucial
+problems here.</font></p>
+
+<ul>
+    <li><font size="2" face="Arial"><i>Spamming</i> is the act of
+        posting numerous identical or similar messages to one or
+        more newsgroups. These messages are often for advertising
+        purposes or are otherwise not related to the topic of the
+        relevant newsgroup. Firms or individuals who sell e-mail
+        lists to advertisers commonly provide another source of
+        spamming. Often newsgroup messages are used as a rich
+        source of e-mail addresses for such firms, and this can
+        prove to be irritating to regular Internet News users.</font></li>
+    <li><font size="2" face="Arial"><i>Cross posting</i> allows
+        any user to post messages to numerous newsgroups at the
+        same time. It is considered a feature when used properly,
+        but is often misused. In particular, an unintelligent
+        news client program may fail to warn the user that a
+        message they are replying to is cross-posted to a large
+        number of groups. In addition, messages are often
+        cross-posted to completely irrelevant groups in order to
+        spread their coverage by advertisers. It would be useful
+        to be able to determine how relevant a potential message
+        to a newsgroup was before sending it to numerous
+        newsgroups.</font></li>
+    <li><font size="2" face="Arial">Large messages pose a problem
+        for users connected to the Internet using a modem. Some
+        newsreaders will automatically load articles in a
+        newsgroup when the user changes to that newsgroup. This
+        wastes time and therefore money. If the newsreader does
+        not have adequate &#145;off-line&#146; capabilities, the
+        user can be connected to their Internet Service Provider
+        (ISP) while reading news, thus paying for the phone call,
+        but not putting the connection to use. This is wasteful
+        both for the user, and for the ISP. Users sending binary
+        files to groups that are not designed to handle them
+        compound these problems.</font></li>
+    <li><font size="2" face="Arial">While many newsreaders will
+        arrange articles in such a way that the units of
+        discussion (threads) are clearly visible, threads can
+        often fragment and become difficult to follow. If a user
+        posts a question on a given day, then returns a few days
+        later to check if their message has been responded to,
+        most newsreaders provide no quick way of determining if
+        this is the case. While most allow you to search for text
+        in the message headers, it would be useful to be informed
+        of replies to one&#146;s postings without having to
+        search all the headers in a newsgroup manually.
+        Additionally, it is often difficult to get a complete
+        overview of a thread of discussion from a single message.</font></li>
+    <li><font size="2" face="Arial">The user&#146;s connection
+        depends entirely on the server he/she is connected to. If
+        the server is slow, or goes down, the user may no longer
+        be able to read news. In this event, the user might
+        circumvent the problem by connecting to a different
+        server. In some newsreader software, it is only possible
+        to change news servers by restarting or otherwise
+        globally reconfiguring the software.</font></li>
+    <li><font size="2" face="Arial"><i>Message Expiry</i>: Each
+        message on USENET has a specific &quot;time to
+        live&quot;. The message will eventually expire. Some news
+        servers are so slow that by the time they receive a
+        message, it has very nearly expired. </font></li>
+</ul>
+
+<dir>
+    <li><font size="2" face="Arial">These problems reduce the
+        usefulness of USENET, as they prevent users from keeping
+        track of messages they are interested in and following
+        discussions within groups (known as threads) they are
+        involved with.</font></li>
+</dir>
+
+<p><a name="_Toc404054993"><font size="4" face="Arial"><b>Network
+News Transfer Protocol (NNTP)</b></font></a></p>
+
+<p><font size="2" face="Arial">Since the solution must be capable
+of &quot;talking&quot; to existing news software, we will look
+briefly at the technology involved in communication between
+newsreaders and servers, and between new servers and other news
+servers.</font></p>
+
+<p><font size="2" face="Arial">[KL86] details the Network News
+Transfer Protocol, and how it interacts with a news client. NNTP
+normally works on a TCP/IP (Transmission control protocol /
+Internet Protocol) network, which provides a reliable connection
+based network interface.</font></p>
+
+<p><font size="2" face="Arial">Central to NNTP is the concept of
+commands and responses. Commands are sent to the server by a
+client, who when receives a (period-delimited) coded response.
+Responses can be <i>status responses</i> or <i>textual responses</i>.
+Text responses are always preceded by a status response, and
+normally contain message text or a list of data. Status responses
+are preceded by a numerical code, which uniquely defines the type
+of message. A string that fully details the response follows
+this. Table 1 summarises the main NNTP commands and table 2
+explains the possible response classes.</font></p>
+
+<table border="1" cellpadding="7" width="510"
+bordercolor="#000000">
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Command</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Parameters</b></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Description</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>ARTICLE</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Id</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Retrieves message <i>id</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>BODY</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Id</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Retrieves the body text of message <i>id</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>GROUP</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Group-name</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Changes the current newsgroup to <i>group-name</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>HEAD</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Id</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Retrieves the header of message <i>id</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>LIST</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF">&nbsp;</td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Lists all available newsgroups</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>NEWGROUPS</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Date</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Lists new newsgroups since <i>date</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>NEWNEWS</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><i>Date</i></font></td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Lists new news in the current group
+        since <i>date</i></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="22%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>POST</b></font></td>
+        <td valign="top" width="19%" bgcolor="#FFFFFF">&nbsp;</td>
+        <td valign="top" width="59%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Begin posting a message</font></td>
+    </tr>
+</table>
+
+<ul>
+    <li><p align="center"><font size="2" face="Arial"><b>Table 1
+        &#150; NNTP Commands</b></font></p>
+    </li>
+</ul>
+
+<table border="1" cellpadding="7" width="510"
+bordercolor="#000000">
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Number</b></font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Description</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">1xx</font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Informative message</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">2xx</font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Command ok</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">3xx</font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Command ok so far. Send the rest
+        of it.</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">4xx</font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Command ok, but couldn&#146;t be
+        performed.</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">5xx</font></td>
+        <td valign="top" width="86%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Command unimplemented, incorrect
+        or serious error occurred.</b></font></td>
+    </tr>
+</table>
+
+<ul>
+    <li><p align="center"><font size="2" face="Arial"><b>Table 2
+        &#150; NNTP Responses</b></font></p>
+        <p><font size="2" face="Arial">[Pos82] and [Cro83] define
+        the standard format for Internet mail messages, [Hor83]
+        expands on this by defining a set of headers which are
+        mandatory for news messages. These mandatory headers are
+        mostly concerned with detailing which message a response
+        refers to, and the destination newsgroups for a message,
+        as well as the normal mandatory e-mail headers (From: and
+        To:).</font></p>
+    </li>
+</ul>
+
+<p><a name="_Toc404054994"><font size="4" face="Arial"><b>Information
+Systems Research</b></font></a></p>
+
+<p><font size="2" face="Arial">A large number of papers have been
+written which tackle the problems of information retrieval and
+relevance determination. Many of these could be of relevance to
+this project. This section contains a brief review of some of
+this research.</font></p>
+
+<p><font size="2" face="Arial">[Man97] provides an interesting
+and straightforward text compression scheme, which is
+specifically designed so that compressed text can be searched
+directly with little overhead. The compression technique attempts
+to find pairs of characters that are common in a piece of text.
+It constructs a weighted graph where the vertices correspond to
+unique characters in some text, and the edges correspond to
+adjacent pairs of characters. The algorithm attempts to partition
+the graph into two subgraphs V<sub>1</sub> and V<sub>2</sub>, in
+such a way that the sum of weights of edges from V<sub>1</sub> to
+V<sub>2</sub> is maximised. It turns out that this problem is
+NP-Complete, but the graphs are generally not large (since the
+size of the graph is determined by the number of unique
+characters, rather than the size of the text). The algorithm
+suggested effectively chooses a random starting configuration and
+tests each vertex to see which subgraph provides a better
+'score'.</font></p>
+
+<p><font size="2" face="Arial">[KPC95] looks at a method of
+summarising documents. This will probably be of use in
+summarising long news articles, particularly FAQs and other
+high-content postings. In this way, the news program will be able
+to allow the user to decide how relevant an article is, based on
+the summary of that article. Additionally, a summary of a thread
+conversation could be generating using the method suggested in
+this paper.</font></p>
+
+<p><font size="2" face="Arial">[Sed88] provides some suggestions
+for string searching algorithms, which will undoubtedly play an
+important part in the implementation. </font></p>
+
+<p><a name="_Toc404054995"><font size="4" face="Arial"><b>Existing
+Newsreader Software</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>Trn</b></font></p>
+
+<p><font size="2" face="Arial">Trn is descended from the original
+newsreader, and has been around from long before the Internet's
+popularity surged. Figure 2 shows a message being displayed in
+Trn.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image3.gif" width="459" height="225"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 2 &#150;
+Trn displaying a message</b></font></p>
+
+<p><font size="2" face="Arial">Trn is a very old program, and is
+lacking in all of the features considered desirable by the
+problem definition. It has the added disadvantage of being
+exceedingly slow, and the user interface is unintuitive and
+non-friendly.</font></p>
+
+<p><font size="2" face="Arial">Additionally, the program only
+runs under UNIX.</font></p>
+
+<p><font size="2" face="Arial"><b>PINE</b></font></p>
+
+<p><font size="2" face="Arial">PINE is a popular UNIX
+e-mail-reading program. In newer versions of the program, it is
+possible to browse newsgroups as if they were e-mail folders.
+Figure 3 is a screenshot from PINE, viewing a newsgroup listing.</font></p>
+
+<p><font size="2" face="Arial">PINE's biggest advantage is its
+familiarity. Many UNIX users are accustomed to using PINE for
+e-mail reading, and can therefore learn to use the newsreader
+very rapidly. The combination of a newsreader and e-mail client
+seems to be a good design decision.</font></p>
+
+<p><font size="2" face="Arial">PINE is, unfortunately, lacking
+many of the features mentioned in the problem definition. On one
+hand, this means it is uncluttered and easy to use. On the other
+hand, it means that many of the problems mentioned above will
+come into play if PINE is used for news reading.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image4.gif" width="459" height="225"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 3 &#150;
+PINE displaying a message list</b></font></p>
+
+<p><font size="2" face="Arial">One noticeable omission from the
+PINE newsreader is the lack of visual threading. This can be seen
+in the screenshot. In many newsreaders, it would be possible to
+see a hierarchical view of messages, and reply postings to those
+messages. These tree-like structures make message threads easier
+to follow. PINE just puts all the messages at the
+&quot;toplevel&quot;.</font></p>
+
+<p><font size="2" face="Arial"><b>Microsoft Outlook Express</b></font></p>
+
+<p><font size="2" face="Arial">Outlook Express is included with
+Microsoft Internet Explorer 4.0, and provides an electronic mail
+and newsreader in the same application. Figure 4 shows a
+screenshot of Outlook Express browsing some newsgroups. </font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image5.gif" width="463" height="226"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 4 &#150;
+Outlook Express reading news</b></font></p>
+
+<p><font size="2" face="Arial">Again, the integration of news
+reading and electronic mail works very well in Outlook Express.
+The newsreader contains a solid number of features, some of which
+answer the problems in the problem definition of this project.</font></p>
+
+<p><font size="2" face="Arial">Some of the features in Outlook
+Express' Newsreader include:</font></p>
+
+<ul>
+    <li><font size="2" face="Arial"><i>Newsgroup Filters</i> -
+        similar concept to kill files: ensure that messages
+        containing some specified text are never displayed to the
+        user. This is useful for filtering out 'spam' and junk
+        mail.</font></li>
+    <li><font size="2" face="Arial"><i>Newsgroup Keyword
+        Searching</i> - when selecting newsgroups to subscribe
+        to, Outlook Express lets you perform keyword searches,
+        which means it is easier to find relevant and interesting
+        newsgroups.</font></li>
+    <li><font size="2" face="Arial"><i>Thread Filtering /
+        Collapsing</i> - threads can be collapsed (so that only
+        the first message in a thread is visible) and expanded
+        again, and entire threads can be ignored. This means that
+        it is easier to find posts that are relevant or
+        interesting.</font></li>
+    <li><font size="2" face="Arial"><i>Offline Reading </i>-
+        messages threads or entire newsgroups can be downloaded
+        and then browsed offline. This is a bonus to people who
+        have an internet connection using a phone line and an ISP
+        (Internet Service Provider)</font></li>
+</ul>
+
+<p><font size="2"></font>&nbsp;</p>
+
+<p align="right"><a name="_Toc404054996"><font size="4"
+face="Arial Black"><b>Problem Specification</b></font></a></p>
+
+<p><a name="_Toc404054997"><font size="4" face="Arial"><b>Overview</b></font></a></p>
+
+<p><font size="2" face="Arial">It is required to produce software
+that solves as many of the problems outlined in the problem
+definition as possible, which meets the project objectives.</font></p>
+
+<p><font size="2" face="Arial">This specification is divided into
+several sections. <i>Solution requirements</i> provides an
+overview of the features required in a solution attempting to
+solve the problems in the problem definition. The <i>conceptual
+model</i> will define the central concepts of the required
+solution, as well as detailing how these should interact with
+each other. The <i>functional requirements</i> will explain how
+the features should be made available to a user of the software
+(i.e. the user interface of the solution). The <i>non-function
+requirements</i> will suggest system, performance and
+documentation properties the final solution should exhibit.</font></p>
+
+<p><a name="_Toc404054998"><font size="4" face="Arial"><b>Solution
+Requirements</b></font></a></p>
+
+<p><font size="2" face="Arial">Having considered some of the
+problems in current news reading software, we now consider the
+requirements of a more intelligent newsreader program, which
+could help to solve some of the problems listed above. We also
+include features which have been proven useful in other news
+reader software.</font></p>
+
+<table border="1" cellpadding="7" cellspacing="1" width="513"
+bordercolor="#000000">
+    <tr>
+        <td valign="top" width="37%" bgcolor="#C0C0C0"><font
+        face="Arial"><b>Feature</b></font></td>
+        <td valign="top" width="63%" bgcolor="#C0C0C0"><font
+        face="Arial"><b>Description &amp; Reason</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Content sensing</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">The program would have some method
+        of determining whether the content of a message is
+        reasonably relevant to the groups it is being posted to.
+        This would help to prevent 'spamming' and accidental
+        cross posting.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Cross posting verification</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">The user would be informed before
+        sending a message exactly which groups the message would
+        be sent to. This would help prevent accidental cross
+        posting.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Cross post message removal</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Messages that are identical to a
+        message the user has already read in another group would
+        be deleted or otherwise marked as read. This would help
+        shield the user from cross-posted messages.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Automatic message kill</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">The user would be able to specify
+        attributes (such as sender address or subject) of
+        messages they never want to read. Such messages would be
+        automatically deleted or otherwise marked. This would
+        help the user to avoid reading unwanted messages.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Large message warnings</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">If a message exceeds a certain size
+        restriction, the user would be warned before being
+        allowed to post the message. The program might provide
+        facilities for sending binary (UUENCODED) files. If it
+        detected that the message contained UUENCODED material
+        and was over a certain size, the program would check
+        whether the destination newsgroup is a designated
+        &quot;binary&quot; newsgroup.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Multiple news server support</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">The program would allow the user to
+        use more than one news server. It would be capable of
+        maintaining different or identical configurations for the
+        two servers.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Intelligent message marking
+        (agent)</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Messages of interest would be
+        marked as such. &quot;of interest&quot; is a user
+        specified criterion. It would be possible to specify a
+        number of levels of importance, with the most important
+        messages being identified more immediately (e.g. the user
+        could be informed of really important messages when they
+        first launch the program). This could work in tandem with
+        offline access.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Out of hours downloading</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Messages could be downloaded at
+        times when the user is not actually using the client
+        software. It could be configured to run at certain times,
+        presumably when the network load is at it&#146;s lowest.
+        Either entire newsgroups or parts of them could be
+        downloaded. Optionally, just the headers from the
+        newsgroups could be downloaded in advance. This feature
+        would be transparent to the user in terms of the
+        newsgroup metaphor, but would provide significant speed
+        increases. This also means that messages the user might
+        otherwise miss (due to expiry) will be available.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Multitasking</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">While the user is reading a
+        message, the network connection is not being put to use
+        efficiently. An ideal newsreader would download and cache
+        the next few messages while the user is reading a
+        message.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Auto newbie / netiquette breach
+        detection </b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Many of the common mistakes of new
+        users could be detected by an intelligent newsreader, and
+        the user warned before posting the message. In some
+        cases, the problems could be corrected.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="37%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Message storage</b></font></td>
+        <td valign="top" width="63%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">It would be useful for users to be
+        able to store messages locally in a user-determined way,
+        either making the message permanent within it&#146;s
+        original newsgroup (i.e. the message is not removed when
+        the user has finished reading it), or remaining in a
+        virtual &quot;folder&quot; within the newsreader.</font></td>
+    </tr>
+</table>
+
+<p><a name="_Toc404054999"><font size="4" face="Arial"><b>Conceptual
+Model</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>Newsgroup</b></font></p>
+
+<p><font size="2" face="Arial">From a user's point of view, a
+newsgroup is a collection of message threads. A number of
+newsgroups can be available from the server, and the user can
+subscribe to a subset of the available groups.</font></p>
+
+<p><font size="2" face="Arial"><b>Thread</b></font></p>
+
+<p><font size="2" face="Arial">A thread is a unit of conversation
+within a newsgroup. Normally, threads consist of a tree-like
+structure containing message headers, and replies as their
+descendants. </font></p>
+
+<p><font size="2" face="Arial"><b>Message</b></font></p>
+
+<p><font size="2" face="Arial">A message consists of a header and
+a body. The header contains a number of fields, some of which are
+normally of interest to the user (From:, Subject:), and some
+which are not so interesting (Path: and References:, for
+instance). The body contains the actual text of the message.
+Often this is plain text, but it can also be MIME-encoded or
+UUEncoded binary data. A message may also contain <i>quoted text</i>,
+a common practice of including text from a previous message in
+the reply.</font></p>
+
+<p><font size="2" face="Arial"><b>Folder</b></font></p>
+
+<p><font size="2" face="Arial">A folder is a user-defined storage
+repository for messages. </font></p>
+
+<p><font size="2" face="Arial"><b>Agent</b></font></p>
+
+<p><font size="2" face="Arial">The solution will provide a number
+of &quot;agents&quot;, which are responsible for processing
+messages or groups of messages before / after the user reads
+them. Some examples of agents are:</font></p>
+
+<p><font size="2" face="Arial"><i>Relevance Agent</i> -
+responsible for determining the 'relevance' of an article posted
+to a newsgroup (for incoming messages). Also responsible for
+checking the relevance of outgoing messages, and warning the user
+about posts which are of low relevance.</font></p>
+
+<p><font size="2" face="Arial"><i>Content Type Agent - </i>determines
+whether outgoing messages are of an acceptable content type for a
+given newsgroup. Particularly, this agent will warn the user
+about posting binary encoded messages to non-binary newsgroups.</font></p>
+
+<p><font size="2" face="Arial"><i>Netiquette Agent - </i>responsible
+for detecting common netiquette problems in outgoing messages.</font></p>
+
+<p><font size="2" face="Arial"><i>Message Terminator -</i> kills
+incoming messages depending on user specified criteria.</font></p>
+
+<p><font size="2" face="Arial"><i>Message Marker</i> - (similar
+to the terminator), tags messages depending on user criteria.
+Tagged messages headers are presented in some way that stands out
+more to the user (e.g. in bold, or in differing colours).</font></p>
+
+<p><font size="2" face="Arial"><i>Outside Hours Agent </i>-
+downloads messages as they become available from the newsserver
+directly, when the user is not using the computer (or perhaps
+reading a message). This helps to combat the problem of premature
+message expiry, by making sure that items of interest to the user
+are cached locally before the server has a chance to expire them.</font></p>
+
+<p><font size="2" face="Arial"><i>Digester - </i>responsible for
+organising a thread of messages into a &quot;report&quot;,
+consisting of an entire conversation. A colour, symbol, or some
+other method could indicate each participant of the thread in the
+digest report. </font></p>
+
+<p><a name="_Toc404055000"><font size="4" face="Arial"><b>Functional
+Requirements</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>Message Browsing Requirements</b></font></p>
+
+<p><font size="2" face="Arial">The key browsing requirement is to
+provide a user interface capable of displaying messages in a
+sensible and clear manner. </font></p>
+
+<p><font size="2" face="Arial">Newsgroups are hierarchical, so it
+makes sense to provide newsgroup information in a tree-like
+control. Each node on the control will include a small icon
+indicating whether it is a leaf. Leaves typically correspond to
+&quot;real&quot; newsgroups. An example of such a hierarchy is
+shown in figure 5.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image6.gif" width="236" height="246"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 5 &#150;
+Newsgroup Hierarchy</b></font></p>
+
+<p><font size="2" face="Arial">When a newsgroup or a folder is
+selected, a message list should become available. This message
+list will contain the articles in the newsgroup or folder,
+arranged into a hierarchy of postings and responses to those
+posts. This is a useful visual threading technique, and is
+highlighted in figure 6, a screenshot from Microsoft Outlook.</font></p>
+
+<p><font size="2" face="Arial">The message list will also contain
+status information on each message, such as whether it has been
+read, and it's relevance score. One agent might be responsible
+for tagging messages which are of special interest or relevance
+to the user, and this would also be displayed as status
+information.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image7.gif" width="452" height="220"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 6 &#150;
+Message List</b></font></p>
+
+<p><font size="2" face="Arial">The third message-browsing
+component is the actual message viewer. This should consist of a
+scrollable area containing the message body and a fixed area
+containing the (relevant) message headers. It should be possible
+to get details of the full message headers if required, but this
+should not be forced on the reader (again, to minimise irrelevant
+information).</font></p>
+
+<p><font size="2" face="Arial">Quoted text inside the message
+body should be displayed in a different colour or style (e.g.
+italic), in order to distinguish it.</font></p>
+
+<p><font size="2" face="Arial">An important functional aspect of
+the message browsing subsystem should the use of context menus.
+These menus are activated in a system dependent way, for example
+right clicking under UNIX and Windows, or holding down a certain
+key and clicking under MacOS. Context menus provide functions
+that are relevant to the currently selected item. A context menu
+for a message header in the message list, for instance, should
+allow the user to respond to the message, or to obtain a summary
+of the message. A context menu over a newsgroup might allow the
+user to unsubscribe from the group, or access more information
+about the content of the group. </font></p>
+
+<p><font size="2" face="Arial"><b>Message Composition
+Requirements</b></font></p>
+
+<p><font size="2" face="Arial">The message composer should
+consist of a straightforward text-editing window. It should also
+provide facilities for quoting sections of a message that is
+being responded to. </font></p>
+
+<p><font size="2" face="Arial"><b>Agent Requirements</b></font></p>
+
+<p><font size="2" face="Arial">There are two types of agents:
+reading agents and composition agents. Reading agents are
+responsible for processing messages retrieved from the news
+server that were written by other news users. Composition agents
+are active during message composition or just before a newly
+composed message is submitted to the news server.</font></p>
+
+<p><font size="2" face="Arial">The primary job of most reading
+agents is to ensure that messages deemed to be of the highest
+relevance in a group are tagged in such a way that the relative
+relevance is clear to the user. To this end, some messages may be
+automatically hidden if they match certain criteria.
+Nevertheless, such effects must not be permanent: the reading
+agent is not allowed to completely prevent the user from reading
+any messages retrieved from the server. A sensible way to meet
+this requirement is to give the user the option of permanently or
+temporarily disabling agents.</font></p>
+
+<p><font size="2" face="Arial">Special classes of reading agents
+aren't actually visible to the user. Relevance checking depends
+heavily on statistical information. To this end, some reading
+agents are responsible for cataloguing statistical information
+about the types of posts commonly found in newsgroups. In this
+way, the relevance agent remains dynamic.</font></p>
+
+<p><font size="2" face="Arial">Composition agents will attempt to
+make sure that a post being composed by the user is relevant to
+the group, and doesn't breach common netiquette problems. Some of
+these checks are best performed while the message is actually
+being composed. In this case, a (non-obtrusive) warning should be
+displayed with specific information. Other composition agents are
+more effective when the message is complete, and is ready to be
+submitted to the news server.</font></p>
+
+<p><font size="2" face="Arial"><b>Offline / Out of hours
+Requirements</b></font></p>
+
+<p><font size="2" face="Arial">A key requirement is that the
+newsreader should work well in offline environments. This is
+substantially distinct from the requirement that the software
+should function &quot;outside hours&quot; in order to keep up to
+date with news articles, since the user inevitably has no control
+during this process. There must therefore be a trade-off between
+the two: offline features are more useful for people utilising a
+modem connection to the Internet and out of hours features are
+better suited to direct (and preferably non-expensive) permanent
+connections.</font></p>
+
+<p><font size="2" face="Arial">The simplest way of providing
+offline facilities is to have a global on/off toggle. When the
+software is put into offline mode (either by the user or
+automatically depending on some user specified criteria), no part
+of the code is allowed to make any network connections until the
+state is toggled. Messages and message headers will be cached by
+the software while the user is doing other things (e.g. reading
+an article), while the software is in online mode. Because of
+this, the user can continue to read messages while in the offline
+mode. However, when an uncached article is encountered, the
+software is entitled to ask the user whether he/she wants to go
+online in order to retrieve the article. Naturally, the user
+should be able to disable such prompting.</font></p>
+
+<p><font size="2" face="Arial">Out of hours operation will
+probably make more sense as a separate application, or by
+invoking the standard application with alternative command line
+options, since a GUI serves no useful purpose. It's
+responsibility will be to permanently connect to the server and
+cache any articles until it reaches a predetermined disk space
+maximum. It will also perform statistical analysis of newsgroup
+articles in order to keep the relevance detection agent up to
+date.</font></p>
+
+<p><font size="2" face="Arial"><b>Digesting / Reporting
+Requirements</b></font></p>
+
+<p><font size="2" face="Arial">If an article is particularly
+long, it will not be shown to the user directly. Instead a
+summary of the article will be displayed, which the user will
+have the option of expanding into the full document. The precise
+&quot;cut-off&quot; length will be determined by experimentation
+once the summarising features of the software can be fully
+tested.</font></p>
+
+<p><font size="2" face="Arial">The user will have the option of
+displaying thread digests. These digests will outline the
+&quot;conversation&quot; represented by an article thread. This
+will probably be implemented by representing each party by a
+distinct symbol, colour or other font feature. </font></p>
+
+<p><font size="2" face="Arial"><b>Other Requirements</b></font></p>
+
+<p><font size="2" face="Arial">There should be as many different
+ways of performing a task as possible. To this end the user
+interface will consist of menus, toolbars, key combinations and
+context menus. It is particularly important that menus are well
+designed &#150; each menu title should indicate a specific object
+in the user interface and contain operations on that object.
+Standard menus (File, Edit, View and Help) should also be
+provided.</font></p>
+
+<p><font size="2" face="Arial">The toolbar should consist of the
+most commonly invoked menu functions.</font></p>
+
+<p><font size="2" face="Arial">A status bar at the bottom of the
+window will provide general status or help information as well as
+highlight non-intrusive warnings. ToolTips (helpful text which
+pops up close to the mouse pointer when it lingers over a
+control) will be used on most non-obvious controls.</font></p>
+
+<p><font size="2" face="Arial">For neatness, as few windows will
+be used as possible. Most message browsing should be centred on
+one window. There will be three distinct 'panes', corresponding
+to the three main browsing requirements highlighted above
+(newsgroup list, message list and message view). The size of
+these panes should be adjustable by the user. A separate window
+should be used for message composition. Message summarising might
+use a third window. </font></p>
+
+<p><font size="2" face="Arial">An example user interface is shown
+in figure 7. This was generated as a prototype in Borland
+JBuilder.</font></p>
+
+<p align="center"><font size="2" face="Arial"><img
+src="Image8.gif" width="402" height="288"></font></p>
+
+<p align="center"><font size="2" face="Arial"><b>Figure 7 &#150;
+User Interface Prototype</b></font></p>
+
+<p><font size="2" face="Arial">Intrusive error or warning
+messages should be kept to an absolute minimum. Such messages
+should be modal and require the user to respond sensibly before
+continuing.</font></p>
+
+<p><a name="_Toc404055001"><font size="4" face="Arial"><b>Non-functional
+Requirements</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>System Requirements</b></font></p>
+
+<p><font size="2" face="Arial">Since the Internet is widely used
+by users with a variety of operating systems, platform
+independence is an important aspect of Internet based software.
+It can be assumed that relatively modern systems are being used
+(for instance Windows 95 on a Pentium, or Solaris on a SPARC).</font></p>
+
+<p><font size="2" face="Arial">It is also assumed that the end
+user will have some form of direct Internet access, either
+through a local area network connection, or using a SLIP or PPP
+modem with a service provider. For this reason, it is also safe
+to assume that the user has some form of web browsing software
+(see documentation requirements).</font></p>
+
+<p><font size="2" face="Arial">Another reasonable assumption is
+that it is possible for work to be carried out when the user is
+not using their machine. This is reasonable in most systems.
+UNIX, for instance, provides &quot;Cron&quot; for carrying out
+tasks at scheduled times. Alternatively, processes can be run in
+the background, and the user can log out. Under other platforms,
+it is necessary to run an application and leave the machine
+switched on.</font></p>
+
+<p><font size="2" face="Arial"><b>Performance Requirements</b></font></p>
+
+<p><font size="2" face="Arial">The minimum system requirements
+depend on the platform. For Windows 95 systems, the following
+system requirements are reasonable:</font></p>
+<div align="center"><center>
+
+<table border="1" cellpadding="7" width="438"
+bordercolor="#000000">
+    <tr>
+        <td valign="top" width="28%" bgcolor="#FFFFFF">&nbsp;</td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Minimum Requirement</font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Preferred Requirement</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="28%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Memory</font></td>
+        <td width="36%" bgcolor="#FFFFFF"><font size="2"
+        face="Arial"><b>16 Mb</b></font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>48 Mb</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="28%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">CPU</font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Pentium 75</b></font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>Pentium 166</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="28%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Modem Speed</font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>14,400</b></font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>T1 or greater LAN</b></font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="28%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial">Free Disk Space</font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>25 Mb</b></font></td>
+        <td valign="top" width="36%" bgcolor="#FFFFFF"><font
+        size="2" face="Arial"><b>&gt;25 Mb</b></font></td>
+    </tr>
+</table>
+</center></div>
+
+<p><font size="2" face="Arial"><b>Documentation Requirements</b></font></p>
+
+<p><font size="2" face="Arial">User documentation will be
+provided in HTML. This documentation will be aimed at a user who
+has no previous knowledge of news reading software, and a basic
+understanding of Internet usage.</font></p>
+
+<p><font size="2" face="Arial">HTML documentation will follow
+these style guidelines:</font></p>
+
+<ul>
+    <li><font size="2" face="Arial">One &quot;page&quot; will be
+        used for each distinct topic.</font></li>
+    <li><font size="2" face="Arial">Each page will contain a
+        header describing the topic (using the H1 tag in HTML).
+        The topic may have up to two levels of sub-topics (H2 and
+        H3). It will be possible to jump to subtopics using
+        hyperlinks at the top of a topic</font></li>
+    <li><font size="2" face="Arial">Defined terms will be
+        italicised.</font></li>
+    <li><font size="2" face="Arial">Diagrams / Screenshots will
+        be produced in a diminished form in the main topic body.
+        The user will be able to click on the topic to jump to an
+        enlarged version.</font></li>
+    <li><font size="2" face="Arial">The documentation will
+        contain a hyperlinked contents node.</font></li>
+    <li><font size="2" face="Arial">All body text will be in 10pt
+        sans-serif font (Helvetica or Arial).</font></li>
+    <li><font size="2" face="Arial">References to other topics
+        will be hyperlinked.</font></li>
+</ul>
+
+<dir>
+    <li><font size="2" face="Arial">In order to make the solution
+        more maintainable, it is essential that the code be well
+        documented both internally (commented) and externally
+        (HTML).</font></li>
+</dir>
+
+<p align="right"><a name="_Toc404055002"><font size="4"
+face="Arial Black"><b>Implementation &amp; Testing Plans</b></font></a></p>
+
+<p><a name="_Toc404055003"><font size="4" face="Arial"><b>Choice
+of Implementation Language</b></font></a></p>
+
+<p><font size="2" face="Arial">A language supporting multitasking
+would be useful for this software to implement some of the
+features. In addition, good networking support should be
+provided, preferably with support for common Internet functions
+built in. Since the problem is clearly object based (messages,
+newsgroups, connections, folders, files, windows etc. all fit in
+well to an object model), a language providing object oriented
+facilities would be of benefit to ensure clean design and
+extensibility.</font></p>
+
+<p><font size="2" face="Arial">Ideally, the code should be
+portable, since computers with a multitude of operating systems
+are used on the Internet.</font></p>
+
+<p><font size="2" face="Arial"><b>C++</b></font></p>
+
+<p><font size="2" face="Arial">C++ provides object orientation,
+and is suitably versatile to meet the requirements. It is also a
+fast language; most C and C++ compilers produce machine language
+as efficient or more efficient than a human could produce. It
+doesn&#146;t however provide key features such as multitasking
+support, networking or user interface utilities. These features
+are commonly specific to the operating system, which makes the
+code non-portable across platforms.</font></p>
+
+<p><font size="2" face="Arial">In addition, the object-oriented
+features of C++ are far too easily circumnavigated, meaning that
+it is easy to slip into messy, non-portable implementation.</font></p>
+
+<p><font size="2" face="Arial">Another major disadvantage of C++
+is that it does not provide easy string manipulation
+intrinsically. From the problem specification, it is clear that
+the solution will require a fair amount of string processing.</font></p>
+
+<p><font size="2" face="Arial"><b>Tcl</b></font></p>
+
+<p><font size="2" face="Arial">Tcl is a scripting language. The
+language has the advantage of code level portability across
+almost all UNIX platforms, Windows 95 and MacOS. Tcl provides
+intrinsic networking and user interface facilities. Newer
+versions of Tcl are compiled (rather than interpreted) into
+bytecodes by a Just In Time (JIT) compiler which executes at
+runtime, offering large performance benefits over a plain
+scripting language. Tcl has excellent string manipulation
+facilities (in fact the string is the only data type in Tcl).</font></p>
+
+<p><font size="2" face="Arial">Tcl does not provide intrinsic
+object oriented support, although libraries are available to
+allow the user to mimic object oriented code. This is
+particularly transparent, however, and can easily be avoided
+leading to some of the same problems as C++. In addition, Tcl
+doesn&#146;t provide any multitasking support, short of running
+another program within a currently running program, and
+communicating with the other program using strings. This level of
+multitasking would probably not be effective for this design.</font></p>
+
+<p><font size="2" face="Arial"><b>Visual Basic</b></font></p>
+
+<p><font size="2" face="Arial">Visual Basic is a simple language,
+based on the flexible BASIC language. Previous versions compiled
+code to bytecodes that were then interpreted by the Visual Basic
+runtime module. Newer versions provide the option of compiling to
+native code, offering large performance gains. In addition,
+critical components can be written in a fast language (C or
+Pascal, for instance) and dynamically linked to Visual Basic
+programs. </font></p>
+
+<p><font size="2" face="Arial">Visual Basic provides some
+object-oriented features; again the programmer must exercise
+control. Where Visual Basic really excels is in user interface
+design, and the range of pre-existing components available. These
+&quot;ActiveX&quot; or OLE (object linking and embedding)
+controls can be created in Visual Basic and used in VB, Visual
+C++, Delphi and many other languages under windows. The controls
+are object oriented, and ideal for code reuse and sharing. Visual
+Basic ships with controls for Internet access and even has a
+specific NNTP control. Of note is Visual Basic&#146;s string
+support, which is reasonably flexible.</font></p>
+
+<p><font size="2" face="Arial">Visual Basic fails again in the
+area of multitasking: it provides no support (other than
+launching a separate program) of multitasking unless large
+portions of the program are written in C or C++. More
+importantly, programs written in current versions of Visual Basic
+will only run under 32 bit versions of Windows (i.e. Windows 95
+and NT). A version for the Macintosh is planned, but will not be
+available in time for this project. UNIX is completely
+unsupported, with no plans to support it in the future. Since a
+substantial number of Internet users use UNIX, this is an
+important point to consider.</font></p>
+
+<p><font size="2" face="Arial"><b>Java</b></font></p>
+
+<p><font size="2" face="Arial">Java is an object-oriented
+language, which has been described as &quot;C++ with all the
+nasty stuff removed&quot; [REF]. &#145;Nasty stuff&#146; refers
+to pointers and a number of other C++ features that allow the
+programmer to circumvent the object oriented model and easily
+cause major errors and bugs.</font></p>
+
+<p><font size="2" face="Arial">Java is compiled using the Java
+compiler (</font><font size="2" face="Courier New">javac</font><font
+size="2" face="Arial">) into Java byte codes. It is then executed
+by the Java runtime (</font><font size="2" face="Courier New">java</font><font
+size="2" face="Arial">). The main advantage of this approach is
+portability. Java bytecodes compiled on one system can be
+executed by the Java runtime on any other system for which it is
+available. At the moment, this extends to almost all of the major
+UNIX platforms, Windows 3.1, Windows 95 and NT, OS/2 and MacOS.
+Using bytecodes inevitably means it is slower than native code:
+Sun estimate it is approximately 75% as fast as native code on
+most platforms.</font></p>
+
+<p><font size="2" face="Arial">In addition to being highly object
+oriented, Java is designed to be a networking language, and
+particularly an Internet language. It is a modern language,
+although has been well tested and a number of &quot;real&quot;
+applications have been written using it. It also supports
+threads, which is one approach to multitasking. As with all
+features of Java, thread support is operating system independent,
+provided the OS provides multitasking support of some description
+(almost all do).</font></p>
+
+<p><font size="2" face="Arial">Java also provides a native String
+class, making string manipulation reasonably straightforward. It
+also provides intrinsic support for graphical user interfaces
+using the Abstract Window Toolkit (AWT).</font></p>
+
+<p><font size="2" face="Arial">In addition, newer versions of
+Java have support for components similar to that employed in
+Visual Basic (JavaBeans) and intrinsic database support using
+Java Data Base Classes (JDBC). This database support might prove
+to be useful in this product.</font></p>
+
+<p><font size="2" face="Arial"><b>Conclusion</b></font></p>
+
+<p><font size="2" face="Arial">While any of these languages could
+potentially be used for implementing the project, it is clear
+that Java contains more of the required features than any other
+implementation language. Specifically, a number of IDE
+(integrated development environments) systems for constructing
+Java applications have been released in the last few months. </font></p>
+
+<p><font size="2" face="Arial">In particular, Borland's JBuilder
+provides a usable IDE, which allows the programmer to more easily
+construct visual elements of and application. In this way,
+programming is made more efficient, as the (sometimes copious
+amounts of) code required for constructing a user interface is
+generated automatically, and the programmer can concentrate on
+the more important parts of the code [Man97]. </font></p>
+
+<p><a name="_Toc404055004"><font size="4" face="Arial"><b>Software
+Engineering Summary</b></font></a></p>
+
+<p><font size="2" face="Arial">An important goal is to make the
+software maintainable, and easy to improve and extend. To this
+end, a consistent software engineering policy will be adopted in
+the implementation. This policy is summarised here.</font></p>
+
+<p><font size="2" face="Arial"><b>Programming Standards &amp;
+Conventions</b></font></p>
+
+<ul>
+    <li><font size="2" face="Arial"><i>Variable Names</i> will
+        follow common Java &amp; C++ conventions. Ordinary
+        variables will be in lower case. Multiple words can be
+        used for simple variables, in which case the first word
+        will have a lower case first letter, and remaining words
+        will be capitalised (e.g. </font><font size="2"
+        face="Courier New">myVariableName</font><font size="2"
+        face="Arial">). Class names will consist of joined
+        together words describing the class, with the first
+        letter of each word capitalised (e.g. </font><font
+        size="2" face="Courier New">MyClass</font><font size="2"
+        face="Arial">). Constants (static final member variables
+        in Java) will be in uppercase with underscore characters
+        separating words if necessary (e.g. </font><font size="2"
+        face="Courier New">MY_CONSTANT</font><font size="2"
+        face="Arial">).</font></li>
+    <li><font size="2" face="Arial"><i>Comments</i> will use the
+        Sun recommended javadoc format. This involves preceeding
+        each member function and class with a descriptive
+        comment, outlining it's parameters and return value if it
+        is a method. This has the added advantage that
+        documentation can be automatically produced from the
+        source code using a software program supplied with the
+        Java Development Kit. Short comments will be used to
+        explain non-obvious sections of code. Generally,
+        implementation specific comments will be included <i>inside</i>
+        a member definition, while design specific ones will be
+        included <i>before</i> the relevant member.</font></li>
+    <li><font size="2" face="Arial"><i>Files</i> will be arranged
+        in the standard Java way: the code for each class will be
+        contained in a separate file, and entire modular units
+        (called packages) will be included in separate
+        subdirectories.</font></li>
+    <li><font size="2" face="Arial"><i>Program Flow: </i>a
+        consistent program layout will be used in all source
+        files.</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Testing Arrangements</b></font></p>
+
+<p><font size="2" face="Arial">As each class is implemented, it
+will generally be tested using a test harness or with internal
+debugging code. </font></p>
+
+<p><font size="2" face="Arial">Build versions of the program will
+be tested at regular intervals, to ensure that newly added
+modules don&#146;t break the application.</font></p>
+
+<p><font size="2" face="Arial">A thorough testing procedure will
+be conducted when the project is complete.</font></p>
+
+<p><font size="2" face="Arial"><b>Dealing with Problems &amp;
+Checking Progress</b></font></p>
+
+<p><font size="2" face="Arial">The project monitoring sheet
+included in this report has a number of checkpoints. At each of
+these checkpoints, a certain set of features should have been
+completed. If this is not the case, the project will be
+considered to be behind deadline, and more time will be allocated
+to it to catch up.</font></p>
+
+<p><font size="2" face="Arial">Should problems arise, they will
+be dealt with in an appropriate manner, as early as possible.
+Problems which might threaten the deadlines of the project, and
+which are not central to the solution may be abandoned in the
+interest of completing the project. Each large problem will be
+noted in the project log, and the solution detailed.</font></p>
+
+<p><a name="_Toc404055005"><font size="4" face="Arial"><b>Software
+Design</b></font></a></p>
+
+<p><font size="2" face="Arial"><b>Overview</b></font></p>
+
+<p><font size="2" face="Arial">This section will detail some of
+the basic classes and methods involved in the implementation of
+the project. </font></p>
+
+<p><font size="2" face="Arial">Time has been allotted on the
+project monitoring sheet for refining this design further and
+providing a more detailed class design.</font></p>
+
+<p><font size="2" face="Arial"><b>Project Packages</b></font></p>
+
+<p><font size="2" face="Arial">Java code is normally divided into
+a set of distinct packages, which contain a number of classes.
+The three packages are highlighted in the table below. The
+packages have been named following Sun's recommended package
+naming conventions.</font></p>
+
+<table border="1" cellpadding="7" cellspacing="1" width="528">
+    <tr>
+        <td valign="top" width="47%"><font size="2" face="Arial"><b>uk.ac.st_and.dcs.newsagent</b></font></td>
+        <td valign="top" width="53%"><font size="2" face="Arial">Most
+        general classes</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="47%"><font size="2" face="Arial"><b>uk.ac.st_and.dcs.newsagent.agents</b></font></td>
+        <td valign="top" width="53%"><font size="2" face="Arial">Agent
+        classes</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="47%"><font size="2" face="Arial"><b>uk.ac.st_and.dcs.newsagent.gui</b></font></td>
+        <td valign="top" width="53%"><font size="2" face="Arial">GUI
+        classes</font></td>
+    </tr>
+</table>
+
+<p><font size="2" face="Arial"><b>Class MessageBody</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>In the
+uk.ac.st_and.dcs.newsagent package. Defines the message body of a
+news article.</font></p>
+
+<p><font size="2" face="Arial"><i>Methods:</i> </font></p>
+
+<ul>
+    <li><font size="2" face="Arial">String getText() retrieves
+        the text of the MessageBody.</font></li>
+    <li><font size="2" face="Arial">void insertText(int pos,
+        String text) inserts text at the specified position into
+        the MessageBody.</font></li>
+    <li><font size="2" face="Arial">void insertQuoted(int pos,
+        String text) inserts text into the MessageBody as a quote
+        (probably from another message).</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Class MessageHeader</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>In the
+uk.ac.st_and.dcs.newsagent package. Defines the message header of
+a news article.</font></p>
+
+<p><font size="2" face="Arial"><i>Methods:</i></font></p>
+
+<ul>
+    <li><font size="2" face="Arial">MessageHeader(MessageHeader
+        original) &#150; constructor to create a header of a
+        reply to the specified message header.</font></li>
+    <li><font size="2" face="Arial">String getFieldValue(String
+        fieldname) &#150; retrieves the value of the specified
+        header field.</font></li>
+    <li><font size="2" face="Arial">boolean isValid() &#150;
+        determines whether the header conforms to RFC 850.</font></li>
+    <li><font size="2" face="Arial">boolean isAReply() &#150;
+        determines whether the header is a reply or an original
+        post.</font></li>
+    <li><font size="2" face="Arial">void setFieldValue(String
+        fieldname, String fieldvalue) &#150; sets the specified
+        header field to the specified value.</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Abstract Interface
+MessageProvider</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>Any class
+which subclasses a MessageProvider is an object that is capable
+of supplying messages (see NNTPCacheProvider and
+NNTPServerProvider below.)</font></p>
+
+<p><font size="2" face="Arial"><i>Methods:</i></font></p>
+
+<ul>
+    <li><font size="2" face="Arial">MessageHeader[]
+        getHeaders(Newsgroup ng); &#150; retrieves the headers
+        from the newsgroup.</font></li>
+    <li><font size="2" face="Arial">MessageHeader[]
+        getHeaders(Newsgroup ng, int headerLimit); &#150;
+        retrieves the headers from the newsgroup, with the
+        specified limit on the number of downloaded headers.</font></li>
+    <li><font size="2" face="Arial">MessageBody getBody(Newsgroup
+        ng, MessageHeader mhead); &#150; retrieves the message
+        body of the message in newsgroup ng corresponding to
+        header mhead.</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Class NNTPCacheProvider
+implements MessageProvider</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>A
+MessageProvider that provides messages from the memory or disk
+cache of messages.</font></p>
+
+<p><font size="2" face="Arial"><i>Methods </i>(see
+MessageProvider for inherited methods from superclass)<i>:</i> </font></p>
+
+<ul>
+    <li><font size="2" face="Arial">boolean
+        areHeadersCached(Newsgroup ng) &#150; determines whether
+        the headers from newsgroup ng are currently cached.</font></li>
+    <li><font size="2" face="Arial">boolean
+        isMessageCached(Newsgroup ng, MessageHeader hd) &#150;
+        determines whether the message body belonging to header
+        hd is cached.</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Class NNTPServerProvider
+implements MessageProvider</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>A
+MessageProvider that provides messages from the network.</font></p>
+
+<p><font size="2" face="Arial"><i>Methods </i>(see
+MessageProvider for inherited methods from superclass):</font></p>
+
+<ul>
+    <li><font size="2" face="Arial">isMessageAvailable(Newsgroup
+        ng, MessageHeader hd) &#150; determines whether the
+        message corresponding to the header hd is available on
+        the server.</font></li>
+</ul>
+
+<p><font size="2" face="Arial"><b>Class NNTPServer</b></font></p>
+
+<p><font size="2" face="Arial"><i>Description: </i>Provides a
+physical interface to the NNTP server through the network.</font></p>
+
+<p><font size="2" face="Arial"><i>Methods:</i></font></p>
+
+<ul>
+    <li><font size="2" face="Arial">public NNTPServer(String
+        serverName) &#150; creates a new NNTPServer and opens a
+        connection to the specified TCP/IP host on the default
+        NNTP port.</font></li>
+    <li><font size="2" face="Arial">public NNTPServer(String
+        serverName, int port) &#150; as above, but on a specified
+        port.</font></li>
+    <li><font size="2" face="Arial">public NNTPServer(String
+        serverName, int port, boolean connect) &#150; as above,
+        but does not immediately connect to the server.</font></li>
+    <li><font size="2" face="Arial">public boolean
+        openConnection() &#150; opens a connection to the NNTP
+        host this object is identified with.</font></li>
+    <li><font size="2" face="Arial">public void closeConnection()
+        &#150; closes the connection to the NNTP host.</font></li>
+    <li><font size="2" face="Arial">public boolean isConnected()
+        &#150; determines whether we are currently connected to
+        an NNTP host.</font></li>
+    <li><font size="2" face="Arial">public boolean
+        isPostingAllowed() &#150; determines whether the NNTP
+        host allows posting of messages.</font></li>
+    <li><font size="2" face="Arial">public String getLastError()
+        &#150; returns the last NNTP error that occurred. Nb.
+        Network errors are handled by exceptions.</font></li>
+    <li><font size="2" face="Arial">public MessageHeader
+        getHeader(String msg-id) &#150; corresponds to the NNTP
+        HEAD command.</font></li>
+    <li><font size="2" face="Arial">public MessageBody
+        getBody(String msg-id) &#150; corresponds to the NNTP
+        BODY command.</font></li>
+    <li><font size="2" face="Arial">public void
+        selectGroup(Newsgroup ng) &#150; corresponds to the NNTP
+        GROUP command.</font></li>
+    <li><font size="2" face="Arial">public Newsgroup[]
+        listNewsgroups() &#150; NNTP LIST command</font></li>
+    <li><font size="2" face="Arial">public Newsgroup[]
+        listNewGroups() &#150; NNTP NEWGROUPS command</font></li>
+    <li><font size="2" face="Arial">public String[] getNewNews()
+        &#150; NNTP NEWNEWS command</font></li>
+    <li><font size="2" face="Arial">public void
+        postArticle(MessageHeader head, MessageBody bdy) &#150;
+        NNTP POST command.</font></li>
+</ul>
+
+<p><font size="2"><img src="Image9.gif" width="700" height="1016"></font></p>
+
+<p align="right"><a name="_Toc404055006"><font size="4"
+face="Arial Black"><b>Bibliography</b></font></a></p>
+
+<table border="0" cellpadding="7" cellspacing="0" width="516">
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Man97]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Manber,
+        U. 1997. A Text Compression Scheme that Allows Fast
+        Searching Directly in the Compressed File. <i>ACM Trans.
+        Inf. Syst. 15, </i>2 (Apr.), 124-136.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Sed88]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Sedgewick,
+        R. 1988. Algorithms (2<sup>nd</sup> ed.), Addison Wesley.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Fla97]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Flanagan,
+        D. 1997. Java In A Nutshell (2<sup>nd</sup> ed.),
+        O'Reilly &amp; Associates.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[KL86]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Kantor,
+        B. &amp; Lapsley P. Feb. 1986. Network News Transfer
+        Protocol: A Proposed Standard For The Stream Based
+        Transmission of News. <i>RFC 977</i>, U.C. San Diego.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Cro82]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Crocker
+        D. Aug. 1982. Standard for the Format of ARPA Internet
+        Text Messages. <i>RFC 822</i>, Dept. Electrical
+        Engineering, University of Delaware.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Hor83]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Horton,
+        M. Jun. 1983. Standard for Interchange of USENET
+        Messages. <i>RFC 850</i>, Usenet Project.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[Pos82]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Postel,
+        J. Sept. 1982. Simple Mail Transfer Protocol. <i>RFC 821</i>,
+        UFC / Information Sciences Institute.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[KPC95]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Kupiec
+        J., Pedersen J. and Chen F. 1995, A Trainable Document
+        Summarizer. <i>Proceedings, ACM SIGIR 1995</i>, 68-73.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%"><font size="2" face="Arial">[MMM97]</font></td>
+        <td valign="top" width="86%"><font size="2" face="Arial">Manning,
+        M. M. 1997, Teach Yourself JBuilder in 14 Days, Sams.net
+        Publishing.</font></td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top" width="14%">&nbsp;</td>
+        <td valign="top" width="86%">&nbsp;</td>
+    </tr>
+</table>
+</body>
+</html>
