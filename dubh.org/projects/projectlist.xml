@@ -46,6 +46,15 @@
     </html>
   </section>
   
+  <section name="Marco" link="marco/index.xml">
+    <html>
+      <p>
+        Project Marco aims to provide a hosted bookmarks service for
+        multiple users.
+      </p>
+    </html>
+  </section>  
+  
   <section name="JFreeCiv" link="jfreeciv/index.xml">
     <html>
       <p>
@@ -133,13 +142,13 @@
 
   <cvs-info>
     <date>
-      $Date: 2001-03-16 02:23:26 $
+      $Date: 2001-05-07 02:23:18 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.7 $
+      $Revision: 1.8 $
     </revision>
   </cvs-info>
 
