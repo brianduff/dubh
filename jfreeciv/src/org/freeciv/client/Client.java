@@ -35,9 +35,10 @@ import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
 
 /**
- * This is the main class of Freeciv4J.
+ * This is the main class for the JFreeciv client. Only one instance of this
+ * class exists.
  *
- * @author Artur Abies
+ * @author Artur Biesiadowski
  * @author Brian Duff
  */
 public class Client implements Constants
@@ -66,34 +67,8 @@ public class Client implements Constants
   private int m_serverPort;
   // The username the user is connected using
   private String m_userName;
-  // BD: redundant?
-  private boolean alive = true;
-  // The current state of the client.
-  private int clientGameState = Constants.CLIENT_BOOT_STATE;
-  // All the units in the game are stored in this list
-  private ArrayList units = new ArrayList( 1000 );
-  // All the cities in the game are stored in this list
-  private ArrayList cities = new ArrayList( 1000 );
-  // Information about all current players is stored in this
-  // array
-  //private PktPlayerInfo[] players;
-  // -- check this
-  // Every turn, a game info packet is sent by the server with
-  // global information about the current state of the game. The
-  // packet is stored here.
-  //private PktGameInfo gameInfo;
-  // Information about the current player is stored here.
-  // private PktPlayerInfo currentPlayer;
-  //////////////////////// UI Components
-  // The main map component
-
-  // The desktop and MDI stuff
-
-
-  int scaleDiv = 1;
-  int scaleMul = 1;
-  // BD: Same as clientGameState???
-  int gameState;
+  // The current state of the client
+  private int gameState = Constants.CLIENT_BOOT_STATE;
 
   // recyc_init in climisc.c
   private boolean m_recycInit = false;
@@ -110,11 +85,6 @@ public class Client implements Constants
   public static final int minorVer = Constants.MINOR_VERSION;
   public static final int patchVer = Constants.PATCH_VERSION;
   public static final String CAPABILITIES = "+1.11.6 conn_info";
-  public static final Integer MAP_PANEL_LAYER = new Integer( 0 );
-  public static final Integer CITY_DIALOG_LAYER = new Integer( 2 );
-  public static final Integer ADVISOR_DIALOG_LAYER = new Integer( 3 );
-  public static final Integer HELP_DIALOG_LAYER = new Integer( 4 );
-  public static final Integer SYSTEM_INFO_DIALOG_LAYER = new Integer( 5 );
 
 
   private MainWindow m_mainWindow;
