@@ -1,0 +1,50 @@
+<!-- $Id: build.xml,v 1.1 2000-08-20 18:09:41 briand Exp $ -->
+  
+<project name="dju" default="all" basedir=".">
+  <target name="init">
+    <tstamp/>
+    
+    <echo message="DJU Build Started at ${TODAY} ${TSTAMP}" />
+    
+    <property name="product" value="Dubh Java Utilities" />
+    <property name="version" value="2.0.1" />
+    
+    <property name="cvsmodule" value="dju" />
+    <property name="srcdir" value="src" />
+    <property name="classdir" value="class" />
+    <property name="cvsroot" value="/usr/local/cvsroot" />
+    <property name="classpath" value="" />
+    
+    
+  </target>
+  
+  
+  <!-- Pull source code from CVS and set up initial dirs -->
+  <target name="pullsrc" depends="init">
+    <cvs  cvsRoot="${cvsroot}"
+          command="export"
+          package="${cvsmodule}"
+          dest="."
+          date="now"
+          quiet="true"
+          failonerror="true"
+    />
+      
+    <mkdir dir="${cvsmodule}/${classdir}" />
+      
+  </target>
+  
+  <!-- Compile all source code -->
+  <target name="src" depends="pullsrc">
+    <javac  srcdir="${cvsmodule}/${srcdir}"
+            destdir="${cvsmodule}/${classdir}"
+            classpath="${classpath}">
+      <exclude name="org/javalobby/dju/ui/commander/**" />
+      <exclude name="org/javalobby/dju/dev/**" />
+      <exclude name="org/javalobby/dju/ui/treetable/**" />
+
+    </javac>
+            
+  </target>
+  
+</project>
