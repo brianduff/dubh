@@ -21,8 +21,8 @@
   <section id="guestaccess" name="Guest (Read Only) Access to NewsAgent Source">
     <html>
       <p>
-        You can browse the CVS tree for NewsAgent and other Dubh projects on
-        the web at <a href="http://cvs.dubh.org">http://cvs.dubh.org</a>.
+        You can <a href="/servlet/jcvs/index.html">browse the CVS tree</a>
+        for NewsAgent and other Dubh projects on the web.
       </p>
       <p>
         If you have a CVS client installed (e.g. <a href="http://www.wincvs.org">
