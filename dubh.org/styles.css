@@ -1,5 +1,5 @@
 /* 
- * $Id: styles.css,v 1.13 2001-06-03 04:30:16 briand Exp $
+ * $Id: styles.css,v 1.14 2001-06-03 04:31:27 briand Exp $
  *
  * Defines common styles that apply to all pages on dubh.org
  *  
@@ -132,7 +132,7 @@ body {
   color: #000000;
 }
 
-dubhPageFooter {
+.dubhPageFooter {
    font-size: 8pt;
    color: #505050;
    background-color: #ffffff;
