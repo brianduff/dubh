@@ -1,5 +1,5 @@
 package org.freeciv.client;
-import java.awt.*;
+
 import java.beans.*;
 import javax.swing.*;
 public class LabelledMenuItem extends JMenuItem implements PropertyChangeListener
