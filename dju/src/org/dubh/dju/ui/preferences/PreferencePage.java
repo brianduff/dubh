@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: PreferencePage.java,v 1.1 1999-03-22 23:32:14 briand Exp $
+//   $Id: PreferencePage.java,v 1.2 1999-06-01 00:17:35 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -27,6 +27,7 @@ package dubh.utils.ui.preferences;
 import javax.swing.*;
 import java.awt.*;
 import dubh.utils.misc.UserPreferences;
+import dubh.utils.misc.ResourceManager;
 /**
  * A page in a preferences dialog. You should subclass this to 
  * provide your own pages, implementing the save() and revert()
@@ -34,7 +35,7 @@ import dubh.utils.misc.UserPreferences;
  * These methods should just write values and read from the 
  * UserPreferences object, not actually save it.
  * @author Brian Duff
- * @version $Id: PreferencePage.java,v 1.1 1999-03-22 23:32:14 briand Exp $
+ * @version $Id: PreferencePage.java,v 1.2 1999-06-01 00:17:35 briand Exp $
  */
 public abstract class PreferencePage extends JPanel 
 {
@@ -70,6 +71,21 @@ public abstract class PreferencePage extends JPanel
       add(m_titlePanel, BorderLayout.NORTH);
       if (m_content == null) m_content = new JPanel();
       add(m_content,      BorderLayout.CENTER);
+   }      
+   
+   /**
+    * Create a preference page with a title and hint text initialised from
+    * a specified resourcemanager. The resource file should have two keys
+    * for this page: pageId.title and 
+    * pageId.hintText. This method sets the content to
+    * null. You should call {@link #setContent(Container)} to give this
+    * page a content panel.
+    */
+   public PreferencePage(ResourceManager r, String pageId)
+   {
+      this(r.getString(pageId+".title"), 
+           r.getString(pageId+".hintText"), 
+           null);
    }
    
    public String getTitle()
@@ -106,4 +122,7 @@ public abstract class PreferencePage extends JPanel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/03/22 23:32:14  briand
+// A page in a dubh utils preferences dialog.
+//
 //

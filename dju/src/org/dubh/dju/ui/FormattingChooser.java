@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: FormattingChooser.java,v 1.3 1999-03-22 23:37:18 briand Exp $
+//   $Id: FormattingChooser.java,v 1.4 1999-06-01 00:17:34 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -344,33 +344,7 @@ public class FormattingChooser extends ValidatorPanel implements ValidatorPanel.
       else
          return dlg.getChooser();
    }
-   
-   public static void main(String[] args)
-   {
-  // try {
-      // Set the look & feel to the correct L&F for this OS.
-      // Nb. This uses the Generic metal L&F under OS which it doesn't
-      // know (particularly Digital UNIX). Can set it to motif manually,
-      // but Metal L&F is actually pretty nice... :)
-     //  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-     // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-//    } catch (Exception  e) {
-      Debug.println("Unknown Platform for Swing Look&Feel. Using Java Look & Feel.");
-  //  }
-
-   
-   
-      FormattingChooser ok = FormattingChooser.doDialog(new JFrame());
       
-      if (ok == null)
-         System.out.println("Dialog was cancelled.");
-      else
-      {
-         System.out.println("Font was "+ok.getFormatFont());
-         System.out.println("Color was "+ok.getFormatColor());
-      }
-   }
-   
    class TextFieldActivatedList extends JList
    {
       private boolean m_sensitive;
