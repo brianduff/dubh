@@ -34,7 +34,7 @@
       </box>
     </column>    
     
-    <column>      
+    <column width="25%">      
       <box title="XMLHack News">
         <xsql:include-xsql href="xmlnews.xml" />
       </box>
@@ -48,13 +48,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-05-13 17:27:34 $
+      $Date: 2001-05-13 17:47:50 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.1 $
+      $Revision: 1.2 $
     </revision>
   </cvs-info>
   
