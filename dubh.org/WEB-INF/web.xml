@@ -12,10 +12,6 @@
 
 <web-app>
 
- <welcome-file-list>
-   <welcome-file>index.xml</welcome-file>
- </welcome-file-list>
-
  <!-- 
       Use the Oracle XSQL Servlet to process documents with the .xsql and .xml
       Extensions
@@ -25,6 +21,12 @@
    <servlet-name>oracle-xsql-servlet</servlet-name>
    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
  </servlet>
+
+ <welcome-file-list>
+   <welcome-file>index.xml</welcome-file>
+ </welcome-file-list>
+
+
  
  
  <servlet-mapping>
