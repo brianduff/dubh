@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org: Articles: Installing Oracle XSQL Servlet on Tomcat 3.3</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../navigator.xml?me=xml" />
+  </navigator>  
+  
+   
+  <content type="mixed">
+    <html>
+      <h1>Installing Oracle XSQL Servlet on Tomcat 3.3</h1>
+
+      <h2>Summary</h2>
+
+      <p>
+        Although Tomcat 3.3 is still in production, it's already more stable, 
+        scalable and configurable than previous versions. This article describes
+        how to set up the XSQL Servlet, supplied with Oracle XDK 9.0.2.0.0A beta 
+        on Tomcat 3.3 milestone 4.
+      </p>
+
+      <h2>Required Software</h2>
+
+      <ul>
+        <li><a href="http://jakarta.apache.org/builds/jakarta-tomcat/release/v3.3-m4/bin/">
+          Jakarta Tomcat 3.3 Milestone 4</a>
+        </li>
+        <li><a href="http://technet.oracle.com/tech/xml/xdk_java/index.htm">
+          Oracle XDK for Java Beta 9.0.2.0.0A</a> (the 9.0.1.0.0 production release will
+          work just as well). This includes the XSQL servlet.
+        </li>
+      </ul>
+      
+      <h2>Installing Tomcat</h2>
+      
+      <p>
+        The first step is to install Tomcat. This is pretty easy and is already
+        well explained in the Tomcat documentation. In summary:
+      </p>
+      
+      <ol>
+        <li>
+          Download and extract the zip or tar.gz file and decompress it into a
+          suitable location.
+        </li>
+        <li>
+          Install Java 1.2 or above and ensure that java is in your PATH.
+        </li>
+      </ol>
+      
+      <h2>Install the XSQL Servlet</h2>
+      
+      <p>
+        The installation instructions supplied with XSQL don't cover Tomcat 3.3,
+        this isn't too surprising, since a release version of Tomcat 3.3 isn't
+        available yet. Tomcat's architecture, particularly with regard to the way
+        the CLASSPATH is configured has changed substantially since 3.2. This 
+        makes life much easier, as we'll see, but it does mean that the XDK
+        installation instructions for Tomcat 3.2 are unlikely to work for 3.3.
+      </p>
+      
+      <h3>1. Set up the CLASSPATH for the XSQL Servlet</h3>
+      
+      <p>
+        Copy the following files from the XDK lib directory to $TOMCAT_HOME/lib/apps:
+      </p>
+      
+      <ul>
+        <li><code>sax2.jar</code></li>
+        <li><code>xsu12.jar</code> (or <code>xsu111.jar</code> if you're using java 1.1)</li>
+        <li><code>oraclexsql.jar</code></li>
+        <li><code>xmlparserv2.jar</code></li>
+      </ul>     
+      
+      <p>
+        In Tomcat 3.3, the classpath is built up dynamically based on the
+        contents in various subdirectories of $TOMCAT_HOME/lib. Multiple
+        classloaders are employed by the servlet engine. This is 
+        particularly useful if you want to avoid library clashes between
+        your applications (servlets) and the servlet container (tomcat).
+      </p>
+      
+      <ul>
+        <li>
+          <b>lib</b>: 
+            contains the two jar files stop-tomcat.jar and tomcat.jar, which
+            contain classes used to stop and start tomcat.
+        </li>
+        
+        <li>
+          <b>lib/apps</b>:
+            Jars shared by all web applications (e.g. servlets). Any Jars placed
+            here will not interfere with the JARs required by Tomcat.
+        </li>
+        
+        <li>
+          <b>lib/common</b>:
+            Jars shared between all web applications and Tomcat. The core servlet
+            API (servlet.jar) is contained in this directory, along with similar
+            libraries.
+        </li>
+        
+        <li>
+          <b>lib/container</b>:
+            Jars used by Tomcat itself. The classes in these Jars won't be available
+            or interfere with web applications.
+        </li>
+        
+      </ul>
+      
+      <p>
+        For XSQL servlet, since we want to share the JAR files amongst all 
+        web applications, but don't want them to interfere with Tomcat (in
+        particular, we want to avoid problems with the two potentially different
+        XML parsers supplied with both products), which is why we put the XSQL servlet
+        jars in the lib/apps directory.
+      </p>
+    
+
+      
+      <h3>2. Set up the CLASSPATH for the Oracle JDBC Drivers</h3>
+      
+      <p><b>Important:</b> You need to do this even if you are not using XSQL with
+        another vendor's database (see below)
+      </p>
+      
+      <ol>
+        <li>
+          Download the JDBC drivers from 
+          <a href="http://technet.oracle.com/software/tech/java/sqlj_jdbc/software_index.htm">
+          OTN</a>. Make sure you get the correct drivers for your database release. Copy
+          classes12.zip (Java 1.2 or greater) or classes111.zip (Java 1.1) to 
+          $TOMCAT_HOME/lib/apps.
+        </li>
+        <li>
+          Change the extension of the zip files to .jar (i.e. rename classes12.zip to
+          classes12.jar, or classes111.zip to classes111.jar).
+        </li>
+      </ol>
+        
+      
+      <p>
+        There are a number of issues with the Oracle JDBC drivers to be aware of. Firstly,
+        although the XSQL Servlet installation instructions suggest that classes12.zip
+        and classes111.zip (the Oracle JDBC drivers) are shipped with XDK, they don't
+        seem to be included in the 9.0.2.0.0A beta release. 
+      </p>
+      
+      <p>
+        Another issue with XSQL is that it requires the Oracle JDBC drivers to be
+        present even if you are using a completely different database. If the Oracle
+        JDBC drivers are not present, then XSQL will fail when trying to establish
+        a database connection.
+      </p>
+      
+      <p>
+        The second issue is with Tomcat itself - its "automatic" classpath support
+        does not seem to recognize .zip files, even though these are just as valid as
+        .jar files. .zip files seem to be out of vogue, so perhaps this is a
+        conscious decision. But it's more likely to be a bug.
+      </p>
+      
+
+      <h3>3. Add JDBC Drivers for Databases Other Than Oracle to the CLASSPATH</h3>
+      
+      <p>
+        Skip this step if you are using Oracle.
+      </p>
+      
+      <p>
+        For other databases, download a suitable JDBC driver (e.g. 
+        <a href="http://mmmysql.sourceforge.net/">MM MySQL</a> for 
+        <a href="http://www.mysql.com/">MySQL</a>
+        and copy the JAR file to the $TOMCAT_HOME/lib/apps directory.
+      </p>
+      
+      
+      <h3>4. Modify the Default XSQLConfig and Put it in the CLASSPATH</h3>
+      
+      <ol>
+        <li>
+          Follow the instructions in the XSQL Servlet documentation provided
+          with the XDK in the section 
+          "Setting Up the Database Connection Definitions for Your Environment".
+          The end result should be an XSQLConfig.xml file in xsql/lib which is
+          customized for your database connections.
+        </li>
+        <li>
+          Use a tool such as jar, Winzip or zip to create a zip/jar file
+          containing this file. Make sure the file has the extension .jar.
+          Copy this jar file to the $TOMCAT_HOME/lib/apps directory.
+        </li>
+      </ol>
+      
+      <p>
+        Again, the "automatic" classpath support in Tomcat doesn't pick up 
+        files that aren't packaged up in jars. This slightly hacky solution
+        works around this issue, placing XSQLConfig.xml in a jar file which is
+        available on the CLASSPATH.
+      </p>
+      
+      <h3>5. Map .xsql Files to the XSQL Servlet in Your Web App Contexts</h3>
+      
+      <ol>
+        <li>
+          Locate or create a web app context that you want to use with XSQL
+          servlet. For an example, we use the ROOT context that is installed
+          with Tomcat by default. 
+        </li>
+        <li>
+          Edit <code><i>$TOMCAT_HOME</i>/webapps/ROOT/WEB-INF/web.xml</code>.
+          Modify the file so it looks similar to code snip 1 below.
+        </li>
+      </ol>
+    </html>
+    
+    <codesnip caption="web.xml with XSQL Servlet Mapping">
+<![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+  
+  <servlet>
+    <servlet-name>oracle-xsql-servlet</servlet-name>
+    <servlet-class>oracle.xml.xsql.XSQLServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>oracle-xsql-servlet</servlet-name>
+    <url-pattern> *.xsql </url-pattern>     
+  </servlet-mapping>
+
+</web-app>]]>     
+    </codesnip>
+    
+    <html>
+      <h3>6. Start Tomcat</h3>
+      
+      <p>
+        Follow the instructions supplied with Tomcat to start the servlet
+        engine. 
+      </p>
+
+      <h2>That's It!</h2>
+      
+      <p>
+        Hopefully the XSQL Servlet should now be up and running in
+        Tomcat 3.3. If you're having problems, or have any questions
+        about the installation process, you can email me
+        (<a href="mailto:Brian.Duff@oracle.com">Brian.Duff@oracle.com</a>),
+        or post a message to the 
+        <a href="http://otn.oracle.com:89/cgi-bin/forumdisplay.cgi?action=topics&amp;forum=XML&amp;number=11&amp;DaysPrune=20&amp;LastLogin=">
+        Oracle XML Discussion Group</a>.
+      </p>
+      
+      <p>
+        Note that Tomcat 3.3 is not yet officially supported for use
+        with XSQL Servlet, however, I've been using it for a while now
+        with no major problems.
+      </p>
+      
+      <p>
+        Finally, although I work for Oracle, this document was produced in my
+        free time, and I'm not in any way representing or expressing the
+        opinions of my employer.
+      </p>
+      
+    </html>
+
+
+  </content>
+  
+  <cvs-info>
+    <date>
+      $Date: 2001-06-28 23:47:46 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.1 $
+    </revision>
+  </cvs-info>
+  
+</dubhpage>
