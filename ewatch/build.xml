@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.6 2000-08-24 00:08:33 briand Exp $ -->
+<!-- $Id: build.xml,v 1.7 2000-08-24 00:10:52 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -60,6 +60,8 @@
 
     <!-- Comma separated list of xml files that should be converted to Java using the xrts transforming stylesheet -->
     <property name="xrtsfiles" value="" />
+
+    <property name="classpath" value="" />
     
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
