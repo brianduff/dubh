@@ -2,7 +2,6 @@ package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
-import org.freeciv.common.Assert;
 import org.freeciv.common.Unit;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericInteger;

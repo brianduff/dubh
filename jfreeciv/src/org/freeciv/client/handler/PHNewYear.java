@@ -3,7 +3,6 @@ package org.freeciv.client.handler;
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
 import org.freeciv.client.action.ACTEndTurn;
-import org.freeciv.common.Assert;
 import org.freeciv.common.City;
 import org.freeciv.common.Game;
 import org.freeciv.common.Map;
