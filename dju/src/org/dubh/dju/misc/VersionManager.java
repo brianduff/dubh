@@ -36,6 +36,9 @@ import java.text.MessageFormat;
 
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.PropertyResourceBundle;
+
+import java.io.InputStream;
 
 /**
  * <p>
@@ -48,6 +51,8 @@ import java.util.Hashtable;
 public class VersionManager
 {
    private static final String DEFAULT_VERFILE = "version.dat";
+   private static final String BUNDLE_VERFILE  = "version.properties";
+   
    
    private static final String CMD_BASECREATE = "basecreate";
    private static final String CMD_BASEEDIT   = "baseedit";
@@ -76,6 +81,49 @@ public class VersionManager
       return m_instance;
    }
 
+
+   /**
+    * Get version information from a resource bundle style version
+    * specifier
+    */
+   public ReadOnlyVersion getBundleVersion(String pkg)
+   {  
+      
+
+
+      if (m_versions.contains(pkg))
+      {
+         return (ReadOnlyVersion) m_versions.get(pkg);
+      }
+      else
+      {
+      
+         String slashpkg = pkg.replace('.', '/');
+         try
+         {
+
+             slashpkg = slashpkg+"/"+BUNDLE_VERFILE;
+             
+             InputStream s = ClassLoader.getSystemClassLoader().getResourceAsStream(slashpkg);
+             PropertyResourceBundle bun = new PropertyResourceBundle(s);  
+             ReadOnlyVersion ver = new PropertyVersion(bun);
+             
+             m_versions.put(pkg, ver);
+             
+             return ver;
+         }
+         catch (Exception e)
+         {
+            if (Debug.TRACE_LEVEL_1)
+            {
+               Debug.println(1, this, "Failed to initialise bundle version for "+slashpkg);
+               Debug.printException(1, this, e);
+            }
+         } 
+         
+         return new Version(); 
+      }
+   }
 
    /**
     * Get version information
