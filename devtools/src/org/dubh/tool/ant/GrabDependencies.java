@@ -1,4 +1,4 @@
-// $Id: GrabDependencies.java,v 1.4 2000-08-24 00:02:01 briand Exp $
+// $Id: GrabDependencies.java,v 1.5 2000-08-24 00:04:03 briand Exp $
 package org.dubh.tool.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -99,6 +99,8 @@ public class GrabDependencies extends Task
       for (int i=0; i < allLib.length; i++)
       {
          cp.append(f.getAbsolutePath());
+         cp.append(File.separator);
+         cp.append(f.getName());
          if (i < allLib.length-1)
          {
             cp.append(":");
