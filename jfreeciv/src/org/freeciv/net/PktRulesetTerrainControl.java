@@ -1,5 +1,5 @@
 package org.freeciv.net;
-public class PktRulesetTerrainControl extends AbstractPacket /* should also be a help item*/
+public class PktRulesetTerrainControl extends AbstractPacket 
 {
   public int river_style;
   public boolean may_road;

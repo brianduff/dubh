@@ -1,5 +1,5 @@
 package org.freeciv.net;
-public class PktRulesetNation extends AbstractPacket /* should also be a help item*/
+public class PktRulesetNation extends AbstractPacket
 {
   public int id;
   public String name;

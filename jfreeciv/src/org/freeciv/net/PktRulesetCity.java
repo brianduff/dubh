@@ -1,5 +1,5 @@
 package org.freeciv.net;
-public class PktRulesetCity extends AbstractPacket /* should also be a help item*/
+public class PktRulesetCity extends AbstractPacket
 {
   public int style_id;
   public int techreq;

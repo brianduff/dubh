@@ -1,5 +1,6 @@
 package org.freeciv.net;
-public class PktRulesetGovernmentRulerTitle extends AbstractPacket /* should also be a help item*/
+
+public class PktRulesetGovernmentRulerTitle extends AbstractPacket
 {
   public int gov;
   public int id;

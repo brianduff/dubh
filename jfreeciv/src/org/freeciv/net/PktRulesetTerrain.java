@@ -1,5 +1,5 @@
 package org.freeciv.net;
-public class PktRulesetTerrain extends AbstractPacket /* should also be a help item*/
+public class PktRulesetTerrain extends AbstractPacket
 {
   // BD: Add impl at some point
   public int id;
