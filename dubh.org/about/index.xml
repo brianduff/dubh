@@ -25,7 +25,7 @@
         technologies.
       </p>
       <p>
-        The server is maintained by <a href="../brian/index.xml">
+        The server is maintained by <a href="../brian/index.html">
         Brian Duff</a>. My surname, as well as being the favourite 
         beverage of a bloke called Homer, is derived from the 
         Gaelic <i>dubh</i>, meaning black. It seemed like as good a name
@@ -199,13 +199,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2002-03-30 05:07:27 $
+      $Date: 2002-08-07 00:47:03 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.8 $
+      $Revision: 1.9 $
     </revision>
   </cvs-info> 
   
