@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.23 2000-08-20 23:19:27 briand Exp $ -->
+<!-- $Id: build.xml,v 1.24 2000-08-20 23:28:51 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -54,7 +54,7 @@
     <property name="xrtsxsl" value="${xslthome}/xrts.xsl" />
 
     <!-- Comma separated list of files that should be copied from the source path into the classpath. You can use wildcards -->
-    <property name="copyfiles" value="" />
+    <property name="copyfiles" value="**/*.gif,**/*.properties" />
 
     <!-- Comma separated list of xml files that should be converted to Java using the xui transforming stylesheet -->
     <property name="xuifiles" value="**/*.xui" /> 
