@@ -334,7 +334,7 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   public void display()
   {
     init();
-    JDialog dlg = new JDialog( m_client, _( "Choose Race" ), true );
+    JDialog dlg = new JDialog( m_client, _( "Choose Nation" ), true );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplNation.this, BorderLayout.CENTER );
     m_dialog = dlg;
@@ -467,8 +467,18 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
     public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
     {
       Component c = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-      setText( ( (Nation)value ).getName() );
-      // TODO: Flag icon?
+      Nation n  = (Nation)value;
+      setText(  n.getName() );
+      Icon i = getClient().getTileSpec().lookupSpriteTagAlt(
+        n.getFlagGraphicStr(), n.getFlagGraphicAlt(), false, 
+        "flag", n.getName()
+      );
+
+      if (i != null)
+      {
+        setIcon(i);
+      }
+      
       return c;
     }
   }
