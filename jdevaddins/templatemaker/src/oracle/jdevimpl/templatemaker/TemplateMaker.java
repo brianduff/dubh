@@ -80,7 +80,7 @@ import oracle.jdevimpl.templatemaker.velocity.VelocityTemplateCaster;
  * Apache Jakarta Velocity template engine.
  *
  * @author Brian.Duff@oracle.com
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TemplateMaker extends BaseController
   implements Addin, ContextMenuListener, Observer
@@ -466,7 +466,7 @@ public class TemplateMaker extends BaseController
 
   public float version()
   {
-    return 0.2f;
+    return 0.3f;
   }
 
   public float ideVersion()
