@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: Shuttle.java,v 1.1 1999-06-01 00:17:35 briand Exp $
+//   $Id: Shuttle.java,v 1.2 1999-06-01 17:54:57 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * the list of items the user has selected. 
  *
  * @author Brian Duff
- * @version $Id: Shuttle.java,v 1.1 1999-06-01 00:17:35 briand Exp $
+ * @version $Id: Shuttle.java,v 1.2 1999-06-01 17:54:57 briand Exp $
  */
 public class Shuttle extends JPanel 
 {
@@ -78,6 +78,16 @@ public class Shuttle extends JPanel
       doListPanelLayout(panRight, slstRight, labRight, 2);
       doButtonPanelLayout();
       
+            
+      lstLeft.setFixedCellWidth(75);
+      lstLeft.setModel(new ShuttleListModel());
+      cmdLeftToRight.setEnabled(false);
+      cmdAllLeftToRight.setEnabled(false);
+      
+      lstRight.setFixedCellWidth(75);
+      lstRight.setModel(new ShuttleListModel());
+      cmdRightToLeft.setEnabled(false);
+      cmdAllRightToLeft.setEnabled(false);
    }
    
    private void doListPanelLayout(JPanel panel, JScrollPane scroll, JLabel label, int gridx)
@@ -96,9 +106,7 @@ public class Shuttle extends JPanel
          GridBagConstraints.BOTH, new Insets(1,1,1,1),
          0, 0
          ));
-      
-      lstLeft.setFixedCellWidth(75);
-      lstRight.setFixedCellWidth(75);
+
       
          
    }
@@ -167,6 +175,8 @@ public class Shuttle extends JPanel
    public void setLeftListItems(Object[] v)
    {
       lstLeft.setModel(new ShuttleListModel(v));
+      cmdLeftToRight.setEnabled((v.length > 0));
+      cmdAllLeftToRight.setEnabled((v.length > 0));
    }
    
    /**
@@ -178,11 +188,29 @@ public class Shuttle extends JPanel
    }
    
    /**
-    * Set the list of items displayed on the right of the shuttle.
+    * Set the list of items displayed on the right of the shuttle. Items
+    * in this list that are already included on the left will be removed
+    * from the left automatically by this method.
     */
    public void setRightListItems(Object[] v)
    {
       lstRight.setModel(new ShuttleListModel(v));
+      for (int i=0; i < v.length; i++)
+      {
+         try
+         {
+            ((ShuttleListModel)lstLeft.getModel()).removeElement(v[i]);
+         }
+         catch (Exception e)
+         {
+            ;         
+         }
+      }
+      cmdLeftToRight.setEnabled((lstLeft.getModel().getSize() > 0));
+      cmdAllLeftToRight.setEnabled((lstLeft.getModel().getSize() > 0));
+      
+      cmdRightToLeft.setEnabled((lstRight.getModel().getSize() > 0));
+      cmdAllRightToLeft.setEnabled((lstRight.getModel().getSize() > 0));
    }
    
    /**
@@ -237,7 +265,11 @@ public class Shuttle extends JPanel
    {
       shuttle(lstRight, lstLeft, items);
    }
-   
+      
+   /**
+    * A model for items in the lists, based on a Collections
+    * List object.
+    */   
    class ShuttleListModel extends AbstractListModel
    {
       private List m_vec;
@@ -249,13 +281,21 @@ public class Shuttle extends JPanel
       
       public ShuttleListModel(Object[] items)
       {
-         m_vec = new ArrayList();
+         this();
          
          for (int i=0; i < items.length; i++)
          {
             m_vec.add(items[i]);
          }
       
+      }
+      
+      /**
+       * Create a model with an empty list
+       */
+      public ShuttleListModel()
+      {
+         m_vec = new ArrayList();
       }
    
       public int getSize()
@@ -351,4 +391,7 @@ public class Shuttle extends JPanel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/06/01 00:17:35  briand
+// Assorted user interface utility code. Mostly for making layout easier.
+//
 //
