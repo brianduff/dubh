@@ -1,8 +1,5 @@
 package org.freeciv.client.action;
 
-
-import org.freeciv.client.Client;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 
@@ -12,10 +9,10 @@ public class ACTDisconnect extends AbstractClientAction
   {
     super();
     putValue( NAME, _( "Disconnect" ) );
-    setEnabled( true );
+    setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )
   {
-    getClient().setConnected( false );
+    getClient().disconnect();
   }
 }
