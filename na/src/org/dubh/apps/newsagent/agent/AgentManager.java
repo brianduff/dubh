@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: AgentManager.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+//   $Id: AgentManager.java,v 1.7 2001-02-11 15:39:41 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -47,7 +47,7 @@ import java.awt.*;
  * Agent manager
  *
  * @author Brian Duff
- * @version $Id: AgentManager.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+ * @version $Id: AgentManager.java,v 1.7 2001-02-11 15:39:41 briand Exp $
  */
 public class AgentManager {
    protected Vector m_activeSendAgents = new Vector();
@@ -461,7 +461,7 @@ public class AgentManager {
      was a problem with the directory.
    */
   private boolean checkAgentsDir() {
-       if (GlobalState.isApplet()) return true;
+   /*
    File agentDir = new File(GlobalState.agentDir);
    if (!agentDir.exists()) {
      if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agents directory doesn't exist: creating.");
@@ -480,22 +480,7 @@ public class AgentManager {
    * object.
    */
   private Properties loadAgentProperties(String agentClassName) {
-     if (GlobalState.isApplet()) return new Properties();
-   if (checkAgentsDir()) {
-     /* Get the "classpath" format of the classname. */
-     String fullPath = GlobalState.agentDir + File.separator +
-     StringUtils.replaceChar(agentClassName, '.', File.separator.charAt(0)) + ".properties";
-     File propFile = new File(fullPath);
-     if (!propFile.exists()) return null;
-     try {
-       Properties prop = new Properties();
-       prop.load(new FileInputStream(propFile));
-       return prop;
-     } catch (IOException e) {
-       return null;
-     }
-   }
-   return null;
+      return null;
 
   }
 
@@ -508,54 +493,7 @@ public class AgentManager {
    */
   private boolean saveAgentProperties(String agentClassName,
        Properties agentProperties) {
-       if (GlobalState.isApplet()) return true;
-   if (checkAgentsDir()) {
-
-     /* First, work out the directory the agent properties file is to be stored
-     * in */
-     String agentPath = GlobalState.agentDir + File.separator +
-       StringUtils.replaceChar(agentClassName, '.', File.separator.charAt(0));
-     /* Strip the class name from the end */
-     StringBuffer agentBuff = new StringBuffer(agentPath);
-     int lastSepPos = agentPath.lastIndexOf(File.separator.charAt(0));
-     if (lastSepPos > 0 && lastSepPos < agentPath.length()) {
-       /* Truncate the string to all characters up to (but not including) the
-       * last separator character. */
-       String classFile = agentPath.substring(lastSepPos+1) + ".properties";
-       agentBuff.setLength(lastSepPos);
-       agentPath = agentBuff.toString();
-       File agentDir = new File(agentPath);
-       if (!agentDir.exists()) {
-         /* Create the directories up to this dir */
-         if (!agentDir.mkdirs()) {
-           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, agentDir+" couldn't be created for agent properties.");
-           return false;
-         }
-       } else {
-         /* If it already exists, check it's a directory and not a file */
-         if (!agentDir.isDirectory()) {
-           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, agentDir+" is a file: agent properties need to be saved in a directory by this name.");
-           return false;
-         }
-       }
-       /* If we get this far, a directory exists for saving the properties. */
-       File propsFile = new File(agentDir, classFile);
-       try {
-         agentProperties.save(new FileOutputStream(propsFile),
-           "Properties for NewsAgent Agent "+agentClassName+". DO NOT EDIT!");
-         return true;
-       } catch (IOException e) {
-         if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException saving agent properties for "+agentClassName);
-         return false;
-
-       }
-
-     } else {
-       /* The agent class name can't be converted into a file name */
-       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Properties file couldn't be saved: the agent class has a dodgy class name: "+agentClassName);
-       return false;
-     }
-   } // if checkAgentsDir()
+       
    return false;
 
   }
@@ -592,6 +530,9 @@ public class AgentManager {
 //
 // New history
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2001/02/11 02:50:59  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.5  1999/11/09 22:34:40  briand
 // Move NewsAgent source to Javalobby.
 //

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: Folder.java,v 1.7 2001-02-11 02:50:58 briand Exp $
+//   $Id: Folder.java,v 1.8 2001-02-11 15:40:40 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -45,7 +45,7 @@ import org.dubh.dju.misc.Debug;
 /**
  * Represents a folder containing messages in permanent storage.
  * @author Brian Duff
- * @version $Id: Folder.java,v 1.7 2001-02-11 02:50:58 briand Exp $
+ * @version $Id: Folder.java,v 1.8 2001-02-11 15:40:40 briand Exp $
  */
 public class Folder implements MessageProvider {
 // Private instance variables
@@ -92,7 +92,8 @@ public class Folder implements MessageProvider {
    * Retrieves a File object corresponding to this folder.
    */
   public File getFile() {
-     return new File(GlobalState.foldersDir+getName());
+   return null;
+    // return new File(GlobalState.foldersDir+getName());
   }
 
   /**
@@ -198,7 +199,7 @@ public class Folder implements MessageProvider {
      /* Implemented using serialization at the moment, which will be horribly
         inefficient for folders with lots of messages. Something to think about
         in future versions, maybe.
-     */
+     *
      String fileName = GlobalState.foldersDir + getName() + File.separator + serFile;
      try {
         FileOutputStream fos = new FileOutputStream(fileName);
@@ -211,12 +212,14 @@ public class Folder implements MessageProvider {
         if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException writing folder: "+e);
         ErrorReporter.error("CantSaveToFolder", new String[] {getName()});
      }
+     */
   }
 
   /**
    * Retrieves the messages into memory.
    */
   private void restoreMessages() {
+   /*
      // See implementation comment for storeMessages().
      // Check to see if the serialised file exists. If not, call storeMessages
      // which will create an empty serialised file.
@@ -244,6 +247,7 @@ public class Folder implements MessageProvider {
         // File doesn't exist. Serialise just to create the file, folder is empty.
         storeMessages();
      }
+     */
   }
 
   /**
@@ -342,6 +346,9 @@ public class Folder implements MessageProvider {
 // 0.7 [08/04/98]: Changed to JProgressBar
 // New Log:
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2001/02/11 02:50:58  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.6  2000/08/15 23:06:23  briand
 // Testing cvs repository on dubh.org
 //

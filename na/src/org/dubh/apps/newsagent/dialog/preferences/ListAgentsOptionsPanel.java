@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: ListAgentsOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
+//   $Id: ListAgentsOptionsPanel.java,v 1.8 2001-02-11 15:42:42 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -46,7 +46,7 @@ import org.dubh.apps.newsagent.PreferenceKeys;
 /**
  * List agents options panel for the list agents tab in the options dialog:<P>
  @author Brian Duff
- @version $Id: ListAgentsOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
+ @version $Id: ListAgentsOptionsPanel.java,v 1.8 2001-02-11 15:42:42 briand Exp $
  */
 public class ListAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
@@ -158,9 +158,9 @@ public class ListAgentsOptionsPanel extends PreferencePage {
    /*
     * Now save the agents
     */
-    GlobalState.getAgentManager().setEnabledListAgentNames(installedNames);
-    GlobalState.getAgentManager().setListAgentsTable(allAgents);
-    GlobalState.getAgentManager().saveListAgents();
+    //GlobalState.getAgentManager().setEnabledListAgentNames(installedNames);
+    //GlobalState.getAgentManager().setListAgentsTable(allAgents);
+    //GlobalState.getAgentManager().saveListAgents();
   }
 
   public void revert(UserPreferences s) {
@@ -168,6 +168,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
   }
 
   void cmdAdd_actionPerformed(ActionEvent e) {
+   /*
    boolean ok = true;
    String className=null;
    while(ok) {
@@ -183,15 +184,8 @@ public class ListAgentsOptionsPanel extends PreferencePage {
        ErrorReporter.error("ListAgentsOptionsPanel.CantEnable",
          new String[] {className});
      } else {
-       /*
-        * Insert the new agent and select it.
-        */
         AgentListEntryL newEntry = new AgentListEntryL(agent, false, className);
-       /*
-        * Hmm. Swing seems to have a synchronisation bug of some sort here.
-        * I think it probably has something to do with the modal input dialog
-        * but I'm not sure. Forcing mutual exclusion seems to help.
-        */
+
        synchronized(lmAgents) {
          lmAgents.addElement(newEntry);
        }
@@ -199,6 +193,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
      }
 
    }
+   */
   }
 
   void cmdMoveUp_actionPerformed(ActionEvent e) {
@@ -341,14 +336,11 @@ public class ListAgentsOptionsPanel extends PreferencePage {
    * Populate the available agents list.
    */
   private void populateAgentsList() {
-   AgentManager am = GlobalState.getAgentManager();
+   /*AgentManager am = GlobalState.getAgentManager();
    Vector activeAgents = am.getEnabledListAgentNames();
    Enumeration enum = activeAgents.elements();
    Enumeration allAgentNames = am.getAllListAgentNames();
 
-   /*
-    * Add enabled agents in the correct order
-    */
    while (enum.hasMoreElements()) {
      String thisAgentName =  (String)enum.nextElement();
      IListAgent agent = am.getListAgent(thisAgentName);
@@ -358,15 +350,13 @@ public class ListAgentsOptionsPanel extends PreferencePage {
        lmAgents.addElement(new AgentListEntryL(agent, true, thisAgentName));
    }
 
-   /*
-    * Add disabled agents
-    */
    while (allAgentNames.hasMoreElements()) {
      String key = (String) allAgentNames.nextElement();
      if (!activeAgents.contains(key))
        lmAgents.addElement(new AgentListEntryL(am.getListAgent(key),
            false,key));
    }
+   */
   }
 
 }
@@ -496,6 +486,9 @@ class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2001/02/11 02:51:00  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.6  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
