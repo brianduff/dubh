@@ -1,4 +1,5 @@
 package org.freeciv.net;
+
 public class PktJoinGameReply extends AbstractPacket
 {
   public boolean youCanJoin;
@@ -18,7 +19,16 @@ public class PktJoinGameReply extends AbstractPacket
     youCanJoin = in.readInt() > 0;
     message = in.readZeroString();
     capabilities = in.readZeroString();
-    if( capabilities != null && capabilities.indexOf( "conn_info" ) != -1 )
+
+    // BUGBUG: There is a bug in the C code here ( watch the console messages)
+    // To reproduce, simply connect with a blank username. 
+    // 
+    // Basically, the conn_id isn't sent if the connection is refused, even
+    // if you have the conn_info capability.
+    //
+    // So we check youCanJoin before reading the conn_id.
+    if( youCanJoin && 
+      capabilities != null && capabilities.indexOf( "conn_info" ) != -1 )
     {
       conn_id = in.readInt();
     }
