@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>
-Downloads
+<%= request.getParameter( "title" ) %>
 </title>
 
 <link rel="stylesheet" href="/styles.css" type="text/css" >
@@ -11,7 +11,7 @@ Downloads
 </head>
 <body>
 <h1>
-  Downloads
+  <%= request.getParameter( "title" ) %>
 </h1>
 <p>
 
@@ -24,6 +24,7 @@ Downloads
   <% 
   String path = request.getRealPath( "" );
   java.io.File[] children = new java.io.File( path ).listFiles();
+
 
   // Sort the files by their date.
   java.util.Arrays.sort( children, new java.util.Comparator() {
