@@ -30,6 +30,11 @@ public class PktRulesetControl extends AbstractPacket
    public int playable_nation_count;
    public int style_count;
 
+  public PktRulesetControl()
+  {
+    super();
+  }
+
    public PktRulesetControl(InStream in)
    {
       super(in);
