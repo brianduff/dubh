@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AssertionFailedException.java,v 1.2 2001-02-11 02:52:10 briand Exp $
+//   $Id: AssertionFailedException.java,v 1.3 2001-02-11 15:37:16 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -25,37 +25,15 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-
 package org.dubh.dju.diagnostic;
-
-
-/**
- * This is the exception thrown when an assertion fails.
- *
- * @see org.dubh.dju.diagnostic.Assert
- * @author Brian Duff (bduff@uk.oracle.com)
- * @version $Id: AssertionFailedException.java,v 1.2 2001-02-11 02:52:10 briand Exp $
- */
-public final class AssertionFailedException extends RuntimeException
-{
-   ///////////////////////////////////////////////////////////////////////////
-   // Constructors
-   ///////////////////////////////////////////////////////////////////////////
-
-   /**
-    * Construct the exception.
-    *
-    * @param message a message to display. May be null.
-    */
-   public AssertionFailedException(String message)
-   {
-      super(message);
-   }
-}
+/** * This is the exception thrown when an assertion fails. * * @see org.dubh.dju.diagnostic.Assert * @author Brian Duff (bduff@uk.oracle.com) * @version $Id: AssertionFailedException.java,v 1.3 2001-02-11 15:37:16 briand Exp $ */public final class AssertionFailedException extends RuntimeException{   ///////////////////////////////////////////////////////////////////////////   // Constructors   ///////////////////////////////////////////////////////////////////////////   /**    * Construct the exception.    *    * @param message a message to display. May be null.    */   public AssertionFailedException(String message)   {      super(message);   }}
 
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2001/02/11 02:52:10  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.1  2000/06/14 21:28:35  briand
 // Initial Revision.
 //
