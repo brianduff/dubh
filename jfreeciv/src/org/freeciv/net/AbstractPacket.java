@@ -1,7 +1,6 @@
 package org.freeciv.net;
 
-// BAD IMPORT
-import org.freeciv.client.Constants;
+import org.freeciv.common.CommonConstants;
 import java.io.IOException;
 
 /**
@@ -10,7 +9,7 @@ import java.io.IOException;
  * @author Brian Duff
  * @since 1.10.0
  */
-abstract class AbstractPacket implements Packet,Constants
+abstract class AbstractPacket implements Packet, CommonConstants
 {
   private int m_type = -1;
   
@@ -48,6 +47,7 @@ abstract class AbstractPacket implements Packet,Constants
   {
     receive( is );
   }
+  /*
   public static void main( String[] args )
   {
     printBits( 256 );
@@ -55,6 +55,7 @@ abstract class AbstractPacket implements Packet,Constants
     printBits( 2097152 );
     printBits( 1048576 );
   }
+  */
   public static void printBits( int val )
   {
     int mask = 1;
