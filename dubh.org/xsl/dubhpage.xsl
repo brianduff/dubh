@@ -1,10 +1,10 @@
-
-
 <!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
 <!-- XML stylesheet for a "dubh page" -->
-
+ 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" />
+
+  <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" />
+
   
   <!-- The URL of the default CSS stylesheet to use if none is specified -->
   <xsl:variable name="defaultcss">/styles.css</xsl:variable>
@@ -128,10 +128,17 @@
       The actual content of the page.
   -->
   <xsl:template match="content">
+  
+    <xsl:apply-templates select="../trail" />
+  
     <xsl:choose>
     
       <xsl:when test="@type='columns'">
         <xsl:call-template name="column-content" />
+      </xsl:when>
+      
+      <xsl:when test="@type='mixed'">
+        <xsl:call-template name="mixed-content" />
       </xsl:when>
       
       <xsl:otherwise>
@@ -160,20 +167,73 @@
     
   </xsl:template>
   
+
+  <!-- Template for a "trail" of links to this page -->
+  <xsl:template match="trail">
+    <div class="trail" align="right">
+      [
+        <xsl:for-each select="ancestor">
+          <a href="{@href}"><xsl:value-of select="@title" /></a>
+          <xsl:if test="not(position() = last())">
+            <xsl:text> | </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      ]
+    </div>
+  </xsl:template>
+  
   
   <xsl:template match="box">
-    <p>
       <xsl:call-template name="RoundedBox">
         <xsl:with-param name="Title"><xsl:value-of select="@title" /></xsl:with-param>
         <xsl:with-param name="Contents">
-          <xsl:copy-of select="." />
+          <xsl:copy-of select="node()" />
         </xsl:with-param>
       </xsl:call-template>
-    </p>
   </xsl:template>
   
+  <xsl:template name="mixed-content">
+    <xsl:apply-templates />
+  </xsl:template>  
+  
   <xsl:template match="html">
-    <xsl:copy-of select="." />
+    <xsl:copy-of select="node()" />
+  </xsl:template>
+  
+  <xsl:template match="figure">
+    <div align="center">
+      <div class="thinborder">
+        <img src="{@src}" alt="{@caption}">
+          <xsl:if test="boolean(@width)">
+            <xsl:attribute name="width"><xsl:value-of select="@width" /></xsl:attribute>
+          </xsl:if>
+          <xsl:if test="boolean(@height)">
+            <xsl:attribute name="height"><xsl:value-of select="@height" /></xsl:attribute> 
+          </xsl:if>
+        </img>
+      </div>
+      <div class="caption">
+        Figure <xsl:value-of select="count(preceding::figure)+1" />: <xsl:value-of select="@caption" />
+      </div>
+    </div>    
+  </xsl:template>
+  
+  <xsl:template match="codesnip">
+    <div align="center">
+      <pre class="code">
+        <xsl:choose>
+          <xsl:when test="boolean(@src)">
+            <!-- Need to figure out how to do this -->
+          </xsl:when>
+          <xsl:otherwise>
+<xsl:value-of select="." />
+          </xsl:otherwise>
+        </xsl:choose>
+      </pre>
+      <div class="caption">
+        Code Snip <xsl:value-of select="count(preceding::codesnip)+1" />: <xsl:value-of select="@caption" />
+      </div>      
+    </div>
   </xsl:template>
   
   <!--
@@ -190,10 +250,10 @@
   <xsl:template name="footer">
     <xsl:if test="not(boolean(/dubhpage/nofooter))">
       <hr />
-      <span class="dubhPageFooter">
+      <div class="dubhPageFooter">
         <table width="100%" border="0">
           <tr>
-            <td width="70%" valign="top">
+            <td valign="top">
               <p class="dubhPageFooter">
                 Page Author: <xsl:call-template name="print-author" /><br />
                 <xsl:apply-templates select="/dubhpage/cvs-info" />
@@ -201,16 +261,24 @@
                 
               </p>
             </td>
-            <td width="30%" valign="top">
-              <p class="dubhPageFooter">
+            <xsl:if test="not(boolean(/dubhpage/notvalidhtml))">
+              <td align="center">
+                <a href="http://validator.w3.org/check/referer">
+                  <img border="0" src="/images/valid-html401.png" width="88" height="31" 
+                    alt="This page is valid HTML 4.01 Transitional" />
+                </a>
+              </td>
+            </xsl:if>
+            <td valign="top">
+              <div align="right" class="dubhPageFooter"> 
                 Powered by <a href="http://www.oracle.com">Oracle XML</a>
                 and <a href="http://www.apache.org">Apache Tomcat</a><br />
                 Copyright &#169; 1994 - 2001 Brian Duff<br />
-              </p>
+              </div>
             </td>
           </tr>
         </table>
-      </span>
+      </div>
     </xsl:if>
   </xsl:template>
   
@@ -223,7 +291,7 @@
       <!--
         Oracle bug# 1722555 with the XSL processor
         CONFORMANCE: 2-ARGUMENT DOCUMENT() FUNCTION NOT RECOGNIZED
-        Currently (15 April 200) assigned and open. This means, the 
+        Currently (15 April 2001) assigned and open. This means, the 
         redirect attribute is currently relative to the STYLESHEET, not the
         XML document.
       -->
