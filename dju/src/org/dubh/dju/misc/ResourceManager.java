@@ -231,18 +231,10 @@ public class ResourceManager {
      int oldValue = prefix.length();
      prefix.append(c.getName());
      
-     if (Debug.TRACE_LEVEL_3)
-     {
-        Debug.println(3, this, "Doing component "+prefix);
-     }
      
      if (c instanceof Container &&
          ((Container)c).getComponentCount() > 0 && c.getName() != null)
      {
-        if (Debug.TRACE_LEVEL_3)
-        {
-           Debug.println(3, this, "Component is a container with contents....");
-        }
      
         int pf = prefix.length();
         prefix.append(".");
@@ -253,10 +245,6 @@ public class ResourceManager {
      {
         if (c.getName() != null)
         {
-           if (Debug.TRACE_LEVEL_3)
-           {
-              Debug.println(3, this, "Component has a name. Looking for a handler...");
-           }
            for (int i=0; i < m_handlers.size(); i++)
            {
               ComponentHandler handler = 
@@ -264,10 +252,6 @@ public class ResourceManager {
                  
               if (handler.getHandledClass().isInstance(c))
               {
-                 if (Debug.TRACE_LEVEL_3)
-                 {
-                    Debug.println(3, this, "Found a handler");
-                 }                
                  for (int j=0; j < handler.getSupportedProperties().length; j++)
                  {
                     setComponentProperty(prefix, c, handler.getSupportedProperties()[j]);
