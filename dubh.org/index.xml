@@ -22,6 +22,16 @@
         <p>
           It's a web page belonging to Brian Duff with some random stuff on it.
         </p>
+        <h2>Quote of the Year</h2>
+        <p>
+        <i>
+        "From there Elisha went up to Bethel. As he was walking along the road, some 
+        youths came out of the town and jeered at him. "Go on up, you baldhead!" 
+        they said. "Go on up, you baldhead!" He turned around, looked at them and 
+        called down a curse on them in the name of the LORD. Then two bears came 
+        out of the woods and mauled forty-two of the youths."</i> [2 Kings 2:23-24]
+        </p>
+        <p>For some reason, I found this excessively funny.</p>
         <h2>Tomcat 3.3 and XSQL Servlet</h2>
         <p>
           <i>In <a href="tech/xml">DubhTECH: XML</a></i>
@@ -48,13 +58,13 @@
     
     <cvs-info>
       <date>
-        $Date: 2002-04-01 06:38:48 $
+        $Date: 2002-05-01 22:27:37 $
       </date>
       <author>
         $Author: briand $
       </author>
       <revision>
-        $Revision: 1.22 $
+        $Revision: 1.23 $
       </revision>
     </cvs-info>
     
