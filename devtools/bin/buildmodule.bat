@@ -1,12 +1,12 @@
 rem BuildModule, the NT version
 rem
-rem $Id: buildmodule.bat,v 1.5 2000-08-21 00:31:56 briand Exp $
+rem $Id: buildmodule.bat,v 1.6 2000-08-21 00:32:59 briand Exp $
 
 set BUILD_DIR=.
 set DT=devtools\lib
 # All this stuff is needed to build Dubh tools - most of it is for the XSLT
 # transformations for UI and RTS.
-set EXTRA_CLASSPATH=%DT%\devtools-1.0.jar;%DT%\jaxp.jar;%DT%\parser.jar:%DT%\ant.jar:%DT%\xalan_1_0_1.jar:%DT%\optional.jar:%DT%\xerces_1_0_3.jar
+set EXTRA_CLASSPATH=%DT%\devtools-1.0.jar;%DT%\jaxp.jar;%DT%\parser.jar;%DT%\ant.jar;%DT%\xalan_1_0_1.jar;%DT%\optional.jar;%DT%\xerces_1_0_3.jar
 set ANT_HOME=e:\jakarta-ant
 set ANT_MAIN=org.apache.tools.ant.Main
 
