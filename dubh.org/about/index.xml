@@ -12,11 +12,187 @@
     <xsql:include-xsql href="../navigator.xml?me=about" />
   </navigator>  
   
-  <content>
+  <content type="mixed">
+    <html>
     <h1>About Dubh.Org</h1>
-    <xsql:include-xsql href="page.xml" />
+
+    <h2>What is Dubh.Org?</h2>
+
+      <p>
+        Dubh.Org is a web server which is mostly dedicated to
+        the development and support of several open source <a
+        href="../projects/index.xml">projects</a> and other assorted
+        technologies I feel like experimenting with on any given day.
+      </p>
+      <p>
+        The server is maintained by <a href="../brian/index.xml">
+        Brian Duff</a>. My surname, as well as being the drink particularly
+        favoured by Homer Simpson &amp; chums is actually derived from the 
+        Gaelic <i>dubh</i>, meaning black. It seemed like as good a name
+        as any for a web site and no-one else was using it, so here we are...
+      </p>
+      <p>
+        This site is an "evolved" version of my homepage, which has been
+        around since the glorious early web days of mid 1994. 
+      </p>
+  
+    <h2>Hardware</h2>
+
+      <p>
+        Dubh.Org runs on a Cobalt RAQ3 dedicated server with a T1 connection
+        running Cobalt's
+        slightly modified version of Red Hat Linux.  I'm
+        renting the server from <a href="http://www.powerraq.com">UK2NET</a>,
+        whom I heartily recommend if, like me, you want to mess about with
+        up to date technologies like servlets and xml, but your ISP doesn't
+        allow this kind of thing on their web servers.
+      </p>
+      <p>
+        I divide development of this site at home between my main PC
+        (a 1GHz PIII Dell Dimension 4100 with 256Mb) and my slightly punier
+        650MHz PIII Dell Inspiron 7500 laptop. Again, 
+        <a href="http://www.dell.com">Dell</a> did a 
+        great job with both computers.
+      </p>
+      <p>
+        My home PC is connected to the internet via a Terayon Cable Modem
+        with a fast 512Kbps connection provided by <a href="http://www.ntl.com">
+        NTL</a>. Although the IP is dynamic, it tends to stay relatively
+        static, so I've aliased the host name sma.dubh.org to my home PC. If
+        it's switched on, you can visit the dubh.org "staging" area, which will
+        have stuff I'm in the middle of working on, on 
+        <a href="http://sma.dubh.org">http://sma.dubh.org</a> (it generally
+        won't look too different from www.dubh.org).
+      </p>
+
+  
+  <h2>Software</h2>
+
+      <p>
+        I use the tools in the <b>Oracle XDK</b>
+        to dynamically transform <b>XML</b> documents on the
+        server. This technology lets me just define the content for each
+        page in XML, and dynamically build up all the other stuff (heading, 
+        footer, navigator etc.), the layout and the style.
+      </p>
+      
+      <p>
+        One of the XDK components, The <b>XSQL servlet</b> is also used to 
+        pull data out of the 
+        <b>MySQL</b> database I have on my server in XML format and
+        transform it to readable <b>HTML</b>. (I'd use Oracle, but 
+        trying to upload it to my server would be immensely time consuming, 
+        and MySQL came preinstalled on the RAQ. Then there are the licensing
+        issues...).
+      </p>        
+        
+      <p>
+        The XSQL Servlet relies on <b>servlets</b> and <b>JDBC</b>, two
+        integral components of <b>Java 2 Enterprise Edition</b>. The 
+        <b>Tomcat Servlet Engine</b> is a key technology - a cleanly
+        implemented, open source servlet engine, which is now the
+        reference servlet implementation for Java 2 EE. The 
+        <b>Apache Web Server</b> is used to serve static content.
+      </p>
+      
+      <p>
+        For the online CVS browser, I'm using the <b>JCVS Servlet</b>. 
+        I'm a great believer in <b>SCM</b>, so everything (including all
+        the pages and configurations for this web site) is in a
+        <b>CVS repository</b> on this server.
+      </p>
+      
+      <p>
+        Any servlets I develop myself, and any other Java code I write
+        for the site is currently developed using 
+        <b>Oracle JDeveloper 9i</b> (I work on the development team
+        at Oracle for this product). This new version of JDeveloper will
+        be available in late 2001.
+      </p>
+  
+    <h2>Standards and Browsers</h2>
+      <p>
+        Until fairly recently, Microsoft's Internet Explorer browser has
+        had the best support for <a href="http://www.w3.org">web standards</a>.
+        This has made it difficult to write pages that take advantage of 
+        client side scripting, stylesheets, even some newer HTML tags unless
+        you specifically targeted that browser, or wrote browser specific
+        code in each web page. However,
+        with the advent of <a href="http://www.mozilla.org">Mozilla</a> (an
+        old, buggy, slow version of which was released as Netscape 6), this
+        is becoming less of an issue. Mozilla has even better standards
+        support than Internet Explorer.
+      </p>
+      <p>
+        For that reason, I <b>am</b> using javascript and other niceties. 
+        My use of this stuff is limited to what is specified in the standards
+        listed below:
+      </p>
+
+      <ul>
+        <li>
+          <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/">
+            Document Object Model (DOM) Level 2
+          </a>
+        </li>
+        <li>
+          <a href="http://www.w3.org/TR/REC-CSS2/">
+            Cascading Stylesheets (CSS), Level 2
+          </a>
+        </li>
+        <li>
+          <a href="http://www.w3.org/TR/html4/">
+            Hypertext Markup Language (HTML) 4.01 Transitional
+          </a>
+        </li>
+        <li>
+          <a href="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">
+            ECMAScript</a> (of which JavaScript and JScript are implementations)
+        </li>
+      </ul>
+
+      <p>
+        I test most of my pages on Mozilla (0.8.1 or later) and
+        Internet Explorer 5.5. If other browsers don't display my pages
+        correctly, it's likely to be a bug in the browser rather than a bug
+        in these pages. Particularly if you're using obsolete browser versions,
+        I'd recommend upgrading to the newest versions.
+      </p>
+      <p>
+        If you encounter a problem viewing my pages which you feel has been
+        caused by me not using these standards correctly, 
+        <a href="mailto:Brian.Duff@oracle.com">mail me</a>.
+      </p>
+
+  
+  <h2>Hosted Sites</h2>
+
+      <p>
+        I'm hosting a few other sites on this server. I'm happy to do this
+        for people I can trust who need more space for web pages or want to
+        play with neato technologies on their pages.
+      </p>
+      <p>
+        <b><a href="http://www.betterbites.co.uk">Better Bites</a></b> is
+        the sandwich shop owned by my parents. I wrote a wee web page for them.
+      </p>
+      <p>
+        <b><a href="http://www.leapingfrogs.com">Leaping Frogs</a></b> is
+        a site owned by a mate of mine from University.
+      </p>
+      </html>
   </content>
   
-  <cvs-info redirect="../about/page.xml" />
+  <cvs-info>
+    <date>
+      $Date: 2001-06-11 00:44:10 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.4 $
+    </revision>
+  </cvs-info> 
   
 </dubhpage>
