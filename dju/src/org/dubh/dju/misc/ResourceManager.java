@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.5 1999-03-22 23:37:17 briand Exp $
+//   $Id: ResourceManager.java,v 1.6 1999-06-01 00:18:34 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -31,6 +31,7 @@ import java.awt.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
+import java.text.MessageFormat;
 
 import dubh.utils.nls.*;
 
@@ -128,7 +129,14 @@ public class ResourceManager {
    */
   public String getString(String key) throws MissingResourceException {
      return m_bundle.getString(key);
-     //return "Testing";
+  }
+  
+  /**
+   * Get a string from the resource, substituting variables from an array
+   */
+  public String getString(String key, Object[] substitutions) throws MissingResourceException 
+  {
+     return MessageFormat.format(getString(key), substitutions);
   }
 
   /**
