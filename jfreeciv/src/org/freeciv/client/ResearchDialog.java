@@ -56,14 +56,14 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
             return ;
           }
           // add confirm dialog for tech change
-          if( client.getCurrentPlayer().researchpoints > 0 )
-          {
-            int result = JOptionPane.showInternalConfirmDialog( ResearchDialog.this, _( "You will be penalized by cutting science in half\nDo you want to change ?" ), _( "Scrap research" ), JOptionPane.YES_NO_OPTION );
-            if( result != JOptionPane.YES_OPTION )
-            {
-              return ;
-            }
-          }
+          //if( client.getCurrentPlayer().researchpoints > 0 )
+          //{
+          //  int result = JOptionPane.showInternalConfirmDialog( ResearchDialog.this, _( "You will be penalized by cutting science in half\nDo you want to change ?" ), _( "Scrap research" ), JOptionPane.YES_NO_OPTION );
+          //  if( result != JOptionPane.YES_OPTION )
+          //  {
+          //    return ;
+          //  }
+          // }
         //client.commandChangeResearch((PktRulesetTech)obj);
         }
       }
@@ -111,7 +111,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   advancesChoice.setListData(v);
   */
   }
-  public boolean canDiscover( PktPlayerInfo player, PktRulesetTech tech )
+/*  public boolean canDiscover( PktPlayerInfo player, PktRulesetTech tech )
   {
     for( int i = 0;i < tech.req.length;i++ )
     {
@@ -127,6 +127,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
     }
     return true;
   }
+  */
   public void internalFrameOpened( InternalFrameEvent e )
   {
     
