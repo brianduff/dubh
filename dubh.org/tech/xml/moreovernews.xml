@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/moreoverlinks.xsl" ?>
+ 
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+<xsql:include-xml xmlns:xsql="urn:oracle-xsql" href="http://www.moreover.com/cgi-local/page?o=xml&amp;c=XML%20and%20metadata%20news" />

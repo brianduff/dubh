@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/cdflinks.xsl" ?>
+ 
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+<xsql:include-xml xmlns:xsql="urn:oracle-xsql" href="http://www.xmlhack.com/cdf.cdf" />

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org: XML</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../../navigator.xml?me=xml" />
+  </navigator>  
+  
+   
+  <content type="columns">
+    <header>Dubh.Org Tech: XML</header>
+
+    <column>
+      <box title="Tutorials &amp; Articles">
+        <p>
+          News content goes here
+        </p>
+      </box>
+
+      <box title="Book Reviews">
+        <ul>
+          <li>
+            <a href="reviews/boxa.xml">
+              "Building Oracle XML Applications", Steve Muench
+            </a>
+          </li>
+        </ul>
+      </box>
+    </column>    
+    
+    <column>      
+      <box title="XMLHack News">
+        <xsql:include-xsql href="xmlnews.xml" />
+      </box>
+      <box title="Moreover XML News">
+        <xsql:include-xsql href="moreovernews.xml" />
+      </box>      
+   
+    </column>
+
+  </content>
+  
+  <cvs-info>
+    <date>
+      $Date: 2001-05-13 17:27:34 $
+    </date>
+    <author>
+      $Author: briand $
+    </author>
+    <revision>
+      $Revision: 1.1 $
+    </revision>
+  </cvs-info>
+  
+</dubhpage>
