@@ -82,10 +82,26 @@ public class ClientPacketDispacher
     null, /*DIPLOMACY_INIT_MEETING*/ 
     null, /*DIPLOMACY_CREATE_CLAUSE*/ 
     null, /*DIPLOMACY_REMOVE_CLAUSE 45*/ 
-    null, /*DIPLOMACY_CANCEL_MEETING*/ null, /*DIPLOMACY_ACCEPT_TREATY*/ 
-    null, /*DIPLOMACY_SIGN_TREATY*/ null, /*UNIT_AUTO*/ null, /*BEFORE_NEW_YEAR*/ null, /*REMOVE_PLAYER*/ null, /*UNITTYPE_UPGRADE*/ null, /*UNIT_UNLOAD*/ null, /*PLAYER_TECH_GOAL*/ null, /*CITY_REFRESH*/ null, /*INCITE_INQ*/ 
-    null, /*INCITE_COST*/ null, /*UNIT_UPGRADE*/ null, /*PACKET_PLAYER_CANCEL_PACT*/ new PHRulesetTech(), /*RULESET_TECH*/ new PHRulesetUnit(), /*RULESET_UNIT             */ 
-    new PHRulesetBuilding(), /*RULESET_BUILDING*/ null, /*CITY_OPTIONS*/ null, /*SPACESHIP_INFO*/ null, /*SPACESHIP_ACTION*/ null, /*UNIT_NUKE*/ new PHRulesetTerrain(), /*RULESET_TERRAIN*/ 
+    null, /*DIPLOMACY_CANCEL_MEETING*/ 
+    null, /*DIPLOMACY_ACCEPT_TREATY*/ 
+    null, /*DIPLOMACY_SIGN_TREATY*/ 
+    null, /*UNIT_AUTO*/ 
+    null, /*BEFORE_NEW_YEAR*/ 
+    null, /*REMOVE_PLAYER*/ 
+    null, /*UNITTYPE_UPGRADE*/ 
+    null, /*UNIT_UNLOAD*/ 
+    null, /*PLAYER_TECH_GOAL*/ 
+    null, /*CITY_REFRESH*/ 
+    null, /*INCITE_INQ*/ 
+    null, /*INCITE_COST*/ 
+    null, /*UNIT_UPGRADE*/ 
+    null, /*PACKET_PLAYER_CANCEL_PACT*/ 
+    new PHRulesetTech(), /*RULESET_TECH*/ 
+    new PHRulesetUnit(), /*RULESET_UNIT             */ 
+    new PHRulesetBuilding(), /*RULESET_BUILDING*/ 
+    null, /*CITY_OPTIONS*/ 
+    new PHSpaceshipInfo(), /*SPACESHIP_INFO*/ 
+    null, /*SPACESHIP_ACTION*/ null, /*UNIT_NUKE*/ new PHRulesetTerrain(), /*RULESET_TERRAIN*/ 
     new PHRulesetTerrainControl(), /*RULESET_TERRAIN_CONTROL*/ new PHRulesetGovernment(), /*RULESET_GOVERNMENT*/ 
     new PHRulesetGovernmentRulerTitle(), /*RULESET_GOVERNMENT_RULER_TITLE*/ new PHRulesetControl(), /*RULESET_CONTROL*/ 
     null, /*CITY_NAME_SUGGEST_REQ*/ null, /*CITY_NAME_SUGGESTION*/ new PHRulesetNation(), /*RULESET_NATION*/ null, /*UNIT_PARADROP_TO*/ new PHRulesetCity(), /*RULESET_CITY             */ 
