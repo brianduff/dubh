@@ -22,18 +22,20 @@
         Dubh.Org is a web server which is mostly dedicated to
         the development and support of several open source <a
         href="../projects/index.xml">projects</a> and other assorted
-        technologies I feel like experimenting with on any given day.
+        technologies.
       </p>
       <p>
         The server is maintained by <a href="../brian/index.xml">
-        Brian Duff</a>. My surname, as well as being the drink particularly
-        favoured by Homer Simpson &amp; chums is actually derived from the 
+        Brian Duff</a>. My surname, as well as being the favourite 
+        beverage of a bloke called Homer, is derived from the 
         Gaelic <i>dubh</i>, meaning black. It seemed like as good a name
         as any for a web site and no-one else was using it, so here we are...
       </p>
       <p>
-        This site is an "evolved" version of my homepage, which has been
-        around since the glorious early web days of mid 1994. 
+        I've been creating web pages since some time in 1994. I'm slowly
+        improving after my early fascination with the novelties of black 
+        backgrounds, blink tags, marquees and animated gifs some time back
+        in early '96 ;).
       </p>
   
     <h2>Hardware</h2>
@@ -42,14 +44,17 @@
         Dubh.Org runs on a Cobalt RAQ3 dedicated server with a T1 connection
         running Cobalt's
         slightly modified version of Red Hat Linux.  I'm
-        renting the server from <a href="http://www.powerraq.com">UK2NET</a>,
-        whom I heartily recommend if, like me, you want to mess about with
-        up to date technologies like servlets and xml, but your ISP doesn't
-        allow this kind of thing on their web servers.
+        renting the server from <a href="http://www.powerraq.com">UK2NET</a>.
+        I heartily recommend UK2. They pretty much provide no support unless
+        something goes wrong (in which case, they will quickly respond with
+        no problems). But this is reflected in the price, which is very, very
+        good. Besides, there's a fantastic user community (see
+        <a href="http://www.uk2raq.com">uk2raq.com</a> built up around 
+        their services).
       </p>
       <p>
         I divide development of this site at home between my main PC
-        (a 1GHz PIII Dell Dimension 4100 with 256Mb) and my slightly punier
+        (a 1GHz PIII Dell Dimension 4100 with 512Mb) and my slightly punier
         650MHz PIII Dell Inspiron 7500 laptop. Again, 
         <a href="http://www.dell.com">Dell</a> did a 
         great job with both computers.
@@ -57,12 +62,10 @@
       <p>
         My home PC is connected to the internet via a Terayon Cable Modem
         with a fast 512Kbps connection provided by <a href="http://www.ntl.com">
-        NTL</a>. Although the IP is dynamic, it tends to stay relatively
-        static, so I've aliased the host name sma.dubh.org to my home PC. If
-        it's switched on, you can visit the dubh.org "staging" area, which will
-        have stuff I'm in the middle of working on, on 
-        <a href="http://sma.dubh.org">http://sma.dubh.org</a> (it generally
-        won't look too different from www.dubh.org).
+        NTL</a>. Who I pretty much don't recommend, as anyone who has ever 
+        had to phone them will understand. See 
+        <a href="http://www.frankw.net/network/nthw/">NT<i>Hell</i> World</a>,
+        a site dedicated to people who have a gripe with the cable provider :)
       </p>
 
   
@@ -105,9 +108,12 @@
       <p>
         Any servlets I develop myself, and any other Java code I write
         for the site is currently developed using 
-        <b>Oracle JDeveloper 9i</b> (I work on the development team
-        at Oracle for this product). This new version of JDeveloper will
-        be available in late 2001.
+        <b>Oracle9<i>i</i> JDeveloper </b> (I work on the development team
+        at Oracle for this product). You can download a copy of the
+        Oracle9<i>i</i> Release Candidate for <b>free</b> from
+        <a href="http://otn.oracle.com/products/jdev">the
+        Oracle Technical Network (OTN)</a> (free registration
+        required).
       </p>
   
     <h2>Standards and Browsers</h2>
@@ -149,22 +155,19 @@
           <a href="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">
             ECMAScript</a> (of which JavaScript and JScript are implementations)
         </li>
+        <li>
+          <a href="http://www.w3.org/TR/REC-png.html">
+            PNG 1.0</a> (incidentally, Internet Explorer on Windows has a 
+            shockingly poor level of support for this standard. Mozilla is far better)
+        </li>
       </ul>
 
       <p>
-        I test most of my pages on Mozilla (0.8.1 or later) and
-        Internet Explorer 5.5. If other browsers don't display my pages
+        I test most of my pages on recent Mozilla builds and
+        Internet Explorer 6. If other browsers don't display my pages
         correctly, it's likely to be a bug in the browser rather than a bug
         in these pages. Particularly if you're using obsolete browser versions,
         I'd recommend upgrading to the newest versions.
-      </p>
-      
-      <p>
-        For images, I'm slowly converting all the GIF images on my pages to 
-        PNG (portable network graphics) format. As well as being a more compact,
-        modern file format, the PNG format is open and not a proprietary 
-        technology like GIF. Again, most modern browsers support this image
-        format happily.
       </p>
       
       <p>
@@ -194,13 +197,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-08-20 01:10:51 $
+      $Date: 2001-12-17 02:55:28 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.5 $
+      $Revision: 1.6 $
     </revision>
   </cvs-info> 
   
