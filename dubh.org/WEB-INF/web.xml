@@ -36,7 +36,7 @@
       <url-pattern> *.xsql </url-pattern>     
  </servlet-mapping>
  
- 
+ <!--
  <servlet>
    <servlet-name>jcvs</servlet-name>
    <servlet-class>com.ice.jcvslet.JCVSlet</servlet-class>
@@ -45,9 +45,9 @@
     <param-value>/home/sites/www.dubh.org/cvs_web/WEB-INF/jcvslet</param-value>
    </init-param>
  </servlet>
-
+ -->
   
-  <!-- brian/bookmark/secure is a secure zone (it updates the database) -->
+  <!-- brian/bookmark/secure is a secure zone (it updates the database) -
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Bookmark Secure Zone</web-resource-name>
@@ -66,6 +66,6 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Bookmark Secure Zone</realm-name>
   </login-config>  
-  
+  -->
 
 </web-app>
