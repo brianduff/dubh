@@ -1,3 +1,4 @@
+<!-- $Id -->
 <html>
 <head>
 <title>Contributor Central: Detailed Information</title>
@@ -25,14 +26,14 @@
   </b>CVS repository: <b>/home/briand/cvsroot</b><br>
   Connection method: <b>Pserver</b></p>
 <p>The following CVS modules are available:</p>
-<p><b>najava:</b> CVS module for NewsAgent java source code.<br>
-  <b>dju:</b> CVS module for common code<br>
-  <b>naweb: </b>CVS module for the main NewsAgent web site<br>
-  <b>nawin32: </b>CVS module for NewsAgent windows launcher C files &amp; installshield 
-  files<br>
+<p><b>najava:</b> NewsAgent java source code.<br>
+  <b>dju:</b> Common code<br>
+  <b>nawin32: </b>NewsAgent windows launcher C files<br>
   <b>dubhbuild: </b>Nightly build scripts<br>
   <b>nareadme: </b>Readme files for NewsAgent distributions<br>
-  <b>nawininstall: </b>NewsAgent InstallShield files<br>
+  <b>nawininstall: </b>NewsAgent InstallShield files (warning: contains long filenames
+   with spaces)<br>
+  <b>naweb: </b>NewsAgent Web Site HTML (refreshed every hour)<br>
 
 </p>
 <p>The most useful ones to most contributors will be najava and dju. </p>
@@ -87,7 +88,8 @@
 <h2>Build Process</h2>
 <p>A full build of all Java based components (both NewsAgent and the DJU) is performed 
   every night, and the results are mailed out to all contributors and displayed 
-  from the contributors web site at http://st-and.compsorc.org.uk/~briand/newsagent/developer/contributors/. 
+  on the archives page on <a href="http://www.egroups.com/list/dubh-contributors">
+  egroups</a>.
   You may wish to download the nightly build scripts to verify that your source 
   builds locally before checking in. These scripts are written for bash (a UNIX 
   shell) and can be found in the build module.</p>
@@ -95,7 +97,8 @@
   in the CLASSPATH. For NewsAgent, mail.jar (JavaMail) and activation.jar (JavaBeans 
   Activation Framework, required by JavaMail) are also included in the CLASSPATH. 
   To make sure that your code builds properly, please check that it compiles cleanly 
-  with Jikes (available from http://www.alphaworks.ibm.com). Jikes is stricter 
+  with Jikes (available from <a href="http://www.alphaworks.ibm.com">
+  the IBM AlphaWorks site</a>). Jikes is stricter 
   than javac, so will sometimes throw errors with things that javac lets by. </p>
 <h2>Mailing List</h2>
 <p>
@@ -136,9 +139,17 @@
                  </TABLE>
                  </form>
 </p>
+<p>
+We also have a mailing list that users can join to get general information
+about NewsAgent. Only contributors are allowed to post to this list, but
+anyone can join. To post, send mail to newsagent-announce@egroups.com. View
+the archive, subscribe yourself and control the group from 
+<a href="http://www.egroups.com/list/newsagent-announce">the egroups site</a>.
+</p>
 <h2>Bug Database</h2>
 <p>
 There is a bug database at <a href="../../bugs/">http://st-and.compsoc.org.uk/~briand/newsagent/bugs</a>.
+This uses wreq, which is not ideal, but at least it works.
 <!--#include virtual="../../../footer.html" -->
 </body>
 </html>
