@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="howitworks" name="How It Works">
+    <html>
+      <p>
+        NewsAgent is released under an <a href="http://www.opensource.org">
+        Open Source</a> licence. This means that the source code for
+        NewsAgent is available for anyone to read, and copy for their own
+        use. You may well ask the question, "Why?". Rather than answer this
+        myself, I'll just lazily refer you to <a href="http://www.opensource.org">
+        OpenSource.org</a> and <a href="http://www.tuxedo.org/~esr">Eric Raymond</a>'s
+        paper <i><a href="http://www.tuxedo.org/~esr/writings/cathedral-bazaar/">
+        "The Cathedral And The Bazaar"</a></i>.
+      </p>
+      <p>
+        Suffice to say, the hope is that by making NewsAgent a collaborative
+        effort, it will evolve into a much more useful application.
+      </p>
+    </html>
+  </section>
+  
+
+  <section id="whatshappening" name="What's Happening With NewsAgent Development?">
+    <html>
+      <p>
+        There hasn't been a full release of NewsAgent for about 2 years now,
+        so you may well ask the question, "is NewsAgent dead?". If truth be told,
+        I'm extremely short of free time, and also the type of person who gets
+        continually distracted by new things. I rarely seem to finish free-time
+        projects like NewsAgent, parly because I'm lazy and partly because I get
+        bored easily and want to play with new stuff.
+      </p>
+      <p>
+        Even worse, my views on the purpose of Java are starting to shift a little.
+        When NewsAgent was first released, I was certain that Java was made for
+        application development. While I think this may still be the case, it has
+        rapidly developed as a server side language, and I'm beginning to realise
+        that this is the direction Java, if not application development in general,
+        is going. 
+      </p>
+      <p>
+        The net result of this is, nothing changes. NewsAgent still might be developed,
+        if I get sufficiently interested in it again or suddenly develop huge amounts
+        of free time. But I'm not making any promises.
+      </p>
+      <p>
+        It's not all doom &amp; gloom, though. As long as I am capable, I'll
+        continue to provide active support for development of NewsAgent, hosting
+        this web site and the CVS repository. So if anyone out there wants to develop
+        NewsAgent further, rest assured I'll help out in any way I can.
+      </p>
+    </html>
+  </section>
+  
+  <section id="otherprojects" name="Other Related Projects">
+    <html>
+      <p>
+        NewsAgent relies on a couple of other projects to work. These are both
+        also hosted on this site. 
+      </p>
+      <p>
+        The back end interaction with an NNTP server (or any other provider) is
+        enabled by JavaMail and the <a href="../../dmp/index.xml">Dubh Mail
+        Providers</a>. 
+      </p>
+      <p>
+        A number of UI services and tools are utilized from the 
+        <a href="../../dju/index.xml">Dubh Java Utilities</a>. 
+      </p>
+      <p>
+        NewsAgent is one of several projects integrated into a nightly build
+        automation process on the Dubh.Org server. This process is driven
+        using the Apache Jakarta <a href="http://jakarta.apache.org/ant/index.html">
+        Ant project</a> and the 
+        <a href="../../buildtools/index.xml">Dubh Dev Tools</a>.
+      </p>
+    </html>
+  </section>
+
+</sectionedpage>
