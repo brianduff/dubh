@@ -2,6 +2,9 @@ package org.freeciv.client.handler;
 import org.freeciv.client.*;
 import org.freeciv.net.*;
 import org.freeciv.client.dialog.*;
+
+import org.freeciv.common.Government;
+
 import javax.swing.JOptionPane;
 
 
@@ -20,7 +23,10 @@ public class PHRulesetGovernment implements ClientPacketHandler,ProgressItem
   {
     PktRulesetGovernment prt = (PktRulesetGovernment)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getFactories().getGovernmentFactory().create(prt);
+    Government gov = (Government) 
+      c.getFactories().getGovernmentFactory().create(prt);
+
+    c.getTileSpec().setupGovernment( gov );
   }
   public String getProgressString()
   {

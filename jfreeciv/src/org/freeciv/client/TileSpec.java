@@ -24,27 +24,27 @@ public class TileSpec implements Constants
   private final static String TILESET_DEFAULT = "trident";
   private final static String TILESET_ISOMETRIC_DEFAULT = "hires";
   private static final int NUM_TILES_HP_BAR = 11;
-  
+
   private String m_mainIntroFilename, m_minimapIntroFilename;
 
   private NamedSprites m_sprites = new NamedSprites();
 
-  private int 
+  private int
     m_normalTileWidth, m_normalTileHeight,
     m_unitTileWidth, m_unitTileHeight,
     m_smallTileWidth, m_smallTileHeight;
 
   private boolean m_isIsometric;
-    
+
   private String m_cityNamesFont;
   private String m_cityProductionsFontName;
-  
+
   private boolean m_flagsAreTransparent = true;
 
   private int m_numTilesExplodeUnit = 0;
-  
+
   private String[] m_specFiles;
-  
+
   private HashMap m_images = new HashMap();
 
   private final static String TILESPEC_CAPSTR = "+tilespec2 duplicates_ok";
@@ -53,9 +53,9 @@ public class TileSpec implements Constants
   private boolean m_isFocusUnitHidden = false;
 
   private boolean m_noBackdrop = false;
-  
+
   private Client m_client;
-  public TileSpec( Client c ) 
+  public TileSpec( Client c )
   {
     m_client = c;
   }
@@ -69,7 +69,7 @@ public class TileSpec implements Constants
   {
     return getClient().getOptions();
   }
-  
+
   public Client getClient()
   {
     return m_client;
@@ -95,14 +95,14 @@ public class TileSpec implements Constants
   {
     return m_cityNamesFont;
   }
-  
+
   public void loadTileset( String tilesetName )
   {
     readTopLevel( tilesetName );
     loadTiles();
     loadIntroFiles();
   }
-  
+
   private void loadIntroFiles()
   {
     Sprite main = loadImage( m_mainIntroFilename );
@@ -118,28 +118,28 @@ public class TileSpec implements Constants
   private void readTopLevel( String tilesetName )
   {
     // tilespec.c: tilespec_read_top_level()
-  
+
     String fname;
-    
+
     fname = getTileSpecFullName( tilesetName );
     Logger.log( Logger.LOG_VERBOSE, "tilespec file is " + fname );
-    
+
     Registry r = new Registry();
     if( !r.loadFile( fname ) )
     {
       Logger.log( Logger.LOG_FATAL, "Couldn't open \"" + fname + "\"" );
       System.exit( 1 );
     }
-    
+
     checkCapabilities( r, "tilespec", TILESPEC_CAPSTR, fname );
-    
+
     r.lookup( "tilespec.name", null ); /* unused */
 
     m_isIsometric = (r.lookupInt( "tilespec.is_isometric" ) != 0);
 
     if (m_isIsometric && !isIsometricViewSupported())
     {
-      Logger.log( Logger.LOG_ERROR, 
+      Logger.log( Logger.LOG_ERROR,
         "Client does not support isometric tilesets. Using default tileset instead."
       );
       readTopLevel( null );
@@ -154,7 +154,7 @@ public class TileSpec implements Constants
       readTopLevel( null );
       return;
     }
-    
+
     m_normalTileWidth = r.lookupInt( "tilespec.normal_tile_width" );
     m_normalTileHeight = r.lookupInt( "tilespec.normal_tile_height" );
 
@@ -175,13 +175,13 @@ public class TileSpec implements Constants
     m_cityNamesFont = r.lookupString( "10x20", "tilespec.city_names_font" );
     m_cityProductionsFontName = r.lookupString( "8x16", "tilespec.city_productions_font" );
     m_flagsAreTransparent = ( r.lookupInt( "tilespec.flags_are_transparent" ) != 0 );
-    
+
     m_mainIntroFilename = getGFXFilename( r.lookupString( "tilespec.main_intro_file" ) );
     Logger.log( Logger.LOG_DEBUG, "intro file " + m_mainIntroFilename );
 
     m_minimapIntroFilename = getGFXFilename( r.lookupString( "tilespec.minimap_intro_file" ) );
     Logger.log( Logger.LOG_DEBUG, "radar file " + m_minimapIntroFilename );
-    
+
     m_specFiles = r.lookupStringList( "tilespec.files" );
     if( m_specFiles.length == 0 )
     {
@@ -206,7 +206,7 @@ public class TileSpec implements Constants
   static String getGFXFilename( String filename )
   {
     // tilespec.c: tilespec_gfx_filename()
-    
+
     String[] extTok = Shared.getTokens( EXTENSIONS, " " );
     for( int i = 0;i < extTok.length;i++ )
     {
@@ -224,7 +224,7 @@ public class TileSpec implements Constants
 
   /**
    * In c-land, this is implemented differently by each client implementation.
-   * For java, we don't support multiple client flavours, and just always 
+   * For java, we don't support multiple client flavours, and just always
    * support whatever we can. Inclusing isometrics...
    *
    * @return true (eventually)
@@ -238,7 +238,7 @@ public class TileSpec implements Constants
   {
     return true;
   }
-  
+
   /**
    * Gets full filename for tilespec file, based on input name.
    * Returned data is allocated, and freed by user as required.
@@ -262,16 +262,16 @@ public class TileSpec implements Constants
     {
       tileset_default = TILESET_DEFAULT;
     }
-    
+
     if( tilesetName == null )
     {
       tilesetName = tileset_default;
     }
-    
+
     fname = new StringBuffer( tilesetName );
     fname.append( ".tilespec" );
     dname = Shared.getDataFilename( fname.toString() );
-    
+
     if( dname != null )
     {
       return dname;
@@ -380,13 +380,13 @@ public class TileSpec implements Constants
         }
       }
     }
-    
+
     if( big_image == null )
     {
       Logger.log( Logger.LOG_FATAL, "Couldn't load gfx file for the spec file " + specFilename );
       System.exit( 1 );
     }
-    
+
     ArrayList gridNames = file.getSecNamesPrefix( "grid_" );
     if( gridNames == null )
     {
@@ -404,7 +404,7 @@ public class TileSpec implements Constants
         key
       };
 
-      boolean is_pixel_border = 
+      boolean is_pixel_border =
         (file.lookupInt(0, "%s.is_pixel_border", subst) != 0);
       x_top_left = file.lookupInt( "%s.x_top_left", subst );
       y_top_left = file.lookupInt( "%s.y_top_left", subst );
@@ -451,8 +451,8 @@ public class TileSpec implements Constants
     Icon i = (Icon)m_images.get( key );
     if( Logger.DEBUG )
     {
-      
-    
+
+
 
     //         Logger.log(Logger.LOG_DEBUG,
     //            "Looked up image >>"+key+"<< found: "+i
@@ -481,11 +481,11 @@ public class TileSpec implements Constants
   // These behave like boolean values, e.g. NESW_STRINGS[5] = n0e1s0w1
   // (5d = 0101b)
   //
-  private final static String[] NSEW_STRINGS = 
+  private final static String[] NSEW_STRINGS =
   {
-    "n0s0e0w0", "n0s0e0w1", "n0s0e1w0", "n0s0e1w1", "n0s1e0w0", 
-    "n0s1e0w1", "n0s1e1w0", "n0s1e1w1", "n1s0e0w0", "n1s0e0w1", 
-    "n1s0e1w0", "n1s0e1w1", "n1s1e0w0", "n1s1e0w1", "n1s1e1w0", 
+    "n0s0e0w0", "n0s0e0w1", "n0s0e1w0", "n0s0e1w1", "n0s1e0w0",
+    "n0s1e0w1", "n0s1e1w0", "n0s1e1w1", "n1s0e0w0", "n1s0e0w1",
+    "n1s0e1w0", "n1s0e1w1", "n1s1e0w0", "n1s1e0w1", "n1s1e1w0",
     "n1s1e1w1"
   };
 
@@ -495,7 +495,7 @@ public class TileSpec implements Constants
   private static final int DIR_WEST = 1;
 
   private static final int NUM_DIRECTION_NSEW = NSEW_STRINGS.length;
-  
+
   private int getFullTerrainId( int type, int variation )
   {
     return ( ( type << 5 ) + variation );
@@ -528,8 +528,8 @@ public class TileSpec implements Constants
   }
 
   /**
-   * Look up the sprite for a tag, or else lookup alternative tag. 
-   * 
+   * Look up the sprite for a tag, or else lookup alternative tag.
+   *
    * @param tag the tag to look up
    * @param alt the alternative tag
    * @param isRequired controls the log level if sprites are not found
@@ -553,7 +553,7 @@ public class TileSpec implements Constants
     s = (Icon) getImage(alt);
     if ( s != null )
     {
-      Logger.log(isRequired ? Logger.LOG_NORMAL : Logger.LOG_DEBUG, 
+      Logger.log(isRequired ? Logger.LOG_NORMAL : Logger.LOG_DEBUG,
         "Using alternate graphic "+alt+" instead of "+tag+" for "+what+" "+name
       );
       return s;
@@ -566,15 +566,15 @@ public class TileSpec implements Constants
     return null;
   }
 
-  public boolean getIsometricSprites( List sprites, List coasts, List dither, 
+  public boolean getIsometricSprites( List sprites, List coasts, List dither,
     int x, int y, boolean cityMode, boolean[] solidBg )
   {
     org.freeciv.common.Map map = getClient().getGame().getMap();
-      
+
     int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
     int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
     int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
-    int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west; 
+    int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
 
     int ttype_near[] = new int [NUM_DIRECTION_NSEW ];
     int tspecial_near[] = new int [NUM_DIRECTION_NSEW ];
@@ -614,7 +614,7 @@ public class TileSpec implements Constants
 
     for ( dir = 0 ; dir < NUM_DIRECTION_NSEW; dir++)
     {
-      MapPosition mp = new MapPosition( 
+      MapPosition mp = new MapPosition(
         x + map.DIR_DX2[ dir ],
         y + map.DIR_DY2[ dir ]
       );
@@ -633,7 +633,7 @@ public class TileSpec implements Constants
       {
         ttype_near[dir] = T_UNKNOWN;
         tspecial_near[dir] = S_NO_SPECIAL;
-      } 
+      }
     }
     int idx = 0;
     ttype_north = ttype_near[idx++];
@@ -662,7 +662,7 @@ public class TileSpec implements Constants
         sprites.add( getTerrainType( ttype ).getSprite( 0 ) );
       }
 
-      if (ttype == T_HILLS) 
+      if (ttype == T_HILLS)
       {
         tileno = getVariationID((ttype_north==T_HILLS || ttype_north==T_HILLS),
                         (ttype_south==T_HILLS || ttype_south==T_HILLS),
@@ -671,7 +671,7 @@ public class TileSpec implements Constants
         sprites.add( getImage( "tx.s_hill_" + NSEW_STRINGS[ tileno ] ) );
       }
 
-      if (ttype == T_FOREST) 
+      if (ttype == T_FOREST)
       {
         tileno = getVariationID((ttype_north==T_FOREST || ttype_north==T_FOREST),
                         (ttype_south==T_FOREST || ttype_south==T_FOREST),
@@ -680,7 +680,7 @@ public class TileSpec implements Constants
         sprites.add( getImage( "tx.s_forest_" + NSEW_STRINGS[ tileno ] ) );
       }
 
-      if (ttype == T_MOUNTAINS) 
+      if (ttype == T_MOUNTAINS)
       {
         tileno = getVariationID((ttype_north==T_MOUNTAINS || ttype_north==T_MOUNTAINS),
                         (ttype_south==T_MOUNTAINS || ttype_south==T_MOUNTAINS),
@@ -689,7 +689,7 @@ public class TileSpec implements Constants
         sprites.add( getImage( "tx.s_mountain_"+NSEW_STRINGS[ tileno ] ) );
       }
 
-      if ((tspecial&S_RIVER) != 0) 
+      if ((tspecial&S_RIVER) != 0)
       {
         tileno = getVariationID(((tspecial_north&S_RIVER) != 0 || ttype_north==T_OCEAN),
                         ((tspecial_south&S_RIVER) != 0 || ttype_south==T_OCEAN),
@@ -698,7 +698,7 @@ public class TileSpec implements Constants
         sprites.add( getImage( "tx.s_river_" + NSEW_STRINGS[ tileno ] ) ) ;
       }
 
-      if (ttype == T_OCEAN) 
+      if (ttype == T_OCEAN)
       {
         if( (tspecial_north&S_RIVER) != 0 || ttype_north==T_RIVER)
           sprites.add( getImage( "tx.river_outlet_n" ) );
@@ -709,14 +709,14 @@ public class TileSpec implements Constants
         if( (tspecial_east&S_RIVER) != 0 || ttype_east==T_RIVER)
           sprites.add( getImage( "tx.river_outlet_e" ) );
       }
-    
+
     }
     else
     {
       solidBg[0] = true;
     }
 
-    if (getOptions().drawSpecials) 
+    if (getOptions().drawSpecials)
     {
       if ( (tspecial & S_SPECIAL_1) != 0 )
       {
@@ -728,36 +728,36 @@ public class TileSpec implements Constants
       }
     }
 
-    if ( (tspecial & S_MINE) != 0 && getOptions().drawMines ) 
+    if ( (tspecial & S_MINE) != 0 && getOptions().drawMines )
     {
       /* We do not have an oil tower in isometric view yet... */
       sprites.add( getImage( "tx.mine" ) );
     }
 
-    if ( (tspecial & S_IRRIGATION) != 0  && city == null && getOptions().drawIrrigation ) 
+    if ( (tspecial & S_IRRIGATION) != 0  && city == null && getOptions().drawIrrigation )
     {
-      if ( (tspecial & S_FARMLAND) != 0) 
+      if ( (tspecial & S_FARMLAND) != 0)
       {
         sprites.add( getImage( "tx.farmland" ) );
-      } 
-      else 
+      }
+      else
       {
         sprites.add( getImage( "tx.irrigation" ) );
       }
     }
 
-    if ((tspecial & S_RAILROAD) != 0 && getOptions().drawRoadsRails) 
+    if ((tspecial & S_RAILROAD) != 0 && getOptions().drawRoadsRails)
     {
       boolean found = false;
 
-      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++) 
+      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++)
       {
-        if ( (tspecial_near[dir] & S_RAILROAD) != 0) 
+        if ( (tspecial_near[dir] & S_RAILROAD) != 0)
         {
           sprites.add( getImage( "r.rail"+dir ) );
           found = true;
-        } 
-        else if ( (tspecial_near[dir] & S_ROAD) != 0) 
+        }
+        else if ( (tspecial_near[dir] & S_ROAD) != 0)
         {
           sprites.add( getImage( "r.road"+dir ) ) ;
           found = true;
@@ -769,42 +769,42 @@ public class TileSpec implements Constants
         sprites.add( getImage( "r.rail_isolated" ) );
       }
 
-    } 
-    else if ( (tspecial & S_ROAD) != 0 && getOptions().drawRoadsRails ) 
+    }
+    else if ( (tspecial & S_ROAD) != 0 && getOptions().drawRoadsRails )
     {
       boolean found = false;
 
-      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++) 
+      for (dir=0; dir<NUM_DIRECTION_NSEW; dir++)
       {
-        if ( (tspecial_near[dir] & S_ROAD) != 0) 
+        if ( (tspecial_near[dir] & S_ROAD) != 0)
         {
           sprites.add( getImage( "r.road"+dir ) );
           found = true;
         }
       }
-      
+
       if (!found && city == null)
       {
         sprites.add( getImage( "r.road_isolated" ) );
       }
     }
 
-    if ( (tspecial & S_HUT) != 0 && getOptions().drawSpecials) 
+    if ( (tspecial & S_HUT) != 0 && getOptions().drawSpecials)
     {
       sprites.add( getImage( "tx.village" ) );
     }
 
     /* put coasts */
-    if (ttype == T_OCEAN) 
+    if (ttype == T_OCEAN)
     {
-      for (i = 0; i < 4; i++) 
+      for (i = 0; i < 4; i++)
       {
         String loc = "";
 
-      
+
         int[] ttype_adj = new int[3];
         int array_index;
-        switch (i) 
+        switch (i)
         {
           case 0: /* up */
             ttype_adj[0] = ttype_west;
@@ -847,7 +847,7 @@ public class TileSpec implements Constants
     dither.add(getDither(ttype, map.getTile(x-1, y).isKnown() ? ttype_west : T_UNKNOWN));
 
     return true;
-    
+
   }
 
   private TerrainType getTerrainType( int ttype )
@@ -859,14 +859,14 @@ public class TileSpec implements Constants
    * For the tile at position abs_x0, abs_y0, get an ordered list of all
    * sprites to be displayed on that tile.
    *
-   */ 
-  public List getSpritesAt( int abs_x0, int abs_y0, 
+   */
+  public List getSpritesAt( int abs_x0, int abs_y0,
     boolean cityMode, boolean[] solidBg, Player[] player)
   {
     // fill_tile_sprite_array in tilespec.c
 
     org.freeciv.common.Map map = getClient().getGame().getMap();
-  
+
     int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
     int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
     int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
@@ -911,8 +911,8 @@ public class TileSpec implements Constants
     {
       unit = getDrawableUnit( abs_x0, abs_y0, cityMode );
 
-      if ( unit != null && 
-          ( getClient().getOptions().drawUnits || 
+      if ( unit != null &&
+          ( getClient().getOptions().drawUnits ||
             (getClient().getOptions().drawFocusUnit && focus == unit ) ))
       {
         fillUnitSprites( l, unit, solidBg );
@@ -922,11 +922,11 @@ public class TileSpec implements Constants
         {
           l.add( getImage( "unit.stack" ) );
         }
-        
+
         return l;
       }
 
-      if ( city != null && getOptions().drawCities ) 
+      if ( city != null && getOptions().drawCities )
       {
         fillCitySprites( l, city, solidBg );
         player[0] = city.getOwner();
@@ -982,7 +982,7 @@ public class TileSpec implements Constants
     }
     else
     {
-      tileno = getVariationID( 
+      tileno = getVariationID(
         (ttype_north == ttype), (ttype_south == ttype),
         (ttype_east == ttype), (ttype_west == ttype)
       );
@@ -995,13 +995,13 @@ public class TileSpec implements Constants
         );
       }
 
-      TerrainType tt = (TerrainType) 
-        getClient().getFactories().getTerrainTypeFactory().findById( ttype );  
+      TerrainType tt = (TerrainType)
+        getClient().getFactories().getTerrainTypeFactory().findById( ttype );
 
       mySprite = tt.getSprite( tileno );
     }
 
-    if ( getOptions().drawTerrain ) 
+    if ( getOptions().drawTerrain )
     {
       l.add( mySprite );
     }
@@ -1041,7 +1041,7 @@ public class TileSpec implements Constants
         l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_EAST ] ) );
       }
 
-      
+
     }
 
     if ( (tspecial&S_RIVER) != 0 && getClient().getOptions().drawTerrain )
@@ -1086,7 +1086,7 @@ public class TileSpec implements Constants
       w = ((tspecial_west&S_ROAD) != 0);
 
       road_card_count = (n?1:0) + (s?1:0) + (e?1:0) + (w?1:0);
-      road_card_tileno = getVariationID( n, s, e, w );      
+      road_card_tileno = getVariationID( n, s, e, w );
 
 
       n = ((tspecial_north_east&S_RAILROAD) != 0);
@@ -1103,7 +1103,7 @@ public class TileSpec implements Constants
       w = ((tspecial_north_west&S_ROAD) != 0);
 
       road_semi_count = (n?1:0) + (s?1:0) + (e?1:0) + (w?1:0);
-      road_semi_tileno = getVariationID( n, s, e, w );  
+      road_semi_tileno = getVariationID( n, s, e, w );
 
 
       if ( (tspecial&S_RAILROAD) != 0 )
@@ -1173,7 +1173,7 @@ public class TileSpec implements Constants
     }
 
     if ( ( (tspecial&S_MINE) != 0) && getOptions().drawMines )
-    { 
+    {
       if ( ttype == T_HILLS || ttype == T_MOUNTAINS )
       {
         l.add( getImage( "tx.mine" ) );
@@ -1197,7 +1197,7 @@ public class TileSpec implements Constants
         {
           l.add( getImage("r.rail_isolated") );
         }
-      } 
+      }
       else if ( (tspecial&S_ROAD) != 0 )
       {
         int adjacent = road_card_tileno;
@@ -1227,15 +1227,15 @@ public class TileSpec implements Constants
     if (( (tspecial&S_POLLUTION) != 0) && getOptions().drawPollution )
     {
       l.add( getImage( "tx.pollution" ) );
-    }    
+    }
     if (( (tspecial&S_FALLOUT) != 0) && getOptions().drawFallout )
     {
       l.add( getImage( "tx.fallout" ) );
-    }     
+    }
     if (tile.getKnown() == TILE_KNOWN_FOGGED && getOptions().drawFogOfWar )
     {
       l.add( getImage( "tx.fog" ) );
-    }    
+    }
 
     if (!cityMode)
     {
@@ -1294,7 +1294,7 @@ public class TileSpec implements Constants
   public void setupTileType( int id )
   {
     // tilespec.c:tilespec_setup_tile_type( id )
-    TerrainType tt = (TerrainType) 
+    TerrainType tt = (TerrainType)
       getClient().getFactories().getTerrainTypeFactory().findById( id );
 
     StringBuffer buffer1 = new StringBuffer( 100 );
@@ -1320,10 +1320,10 @@ public class TileSpec implements Constants
     {
       if ( id != T_RIVER )
       {
-        tt.setSprite( 0, 
-          lookupSpriteTagAlt( 
-            tt.getGraphicStr(), null, true, "tile_type", tt.getName() 
-          ) 
+        tt.setSprite( 0,
+          lookupSpriteTagAlt(
+            tt.getGraphicStr(), null, true, "tile_type", tt.getName()
+          )
         );
       }
       else
@@ -1345,9 +1345,9 @@ public class TileSpec implements Constants
         buffer2.append( '_' );
         buffer2.append( nsew );
 
-        tt.setSprite( i, 
+        tt.setSprite( i,
           lookupSpriteTagAlt(
-            buffer1.toString(), buffer2.toString(), true, "tile_type", 
+            buffer1.toString(), buffer2.toString(), true, "tile_type",
             tt.getName()
           )
         );
@@ -1359,7 +1359,7 @@ public class TileSpec implements Constants
       String name = tt.getSpecialName( i );
       if ( name != null && name.length() != 0 )
       {
-        tt.setSpecialSprite( i, 
+        tt.setSpecialSprite( i,
           lookupSpriteTagAlt(
             tt.getSpecialGraphicStr( i ), tt.getSpecialGraphicAlt( i ),
             true, "tile_type special", name
@@ -1371,7 +1371,7 @@ public class TileSpec implements Constants
         tt.setSpecialSprite( i, null );
       }
     }
-    
+
   }
 
   /**
@@ -1383,9 +1383,9 @@ public class TileSpec implements Constants
   public void setupGovernment( Government gov )
   {
     gov.setSprite( lookupSpriteTagAlt(
-      gov.getGraphicStr(), gov.getGraphicAlt(), true, "government", 
+      gov.getGraphicStr(), gov.getGraphicAlt(), true, "government",
       gov.getName()
-    )); 
+    ));
   }
 
   /**
@@ -1411,7 +1411,7 @@ public class TileSpec implements Constants
   public void setupUnitType( UnitType ut )
   {
     ut.setSprite( lookupSpriteTagAlt(
-      ut.getGraphicStr(), ut.getGraphicAlt(), 
+      ut.getGraphicStr(), ut.getGraphicAlt(),
       true, // unit_type_exists()
       "unit_type", ut.getName()
     ));
@@ -1519,7 +1519,7 @@ public class TileSpec implements Constants
   {
     // we avoid the hackiness in tilespec.c and combine
     // fill_city_sprite_array and fill_city_sprite_array_iso into one method.
-  
+
     solidBg[0] = false;
 
     Tile tile = getClient().getGame().getMap().getTile( city.getX(), city.getY() );
@@ -1529,7 +1529,7 @@ public class TileSpec implements Constants
       if ( !getOptions().solidColorBehindUnits  || isIsometric() )
       {
         l.add( getCityNationFlagSprite( city ) );
-      }  
+      }
       else
       {
         solidBg[0] = true;
@@ -1627,7 +1627,7 @@ public class TileSpec implements Constants
     {
       if ( city.getSize() < cs.getThreshold( size ) )
       {
-        break; 
+        break;
       }
     }
 
@@ -1786,7 +1786,7 @@ public class TileSpec implements Constants
       return null;
     }
 
-    if ( unit != focus 
+    if ( unit != focus
       //|| !getClient().getOptions().focusUnitHidden // ?? may be flash behaviour
       || !getClient().getGame().getMap().isSamePosition( unit.getX(), unit.getY(), focus.getY(), focus.getY() ) )
     {
@@ -1870,7 +1870,7 @@ public class TileSpec implements Constants
           anyowned = unit;
         }
       }
-      else if ( tpother == null && 
+      else if ( tpother == null &&
         getClient().getGame().getCurrentPlayer().canSeeUnit( unit ) )
       {
         if ( unit.isTransporter() )
@@ -1882,13 +1882,13 @@ public class TileSpec implements Constants
           anyother = unit;
         }
       }
-      
+
     }
 
     return ( anyowned != null ? anyowned :  ( tpother != null ? tpother : anyother ) );
-    
+
   }
-  
+
   public static void main( String[] args )
   {
     // Test harness
@@ -1902,5 +1902,10 @@ public class TileSpec implements Constants
     f.pack();
     f.setLocation( 100, 100 );
     f.setVisible( true );
+  }
+
+  public void setTerrain( PktTileInfo pkt, boolean update )
+  {
+     // TODO
   }
 }

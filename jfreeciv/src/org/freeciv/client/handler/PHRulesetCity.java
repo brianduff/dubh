@@ -3,6 +3,8 @@ import org.freeciv.client.*;
 import org.freeciv.client.dialog.*;
 import org.freeciv.net.*;
 import javax.swing.JOptionPane;
+
+import org.freeciv.common.CityStyle;
 /**
  * Ruleset control packet handler.
  */
@@ -17,7 +19,9 @@ public class PHRulesetCity implements ClientPacketHandler,ProgressItem
   public void handle( Client c, Packet pkt )
   {
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    c.getFactories().getCityStyleFactory().create( pkt);
+    CityStyle style = (CityStyle)c.getFactories().getCityStyleFactory().create( pkt);
+
+    c.getTileSpec().setupCityTiles( style );
   }
   public String getProgressString()
   {

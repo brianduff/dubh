@@ -39,7 +39,7 @@ public class ClientPacketDispacher
     null, /* REQUEST_JOIN_GAME*/ 
     new PHJoinGameReply(), /* JOIN_GAME_REPLY*/ 
     new PHServerShutdown(), /* SERVER_SHUTDOWN*/ 
-    null, /* UNIT_INFO*/ 
+    new PHUnitInfo(), /* UNIT_INFO*/ 
     null, /* MOVE_UNIT*/ 
     null, /* TURN_DONE*/ 
     null, /* NEW_YEAR*/ 

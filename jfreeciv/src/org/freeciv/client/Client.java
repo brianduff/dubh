@@ -57,8 +57,8 @@ import org.freeciv.net.PktReqJoinGame;
  */
 public class Client extends JFrame implements ComponentListener,UndockablePanel.DockTarget,Constants
 {
-  
-  
+
+
 
    /**
     * The menus for the application. Each of these is the class name of
@@ -140,7 +140,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       }
    };
 
-  
+
 
   // The tile spec holds all the images that the client uses
   private TileSpec m_tileSpec;
@@ -240,7 +240,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
 
   private MapView m_mapView = new MapView(this);
 
-  // prob shouldn't instantiate this yet. 
+  // prob shouldn't instantiate this yet.
   private Game m_game = new Game(m_factories);
   private final static String APP_NAME = "Freeciv4J";
   private final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
@@ -258,7 +258,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   /**
    * Instantiate the client
    */
-  public Client() 
+  public Client()
   {
     super( APP_NAME + " ver " + APP_VERSION ); // !NLS
     // Take a hit right now and load the images etc.
@@ -336,9 +336,9 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     // climisc.c: climap_init_continents()
 
     // No idea what this is doing - mem mgmt crap from c.
-    
+
   }
-  
+
   public CivMap getMap()
   {
     return map;
@@ -375,7 +375,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public void setActionEnabled( final String actionName, final boolean enabled )
   {
-    SwingUtilities.invokeLater( new Runnable() 
+    SwingUtilities.invokeLater( new Runnable()
     {
       public void run()
       {
@@ -447,7 +447,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     m_upMessages = new UndockablePanel();
     chatInput = new JTextField( "", 80 );
-    chatInput.addActionListener( new ActionListener() 
+    chatInput.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -567,8 +567,8 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   }
   public void updateOrdersMenu( Unit u )
   {
-    
-  
+
+
 
   // BD: Does this logic go here?
   }
@@ -664,9 +664,9 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public void setUnitStack( Unit u )
   {
-    
-  
-  
+
+
+
   /*    Dimension d =unitStack.getWantedSize();
   unitStackScrollPane.setSize(d);
   unitStackScrollPane.setPreferredSize(d);
@@ -684,9 +684,9 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public void changedActiveUnit( Unit u )
   {
-    
-  
-  
+
+
+
   /*      unitDescription.setUnit(u);
   setUnitStack(u);
   updateOrdersMenu(u);
@@ -750,7 +750,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   static class InputPacketListener implements Runnable
   {
     private Client m_client;
-    public InputPacketListener( Client c ) 
+    public InputPacketListener( Client c )
     {
       m_client = c;
     }
@@ -798,7 +798,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     m_upMiniMap.setContent( _( "Mini Map"), getMapView().getOverviewComponent(), this );
   }
-  
+
   /**
    * Creates the map
    */
@@ -807,7 +807,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     // map.isEarth ??
     // set map display
     // BD: Looks ok at the mo' need to change the tile sizes, tho'.
-    SwingUtilities.invokeLater( new Runnable() 
+    SwingUtilities.invokeLater( new Runnable()
     {
       public void run()
       {
@@ -821,7 +821,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
         mapPanel.add( scroller, BorderLayout.CENTER );
         mapPanel.invalidate();
       /*mapPanel.addComponentListener(new ComponentAdapter() {
-      
+
       public void componentResized(ComponentEvent e)
       {
       map.setSize(mapPanel.getSize());
@@ -866,29 +866,29 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       }
       catch( Exception e )
       {
-        
+
       }
     }
   }
   // BD?????
   public void componentMoved( ComponentEvent e )
   {
-    
-  
+
+
 
   //TODO: implement this java.awt.event.ComponentListener method;
   }
   public void componentShown( ComponentEvent e )
   {
-    
-  
+
+
 
   //TODO: implement this java.awt.event.ComponentListener method;
   }
   public void componentHidden( ComponentEvent e )
   {
-    
-  
+
+
 
   //TODO: implement this java.awt.event.ComponentListener method;
   }
@@ -923,7 +923,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
     catch( InterruptedException e )
     {
-      
+
     }
   }
   private static String _( String txt )
@@ -968,7 +968,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
 
   public Factories getFactories()
   {
-    return m_factories; 
+    return m_factories;
   }
 
   /**
@@ -1044,7 +1044,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     {
       for ( int j = y-1; j < y + 1; j++ )
       {
-        if ( !( i == x && j == y ) && j >= 0 && j < getGame().getMap().getHeight() 
+        if ( !( i == x && j == y ) && j >= 0 && j < getGame().getMap().getHeight()
             &&  getGame().getMap().getTile( i, j ).isKnown()
             &&  getGame().getMap().getTile( i, j ).getTerrain() != T_OCEAN
             &&  getGame().getMap().getTile( i, j ).getContinent() == old)
@@ -1105,10 +1105,10 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
 
   private void _updateInfoLabel()
   {
-    
+
     Player p = getGame().getCurrentPlayer();
     // GTK updates the window title here to the nation name...
-    m_panCivInfo.setNationName( 
+    m_panCivInfo.setNationName(
       p.getNation().getName()
     );
 
@@ -1123,6 +1123,24 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     // Citizens
 
     // Timeout
-    
+
+  }
+
+  public org.freeciv.common.Unit getUnitInFocus()
+  {
+     // TODO
+     return null;
+  }
+
+  public org.freeciv.common.Unit getAttackingUnit()
+  {
+     // TODO
+     return null;
+  }
+
+  public org.freeciv.common.Unit getDefendingUnit()
+  {
+     // TODO
+     return null;
   }
 }

@@ -163,6 +163,7 @@ public class PHTileInfo extends AbstractHandler implements Constants
       }
     }
 
+    /*
     SwingUtilities.invokeLater(new Runnable() {
       public void run()
       {
@@ -170,6 +171,7 @@ public class PHTileInfo extends AbstractHandler implements Constants
         c.getTileSpec().setTerrain( pmi, true );
       }
     });
+    */
 
   }
 }
