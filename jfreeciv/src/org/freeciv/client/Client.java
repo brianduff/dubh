@@ -18,41 +18,46 @@
 
 package org.freeciv.client;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.AlphaComposite;
 import java.awt.Toolkit;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import java.lang.reflect.InvocationTargetException;
+
 import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.Action;
-import javax.swing.JOptionPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.freeciv.common.Assert;
+import org.freeciv.client.action.ACTDisconnect;
+import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.action.AbstractUnitAction;
+import org.freeciv.client.action.Actions;
+import org.freeciv.client.dialog.DialogManager;
+import org.freeciv.client.dialog.DlgLogin;
+import org.freeciv.client.handler.ClientPacketDispacher;
+import org.freeciv.common.City;
+import org.freeciv.common.ErrorHandler;
 import org.freeciv.common.Factories;
 import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
 import org.freeciv.common.Tile;
-import org.freeciv.common.ErrorHandler;
-import org.freeciv.common.City;
 import org.freeciv.common.Unit;
-import org.freeciv.client.action.AbstractClientAction;
-import org.freeciv.client.action.AbstractUnitAction;
-import org.freeciv.client.action.Actions;
-import org.freeciv.client.action.ACTDisconnect;
-import org.freeciv.client.dialog.DialogManager;
-import org.freeciv.client.dialog.DlgLogin;
-import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.net.InStream;
-import org.freeciv.net.OutStream;
 import org.freeciv.net.NetworkProtocolException;
+import org.freeciv.net.OutStream;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
@@ -101,7 +106,7 @@ public final class Client implements Constants
 
   // prob shouldn't instantiate this yet.
   private Game m_game = new Game();
-  public final static String APP_NAME = "Freeciv4J";
+  public final static String APP_NAME = "JFreeCiv";
   public final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
   private final static String PROP_FREECIV_TILESET = "freeciv.tileset";
   private final static String DEFAULT_TILESET = "trident";
@@ -383,6 +388,7 @@ public final class Client implements Constants
    */
   public Packet createPacket( Class packetClass )
   {
+
     try
     {
       Packet p = (Packet) packetClass.getDeclaredConstructors()[0].newInstance(
@@ -390,9 +396,17 @@ public final class Client implements Constants
       );
       return p;
     }
-    catch (Exception e)
+    catch (InvocationTargetException ite)
     {
-      Assert.fail( e );
+      ErrorHandler.getHandler().internalError( ite );
+    }
+    catch (IllegalAccessException ille)
+    {
+      ErrorHandler.getHandler().internalError( ille );
+    }
+    catch (InstantiationException ine)
+    {
+      ErrorHandler.getHandler().internalError( ine );
     }
 
     return null;
@@ -823,8 +837,8 @@ public final class Client implements Constants
 
     old = tile.getContinent();
 
-    Assert.that( tile.isKnown() );
-    Assert.that( tile.getTerrain() != T_OCEAN );
+    assert( tile.isKnown() );
+    assert( tile.getTerrain() != T_OCEAN );
     // Assert.that( old > 0 && old <= max_cont_used ); ??
 
     tile.setContinent( newnumber );

@@ -1,13 +1,17 @@
 package org.freeciv.client.dialog;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.ui.util.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 
 /**
  * Implementation of the notify dialog.  Notify sure is a generic name 
@@ -70,6 +74,6 @@ class ImplNotify extends VerticalFlowPanel implements DlgNotify
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

@@ -1,8 +1,4 @@
 package org.freeciv.client.dialog;
-import java.io.InputStream;
-import java.io.OutputStream;
-import javax.swing.JFrame;
-import org.freeciv.client.Client;
 /**
  * The main interface to the nation dialog
  */

@@ -16,8 +16,8 @@ public interface MenuDefinitions
   public static final Object[][] MENUS = new Object[][] {
     { "Game",
         ACTLocalOptions.class,
- ACTChangeKeyBindings.class,
- ACTMessageOptions.class,
+        ACTChangeKeyBindings.class,
+        ACTMessageOptions.class,
         ACTSaveSettings.class,
        /*---------------*/                 null,
         ACTPlayers.class,

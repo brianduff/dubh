@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.io.IOException;
 
-import org.freeciv.common.Assert;
+import org.freeciv.common.*;
 
 class ImplProgress extends JPanel implements DlgProgress
 {
@@ -38,7 +38,10 @@ class ImplProgress extends JPanel implements DlgProgress
         }
         catch (IOException ioe)
         {
-          Assert.fail( ioe );
+          ErrorHandler.getHandler().error( ImplProgress.this,
+            _("Failed to disconnect")
+          );
+          ioe.printStackTrace();
         }
       }
     } );
@@ -88,6 +91,6 @@ class ImplProgress extends JPanel implements DlgProgress
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

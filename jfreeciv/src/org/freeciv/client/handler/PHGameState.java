@@ -3,7 +3,6 @@ package org.freeciv.client.handler;
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
 import org.freeciv.client.action.ACTEndTurn;
-import org.freeciv.common.Assert;
 import org.freeciv.common.City;
 import org.freeciv.common.Game;
 import org.freeciv.common.Map;
@@ -81,7 +80,7 @@ public class PHGameState extends AbstractHandler implements Constants
       {
         // focus on any city
         city = (City)c.getGame().getCurrentPlayer().getCities().next();
-        Assert.that( city != null );
+        assert( city != null );
         c.getMainWindow().getMapViewManager().centerOnTile(
           city.getX(), city.getY()
         );
@@ -90,7 +89,7 @@ public class PHGameState extends AbstractHandler implements Constants
       {
         // focus on any unit
         u= (Unit)c.getGame().getCurrentPlayer().getUnits().next();
-        Assert.that( u != null );
+        assert( u != null );
         c.getMainWindow().getMapViewManager().centerOnTile(
           u.getX(), u.getY()
         );

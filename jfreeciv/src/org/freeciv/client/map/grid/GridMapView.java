@@ -1,21 +1,15 @@
 package org.freeciv.client.map.grid;
 
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import javax.swing.Icon;
 
 import org.freeciv.client.Client;
-import org.freeciv.client.Colors;
 import org.freeciv.client.map.AbstractMapView;
 import org.freeciv.client.map.BufferLayer;
 import org.freeciv.client.map.MapLayer;
-import org.freeciv.client.map.MapViewInfo;
-import org.freeciv.common.MapPosition;
-import org.freeciv.common.Player;
 import org.freeciv.common.City;
 import org.freeciv.common.Tile;
 

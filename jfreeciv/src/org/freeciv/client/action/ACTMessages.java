@@ -1,7 +1,6 @@
 package org.freeciv.client.action;
-import org.freeciv.client.Client;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 public class ACTMessages extends AbstractClientAction
 {
   public ACTMessages() 

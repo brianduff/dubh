@@ -1,6 +1,5 @@
 package org.freeciv.net;
 
-import javax.swing.JComponent;
 import org.freeciv.common.EffectType;
 import org.freeciv.common.EffectRange;
 import org.freeciv.common.UnitClass;

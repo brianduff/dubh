@@ -1,7 +1,5 @@
 package org.freeciv.client.action;
 
-import org.freeciv.client.Client;
-
 
 /**
  * This ACTAction invokes change key bindings dialog.
@@ -13,7 +11,7 @@ public class ACTChangeKeyBindings extends AbstractClientAction
   public ACTChangeKeyBindings()
   {
     super();
-    setName( _( "Change Key Bindings" ) );
+    setName( _( "Key Bindings..." ) );
     
     setEnabled( true );
   }

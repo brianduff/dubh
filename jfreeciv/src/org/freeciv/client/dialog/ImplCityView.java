@@ -1,22 +1,54 @@
 package org.freeciv.client.dialog;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.text.Collator;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.border.BevelBorder;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Constants;
+import org.freeciv.client.TileSpec;
+import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.action.UACTActivateCloseDialog;
+import org.freeciv.client.action.UACTActivateUnit;
+import org.freeciv.client.action.UACTDisbandUnit;
+import org.freeciv.client.action.UACTFortify;
+import org.freeciv.client.action.UACTMakeHomeCity;
+import org.freeciv.client.action.UACTSentry;
+import org.freeciv.client.action.UACTUpgrade;
+import org.freeciv.client.dialog.util.GridBagConstraints2;
+import org.freeciv.client.dialog.util.IconStack;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
+import org.freeciv.client.map.MapView;
+import org.freeciv.client.ui.util.ActionMenuItem;
 import org.freeciv.common.Building;
-import org.freeciv.common.Unit;
 import org.freeciv.common.City;
-import org.freeciv.common.Player;
 import org.freeciv.common.CommonConstants;
-import org.freeciv.client.*;
-import org.freeciv.client.map.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.ui.util.*;
-import org.freeciv.client.action.*;
+import org.freeciv.common.Player;
+import org.freeciv.common.Unit;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktCityRequest;
 
@@ -798,16 +830,27 @@ public class ImplCityView extends VerticalFlowPanel
     public SupportedUnitComponent( Unit unit )
     {
       super( unit );
-      // add upkeep icon(s)      if( unit.getUpkeep() > 0 )      {
-        addIcon( "upkeep.shield" );      }
-      if( unit.getUpkeepFood() == 1 )      {
-        addIcon( "upkeep.food" );      }
-      if( unit.getUpkeepFood() > 1 )      {
-        addIcon( "upkeep.food2" );      }
-      if( unit.getUnhappiness() == 1 )      {
-        addIcon( "upkeep.unhappy" );      }
-      if( unit.getUnhappiness() > 1 )      {
-        addIcon( "upkeep.unhappy2" );      }
+      // add upkeep icon(s)
+      if( unit.getUpkeep() > 0 )
+      {
+        addIcon( "upkeep.shield" );
+      }
+      if( unit.getUpkeepFood() == 1 )
+      {
+        addIcon( "upkeep.food" );
+      }
+      if( unit.getUpkeepFood() > 1 )
+      {
+        addIcon( "upkeep.food2" );
+      }
+      if( unit.getUnhappiness() == 1 )
+      {
+        addIcon( "upkeep.unhappy" );
+      }
+      if( unit.getUnhappiness() > 1 )
+      {
+        addIcon( "upkeep.unhappy2" );
+      }
     }
     
     protected void initPopup()

@@ -1,6 +1,4 @@
 package org.freeciv.client.action;
-import org.freeciv.client.Client;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 public class ACTClearLog extends AbstractClientAction
 {

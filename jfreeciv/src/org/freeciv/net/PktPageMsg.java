@@ -1,5 +1,4 @@
 package org.freeciv.net;
-import org.freeciv.client.Constants;
 
 /**
  * A packet sent in response to certain report requests

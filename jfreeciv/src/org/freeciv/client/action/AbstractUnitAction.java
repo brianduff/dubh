@@ -1,14 +1,7 @@
 package org.freeciv.client.action;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
-
-import org.freeciv.client.Client;
-import org.freeciv.common.CommonConstants;
-import org.freeciv.common.Unit;
-
 import org.freeciv.client.handler.PHUnitInfo;
-import org.freeciv.net.PacketConstants;
+import org.freeciv.common.Unit;
 import org.freeciv.net.PktUnitInfo;
 
 

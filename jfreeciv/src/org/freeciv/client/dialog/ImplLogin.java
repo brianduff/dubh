@@ -1,18 +1,35 @@
 package org.freeciv.client.dialog;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import java.net.UnknownHostException;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
+
 import org.freeciv.client.Client;
-import org.freeciv.client.Localize;
 import org.freeciv.client.action.ACTQuit;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.*;
-import javax.swing.*;
-
-import javax.swing.table.*;
-import org.freeciv.client.dialog.util.*;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.client.ui.util.*;
+import org.freeciv.client.ui.util.ActionButton;
+import org.freeciv.client.ui.util.BusyCursor;
 
 /**
  * An implementation of the login dialog
@@ -23,7 +40,7 @@ class ImplLogin extends JPanel implements DlgLogin
   private static final int FIELD_WIDTH = 400;
   private static final int TABLE_WIDTH = 450;
   private static final int TABLE_HEIGHT = 125;
-  private JDialog dialog;
+  private BaseDialog dialog;
   private VerticalFlowPanel m_panServer = new VerticalFlowPanel();
   private VerticalFlowPanel m_panMetaServer = new VerticalFlowPanel();
   private JTable m_metaTable = new JTable();
@@ -51,8 +68,7 @@ class ImplLogin extends JPanel implements DlgLogin
     cancel = new ActionButton( m_client.getAction( ACTQuit.class ) );
     JPanel p = new JPanel();
     p.setLayout( new BoxLayout( p, BoxLayout.X_AXIS ) );
-    p.add( ok );
-    p.add( cancel );
+
     m_tbTabs.add( m_panServer, _( "Freeciv Server Selection" ) );
     m_tbTabs.add( m_panMetaServer, _( "Metaserver" ) );
     this.setLayout( new BorderLayout() );
@@ -198,22 +214,27 @@ class ImplLogin extends JPanel implements DlgLogin
   
   private int showDialog( JFrame jf )
   {
-    dialog = new JDialog( jf, _( "Choose server" ), true );
-    Container contentPane = dialog.getContentPane();
-    contentPane.setLayout( new BorderLayout() );
-    contentPane.add( this, BorderLayout.CENTER );
+    dialog = BaseDialog.createDialog( jf, _( "Choose Server" ), false );
+    
+    dialog.setContent( this );
+    
+    dialog.addButton( cancel );
+    dialog.addButton( ok );
+  
+    dialog.getRootPane().setDefaultButton( ok );
+  
     reset();
 
 
-    dialog.setDefaultCloseOperation( dialog.DO_NOTHING_ON_CLOSE );
-    dialog.addWindowListener( new WindowAdapter() {
-      public void windowClosing( WindowEvent we )
-      {
-        // Quit. Maybe should use ACTQuit here, but I'm not sure about the
-        // consequences of this.
-        m_client.quit();
-      }
-    });
+//    dialog.setDefaultCloseOperation( dialog.DO_NOTHING_ON_CLOSE );
+//    dialog.addWindowListener( new WindowAdapter() {
+//      public void windowClosing( WindowEvent we )
+//      {
+//        // Quit. Maybe should use ACTQuit here, but I'm not sure about the
+//        // consequences of this.
+//        m_client.quit();
+//      }
+//    });
 
     dialog.pack();
     dialog.setLocationRelativeTo( jf );
@@ -262,6 +283,6 @@ class ImplLogin extends JPanel implements DlgLogin
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

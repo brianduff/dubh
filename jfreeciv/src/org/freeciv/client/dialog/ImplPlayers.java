@@ -1,16 +1,25 @@
 package org.freeciv.client.dialog;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import org.freeciv.common.Player;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.common.DiplomacyState;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.ui.util.*;
+import org.freeciv.common.Player;
 
 /**
  * Implementation of the players dialog.  This has some nice buttons

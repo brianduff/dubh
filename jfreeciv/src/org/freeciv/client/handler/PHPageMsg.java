@@ -1,12 +1,10 @@
 package org.freeciv.client.handler;
 
 
-import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
-import org.freeciv.client.Options;
+import org.freeciv.client.Constants;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktPageMsg;
-import org.freeciv.client.dialog.DlgNotifyGoto;
 
 /**
  * "Page" message handler for certain reports

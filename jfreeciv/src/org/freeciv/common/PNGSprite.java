@@ -1,16 +1,15 @@
 package org.freeciv.common;
 
+import com.sixlegs.image.png.PngImage;
+
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.image.CropImageFilter;
-import java.awt.image.ImageFilter;
-import java.awt.image.FilteredImageSource;
-import java.io.IOException;
-import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
-import com.sixlegs.image.png.PngImage;
+import java.io.IOException;
+
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 
 /**
  * A PNGSprite uses the sixlegs PNG library to load sprites. Java's
@@ -37,7 +36,8 @@ public final class PNGSprite extends JavaImageSprite
     }
     catch (IOException ioe)
     {
-      Assert.fail( "Failed to load PNG image from "+u, ioe );
+      ioe.printStackTrace();
+      ErrorHandler.getHandler().error( null, "Failed to load PNG image from "+u );
     }
   }
 }

@@ -779,7 +779,7 @@ public class TileSpec implements Constants
 
         if ( isIsometric() )
         {
-          Assert.that( sp_wall != null );
+          assert( sp_wall != null );
           style.setWallSprite( style.getNumTiles(), sp_wall );
         }
         style.setThreshold( style.getNumTiles(), j );

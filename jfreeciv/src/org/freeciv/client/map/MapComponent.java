@@ -1,26 +1,17 @@
 package org.freeciv.client.map;
 
-import java.awt.image.BufferedImage;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
-import org.freeciv.client.Constants;
-import org.freeciv.util.Localize;
 import org.freeciv.client.action.ActionManager;
 
 /**

@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<workspace xmlns="http://xmlns.oracle.com/jdeveloper/902rc/workspace" nselem="workspace" class="oracle.ide.model.Workspace">
+<workspace xmlns="http://xmlns.oracle.com/jdeveloper/904/workspace" nselem="workspace" class="oracle.ide.model.Workspace">
    <activeProjectURL path="freeciv_jdev9i.jpr" id="0"/>
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.ide.model.Reference">
@@ -7,4 +7,5 @@
          <nodeClass>oracle.jdeveloper.model.JProject</nodeClass>
       </Item>
    </listOfChildren>
+   <properties/>
 </workspace>

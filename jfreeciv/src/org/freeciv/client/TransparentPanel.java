@@ -1,6 +1,13 @@
 package org.freeciv.client;
-import java.awt.*;
-import javax.swing.*;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+
+import javax.swing.JPanel;
+
 public class TransparentPanel extends JPanel
 {
   AlphaComposite alpha;

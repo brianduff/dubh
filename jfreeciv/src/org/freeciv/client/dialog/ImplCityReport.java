@@ -1,16 +1,33 @@
 package org.freeciv.client.dialog;
 
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import java.util.Date;
+import java.util.Vector;
+
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.text.Collator;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.action.*;
-import org.freeciv.client.ui.util.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.dialog.util.MultiLineHeaderJTable;
 
 public class ImplCityReport extends JDialog implements DlgCityReport
 {
@@ -21,7 +38,7 @@ public class ImplCityReport extends JDialog implements DlgCityReport
   private Client m_client;
   private FlowLayout layout = new FlowLayout();
   private MultiLineHeaderJTable table;
-  private Button[] buttons = new Button[9];
+  private JButton[] buttons = new JButton[9];
 
   public ImplCityReport( Client c )
   {
@@ -90,7 +107,7 @@ public class ImplCityReport extends JDialog implements DlgCityReport
 
     for( int i = 0; i < buttons.length; i++ )
     {
-      buttons[i] = new Button( buttonLabels[i] );
+      buttons[i] = new JButton( buttonLabels[i] );
       buttons[i].addActionListener( getActionListener( i ) );
       panel.add( buttons[i] );
     }
@@ -154,7 +171,7 @@ public class ImplCityReport extends JDialog implements DlgCityReport
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
   
   public void refresh()

@@ -1,853 +1,1189 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<project xmlns="http://xmlns.oracle.com/jdeveloper/902rc/jproject" nselem="project" class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.client</defaultPackage>
+<project xmlns="http://xmlns.oracle.com/jdeveloper/904/jproject" nselem="project" class="oracle.jdeveloper.model.JProject">
+   <defaultPackage>org.freeciv.client.ui.util</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
+      <Item class="java.lang.String">org.freeciv.client.ui.util</Item>
       <Item class="java.lang.String">org.freeciv.client</Item>
       <Item class="java.lang.String">org.freeciv.client.handler</Item>
-      <Item class="java.lang.String">org.freeciv.client.ui.util</Item>
       <Item class="java.lang.String">org.freeciv.client.map</Item>
       <Item class="java.lang.String">org.freeciv.common</Item>
       <Item class="java.lang.String">package4</Item>
       <Item class="java.lang.String">org.freeciv.net</Item>
    </defaultPackages>
+   <dependencyList/>
    <htmlRootDirectory path="public_html/"/>
-   <j2eeAppName>freeciv_jdev9i</j2eeAppName>
    <j2eeWebAppName>freeciv_jdev9i</j2eeWebAppName>
    <j2eeWebContextRoot>/freeciv_jdev9i</j2eeWebContextRoot>
    <listOfChildren class="oracle.ide.model.DataList">
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/util/Localize.java"/>
+         <nodeClass id="0">oracle.jdeveloper.model.JavaSourceNode</nodeClass>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/util/EnumParser.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/util/Enum.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/WorkList.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PlayerDiplomacyState.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktUnittypeInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktUnitRequest.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktUnitInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktUnitConnect.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktUnitCombat.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktTileInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktSpaceshipInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktSpaceshipAction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktShortCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktSabotageList.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetUnit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetTerrainControl.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetTerrain.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetTech.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetGovernmentRulerTitle.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetGovernment.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetGame.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetControl.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktRulesetBuilding.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktReqJoinGame.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktPlayerRequest.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktPlayerInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktPageMsg.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktNukeTile.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktNewYear.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktMoveUnit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktMapInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktJoinGameReply.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGotoRoute.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGenericValues.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGenericMessage.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGenericInteger.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGenericEmpty.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktGameInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktDiplomatAction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktDiplomacyInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktConnInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktCityRequest.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktCityNameSuggestion.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktCityInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktBeforeEndYear.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PktAllocNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PacketOverrunException.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/PacketConstants.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/Packet.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/OutStream.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/NetworkProtocolException.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/InStream.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/IncorrectPacketLengthException.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/ImprovementEffect.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/net/AbstractPacket.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/XPMImageIcon.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/XPMFile.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/UnitType.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/UnitClass.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/UnitAI.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Unit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/TypesafeEnum.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Tile.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/TerrainType.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/TerrainRules.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Sprite.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Spaceship.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Shared.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/RulerTitle.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/RegistryParseException.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Registry.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/PNGSprite.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Player.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Nation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/MapPositionIterator.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/MapPosition.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Map.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Logger.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/JavaImageSprite.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/InputFile.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Government.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/GameObjectFactory.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/GameObject.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Game.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Factories.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/ErrorHandler.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/EffectType.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/EffectRange.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/DiplomacyState.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Connection.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/CommonConstants.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/CityStyle.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/City.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Building.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Assert.java"/>
+      <Item class="oracle.ide.model.Reference">
+         <URL protocol="ide.scm.cvs.file" path="/C:/Documents and Settings/Brian Duff/My Documents/cvs/jfreeciv/src/org/freeciv/common/Assert.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/AI.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/Advance.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/common/AbstractGameObjectFactory.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/ToolButton.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/ToggleActionMenuItem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/ThinBevelBorder.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/HyperlinkButton.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/DockPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/DockedPanelCaption.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/BusyCursor.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/ActionMenuItem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ui/util/ActionButton.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/TransparentPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/TileSpec.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/SndSystem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/ResearchDialog.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/RealSndSystem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/UnitStackDisplay.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/UnitInfoPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/QuickCommand.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/MapOverviewJumpListener.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/MapOverviewJumpEvent.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/MapOverview.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/Console.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/CivStatusPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/panel/CivInfoPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/Options.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/NamedSprites.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/MapViewManager.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/MapViewInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/MapView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/MapLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/MapComponent.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/iso/IsometricMapView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/UnitLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/TerrainLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/GridMapView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/GridMapTileLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/GridLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/FogOfWarLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/grid/CityNamesLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/DebugMapView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/BufferLayer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/map/AbstractMapView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/MainWindow.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Localize.java"/>
+      <Item class="oracle.ide.model.Reference">
+         <URL protocol="ide.scm.cvs.file" path="/C:/Documents and Settings/Brian Duff/My Documents/cvs/jfreeciv/src/org/freeciv/client/Localize.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/LabelledMenuItem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/IconManager.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/HelpSystemImpl.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/HelpSystem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/HelpDataParser.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHUnitInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHTileInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHSpaceshipInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHShortCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHServerShutdown.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHSelectNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetUnit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetTerrainControl.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetTerrain.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetTech.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetGovernmentRulerTitle.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetGovernment.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetGame.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetControl.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHRulesetBuilding.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHPlayerInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHPageMsg.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHMapInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHJoinGameReply.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHGenericValues.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHGenericMessage.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHGameState.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHGameInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHEmpty.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHConnPing.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHCityInfo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/PHChatMsg.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/ClientPacketHandler.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/ClientPacketDispacher.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/handler/AbstractHandler.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/Enum.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/util/VerticalFlowPanel.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/util/MultiLineTableHeaderRenderer.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/util/MultiLineHeaderJTable.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/util/GridBagConstraints2.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ProgressItem.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplTaxRates.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplProgress.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplPlayers.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplNotifyGoto.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplNotify.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplLogin.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplFindCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplCityView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImplCityReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/ImpCityChangeConstruction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgTaxRates.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgProgress.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgPlayers.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgNotifyGoto.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgNotify.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgLogin.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgFindCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgCityView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgCityReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DlgCityChangeConstruction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/Constants.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/Colors.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java" id="0"/>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/Client.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTWait.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTUnload.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTTransformTerrain.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTSentry.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTPillage.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMoveWest.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMoveSouth.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMoveNorth.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMoveEast.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMine.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMakeTradeRoute.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTMakeHomeCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTHelpBuildWonder.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTGoToCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTGoTo.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTFortify.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTExplodeNuclear.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTDone.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTDisbandUnit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTConnect.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTCleanPollution.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTBuildRoad.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTBuildIrrigation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTBuildFortress.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTBuildCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTBuildAirbase.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTAutoSettler.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTAutoExplore.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/UACTAutoAttack.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTWorklists.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTWondersOfTheWorld.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTTradeReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTTopFiveCities.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTTaxRates.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTSpaceship.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTServerOptOngoing.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTServerOptInitial.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTSendAllocNation.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTScienceReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTSaveSettings.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTRevolution.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTQuit.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTPlayers.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTMilitaryReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTMessages.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTMessageOptions.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTMapGrid.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTLocalOptions.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/Actions.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTHelpCopying.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTFindCity.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTExportLog.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTEndTurn.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTDisconnect.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTDemographics.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTClearLog.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTCityReport.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/ACTCenterView.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/AbstractUnitAction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/AbstractToggleAction.java"/>
+         <nodeClass idref="0"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+      <Item class="oracle.ide.model.Reference">
          <URL path="src/org/freeciv/client/action/AbstractClientAction.java"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="build.xml"/>
+         <nodeClass>oracle.jdeveloper.compiler.ant.AntNode</nodeClass>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="Changelog.txt"/>
+         <nodeClass id="1">oracle.ide.model.DeployableTextNode</nodeClass>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="Copying.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="credits.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="manifest.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="NOTES.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="Readme.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="TODO.txt"/>
+         <nodeClass idref="1"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/action/ACTChangeKeyBindings.java"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/dialog/DlgChangeKeyBindings.java"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/dialog/ImplChangeKeyBindings.java"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/ui/util/BaseDialog.java"/>
+         <nodeClass idref="0"/>
+      </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="src/org/freeciv/client/ui/util/ButtonBarLayout.java"/>
+         <nodeClass idref="0"/>
       </Item>
    </listOfChildren>
    <ownerMap/>
+   <projectDocPath>
+      <entries class="[Ljava.net.URL;"/>
+   </projectDocPath>
+   <projectLibraryList class="oracle.jdeveloper.library.JProjectLibraryList">
+      <jdkList class="java.util.ArrayList"/>
+      <libraryList class="java.util.ArrayList"/>
+   </projectLibraryList>
    <projectSettings>
       <activeConfigName>Development</activeConfigName>
       <commonData class="java.util.HashMap">
@@ -861,6 +1197,16 @@
                </modelersPath>
             </Value>
          </Item>
+         <Item>
+            <Key>oracle.jdeveloper.compiler.ant.AntConfiguration</Key>
+            <Value class="oracle.jdeveloper.compiler.ant.AntConfiguration">
+               <arguments class="java.lang.String"/>
+               <makeTarget/>
+               <projectBuildfile/>
+               <rebuildTarget/>
+               <showOutput>true</showOutput>
+            </Value>
+         </Item>
       </commonData>
       <configurations class="java.util.TreeMap">
          <Item>
@@ -870,7 +1216,7 @@
                   <Item>
                      <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
                      <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
-                        <assertionsEnabled>false</assertionsEnabled>
+                        <assertionsEnabled>true</assertionsEnabled>
                         <copyRes>
                            <Item>.gif</Item>
                            <Item>.properties</Item>
@@ -885,11 +1231,32 @@
                         <obfuscate>false</obfuscate>
                         <showCompileProgress>true</showCompileProgress>
                         <showDeprecations>true</showDeprecations>
+                        <showObjectDotStaticWarnings>false</showObjectDotStaticWarnings>
                         <showPartialImportWarnings>false</showPartialImportWarnings>
+                        <showSelfDeprecations>true</showSelfDeprecations>
                         <showUnusedImportWarnings>true</showUnusedImportWarnings>
                         <showWarnings>true</showWarnings>
+                        <target>1.4</target>
                         <updateImports>false</updateImports>
                         <updateZipJarImports>false</updateZipJarImports>
+                        <useDefaultEncoding>true</useDefaultEncoding>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.javadoc.JProjectJavadoc</Key>
+                     <Value class="oracle.jdeveloper.javadoc.JProjectJavadoc">
+                        <generateAuthor>false</generateAuthor>
+                        <generateDeprecated>true</generateDeprecated>
+                        <generateIndex>true</generateIndex>
+                        <generateNavbar>true</generateNavbar>
+                        <generateSince>true</generateSince>
+                        <generateTree>true</generateTree>
+                        <generateVersion>false</generateVersion>
+                        <heapSize>32</heapSize>
+                        <miscOptions class="java.lang.String"/>
+                        <oneOneFormat>false</oneOneFormat>
+                        <outputDirectory/>
+                        <scope>-protected</scope>
                      </Value>
                   </Item>
                   <Item>
@@ -909,15 +1276,15 @@
                         <programArguments class="java.lang.String"/>
                         <runActiveFile>true</runActiveFile>
                         <runDirectoryURL/>
-                        <targetURL idref="0"/>
+                        <targetURL path="src/org/freeciv/client/Client.java"/>
                         <useProxy>false</useProxy>
                      </Value>
                   </Item>
                   <Item>
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
-                        <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber id="1">1.3.1</jdkVersionNumber>
+                        <jdkName>1.4.1_01</jdkName>
+                        <jdkVersionNumber>1.4.1_01</jdkVersionNumber>
                         <libraries>JDeveloper Runtime</libraries>
                      </Value>
                   </Item>
@@ -945,7 +1312,6 @@
                         <noToString>false</noToString>
                         <objectWrapper>false</objectWrapper>
                         <packageName/>
-                        <smartStub>false</smartStub>
                      </Value>
                   </Item>
                   <Item>
@@ -960,6 +1326,7 @@
                   <Item>
                      <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
                      <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
+                        <JPDAClassicDebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDAClassicDebugArguments>
                         <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
                         <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
                         <breakpointScope>workspace</breakpointScope>
@@ -976,6 +1343,7 @@
                         </remoteDebuggingParameters>
                         <remoteDebuggingParametersSaved>false</remoteDebuggingParametersSaved>
                         <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <startOption>running</startOption>
                         <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
                         <tracingEnabled class="java.lang.String"/>
                      </Value>
@@ -983,6 +1351,8 @@
                   <Item>
                      <Key>oracle.jdevimpl.runner.profile.ProfileConfiguration</Key>
                      <Value class="oracle.jdevimpl.runner.profile.ProfileConfiguration">
+                        <DMSstartID>20000</DMSstartID>
+                        <DMSstate>0</DMSstate>
                         <eventColumnVisible>
                            <Item>true</Item>
                            <Item>true</Item>
@@ -1031,6 +1401,7 @@
                      <Key>oracle.jdevimpl.sqlj.config.SqljConfiguration</Key>
                      <Value class="oracle.jdevimpl.sqlj.config.SqljConfiguration">
                         <checkSemantics>false</checkSemantics>
+                        <codegen>oracle</codegen>
                         <contextConnectionMap class="java.util.HashMap"/>
                         <useCache>false</useCache>
                         <warnAll>false</warnAll>
@@ -1039,6 +1410,12 @@
                         <warnPrecision>false</warnPrecision>
                         <warnStrict>false</warnStrict>
                         <warnVerbose>false</warnVerbose>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>WebappJspCompilerOptions</Key>
+                     <Value class="oracle.jdevimpl.webapp.jsp.JspCompilerOptions">
+                        <requestTimeIntrospection>false</requestTimeIntrospection>
                      </Value>
                   </Item>
                </configData>
@@ -1066,11 +1443,32 @@
                         <obfuscate>false</obfuscate>
                         <showCompileProgress>true</showCompileProgress>
                         <showDeprecations>true</showDeprecations>
+                        <showObjectDotStaticWarnings>false</showObjectDotStaticWarnings>
                         <showPartialImportWarnings>false</showPartialImportWarnings>
+                        <showSelfDeprecations>true</showSelfDeprecations>
                         <showUnusedImportWarnings>false</showUnusedImportWarnings>
                         <showWarnings>true</showWarnings>
+                        <target>Default</target>
                         <updateImports>false</updateImports>
                         <updateZipJarImports>false</updateZipJarImports>
+                        <useDefaultEncoding>true</useDefaultEncoding>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.javadoc.JProjectJavadoc</Key>
+                     <Value class="oracle.jdeveloper.javadoc.JProjectJavadoc">
+                        <generateAuthor>false</generateAuthor>
+                        <generateDeprecated>true</generateDeprecated>
+                        <generateIndex>true</generateIndex>
+                        <generateNavbar>true</generateNavbar>
+                        <generateSince>true</generateSince>
+                        <generateTree>true</generateTree>
+                        <generateVersion>false</generateVersion>
+                        <heapSize>32</heapSize>
+                        <miscOptions class="java.lang.String"/>
+                        <oneOneFormat>false</oneOneFormat>
+                        <outputDirectory/>
+                        <scope>-protected</scope>
                      </Value>
                   </Item>
                   <Item>
@@ -1098,7 +1496,7 @@
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber idref="1"/>
+                        <jdkVersionNumber>1.3.1</jdkVersionNumber>
                         <libraries class="java.lang.String"/>
                      </Value>
                   </Item>
@@ -1124,7 +1522,6 @@
                         <noToString>false</noToString>
                         <objectWrapper>false</objectWrapper>
                         <packageName/>
-                        <smartStub>false</smartStub>
                      </Value>
                   </Item>
                   <Item>
@@ -1139,6 +1536,7 @@
                   <Item>
                      <Key>oracle.jdevimpl.runner.debug.DebugConfiguration</Key>
                      <Value class="oracle.jdevimpl.runner.debug.DebugConfiguration">
+                        <JPDAClassicDebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDAClassicDebugArguments>
                         <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
                         <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
                         <breakpointScope>workspace</breakpointScope>
@@ -1146,6 +1544,7 @@
                         <remoteDebuggingParameters class="java.util.HashMap"/>
                         <remoteDebuggingParametersSaved>false</remoteDebuggingParametersSaved>
                         <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <startOption>running</startOption>
                         <tracingDisabled>java;javax;sun;sunw;com.sun;org.apache.tomcat;org.xml.sax</tracingDisabled>
                         <tracingEnabled class="java.lang.String"/>
                      </Value>
@@ -1153,6 +1552,8 @@
                   <Item>
                      <Key>oracle.jdevimpl.runner.profile.ProfileConfiguration</Key>
                      <Value class="oracle.jdevimpl.runner.profile.ProfileConfiguration">
+                        <DMSstartID>20000</DMSstartID>
+                        <DMSstate>0</DMSstate>
                         <eventColumnVisible>
                            <Item>true</Item>
                            <Item>true</Item>
@@ -1201,6 +1602,7 @@
                      <Key>oracle.jdevimpl.sqlj.config.SqljConfiguration</Key>
                      <Value class="oracle.jdevimpl.sqlj.config.SqljConfiguration">
                         <checkSemantics>false</checkSemantics>
+                        <codegen>oracle</codegen>
                         <contextConnectionMap class="java.util.HashMap"/>
                         <useCache>false</useCache>
                         <warnAll>false</warnAll>
@@ -1209,6 +1611,12 @@
                         <warnPrecision>false</warnPrecision>
                         <warnStrict>false</warnStrict>
                         <warnVerbose>false</warnVerbose>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>WebappJspCompilerOptions</Key>
+                     <Value class="oracle.jdevimpl.webapp.jsp.JspCompilerOptions">
+                        <requestTimeIntrospection>false</requestTimeIntrospection>
                      </Value>
                   </Item>
                </configData>

@@ -3,16 +3,13 @@ package org.freeciv.client.map.grid;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 import org.freeciv.client.Colors;
-import org.freeciv.client.Constants;
 import org.freeciv.client.map.MapViewInfo;
 import org.freeciv.common.City;
 /**

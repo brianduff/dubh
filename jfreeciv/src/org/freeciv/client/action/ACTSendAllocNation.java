@@ -1,6 +1,5 @@
 package org.freeciv.client.action;
 
-import org.freeciv.client.Client;
 import org.freeciv.net.PktAllocNation;
 import org.freeciv.client.dialog.DlgNation;
 import java.awt.event.ActionEvent;

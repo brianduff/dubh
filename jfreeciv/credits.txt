@@ -7,7 +7,9 @@ Original JFreeCiv code (compatible with 1.8)
 
 o Brian Duff [ Brian.Duff at dubh.org ]
 
-Upgraded the client to support 1.10, then again to 1.12. Ominous fits of refactoring, UI stuff, implementing the data model in common, supporting new tilespec formats, map / tile rewrite for 1.12. Current maintainer.
+Upgraded the client to support 1.10, then again to 1.12. Ominous fits of 
+refactoring, UI stuff, implementing the data model in common, supporting 
+new tilespec formats, map / tile rewrite for 1.12. Current maintainer.
 
 o James R [ bullwinkle at hotpop.com ]
 
@@ -19,4 +21,5 @@ Scrollable tiled map component (much of the org.freeciv.common.map package)
 
 o Ben Mazur [ bmazur at sev.org ]
 
-tax rates, players, find city, server options, wonders of the world, top five cities, demographics, city view
+tax rates, players, find city, server options, wonders of the world, top five 
+cities, demographics, city view

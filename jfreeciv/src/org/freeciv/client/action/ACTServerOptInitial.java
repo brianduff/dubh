@@ -1,10 +1,9 @@
 package org.freeciv.client.action;
-import org.freeciv.client.Client;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+
+import org.freeciv.common.CommonConstants;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktGenericInteger;
-import org.freeciv.common.CommonConstants;
 
 public class ACTServerOptInitial extends AbstractClientAction 
   implements PacketConstants, CommonConstants

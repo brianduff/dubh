@@ -102,6 +102,6 @@ public class CivInfoPanel extends VerticalFlowPanel
 
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

@@ -1,8 +1,8 @@
 package org.freeciv.client.dialog.util;
 
-import org.freeciv.client.dialog.util.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 public class MultiLineHeaderJTable extends JTable
 {

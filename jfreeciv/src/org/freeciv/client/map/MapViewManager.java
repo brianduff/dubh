@@ -3,13 +3,13 @@ package org.freeciv.client.map;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.SwingUtilities;
 
 import org.freeciv.client.Client;
-import org.freeciv.common.Assert;
-import org.freeciv.common.City;
 import org.freeciv.client.map.grid.GridMapView;
 import org.freeciv.client.map.iso.IsometricMapView;
+import org.freeciv.common.City;
 
 /**
  * The client map class is responsible for creating MapView instances and for
@@ -245,7 +245,7 @@ public final class MapViewManager
     {
       // ? bother doing this - maybe the client is allowed to do this on
       // shutdown?
-      Assert.fail( "You cannot remove the main map view" );
+      assert( false );
     }
     m_mapViews.remove( mv );
   }

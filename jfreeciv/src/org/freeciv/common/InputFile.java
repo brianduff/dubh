@@ -82,14 +82,6 @@ public class InputFile
 
   private StringBuffer m_lineBuffer = new StringBuffer();
 
-  /**
-   * @deprecated use InputFile( InputStream )
-   */
-  public InputFile( String filename )
-          throws IOException
-  {
-    open( filename );
-  }
 
   /**
    * Construct an input file based on an input stream.
@@ -103,14 +95,13 @@ public class InputFile
 
   private void assertSanity()
   {
-    Assert.that( ( m_is != null ) );
-    Assert.that( ( m_lineNum >= 0 ) );
-    Assert.that( ( m_curLinePos >= 0 ) );
-    Assert.that( ( m_curLine.length() >=  0 ) );
-    Assert.that( ( m_copyLine.length() >= 0 ) );
-    Assert.that( ( m_token.length() >= 0 ) );
-    Assert.that( ( m_partial.length() >= 0 ) );
-
+    assert (m_is != null);
+    assert ( m_lineNum >= 0 ) ;
+    assert ( m_curLinePos >= 0 );
+    assert ( m_curLine.length() >=  0 );
+    assert ( m_copyLine.length() >= 0 ) ;
+    assert ( m_token.length() >= 0 ) ;
+    assert ( m_partial.length() >= 0 );
   }
   
   private boolean isComment( char c )
@@ -176,7 +167,7 @@ public class InputFile
   private boolean atEol()
   {
     assertSanity();
-    Assert.that( ( m_curLinePos <= m_curLine.length() ) );
+    assert ( m_curLinePos <= m_curLine.length() );
     return ( m_curLinePos >= m_curLine.length() );
   }
   public boolean atEof()
@@ -313,7 +304,7 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      Assert.that( inf.haveLine() );
+      assert( inf.haveLine() );
       int c = inf.m_curLinePos;
       if( inf.m_curLine.charAt( c++ ) != '[' )
       {
@@ -337,7 +328,7 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      Assert.that( inf.haveLine() );
+      assert( inf.haveLine() );
       int c = inf.m_curLinePos;
       while( c < inf.m_curLine.length() && Character.isWhitespace( inf.m_curLine.charAt( c ) ) )
       {
@@ -375,7 +366,7 @@ public class InputFile
     public String getToken( InputFile inf )
     {
       int c;
-      Assert.that( inf.haveLine() );
+      assert( inf.haveLine() );
       if( !inf.atEol() )
       {
         inf.debug( "Trying to get EOL. Not currently at EOL: " + inf.m_curLine + " at pos " + inf.m_curLinePos );
@@ -412,7 +403,7 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      Assert.that( inf.haveLine() );
+      assert( inf.haveLine() );
       int c = inf.m_curLinePos;
       inf.debug( "Curline is " + inf.m_curLine );
       while( c < inf.m_curLine.length() && Character.isWhitespace( inf.m_curLine.charAt( c ) ) )
@@ -472,7 +463,7 @@ public class InputFile
       boolean has_i18n_marking = false;
       int start_line;
       StringBuffer partial;
-      Assert.that( inf.haveLine() );
+      assert( inf.haveLine() );
       int c = inf.m_curLinePos;
       int start;
       inf.debug( "In VALUEGETTER getToken. line is " + ln );

@@ -6,7 +6,6 @@ import javax.swing.UIManager;
 
 import org.freeciv.common.Unit;
 import org.freeciv.common.TerrainType;
-import org.freeciv.client.Localize;
 import org.freeciv.client.Client;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 
@@ -115,6 +114,6 @@ public class UnitInfoPanel extends VerticalFlowPanel
 
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

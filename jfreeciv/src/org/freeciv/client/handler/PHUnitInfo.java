@@ -181,7 +181,8 @@ public class PHUnitInfo extends AbstractHandler implements Constants
         {
           c.doMoveUnit( unit, packet );
           c.removeUnit( unit );
-          c.refreshTileMapCanvas( packet.x, packet.y, true );
+          c.getMainWindow().getMapViewManager().refreshTileMapCanvas( 
+            packet.x, packet.y );
           return;
         }
 
@@ -258,7 +259,8 @@ public class PHUnitInfo extends AbstractHandler implements Constants
       if ( ! (c.getGame().getMap().getTile( unit.getX(), unit.getY() ).getKnown() == TILE_KNOWN))
       {
         // c.removeUnit( unit );
-        c.refreshTileMapCanvas( dest_x, dest_y, true );
+        c.getMainWindow().getMapViewManager().refreshTileMapCanvas( 
+          packet.x, packet.y );
       }
     }
     else  // create a new unit
@@ -295,7 +297,8 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
     if ( repaintUnit )
     {
-      c.refreshTileMapCanvas( unit.getX(), unit.getY(), true);
+      c.getMainWindow().getMapViewManager().refreshTileMapCanvas( 
+        packet.x, packet.y );
     }
 
     if ( packet.select_it && ( unit.isOwner( c.getGame().getCurrentPlayer() ) ) )

@@ -1,14 +1,11 @@
 package org.freeciv.client.panel;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+
 import java.util.Iterator;
-import java.util.List;
-import javax.swing.Icon;
+
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 

@@ -4,9 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Event;
 
-import org.freeciv.client.Client;
 import org.freeciv.common.Unit;
-import org.freeciv.common.City;
 import org.freeciv.common.CommonConstants;
 
 public class UACTExplodeNuclear extends AbstractUnitAction

@@ -1,47 +1,27 @@
 package org.freeciv.client.map;
 
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import java.util.Collection;
 
-
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
 
-import org.freeciv.util.Localize;
-import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
+import org.freeciv.client.Constants;
 import org.freeciv.client.Options;
 import org.freeciv.client.panel.MapOverviewJumpEvent;
-import org.freeciv.common.Assert;
-import org.freeciv.common.Map;
 import org.freeciv.common.City;
+import org.freeciv.common.Map;
 import org.freeciv.common.Player;
 import org.freeciv.common.TerrainType;
 import org.freeciv.common.Tile;
 import org.freeciv.common.Unit;
+import org.freeciv.util.Localize;
 
 /**
  * Abstract superclass for map views. The two concrete subclasses of this
@@ -94,7 +74,7 @@ public abstract class AbstractMapView implements MapView, Constants
 
 
     Icon intro = getClient().getTileSpec().getImage( "main_intro_file" );
-    Assert.that( intro != null );
+    assert( intro != null );
     m_scrollPane.setViewportView( new JLabel( intro ) );
   }
 

@@ -1,5 +1,4 @@
 package org.freeciv.net;
-import org.freeciv.client.Constants;
 public class PktGenericMessage extends AbstractPacket
 {
   public int x;

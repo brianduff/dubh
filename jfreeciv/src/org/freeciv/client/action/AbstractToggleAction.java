@@ -1,8 +1,5 @@
 package org.freeciv.client.action;
-import org.freeciv.client.Client;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
-import java.awt.Event;
 /**
  * An abstract toggle action is an action that has an internal
  * state (true or false). Triggering the action causes the internal

@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.freeciv.client.Client;
 import org.freeciv.common.Logger;
 import org.freeciv.net.Packet;
-import org.freeciv.net.PktGenericMessage;
 import org.freeciv.util.Localize;
 
 

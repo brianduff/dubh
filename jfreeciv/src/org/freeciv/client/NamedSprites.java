@@ -1,6 +1,5 @@
 package org.freeciv.client;
 
-import org.freeciv.common.Sprite;
 import javax.swing.Icon;
 
 /**

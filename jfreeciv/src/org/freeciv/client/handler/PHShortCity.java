@@ -1,12 +1,9 @@
 package org.freeciv.client.handler;
 
 
-import org.freeciv.client.Constants;
 import org.freeciv.client.Client;
-import org.freeciv.common.Assert;
+import org.freeciv.client.Constants;
 import org.freeciv.common.City;
-import org.freeciv.common.Player;
-import org.freeciv.common.Unit;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktShortCity;
 
@@ -58,7 +55,7 @@ public class PHShortCity extends AbstractHandler implements Constants
         updateDescriptions = true;
       }
 
-      Assert.that( city.getId() == pkt.id );
+      assert( city.getId() == pkt.id );
     }
     
     city.unpackage( pkt, cityIsNew );

@@ -218,12 +218,12 @@ public class Registry
    * @throws org.freeciv.common.RegistryParseException if the file is
    *    badly formed and could not be parsed
    */
-  public void loadFile( String filename ) throws IOException, 
-    RegistryParseException
-  {
-    this.filename = filename;
-    loadFile( new InputFile( filename ) );
-  }
+//  public void loadFile( String filename ) throws IOException, 
+//    RegistryParseException
+//  {
+//    this.filename = filename;
+//    loadFile( new InputFile( filename ) );
+//  }
 
   /**
    * Load and parse the specified InputStream. 

@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.17 2001-12-17 21:42:58 briand Exp $ -->
+<!-- $Id: build.xml,v 1.18 2002-12-01 06:41:05 briand Exp $ -->
 
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
@@ -55,7 +55,8 @@
     <property name="javadocdir" value="javadoc" />
     <property name="javadocpkg" value="org.*" />
     <property name="javadoctitle" value="${product} ${modulelong}" />
-
+  
+    <property name="releasebuild" value="false" />
 
     <!-- Comma separated list of files that should be copied from the source path into the classpath. You can use wildcards -->
     <property name="copypatterns" value="**/*.gif,**/*.properties,**/*.png" />
@@ -96,7 +97,9 @@
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
             classpath="${classpath}"
-            deprecation="true" >
+            deprecation="true" 
+            optimize="${releasebuild}"
+            source="1.4">
 
     </javac>            
   </target>

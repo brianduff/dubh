@@ -352,7 +352,7 @@ public final class Unit implements CommonConstants
    */
   public boolean isFlagSet( int flag )
   {
-    Assert.that( flag >= 0 && flag < F_LAST );
+    assert( flag >= 0 && flag < F_LAST );
     return ((getUnitType().getFlags() &  ( 1 << flag )) != 0);
   }
 
@@ -465,36 +465,74 @@ public final class Unit implements CommonConstants
     }
     if( activity == ACTIVITY_MINE )
     {
-      if( m_game.getTerrainRules().isMineAllowed()         && isFlagSet( F_SETTLERS )         && ( ( tile.getTerrain() == tType.getMiningResult()               && ( tile.getSpecial() & S_MINE ) == 0 )
-             || ( tile.getTerrain() != tType.getMiningResult()                 && tType.getMiningResult() != T_LAST                 && ( tile.getTerrain() != T_OCEAN                     || tType.getMiningResult() == T_OCEAN                     || map.canReclaimOcean( getX(), getY() ) )                 && ( tile.getTerrain() == T_OCEAN                     || tType.getMiningResult() != T_OCEAN                     || map.canChannelLand( getX(), getY() ) )
+      if( m_game.getTerrainRules().isMineAllowed()
+         && isFlagSet( F_SETTLERS )
+         && ( ( tile.getTerrain() == tType.getMiningResult()
+               && ( tile.getSpecial() & S_MINE ) == 0 )
+             || ( tile.getTerrain() != tType.getMiningResult()
+                 && tType.getMiningResult() != T_LAST
+                 && ( tile.getTerrain() != T_OCEAN
+                     || tType.getMiningResult() == T_OCEAN
+                     || map.canReclaimOcean( getX(), getY() ) )
+                 && ( tile.getTerrain() == T_OCEAN
+                     || tType.getMiningResult() != T_OCEAN
+                     || map.canChannelLand( getX(), getY() ) )
                  && ( tType.getMiningResult() != T_OCEAN
                      || map.getCity( getX(), getY() ) != null ) ) ) )
-      {        // Don't allow it if someone else is irrigating this tile.
-        // *Do* allow it if they're transforming - the mine may survive        for ( Iterator i = tile.getUnits(); i.hasNext(); )        {
+      {
+        // Don't allow it if someone else is irrigating this tile.
+        // *Do* allow it if they're transforming - the mine may survive
+        for ( Iterator i = tile.getUnits(); i.hasNext(); )
+        {
           if ( ((Unit)i.next()).getActivity() == ACTIVITY_IRRIGATE )
-          {            return false;
-          }        }        return true;
+          {
+            return false;
+          }
+        }
+        return true;
       }
       else
-      {        return false;
-      }    }
+      {
+        return false;
+      }
+    }
     if( activity == ACTIVITY_IRRIGATE )
     {
-      if( m_game.getTerrainRules().isIrrigateAllowed()         && isFlagSet( F_SETTLERS )         && ( ( tile.getTerrain() == tType.getIrrigationResult()               && ( ( tile.getSpecial() & S_IRRIGATION ) == 0
+      if( m_game.getTerrainRules().isIrrigateAllowed()
+         && isFlagSet( F_SETTLERS )
+         && ( ( tile.getTerrain() == tType.getIrrigationResult()
+               && ( ( tile.getSpecial() & S_IRRIGATION ) == 0
                    || ( ( tile.getSpecial() & S_FARMLAND ) == 0
-                       && getOwner().knowsTechsWithFlag( TF_FARMLAND ) ) ) )             && ( ( tile.getTerrain() == tType.getIrrigationResult()                   && map.isWaterAdjacentTo( getX(), getY() ) )
-                 || ( tile.getTerrain() != tType.getIrrigationResult()                     && tType.getIrrigationResult() != T_LAST                     && ( tile.getTerrain() != T_OCEAN                         || tType.getIrrigationResult() == T_OCEAN                         || map.canReclaimOcean( getX(), getY() ) )                     && ( tile.getTerrain() == T_OCEAN                         || tType.getIrrigationResult() != T_OCEAN                         || map.canChannelLand( getX(), getY() ) )
+                       && getOwner().knowsTechsWithFlag( TF_FARMLAND ) ) ) )
+             && ( ( tile.getTerrain() == tType.getIrrigationResult()
+                   && map.isWaterAdjacentTo( getX(), getY() ) )
+                 || ( tile.getTerrain() != tType.getIrrigationResult()
+                     && tType.getIrrigationResult() != T_LAST
+                     && ( tile.getTerrain() != T_OCEAN
+                         || tType.getIrrigationResult() == T_OCEAN
+                         || map.canReclaimOcean( getX(), getY() ) )
+                     && ( tile.getTerrain() == T_OCEAN
+                         || tType.getIrrigationResult() != T_OCEAN
+                         || map.canChannelLand( getX(), getY() ) )
                      && ( tType.getIrrigationResult() != T_OCEAN
                          || map.getCity( getX(), getY() ) != null ) ) ) ) )
-      {        // Don't allow it if someone else is mining this tile.
-        // *Do* allow it if they're transforming - the irrigation may survive        for ( Iterator i = tile.getUnits(); i.hasNext(); )        {
+      {
+        // Don't allow it if someone else is mining this tile.
+        // *Do* allow it if they're transforming - the irrigation may survive
+        for ( Iterator i = tile.getUnits(); i.hasNext(); )
+        {
           if ( ((Unit)i.next()).getActivity() == ACTIVITY_MINE )
-          {            return false;
-          }        }        return true;
+          {
+            return false;
+          }
+        }
+        return true;
       }
       else
-      {        return false;
-      }    }
+      {
+        return false;
+      }
+    }
     if( activity == ACTIVITY_FORTIFYING )
     {
       return isGroundUnit() && getActivity() != ACTIVITY_FORTIFIED

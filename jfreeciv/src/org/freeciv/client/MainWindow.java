@@ -3,33 +3,27 @@ package org.freeciv.client;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.Action;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.BasicMoveFactory;
 import org.freeciv.client.action.MenuFactory;
-import org.freeciv.client.action.AbstractToggleAction;
-import org.freeciv.client.map.MapViewManager;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.client.map.MapMouseListener;
+import org.freeciv.client.map.MapViewManager;
 import org.freeciv.client.panel.CivInfoPanel;
+import org.freeciv.client.panel.Console;
+import org.freeciv.client.panel.MapOverview;
+import org.freeciv.client.panel.QuickCommand;
 import org.freeciv.client.panel.UnitInfoPanel;
 import org.freeciv.client.panel.UnitStackDisplay;
-import org.freeciv.client.panel.Console;
-import org.freeciv.client.panel.QuickCommand;
-import org.freeciv.client.panel.MapOverview;
-import org.freeciv.client.ui.util.ActionMenuItem;
 import org.freeciv.client.ui.util.DockPanel;
-import org.freeciv.client.ui.util.ToggleActionMenuItem;
-import org.freeciv.client.dialog.util.VerticalFlowPanel;
 
 
 /**
@@ -276,7 +270,7 @@ public final class MainWindow extends JFrame
   }
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 
   private class WindowCloseListener extends WindowAdapter

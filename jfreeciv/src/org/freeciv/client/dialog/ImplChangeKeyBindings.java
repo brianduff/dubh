@@ -1,48 +1,93 @@
 package org.freeciv.client.dialog;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.AbstractTableModel;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
+import org.freeciv.client.ui.util.BaseDialog;
+
 
 /**
  * Implementation of Change key bindings panel.
  *
  * @author Justin
+ * @author Brian Duff (dubh@dubh.org)
  */
-class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowPanel
+class ImplChangeKeyBindings extends VerticalFlowPanel
    implements DlgChangeKeyBindings
 {
- private org.freeciv.client.Client m_client;
+ private Client m_client;
  private DialogManager m_dlgManager;
- private ActionsTableModel m_actionsTableModel = new ActionsTableModel();
- private org.freeciv.client.action.AbstractClientAction m_selectedAction;
+ private final ActionsTableModel m_actionsTableModel = new ActionsTableModel();
+ private AbstractClientAction m_selectedAction;
  private javax.swing.KeyStroke m_KeyStrokeSelected;
- javax.swing.JDialog m_dialog;
- javax.swing.JPanel m_panButtons = new javax.swing.JPanel();
- javax.swing.JTextField m_TextFieldKeyBinding = new javax.swing.JTextField(20);
- javax.swing.JButton m_ButtonChangeKeyBinding = new javax.swing.JButton(_("Change"));
- javax.swing.JButton m_butOK = new javax.swing.JButton(_("OK"));
- javax.swing.JButton m_butCancel = new javax.swing.JButton(_("Cancel"));
- javax.swing.JTable m_TableActions = new javax.swing.JTable(m_actionsTableModel);
+ private BaseDialog m_dialog;
+ private final JPanel m_panButtons = new JPanel();
+ private final JLabel m_labelKeyBinding = new JLabel( _("Key binding:") );
+ private final JTextField m_TextFieldKeyBinding = new JTextField(20);
+ private final JButton m_ButtonChangeKeyBinding = new JButton(_("Change"));
+ private final JTable m_TableActions = new JTable(m_actionsTableModel);
  
- public ImplChangeKeyBindings(DialogManager mgr, org.freeciv.client.Client c)
+ public ImplChangeKeyBindings(DialogManager mgr, Client c)
  {
   m_client = c;
   m_dlgManager = mgr;
   
   setupActionsTable();
   setupKeyBindingPanel();
-  setupButtonPanel();
  }
  
- public void display()
- {
-  javax.swing.JDialog dlg = new javax.swing.JDialog( m_client.getMainWindow(), _( "Change key bindings" ), true );
-  dlg.getContentPane().setLayout( new java.awt.BorderLayout() );
-  dlg.getContentPane().add( this, java.awt.BorderLayout.CENTER );
-  m_dialog = dlg;
+  public void display()
+  {
+    BaseDialog dlg = BaseDialog.createDialog( 
+      m_client.getMainWindow(), _( "Key Bindings" ) );
+    dlg.setContent( this );
+
+    m_dialog = dlg;
   
-  resetActionsList();
+    resetActionsList();
   
-  m_dlgManager.showDialog( m_dialog );
- }
+    // Fixme. we should either support OK/ cancel properly, or only have 
+    // one button.
+  
+    m_dialog.getOKButton().addActionListener( new ActionListener() {
+       public void actionPerformed( ActionEvent e )
+       {
+        //actionChange();
+        undisplay();
+       }
+      } );
+  
+    m_dialog.getCancelButton().addActionListener( new ActionListener() {
+       public void actionPerformed( ActionEvent e )
+       {
+        undisplay();
+       }
+      } );
+  
+
+    m_dlgManager.showDialog( m_dialog );
+  }
  
  public void undisplay()
  {
@@ -58,7 +103,7 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
  
  /**
   */
- void setSelectedKeyStroke(javax.swing.KeyStroke keystroke)
+ void setSelectedKeyStroke(KeyStroke keystroke)
  {
   m_KeyStrokeSelected = keystroke;
   
@@ -69,10 +114,10 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
    int keycode = m_KeyStrokeSelected.getKeyCode();
    if( modifiers != 0 )
    {
-    element.append(java.awt.event.KeyEvent.getKeyModifiersText(modifiers));
+    element.append(KeyEvent.getKeyModifiersText(modifiers));
     element.append("+");
    }
-   element.append(java.awt.event.KeyEvent.getKeyText(keycode));
+   element.append(KeyEvent.getKeyText(keycode));
   }
   m_TextFieldKeyBinding.setText(element.toString());
  }
@@ -83,11 +128,11 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
   */
  private void setupActionsTable()
  {
-  m_TableActions.getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+  m_TableActions.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   m_TableActions.getSelectionModel().addListSelectionListener(
    new javax.swing.event.ListSelectionListener()
    {
-    public void valueChanged(javax.swing.event.ListSelectionEvent e)
+    public void valueChanged(ListSelectionEvent e)
     {
      if(!e.getValueIsAdjusting())
      {
@@ -109,58 +154,37 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
   this.addSpacerRow(new javax.swing.JScrollPane(m_TableActions));
  }
  
- /**
-  * Initialization function; sets up the button panel and adds it to the
-  * main dialog panel.
-  */
- private void setupButtonPanel()
- {
-  m_butOK.addActionListener( new java.awt.event.ActionListener() {
-     public void actionPerformed( java.awt.event.ActionEvent e )
-     {
-      //actionChange();
-      undisplay();
-     }
-    } );
-  
-  m_butCancel.addActionListener( new java.awt.event.ActionListener() {
-     public void actionPerformed( java.awt.event.ActionEvent e )
-     {
-      undisplay();
-     }
-    } );
-  
-  m_panButtons.setLayout( new java.awt.FlowLayout() );
-  m_panButtons.add( m_butOK );
-  m_panButtons.add( m_butCancel );
-  this.addRow( m_panButtons );
- }
+
  
  /**
   */
  private void setupKeyBindingPanel()
  {
-  javax.swing.JPanel panel = new javax.swing.JPanel();
+  JPanel panel = new JPanel();
+  FlowLayout fl = new FlowLayout( SwingConstants.WEST, 5, 5 );
+  panel.setLayout( fl );
   
-  panel.setBorder(javax.swing.BorderFactory.createTitledBorder(_("Key Binding")));
-  
-  m_TextFieldKeyBinding.addKeyListener(new java.awt.event.KeyListener(){
-     public void keyPressed(java.awt.event.KeyEvent e)
+  panel.add( m_labelKeyBinding  );
+  m_labelKeyBinding.setLabelFor( m_TextFieldKeyBinding );
+
+
+  m_TextFieldKeyBinding.addKeyListener(new KeyListener(){
+     public void keyPressed(KeyEvent e)
      {
-      setSelectedKeyStroke(javax.swing.KeyStroke.getKeyStrokeForEvent(e));
+      setSelectedKeyStroke(KeyStroke.getKeyStrokeForEvent(e));
      }
-     public void keyReleased(java.awt.event.KeyEvent e)
+     public void keyReleased(KeyEvent e)
      {
      }
-     public void keyTyped(java.awt.event.KeyEvent e)
+     public void keyTyped(KeyEvent e)
      {
       e.consume();
      }
     });
   panel.add(m_TextFieldKeyBinding);
   
-  m_ButtonChangeKeyBinding.addActionListener(new java.awt.event.ActionListener() {
-     public void actionPerformed(java.awt.event.ActionEvent e)
+  m_ButtonChangeKeyBinding.addActionListener(new ActionListener() {
+     public void actionPerformed(ActionEvent e)
      {
       if( m_selectedAction != null)
       {
@@ -174,9 +198,9 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
   this.addRow( panel );
  }
  
- private class ActionsTableModel extends javax.swing.table.AbstractTableModel
+ private class ActionsTableModel extends AbstractTableModel
  {
-  java.util.List m_actions;
+  List m_actions;
   private String[] m_columns = {_("Action"), _("Key Binding")};
   
   public void refresh()
@@ -188,23 +212,23 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
     fireTableRowsDeleted(0, size);
    }
    m_actions = new java.util.ArrayList(m_client.getAllActions());
-   java.util.Collections.sort(m_actions, new java.util.Comparator() {
+   Collections.sort(m_actions, new Comparator() {
       public int compare(Object o1, Object o2)
       {
-       String name1 = ((org.freeciv.client.action.AbstractClientAction)o1).getName();
-       String name2 = ((org.freeciv.client.action.AbstractClientAction)o2).getName();
+       String name1 = ((AbstractClientAction)o1).getName();
+       String name2 = ((AbstractClientAction)o2).getName();
        return name1.compareTo(name2);
       }
      });
    fireTableRowsInserted(0, m_actions.size());
   }
   
-  public org.freeciv.client.action.AbstractClientAction getAction(int row)
+  public AbstractClientAction getAction(int row)
   {
-   org.freeciv.client.action.AbstractClientAction action = null;
+   AbstractClientAction action = null;
    if(m_actions != null )
    {
-    action = (org.freeciv.client.action.AbstractClientAction)m_actions.get(row);
+    action = (AbstractClientAction)m_actions.get(row);
    }
    return action;
   }
@@ -216,7 +240,7 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
   
   public Object getValueAt(int row, int col)
   {
-   org.freeciv.client.action.AbstractClientAction action = getAction(row);
+   AbstractClientAction action = getAction(row);
    if(action != null)
    {
     switch(col)
@@ -225,20 +249,20 @@ class ImplChangeKeyBindings extends org.freeciv.client.dialog.util.VerticalFlowP
       return action.getName();
      case 1:
       StringBuffer element = new StringBuffer();
-      javax.swing.KeyStroke keystroke = action.getFirstAccelerator();
+      KeyStroke keystroke = action.getFirstAccelerator();
       if( keystroke != null )
       {
        int modifiers = keystroke.getModifiers();
        if( modifiers != 0 )
        {
-        element.append(java.awt.event.KeyEvent.getKeyModifiersText(modifiers));
+        element.append(KeyEvent.getKeyModifiersText(modifiers));
         element.append("+");
        }
-       element.append(java.awt.event.KeyEvent.getKeyText(keystroke.getKeyCode()));
+       element.append(KeyEvent.getKeyText(keystroke.getKeyCode()));
       }
       return element.toString();
      default:
-      return "not implemented";
+      throw new IllegalStateException( "Invalid column" );
     }
    }
    else return null;

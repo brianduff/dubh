@@ -1,7 +1,6 @@
 package org.freeciv.net;
 
 import org.freeciv.common.CommonConstants;
-import java.io.IOException;
 
 /**
  * All packets subclass from abstract packet and implement the send

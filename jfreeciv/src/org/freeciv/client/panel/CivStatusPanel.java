@@ -1,10 +1,10 @@
 package org.freeciv.client.panel;
 
-import org.freeciv.client.*;
+import javax.swing.JLabel;
+
+import org.freeciv.client.Client;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.util.Localize;
-import javax.swing.*;
-import java.awt.*;
 
 
 public class CivStatusPanel extends VerticalFlowPanel

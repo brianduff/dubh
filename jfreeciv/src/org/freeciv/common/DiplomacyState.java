@@ -1,6 +1,5 @@
 package org.freeciv.common;
 
-import org.freeciv.client.Localize;
 import org.freeciv.util.Enum;
 
 

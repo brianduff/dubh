@@ -493,6 +493,6 @@ class ImplNation extends VerticalFlowPanel implements DlgNation,Constants
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

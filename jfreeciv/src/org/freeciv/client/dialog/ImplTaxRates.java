@@ -1,16 +1,24 @@
 package org.freeciv.client.dialog;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.text.Collator;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.ui.util.*;
-import org.freeciv.net.PktPlayerRequest;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.net.PacketConstants;
+import org.freeciv.net.PktPlayerRequest;
 
 /**
  * Implementation of the tax rate panel.  This updates the economy values

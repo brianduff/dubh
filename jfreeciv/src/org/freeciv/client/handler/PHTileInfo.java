@@ -110,7 +110,8 @@ public class PHTileInfo extends AbstractHandler implements Constants
 
       if ( tileChanged || oldKnown != tile.getKnown() )
       {
-        c.refreshTileMapCanvas( x, y, true );
+        c.getMainWindow().getMapViewManager().refreshTileMapCanvas( 
+          x, y );
       }
 
       /*

@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.Constants;
-import org.freeciv.common.Assert;
 import org.freeciv.common.City;
 import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
@@ -61,7 +60,7 @@ public class PHCityInfo extends AbstractHandler implements Constants
         updateDescriptions = true;
       }
 
-      Assert.that( city.getId() == pkt.id );
+      assert( city.getId() == pkt.id );
     }
 
     city.unpackage( pkt, cityIsNew );

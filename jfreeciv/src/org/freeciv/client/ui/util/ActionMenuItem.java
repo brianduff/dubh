@@ -1,10 +1,11 @@
 package org.freeciv.client.ui.util;
-import org.freeciv.client.action.AbstractClientAction;
-import javax.swing.Action;
-import javax.swing.KeyStroke;
-import javax.swing.JMenuItem;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import org.freeciv.client.action.AbstractClientAction;
 
 /**
  * A menu item that is based on an AbstractClientAction.

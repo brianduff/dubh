@@ -1,7 +1,6 @@
 package org.freeciv.client.handler;
 
 import org.freeciv.client.Client;
-import org.freeciv.client.Localize;
 import org.freeciv.client.dialog.ProgressItem;
 import org.freeciv.common.Government;
 import org.freeciv.net.Packet;
@@ -35,6 +34,6 @@ public class PHRulesetGovernment implements ClientPacketHandler,ProgressItem
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

@@ -1,8 +1,6 @@
 package org.freeciv.client.map;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
 
 import org.freeciv.client.Client;
 import org.freeciv.common.CommonConstants;

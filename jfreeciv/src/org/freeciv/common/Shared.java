@@ -103,7 +103,7 @@ public class Shared
    */
   public static final URL getDataURL( String filename )
   {
-    Assert.that( filename != null );
+    assert( filename != null );
   
     // Mostly lifted from shared.c, but some things are easier in Java (and
     // some are more cumbersome; no dodgy string pointer arithmetic here,
@@ -205,9 +205,8 @@ public class Shared
         }
         catch (MalformedURLException mue )
         {
-          Assert.fail( "Malformed URL Exception converting "+f.getPath()+
-            " to a file: URL", mue
-          );
+          mue.printStackTrace();
+          ErrorHandler.getHandler().internalError( mue );
         }
       }
     }

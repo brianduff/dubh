@@ -1,14 +1,14 @@
 package org.freeciv.client.action;
 
-import java.awt.event.KeyEvent;
 import java.awt.Component;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.reflect.Field;
+
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+
 import org.freeciv.client.Client;
-import org.freeciv.common.Assert;
 import org.freeciv.common.Logger;
 import org.freeciv.util.Localize;
 

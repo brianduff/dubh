@@ -1,19 +1,28 @@
 package org.freeciv.client.dialog;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.text.Collator;
-import org.freeciv.common.CommonConstants;
-import org.freeciv.common.City;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.common.Building;
+import org.freeciv.common.City;
+import org.freeciv.common.CommonConstants;
 import org.freeciv.common.UnitType;
-import org.freeciv.client.*;
-import org.freeciv.client.dialog.util.*;
-import org.freeciv.client.ui.util.*;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktCityRequest;
 import org.freeciv.net.WorkList;
@@ -165,11 +174,13 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
         {
           datum[1] = unt.getAttackStrength() + "/" + unt.getDefenseStrength()
             + "/" + ( unt.getMoveRate() / 3 ) + "/"
-            + ( ( unt.getMoveRate() / 3 ) * unt.getFuel() );        }
+            + ( ( unt.getMoveRate() / 3 ) * unt.getFuel() );
+        }
         else
         {
           datum[1] = unt.getAttackStrength() + "/" + unt.getDefenseStrength()
-            + "/" + ( unt.getMoveRate() / 3 );        }
+            + "/" + ( unt.getMoveRate() / 3 );
+        }
         datum[2] = new Integer( unt.getBuildCost() );
         datum[3] = new Integer( getCity().getTurnsToBuild( i, true ) );
         datum[4] = new Integer( i );

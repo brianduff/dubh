@@ -3,7 +3,6 @@ package org.freeciv.client.action;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
-import org.freeciv.client.Client;
 import org.freeciv.common.Unit;
 import org.freeciv.common.CommonConstants;
 
