@@ -144,6 +144,57 @@ public final class Map implements CommonConstants
     }
   }
 
+  /**
+   * Get the square of the distance between two points on the map
+   * This is roughly equivalent to ((abs(x0-x1))^2 + (abs(y0-y1))^2)
+   * with adjustments
+   *
+   * @param x0 the x coordinate of the first point
+   * @param y0 the y coordinate of the first point
+   * @param x1 the x coordinate of the second point
+   * @param y1 the y coordinate of the second point
+   *
+   * @return the square of the absolute distance between the two points
+   */
+  public int getSquareMapDistance( int x0, int y0, int x1, int y1 )
+  {
+    int xd = getXDistance( x0, x1 );
+    int yd = getYDistance( y0, y1 );
+    return ( xd*xd + yd*yd );
+  }
+
+  /**
+   * Get the distance (in tiles) along the x-axis between two points. Because
+   * the map will wrap, this will return the minimum distance between the 
+   * two points in either direction.
+   *
+   * @param x0 the first point
+   * @param x1 the second point
+   *
+   * @return the minimum distance along the x axis between the two points
+   *    in tiles, in either direction. equivalent to
+   *    min( abs(x0-x1), (width-abs(x0-x1)) )
+   */
+  private int getXDistance( int x0, int x1 )
+  {
+    int dist = ( x0 > x1 ) ? x0-x1 : x1-x0;
+    return Math.min( dist, getWidth()-dist );
+  }
+
+  /**
+   * Get the distance (in tiles) along the y axis between two points.
+   *
+   * @param y0 the first point
+   * @param y1 the second point
+   *
+   * @return the absolute distance along the y axis between the two points, 
+   *    in tiles. equivalent to abs( y0-y1 )
+   */
+  private int getYDistance( int y0, int y1 )
+  {
+    return ( y0 > y1 ) ? y0 - y1 : y1 - y0;
+  }
+
   private int getTileArrayIndex( int x, int y ) 
   {
     return adjustX( x ) + (y * getWidth());

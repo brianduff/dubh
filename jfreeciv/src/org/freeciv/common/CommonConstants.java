@@ -366,10 +366,8 @@ public interface CommonConstants
   public static final int SEA_MOVING = Enum.get();
   public static final int HELI_MOVING = Enum.get();
   public static final int AIR_MOVING = Enum.get();
-  // enum unit_focus_status
-  public static final int FOCUS_AVAIL = Enum.start();
-  public static final int FOCUS_WAIT = Enum.get();
-  public static final int FOCUS_DONE = Enum.get();
+
+
   // enum diplomat_actions
   public static final int DIPLOMAT_BRIBE = Enum.start();
   public static final int DIPLOMAT_EMBASSY = Enum.get();

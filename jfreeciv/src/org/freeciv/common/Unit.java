@@ -7,6 +7,12 @@ import org.freeciv.net.PktUnitInfo;
  */
 public final class Unit implements CommonConstants
 {
+  // enum unit_focus_status in unit.h
+  public static final int FOCUS_AVAIL = 0;
+  public static final int FOCUS_WAIT = 1;
+  public static final int FOCUS_DONE = 2;
+
+
   private int m_type;
   private int m_id;
   private int m_owner;
@@ -41,6 +47,16 @@ public final class Unit implements CommonConstants
   {
     m_game = g;
     m_ai = new UnitAI();
+  }
+
+  public void setFocusStatus( int status )
+  {
+    m_focusStatus = status;
+  }
+
+  public int getFocusStatus()
+  {
+    return m_focusStatus;
   }
 
   public void unpackage( PktUnitInfo pkt )
@@ -85,6 +101,16 @@ public final class Unit implements CommonConstants
   public UnitAI getAI()
   {
     return m_ai;
+  }
+
+  /**
+   * How many moves does this unit still have?
+   *
+   * @return the number of moves this unit has still not taken this turn
+   */
+  public int getMovesLeft()
+  {
+    return m_movesLeft;
   }
 
   public int getActivity()

@@ -74,11 +74,58 @@ public class Player implements GameObject, CommonConstants
     m_units = new HashMap();
   }
 
+  /**
+   * Initialize the focus status of all units belonging to this player
+   * to FOCUS_AVAIL
+   */
+  public void initUnitFocusStatus()
+  {
+    // player.c: player_set_unit_focus_status()
+    Iterator i = getUnits();
+    while ( i.hasNext() )
+    {
+      ((Unit)i.next()).setFocusStatus( Unit.FOCUS_AVAIL );
+    }
+  }
+
+  /**
+   * Find the city belonging to this player which has a palace (i.e. is the
+   * capital city
+   *
+   * @return the capital city for this player, null if there is no capital
+   */
+  public City findPalace()
+  {
+    Iterator i = getCities();
+    while ( i.hasNext() )
+    {
+      City c = (City)i.next();
+      if ( c.hasBuilding( B_PALACE ) )
+      {
+        return c;
+      }
+    }
+    return null;
+  }
+
   public Unit getUnit( int id )
   {
     Unit unit = (Unit) m_units.get( new Integer( id ) );
 
     return unit;
+  }
+
+  /**
+   * Get an iterator over all units belonging to this player
+   */
+  public Iterator getUnits()
+  {
+    return m_units.values().iterator();
+  }
+
+  public int getUnitCount()
+  {
+    return m_units.keySet().size();
   }
 
   public void addUnit( Unit u )
@@ -99,6 +146,11 @@ public class Player implements GameObject, CommonConstants
   public Iterator getCities()
   {
     return m_cities.iterator();
+  }
+
+  public int getCityCount()
+  {
+    return m_cities.size();
   }
 
   public void initFromPacket(Packet p)
