@@ -9,11 +9,14 @@ o Brian Duff [ Brian.Duff at dubh.org ]
 
 Upgraded the client to support 1.10, then again to 1.12. Ominous fits of refactoring, UI stuff, implementing the data model in common, supporting new tilespec formats, map / tile rewrite for 1.12. Current maintainer.
 
-James R [ bullwinkle at hotpop.com ]
+o James R [ bullwinkle at hotpop.com ]
 
 City Report Dialog, connect/disconnect
 
-Luke Lindsay [ luke at lindsayl.fsworld.co.uk ]
+o Luke Lindsay [ luke at lindsayl.fsworld.co.uk ]
 
 Scrollable tiled map component (much of the org.freeciv.common.map package)
 
+o Ben Mazur [ bmazur at sev.org ]
+
+tax rates, players, find city, server options, wonders of the world, top five cities, demographics
