@@ -1,4 +1,6 @@
 package org.freeciv.client.ui;
+
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Insets;
@@ -27,7 +29,7 @@ import javax.swing.JPanel;
  */
 public class UndockablePanel
 {
-  private JPanel m_panContent;
+  private Component m_panContent;
   private JPanel m_panMain;
   private JButton m_butUndockMe;
   private DockTarget m_dtTarget;
@@ -61,7 +63,7 @@ public class UndockablePanel
    *   and can physically remove the main panel of this class
    *   from itself or add it when methods on the interface are called.
    */
-  public void setContent( String name, JPanel pan, DockTarget targ )
+  public void setContent( String name, Component pan, DockTarget targ )
   {
     if( m_panContent != null )
     {
