@@ -1,3 +1,20 @@
+12.07.01 [bduff]
+
+Rearranged handling of players and completely rewrote the player info and
+game info packet handlers, following the c source code fairly closely.
+
+The Game and Player objects now have many, many more methods on them.
+
+Wrote the packet handler for game state. 
+
+Refactored the constants, trying to remove dependencies from common to
+client.
+
+Changed a truck load of code, but the only visible changes are that the
+year is displayed in the status panel (albeit, incorrectly i.e. 
+-4000  instead of 4000 B.C.) ;) and slightly nicer, that the nation
+selection dialog now displays the flag of each nation.
+
 09.07.01 [bduff]
 
 Have obsoleted the ruleset manager, introduced the concept of

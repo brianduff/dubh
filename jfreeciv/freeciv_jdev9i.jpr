@@ -2,7 +2,7 @@
 <!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.client</defaultPackage>
+   <defaultPackage>org.freeciv.client.handler</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
       <Item class="java.lang.String">package4</Item>
       <Item class="java.lang.String">org.freeciv.client.handler</Item>
@@ -655,6 +655,21 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/NamedSprites.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/CommonConstants.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHSpaceshipInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/DiplomacyState.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/AI.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHGameState.java"/>
       </Item>
    </listOfChildren>
    <ownerMap/>
