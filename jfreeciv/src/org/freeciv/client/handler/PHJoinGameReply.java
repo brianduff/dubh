@@ -19,20 +19,23 @@ public class PHJoinGameReply implements ClientPacketHandler
   public void handle( Client c, Packet pkt )
   {
     PktJoinGameReply p = (PktJoinGameReply)pkt;
-
-    c.getMainWindow().getConsole().println( "Client capability string: "+ c.getCapabilities() );
-    c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities ); 
-
     
     if( !p.youCanJoin )
     {
       JOptionPane.showMessageDialog( 
-        c.getMainWindow(), p.message, "Join Game Refused", 
-        JOptionPane.ERROR_MESSAGE 
+        c.getMainWindow(), 
+        "Your request to join the game was refused: \n"+
+        p.message,
+        c.APP_NAME,
+        JOptionPane.WARNING_MESSAGE 
       );
       c.getMainWindow().getConsole().println( 
         "You were rejected from the game: " + p.message 
       );
+
+      // Not sure about this.
+      c.disconnect();
+      
       return ;
     }
 
@@ -43,8 +46,8 @@ public class PHJoinGameReply implements ClientPacketHandler
       return;
     }
     
-  
-    
+    c.getMainWindow().getConsole().println( "Client capability string: "+ c.getCapabilities() );
+    c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities );     
 
   }
 }
