@@ -1,0 +1,23 @@
+Line 172: Class ComctlLib.TreeView of control BallList was not a loaded control class.
+Line 211: Class ComctlLib.ImageList of control SmallBalls was not a loaded control class.
+Line 286: Class ComctlLib.Slider of control SpeedSlider was not a loaded control class.
+Line 178: The property name _ExtentX in BallList is invalid.
+Line 179: The property name _ExtentY in BallList is invalid.
+Line 180: The property name LabelEdit in BallList is invalid.
+Line 181: The property name Style in BallList is invalid.
+Line 182: The property name ImageList in BallList is invalid.
+Line 172: Property MouseIcon in BallList could not be set.
+Line 214: The property name _ExtentX in SmallBalls is invalid.
+Line 215: The property name _ExtentY in SmallBalls is invalid.
+Line 217: The property name ImageWidth in SmallBalls is invalid.
+Line 218: The property name ImageHeight in SmallBalls is invalid.
+Line 219: The property name MaskColor in SmallBalls is invalid.
+Line 250: The property name Images in SmallBalls is invalid.
+Line 292: The property name _ExtentX in SpeedSlider is invalid.
+Line 293: The property name _ExtentY in SpeedSlider is invalid.
+Line 295: The property name Min in SpeedSlider is invalid.
+Line 296: The property name Max in SpeedSlider is invalid.
+Line 297: The property name SelStart in SpeedSlider is invalid.
+Line 298: The property name TickFrequency in SpeedSlider is invalid.
+Line 299: The property name Value in SpeedSlider is invalid.
+Line 286: Property MouseIcon in SpeedSlider could not be set.

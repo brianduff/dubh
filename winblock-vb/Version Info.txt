@@ -1,0 +1,26 @@
+WinBlock Version Information
+(Internal Documentation)
+(C) Copyright 1996/7 Brian Duff
+
+Version  Date		Changes
+-------  ----		-------
+1.03.02	 28/12/96	Added about & options boxes. Allowed adjustable speed/sound
+
+1.03.05   2/01/97	Added 'paddle' mouse cursor. Changed bounds checking
+					algorithm (inblock? method. Still misbehaves, and doesn't 
+					bounce naturally.)
+					
+1.04.01	  2/01/97	Added mouse clipping support. Added preference for mouse 
+					clipping (in new "Control" preference dialogue subsection - 
+					may want to make this a tabbed control later). Changed WinBlock 
+					font on game form. Changed paddle sprite (still not quite finished). 
+					Added selection of ball colours. Modified score calculation to take 
+					into account ball speed. Added registry support for saving and loading 
+					preferences & high score tables. Table is still not implemented. 
+
+1.04.03	  INDEV		Shrunk ball down (too small, maybe), Changed ball/paddle bouncing so the
+					ball bounces at angles other than 45 deg. [?/?/?].
+					Changed joystick and speaker images in Options dialogue to icons rather
+					than bitmaps, so the background is masked properly.
+					Altered the about box so it uses the new DubhAboutBox ActiveX control.
+					Changed all MS Sans Serif fonts to Tahoma, for "Office 97 Look".

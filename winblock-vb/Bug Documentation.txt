@@ -1,0 +1,17 @@
+WinBlock Buglist
+(Internal Documentation)
+(C) Copyright 1996/7 Brian Duff
+
+VERSION 1.04.3 (INDEV) KNOWN BUGS
+	 - 	Help/Contents not yet implemented
+	 -	Ball sometimes changes speed on the fly.
+	 -	Ball is known to blast through several layers of blocks when
+	 	ballspeed is high
+	 -	No highest score table
+	 -	Game quits after completion of first level (no more levels)
+	 -  Defaults button in Options dialogue does not reset preferences
+
+BUGS ELIMINATED FROM PREVIOUS VERSIONS
+1.04.01
+
+	- 	All bounce angles were 45 degrees.
