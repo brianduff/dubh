@@ -288,6 +288,11 @@ public final class Map implements CommonConstants
     return getTile( x, y ).getTerrain();
   }
 
+  public void resetMoveCosts( int x, int y )
+  {
+      // TODO
+  }
+
 
   /**
    * Iterate a city radius in map co-ordinates, skip non-existant squares
