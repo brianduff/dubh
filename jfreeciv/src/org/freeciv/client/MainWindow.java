@@ -16,6 +16,7 @@ import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.AbstractToggleAction;
 import org.freeciv.client.ui.CivInfoPanel;
 import org.freeciv.client.ui.UnitInfoPanel;
+import org.freeciv.client.ui.UnitStackDisplay;  // needed for compile -JR
 import org.freeciv.client.ui.Console;
 import org.freeciv.client.ui.QuickCommand;
 import org.freeciv.client.ui.util.ActionMenuItem;
@@ -32,7 +33,7 @@ import org.freeciv.client.dialog.util.VerticalFlowPanel;
  * <p>
  * The contents of the central area depend on the setting of the
  * SingleMapViewMode property, and can be changed by calling the
- * setSingleMapViewMode() method. 
+ * setSingleMapViewMode() method.
  * <p>
  * The default mode is to display the main map view in the central area.
  * However, if single map view mode is switched off, the central area changes
@@ -44,14 +45,14 @@ import org.freeciv.client.dialog.util.VerticalFlowPanel;
 public final class MainWindow extends JFrame
 {
   private JDesktopPane m_desktop;
-  
+
   private MapOverview m_mapOverview;
   private CivInfoPanel m_civInfo;
   private UnitInfoPanel m_unitInfo;
   private UnitStackDisplay m_unitStack;
   private Console m_console;
   private QuickCommand m_quickCommand;
-  
+
   private Client m_client;
 
   private MapViewManager m_viewManager;
@@ -68,7 +69,7 @@ public final class MainWindow extends JFrame
     m_unitInfo = new UnitInfoPanel( c );
     m_console = new Console();
     m_quickCommand = new QuickCommand( c );
-    
+
     m_client = c;
 
     m_viewManager = new MapViewManager( m_client );
@@ -77,11 +78,11 @@ public final class MainWindow extends JFrame
     setTitle( m_client.APP_NAME );
 
     setupComponents();
-    getContentPane().add( m_viewManager.getMainMapView().getComponent(), 
+    getContentPane().add( m_viewManager.getMainMapView().getComponent(),
       BorderLayout.CENTER );
   }
 
-  /** 
+  /**
    * The main window can be configured to be fully MDI, and therefore support
    * multiple map view MDI windows, or SDI, and only have a single map view
    */
@@ -93,7 +94,7 @@ public final class MainWindow extends JFrame
       {
         getContentPane().remove( m_desktop );
         // Find the internal frame which is hosting the main view
-        JInternalFrame mainIF = (JInternalFrame) m_internalFrames.get( 
+        JInternalFrame mainIF = (JInternalFrame) m_internalFrames.get(
           getMapViewManager().getMainMapView()
         );
 
@@ -101,21 +102,21 @@ public final class MainWindow extends JFrame
         {
           m_mainInternalFrame = mainIF;
           // And rip the main view component out of its content pane
-          m_mainInternalFrame.getContentPane().remove( 
+          m_mainInternalFrame.getContentPane().remove(
             getMapViewManager().getMainMapView().getComponent()
           );
         }
 
         // .. add the main view to the centre of the main window
-        getContentPane().add( 
+        getContentPane().add(
           getMapViewManager().getMainMapView().getComponent(),
           BorderLayout.CENTER
         );
       }
       else
       {
-        getContentPane().remove( 
-          getMapViewManager().getMainMapView().getComponent() 
+        getContentPane().remove(
+          getMapViewManager().getMainMapView().getComponent()
         );
         getContentPane().add( m_desktop, BorderLayout.CENTER );
 
@@ -123,7 +124,7 @@ public final class MainWindow extends JFrame
         if ( m_mainInternalFrame != null )
         {
           // Put the main view back in it..
-          m_mainInternalFrame.getContentPane().add( 
+          m_mainInternalFrame.getContentPane().add(
             getMapViewManager().getMainMapView().getComponent()
           );
           // If not, we should probably create one...
@@ -242,7 +243,7 @@ public final class MainWindow extends JFrame
           "UACTConnect",
           "UACTGoTo",
           "UACTGoToCity",
-         /*---------------*/                     // Remove me 
+         /*---------------*/                     // Remove me
                                             null,
           "UACTDisbandUnit",
           "UACTHelpBuildWonder",
@@ -292,7 +293,7 @@ public final class MainWindow extends JFrame
     pan.addRow( dp );
 
     pan.addSpacerRow( new JPanel() );
-    
+
     getContentPane().add( pan, BorderLayout.WEST );
 
     dp = new DockPanel( "Console", getConsole() );
@@ -305,7 +306,7 @@ public final class MainWindow extends JFrame
     pan.addSpacerRow( new JPanel() );
 
     getContentPane().add( pan, BorderLayout.EAST );
-    
+
     //setupMessagesPanel();
     //setupMiniMapPanel();
     //setupStatusPanel();
@@ -357,7 +358,7 @@ public final class MainWindow extends JFrame
       jmb.add( menu );
     }
     setJMenuBar( jmb );
-  }  
+  }
 
 
   private static String _( String txt )
