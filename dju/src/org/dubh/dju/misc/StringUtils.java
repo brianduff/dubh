@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: StringUtils.java,v 1.3 1999-03-22 23:37:17 briand Exp $
+//   $Id: StringUtils.java,v 1.4 1999-06-01 17:55:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -263,7 +263,7 @@ public class StringUtils {
   /**
    * Creates a sentence given an array of words
    */
-  public static String createSentence(String[] words) {
+  public static String createSentence(Object[] words) {
      StringBuffer wordsBuffer = new StringBuffer();
    /*
     * This loop copies the strings into the StringBuffer, so has a higher
