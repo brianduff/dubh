@@ -36,9 +36,10 @@ import java.beans.*;
  * <LI>0.1 [30/06/98]: Initial Revision
  * <LI>0.2 [26/01/99]: Currently broken, because of changes to
  *    ResourceManager. Will fix before release.
+ * <LI>0.3 [07/03/99]: Fixed!
  * </UL>
  @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
- @version 0.2 [26/01/99]
+ @version 0.3
  */
 public class JToolBarResource extends JToolBar {
 
@@ -79,7 +80,7 @@ public class JToolBarResource extends JToolBar {
      b.setMargin(new Insets(1,1,1,1));
 
      // Use the ResourceManager to initialise the button.
-//     m.initButton(b, itemName);         // Disabled for new ResourceManager
+     m.doComponent(itemName, b);
      b.setText(""); // this should really be customizable
      // Get the action and bind it to the button
      Action a = (Action) listeners.get(itemName);

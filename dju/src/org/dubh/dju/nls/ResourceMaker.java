@@ -133,7 +133,7 @@ public class ResourceMaker
 
    /**
     * Generate the ListResourceBundle source file for the given file. The
-	 * result is returned in a string.
+    * result is returned in a string.
     */
    public String getSource(File f, String packageName)
       throws FileNotFoundException,

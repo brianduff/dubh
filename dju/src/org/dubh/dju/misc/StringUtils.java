@@ -54,15 +54,15 @@ public class StringUtils {
   /**
    * Obtains a word from a string.<P>
    * Example:<P><PRE>
-   * 	StringUtils.getWord("This is a test", 3);
+   *  StringUtils.getWord("This is a test", 3);
    * </PRE><P>
    * Returns "test".
    @param s the string
    @param number the word to fetch
    @returns a string corresponding to the number-th word in s (zero based)
    */
-	public static String getWord(String s, int number) {
-  	return getWords(s)[number];
+   public static String getWord(String s, int number) {
+   return getWords(s)[number];
   }
 
   /**
@@ -80,17 +80,17 @@ public class StringUtils {
    @returns an array of Strings corresponding to the tokens in s
    */
   public static String[] getTokens(String s, String c) {
-  	Vector v = new Vector();
-		StringTokenizer t = new StringTokenizer(s, c);
-		String cmd[];
+   Vector v = new Vector();
+      StringTokenizer t = new StringTokenizer(s, c);
+      String cmd[];
 
-		while (t.hasMoreTokens())
+      while (t.hasMoreTokens())
         v.addElement(t.nextToken());
      cmd = new String[v.size()];
      
      for (int i = 0; i < cmd.length; i++)
         cmd[i] = (String) v.elementAt(i);
-		return cmd;
+      return cmd;
   }
 
   /**
@@ -108,7 +108,7 @@ public class StringUtils {
    @returns the number of words in the string.
   */
   public static int getWordCount(String s) {
-    //	return getWords(s).length;
+    //   return getWords(s).length;
      return countTokens(s, " ");
   }
 
@@ -118,7 +118,7 @@ public class StringUtils {
    @return a string
    */
   public static String intToString(int i) {
-  	Integer temp = new Integer(i);
+   Integer temp = new Integer(i);
     return temp.toString();
   }
 
@@ -131,7 +131,7 @@ public class StringUtils {
   public static int stringToInt(String s, int def) {
      // FIX For bug #10: Now checking for a NumberFormatException.
    try {
-  	  return (Integer.parseInt(s.trim()));
+     return (Integer.parseInt(s.trim()));
    } catch (NumberFormatException e) {
      return def;
    }

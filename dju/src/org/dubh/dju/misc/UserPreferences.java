@@ -353,18 +353,18 @@ public class UserPreferences implements Serializable {
    */
   private boolean stringToBoolean(String s) {
      char c = s.toLowerCase().charAt(0);
-  	return (c == 'y' || c == 't' ? true : false);
+   return (c == 'y' || c == 't' ? true : false);
   }
 
   /**
    * Utility method to convert true | false to "yes" | "no"
    */
   private String booleanToYesNoString(boolean b) {
-  	return (b ? "yes" : "no");
+   return (b ? "yes" : "no");
   }
 
   private String booleanToTrueFalseString(boolean b) {
-  	return (b ? "true" : "false");
+   return (b ? "true" : "false");
   }
 
 
