@@ -8,10 +8,12 @@ import javax.swing.JOptionPane;
  */
 public class PHJoinGameReply implements ClientPacketHandler
 {
+
   public String getPacketClass()
   {
     return "org.freeciv.net.PktJoinGameReply";
   }
+  
   /**
    */
   public void handle( Client c, Packet pkt )
@@ -23,8 +25,17 @@ public class PHJoinGameReply implements ClientPacketHandler
       c.appendOutputWindow( "You were rejected from the game: " + p.message );
       return ;
     }
-    c.appendOutputWindow( p.message );
-    c.setServerCapabilities( p.capabilities );
-    c.setGameState( Constants.CLIENT_PRE_GAME_STATE );
+
+    c.setGameState( Constants.CLIENT_PRE_GAME_STATE ); //?
+
+    if (c.getCapabilities().equals(p.capabilities))
+    {
+      return;
+    }
+    
+    c.appendOutputWindow( "Client capability string: "+ c.getCapabilities() );
+    c.appendOutputWindow( "Server capability string: "+ p.capabilities );   
+    
+
   }
 }
