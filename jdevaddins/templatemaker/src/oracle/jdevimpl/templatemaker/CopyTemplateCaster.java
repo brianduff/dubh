@@ -36,6 +36,7 @@ import oracle.ide.net.URLFileSystem;
  * the output URL
  *
  * @author Brian.Duff@oracle.com
+ * @version $Revision: 1.2 $
  */
 class CopyTemplateCaster implements TemplateCaster
 {
