@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorService.java,v 1.1 1999-10-17 17:03:58 briand Exp $
+//   $Id: NavigatorService.java,v 1.2 1999-10-24 00:43:55 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -29,16 +29,27 @@ import java.util.ArrayList;
 
 import javax.swing.Icon;
 
+import javax.mail.Store;
+
+import dubh.utils.misc.UserPreferences;
+
 /**
  * A NavigatorService is a top level branch in the navigator.
  * A service consists of one or more ServiceProviders which in turn 
  * contain folders.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorService.java,v 1.1 1999-10-17 17:03:58 briand Exp $
+ * @version $Id: NavigatorService.java,v 1.2 1999-10-24 00:43:55 briand Exp $
  */
-public interface NavigatorService  
-{   
+public interface NavigatorService extends NavigatorNode
+{  
+
+   /**
+    * Any NavigatorService can have a set of UserPreferences 
+    * associated with it.
+    */
+   public UserPreferences getPreferences();
+ 
    /**
     * Return the protocol name of your service from this method. 
     * For instance, a service providing news would have the service
@@ -63,7 +74,7 @@ public interface NavigatorService
     * service. These will be used to populate the drop down list for
     * right clicks over the service in the navigator.
     */
-   public NavigatorCommand[] getCommandList();
+   public Class[] getCommandList();
    
    /**
     * Get a list of commands that are invokable on service providers
@@ -71,13 +82,13 @@ public interface NavigatorService
     * is the same for all providers, but you can always disable commands
     * depending on the selected service.
     */
-   public NavigatorCommand[] getProviderCommandList();
+   public Class[] getProviderCommandList();
    
    /**
     * Get a list of commands that are invokable on folders contained
     * in service providers on this service.
     */
-   public NavigatorCommand[] getFolderCommandList();
+   public Class[] getFolderCommandList();
    
    /**
     * Get the icon to display for this service.
@@ -97,4 +108,7 @@ public interface NavigatorService
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  1999/10/17 17:03:58  briand
+// Initial revision.
+//
 //
