@@ -640,4 +640,109 @@ public final class Game implements CommonConstants
       return m_rulesetPacket.granary_food_inc;
     }
   }
+  
+  /**
+   * Shortcut to factory method.  Please check unitTypeExists( id ) before
+   * calling this.
+   */
+  public UnitType getUnitType( int id )
+  {
+    return (UnitType)getFactories().getUnitTypeFactory().findById( id );
+  }
+  
+  /**
+   * Shortcut to factory method.  Please check buildingExists( id ) before
+   * calling this.
+   */
+  public Building getBuilding( int id )
+  {
+    return (Building)getFactories().getBuildingFactory().findById( id );
+  }
+  
+  /**
+   * Shortcut to factory method.  Please check advanceExists( id ) before
+   * calling this.
+   */
+  public Advance getAdvance( int id )
+  {
+    return (Advance)getFactories().getAdvanceFactory().findById( id );
+  }
+  
+  /**
+   * Returns true if the unit type "exists", that is:
+   * - the index is valid
+   * - it has not been flagged as removed by setting the tech requirement
+   *    to A_LAST
+   * 
+   * @param id the id to test
+   * @returns true if this unit type can exist in the game
+   */
+  public boolean unitTypeExists( int id )
+  {
+    // unittype.c: unit_type_exists()
+    if ( id < 0 || id >= U_LAST || id >= getNumberOfUnitTypes() )
+    {
+      return false;
+    }
+    return ( getUnitType( id ) ).getRequiredAdvanceId() != A_LAST;
+  }
+
+  /**
+   * Returns true if the building "exists", that is:
+   * - the index is valid
+   * - it has not been flagged as removed by setting the tech requirement
+   *    to A_LAST
+   * - if it is a spaceship part, the space race is enabled
+   * 
+   * @param id the id to test
+   * @returns true if this building can exist in the game
+   */
+  public boolean buildingExists( int id )
+  {
+    // improvement.c: improvement_exists()
+
+    if ( id < 0 || id >= B_LAST || id >= getNumberOfImprovementTypes() )
+    {
+      return false;
+    }
+
+    if ( ( id == B_SCOMP || id == B_SMODULE || id == B_SSTRUCTURAL )
+         && !isSpaceRace() )
+    {
+      return false;
+    }
+
+    return ( getBuilding( id ) ).getRequiredAdvanceId() != A_LAST;
+  }
+  
+  /**
+   * Returns true if the advance "exists", that is:
+   * - the index is valid
+   * - it has not been flagged as removed by setting the tech requirement
+   *    to A_LAST
+   * 
+   * @param id the id to test
+   * @returns true if this advance can exist in the game
+   */
+  public boolean advanceExists( int id )
+  {
+    // tech.c: tech_exists()
+
+    if ( id < 0 || id >= A_LAST || id >= getNumberOfTechnologyTypes() )
+    {
+      return false;
+    }
+
+    for( Iterator i = ( getAdvance( id ) ).getRequiredAdvanceIds();
+         i.hasNext();)
+    {
+      if( ( (Integer)i.next() ).intValue() == A_LAST )
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
 }

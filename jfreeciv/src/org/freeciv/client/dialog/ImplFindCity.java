@@ -30,8 +30,6 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
   private JButton m_butZoomTo = new JButton( _( "Zoom To City" ) );
   private JButton m_butCancel = new JButton( _( "Cancel" ) );
   
-  private ArrayList cityList;
-  
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
@@ -75,29 +73,14 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
     {
       public void actionPerformed( ActionEvent e )
       {
-        if( !m_lisCityList.isSelectionEmpty() )
-        {
-          final City city = (City)cityList.get( m_lisCityList.getSelectedIndex() );
-          getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
-        }
-        undisplay();
+        actionCenter();
       }
     } );
     m_butZoomTo.addActionListener( new ActionListener() 
     {
       public void actionPerformed( ActionEvent e )
       {
-        City city = null;
-        if( !m_lisCityList.isSelectionEmpty() )
-        {
-          city = (City)cityList.get( m_lisCityList.getSelectedIndex() );
-          getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
-        }
-        undisplay();
-        if( city != null && city.getOwnerId() == getClient().getGame().getCurrentPlayer().getId() )
-        {
-          getClient().getDialogManager().getCityViewDialog().display( city );
-        }
+        actionZoom();
       }
     } );
     m_butCancel.addActionListener( new ActionListener() 
@@ -120,26 +103,54 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
    */
   private void resetCityListFromClient()
   {
-    ArrayList cityNameList = new ArrayList(); // temporary
-    cityList = new ArrayList(); // less temporary
+    ArrayList cList = new ArrayList();
     for(int i = 0; i < getClient().getGame().getNumberOfPlayers(); i++)
     {
       Iterator ci = getClient().getGame().getPlayer( i ).getCities();
       while( ci.hasNext() ) 
       {
-        City city = (City)ci.next();
-        cityList.add( city ); 
-        boolean sameOwner = getClient().getGame().isCurrentPlayer( i );
-        cityNameList.add(
-          city.getName() + 
-          ( sameOwner ? "" : " (" + city.getOwner().getNation().getName() + ")" ) 
-        ); 
+        final City city = (City)ci.next();
+        final boolean showNation =
+                getClient().getGame().getCurrentPlayer().getNation().getId()
+                != getClient().getGame().getPlayer( i ).getNation().getId();
+        cList.add( new CityListItem( city, showNation ) );
       }
     }
-    m_lisCityList.setListData( cityNameList.toArray() );
+    m_lisCityList.setListData( cList.toArray() );
     m_lisCityList.setVisibleRowCount( VISIBLE_LIST_ROWS );
   }
   
+  /**
+   * Called when "Center" is pressed
+   */
+  private void actionCenter()
+  {
+      if( !m_lisCityList.isSelectionEmpty() )
+      {
+        final City city = ( (CityListItem)m_lisCityList.getSelectedValue() ).m_city;
+        getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
+        undisplay();
+      }
+  }
+  
+  /**
+   * Called when "Zoom to City" is pressed
+   */
+  private void actionZoom()
+  {
+      if( !m_lisCityList.isSelectionEmpty() )
+      {
+        final City city = ( (CityListItem)m_lisCityList.getSelectedValue() ).m_city;
+        getClient().getMainWindow().getMapViewManager().centerOnTile( city.getX(), city.getY() );
+        undisplay();
+        if( city.getOwner().getNation().getId()
+            == getClient().getGame().getCurrentPlayer().getNation().getId() )
+        {
+          getClient().getDialogManager().getCityViewDialog().display( city );
+        }
+
+      }
+  }
   
   public void display()
   {
@@ -155,14 +166,35 @@ class ImplFindCity extends VerticalFlowPanel implements DlgFindCity
   
   public void undisplay()
   {
-    // dispose of the city list to save memory.
-    cityList = null;
     m_dlgManager.hideDialog( m_dialog );
+  }
+  
+  /**
+   * A small class to store the city in the city list
+   */
+  private class CityListItem
+  {
+    public City m_city;
+    public boolean m_showNation;
+    
+    public CityListItem( City city, boolean showNation )
+    {
+      m_city = city;
+      m_showNation = showNation;
+    }
+    
+    public String toString()
+    {
+      return m_city.getName() + 
+      ( m_showNation 
+        ? " (" + m_city.getOwner().getNation().getName() + ")" 
+          : "" );
+    }
   }
  
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

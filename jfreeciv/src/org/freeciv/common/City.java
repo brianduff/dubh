@@ -3,6 +3,7 @@ package org.freeciv.common;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Iterator;
 import javax.swing.Icon;
 
 import org.freeciv.net.PktCityInfo;
@@ -202,6 +203,32 @@ public final class City implements CommonConstants
     return m_pollution;
   }
   
+  public int getHappyCitizens( int x )
+  {
+    return m_pplHappy[ x ];
+  }
+  public int getContentCitizens( int x )
+  {
+    return m_pplContent[ x ];
+  }
+  public int getUnhappyCitizens( int x )
+  {
+    return m_pplUnhappy[ x ];
+  }
+  
+  public int getElvises() 
+  {
+    return m_pplElvis;
+  }
+  public int getScientists() 
+  {
+    return m_pplScientist;
+  }
+  public int getTaxmen() 
+  {
+    return m_pplTaxman;
+  }
+  
   public void clearAllSupportedUnits()
   {
     m_supportedUnits = new ArrayList();
@@ -217,6 +244,11 @@ public final class City implements CommonConstants
     m_supportedUnits.remove( u );
   }
 
+  public Iterator getSupportedUnits()
+  {
+    return m_supportedUnits.iterator();
+  }
+
   public void clearAllPresentUnits()
   {
     m_presentUnits = new ArrayList();
@@ -225,6 +257,11 @@ public final class City implements CommonConstants
   public void addPresentUnit( Unit u )
   {
     m_presentUnits.add( u );
+  }
+
+  public Iterator getPresentUnits()
+  {
+    return m_presentUnits.iterator();
   }
 
   /**
@@ -267,32 +304,13 @@ public final class City implements CommonConstants
    */
   public boolean hasBuilding( int id )
   {
-    if ( !improvementExists( id ) )
+    if ( !m_game.buildingExists( id ) )
     {
       return false;
     }
     return m_improvements[ id ];
   }
 
-  private boolean improvementExists( int id )
-  {
-    // improvement.c: improvement_exists()
-
-    if ( id < 0 || id >= B_LAST || id >= m_game.getNumberOfImprovementTypes() )
-    {
-      return false;
-    }
-
-    if ( (id == B_SCOMP || id == B_SMODULE || id == B_SSTRUCTURAL )
-         && !m_game.isSpaceRace() )
-    {
-      return false;
-    }
-
-    // TODO
-    return true;
-  }
-  
   /**
    * Determine the amount of gold this city "earns" (tax - upkeep)
    * 
@@ -328,21 +346,21 @@ public final class City implements CommonConstants
    * @param asmiths whether this city is affected by Adam Smith's
    * @return the amount of gold that this building costs to upkeep
    */
-  public int getBuildingUpkeep( int buildingId, boolean asmiths )
+  public int getBuildingUpkeep( int id, boolean asmiths )
   {
-    if( !improvementExists( buildingId ) )
+    if( !m_game.buildingExists( id ) )
     {
       return 0;
     }
-    if( getBuilding( buildingId ).isWonder() )
+    if( getBuilding( id ).isWonder() )
     {
       return 0;
     }
-    if( asmiths && getBuilding( buildingId ).getUpkeep() == 1 )
+    if( asmiths && getBuilding( id ).getUpkeep() == 1 )
     {
       return 0;
     }
-    return getBuilding( buildingId ).getUpkeep();
+    return getBuilding( id ).getUpkeep();
   }
                                                           
   /**
@@ -353,7 +371,7 @@ public final class City implements CommonConstants
    */
   public boolean isCityAffectedByWonder( int id )
   {
-    if ( !improvementExists( id ) )
+    if ( !m_game.buildingExists( id ) )
     {
       return false;
     }
@@ -469,15 +487,14 @@ public final class City implements CommonConstants
   private Building getBuilding( int buildingId )
   {
     return (Building)
-      m_game.getFactories().getBuildingFactory().findById( buildingId );
+      m_game.getBuilding( buildingId );
   }
 
   private UnitType getUnitType( int unitId )
   {
     return (UnitType)
-      m_game.getFactories().getUnitTypeFactory().findById( unitId );
+      m_game.getUnitType( unitId );
   }
-
 
   /**
    * Returns true if either this city has city walls, or the city is affected
@@ -628,6 +645,41 @@ public final class City implements CommonConstants
   }
   
   /**
+   * Gets the cost, in gold, to buy the current unit or building
+   */
+  public int getBuyCost()
+  {
+    int total = getCurrentProductionCost();
+    int cost;
+    int built = getShieldStock();
+    // if we're done building it, then it's free!
+    if( built >= total )
+    {
+      return 0;
+    }
+    // otherwise, it'll cost you.
+    if( isBuildingUnit() )
+    {
+      cost = ( total - built ) * 2 + ( total - built ) * ( total - built ) / 20;
+    }
+    else
+    {
+      cost =  ( total - built ) * 2;
+      if( getBuilding( getCurrentlyBuildingId() ).isWonder() )
+      {
+        cost *= 2;
+      }
+    }
+    // also, if there's nothing built, it's more expensive
+    if( built == 0 )
+    {
+      cost *= 2;
+    }
+    
+    return cost;
+  }
+  
+  /**
    * Get the number of turns before the unit or building being built will
    * be complete
    *
@@ -647,6 +699,40 @@ public final class City implements CommonConstants
     int city_shield_stock = getChangeProductionCharge(
       getCurrentlyBuildingId(), isBuildingUnit()
     );
+
+    if ( city_shield_surplus > 0 )
+    {
+      return
+        (improvement_cost - city_shield_stock +
+          city_shield_surplus - 1 ) /
+            city_shield_surplus;
+    }
+    else
+    {
+      return 999;
+    }
+
+  }
+  
+  /**
+   * Get the number of turns before the given unit or building will
+   * be complete
+   *
+   * @return the number of turns until the given unit or building is complete
+   */
+  public int getTurnsToBuild( int id, boolean isUnit )
+  {
+
+    int improvement_cost = isUnit ? getUnitType( id ).getBuildCost()
+                                    : getBuilding( id ).getBuildCost();
+
+    if ( m_shieldStock >= improvement_cost )
+    {
+      return 1;
+    }
+
+    int city_shield_surplus = m_shieldSurplus;
+    int city_shield_stock = getChangeProductionCharge( id, isUnit );
 
     if ( city_shield_surplus > 0 )
     {
@@ -681,6 +767,101 @@ public final class City implements CommonConstants
       return b.getName();
     }
   }
+  
+  /**
+   * Could the city build this right now if it were available?
+   */
+  public boolean couldBuildImprovement( int id )
+  {
+    if( !m_game.buildingExists( id ) )    {
+      return false;    }
+    if( hasBuilding( id ) )    {
+      return false;    }    if( ( hasBuilding( B_HYDRO ) || hasBuilding( B_POWER )           || hasBuilding( B_NUCLEAR ) ) && ( id == B_HYDRO || id == B_POWER                                            || id == B_NUCLEAR ) )    {
+      return false;    }    if( id == B_RESEARCH && !hasBuilding( B_UNIVERSITY ) )    {      return false;    }
+    if( id == B_UNIVERSITY && !hasBuilding( B_LIBRARY ) )    {      return false;    }
+    if( id == B_STOCK && !hasBuilding( B_BANK ) )    {      return false;    }
+    if( id == B_SEWER && !hasBuilding( B_AQUEDUCT ) )    {      return false;    }
+    if( id == B_BANK && !hasBuilding( B_MARKETPLACE ) )    {      return false;    }
+    if( id == B_MFG && !hasBuilding( B_FACTORY ) )    {      return false;    }    // TODO: terrain stuff    /*
+    if ((id==B_HARBOUR || id==B_COASTAL || id == B_OFFSHORE || id == B_PORT) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
+      return 0;
+    if (id == B_HYDRO
+        && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
+        && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
+        && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
+        && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
+        && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER)
+        && !is_special_near_tile(pcity->x, pcity->y, S_RIVER)
+       )
+      return 0;    */    // TODO: spaceship stuff    /*
+    if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
+      if (!game.global_wonders[B_APOLLO]) {
+        return 0;
+      } else {
+        struct player *p=city_owner(pcity);
+        if (p->spaceship.state >= SSHIP_LAUNCHED)
+	  return 0;
+        if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
+	  return 0;
+        if (id == B_SCOMP && p->spaceship.components >= NUM_SS_COMPONENTS)
+	  return 0;
+        if (id == B_SMODULE && p->spaceship.modules >= NUM_SS_MODULES)
+	  return 0;
+      }
+    }    */
+    // TODO: wonder stuff    /*
+    if (is_wonder(id)) {
+      if (game.global_wonders[id]) return 0;
+    } else {
+      struct player *pplayer=city_owner(pcity);
+      if (improvement_obsolete(pplayer, id)) return 0;
+    }
+    */    return !hasWonderReplacement( id );
+  }
+
+  /**
+   * Can we build this right now?  We have the techs and everything?
+   */
+  public boolean canBuildImprovement( int id )
+  {
+    if( !m_game.buildingExists( id ) )    {
+      return false;    }    if( !getOwner().hasInvention( getBuilding( id ).getRequiredAdvanceId() ) )    {
+      return false;    }
+    return couldBuildImprovement( id );
+  }
+
+  /**
+   * Whether the city can build the given unit, ignoring if the unit is
+   * obsolete and whether the owener can build these units
+   */
+  public boolean canBuildUnitTypeDirect( int id )
+  {
+    if( !m_game.unitTypeExists( id ) ) 
+    {
+      return false;
+    }
+    final UnitType unt = getUnitType( id );
+    if( ( unt.getFlags() & ( 1 << F_NUCLEAR ) ) != 0 && m_game.getGlobalWonder( B_MANHATTEN ) == 0 )    {
+      return false;    }    if( !getOwner().hasInvention( unt.getRequiredAdvanceId() ) )    {
+      return false;    }    //TODO: check terrain
+    //if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
+    //  return 0;
+    
+    return true;
+  }
+
+  /**
+   * Whether the city can build the given unit, checking if it is obsolete
+   */
+  public boolean canBuildUnitType( int id )
+  {
+    if( !canBuildUnitTypeDirect( id ) )
+     {
+      return false;
+    }
+    return true;
+  }
+
 
   /**
    * Unpackage a city info packet into this object

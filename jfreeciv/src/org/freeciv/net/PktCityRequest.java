@@ -8,6 +8,7 @@ public class PktCityRequest extends AbstractPacket
   public int specialist_from, specialist_to;
   public WorkList worklist;
   public String name;
+  
   public PktCityRequest() 
   {
     super();
@@ -17,7 +18,7 @@ public class PktCityRequest extends AbstractPacket
     super( in );
   }
   private int pktType;
-  public void setPktType( int type )
+  public void setType( int type )
   {
     pktType = type;
   }

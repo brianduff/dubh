@@ -85,7 +85,10 @@ public class UnitType implements GameObject
 
   }
 
-  public Advance getTechRequirement()
+  /**
+   * Changed from getTechRequirement() for consistancy with Building -- BenM
+   */
+  public Advance getRequiredAdvance()
   {
     if (m_techRequirement == null)
     {
@@ -95,6 +98,11 @@ public class UnitType implements GameObject
         );
     }
     return m_techRequirement;
+  }
+
+  public int getRequiredAdvanceId()
+  {
+    return m_ruleset.tech_requirement;
   }
 
   public int getVisionRange()

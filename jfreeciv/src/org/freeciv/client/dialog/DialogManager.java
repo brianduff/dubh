@@ -16,6 +16,7 @@ public class DialogManager
   ImplProgress m_progress;
   ImplNotify m_notify;
   ImplCityView m_cityView;
+  ImplCityChangeConstruction m_cityChangeConstruction;
   ImplTaxRates m_taxRates;
   ImplFindCity m_findCity;
   ImplCityReport m_cityReport;
@@ -135,6 +136,14 @@ public class DialogManager
     }
     return m_cityView;
   }
+  public DlgCityChangeConstruction getCityChangeConstructionDialog()
+  {
+    if( m_cityChangeConstruction == null )
+    {
+      m_cityChangeConstruction = new ImplCityChangeConstruction( this, m_client );
+    }
+    return m_cityChangeConstruction;
+  }
   public DlgTaxRates getTaxRatesDialog()
   {
     if( m_taxRates == null )
@@ -216,5 +225,26 @@ public class DialogManager
   {
     JOptionPane.showMessageDialog(
       m_client.getMainWindow(), message, title, JOptionPane.WARNING_MESSAGE );
+  }
+  
+  /**
+   * Display a yes/no confirmation dialog.  Blocking, of course.
+   */
+  public int showConfirmationDialog( String message )
+  {
+    return JOptionPane.showConfirmDialog( m_client.getMainWindow(),
+                                          message,
+                                          m_client.APP_NAME,
+                                          JOptionPane.YES_NO_OPTION );
+  }
+  
+  /**
+   * Display dialog asking for the user to type something in.
+   */
+  public String showInputDialog( String message, String initialSelectionValue )
+  {
+    return JOptionPane.showInputDialog( m_client.getMainWindow(),
+                                          message,
+                                          initialSelectionValue );
   }
 }

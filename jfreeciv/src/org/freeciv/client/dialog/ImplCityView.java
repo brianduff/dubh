@@ -8,24 +8,29 @@ import java.awt.event.*;
 import java.util.*;
 import java.text.Collator;
 import org.freeciv.common.Building;
+import org.freeciv.common.Unit;
 import org.freeciv.common.City;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.ui.util.*;
+import org.freeciv.net.WorkList;
+import org.freeciv.net.PacketConstants;
+import org.freeciv.net.PktCityRequest;
 
 /**
  * Implementation of the main city view.
  * 
  * @author Ben Mazur
  */
-class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConstants
+class ImplCityView extends VerticalFlowPanel 
+  implements DlgCityView, CommonConstants, PacketConstants
 {
   public static final int     VISIBLE_LIST_ROWS = 12;
   
   private VerticalFlowPanel m_panMain = new VerticalFlowPanel();
   // main panel stuff
-  private JPanel m_panPeople = new JPanel();
+  private CityCitizensDisplay m_citizensDisplay = new CityCitizensDisplay();
   private JPanel m_panMiddle = new JPanel();
   private JPanel m_panUnits = new JPanel();
   private JPanel m_panButtons = new JPanel();
@@ -54,11 +59,13 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
   // producing panel stuff
   private JProgressBar m_pbarConstructing = new JProgressBar();
   private JPanel m_panConstructingButtons = new JPanel();
-  private JButton m_butBuyConstructing = new JButton( _( "Buy" ) );
+  private JButton m_butBuyConstructing = new JButton( _( "Buy (X gold)" ) );
   private JButton m_butChangeConstructing = new JButton( _( "Change" ) );
   // units panel
-  private JPanel m_panUnitsPresent = new JPanel();
-  private JPanel m_panUnitsSupported = new JPanel();
+  private JScrollPane m_panUnitsPresent;
+  private JScrollPane m_panUnitsSupported;
+  private CityUnitsDisplay m_cudPresent = new CityUnitsDisplay();
+  private CityUnitsDisplay m_cudSupported = new CityUnitsDisplay();
   private VerticalFlowPanel m_panUnitButtons = new VerticalFlowPanel();
   private JButton m_butActivateUnits = new JButton( _( "Activate All" ) );
   private JButton m_butUnitList = new JButton( _( "Unit List" ) );
@@ -67,8 +74,6 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
   private JButton m_butRename = new JButton( _( "Rename" ) );
   private JButton m_butTrade = new JButton( _( "Trade" ) );
   private JButton m_butConfigure = new JButton( _( "Configure" ) );
-  
-  private ArrayList cityList;
   
   private Client m_client;
   JDialog m_dialog;
@@ -101,9 +106,8 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
   private void setupMainPanel()
   {
     m_panMain.setBorder( BorderFactory.createTitledBorder( _( "name - pop" ) ) );
-    m_panPeople.add( new JLabel( "people people people" ) );  // just a dummy
     
-    m_panMain.addRow( m_panPeople );
+    m_panMain.addRow( m_citizensDisplay );
     setupMiddlePanel();
     setupUnitsPanel();
     
@@ -118,7 +122,9 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
   {
     // fake map
     JComponent m_comMap = new JPanel();
-    m_comMap.setPreferredSize( new Dimension( 160, 160 ) );
+    m_comMap.setPreferredSize( new Dimension( 
+            m_client.getTileSpec().getNormalTileWidth() * 5,
+            m_client.getTileSpec().getNormalTileHeight() * 5 ) );
     m_comMap.setBackground( Color.black );
     
     m_panMap.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
@@ -170,8 +176,20 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
     m_pbarConstructing.setString( _( "xx / xx X Turns" ) );
     m_pbarConstructing.setStringPainted( true );
     // button panel
-    m_butBuyConstructing.setEnabled( false );
-    m_butChangeConstructing.setEnabled( false );
+    m_butBuyConstructing.addActionListener( new ActionListener() 
+    {
+      public void actionPerformed( ActionEvent e )
+      {
+        actionBuy();
+      }
+    } );
+    m_butChangeConstructing.addActionListener( new ActionListener() 
+    {
+      public void actionPerformed( ActionEvent e )
+      {
+        actionChange();
+      }
+    } );
     m_panConstructingButtons.add( m_butBuyConstructing );
     m_panConstructingButtons.add( m_butChangeConstructing );
     // construction panel
@@ -181,8 +199,14 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
     // building list
     m_lisBuildings.setListData( new String[] { "building", "building", "etc." } );
     m_lisBuildings.setVisibleRowCount( 6 );
-    m_butSellBuilding.setEnabled( false );
-    
+    m_butSellBuilding.addActionListener( new ActionListener() 
+    {
+      public void actionPerformed( ActionEvent e )
+      {
+        actionSell();
+      }
+    } );
+
     m_panBuildings.addRow( m_panConstructing );
     m_panBuildings.addSpacerRow( new JScrollPane( m_lisBuildings ) );
     m_panBuildings.addRow( m_butSellBuilding );
@@ -195,20 +219,24 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
    */
   private void setupUnitsPanel()
   {
+    m_panUnitsPresent = new JScrollPane( m_cudPresent, 
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
     m_panUnitsPresent.setBorder( BorderFactory.createTitledBorder( _( "Units Present" ) ) );
-    m_panUnitsPresent.add( new JLabel( "units go here" ) ); // temp
+    m_panUnitsSupported = new JScrollPane( m_cudSupported, 
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
     m_panUnitsSupported.setBorder( BorderFactory.createTitledBorder( _( "Units Supported" ) ) );
-    m_panUnitsSupported.add( new JLabel( "units go here" ) ); // temp
     
     m_butActivateUnits.setEnabled( false );
     m_butUnitList.setEnabled( false );
     m_panUnitButtons.addRow( m_butActivateUnits );
     m_panUnitButtons.addRow( m_butUnitList );
       
-    m_panUnits.setLayout( new BorderLayout() );
-    m_panUnits.add( m_panUnitsPresent, BorderLayout.WEST );
-    m_panUnits.add( m_panUnitsSupported, BorderLayout.CENTER );
-    m_panUnits.add( m_panUnitButtons, BorderLayout.EAST );
+    m_panUnits.setLayout( new GridBagLayout() );
+    m_panUnits.add( m_panUnitsPresent, new GridBagConstraints2( 0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
+    m_panUnits.add( m_panUnitsSupported, new GridBagConstraints2( 1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
+    m_panUnits.add( m_panUnitButtons, new GridBagConstraints2( 2, 0, 1, 1, 0.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
     
     m_panMain.addRow( m_panUnits );
   }
@@ -225,9 +253,15 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
         undisplay();
       }
     } );
+    m_butRename.addActionListener( new ActionListener() 
+    {
+      public void actionPerformed( ActionEvent e )
+      {
+        actionRename();
+      }
+    } );
     
     //TODO: other buttons
-    m_butRename.setEnabled( false );
     m_butTrade.setEnabled( false );
     m_butConfigure.setEnabled( false );
 
@@ -240,23 +274,41 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
   }
   
   /**
+   * Updates the title (name and population) in various places
+   */
+  public void updateTitle()
+  {
+    m_dialog.setTitle( _( m_city.getName() + " - " + m_city.getPopulation() ) );
+    m_panMain.setBorder( BorderFactory.createTitledBorder( 
+            _( m_city.getName() + " - " + m_city.getPopulation() ) ) );
+  }
+
+  /**
+   * Updates the display of citizen icons
+   */
+  public void updateCitizens()
+  {
+    m_citizensDisplay.updateFromCity();
+  }
+
+  /**
    * Updates the city stats panel
    */
   public void updateCityStats()
   {
     // production
     m_labFood.setText( _( 
-      "Food : " + m_city.getFoodProduction() 
-      + " (" + ( m_city.getFoodSurplus() > 0 ? "+" : "" )
-      + m_city.getFoodSurplus() + ")" ) );
+            "Food : " + m_city.getFoodProduction() 
+            + " (" + ( m_city.getFoodSurplus() > 0 ? "+" : "" )
+            + m_city.getFoodSurplus() + ")" ) );
     m_labShields.setText( _( 
-      "Shields : " + m_city.getShieldProduction() 
-      + " (" + ( m_city.getShieldSurplus() > 0 ? "+" : "" )
-      + m_city.getShieldSurplus() + ")" ) );
+            "Shields : " + m_city.getShieldProduction() 
+            + " (" + ( m_city.getShieldSurplus() > 0 ? "+" : "" )
+            + m_city.getShieldSurplus() + ")" ) );
     m_labTrade.setText( _( 
-      "Trade : " + ( m_city.getTradeProduction() + m_city.getCorruption() )
-      + " (" + ( m_city.getTradeProduction() > 0 ? "+" : "" ) 
-      + m_city.getTradeProduction() + ")" ) );
+            "Trade : " + ( m_city.getTradeProduction() + m_city.getCorruption() )
+            + " (" + ( m_city.getTradeProduction() > 0 ? "+" : "" ) 
+            + m_city.getTradeProduction() + ")" ) );
     // trade
     m_labGold.setText( _( "Gold ("
             + getClient().getGame().getCurrentPlayer().getEconomy().getTax()
@@ -271,9 +323,9 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
             + "%) : " + m_city.getLuxuryTotal() ) );
     // misc
     m_labGranary.setText( _( "Granary : " 
-                             + ( m_city.hasEffect( B_GRANARY) ? "*" : "" )
-                             + m_city.getFoodStock() + " / "
-                             + m_city.getGranarySize() ) );
+            + ( m_city.hasEffect( B_GRANARY) ? "*" : "" )
+            + m_city.getFoodStock() + " / "
+            + m_city.getGranarySize() ) );
     m_labPollution.setText( _( "Pollution : " + m_city.getPollution() ) );
 
   }
@@ -294,6 +346,7 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
     m_pbarConstructing.setMaximum( cost );
     m_pbarConstructing.setString( stock + " / " + cost
                                   + "    " + turns + _( " turns" ) );
+    m_butBuyConstructing.setText( _( "Buy" ) );
   }
   
   /**
@@ -303,17 +356,173 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
    */
   public void updateBuildingsList()
   {
-    ArrayList names = new ArrayList();
+    ArrayList bList = new ArrayList();
     for( int i = 0; i < getClient().getGame().getNumberOfImprovementTypes(); i++ ) {
       if( m_city.hasBuilding( i ) ) {
-        final Building bld = (Building)getClient().getGame().getFactories().getBuildingFactory().findById( i );
-        names.add( _( bld.getName() ) );
+        final Building bld = getClient().getGame().getBuilding( i );
+        bList.add( new BuildingListItem( bld.getId(), 
+                                         bld.getBuildCost(), 
+                                         bld.getName() ) );
       }
     }
-    m_lisBuildings.setListData( names.toArray() );
+    m_lisBuildings.setListData( bList.toArray() );
   }
   
+  /**
+   * Updates the unit displays
+   */
+  public void updateUnitDisplays()
+  {
+    m_cudPresent.updateFromIterator( getCity().getPresentUnits() );
+    m_cudSupported.updateFromIterator( getCity().getSupportedUnits() );
+    // do NOT exceed width of middle panel
+    m_panUnits.setPreferredSize(new Dimension(
+            m_panMiddle.getPreferredSize().width,
+            m_panUnits.getPreferredSize().height ) );
+  }
   
+  /**
+   * Updates the whole shebang
+   */
+  public void updateView()
+  {
+    updateTitle();
+    updateCitizens();
+    updateCityStats();
+    updateConstructing();
+    updateBuildingsList();
+    updateUnitDisplays();
+  }
+  
+  /**
+   * The user has clicked the "Buy" button for Construction
+   */
+  private void actionBuy()
+  {
+    int cost = getCity().getBuyCost();
+    int treasury = getClient().getGame().getCurrentPlayer().getEconomy().getGold();
+    if( treasury >= cost )
+    {
+      int result = m_dlgManager.showConfirmationDialog( 
+              _( "Buy " + getCity().getCurrentlyBuildingDescription() 
+                 + " for " + cost + " gold?\n"
+                 + "Treasury contains " + treasury + " gold." ) );
+      if( result == JOptionPane.YES_OPTION )
+      {
+        requestBuy();
+      }
+    }
+    else
+    {
+      m_dlgManager.showMessageDialog( 
+              _( getCity().getCurrentlyBuildingDescription() 
+                 + " costs " + cost + " gold.\n"
+                 + "Treasury contains " + treasury + " gold." ) );
+    }
+  }
+  
+  /**
+   * The user has clicked to change construction
+   */
+  private void actionChange()
+  {
+    m_dlgManager.getCityChangeConstructionDialog().display( getCity() );
+  }
+  
+  /**
+   * The user has clicked to "Sell" a building
+   */
+  private void actionSell()
+  {
+    if( m_lisBuildings.isSelectionEmpty() )
+    {
+      return;
+    }
+    
+    BuildingListItem bli = (BuildingListItem)m_lisBuildings.getSelectedValue();
+    int result = m_dlgManager.showConfirmationDialog( 
+            _( "Sell " + bli.m_name + " for " + bli.m_cost
+               + " gold?" ) );
+    if( result == JOptionPane.YES_OPTION )
+    {
+      requestSell( bli.m_id );
+    }
+  }
+  
+  /**
+   * The user has clicked to rename the city.
+   */
+  private void actionRename()
+  {
+    String newName = m_dlgManager.showInputDialog( 
+            _( "What should we rename the city to?" ),
+            getCity().getName() );
+    
+    if( newName != null && newName.length() > 0 )
+    {
+      requestRename( newName );
+    }
+    else 
+    {
+      System.err.println( "##### didn't get any name from rename city" );
+    }
+  }
+  
+  /**
+   * Sends a packet indicating that the city should buy its current 
+   * construction
+   */
+  private void requestBuy() 
+  {
+    PktCityRequest packet = new PktCityRequest();
+    packet.setType( PACKET_CITY_BUY );
+    
+    packet.city_id = getCity().getId();
+    packet.name = "";
+    packet.worklist = new WorkList();
+    packet.worklist.setName( "" );
+    
+    getClient().sendToServer( packet );
+  }
+  
+  /**
+   * Sends a packet indicating that the user wants to sell the 
+   * specified building
+   */
+  private void requestSell( int buildingId )
+  {
+    PktCityRequest packet = new PktCityRequest();
+    packet.setType( PACKET_CITY_SELL );
+    
+    packet.city_id = getCity().getId();
+    packet.build_id = buildingId;
+    packet.name = "";
+    packet.worklist = new WorkList();
+    packet.worklist.setName( "" );
+    
+    getClient().sendToServer( packet );
+  }
+  
+  /**
+   * Sends a packet indicating that the user wants to rename the
+   * city to the specified new name
+   */
+  private void requestRename( String newName )
+  {
+    PktCityRequest packet = new PktCityRequest();
+    packet.setType( PACKET_CITY_RENAME );
+    
+    packet.city_id = getCity().getId();
+    packet.name = newName;
+    packet.worklist = new WorkList();
+    packet.worklist.setName( "" );
+    
+    getClient().sendToServer( packet );
+  }
+  
+  /**
+   * Sets the Dialog visible with teh specified city displayed in it.
+   */
   public void display( City city )
   {
     m_city = city;
@@ -326,25 +535,126 @@ class ImplCityView extends VerticalFlowPanel implements DlgCityView, CommonConst
     dlg.getContentPane().add( ImplCityView.this, BorderLayout.CENTER );
     m_dialog = dlg;
     
-    m_panMain.setBorder( BorderFactory.createTitledBorder( 
-                        _( m_city.getName() + " - " + m_city.getPopulation() ) ) );
-    updateCityStats();
-    updateConstructing();
-    updateBuildingsList();
+    updateView();
     
     m_dlgManager.showDialog( m_dialog );
   }
   
   public void undisplay()
   {
-    // dispose of the city list to save memory.
-    cityList = null;
+    m_city = null;
     m_dlgManager.hideDialog( m_dialog );
+  }
+  
+  /**
+   * A class to display icons of all the units, either present or supported.
+   * 
+   * I think it will be okay to let the units be just icons and to make
+   * a right click menu to do all the actions on them.
+   * 
+   * TODO: show unit health, fortification & shield-use status.
+   * TODO: pop-up menu
+   */
+  private class CityUnitsDisplay extends JPanel
+  {
+    public CityUnitsDisplay()
+    {
+      super();
+      this.setLayout( new FlowLayout() );
+    }
+    
+    /**
+     * Clears and adds unit icons 
+     */
+    public void updateFromIterator( Iterator iter )
+    {
+      this.removeAll();
+      while( iter.hasNext() )
+      {
+        final Unit u = (Unit)iter.next();
+        this.add( new JLabel( u.getSprite() ) );
+      }
+    }
+  }
+  
+  /**
+   * Displays icons of all the citizens in the city
+   * 
+   * TODO: change citizen type w/ click
+   * TODO: maybe even a pop-up menu
+   */
+  private class CityCitizensDisplay extends JPanel
+  {
+    public CityCitizensDisplay()
+    {
+      super();
+      this.setLayout( new FlowLayout() );
+    }
+    
+    /**
+     * Clears & re-adds citizen icons from the info in City
+     * 
+     * Ugh, voodoo constants.  Watch out.
+     */
+    public void updateFromCity()
+    {
+      final TileSpec spec = getClient().getTileSpec();
+
+      this.removeAll();
+      // citizens
+      for(int i = 0; i < getCity().getHappyCitizens( 4 ); i++ )
+      {
+        this.add( new JLabel( spec.getCitizenSprite( 5 + i % 2 ) ) );
+      }
+      for(int i = 0; i < getCity().getContentCitizens( 4 ); i++ )
+      {
+        this.add(  new JLabel( spec.getCitizenSprite( 3 + i % 2 ) ) );
+      }
+      for(int i = 0; i < getCity().getUnhappyCitizens( 4 ); i++ )
+      {
+        this.add(  new JLabel( spec.getCitizenSprite( 7 + i % 2 ) ) );
+      }
+      // specialists
+      for(int i = 0; i < getCity().getElvises(); i++ )
+      {
+        this.add(  new JLabel( spec.getCitizenSprite( 0 ) ) );
+      }
+      for(int i = 0; i < getCity().getScientists(); i++ )
+      {
+        this.add(  new JLabel( spec.getCitizenSprite( 1 ) ) );
+      }
+      for(int i = 0; i < getCity().getTaxmen(); i++ )
+      {
+        this.add(  new JLabel( spec.getCitizenSprite( 2 ) ) );
+      }
+    }
+  }
+  
+  /**
+   * A quick class to hold buidings in the building list
+   */
+  private class BuildingListItem
+  {
+    public int m_id;
+    public int m_cost;
+    public String m_name;
+    
+    public BuildingListItem( int id, int cost, String name )
+    {
+      m_id = id;
+      m_cost = cost;
+      m_name = name;
+    }
+    
+    public String toString()
+    {
+      return m_name;
+    }
   }
  
   // localization
   private static String _( String txt )
   {
-    return Localize.translation.translate( txt );
+    return org.freeciv.util.Localize.translate( txt );
   }
 }

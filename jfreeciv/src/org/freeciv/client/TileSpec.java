@@ -585,6 +585,14 @@ public class TileSpec implements Constants
 
     return null;
   }
+  
+  /**
+   * Is this private or is this okay to access? -- BenM
+   */
+  public Icon getCitizenSprite( int idx )
+  {
+    return m_sprites.getCitizenSprite( idx );
+  }
 
   private TerrainType getTerrainType( int ttype )
   {

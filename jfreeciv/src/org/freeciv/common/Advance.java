@@ -10,13 +10,14 @@ import org.freeciv.net.PktRulesetTech;
 /**
  * Represents an "advance" (i.e. technology) in freeciv.
  */
-public class Advance implements GameObject
+public class Advance implements GameObject, CommonConstants
 {
 
   private PktRulesetTech m_ruleset;
   private Factories m_factories;
 
   private List m_required;
+  private List m_requiredIds;
   private GameObjectFactory m_factory;
 
   Advance(GameObjectFactory advanceFactory)
@@ -74,6 +75,30 @@ public class Advance implements GameObject
     return m_required.iterator();
   }
 
+  /**
+   * Get all advances required for this advance.
+   *
+   * @return an Interator, the values of which are Integers specifying
+   *  advance ids
+   */
+  public Iterator getRequiredAdvanceIds()
+  {
+    if (m_requiredIds == null)
+    {
+      m_requiredIds = new ArrayList(2);
+      for (int i=0; i < m_ruleset.req.length; i++)
+      {
+        int techId = m_ruleset.req[i];
+        if (techId != -1)
+        {
+          m_requiredIds.add( new Integer( m_ruleset.req[i] ) );
+        }
+      }
+    }
+
+    return m_requiredIds.iterator();
+  }
+
   public int getFlags()
   {
     return m_ruleset.flags;
@@ -83,4 +108,5 @@ public class Advance implements GameObject
   {
     return m_ruleset.helpText;
   }
+  
 }

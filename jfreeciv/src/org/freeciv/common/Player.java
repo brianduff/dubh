@@ -454,6 +454,22 @@ public class Player implements GameObject, CommonConstants
   }
   
   /**
+   * Returns true if the player knows the specified tech
+   */
+  public boolean hasInvention( int techId )
+  {
+    return m_research.hasInvention( techId );
+  }
+  
+  /**
+   * Returns true if the player knows the specified tech
+   */
+  public boolean hasInvention( Advance adv )
+  {
+    return m_research.hasInvention( adv );
+  }
+  
+  /**
    * Returns true if this player has an embasy with the specified player
    */
   public boolean hasEmbassyWith( Player p )

@@ -135,6 +135,11 @@ public class PHCityInfo extends AbstractHandler implements Constants
     // Popup stuff
 
     // Refresh city dialog
+    final City viewCity = client.getDialogManager().getCityViewDialog().getCity();
+    if( viewCity != null && viewCity.getId() == city.getId() ) 
+    {
+      client.getDialogManager().getCityViewDialog().updateView();
+    }
 
     Unit unit = client.getUnitInFocus();
     if ( unit != null 

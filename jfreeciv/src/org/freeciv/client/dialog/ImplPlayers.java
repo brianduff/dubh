@@ -252,7 +252,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
    * 
    * This method might be better off in some utility class.
    */
-  private void resizeTable( JTable table )
+  private static void resizeTable( JTable table )
   {
     int totalWidth = 0;
     for( int i = 0; i < table.getColumnCount(); i++ )
@@ -295,7 +295,8 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   }
   
   /**
-   * A nice, if unoriginal, class representing the columns and data in the player table
+   * A nice, if unoriginal, class representing the columns and data in the 
+   * player table
    */
   class PlayerTableModel extends AbstractTableModel
   {

@@ -73,19 +73,22 @@ abstract class AbstractPacket implements
   {
     boolean valid = ( is.readByte() > 0 );
     String name = is.readZeroString();
+    int[] efs = new int[ MAX_LEN_WORKLIST ];
     int[] ids = new int[ MAX_LEN_WORKLIST ];
     for( int i = 0;i < MAX_LEN_WORKLIST;i++ )
     {
-      ids[ i ] = is.readShort();
+      efs[ i ] = is.readUnsignedByte();
+      ids[ i ] = is.readUnsignedByte();
     }
     if( wl == null )
     {
-      wl = new WorkList( valid, name, ids );
+      wl = new WorkList( valid, name, efs, ids );
     }
     else
     {
       wl.setValid( valid );
       wl.setName( name );
+      wl.setEfs( efs );
       wl.setIds( ids );
     }
     return wl;
@@ -100,7 +103,8 @@ abstract class AbstractPacket implements
     os.writeZeroString( wl.getName() );
     for( int i = 0;i < MAX_LEN_WORKLIST;i++ )
     {
-      os.writeShort( wl.getIds()[ i ] );
+      os.writeByte( wl.getEfs()[ i ] );
+      os.writeByte( wl.getIds()[ i ] );
     }
   }
   protected int[] getTechList( InStream is, int[] tl )  throws NetworkProtocolException

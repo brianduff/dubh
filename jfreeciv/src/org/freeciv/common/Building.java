@@ -40,6 +40,13 @@ public class Building implements GameObject
     return m_ruleset.id;
   }
 
+  /**
+   * Gets the advance required to build this buuilding.
+   * 
+   * Watch out, buildings flagged as removed have their tech_req
+   * set to A_LAST, which produces an error when this method is
+   * called -- BenM
+   */
   public Advance getRequiredAdvance()
   {
     if (m_requiredAdvance == null)
@@ -50,6 +57,11 @@ public class Building implements GameObject
         );
     }
     return m_requiredAdvance;
+  }
+
+  public int getRequiredAdvanceId()
+  {
+    return m_ruleset.tech_req;
   }
 
   public Building getRequiredBuilding()
@@ -147,5 +159,4 @@ public class Building implements GameObject
   {
     return m_ruleset.helptext;
   }
-  
 }
