@@ -24,6 +24,7 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.utils.misc.*;
@@ -39,7 +40,6 @@ import java.beans.*;
  @version 0.2 [13/06/98]
  */
 class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
-  private static final String HEADERS_PREF = "newsagent.composer.AdditionalHeaders";
 
 
   private String[] optHeaders = {
@@ -120,7 +120,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      /*
       * Check preferences to see which optional headers to include
       */
-     words = StringUtils.getWords(GlobalState.getPreference(HEADERS_PREF, ""));
+     words = StringUtils.getWords(GlobalState.getPreference(PreferenceKeys.COMPOSER_ADDITIONALHEADERS, ""));
      //words = StringUtils.getWords("Distribution additional1 additional2");
      for (int i=0; i<words.length; i++) {
         JCheckBoxMenuItem mi;
@@ -355,7 +355,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
   public void unregister() {
      UserPreferences prf = GlobalState.getPreferences();
      prf.removePropertyChangeListener(m_proplistener);
-     prf.setPreference(HEADERS_PREF, StringUtils.createSentence(getHeaderList()));
+     prf.setPreference(PreferenceKeys.COMPOSER_ADDITIONALHEADERS, StringUtils.createSentence(getHeaderList()));
      try {
         prf.save();
      } catch (java.io.IOException e) {
@@ -378,13 +378,13 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
   class PropListener implements PropertyChangeListener {
      public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
-        if (prop.equals("") || prop.equals("newsagent.identity.organisation")) {
+        if (prop.equals("") || prop.equals(PreferenceKeys.IDENTITY_ORGANISATION)) {
            setHeaderValue("Organization", (String) e.getNewValue());
            repaint();
         }
-        if (prop.equals("") || prop.equals("newsagent.identity.email") || prop.equals("newsagent.identity.realname")) {
-           String rn = GlobalState.getPreferences().getPreference("newsagent.identity.realname");
-           String em = GlobalState.getPreferences().getPreference("newsagent.identity.email");
+        if (prop.equals("") || prop.equals(PreferenceKeys.IDENTITY_EMAIL) || prop.equals(PreferenceKeys.IDENTITY_REALNAME)) {
+           String rn = GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_REALNAME);
+           String em = GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_EMAIL);
            setHeaderValue("Sender", em + "(" + rn + ")");
            setHeaderValue("From", em + "(" + rn + ")");
            repaint();

@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import dubh.apps.newsagent.GlobalState;
 
+import dubh.apps.newsagent.PreferenceKeys;
 
 /**
  * Panel for displaying Identity Options in preferences.
@@ -101,9 +102,9 @@ public class IdentityOptionsPanel extends JPanel {
    * button was clicked or the window was closed without OK being clicked.
    */
   public void revertPreferences() {
-   tfRealName.setText(GlobalState.getPreference("newsagent.identity.realname", ""));
-   tfEmail.setText(GlobalState.getPreference("newsagent.identity.email", ""));
-   tfOrganisation.setText(GlobalState.getPreference("newsagent.identity.organisation", ""));
+   tfRealName.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_REALNAME, ""));
+   tfEmail.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL, ""));
+   tfOrganisation.setText(GlobalState.getPreference(PreferenceKeys.IDENTITY_ORGANISATION, ""));
   }
 
   /**
@@ -111,9 +112,9 @@ public class IdentityOptionsPanel extends JPanel {
    * should call this on all panels, then save the preference file.
    */
   public void applyPreferences() {
-   GlobalState.setPreference("newsagent.identity.realname", tfRealName.getText());
-   GlobalState.setPreference("newsagent.identity.email", tfEmail.getText());
-   GlobalState.setPreference("newsagent.identity.organisation", tfOrganisation.getText());
+   GlobalState.setPreference(PreferenceKeys.IDENTITY_REALNAME, tfRealName.getText());
+   GlobalState.setPreference(PreferenceKeys.IDENTITY_EMAIL, tfEmail.getText());
+   GlobalState.setPreference(PreferenceKeys.IDENTITY_ORGANISATION, tfOrganisation.getText());
 
   }
 

@@ -28,6 +28,7 @@ import java.io.*;
 import dubh.utils.misc.*;
 import dubh.utils.ui.*;
 
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.IUpdateableClass;
 import dubh.apps.newsagent.dialog.ErrorReporter;
@@ -172,9 +173,9 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 
      if (message != null) {
         if (message.trim().length() > 0) {
-           insertQuoteHeader(GlobalState.getPreference("newsagent.send.IncludeHeading", DEFAULT_INCLUDE));
+           insertQuoteHeader(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEHEADING, DEFAULT_INCLUDE));
 
-           prefix = GlobalState.getPreference("newsagent.send.IncludePrefix", DEFAULT_PREFIX);
+           prefix = GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX, DEFAULT_PREFIX);
            taEditor.append("\n"+StringUtils.prefixString(message, prefix));
         }
      }
@@ -313,10 +314,10 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
      MessageBody b = new MessageBody(taEditor.getText());
      MessageHeader h = headers.getMessageHeader();
      if (!h.hasField("From"))
-        h.setField("From", GlobalState.getPreference("newsagent.identity.email") +
-           " (" + GlobalState.getPreference("newsagent.identity.realname") + ")");
-     h.setField("Organization", GlobalState.getPreference("newsagent.identity.organisation"));
-     if (GlobalState.getBoolPreference("newsagent.send.AddNewsAgentHeaders", true)) {
+        h.setField("From", GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL) +
+           " (" + GlobalState.getPreference(PreferenceKeys.IDENTITY_REALNAME) + ")");
+     h.setField("Organization", GlobalState.getPreference(PreferenceKeys.IDENTITY_ORGANISATION));
+     if (GlobalState.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true)) {
         h.setField("X-Mailer", GlobalState.xmailer);
         h.setField("X-Mailer-URL", GlobalState.appURL);
      }
@@ -359,7 +360,7 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
    */
   private boolean checkIdentity() {
 
-   String em = GlobalState.getPreference("newsagent.identity.email", "");
+   String em = GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL, "");
    if (em.equals("")) {
      if (ErrorReporter.yesNo("MessageComposer.NoIdentity", new String[] {GlobalState.appName})) {
        // user wants to edit their identity options.

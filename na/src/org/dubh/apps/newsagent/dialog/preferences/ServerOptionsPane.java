@@ -29,6 +29,7 @@ import java.util.*;
 import java.io.IOException;
 import dubh.utils.ui.GridBagConstraints2;
 import dubh.utils.misc.StringUtils;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
@@ -176,8 +177,8 @@ public class ServerOptionsPane extends JPanel {
     GlobalState.setPreference("newsagent.servers.InstalledServers", allServers);
 */
     // Save the SMTP Mail Host & Port  (Nb. should do port sanity checking elsewhere)
-    GlobalState.setPreference("newsagent.servers.SMTPHostName", tfMailServer.getText());
-    GlobalState.setPreference("newsagent.servers.SMTPPort", tfMailPort.getText());
+    GlobalState.setPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, tfMailServer.getText());
+    GlobalState.setPreference(PreferenceKeys.SERVERS_SMTPPORT, tfMailPort.getText());
     // Serialise NNTPServers
     GlobalState.getStorageManager().serializeServers();
     // Update User Interface.
@@ -194,8 +195,8 @@ public class ServerOptionsPane extends JPanel {
       refreshServerList();
 
     // Get the SMTP Mail Host & Port
-    tfMailServer.setText(GlobalState.getPreference("newsagent.servers.SMTPHostName", ""));
-    tfMailPort.setText(GlobalState.getPreference("newsagent.servers.SMTPPort", ""));
+    tfMailServer.setText(GlobalState.getPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, ""));
+    tfMailPort.setText(GlobalState.getPreference(PreferenceKeys.SERVERS_SMTPPORT, ""));
 
   }
 

@@ -25,6 +25,7 @@ import java.util.Hashtable;
 import javax.swing.border.*;
 import javax.swing.*;
 
+impord dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 
@@ -137,14 +138,14 @@ public class SendOptionsPanel extends JPanel {
    * should call this on all panels, then save the preference file.
    */
   public void applyPreferences() {
-     GlobalState.setPreference("newsagent.send.IncludeHeading", taPrefix.getText());
-     GlobalState.setPreference("newsagent.send.IncludePrefix", tfPrefixLine.getText());
+     GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEHEADING, taPrefix.getText());
+     GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEPREFIX, tfPrefixLine.getText());
      if (optNothing.isSelected())
-        GlobalState.setPreference("newsagent.send.IncludeBehaviour", "none");
+        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "none");
      else if (optSelection.isSelected())
-        GlobalState.setPreference("newsagent.send.IncludeBehaviour", "selected");
+        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "selected");
      else if (optAll.isSelected())
-        GlobalState.setPreference("newsagent.send.IncludeBehaviour", "all");
+        GlobalState.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
   }
 
   /**
@@ -157,7 +158,7 @@ public class SendOptionsPanel extends JPanel {
      optSelection.setSelected(false);
      optNothing.setSelected(false);
 
-     String includeBehaviour = GlobalState.getPreference("newsagent.send.IncludeBehaviour", "all");
+     String includeBehaviour = GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
      if (includeBehaviour.trim().equalsIgnoreCase("all"))
         optAll.setSelected(true);
      else if (includeBehaviour.trim().equalsIgnoreCase("selected"))
@@ -165,9 +166,9 @@ public class SendOptionsPanel extends JPanel {
      else if (includeBehaviour.trim().equalsIgnoreCase("none"))
         optNothing.setSelected(true);
 
-     taPrefix.setText(GlobalState.getPreference("newsagent.send.IncludeHeading",
+     taPrefix.setText(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEHEADING,
         "In message {message-id}, {x-na-realname} wrote:"));
-     tfPrefixLine.setText(GlobalState.getPreference("newsagent.send.IncludePrefix",
+     tfPrefixLine.setText(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX,
         "> "));
   }
 

@@ -29,6 +29,7 @@ import javax.swing.border.*;
 import java.beans.*;
 import javax.swing.event.*;
 
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 
 /**
@@ -99,9 +100,9 @@ public class GeneralOptionsPanel extends JPanel {
    * button was clicked or the window was closed without OK being clicked.
    */
   public void revertPreferences() {
-   jCheckBox1.setSelected(GlobalState.getBoolPreference("newsagent.general.AutoUpdate", true));
-    jCheckBox2.setSelected(GlobalState.getBoolPreference("newsagent.general.NewsgroupNotify", true));
-    String update = GlobalState.getPreference("newsagent.general.UpdateInterval","5");
+    jCheckBox1.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_AUTOUPDATE, true));
+    jCheckBox2.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, true));
+    String update = GlobalState.getPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL,"5");
     updateSlider.setValue(Integer.parseInt(update.trim()));
     valLabel.setText(update+" minutes");
     // Only enable slider if the AutoUpdate checkbox is selected.
@@ -114,9 +115,9 @@ public class GeneralOptionsPanel extends JPanel {
    * should call this on all panels, then save the preference file.
    */
   public void applyPreferences() {
-   GlobalState.setPreference("newsagent.general.AutoUpdate", jCheckBox1.isSelected());
-    GlobalState.setPreference("newsagent.general.NewsgroupNotify", jCheckBox2.isSelected());
-    GlobalState.setPreference("newsagent.general.UpdateInterval", valLabel.getText().substring(0,2));
+   GlobalState.setPreference(PreferenceKeys.GENERAL_AUTOUPDATE, jCheckBox1.isSelected());
+    GlobalState.setPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, jCheckBox2.isSelected());
+    GlobalState.setPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL, valLabel.getText().substring(0,2));
   }
 
 
@@ -124,10 +125,10 @@ public class GeneralOptionsPanel extends JPanel {
     ResourceManager r = GlobalState.getRes();
     jPanel1.setMaximumSize(new Dimension(457, 264));
     jPanel1.setBorder(borderGeneral);
-    //jCheckBox1.setText(GlobalState.getResString("GeneralOptionsPanel.UpdateEvery"));
+    // jCheckBox1.setText(GlobalState.getResString("GeneralOptionsPanel.UpdateEvery"));
     jCheckBox1.setHorizontalAlignment(SwingConstants.LEFT);
-    //jCheckBox1.setMnemonic(GlobalState.getResString("GeneralOptionsPanel.UpdateEveryAccelerator").charAt(0));
-    //jCheckBox1.setToolTipText(GlobalState.getResString("GeneralOptionsPanel.UpdateEveryTip"));
+    // jCheckBox1.setMnemonic(GlobalState.getResString("GeneralOptionsPanel.UpdateEveryAccelerator").charAt(0));
+    // jCheckBox1.setToolTipText(GlobalState.getResString("GeneralOptionsPanel.UpdateEveryTip"));
     jCheckBox1.addActionListener(new GeneralOptionsPanel_jCheckBox1_actionAdapter(this));
 //NLS    r.initButton(jCheckBox1, "GeneralOptionsPanel.UpdateEvery");
      updateSlider.setMinorTickSpacing(1);

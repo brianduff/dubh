@@ -32,6 +32,7 @@ import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.agent.AgentManager;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 
+import dubh.apps.newsagent.PreferenceKeys;
 /**
  * List agents options panel for the list agents tab in the options dialog:<P>
  * Version History: <UL>
