@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.10 2000-08-20 20:39:13 briand Exp $ -->
+<!-- $Id: build.xml,v 1.11 2000-08-20 20:44:47 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -22,9 +22,9 @@
     <property name="docdir" value="${cvsmodule}/doc" />    
     <property name="javadocdir" value="${docdir}/api" />
     <property name="javadocpkg" value="org.javalobby.dju.*" />
-    <property name="javadoctitle" value="${product} ${majorversion}.${minorversion}.${buildnumber}" />
+    <property name="javadoctitle" value="${product} ${majorversion}.${minorversion}.${BUILDNUMBER}" />
 
-    <echo message="${cvsmodule} build number ${buildnumber} started ${TODAY} at ${TSTAMP}" />    
+    <echo message="${cvsmodule} build number ${BUILDNUMBER} started ${TODAY} at ${TSTAMP}" />    
   </target>
   
   

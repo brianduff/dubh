@@ -1,4 +1,4 @@
-// $Id: BuildNumber.java,v 1.3 2000-08-20 20:40:38 briand Exp $
+// $Id: BuildNumber.java,v 1.4 2000-08-20 20:43:28 briand Exp $
 package org.dubh.tool.ant;
 
 import java.io.File;
@@ -24,7 +24,7 @@ public class BuildNumber extends Task
 {
    private String m_bnoFile;
 
-   private static final String BUILD_NUMBER = "buildnumber";
+   private static final String BUILD_NUMBER = "BUILDNUMBER";
 
    /**
     * The count file is used to determine the current build number and is
