@@ -1663,7 +1663,7 @@ public class TileSpec implements Constants
    * @param unit the unit whose sprites have to be added
    * @param solidBg ?
    */
-  private void fillUnitSprites( List l, org.freeciv.common.Unit unit, boolean[] solidBg )
+  public void fillUnitSprites( List l, org.freeciv.common.Unit unit, boolean[] solidBg )
   {
     solidBg[0] = false;
 
