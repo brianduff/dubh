@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NetworkNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
+//   $Id: NetworkNewsClient.java,v 1.3 2000-08-19 21:28:36 briand Exp $
 //   Copyright (C) 1999, 2000  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -58,7 +58,7 @@ import org.javalobby.dju.progress.ProgressMonitorSupport;
  * the internet.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NetworkNewsClient.java,v 1.2 2000-06-14 21:33:01 briand Exp $
+ * @version $Id: NetworkNewsClient.java,v 1.3 2000-08-19 21:28:36 briand Exp $
  */
 public class NetworkNewsClient extends AbstractNewsClient
    implements NewsStatusCodes, NNTPCommands, ProgressMonitorSupport
@@ -303,9 +303,11 @@ public class NetworkNewsClient extends AbstractNewsClient
    public void connect(String hostName, int portNumber)
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
-      getProgressMonitor().setMessage("Attempting to connect to "+hostName+"...");
-
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+         getProgressMonitor().setMessage("Attempting to connect to "+hostName+"...");
+      }
       checkstring(hostName, ERR_BADHOST);
       checkbool((portNumber <= 0), ERR_BADPORT);
 
@@ -326,7 +328,10 @@ public class NetworkNewsClient extends AbstractNewsClient
 
          int nStatus = getStatus();
 
-         getProgressMonitor().setMessage("Connection to "+hostName+" established");
+         if (getProgressMonitor() != null)
+         {
+            getProgressMonitor().setMessage("Connection to "+hostName+" established");
+         }
          // Use the welcome status to figure out whether posting is OK
          // on the server.
          if (nStatus == READY_NOPOSTING)
@@ -356,8 +361,11 @@ public class NetworkNewsClient extends AbstractNewsClient
       }
       finally
       {
-         // Not sure if we should do this here.
-         getProgressMonitor().setFinished(true);
+         if (getProgressMonitor() != null)
+         {
+            // Not sure if we should do this here.
+            getProgressMonitor().setFinished(true);
+         }
       }
 
    }
@@ -544,15 +552,20 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getListNewsgroups()
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+      }
       checkconn();
 
       sendCommand(LIST);
 
       ArrayList l =  readGroupList("Received {0} groups");
 
-      getProgressMonitor().setFinished(true);
-
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFinished(true);
+      }
       return l;
    }
 
@@ -606,7 +619,8 @@ public class NetworkNewsClient extends AbstractNewsClient
 
          // Every PROGRESS_UPDATE_INTERVALth group, change the status
          // message.
-         if (m_destList.size() % PROGRESS_UPDATE_INTERVAL == 0)
+         if (getProgressMonitor() != null &&
+             m_destList.size() % PROGRESS_UPDATE_INTERVAL == 0)
          {
             getProgressMonitor().setMessage(
                MessageFormat.format(m_progressMessage, new Object[] {
@@ -655,7 +669,10 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getOverviewFormat()
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+      }
       checkconn();
 
       // The only way to see if xover is supported is to actually try using
@@ -673,7 +690,10 @@ public class NetworkNewsClient extends AbstractNewsClient
          stringList = null;
       }
 
-      getProgressMonitor().setFinished(true);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFinished(true);
+      }
       return stringList;
    }
 
@@ -688,7 +708,10 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getArticleList(String groupName)
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+      }
       checkconn();
       checkstring(groupName, ERR_BAD_GROUPNAME);
 
@@ -704,7 +727,10 @@ public class NetworkNewsClient extends AbstractNewsClient
          articleList = new ArrayList();
       }
 
-      getProgressMonitor().setFinished(true);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFinished(true);
+      }
       return articleList;
    }
 
@@ -719,7 +745,10 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getNewGroups(Date since)
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+      }
       checkconn();
       checknull(since, ERR_INVALID_DATE);
 
@@ -735,7 +764,10 @@ public class NetworkNewsClient extends AbstractNewsClient
          groupList = new ArrayList();
       }
 
-      getProgressMonitor().setFinished(true);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFinished(true);
+      }
       return groupList;
    }
 
@@ -751,7 +783,10 @@ public class NetworkNewsClient extends AbstractNewsClient
    public ArrayList getNewNews(String groupNames, Date since)
       throws NewsClientException
    {
-      getProgressMonitor().setFixedLengthTask(false);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFixedLengthTask(false);
+      }
       checkconn();
       checkstring(groupNames, ERR_BAD_GROUPNAME);
       checknull(since, ERR_INVALID_DATE);
@@ -767,8 +802,10 @@ public class NetworkNewsClient extends AbstractNewsClient
       {
          newsList = new ArrayList();
       }
-
-      getProgressMonitor().setFinished(true);
+      if (getProgressMonitor() != null)
+      {
+         getProgressMonitor().setFinished(true);
+      }
       return newsList;
    }
 
@@ -1067,7 +1104,8 @@ public class NetworkNewsClient extends AbstractNewsClient
       public boolean visit(String item)
       {
          m_alDestination.add(item);
-         if (m_alDestination.size() % PROGRESS_UPDATE_INTERVAL == 0
+         if (getProgressMonitor() != null &&
+             m_alDestination.size() % PROGRESS_UPDATE_INTERVAL == 0
              && m_progressMessage != null)
          {
             getProgressMonitor().setMessage(MessageFormat.format(
@@ -1133,6 +1171,9 @@ public class NetworkNewsClient extends AbstractNewsClient
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2000/06/14 21:33:01  briand
+// Added support for progress monitoring. Numerous fixes & upgrades.
+//
 // Revision 1.1  2000/02/22 23:47:35  briand
 // News client implementation initial revision.
 //
