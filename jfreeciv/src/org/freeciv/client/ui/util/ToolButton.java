@@ -22,11 +22,14 @@ public class ToolButton extends JButton
   // use JToolbarButton to achieve the same effect as this class, so I'm not
   // going to fix it for now.
 
-  private static final Border EMPTY_BORDER = new EmptyBorder(1, 1, 1, 1);
-  private static final Border RAISED_BORDER = 
+  protected static final Border EMPTY_BORDER = new EmptyBorder(1, 1, 1, 1);
+  protected static final Border RAISED_BORDER = 
     new ThinBevelBorder(ThinBevelBorder.RAISED);
-  private static final Border LOWERED_BORDER =
+  protected static final Border LOWERED_BORDER =
     new ThinBevelBorder(ThinBevelBorder.LOWERED);
+
+  protected boolean m_isInside = false;
+  protected boolean m_isDepressed = false;
 
   public ToolButton()
   {
@@ -37,46 +40,74 @@ public class ToolButton extends JButton
     setBorder( EMPTY_BORDER );
   }
 
+  protected void mouseEntered( MouseEvent e )
+  {
+    if ( m_isDepressed )
+    {
+      setBorder( LOWERED_BORDER );
+    }
+    else
+    {
+      setBorder( RAISED_BORDER );
+    }
+    m_isInside = true;
+  }
+
+  protected void mouseExited( MouseEvent e)
+  {
+    setBorder( EMPTY_BORDER );
+    m_isInside = false;
+  }
+
+  protected void mousePressed(MouseEvent e)
+  {
+    setBorder( LOWERED_BORDER );
+    m_isDepressed = true;
+  }
+
+  protected void mouseReleased( MouseEvent e )
+  {
+    m_isDepressed = false;
+    if ( m_isInside )
+    {
+      setBorder( RAISED_BORDER );
+    }
+    else
+    {
+      setBorder( EMPTY_BORDER );
+    }
+  }
+
+  protected boolean isValidButtonEvent( MouseEvent e )
+  {
+    return ( (e.getModifiers() & e.BUTTON1_MASK) != 0);
+  }
+
   private class RolloverListener extends MouseAdapter
   {
-    private boolean m_isInside = false;
-    private boolean m_isDepressed = false;
-  
     public void mouseEntered( MouseEvent e )
     {
-      if ( m_isDepressed )
-      {
-        setBorder( LOWERED_BORDER );
-      }
-      else
-      {
-        setBorder( RAISED_BORDER );
-      }
-      m_isInside = true;
+      ToolButton.this.mouseEntered( e );
     }
 
     public void mouseExited( MouseEvent e )
     {
-      setBorder( EMPTY_BORDER );
-      m_isInside = false;
+      ToolButton.this.mouseExited( e );
     }
 
     public void mousePressed( MouseEvent e )
     {
-      setBorder( LOWERED_BORDER );
-      m_isDepressed = true;
+      if ( isValidButtonEvent( e ) )
+      {
+        ToolButton.this.mousePressed( e );
+      }
     }
 
     public void mouseReleased( MouseEvent e )
     {
-      m_isDepressed = false;
-      if ( m_isInside )
+      if ( isValidButtonEvent( e ) )
       {
-        setBorder( RAISED_BORDER );
-      }
-      else
-      {
-        setBorder( EMPTY_BORDER );
+        ToolButton.this.mouseReleased( e );
       }
     }
   }
