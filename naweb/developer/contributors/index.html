@@ -11,14 +11,43 @@
 Welcome to Contributor Central.
 </p>
 <ul>
-  <li><a href="forms/application.html">Contributor application form</a> (<b>23 Mar 1999: Works now</b>)</li>
+  <li><a href="forms/application.html">Contributor application form</a></li>
   <li><a href="detailed.html">Detailed information for contributors</a></li>
   <li><a href="../../bugs/req.cgi?list">Bug database</a></li>
-  <li><a href="forms/checkin.html">Checkin Report</a> (<b>23 Mar 1999: Now works)</b></li>
+  <li><a href="forms/checkin.html">Checkin Report</a></b></li>
   <li><a href="http://www.egroups.com/list/dubh-contributors">Contributors forum</a> (includes build reports)</li>
   <li><a href="../download/dubhsnapshots.cgi">Source Code snapshots / JARs from autobuild</a> (includes CVS log of most recent changes)</li>
 
 </ul>
+
+
+<h2>News</h2>
+<h3>[07 June 1999]: New CVS module & updated build scripts</h3>
+<p>
+   A new CVS module (dmp) is available containing an implementation of an NNTP store
+   for JavaMail. This will soon be used instead of the dubh.apps.newsagent.nntp
+   package (lots of code from NNTPServer.java has moved into NNTPStore.java in the
+   new source tree). This code doesn't compile yet, and is not yet used, so is not
+   autobuilt. Please ask before checking into this module. The networking code is
+   my top priority now.
+</p>
+<p>
+   A common build script (bin/buildmodule, available in the dubhbuild CVS module)
+   has been created that performs the work of building a module. Most of the code
+   came from buildna and buildju, which were pretty similar. Now buildna and 
+   builddju (and the new builddmp) all call buildmodule with different arguments.
+   The build scripts can be configured to run outside the st-and.compsoc.org.uk
+   server, please let me know if you have any success doing this.
+</p>
+<p>
+   Fixed a small locale specific bug in the DJU (build 53) that was causing
+   exceptions to be thrown in non UK locales. This was due to parsing a date
+   using DateFormat.parse(..), which uses fundamentally different patterns in
+   different locales, it seems (regardless of how much I tried, I couldn't work
+   out what format it wanted the date to be in in a US locale). I've now
+   specified my own format with SimpleDateFormat, which works without hassle
+   in both locales.
+</p>
 
 <!--#include virtual="../../../footer.html" -->
 </body>
