@@ -38,10 +38,12 @@ import javax.swing.border.TitledBorder;
 
 import org.gjt.abies.SystemInfoPanel; // remove me soon bduff
 
+import org.freeciv.common.Assert;
 import org.freeciv.common.Factories;
 import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
+import org.freeciv.common.Tile;
 import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.net.InStream;
@@ -163,8 +165,6 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private int port;
   // ??
   private String name;
-  // The capabilities string from the server.
-  private String serverCapabilities;
   // BD: redundant?
   private boolean alive = true;
   // The current state of the client.
@@ -231,6 +231,15 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private JPanel panWest;
   // Factories
   private Factories m_factories = new Factories();
+
+
+
+  // recyc_init in climisc.c
+  private boolean m_recycInit = false;
+  private int m_lastContinentNumber = 0;
+
+  private MapView m_mapView = new MapView(this);
+
   // prob shouldn't instantiate this yet. 
   private Game m_game = new Game(m_factories);
   private final static String APP_NAME = "Freeciv4J";
@@ -240,7 +249,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   public static final int majorVer = Constants.MAJOR_VERSION;
   public static final int minorVer = Constants.MINOR_VERSION;
   public static final int patchVer = Constants.PATCH_VERSION;
-  public static final String capabilities = "+1.11.6 conn_info";
+  public static final String CAPABILITIES = "+1.11.6 conn_info";
   public static final Integer MAP_PANEL_LAYER = new Integer( 0 );
   public static final Integer CITY_DIALOG_LAYER = new Integer( 2 );
   public static final Integer ADVISOR_DIALOG_LAYER = new Integer( 3 );
@@ -311,6 +320,25 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     // BD: ?????
     addComponentListener( this );
   }
+
+  public String getCapabilities()
+  {
+    return CAPABILITIES;
+  }
+
+  public MapView getMapView()
+  {
+    return m_mapView;
+  }
+
+  public void initContinents()
+  {
+    // climisc.c: climap_init_continents()
+
+    // No idea what this is doing - mem mgmt crap from c.
+    
+  }
+  
   public CivMap getMap()
   {
     return map;
@@ -394,22 +422,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     // BD: this is in case we stop subclassing JFrame directly.
     return this;
   }
-  /**
-   * Get the server capabilities string
-   */
-  public String getServerCapabilities()
-  {
-    return serverCapabilities;
-  }
-  /**
-   * Set the server capabilities string. Normally used by the handler
-   * that deals with connection to store the server capability string
-   * in the client for later use
-   */
-  public void setServerCapabilities( String cap )
-  {
-    serverCapabilities = cap;
-  }
+
   /**
    * Get the current game state. Returns one of the CLIENT_*_STATE
    * constants defined in the Constants interface.
@@ -426,52 +439,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     gameState = state;
   }
-  /**
-   * Set the game info packet
-   */
-  //public void setGameInfo( PktGameInfo gi )
-  //{
-  //  gameInfo = gi;
-  //  if( players == null )
-  //  {
-  //    players = new PktPlayerInfo[ gi.max_players ];
-  //  }
-  // }
-  /**
-   * Get the game info packet
-   */
-  //public PktGameInfo getGameInfo()
-  //{
-  //  return gameInfo;
-  //}
-  /**
-   * Get the current player
-   */
-  //public PktPlayerInfo getCurrentPlayer()
-  //{
-  //  return currentPlayer;
-  //}
-  /**
-   * Set the current player
-   */
-  //public void setCurrentPlayer( PktPlayerInfo pi )
-  //{
-  //  currentPlayer = pi;
-  //}
-  /**
-   * Get the specified player
-   */
-  //public PktPlayerInfo getPlayer( int i )
-  //{
-  //  return players[ i ];
-  //}
-  /**
-   * Set the specified player
-   */
-  //public void setPlayer( int i, PktPlayerInfo pi )
-  //{
-  //  players[ i ] = pi;
-  //}
+
   /**
    * Sets up the UI for the chat area
    */
@@ -659,7 +627,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     prjg.majorVer = majorVer;
     prjg.minorVer = minorVer;
     prjg.patchVer = patchVer;
-    prjg.capabilities = capabilities;
+    prjg.capabilities = CAPABILITIES;
     prjg.version_label = Constants.VERSION_LABEL;
     return sendToServer( prjg );
   }
@@ -736,41 +704,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
    */
   public void showHelp( String category, String item )
   {
-    
-  
 
-  // BD: Need to sort out datadir stuff.
-  /*
-  if ( helpPanel == null )
-  {
-  try {
-  helpPanel = new HelpPanel(this,
-  new File(new File(dataDir,"help"),"helpdata.txt"));
-  } catch ( IOException e )
-  {
-  // add verbose error panel here
-  JOptionPane.showInternalMessageDialog(desktop,
-  _("No help available on this subject"),
-  _("No Help"), JOptionPane.WARNING_MESSAGE);
-  System.out.println(e);
-  return;
-  }
-  }
-  
-  if ( helpFrame != null )
-  {
-  helpFrame.getContentPane().removeAll();
-  helpFrame.setVisible(false);
-  helpFrame.dispose();
-  desktop.remove(helpFrame);
-  }
-  
-  helpFrame = new JInternalFrame(_("Help"),true,true,true/*,true);
-  desktop.add(helpFrame,HELP_DIALOG_LAYER);
-  helpFrame.getContentPane().add(helpPanel);
-  helpFrame.pack();
-  helpFrame.show();
-  helpPanel.showHelp(category, item);       */
   }
   /**
    * Terminates the client. You really out to disconnect & stuff
@@ -859,6 +793,12 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       }
     }
   }
+
+  public void showOverviewMap()
+  {
+    m_upMiniMap.setContent( _( "Mini Map"), getMapView().getOverviewComponent(), this );
+  }
+  
   /**
    * Creates the map
    */
@@ -1032,6 +972,117 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   }
 
   /**
+   * Update information about continents stored by the client
+   */
+  public void updateContinents( int x, int y )
+  {
+    Tile tile = getGame().getMap().getTile( x, y );
+    int  con, thisCon;
+
+    if ( tile.getTerrain() == T_OCEAN) return;
+
+    thisCon = -1;
+
+    for ( int i = x-1; i < x+1; i++ )
+    {
+      for ( int j = y-1; j < y+1; j++ )
+      {
+        Tile thisTile = getGame().getMap().getTile( i, j );
+        if (!(i==x && j==y) && j>0 && j < getGame().getMap().getWidth()
+            && thisTile.isKnown()
+            && thisTile.getTerrain() != T_OCEAN )
+        {
+          con = thisTile.getContinent( );
+
+          if ( con > 0 )
+          {
+            if ( thisCon == -1 )
+            {
+              thisCon = con;
+              tile.setContinent( thisCon );
+            }
+            else if ( con != thisCon )
+            {
+              renumberContinent( i, j, thisCon );
+              recycleContinentNum( con );
+            }
+          }
+        }
+      }
+    }
+
+    if ( thisCon == -1 )
+    {
+      tile.setContinent( getNewContinentNumber() );
+    }
+  }
+
+  /**
+   * Renumber the continent at x, y. This natty bit of code is called
+   * recursively and will renumber all tiles in a continental land mass which
+   * contains the tile at map co-ordinate (x, y)
+   */
+  private void renumberContinent( int x, int y, int newnumber )
+  {
+    int old;
+
+    if ( y < 0 || y >= getGame().getMap().getHeight() ) return;
+
+    x = getGame().getMap().adjustX( x );
+
+    Tile tile = getGame().getMap().getTile( x, y );
+
+    old = tile.getContinent();
+
+    Assert.that( tile.isKnown() );
+    Assert.that( tile.getTerrain() != T_OCEAN );
+    // Assert.that( old > 0 && old <= max_cont_used ); ??
+
+    tile.setContinent( newnumber );
+
+    for ( int i = x-1; i < x + 1; i++ )
+    {
+      for ( int j = y-1; j < y + 1; j++ )
+      {
+        if ( !( i == x && j == y ) && j >= 0 && j < getGame().getMap().getHeight() 
+            &&  getGame().getMap().getTile( i, j ).isKnown()
+            &&  getGame().getMap().getTile( i, j ).getTerrain() != T_OCEAN
+            &&  getGame().getMap().getTile( i, j ).getContinent() == old)
+        {
+          renumberContinent( i, j, newnumber );
+        }
+      }
+    }
+  }
+
+  private int getNewContinentNumber()
+  {
+    return m_lastContinentNumber++;
+  }
+
+  private void recycleContinentNum( int num )
+  {
+    // NOOP
+  }
+
+  public void refreshTileMapCanvas( final int x, final int y, final boolean updateView )
+  {
+    if (EventQueue.isDispatchThread())
+    {
+      getMapView().refreshTileMapCanvas( x, y, updateView );
+    }
+    else
+    {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run()
+        {
+          getMapView().refreshTileMapCanvas( x, y, updateView );
+        }
+      });
+    }
+  }
+
+  /**
    * Update status information on the main window. It is safe to call this
    * from any thread.
    */
@@ -1061,7 +1112,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       p.getNation().getName()
     );
 
-    // todo: population
+    m_panCivInfo.setPop( getGame().getCivilizationPopulation( p ) );
 
     m_panCivInfo.setYear( getGame().getYear() );
     m_panCivInfo.setGold( p.getEconomy().getGold() );
