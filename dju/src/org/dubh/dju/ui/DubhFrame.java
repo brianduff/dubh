@@ -43,8 +43,8 @@ import dubh.utils.DubhUtilsPreferences;
  * <LI>0.5 [18/06/98]: Added checking for m_id == null.
  * <LI>1.0 [08/12/98]: Changed to use class as restore location key.
  *</UL>
- @author Brian Duff
- @version 1.0 [08/12/98]
+ * Version history since March 1999 is in the CVS repository
+ * @author Brian Duff
  */
 public class DubhFrame extends JFrame {
 
@@ -55,46 +55,24 @@ public class DubhFrame extends JFrame {
     * Default Constructor. Constructs a frame and moves it to a restored
     * location
     */
-  public DubhFrame() {
-     super();
+  public DubhFrame() 
+  {
+     this("");
+  }
+  
+  public DubhFrame(String title)
+  {
+     super(title);
      restoreLocation();
      addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent e)
         {
            storeLocation();
         }
-     });
+     });     
   }
-
-  /**
-   * Constructs a DubhFrame with the specified string id. This ID will be used
-   * to store the position of the window when it is closed. This constructor
-   * uses the default property file to store the window's position -
-   * dubhutils.properties in the user's home directory. This constructor packs
-   * and moves the window to the correct position (or the centre of the screen
-   * if there is a problem) but doesn't display it.
-   * @param id the id to store the window's position with.
-   * @deprecated Windows now use the default dubh utils preferences file, and 
-   *   use their class name as an id.
-
-   */
-  public DubhFrame(String id) {
-     this();
-  }
-
-  /**
-   * Constructs a DubhFrame with the specified string id. This constructor packs
-   * and moves the window to the correct position (or the centre of the screen
-   * if there is a problem) but doesn't display it.
-   * @param id the id to store the window's position with.
-   * @param preffile the preferences file to use
-   * @deprecated Windows now use the default dubh utils preferences file, and 
-   *   use their class name as an id.
-   */
-  public DubhFrame(String id, String preffile) {
-     this();
-  }
-
+  
+  
    /**
    * Moves the frame to the centre of the screen.
    */
@@ -157,6 +135,15 @@ public class DubhFrame extends JFrame {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
       
+      //
+      // If the frame has a name, use that as part of the key
+      //
+      String name = getName();
+      if (name != null && !name.equals(""))
+      {
+         basekey = basekey+"."+name;
+      }
+      
       dup.getPreferences().setIntPreference(
          basekey+".x", getLocation().x
       );
@@ -186,6 +173,22 @@ public class DubhFrame extends JFrame {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
+      
+      String name = getName();
+      String nameKey;
+      
+      //
+      // If this frame has a name, and their is a preference for that named
+      // frame, use this preference. Otherwise, use the generic preference
+      // for all frames of this class.
+      //
+      if (name != null && !name.equals(""))
+      {
+         nameKey = basekey+"."+name;
+         Object p = dup.getPreference(nameKey+".x");
+         if (p != null)   basekey = nameKey;
+      }
+      
       try
       {
          int x = Math.max(0, dup.getIntPreference(
