@@ -22,7 +22,7 @@ public class PktGameInfo extends AbstractPacket
   public int[] global_wonders = new int[ B_LAST ];
   public int foodbox;
   public int techpenalty;
-  public int spacerace;
+  public boolean spacerace;
   public int seconds_to_turndone;
   public PktGameInfo() 
   {
@@ -66,7 +66,7 @@ public class PktGameInfo extends AbstractPacket
     out.writeUnsignedByte( techpenalty );
     out.writeUnsignedByte( foodbox );
     out.writeUnsignedByte( civstyle );
-    out.writeUnsignedByte( spacerace );
+    out.writeUnsignedByte( spacerace ? 1 : 0 );
     out.writeInt( seconds_to_turndone );
   }
   public void receive( InStream in )
@@ -102,7 +102,7 @@ public class PktGameInfo extends AbstractPacket
     techpenalty = in.readUnsignedByte();
     foodbox = in.readUnsignedByte();
     civstyle = in.readUnsignedByte();
-    spacerace = in.readUnsignedByte();
+    spacerace = (in.readUnsignedByte() != 0);
     seconds_to_turndone = in.readInt();
   }
 }
