@@ -1,35 +1,65 @@
-<!-- $Id: build.xml,v 1.16 2000-08-20 21:46:43 briand Exp $ -->
-  
+<!-- $Id: build.xml,v 1.17 2000-08-20 22:29:26 briand Exp $ -->
+
+<!-- This is a build file which can be used with the Jakarta Ant tool to -->
+<!-- build various Dubh libraries / applications. It's written to be fairly -->
+<!-- generic; in theory, only the init target should need to be changed for -->
+<!-- each project. When xml inclusions are supported by various xml parsers -->
+<!-- I'll probably just include all the other stuff from somewhere common -->
+
+<!-- More information on Ant can be found at http://jakarta.apache.org -->
+
 <project name="dju" default="all" basedir=".">
   <target name="init">
     <tstamp/>
-
+    <!-- The buildnumber task is in the devtools CVS module. It must be in -->
+    <!-- the classpath before building any other module -->
     <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
-    
+
+    <!-- The name and main version number of this project. -->
     <property name="product" value="Dubh Java Utilities" />
+    <property name="toppackage" value="org.javalobby.dju" />
     <property name="majorversion" value="2" />
     <property name="minorversion" value="0" />
 
+    <!-- The CVS module for this project. This should usually be a single top level directory -->
     <property name="cvsmodule" value="dju" />
+    <!-- Runs the buildnumber task which will generate a unique build number and make it available to the rest of this build file -->
     <buildnumber propertyfile="${cvsmodule}-build.properties" />
     <property file="${cvsmodule}-build.properties" />
+
     <property name="srcbase" value="src" />
     <property name="classbase" value="class" />
     <property name="srcdir" value="${cvsmodule}/${srcbase}" />
     <property name="classdir" value="${cvsmodule}/${classbase}" />
     <property name="jardir" value="${cvsmodule}/lib" />
+    <property name="cvsroot" value="/usr/local/cvsroot" />
     <property name="moduleshort" value="${cvsmodule}-${majorversion}.${minorversion}" />
     <property name="modulelong" value="${moduleshort}.${dubh.buildnumber}" />
     <property name="jarfile" value="${jardir}/${moduleshort}.jar" />
-    <property name="cvsroot" value="/usr/local/cvsroot" />
+
+    <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
     <property name="classpath" value="" />
     <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
     <property name="docdir" value="${cvsmodule}/doc" />    
     <property name="javadocdir" value="${docdir}/api" />
-    <property name="javadocpkg" value="org.javalobby.dju.*" />
+    <property name="javadocpkg" value="${toppackage}.*" />
     <property name="javadoctitle" value="${product} ${modulelong}" />
+    <!-- Used to temporarily build a distribution of the module for zipping -->
     <property name="distribtmp" value="distribtmp" />
     <property name="distribname" value="${cvsmodule}/${modulelong}-bin.zip" />
+
+    <property name="xslthome" value="devtools/xslt" />
+    <property name="xugenxsl" value="${xslthome}/xugen.xsl" />
+    <property name="xrtsxsl" value="${xslthome}/xrts.xsl" />
+
+    <!-- Comma separated list of files that should be copied from the source path into the classpath. You can use wildcards -->
+    <property name="copyfiles" value="" />
+
+    <!-- Comma separated list of xml files that should be converted to Java using the xui transforming stylesheet -->
+    <property name="xuifiles" value="" />
+
+    <!-- Comma separated list of xml files that should be converted to Java using the xrts transforming stylesheet -->
+    <property name="xrtsfiles" value="" />
 
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
@@ -48,9 +78,33 @@
       
       
   </target>
+
+  <!-- Copy files from the source tree to the output path -->
+  <target name="copyfiles" depends="pullsrc">
+    <copydir  src="${srcdir}"
+              dest="${classdir}"
+              includes="${copyfiles}"
+    />
+  </target>
+
+  <!-- Apply the XUI transforming stylesheet to all files defined in the xuifiles -->
+  <!-- property. This requires the xugen.xsl file to be present in devtools/xslt -->
+  <!-- and the xalan XSLT engine to be in your ant CLASSPATH -->
+  <target name="xui" depends="pullsrc">
+    <style  basedir="${srcdir}"
+            destdir="${srcdir}"
+            extension="java"
+            style="${xugenxsl}"
+            includes="${xuifiles}"
+    />
+  </target>
+
+  <target name="xrts" depends="pullsrc">
+
+  </target>
   
   <!-- Compile all source code -->
-  <target name="src" depends="pullsrc">
+  <target name="src" depends="pullsrc,copyfiles,xrts,xui">
     <mkdir dir="${classdir}" />
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
