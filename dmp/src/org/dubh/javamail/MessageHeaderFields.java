@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MessageHeaderFields.java,v 1.1.1.1 1999-06-06 23:37:38 briand Exp $
+//   $Id: MessageHeaderFields.java,v 1.2 1999-06-08 22:45:00 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/mail
@@ -30,7 +30,7 @@ package dubh.mail;
 * String constants for common mail header fields.
 *  
 * @author Brian Duff
-* @version $Id: MessageHeaderFields.java,v 1.1.1.1 1999-06-06 23:37:38 briand Exp $
+* @version $Id: MessageHeaderFields.java,v 1.2 1999-06-08 22:45:00 briand Exp $
 */
 public class MessageHeaderFields
 {
@@ -39,7 +39,7 @@ public class MessageHeaderFields
       SENDER              = "Sender",
       SUBJECT             = "Subject",
       TO                  = "To",
-      SENT                = "Sent",
+      DATE                = "Date",
       REPLY_TO            = "Reply-To",
       NEWSGROUPS          = "Newsgroups",
       FOLLOWUP_TO         = "Followup-To",
@@ -52,14 +52,21 @@ public class MessageHeaderFields
       REFERENCES          = "References",
       X_MAILER            = "X-Mailer",
       X_MAILER_URL        = "X-Mailer-URL",
-      MESSAGE_ID          = "Message-Id";
+      MESSAGE_ID          = "Message-Id",
+      CONTENT_TYPE        = "Content-Type",
+      CONTENT_DISPOSITION = "Content-Disposition",
+      CONTENT_TRANSFER_ENCODING = "Content-Transfer-Encoding",
+      CONTENT_ID          = "Content-Id",
+      CONTENT_MD5         = "Content-MD5",
+      CONTENT_DESCRIPTION = "Content-Description",
+      CONTENT_LANGUAGE    = "Content-Language";
       
 
    public static final String[] DEFAULT_VIEWER_HEADERS = new String[] 
       {
       FROM,
       SUBJECT,
-      SENT,
+      DATE,
       NEWSGROUPS
       };
    
@@ -75,7 +82,7 @@ public class MessageHeaderFields
       SENDER,
       SUBJECT,
       TO,
-      SENT,
+      DATE,
       REPLY_TO,
       NEWSGROUPS,
       FOLLOWUP_TO,
@@ -88,7 +95,14 @@ public class MessageHeaderFields
       REFERENCES,
       X_MAILER,
       X_MAILER_URL,
-      MESSAGE_ID      
+      MESSAGE_ID,
+      CONTENT_TYPE,
+      CONTENT_DISPOSITION,
+      CONTENT_TRANSFER_ENCODING,
+      CONTENT_ID,
+      CONTENT_MD5,
+      CONTENT_DESCRIPTION,
+      CONTENT_LANGUAGE      
       };
 }
 
@@ -96,4 +110,7 @@ public class MessageHeaderFields
 // (was moved from NewsAgent at some point, June 1999)
 // 
 // $Log: not supported by cvs2svn $
+// Revision 1.1.1.1  1999/06/06 23:37:38  briand
+// Dubh Mail Protocols initial revision.
+//
 //
