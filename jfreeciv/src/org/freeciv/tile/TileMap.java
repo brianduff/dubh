@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.event.*;
 import org.freeciv.common.Logger;
+
 public class TileMap extends GenericMap implements ActionListener
 {
   protected List /*FlashingIcon*/[][] tiles;
@@ -51,6 +52,7 @@ public class TileMap extends GenericMap implements ActionListener
           return ;
         }
         Coords co = toTileCoordinates( x, y );
+        if (co == null) return;
         StringBuffer txt = new StringBuffer( 50 );
         txt.append( "<html>(" );
         txt.append( String.valueOf( co.x ) );
