@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: Newsgroup.java,v 1.2 1999-06-08 22:46:12 briand Exp $
+//   $Id: Newsgroup.java,v 1.3 1999-08-03 19:16:15 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -35,14 +35,14 @@ import java.util.*;
  * A Javamail folder representing a newsgroup in the NNTP protocol.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: Newsgroup.java,v 1.2 1999-06-08 22:46:12 briand Exp $
+ * @version $Id: Newsgroup.java,v 1.3 1999-08-03 19:16:15 briand Exp $
  */
 class Newsgroup extends Folder
 {
    private final static String ERR_RO = "Newsgroups are readonly";
-   private boolean m_open;
+   protected boolean m_open;
    
-   private String m_groupName;
+   protected String m_groupName;
    
    private ArrayList m_messages;
    
@@ -52,9 +52,10 @@ class Newsgroup extends Folder
    private int m_firstArticle;
    private int m_lastArticle;
     
-   public Newsgroup(Store s)
+   public Newsgroup(String groupName, Store s)
    {
       super(s);
+      m_groupName = groupName;
    }
    
    /**
@@ -302,6 +303,9 @@ class Newsgroup extends Folder
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/06/08 22:46:12  briand
+// First compiling version of the Newsgroup class.
+//
 // Revision 1.1.1.1  1999/06/06 23:37:38  briand
 // Dubh Mail Protocols initial revision.
 //
