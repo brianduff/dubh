@@ -62,8 +62,14 @@
         particular, I've been playing Civilization in various forms since
         it was (eventually) released on the Atari ST many years ago. 
       </p>
+      <p align="center">
+        <a href="jfreeciv/images/jfreeciv_map_full.png" target="imgWindow"> 
+          <img src="jfreeciv/images/jfreeciv_map_small.png" border="0" width="250" height="187"
+          alt="JFreeCiv Map" />
+        </a>
+      </p>          
       <p>
-        <a href="http://www.freeciv.org">FreeCIV</a> is an open source effort
+        <a href="http://www.freeciv.org">Freeciv</a> is an open source effort
         to write a replica of Civilization II. Unfortunately it's in C, and I
         don't really like C much. Artur Abies wrote a Java version, and
         I'm currently "maintaining" it.
@@ -142,13 +148,13 @@
 
   <cvs-info>
     <date>
-      $Date: 2001-07-01 15:50:49 $
+      $Date: 2001-07-08 02:47:20 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.9 $
+      $Revision: 1.10 $
     </revision>
   </cvs-info>
 
