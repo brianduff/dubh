@@ -2,8 +2,8 @@
 <%
 /**
  * $RCSfile: viewMessage.jsp,v $
- * $Revision: 1.4 $
- * $Date: 2001-06-11 20:46:47 $
+ * $Revision: 1.5 $
+ * $Date: 2001-06-11 20:49:06 $
  */
 %>
 
@@ -322,8 +322,13 @@
 
             if (savedEmail != null)
             {
-               displayName = "<a href=\"mailto:" + savedEmail + "\">" + displayName + "</a>";
-            } %>
+               displayName = "<a href=\"mailto:" + savedEmail + "\">" + displayName + "</a>" + "(Not logged in)";
+            }
+            else if (savedName != null)
+            {
+               displayName += "(Not logged in)";
+            }
+            %>
 
             <%= displayName %>
         <% } %>
