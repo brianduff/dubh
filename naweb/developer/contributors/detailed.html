@@ -1,4 +1,4 @@
-<!-- $Id: detailed.html,v 1.4 1999-06-06 23:53:20 briand Exp $ -->
+<!-- $Id: detailed.html,v 1.5 2000-02-23 00:24:45 briand Exp $ -->
 <html>
 <head>
 <title>Contributor Central: Detailed Information</title>
@@ -22,13 +22,14 @@
   CVS client written for Windows and released under the GNU GPL.</p>
 <p>When your register as a contributor, you'll be given a username and password. 
   You should then point your CVS client at the server; it has the following details:</p>
-<p>CVS Server: <b>st-and.compsoc.org.uk<br>
-  </b>CVS repository: <b>/home/briand/cvsroot</b><br>
+<p>CVS Server: <b>cvs.javalobby.org<br>
+  </b>CVS repository: <b>/usr/local/cvsroot</b><br>
   Connection method: <b>Pserver</b></p>
 <p>The following CVS modules are available:</p>
-<p><b>najava:</b> NewsAgent java source code.<br>
-  <b>dju:</b> Common code<br>
-  <b>dmp:</b> (NEW) Dubh Mail Protocols (JavaMail implementation for NNTP)<br>
+<p><b>jfa/org/javalobby/apps/newsagent:</b> [jfa-na] NewsAgent java source code.<br>
+  <b>jfa/org/javalobby/dju:</b> [jfa-dju] Common utility code<br>
+  <b>jfa/org/javalobby/javamail:</b> [jfa-dmp] JFA Mail Providers (JavaMail implementation for NNTP)<br>
+<p>These modules are still on the old CVS server. Please email brian for access</p>
   <b>nawin32: </b>NewsAgent windows launcher C files<br>
   <b>dubhbuild: </b>Nightly build scripts<br>
   <b>nareadme: </b>Readme files for NewsAgent distributions<br>
@@ -37,7 +38,7 @@
   <b>naweb: </b>NewsAgent Web Site HTML (refreshed every hour)<br>
 
 </p>
-<p>The most useful ones to most contributors will be najava and dju. </p>
+<p>The most useful ones to most contributors will be newsagent, javamail and dju. </p>
 <h2>Checking Out</h2>
 <p>To check out NewsAgent and begin to make some changes, you should connect your 
   client to the CVS server and perform a checkout of the relevant modules. To 
@@ -84,9 +85,9 @@
   below).</p>
 <p>Again, consult your CVS client documentation on how to check files in. You 
   should make sure you provide suitable comments for the log on what has changed.</p>
-<p>Whenever you make changes, I also ask that you fill out a <a href="forms/checkin.html">checkin report</a>. 
-  The contents of this form will be mailed to all contributors.</p>
 <h2>Build Process</h2>
+<p><b>The nightly builds have not been moved to the new CVS server yet.</b></p>
+
 <p>A full build of all Java based components (both NewsAgent and the DJU) is performed 
   every night, and the results are mailed out to all contributors and displayed 
   on the archives page on <a href="http://www.egroups.com/list/dubh-contributors">
