@@ -10,6 +10,7 @@ public class UACTFortify extends AbstractUnitAction
     super();
     putValue( NAME, _( "Fortify" ) );
     setAccelerator( KeyEvent.VK_F );
+    
   }
   public void actionPerformed( ActionEvent e )
   {

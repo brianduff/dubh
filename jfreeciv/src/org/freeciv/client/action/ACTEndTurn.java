@@ -13,7 +13,7 @@ public class ACTEndTurn extends AbstractClientAction
   {
     super();
     putValue( NAME, _( "End Turn" ) );
-    setEnabled( true );
+    setEnabled( false );
 
     URL imgURL = ACTEndTurn.class.getResource( 
       "res/endturn.png"

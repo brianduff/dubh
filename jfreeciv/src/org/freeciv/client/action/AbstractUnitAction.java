@@ -12,6 +12,7 @@ abstract class AbstractUnitAction extends AbstractClientAction
   public AbstractUnitAction() 
   {
     super();
+    setEnabled( false );
   }
   public boolean isEnabledFor( Unit u )
   {
