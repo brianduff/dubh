@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.8 1999-11-09 22:34:40 briand Exp $
+//   $Id: GlobalState.java,v 1.9 1999-12-12 03:31:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -46,7 +46,7 @@ import org.javalobby.dju.misc.*;
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.8 1999-11-09 22:34:40 briand Exp $
+ * @version $Id: GlobalState.java,v 1.9 1999-12-12 03:31:51 briand Exp $
  */
 public class GlobalState {
 
@@ -62,7 +62,7 @@ public class GlobalState {
   private static Properties m_signatures;
   private static AgentManager m_agentManager;
    /** The name of the bundle containing application strings */
-  public static final String stringBundle = "Strings";
+  public static final String stringBundle = "org/javalobby/apps/newsagent/res/Strings";
   private static ResourceManager m_resManager = 
      new ResourceManager(ResourceBundle.getBundle(stringBundle));
 
@@ -122,7 +122,7 @@ public class GlobalState {
   private static MainFrame mainFrame;
 
   private static Locale m_locale;
-  private static final String imgDir = "dubh/apps/newsagent/images/";
+  private static final String imgDir = "org/javalobby/apps/newsagent/images/";
 
   /** Message Providers available to the user. */
   private static Vector m_providers = new Vector();
@@ -437,6 +437,9 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.7  1999/10/24 00:41:30  briand
 // Add static getDataDirectory() method.
 //

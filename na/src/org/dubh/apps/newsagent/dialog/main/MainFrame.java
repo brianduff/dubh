@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.8 1999-11-09 22:34:41 briand Exp $
+//   $Id: MainFrame.java,v 1.9 1999-12-12 03:31:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -65,7 +65,7 @@ import org.javalobby.dju.misc.ResourceManager;
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.8 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: MainFrame.java,v 1.9 1999-12-12 03:31:51 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -75,7 +75,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   /** The resource key for the main menu bar */
   private static final String MENU_BAR = "mainMenu";
   /** The bundle name for menu resources */
-  private static final String MENUS_BUNDLE="Menus";
+  private static final String MENUS_BUNDLE="org/javalobby/apps/newsagent/res/Menus";
 
   private static final String
         POPUP_FOLDER      =  "popupFolder",
@@ -95,7 +95,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
             PropertyFileResolver.getDefaultedProperties(
                "navigator"+File.separator+"services"+File.separator+"news", 
                "news.properties", 
-               "dubh/apps/newsagent/navigator/services/news", 
+               "org/javalobby/apps/newsagent/navigator/services/news",
                "news.properties"
              )
          ));
@@ -783,6 +783,9 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.7  1999/10/24 00:42:45  briand
 // Pull out FolderTreePanel and replace with the new Navigator.
 //

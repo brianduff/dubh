@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: PropertyFileResolver.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+//   $Id: PropertyFileResolver.java,v 1.3 1999-12-12 03:31:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -47,7 +47,7 @@ import javax.swing.ImageIcon;
  * Utility class to find a property file. 
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: PropertyFileResolver.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: PropertyFileResolver.java,v 1.3 1999-12-12 03:31:51 briand Exp $
  */
 public class PropertyFileResolver 
 {  
@@ -63,7 +63,7 @@ public class PropertyFileResolver
     */
    public static Icon getIcon(UserPreferences prefs, String key)
    {
-      String rootdir = "C:"+File.separator+"WINDOWS"+File.separator+".newsagent"; //GlobalState.getDataDirectory();
+      String rootdir = GlobalState.getDataDirectory();
    
       String fileName = prefs.getPreference(key);
       
@@ -112,7 +112,7 @@ public class PropertyFileResolver
     */
    public static UserPreferences getPreferences(String pathFromData)
    {
-      String base = "C:/WINDOWS/.newsagent";//GlobalState.getDataDirectory();
+      String base = GlobalState.getDataDirectory();
       String fullName = base+File.separator+pathFromData;
       File f = new File(fullName);
       
@@ -166,7 +166,7 @@ public class PropertyFileResolver
    public static UserPreferences getDefaultedProperties(String storagePath, String fileName, String defaultPath, String defaultFile)
    {
       // First look in local storage
-      String dir = "C:"+File.separator+"WINDOWS"+File.separator+".newsagent";//GlobalState.getDataDirectory();
+      String dir = GlobalState.getDataDirectory();
       
       String localFileName = dir+File.separator+storagePath+File.separator+fileName;
       
@@ -276,6 +276,9 @@ public class PropertyFileResolver
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/10/24 00:46:45  briand
 // Initial revision.
 //

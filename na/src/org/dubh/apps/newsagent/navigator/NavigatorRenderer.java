@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorRenderer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+//   $Id: NavigatorRenderer.java,v 1.3 1999-12-12 03:31:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -41,7 +41,7 @@ import org.javalobby.dju.misc.Debug;
  * Tree renderer for the navigator.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorRenderer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: NavigatorRenderer.java,v 1.3 1999-12-12 03:31:51 briand Exp $
  */
 class NavigatorRenderer extends DefaultTreeCellRenderer
 {   
@@ -55,17 +55,22 @@ class NavigatorRenderer extends DefaultTreeCellRenderer
       
       if (!(value instanceof NavigatorNode))
       {
-         throw new IllegalArgumentException(
-            "Node at row "+row+" is not a navigator node: "+value
-         );
+         setText(value.toString());
+         if (Debug.TRACE_LEVEL_1)
+         {
+            Debug.println(1, this, "Node at row "+row+" is not a navigator node: "+value);
+         }
       }
+      else
+      {
 
-      NavigatorNode n = (NavigatorNode)value;
+         NavigatorNode n = (NavigatorNode)value;
       
-      setText(n.getDisplayedNodeName());
-      Icon i = n.getDisplayedNodeIcon();
-      if (i != null)
-         setIcon(i);
+         setText(n.getDisplayedNodeName());
+         Icon i = n.getDisplayedNodeIcon();
+         if (i != null)
+            setIcon(i);
+      }
 
       return c;
    }  
@@ -74,6 +79,9 @@ class NavigatorRenderer extends DefaultTreeCellRenderer
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/10/24 00:46:45  briand
 // Initial revision.
 //
