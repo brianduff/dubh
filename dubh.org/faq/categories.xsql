@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="categories.xsl" ?> 
+
+<category-info connection="faqbase" xmlns:xsql="urn:oracle-xsql">
+  
+  <xsql:include-param name="catid" />
+
+  <xsql:query rowset-element="" row-element="" catid="NULL">
+    
+    SELECT   title parentcat
+    FROM     categories 
+    WHERE    id = {@catid}
+    
+  </xsql:query>
+
+  <xsql:query rowset-element="category-list" row-element="category"
+    catid="NULL" order="cat.title">
+
+    SELECT   cat.id
+    ,        cat.title
+    ,        cat.description
+    ,        concat(concat(usr.forenames, ' '), usr.surname) created_by
+    FROM     categories cat
+    ,        users      usr
+    WHERE    cat.creator = usr.id
+     AND     cat.parent_cat &lt;=&gt; {@catid}
+  
+  </xsql:query>
+  
+
+  
+</category-info>

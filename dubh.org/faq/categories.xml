@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/dubhpage.xsl" ?>
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+
+  <title>Dubh.FAQ: Browsing</title>
+   
+  <content>
+    <h1>Dubh.FAQ: Browsing Categories</h1>
+    
+    <xsql:include-xsql href="categories.xsql" />
+    
+    <xsql:include-xsql href="questions.xsql" />
+    
+  </content>
+
+</dubhpage>

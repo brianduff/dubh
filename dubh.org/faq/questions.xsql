@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="questions.xsl" ?> 
+
+<question-info connection="faqbase" xmlns:xsql="urn:oracle-xsql">
+  
+  <xsql:include-param name="catid" />
+
+  <!--
+  ============================================================================
+    Message that is displayed if there are no questions
+  ============================================================================
+  -->
+  <noquestions-msg>
+    <p>
+      There are no questions to display for this category. Please try a
+      different category.
+    </p>
+  </noquestions-msg>
+
+  <!--
+  ============================================================================
+    The name of the topic this list of questions is for
+  ============================================================================
+  -->
+  <xsql:query rowset-element="" row-element="" catid="NULL">
+    
+    SELECT   concat("Frequently Asked Questions for ", title) heading
+    FROM     categories 
+    WHERE    id = {@catid}
+    
+  </xsql:query>
+
+  <!--
+  ============================================================================
+    The actual list of questions for this category
+  ============================================================================
+  -->
+  <xsql:query rowset-element="question-list" row-element="question"
+    catid="NULL">
+    
+    SELECT   que.id
+    ,        que.title
+    FROM     questions que
+    WHERE    que.category &lt;=&gt; {@catid}
+     AND     que.published = 'Yes'
+  
+  </xsql:query>
+  
+
+  
+</question-info>

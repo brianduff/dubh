@@ -1,0 +1,36 @@
+<!-- 
+  -- Stylesheet with styles specific to the faqbase  
+  -->
+  
+td.bigHead {
+   font-size: 14pt; 
+   color: #FFFFFF; 
+   font-weight: bold; 
+   background-color: #9900CC;
+}
+
+td.smallHead {
+   font-size: 10pt;
+   color: #FFFFFF;
+   font-weight: bold;
+   background-color: #9900CC;
+}
+
+td.questionField {
+   background-color: #FFFFCC;
+   color: #000000;
+}
+
+td.answerField {
+   background-color: #CCCCFF;
+   color: #000000;
+}
+
+.answerAuthor {
+   font-size: 8pt; 
+   color: #505050;
+}
+
+
+
+

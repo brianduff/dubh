@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/dubhpage.xsl" ?>
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+
+  <title>Dubh.FAQ</title>
+  
+  <content>
+    <h2>Dubh.FAQ</h2>
+    
+    <p>
+      Welcome to Dubh.FAQ, the automated Frequently Asked Questions (FAQ)
+      database. What would you like to do?
+    </p>
+    
+    <ul>
+      <li>
+        <a href="categories.xml">
+          Browse FAQ Categories
+        </a>
+      </li>
+      <li>FAQ Search</li>
+      <li>FAQ by Number</li>
+      <li>Create an Account</li>
+      <li>Login</li>
+      <li>Find out more about Dubh.FAQ</li>
+    </ul>
+    
+  </content>
+
+</dubhpage>

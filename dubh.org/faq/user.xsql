@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!--
+============================================================================
+  XSQL for a single user
+============================================================================
+-->
+<user connection="faqbase" xmlns:xsql="urn:oracle-xsql">
+
+  <!--
+  ============================================================================
+    The user. This should be a single row.
+  ============================================================================
+  -->
+  <xsql:query rowset-element="" row-element="">
+
+    SELECT   usr.id            AS id
+    ,        usr.email         AS email
+    ,        usr.forenames     AS forenames
+    ,        usr.surname       AS surname
+    ,        usr.type          AS type
+    FROM     users             usr
+    WHERE    usr.id = {@uid}
+    
+  </xsql:query>
+
+</user>
