@@ -1,0 +1,150 @@
+<html>
+	<head>
+		<title>Create New Account</title>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<link rel="stylesheet" href="../styles.css">
+
+<script src="validation.js" language="javascript"></script>
+
+
+
+
+<style type="text/css">
+	
+  .mandatoryBg {
+    background-color: #ffb584;
+  }
+	
+  .mandatoryText {
+    color: #ffb584;
+    font-weight: bold;
+  }
+	
+</style>
+
+</head>
+
+<body>
+
+<script language="javascript">
+
+function validateAll()
+{
+  if (!validateMandatory("emailField"))
+  {
+    alert("Please enter an email address");
+    grabFocus("emailField");
+    return false;
+  }
+
+  if (!validateEmail("emailField"))
+  {
+    alert("The email address you specified does not seem to be valid. Please enter an email address in the format username@host.com");
+    grabFocus("emailField");
+    return false;
+  }
+
+
+  if (!validateMandatory("passwordField"))
+  {
+    alert("Please enter a password");
+    grabFocus("passwordField");
+    return false;
+  }
+	
+  if (!validateMandatory("passwordConfirmField"))
+  {
+    alert("Please re-enter the password for confirmation.");
+    grabFocus("passwordConfirmField");
+    return false;
+  }	
+
+  if (!validateMatch("passwordField", "passwordConfirmField"))
+  {
+    alert("The two passwords you have entered do not match. Please re-enter the passwords");
+    clear("passwordField");
+    clear("passwordConfirmField");
+    grabFocus("passwordField");
+    return false;
+  }
+
+  return true;	
+}
+
+
+
+</script>
+
+<h1>FAQBase: Create An Account</h1>
+
+<p>Creating an account on FAQBase allows you to answer questions and update
+existing answers.</p>
+<p>Please enter information for 
+your account below. Fields in <span class="mandatoryText">orange</span>
+are required.</p>
+<form method="post">
+  <table border="0" cellpadding="2" cellspacing="0">
+
+    <tr>
+      <td class="mandatoryBg"><label for="emailField">Email Address:</label></td>
+      <td class="mandatoryBg">
+        <input type="text" name="emailAddress" id="emailField" size="45" maxlength="100"
+          title="Your email address, which will be used to uniquely identify you on future visits"
+          onfocus="showHint('emailField', 'hintText')">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="forenameField">Forename(s):</label></td>
+      <td>
+        <input type="text" name="forename" id="forenameField" size="45" maxlength="200"
+          title="Using a full name will prevent your email address from being displayed on web pages"
+          onfocus="showHint('forenameField', 'hintText')">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="surnameField">Surname:</label></td>
+      <td>
+        <input type="text" name="surname" id="surnameField" size="45" maxlength="100"
+          title="Using a full name will prevent your email address from being displayed on web pages"
+          onfocus="showHint('surnameField', 'hintText')">
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="mandatoryBg"><label for="passwordField">Password:</label></td>
+      <td class="mandatoryBg">
+        <input type="password" name="password" id="passwordField" size="45" maxlength="25"
+          title="Enter a password. You can use up to 45 letters or symbols"
+          onfocus="showHint('passwordField', 'hintText')">
+      </td>
+    </tr>
+    <tr>
+      <td class="mandatoryBg"><label for="passwordConfirmField">Re-enter Password:</label></td>
+      <td class="mandatoryBg">
+        <input type="password" name="passwordConfirm" id="passwordConfirmField" size="45" maxlength="25"
+          title="Re-enter the same password you entered above for confirmation."
+          onfocus="showHint('passwordConfirmField', 'hintText')">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p class="hintText" id="hintText">
+          Click on a field to display detailed information.
+        </p>
+      </td>
+    </tr>    
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Submit" name="B1" onClick="return validateAll()"><input type="reset" value="Reset" name="B2"></td>
+    </tr>
+  </table>
+</form>
+
+</body>
+
+</html>
