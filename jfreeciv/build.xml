@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.11 2001-11-04 02:15:00 briand Exp $ -->
+<!-- $Id: build.xml,v 1.12 2001-11-12 03:14:17 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
@@ -128,10 +128,9 @@
     <copy todir="${distdir}">
       <fileset dir=".">
         <include name="Changelog.txt" />
-        <include name="NOTES.txt" />
         <include name="Readme.txt" />
-        <include name="TODO.txt" />
         <include name="credits.txt" />
+        <include name="Copying.txt" />
       </fileset>
     </copy>
 
@@ -157,8 +156,9 @@
         <include name="Changelog.txt" />
         <include name="NOTES.txt" />
         <include name="Readme.txt" />
-        <include name="TOTO.txt" />
+        <include name="TODO.txt" />
         <include name="credits.txt" />
+        <include name="Copying.txt" />
       </fileset>
     </copy>
 
