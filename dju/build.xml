@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.13 2000-08-20 21:28:54 briand Exp $ -->
+<!-- $Id: build.xml,v 1.14 2000-08-20 21:31:47 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -91,10 +91,9 @@
     <deltree dir="${cvsmodule}" />
   </target>
 
-  <!-- The distrib target creates a binary distribution of the module and zips
-    -- it up.
-    -- The distribution consists of all the directories after building,
-    -- excluding the srcdir and classdir. -->
+  <!-- The distrib target creates a binary distribution of the module and zips it up. -->
+  <!-- The distribution consists of all the directories after building, -->
+  <!-- excluding the srcdir and classdir. -->
   <target name="distrib" depends="all">
     <!-- Remove any existing distribtmp -->
     <deltree dir="${distribtmp}" />
