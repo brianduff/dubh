@@ -546,6 +546,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   }
   public void startFlashing( int x, int y, FlashingIcon i )
   {
+    /*
     synchronized( flashing )
     {
       flashing.add( i );
@@ -559,9 +560,11 @@ public class CivMap extends TileMap implements Constants,ComponentListener
         actionPerformed( null ); // hack to start flashing at once
       }
     }
+    */
   }
   public void stopFlashing( FlashingIcon i )
   {
+    /*
     synchronized( flashing )
     {
       int index = flashing.indexOf( i );
@@ -573,6 +576,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     {
       timer.stop();
     }
+    */
   }
   // flash timer
   public void actionPerformed( ActionEvent e )
