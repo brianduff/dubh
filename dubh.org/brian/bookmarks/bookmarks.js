@@ -1,6 +1,9 @@
 //
 // JavaScript for the Bookmarks Weblet
 //
+// This is DOM-level 2 compliant ECMAScript.
+//
+// $Id: bookmarks.js,v 1.2 2001-04-29 17:54:53 briand Exp $
 // (C) 2001 Brian Duff
 
 var servletURL = "../servlet/editbookmarks";
@@ -8,22 +11,26 @@ var servletURL = "../servlet/editbookmarks";
 // As each title is clicked, hide or restore the corresponding tbody
 // We store a list of collapsed tbody ids in a cookie so that the collapsed
 // state is persistent
-function titleClicked(clickedItem)
+function titleClicked(clickedItemId)
 {
-   if (clickedItem.style.display == "none")
+   var clickedItem = document.getElementById(clickedItemId);
+       
+   if (clickedItem.style.display == "none" )
    {
       clickedItem.style.display = "block";
-      clickedItem.parentElement.children(0).children(0).children(0).children(0).src = "minus.gif";
+      //clickedItem.parentElement.children(0).children(0).children(0).children(0).src = "minus.gif";
 
-      removeFromCollapseList(clickedItem.id);
+      //removeFromCollapseList(clickedItem.id);
    }
-   else
+   else if (clickedItem.style.display == "" || clickedItem.style.display == "block")
    {
       clickedItem.style.display = "none";
-      clickedItem.parentElement.children(0).children(0).children(0).children(0).src = "plus.gif";                     
+      //clickedItem.parentElement.children(0).children(0).children(0).children(0).src = "plus.gif";                     
 
-      addToCollapseList(clickedItem.id);
+      //addToCollapseList(clickedItem.id);
    }
+   
+   return false;
 }
 
 
@@ -104,39 +111,6 @@ function getCookie(cookieName)
 }
 
 
-function imageHoverIn(image, insrc)
-{
-   image.src = insrc;
-   image.className = "toolbarHover";
-}
-
-function toggleHoverIn(image, insrc)
-{
-   image.src = insrc;
-}
-
-function imageHoverOut(image, outsrc)
-{
-   image.src = outsrc;
-   image.className = "toolbarFlat";
-}
-
-function toggleHoverOut(image, outsrc)
-{
-   image.src = outsrc;
-}
-
-function imageMouseDown(image)
-{
-   image.className = "toolbarPressed";
-}
-
-function imageMouseUp(image)
-{
-   image.className = "toolbarHover";
-}
-
-
 
 //
 // This function returns the base URL of the document, 
@@ -158,6 +132,39 @@ function getBaseURL()
    }
 }
 
+function addToCategory(id, title)
+{
+   document.location = "add_to_category.xsql?catid="+escape(id)+"&catname="+escape(title);
+}
+
+function deleteCategory(id, title)
+{
+   if (confirm("Deleting "+title+" will permentantly remove all bookmarks and subcategories of "+title+".\n\nAre you sure you want to do this?"))
+   {
+      document.location="secure/do_delete_category.xsql?catid="+escape(id)+"&catname="+escape(title);
+   }
+}
+
+function deleteBookmark(id, title)
+{
+   if (confirm("Do you really want to delete "+title+"?"))
+   {
+      document.location="secure/do_delete_bookmark.xsql?id="+escape(id);
+   }
+}
+
+function editBookmark(id, title, url)
+{
+   document.location="edit_bookmark.xsql?id="+escape(id)+"&title="+escape(title)+"&url="+escape(url);
+}
+
+
+function editCategory(id, title)
+{
+   document.location="edit_category.xsql?id="+escape(id)+"&title="+escape(title);
+}
+
+
 function setEditMode(editMode)
 {
    document.location =  getBaseURL() + "?editmode=" + editMode;
@@ -168,33 +175,6 @@ function getServletURL(action, item)
    return servletURL + "?action="+action+"&item="+escape(item)+"&srcurl="+escape(document.location);
 }
 
-function plusClicked(item)
-{
-   document.location = getServletURL("add", item);
-}               
-
-function deleteClicked(item)
-{
-   if (confirm("Do you really want to delete this item?"))
-   {
-      document.location = getServletURL("delete", item);
-   }
-}
-
-function moveUpClicked(item)
-{
-   document.location = getServletURL("moveup", item);
-}
-
-function moveDownClicked(item)
-{
-   document.location = getServletURL("movedown", item);
-}
-
-function configureClicked(item)
-{
-   document.location = getServletURL("configure", item);
-}
 
 // Collapse any tbody elements that are stored in the collapseList cookie
 function restoreCollapseState()
@@ -205,7 +185,7 @@ function restoreCollapseState()
    {
       if (aItems[i] != null && aItems[i].length != null)
       {
-         var a = document.all.item(aItems[i]);
+         var a = document.getElementById(aItems[i]);
          if (a != null)
          {
             // collapse the tbody

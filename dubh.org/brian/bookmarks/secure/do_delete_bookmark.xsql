@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dml.xsl" ?> 
+
+<!-- 
+==============================================================================
+Actually carry out deletion of a bookmark
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+-->
+
+<add xmlns:xsql="urn:oracle-xsql" connection="bookmarks">
+   
+  <error-messages>
+    <short>Error Deleting Bookmark</short>
+    <long>
+      The bookmark could not be deleted because a database error occurred.
+    </long>
+  </error-messages>
+  
+  <success-messages>
+    <short>Bookmark Deleted</short>
+    <long>
+      Bookmark deleted successfully.
+    </long>
+  </success-messages>
+  
+  <xsql:dml>
+    
+    DELETE FROM bookmarks
+    WHERE id = {@id}
+    
+  </xsql:dml>
+  
+   
+</add>

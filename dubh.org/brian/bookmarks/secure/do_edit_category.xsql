@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dml.xsl" ?> 
+
+<!-- 
+==============================================================================
+Actually carry out update of a category
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+-->
+
+<add xmlns:xsql="urn:oracle-xsql" connection="bookmarks">
+   
+  <error-messages>
+    <short>Error Editing Category</short>
+    <long>
+      The category could not be modified because a database error occurred.
+    </long>
+  </error-messages>
+  
+  <success-messages>
+    <short>Category Modified</short>
+    <long>
+      Category altered successfully.
+    </long>
+  </success-messages>
+  
+  <xsql:dml>
+    
+    UPDATE categories
+    SET    title='{@title}'
+    WHERE  id='{@id}'
+    
+  </xsql:dml>
+  
+   
+</add>

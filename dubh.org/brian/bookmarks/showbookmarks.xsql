@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<?xml-stylesheet type="text/xsl" href="bookmarks.xsl" ?> 
+
+<xsql:include-xsql href="bookmarks.xsql" xmlns:xsql="urn:oracle-xsql">
+  <xsql:set-stylesheet-param name="editmode" value="{@editmode}"/>
+</xsql:include-xsql>       

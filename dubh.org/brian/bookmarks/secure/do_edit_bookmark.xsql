@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dml.xsl" ?> 
+
+<!-- 
+==============================================================================
+Actually carry out update of a bookmark
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+-->
+
+<add xmlns:xsql="urn:oracle-xsql" connection="bookmarks">
+   
+  <error-messages>
+    <short>Error Editing Bookmark</short>
+    <long>
+      The bookmark could not be modified because a database error occurred.
+    </long>
+  </error-messages>
+  
+  <success-messages>
+    <short>Bookmark Modified</short>
+    <long>
+      Bookmark altered successfully.
+    </long>
+  </success-messages>
+  
+  <xsql:dml>
+    
+    UPDATE bookmarks
+    SET    title='{@title}'
+    ,      url='{@url}'
+    WHERE  id='{@id}'
+    
+  </xsql:dml>
+  
+   
+</add>

@@ -1,0 +1,323 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE project>
+<?Oracle-JDeveloper Object2Dom = '1.0'?>
+<project class="oracle.jdeveloper.model.JProject">
+   <defaultPackage class="java.lang.String"/>
+   <defaultPackages class="java.util.ArrayList">
+      <Item class="java.lang.String"/>
+   </defaultPackages>
+   <htmlRootDirectory path="."/>
+   <htmlSourceDirectory protocol="file" path="/C:/cvs/dubh.org/brian/bookmarks/c:/cvs/dubh.org/brian/bookmarks/"/>
+   <listOfChildren class="oracle.ide.model.DataList">
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="InsertBookmarks.java"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="bookmark-stripped.xml"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="category-stripped.xml"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="bookmark_categories.xsl"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="bookmark_links.xsl"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="bookmarks.xml"/>
+      </Item>
+      <Item class="oracle.ide.model.TextNode">
+         <URL path="postinsert.sql"/>
+      </Item>
+      <Item class="oracle.ide.model.TextNode">
+         <URL path="bookmarks.sql"/>
+      </Item>
+      <Item class="oracle.ide.model.TextNode">
+         <URL path="bookmarks.xsql"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="normalizebookmarks.xsl"/>
+      </Item>
+      <Item class="oracle.ide.model.TextNode">
+         <URL path="bookmarks.js"/>
+      </Item>
+      <Item class="oracle.bali.xml.addin.XMLSourceNode">
+         <URL path="bookmarks.xsl"/>
+      </Item>
+      <Item class="oracle.ide.model.TextNode">
+         <URL path="showbookmarks.xsql"/>
+      </Item>
+   </listOfChildren>
+   <projectSettings>
+      <activeConfigName>Development</activeConfigName>
+      <commonData class="java.util.HashMap"/>
+      <configurations class="java.util.HashMap">
+         <Item>
+            <Key>Development</Key>
+            <Value class="oracle.jdeveloper.model.JProjectConfiguration">
+               <configData class="java.util.HashMap">
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.profile.ProfileConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.profile.ProfileConfiguration">
+                        <eventProfiler>false</eventProfiler>
+                        <excludedClasses>java;javax;sun;sunw;oracle</excludedClasses>
+                        <excludedInstances class="java.lang.String"/>
+                        <executionSampling>true</executionSampling>
+                        <includedClasses class="java.lang.String"/>
+                        <includedInstances class="java.lang.String"/>
+                        <localProfiling>true</localProfiling>
+                        <memoryUpdateInterval>5</memoryUpdateInterval>
+                        <monitorMemory>false</monitorMemory>
+                        <remotePort>5555</remotePort>
+                        <sampleInterval>1</sampleInterval>
+                        <sliderDepth>20</sliderDepth>
+                        <useAPI>false</useAPI>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.codecoach.CCConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.codecoach.CCConfiguration">
+                        <advices>ALL</advices>
+                        <exclude>com;java;javax;sun;sunw;org;oracle</exclude>
+                        <include class="java.lang.String"/>
+                        <level>4</level>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.config.JProjectPaths</Key>
+                     <Value class="oracle.jdeveloper.config.JProjectPaths">
+                        <additionalClassPath>
+                           <entries>
+                              <Item path="../../../../xdk-9.0.0.0/lib/classgen.jar" jar-entry=""/>
+                              <Item path="../../../../xdk-9.0.0.0/lib/oraclexsql.jar" jar-entry=""/>
+                              <Item path="../../../../xdk-9.0.0.0/lib/xmlparserv2.jar" jar-entry=""/>
+                              <Item path="../../../../xdk-9.0.0.0/lib/xschema.jar" jar-entry=""/>
+                              <Item path="../../../../xdk-9.0.0.0/lib/xsqlserializers.jar" jar-entry=""/>
+                              <Item path="../../../../xdk-9.0.0.0/lib/xsu12.jar" jar-entry=""/>
+                              <Item path="../../../../mm.mysql-2.0.4/mysql.jar" jar-entry=""/>
+                              <Item path="../../../../xsql-1.0.4.1/lib/classes12.zip" jar-entry=""/>
+                           </entries>
+                        </additionalClassPath>
+                        <outputDirectory path="."/>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.config.JProjectLibraries</Key>
+                     <Value class="oracle.jdeveloper.config.JProjectLibraries">
+                        <jdkVersion>1.3.0_02</jdkVersion>
+                        <libraries>JDeveloper Runtime;XSQL Runtime;JSP Runtime;Oracle XML Parser</libraries>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.debug.DebugConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.debug.DebugConfiguration">
+                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
+                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
+                        <remoteDebugging>false</remoteDebugging>
+                        <remoteDebuggingParameters class="java.util.HashMap"/>
+                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <tracingDisabled>java;javax;sun;sunw;com.sun;oracle;org.apache.tomcat;org.xml.sax</tracingDisabled>
+                        <tracingEnabled class="java.lang.String"/>
+                        <workspaceBreakpoints>true</workspaceBreakpoints>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
+                        <VMName>ojvm</VMName>
+                        <alwaysUseTarget>false</alwaysUseTarget>
+                        <clearLogBeforeRun>false</clearLogBeforeRun>
+                        <compileBeforeRun>true</compileBeforeRun>
+                        <javaOptions class="java.lang.String"/>
+                        <programArguments class="java.lang.String"/>
+                        <runAs>0</runAs>
+                        <runDirectory>C:\cvs\dubh.org\brian\bookmarks</runDirectory>
+                        <targetURL path="."/>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
+                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
+                        <currentEncoding>Default</currentEncoding>
+                        <debugInformation>true</debugInformation>
+                        <excludedClasses class="[Ljava.lang.String;"/>
+                        <obfuscate>false</obfuscate>
+                        <showCompileProgress>true</showCompileProgress>
+                        <showDeprecations>true</showDeprecations>
+                        <showWarnings>true</showWarnings>
+                        <updateImports>false</updateImports>
+                        <updateZipJarImports>false</updateZipJarImports>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.idl.config.IdlConfiguration</Key>
+                     <Value class="oracle.jdeveloper.idl.config.IdlConfiguration">
+                        <codeForIncludedFiles>false</codeForIncludedFiles>
+                        <noBindMethods>false</noBindMethods>
+                        <noComments>false</noComments>
+                        <noExampleCode>false</noExampleCode>
+                        <noSkeletonCode>false</noSkeletonCode>
+                        <noStubCode>false</noStubCode>
+                        <noTieCode>false</noTieCode>
+                        <noToString>false</noToString>
+                        <objectWrapper>false</objectWrapper>
+                        <packageName/>
+                        <smartStub>false</smartStub>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.sqlj.config.SqljConfiguration</Key>
+                     <Value class="oracle.jdeveloper.sqlj.config.SqljConfiguration">
+                        <checkSemantics>false</checkSemantics>
+                        <contextConnectionMap class="java.util.HashMap"/>
+                        <ser2Class>false</ser2Class>
+                        <useCache>false</useCache>
+                        <warnAll>false</warnAll>
+                        <warnNull>false</warnNull>
+                        <warnPortable>false</warnPortable>
+                        <warnPrecision>false</warnPrecision>
+                        <warnStrict>false</warnStrict>
+                        <warnVerbose>false</warnVerbose>
+                     </Value>
+                  </Item>
+               </configData>
+            </Value>
+         </Item>
+         <Item>
+            <Key>Production</Key>
+            <Value class="oracle.jdeveloper.model.JProjectConfiguration">
+               <configData class="java.util.HashMap">
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.profile.ProfileConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.profile.ProfileConfiguration">
+                        <eventProfiler>false</eventProfiler>
+                        <excludedClasses>java;javax;sun;sunw;oracle</excludedClasses>
+                        <excludedInstances class="java.lang.String"/>
+                        <executionSampling>true</executionSampling>
+                        <includedClasses class="java.lang.String"/>
+                        <includedInstances class="java.lang.String"/>
+                        <localProfiling>true</localProfiling>
+                        <memoryUpdateInterval>5</memoryUpdateInterval>
+                        <monitorMemory>false</monitorMemory>
+                        <remotePort>5555</remotePort>
+                        <sampleInterval>1</sampleInterval>
+                        <sliderDepth>20</sliderDepth>
+                        <useAPI>false</useAPI>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.codecoach.CCConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.codecoach.CCConfiguration">
+                        <advices>ALL</advices>
+                        <exclude>java;sun;javax;oracle</exclude>
+                        <include class="java.lang.String"/>
+                        <level>4</level>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.config.JProjectPaths</Key>
+                     <Value class="oracle.jdeveloper.config.JProjectPaths">
+                        <additionalClassPath>
+                           <entries class="[Ljava.net.URL;"/>
+                        </additionalClassPath>
+                        <outputDirectory path="../../../../jdev9i/mywork/Workspace1/classes"/>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.config.JProjectLibraries</Key>
+                     <Value class="oracle.jdeveloper.config.JProjectLibraries">
+                        <jdkVersion>1.3.0_02</jdkVersion>
+                        <libraries>XSQL Runtime;JSP Runtime;Oracle XML Parser</libraries>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.debug.DebugConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.debug.DebugConfiguration">
+                        <JPDADebugArguments>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,address=&lt;port></JPDADebugArguments>
+                        <OJVMDebugArguments>-XXdebug,quiet,port&lt;port></OJVMDebugArguments>
+                        <remoteDebugging>false</remoteDebugging>
+                        <remoteDebuggingParameters class="java.util.HashMap"/>
+                        <remoteDebuggingProtocol>ojvm</remoteDebuggingProtocol>
+                        <tracingDisabled>java;javax;sun;sunw;com.sun;oracle;org.apache.tomcat;org.xml.sax</tracingDisabled>
+                        <tracingEnabled class="java.lang.String"/>
+                        <workspaceBreakpoints>true</workspaceBreakpoints>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.runner.RunConfiguration</Key>
+                     <Value class="oracle.jdeveloper.runner.RunConfiguration">
+                        <VMName/>
+                        <alwaysUseTarget>false</alwaysUseTarget>
+                        <clearLogBeforeRun>false</clearLogBeforeRun>
+                        <compileBeforeRun>true</compileBeforeRun>
+                        <javaOptions class="java.lang.String"/>
+                        <programArguments class="java.lang.String"/>
+                        <runAs>0</runAs>
+                        <runDirectory class="java.lang.String"/>
+                        <targetURL/>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.compiler.OjcConfiguration</Key>
+                     <Value class="oracle.jdeveloper.compiler.OjcConfiguration">
+                        <currentEncoding>Default</currentEncoding>
+                        <debugInformation>false</debugInformation>
+                        <excludedClasses class="[Ljava.lang.String;"/>
+                        <obfuscate>false</obfuscate>
+                        <showCompileProgress>true</showCompileProgress>
+                        <showDeprecations>true</showDeprecations>
+                        <showWarnings>true</showWarnings>
+                        <updateImports>false</updateImports>
+                        <updateZipJarImports>false</updateZipJarImports>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.idl.config.IdlConfiguration</Key>
+                     <Value class="oracle.jdeveloper.idl.config.IdlConfiguration">
+                        <codeForIncludedFiles>false</codeForIncludedFiles>
+                        <noBindMethods>false</noBindMethods>
+                        <noComments>false</noComments>
+                        <noExampleCode>false</noExampleCode>
+                        <noSkeletonCode>false</noSkeletonCode>
+                        <noStubCode>false</noStubCode>
+                        <noTieCode>false</noTieCode>
+                        <noToString>false</noToString>
+                        <objectWrapper>false</objectWrapper>
+                        <packageName/>
+                        <smartStub>false</smartStub>
+                     </Value>
+                  </Item>
+                  <Item>
+                     <Key>oracle.jdeveloper.sqlj.config.SqljConfiguration</Key>
+                     <Value class="oracle.jdeveloper.sqlj.config.SqljConfiguration">
+                        <checkSemantics>false</checkSemantics>
+                        <contextConnectionMap class="java.util.HashMap"/>
+                        <ser2Class>false</ser2Class>
+                        <useCache>false</useCache>
+                        <warnAll>false</warnAll>
+                        <warnNull>false</warnNull>
+                        <warnPortable>false</warnPortable>
+                        <warnPrecision>false</warnPrecision>
+                        <warnStrict>false</warnStrict>
+                        <warnVerbose>false</warnVerbose>
+                     </Value>
+                  </Item>
+               </configData>
+            </Value>
+         </Item>
+      </configurations>
+   </projectSettings>
+   <projectSourcePath>
+      <entries>
+         <Item path="."/>
+      </entries>
+   </projectSourcePath>
+   <properties/>
+   <userAuthor/>
+   <userCompany/>
+   <userCopyright/>
+   <userDescription/>
+   <userTitle/>
+   <userVersion/>
+</project>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dml.xsl" ?> 
+
+<!-- 
+==============================================================================
+Actually carry out add subcategory to category.
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+XSQL to insert a bookmark into a category.
+==============================================================================
+-->
+
+<add xmlns:xsql="urn:oracle-xsql" connection="bookmarks">
+   
+  <error-messages>
+    <short>Error Adding Subcategory</short>
+    <long>
+      The category could not be added because a database error occurred.
+    </long>
+  </error-messages>
+  
+  <success-messages>
+    <short>Subcategory Added</short>
+    <long>
+      Subcategory added successfully.
+    </long>
+  </success-messages>
+  
+  <xsql:dml>
+    
+    INSERT INTO categories(title, parent_cat)
+    VALUES (
+      '{@categoryTitle}',
+      '{@catid}'
+    )
+    
+  </xsql:dml>
+   
+</add>

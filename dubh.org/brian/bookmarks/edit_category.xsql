@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="edit_category.xsl" ?> 
+
+<!-- 
+==============================================================================
+Edit Category XSQL
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+Really simple XSQL for displaying the "edit category" form
+==============================================================================
+-->
+
+<whatever xmlns:xsql="urn:oracle-xsql">
+   <xsql:set-stylesheet-param name="id" value="{@id}" />
+   <xsql:set-stylesheet-param name="title" value="{@title}" />
+</whatever>

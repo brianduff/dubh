@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="edit_bookmark.xsl" ?> 
+
+<!-- 
+==============================================================================
+Edit Bookmark XSQL
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+Really simple XSQL for displaying the "edit bookmark" form
+==============================================================================
+-->
+
+<whatever xmlns:xsql="urn:oracle-xsql">
+   <xsql:set-stylesheet-param name="id" value="{@id}" />
+   <xsql:set-stylesheet-param name="title" value="{@title}" />
+   <xsql:set-stylesheet-param name="url" value="{@url}" />   
+</whatever>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dml.xsl" ?> 
+
+<!-- 
+==============================================================================
+Actually carry out deletion of a category
+WARNING: This isn't properly recursive yet.
+==============================================================================
+Author: Brian.Duff@oracle.com
+==============================================================================
+-->
+
+<add xmlns:xsql="urn:oracle-xsql" connection="bookmarks">
+   
+  <error-messages>
+    <short>Error Deleting Category</short>
+    <long>
+      The category could not be deleted because a database error occurred.
+    </long>
+  </error-messages>
+  
+  <success-messages>
+    <short>Category Deleted</short>
+    <long>
+      Category deleted successfully.
+    </long>
+  </success-messages>
+  
+  <xsql:dml>
+    
+    DELETE FROM categories
+    WHERE id = {@catid}
+    
+  </xsql:dml>
+  
+  <xsql:dml>
+  
+    DELETE FROM bookmarks
+    WHERE category = {@catid}
+  
+  </xsql:dml>
+  
+   
+  <xsql:dml>
+    
+    DELETE FROM categories
+    WHERE parent_cat = {@catid}
+    
+  </xsql:dml>
+   
+</add>
