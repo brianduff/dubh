@@ -96,7 +96,7 @@ public class Player implements GameObject, CommonConstants
    *  if the specified city id doesn't exist, or does not belong to this 
    *  player.
    */
-  public City findCityById( int id )
+  public City getCity( int id )
   {
     City c = City.findById( id );
     if ( c != null && ( c.getOwner() == this ) )
@@ -104,6 +104,20 @@ public class Player implements GameObject, CommonConstants
       return c;
     }
     return null;
+  }
+
+  /**
+   * Find a city belonging to this player by Id
+   *
+   * @param id the city id
+   * @return the specified City, if it belongs to this player, or null
+   *  if the specified city id doesn't exist, or does not belong to this 
+   *  player.
+   * @deprecated use getCity( int ) instead.
+   */
+  public City findCityById( int id )
+  {
+    return getCity( id );
   }
 
   /**
