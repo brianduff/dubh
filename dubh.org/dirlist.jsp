@@ -3,20 +3,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>
-Hello World
+Downloads
 </title>
+
+<link rel="stylesheet" href="/styles.css" type="text/css" >
+
 </head>
 <body>
-<h2>
-The current time is: 
-</h2>
+<h1>
+  Downloads
+</h1>
 <p>
 
 
 <table width="100%" border="0">
   <tr>
-    <th>Date</th>
-    <th>Size</th>
+    <th align="left">Date</th>
+    <th align="left">Size</th>
   </tr>
   <% 
   String path = request.getRealPath( "" );
