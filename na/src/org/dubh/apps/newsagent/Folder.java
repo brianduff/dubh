@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: Folder.java,v 1.5 1999-11-09 22:34:40 briand Exp $
+//   $Id: Folder.java,v 1.6 2000-08-15 23:06:23 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
@@ -27,6 +27,7 @@
 //   See bottom of file for revision history
 
 package org.javalobby.apps.newsagent;
+
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
@@ -44,7 +45,7 @@ import org.javalobby.dju.misc.Debug;
 /**
  * Represents a folder containing messages in permanent storage.
  * @author Brian Duff
- * @version $Id: Folder.java,v 1.5 1999-11-09 22:34:40 briand Exp $
+ * @version $Id: Folder.java,v 1.6 2000-08-15 23:06:23 briand Exp $
  */
 public class Folder implements MessageProvider {
 // Private instance variables
@@ -341,6 +342,9 @@ public class Folder implements MessageProvider {
 // 0.7 [08/04/98]: Changed to JProgressBar
 // New Log:
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:30:52  briand
 // Change to use DJU Debug instead of ErrorReporter.
 //
