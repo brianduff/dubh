@@ -1,6 +1,9 @@
 #!/bin/bash
 #
+# $Id: buildmodule,v 1.5 2000-08-20 22:56:43 briand Exp $
+#
 # Runs the Jakarta ANT tool to build a specified module.
+# (C) 2000 Brian Duff / www.dubh.org
 #
 # Params:
 #   1 The module name
@@ -8,7 +11,10 @@
 #
 
 BUILD_DIR=~admin/build
-EXTRA_CLASSPATH=devtools/lib/devtools-1.0.jar:devtools/lib/jaxp.jar:devtools/lib/parser.jar:devtools/lib/ant.jar:devtools/lib/xalan_1_0_1.jar:devtools/lib/optional.jar
+DT=devtools/lib
+# All this stuff is needed to build Dubh tools - most of it is for the XSLT
+# transformations for UI and RTS.
+EXTRA_CLASSPATH=$DT/devtools-1.0.jar:$DT/jaxp.jar:$DT/parser.jar:$DT/ant.jar:$DT/xalan_1_0_1.jar:$DT/optional.jar:$DT/xerces_1_0_3.jar
 ANT_HOME=/usr/local/javalib-distrib/jakarta-ant
 ANT_MAIN=org.apache.tools.ant.Main
 
