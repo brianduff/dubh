@@ -375,12 +375,11 @@ public class TileSpec
   public Icon getTerrainIcon( int icoType, int variation )
   {
     // Get the ruleset for the terrain type.
-    PktRulesetTerrain rt = getClient().getRulesetManager().getRulesetTerrain( icoType );
-    if( rt == null )
-    {
-      throw new IllegalStateException( "Unknown terrain type " + icoType );
-    }
-    String icoName = rt.graphic_str;
+
+    TerrainType terrainType = (TerrainType)
+      getClient().getFactories().getTerrainTypeFactory().findById( icoType );
+    
+    String icoName = terrainType.getGraphicStr();
     StringBuffer key = new StringBuffer( 30 );
     key.append( icoName );
     key.append( "_" );
