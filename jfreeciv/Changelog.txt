@@ -1,3 +1,12 @@
+15.07.01 [bduff]
+
+The overview window (minimap) now works. Rewrote PHTileInfo and
+PHMapInfo to support this, and to start the restructuring of CivMap.
+
+Fixed year display (A.D. and B.C.)
+
+Handle spaceship info packets at the start of the game
+
 12.07.01 [bduff]
 
 Rearranged handling of players and completely rewrote the player info and
