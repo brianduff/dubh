@@ -274,7 +274,7 @@
               <div align="right" class="dubhPageFooter"> 
                 Powered by <a href="http://otn.oracle.com/tech/java/oc4j/content.html">Oracle OC4J</a>
                 and <a href="http://otn.oracle.com/tech/xml/xdk_java/content.html">Oracle XDK</a><br />
-                Copyright &copy; 1994 - 2002 Brian Duff<br />
+                Copyright (C) 1994 - 2002 Brian Duff<br />
               </div>
             </td>
           </tr>
@@ -295,6 +295,10 @@
         Currently (15 April 2001) assigned and open. This means, the 
         redirect attribute is currently relative to the STYLESHEET, not the
         XML document.
+
+        BDUFF: This bug is now fixed, bug I don't want to change the code
+        for fear of breaking stuff...
+      
       -->
       <xsl:variable name="redir" select="document(@redirect)" />
       <xsl:apply-templates select="$redir//cvs-info" />
