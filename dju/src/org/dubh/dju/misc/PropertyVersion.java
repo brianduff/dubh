@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: PropertyVersion.java,v 1.2 1999-03-22 23:37:17 briand Exp $
+//   $Id: PropertyVersion.java,v 1.3 1999-06-03 23:07:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -26,12 +26,14 @@
 package dubh.utils.misc;
 
 import java.io.Serializable;
-
+import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * <p>
@@ -66,7 +68,13 @@ public class PropertyVersion extends Version
    protected void initFromBundle()
    {
       try
-      {
+      {  
+         //
+         // Date is stored in UK format.
+         // (bug reported by Thanh.Ma@East.Sun.COM)
+         //    
+         SimpleDateFormat sdfVersionFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+         
          setMajorVersion(Integer.parseInt(m_bundle.getString(KEY_MAJOR)));
          setMinorVersion(Integer.parseInt(m_bundle.getString(KEY_MINOR)));
          setMicroVersion(Integer.parseInt(m_bundle.getString(KEY_MICRO)));
@@ -75,7 +83,8 @@ public class PropertyVersion extends Version
          setProductName(m_bundle.getString(KEY_NAME));
          setProductCopyright(m_bundle.getString(KEY_COPY));
          String dat = m_bundle.getString(KEY_DATE);
-         setReleaseDate(DateFormat.getInstance().parse(dat));
+         setReleaseDate(sdfVersionFormat.parse(dat));
+
       }
       catch (Throwable t)
       {
@@ -88,3 +97,6 @@ public class PropertyVersion extends Version
    }
    
 }
+//
+// $Log: not supported by cvs2svn $
+//
