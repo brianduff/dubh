@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="userdoc" name="User Documentation" link="user/index.xml">
+    <html>
+      <p>
+        Contains the user documentation that is distributed with NewsAgent.
+      </p>
+    </html>
+  </section>
+  
+
+  <section id="javadoc" name="API Documentation" link="javadoc/index.xml">
+    <html>
+      <p>
+        Contains javadoc for NewsAgent. This is useful for developers. Like
+        me, for instance. The API documentation here is for the latest release
+        version of NewsAgent. Javadoc for NewsAgent is generated nightly by
+        the build process and can be found in the development section.
+      </p>
+    </html>
+  </section>
+  
+  <section id="designs" name="Design Documentation" link="design/index.xml">
+    <html>
+      <p>
+        Er. There doesn't appear to be a great deal of this at the moment :)
+        There is some crappy old stuff from back when I was a student.
+      </p>
+    </html>
+  </section>
+
+</sectionedpage>
