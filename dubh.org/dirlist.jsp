@@ -23,6 +23,7 @@
 
 <table width="100%" border="0">
   <tr>
+    <td />
     <th align="left">Date</th>
     <th align="left">Size</th>
   </tr>
@@ -59,6 +60,8 @@
   long length = f.length();
   %>
   <tr>
+
+  <td><img src="/images/document.png" alt="*" /></td>
 
   <td>
   <a href="<%=f.getName() %>">
