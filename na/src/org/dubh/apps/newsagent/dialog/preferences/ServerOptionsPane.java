@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ServerOptionsPane.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   $Id: ServerOptionsPane.java,v 1.5 1999-06-01 00:34:09 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -41,6 +41,7 @@ import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.utils.misc.UserPreferences;
+import dubh.utils.misc.Debug;
 import dubh.utils.ui.preferences.PreferencePage;
 /**
  * Server Options Panel for the Servers Tab in the Options dialog box <P>
@@ -57,18 +58,8 @@ import dubh.utils.ui.preferences.PreferencePage;
  * <TD>25</TD>
  * </TR>
  * </TABLE>
- * Version History: <UL>
- * <LI>0.1 [08/03/98]: Initial Revision
- * <LI>0.2 [23/03/98]: Major change to the way in which NNTP Server settings
- *   are stored: now we use serialised NNTPServer objects, and set the properties
- *   directly, using the NNTPServer collection stored by the default storagemanager.
- * <LI>0.3 [29/03/98]: Implemented server properties... command.
- * <LI>0.4 [06/06/98]: Added dubh utils import for StringUtils. Changed
- *   superclass to JPanel (was Panel).
- * <LI>
- *</UL>
  @author Brian Duff
- @version 0.4 [06/06/98]
+ @version $Id: ServerOptionsPane.java,v 1.5 1999-06-01 00:34:09 briand Exp $
  */
 public class ServerOptionsPane extends PreferencePage {
   public TitledBorder borderNews = new TitledBorder(new EtchedBorder(),
@@ -181,11 +172,11 @@ public class ServerOptionsPane extends PreferencePage {
       //allServers = allServers + item.serverHost + " ";
 
     }
-    GlobalState.setPreference("newsagent.servers.InstalledServers", allServers);
+    GlobalState.getPreferences().setPreference("newsagent.servers.InstalledServers", allServers);
 */
     // Save the SMTP Mail Host & Port  (Nb. should do port sanity checking elsewhere)
-    GlobalState.setPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, tfMailServer.getText());
-    GlobalState.setPreference(PreferenceKeys.SERVERS_SMTPPORT, tfMailPort.getText());
+    GlobalState.getPreferences().setPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, tfMailServer.getText());
+    GlobalState.getPreferences().setPreference(PreferenceKeys.SERVERS_SMTPPORT, tfMailPort.getText());
     // Serialise NNTPServers
     GlobalState.getStorageManager().serializeServers();
     // Update User Interface.
@@ -202,8 +193,8 @@ public class ServerOptionsPane extends PreferencePage {
       refreshServerList();
 
     // Get the SMTP Mail Host & Port
-    tfMailServer.setText(GlobalState.getPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, ""));
-    tfMailPort.setText(GlobalState.getPreference(PreferenceKeys.SERVERS_SMTPPORT, ""));
+    tfMailServer.setText(GlobalState.getPreferences().getPreference(PreferenceKeys.SERVERS_SMTPHOSTNAME, ""));
+    tfMailPort.setText(GlobalState.getPreferences().getPreference(PreferenceKeys.SERVERS_SMTPPORT, ""));
 
   }
 
@@ -259,7 +250,11 @@ public class ServerOptionsPane extends PreferencePage {
         try {
            GlobalState.getStorageManager().removeServer(thisitem.serverHost);
         } catch (IOException ex) {
-           ErrorReporter.debug("Remove command in ServerOptionsPane: Unable to disconnect.");
+           if (Debug.TRACE_LEVEL_1)
+           {
+              Debug.println(1, this, "Remove command in ServerOptionsPane: Unable to disconnect.");
+           }
+           
         }
      }
   }
@@ -387,3 +382,18 @@ class ServerListItem {
    return serverName;
   }
 }
+//
+// Old History:
+//
+// <LI>0.1 [08/03/98]: Initial Revision
+// <LI>0.2 [23/03/98]: Major change to the way in which NNTP Server settings
+//   are stored: now we use serialised NNTPServer objects, and set the properties
+//   directly, using the NNTPServer collection stored by the default storagemanager.
+// <LI>0.3 [29/03/98]: Implemented server properties... command.
+// <LI>0.4 [06/06/98]: Added dubh utils import for StringUtils. Changed
+//   superclass to JPanel (was Panel).
+
+//
+// New History:
+//
+// $Log: not supported by cvs2svn $

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.5 1999-03-22 23:46:00 briand Exp $
+//   $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -33,6 +33,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.text.MessageFormat;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.NewsAgent;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.HelpSystem;
@@ -54,51 +55,10 @@ import dubh.utils.misc.ReadOnlyVersion;
 import dubh.utils.misc.VersionManager;
 import dubh.utils.misc.ResourceManager;
 
-
 /**
  * The main application window <P>
- * Version History: <UL>
- * <LI>0.1 [07/03/98]: Initial Revision
- * <LI>0.2 [23/03/98]: Revised to use FolderTreePanel
- * <LI>0.3 [24/03/98]: Added lots of Actions for PopupMenus on FolderTreePanel.
- * <LI>0.4 [25/03/98]: Added Subscriptions action.
- * <LI>0.5 [29/03/98]: Added ServerProperties action.
- * <LI>0.6 [31/03/98]: Added getThreadTree.
- * <LI>0.7 [01/04/98]: Added getMsgDisplayPanel. Set title to application name
- *   on startup.
- * <LI>0.8 [02/04/98]: Added ServerConnectedAction, GoOfflineAction,
- *   CopyToFolderAction. Added Message popup menu. Added storage of divider
- *   locations. Added status bar.
- * <LI>0.9 [04/04/98]: Added PostNewMessageAction. Changed GoOfflineAction to
- *   use the disconnectFromAllServers() StorageManager method. Updated so that
- *   connections to all servers are closed upon application termination
- * <LI>0.10 [04/04/98]: Added PostMessageAction.
- * <LI>0.11 [07/04/98]: Added ReplyPostAction. Modified terminate() to serialise
- *   the cache (through the StorageManager). Added getStatusBar
- * <LI>0.12 [18/04/98]: Added setActions.
- * <LI>0.13 [20/04/98]: Added support for empty thread tree. Fixed centering of
- *   NewsServerPropsDlg.
- * <LI>0.14 [21/04/98]: Added about dialogue.
- * <LI>0.15 [26/04/98]: Removed emptyPanel, which was causing Initializer
- *  Exceptions for some bizarre reason. (ok, I was wrong here, it was images
- *   in JAR files... The emptyPanel wasn't doing much anyway).
- * <LI>0.16 [08/05/98]: Centred and added title to Subscriptions dialogue.
- *   Added copy action.
- * <LI>0.17 [06/06/98]: Added dubh utils import for StringUtils
- * <LI>0.18 [08/06/98]: Added to the help menu slightly ;)
- * <LI>0.19 [10/06/98]: Changed posting & replying implementation slightly to
- *   use new preferences for quoting replies.
- * <LI>1.00 [30/06/98]: MAJOR REVISION: Rewrote entire class from scratch
- *   to use new Dubh JavaUtils menu constructor and DubhActions.
- * <LI>1.01 [02/07/98]: Added selection event handling. This should now be more
- *   consistent than the last version.
- * <LI>1.02 [04/10/98]: Major package changes; also renamed back to MainFrame.
- *   implemented a temporary file->exit.
- * <LI>1.03 [08/11/98]: Fixed a bug with menu enablement when a message is selected.
- * <LI>1.04 [23/11/98]: Changed about box variable feed to use new version information.
- *</UL>
- @author Brian Duff
- @version 1.04 [23/11/98]
+ * @author Brian Duff
+ * @version $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -301,9 +261,6 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void editPreferences() {
-     // TODO: Change OptionsFrame to a DubhFrame
-     //OptionsFrame options = new OptionsFrame();
-     //options.showAtStoredLocation("preferences");
      NewsAgentPreferences.showDialog();
   }
 
@@ -311,7 +268,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      // TODO: Make NewsServerPropsDlg more "bean-like"
      NewsServerPropsDlg newserver = new NewsServerPropsDlg (
         this,
-        GlobalState.getResString("MainFrame.AddServer"),
+        GlobalState.getRes().getString("MainFrame.AddServer"),
         true
      );
      newserver.pack();
@@ -345,7 +302,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
         NewsServerPropsDlg props = new NewsServerPropsDlg(
            this,
            MessageFormat.format(
-              GlobalState.getResString("MainFrame.ServerProperties"),
+              GlobalState.getRes().getString("MainFrame.ServerProperties"),
               new String[] {((NNTPServer)selection).getNiceName()}
            ),
            true
@@ -371,7 +328,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   public void serversSubscriptions() {
      ServerSubscriptions subs = new ServerSubscriptions(
         GlobalState.getMainFrame(),
-        GlobalState.getResString("MainFrame.Subscriptions"),
+        GlobalState.getRes().getString("MainFrame.Subscriptions"),
         true
      );
      subs.showAtCentre();
@@ -426,7 +383,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
 
      // Determine the quoting behaviour
-     quotetype = GlobalState.getPreference("newsagent.send.IncludeBehaviour", "all");
+     quotetype = GlobalState.getPreferences().getPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
      if (quotetype.trim().equalsIgnoreCase("none")) {
         // No quote
         composer = new MessageComposer(server, group, head);
@@ -458,7 +415,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   public void messagesCopyToFolder() {
      FolderSelectorDialog sel = new FolderSelectorDialog (
         this,
-        GlobalState.getResString("MainFrame.CopyToFolder"),
+        GlobalState.getRes().getString("MainFrame.CopyToFolder"),
         true
      );
      sel.setVisible(true);
@@ -750,3 +707,49 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
    }
 
 }
+
+//
+// Old Version History: 
+ // <LI>0.1 [07/03/98]: Initial Revision
+ // <LI>0.2 [23/03/98]: Revised to use FolderTreePanel
+ // <LI>0.3 [24/03/98]: Added lots of Actions for PopupMenus on FolderTreePanel.
+ // <LI>0.4 [25/03/98]: Added Subscriptions action.
+ // <LI>0.5 [29/03/98]: Added ServerProperties action.
+ // <LI>0.6 [31/03/98]: Added getThreadTree.
+ // <LI>0.7 [01/04/98]: Added getMsgDisplayPanel. Set title to application name
+ //   on startup.
+ // <LI>0.8 [02/04/98]: Added ServerConnectedAction, GoOfflineAction,
+ //   CopyToFolderAction. Added Message popup menu. Added storage of divider
+ //   locations. Added status bar.
+ // <LI>0.9 [04/04/98]: Added PostNewMessageAction. Changed GoOfflineAction to
+ //   use the disconnectFromAllServers() StorageManager method. Updated so that
+ //   connections to all servers are closed upon application termination
+ // <LI>0.10 [04/04/98]: Added PostMessageAction.
+ // <LI>0.11 [07/04/98]: Added ReplyPostAction. Modified terminate() to serialise
+ //   the cache (through the StorageManager). Added getStatusBar
+ // <LI>0.12 [18/04/98]: Added setActions.
+ // <LI>0.13 [20/04/98]: Added support for empty thread tree. Fixed centering of
+ //   NewsServerPropsDlg.
+ // <LI>0.14 [21/04/98]: Added about dialogue.
+ // <LI>0.15 [26/04/98]: Removed emptyPanel, which was causing Initializer
+ //  Exceptions for some bizarre reason. (ok, I was wrong here, it was images
+ //   in JAR files... The emptyPanel wasn't doing much anyway).
+ // <LI>0.16 [08/05/98]: Centred and added title to Subscriptions dialogue.
+ //   Added copy action.
+ // <LI>0.17 [06/06/98]: Added dubh utils import for StringUtils
+ // <LI>0.18 [08/06/98]: Added to the help menu slightly ;)
+ // <LI>0.19 [10/06/98]: Changed posting & replying implementation slightly to
+ //   use new preferences for quoting replies.
+ // <LI>1.00 [30/06/98]: MAJOR REVISION: Rewrote entire class from scratch
+ //   to use new Dubh JavaUtils menu constructor and DubhActions.
+ // <LI>1.01 [02/07/98]: Added selection event handling. This should now be more
+ //   consistent than the last version.
+ // <LI>1.02 [04/10/98]: Major package changes; also renamed back to MainFrame.
+ //   implemented a temporary file->exit.
+ // <LI>1.03 [08/11/98]: Fixed a bug with menu enablement when a message is selected.
+ // <LI>1.04 [23/11/98]: Changed about box variable feed to use new version information.
+ 
+//
+// New history:
+//
+// $Id: MainFrame.java,v 1.6 1999-06-01 00:32:08 briand Exp $

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ThreadTree.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: ThreadTree.java,v 1.4 1999-06-01 00:32:08 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -46,50 +46,8 @@ import dubh.utils.misc.Debug;
 
 /**
  * Displays a multicolumn tree control.
- * <UL>
- * <LI>0.1 [18/02/98]: Initial Revision
- * <LI>0.2 [23/02/98]: Added column width checking. First properly working
- *    version (has a few horrible hacks).
- * <LI>0.3 [26/02/98]: Removed nasty hacks, now making the selection the
- *    clipping region for each column. Seems to have an exception
- *    during event dispatching under Windows, but not X. Platform
- *    independence? Hmmm.
- * <LI>0.4 [03/03/98]: Updated colours to Swing 1.0.
- * <LI>0.5 [10/03/98]: Set minimum size.
- * <LI>0.6 [31/03/98]: Implemented setProvider. Changed renderer to use a
- *   component. Forced the horizontal scrollbar to always be visible.
- * <LI>0.7 [01/04/98]: Added tree selection events. Altered setProvider to
- *   change the main application window's titlebar.
- * <LI>0.8 [02/04/98]: Added popup menu over header items. Implemented
- *   getSelectedHeader(). Cleared MsgDisplayPanel and tree selection when
- *   the provider changes. Updated to display status message during header
- *   retrieval.
- * <LI>0.9 [04/04/98]: Added support for a ProgressMonitor during header
- *   retrieval. Fixed location of popup menu to adjust depending on scrollbar
- *   values.
- * <LI>0.10 [05/04/98]: Changed to use a ProgressDialog instead of the
- *   ProgressMonitor (PM has problems under UNIX)
- * <LI>0.11 [06/04/98]: Worked around tree update bug (Apparently a Swing bug).
- *   now uses ProgressMonitor.showAfterDelay() to avoid unnecessary clutter.
- * <LI>0.12 [07/04/98]: Added setActive()
- * <LI>0.13 [18/04/98]: Fixed status bar and selection issues with tree
- *   selection event, when an error occurs.
- * <LI>0.14 [21/04/98]: Added clearList(). Fixed null pointer problem in cell
- *   renderer.
- * <LI>0.15 [28/04/98]: Added support for displaying headers with a variety of
- *   fonts and colours.
- * <LI>0.16 [29/04/98]: Added marking messages as read (this should be more
- *   configurable, maybe e.g. a certain time before marking the message)
- * <LI>0.17 [04/05/98]: Changed column header implementation so that scrolling
- *   works properly.
- * <LI>0.18 [30/06/98]: Added event handling for selections, making the thread
- *   tree more "Beanlike", so that it interfaces with the new MainFrame better.
- *   this is still not complete: A lot of code from this class needs to be moved
- *   elsewhere (probably into MainFrame). This might mean a complete rewrite of
- *   this class (new version). So, MainFrame now has deprecated methods...
- *</UL>
- @author Brian Duff
- @version 0.18 [30/06/98]
+ * @author Brian Duff
+ * @version $Id: ThreadTree.java,v 1.4 1999-06-01 00:32:08 briand Exp $
  */
 public class ThreadTree extends JPanel {
 
@@ -123,10 +81,10 @@ public class ThreadTree extends JPanel {
 
      m_header.setPreferredSize(new Dimension(10, 20));
      jScroll1.setMinimumSize(new Dimension(0, 0));
-     m_header.setColumnName(1, GlobalState.getResString("ThreadTree.Subject"));
-     m_header.setColumnName(2, GlobalState.getResString("ThreadTree.From"));
-     m_header.setColumnName(3, GlobalState.getResString("ThreadTree.Sent"));
-     m_header.setColumnName(4, GlobalState.getResString("ThreadTree.AgentIcons"));
+     m_header.setColumnName(1, GlobalState.getRes().getString("ThreadTree.Subject"));
+     m_header.setColumnName(2, GlobalState.getRes().getString("ThreadTree.From"));
+     m_header.setColumnName(3, GlobalState.getRes().getString("ThreadTree.Sent"));
+     m_header.setColumnName(4, GlobalState.getRes().getString("ThreadTree.AgentIcons"));
      m_header.setBoundComponent(m_tree);
 
      m_tree.setCellRenderer(new MyTreeRenderer(m_header));
@@ -144,7 +102,7 @@ public class ThreadTree extends JPanel {
   }
 
   public void addTreeSelectionListener(TreeSelectionListener l) {
-     Debug.println("Added a thread tree selection listener : "+l);
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Added a thread tree selection listener : "+l);
      m_tree.addTreeSelectionListener(l);
   }
 
@@ -198,7 +156,7 @@ public class ThreadTree extends JPanel {
     try {
       m_header.setMinimumWidth(1, newwidth);
     } catch (Exception exc) {
-      System.out.println("Caught exception");
+      if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Caught exception: "+exc);
     }
         }
 
@@ -216,21 +174,21 @@ public class ThreadTree extends JPanel {
      TreePath path = e.getPath();
      Object ourobject = ((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
      if (!(ourobject instanceof MessageHeader)) {
-       ErrorReporter.debug("Selection of non header item "+ourobject+" in ThreadTree.");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Selection of non header item "+ourobject+" in ThreadTree.");
        return;
      }
      // get the message body from the provider..
      MessageBody body;
      if (m_provider == null) {
-       ErrorReporter.debug("No server or folder selected in Folder Server Tree");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "No server or folder selected in Folder Server Tree");
        return;
      }
      if (!m_provider.ensureConnected()) {
-       ErrorReporter.debug("No connection to server: can't show message body.");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "No connection to server: can't show message body.");
        return;
      }
      try {
-       GlobalState.getMainFrame().setStatus(GlobalState.getResString("ThreadTree.Retrieving"));
+       GlobalState.getMainFrame().setStatus(GlobalState.getRes().getString("ThreadTree.Retrieving"));
        body = m_provider.getBody((MessageHeader)ourobject);
        GlobalState.getMainFrame().getMsgDisplayPanel().setMessage((MessageHeader)ourobject, body);
         // Set the actions in the main frame
@@ -240,13 +198,13 @@ public class ThreadTree extends JPanel {
        // Reapply agents to the message
        GlobalState.getAgentManager().callListAgents((MessageHeader)ourobject);
      } catch (java.io.IOException ioe) {
-       ErrorReporter.debug("IO Exception selecting message "+ourobject);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IO Exception selecting message "+ourobject);
        // GlobalState.getMainFrame().setStatus();
        GlobalState.getMainFrame().getMsgDisplayPanel().clear();
        m_tree.clearSelection();
      } catch (NNTPServerException nntpe) {
         StorageManager.nntpException(nntpe,
-               GlobalState.getResString("Action.Retrieving"),
+               GlobalState.getRes().getString("Action.Retrieving"),
                m_provider.getProviderName());
         GlobalState.getMainFrame().getMsgDisplayPanel().clear();
         m_tree.clearSelection();
@@ -300,7 +258,7 @@ public class ThreadTree extends JPanel {
   public void setProvider(MessageProvider provider) {
      m_provider = provider;
      GlobalState.getMainFrame().setStatus(
-        GlobalState.getResString("ThreadTree.ReadingHeaders", new String[] {
+        GlobalState.getRes().getString("ThreadTree.ReadingHeaders", new String[] {
            provider.getProviderName()}));
     // final ProgressDialog pm = new ProgressDialog(GlobalState.getMainFrame(),"Retrieving Headers", true);
      final MessageProvider innerprovider = provider;
@@ -337,11 +295,11 @@ public class ThreadTree extends JPanel {
            doLayout();
 */
        } catch (java.io.IOException e) {
-           ErrorReporter.debug("IOException setting threadtree provider");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException setting threadtree provider");
        } catch (NNTPServerException ne) {
-           ErrorReporter.debug("NNTP Exception setting threadtree provider");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "NNTP Exception setting threadtree provider");
       // } catch (Exception other) {
-       //    ErrorReporter.debug("Got an exception "+other);
+       //    if (Debug.TRACE_LEVEL_1) Debug.println(1, this, ("Got an exception "+other);
        } // try
        GlobalState.getMainFrame().setNetworkActionsEnabled(true);
        status.setProgressVisible(false);
@@ -409,7 +367,7 @@ class ThreadTreeCellRenderer extends JPanel implements TreeCellRenderer {
    * Gets the bounds of an individual column item.
    */
   public Rectangle getColumnBounds(int colnum) {
-//  ErrorReporter.debug("Column "+colnum+", row "+m_row);
+//  if (Debug.TRACE_LEVEL_1) Debug.println(1, this, ("Column "+colnum+", row "+m_row);
      if (m_row >=0) {
 // TODO: Fix for Swing 1.1     int indent = m_tree.getUI().getRowBounds(m_row).x;
     int indent =0;
@@ -430,7 +388,7 @@ class ThreadTreeCellRenderer extends JPanel implements TreeCellRenderer {
       return new Rectangle(x,y,w,h);
      } else {
 
-        ErrorReporter.debug("row < 0");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "row < 0");
                 return new Rectangle(0,0,0,0);
      }
   }
@@ -441,7 +399,7 @@ class ThreadTreeCellRenderer extends JPanel implements TreeCellRenderer {
   public synchronized Component getTreeCellRendererComponent(JTree tree,
     Object value, boolean selected, boolean expanded, boolean leaf, int row,
     boolean hasfocus) {
-    //  System.out.println("Value is "+value.getUserObject());
+    //  System.out("Value is "+value.getUserObject());
       m_tree = tree;
       m_row = row;
       DefaultMutableTreeNode v = (DefaultMutableTreeNode)value;
@@ -450,7 +408,7 @@ class ThreadTreeCellRenderer extends JPanel implements TreeCellRenderer {
      // m_selected = selected;
  //     setSize(getPreferredSize());
  //     setSize(new Dimension(tree.getSize().width, 15));
-     ErrorReporter.debug("Trying to repaint");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Trying to repaint");
      updateBounds();
       return this;
   }
@@ -526,7 +484,7 @@ class MyTreeRenderer extends Component implements TreeCellRenderer {
     boolean hasfocus) {
 
      if (value == null || tree == null) {
-       ErrorReporter.debug("null tree object in TheadTree Cell Renderer row "+row);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "null tree object in TheadTree Cell Renderer row "+row);
        JLabel dummy = new JLabel();
        dummy.setText("Invalid Tree Item!");
        return dummy;
@@ -683,3 +641,52 @@ class ThreadTree_m_tree_mouseAdapter implements java.awt.event.MouseListener {
      adaptee.treeMouseEvent(e);
   }
 }
+
+//
+// Old History
+//
+ // <UL>
+ // <LI>0.1 [18/02/98]: Initial Revision
+ // <LI>0.2 [23/02/98]: Added column width checking. First properly working
+ //    version (has a few horrible hacks).
+ // <LI>0.3 [26/02/98]: Removed nasty hacks, now making the selection the
+ //    clipping region for each column. Seems to have an exception
+ //    during event dispatching under Windows, but not X. Platform
+ //    independence? Hmmm.
+ // <LI>0.4 [03/03/98]: Updated colours to Swing 1.0.
+ // <LI>0.5 [10/03/98]: Set minimum size.
+ // <LI>0.6 [31/03/98]: Implemented setProvider. Changed renderer to use a
+ //   component. Forced the horizontal scrollbar to always be visible.
+ // <LI>0.7 [01/04/98]: Added tree selection events. Altered setProvider to
+ //   change the main application window's titlebar.
+ // <LI>0.8 [02/04/98]: Added popup menu over header items. Implemented
+ //   getSelectedHeader(). Cleared MsgDisplayPanel and tree selection when
+ //   the provider changes. Updated to display status message during header
+ //   retrieval.
+ // <LI>0.9 [04/04/98]: Added support for a ProgressMonitor during header
+ //   retrieval. Fixed location of popup menu to adjust depending on scrollbar
+ //   values.
+ // <LI>0.10 [05/04/98]: Changed to use a ProgressDialog instead of the
+ //   ProgressMonitor (PM has problems under UNIX)
+ // <LI>0.11 [06/04/98]: Worked around tree update bug (Apparently a Swing bug).
+ //   now uses ProgressMonitor.showAfterDelay() to avoid unnecessary clutter.
+ // <LI>0.12 [07/04/98]: Added setActive()
+ // <LI>0.13 [18/04/98]: Fixed status bar and selection issues with tree
+ //   selection event, when an error occurs.
+ // <LI>0.14 [21/04/98]: Added clearList(). Fixed null pointer problem in cell
+ //   renderer.
+ // <LI>0.15 [28/04/98]: Added support for displaying headers with a variety of
+ //   fonts and colours.
+ // <LI>0.16 [29/04/98]: Added marking messages as read (this should be more
+ //   configurable, maybe e.g. a certain time before marking the message)
+ // <LI>0.17 [04/05/98]: Changed column header implementation so that scrolling
+ //   works properly.
+ // <LI>0.18 [30/06/98]: Added event handling for selections, making the thread
+ //   tree more "Beanlike", so that it interfaces with the new MainFrame better.
+ //   this is still not complete: A lot of code from this class needs to be moved
+ //   elsewhere (probably into MainFrame). This might mean a complete rewrite of
+ //   this class (new version). So, MainFrame now has deprecated methods...
+// 
+// New History:
+//
+// $Log: not supported by cvs2svn $

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MessageComposer.java,v 1.4 1999-03-22 23:46:00 briand Exp $
+//   $Id: MessageComposer.java,v 1.5 1999-06-01 00:31:46 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -38,40 +38,20 @@ import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.IUpdateableClass;
 import dubh.apps.newsagent.dialog.ErrorReporter;
-import dubh.apps.newsagent.dialog.preferences.OptionsFrame;
 import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
 import dubh.apps.newsagent.nntp.Newsgroup;
 import dubh.apps.newsagent.nntp.NNTPServerException;
 
+import dubh.apps.newsagent.dialog.preferences.NewsAgentPreferences;
+import dubh.apps.newsagent.dialog.preferences.IdentityOptionsPanel;
+
 
 /**
  * User interface for composing messages to post.
- * <LI>0.1 [03/04/98]: Initial Revision.
- * <LI>0.2 [04/04/98]: Changed to use resStrings.
- * <LI>0.3 [05/04/98]: Added actions for popup menu. Added a toolbar. Converted
- *     to a JFrame
- * <LI>0.4 [07/04/98]: Added reply capability
- * <LI>0.5 [20/04/98]: Checked for References: header before assuming one
- *     exists (woops).
- * <LI>0.6 [09/05/98]: Fixed button order
- * <LI>0.7 [06/06/98]: Added dubh utils import for StringUtils
- * <LI>0.8 [08/06/98]: Added Send Agent support. Fixed bug where dialogue was
- *     dismissed when an error occurred sending the message.
- * <LI>0.9 [10/06/98]: Added support for all the new properties introduced in
- *    Version 1.02 (quoted text prefix, header and selected text quoting)
- * <LI>0.10 [11/06/98]: Added ComposerHeaderDisplay and removed old
- *      implementation.
- * <LI>0.11 [13/06/98]: Having tested NNTPComposerHeaderDisplay, I've removed
- *      the old implementation from this class.
- * <LI>0.12 [30/06/98]: Change to toolbar / popup menu handling - now using
- *      Dubh Utils JMenuBarResource.
- * <LI>0.13 [02/07/98]: This is the first version of MessageComposer to support
- *      The IUpdateableClass interface.
- * <LI>0.14 [09/11/98]: Gave the Post button an action listener again (whoops)
- @author Brian Duff
- @version 0.14 [09/11/98]
+ * @author Brian Duff
+ * @version $Id: MessageComposer.java,v 1.5 1999-06-01 00:31:46 briand Exp $
  */
 public class MessageComposer extends JFrame implements IUpdateableClass {
 
@@ -176,12 +156,17 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
    */
   private void setMessageQuoted(String message) {
      String prefix;
-
+     UserPreferences p = GlobalState.getPreferences();
+     
      if (message != null) {
         if (message.trim().length() > 0) {
-           insertQuoteHeader(GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEHEADING, DEFAULT_INCLUDE));
+           insertQuoteHeader(p.getPreference(
+              PreferenceKeys.SEND_INCLUDEHEADING, DEFAULT_INCLUDE
+           ));
 
-           prefix = GlobalState.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX, DEFAULT_PREFIX);
+           prefix = p.getPreference(
+              PreferenceKeys.SEND_INCLUDEPREFIX, DEFAULT_PREFIX
+           );
            taEditor.append("\n"+StringUtils.prefixString(message, prefix));
         }
      }
@@ -315,17 +300,17 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
    @return true if the message was posted successfully, false otherwise.
    */
   private boolean postMessage() {
-
+      UserPreferences p = GlobalState.getPreferences();
 
      MessageBody b = new MessageBody(taEditor.getText());
      MessageHeader h = headers.getMessageHeader();
      if (!h.hasField("From"))
-        h.setField("From", GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL) +
-           " (" + GlobalState.getPreference(PreferenceKeys.IDENTITY_REALNAME) + ")");
-     h.setField("Organization", GlobalState.getPreference(PreferenceKeys.IDENTITY_ORGANISATION));
-     if (GlobalState.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true)) {
-        h.setField("X-Mailer", GlobalState.xmailer);
-        h.setField("X-Mailer-URL", GlobalState.appURL);
+        h.setField("From", p.getPreference(PreferenceKeys.IDENTITY_EMAIL) +
+           " (" + p.getPreference(PreferenceKeys.IDENTITY_REALNAME) + ")");
+     h.setField("Organization", p.getPreference(PreferenceKeys.IDENTITY_ORGANISATION));
+     if (p.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true)) {
+        h.setField("X-Mailer", GlobalState.xmailer); // !!!!
+        h.setField("X-Mailer-URL", GlobalState.appURL); // !!!
      }
      if (m_replyto!=null) {
         if (m_replyto.hasField("References"))
@@ -349,10 +334,13 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
            return false;
      } catch (NNTPServerException nntp) {
         GlobalState.getStorageManager().nntpException(nntp,
-        GlobalState.getResString("Action.Posting"), m_server);
+        GlobalState.getRes().getString("Action.Posting"), m_server);
         return false;
      } catch (Exception e) {
-        ErrorReporter.debug("Unhandled Exception when posting:"+e);
+        if (Debug.TRACE_LEVEL_1)
+        {
+           Debug.println(1, this, "Unhandled Exception when posting:"+e);
+        }
         return false;
      }
   }
@@ -366,12 +354,11 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
    */
   private boolean checkIdentity() {
 
-   String em = GlobalState.getPreference(PreferenceKeys.IDENTITY_EMAIL, "");
+   String em = GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_EMAIL, "");
    if (em.equals("")) {
      if (ErrorReporter.yesNo("MessageComposer.NoIdentity", new String[] {GlobalState.appName})) {
        // user wants to edit their identity options.
-        OptionsFrame opt = new OptionsFrame(OptionsFrame.TAB_IDENTITY);
-        opt.showAtStoredLocation("preferences");
+        NewsAgentPreferences.showDialog(IdentityOptionsPanel.ID);
      }
      // whatever the case, don't send the message until the user does something
      return false;
@@ -384,7 +371,7 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 
   private void jbInit() throws Exception{
   //   headers = new NNTPComposerHeaderDisplay(this);
-     this.setTitle(GlobalState.getResString("MessageComposer.MessageComposer"));
+     this.setTitle(GlobalState.getRes().getString("MessageComposer.MessageComposer"));
 
      panComposition.setLayout(new GridBagLayout());
      this.getContentPane().setLayout(borderLayout1);
@@ -418,7 +405,7 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 //    GlobalState.getRes().initButton(cmdPost, "MessageComposer.Post");
     cmdPost.setText("+Post+");    // NLS
      
-     cmdCancel.setText(GlobalState.getResString("GeneralCancel"));
+     cmdCancel.setText(GlobalState.getRes().getString("GeneralCancel"));
     cmdCancel.addActionListener(getAction("compCancel"));
     panButtons.setLayout(flowLayout1);
     taEditor.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -522,3 +509,34 @@ public class MessageComposer extends JFrame implements IUpdateableClass {
 
 
 }
+
+//
+// $Log: not supported by cvs2svn $
+//
+
+//
+// Old Log:
+/*
+ * <LI>0.1 [03/04/98]: Initial Revision.
+ * <LI>0.2 [04/04/98]: Changed to use resStrings.
+ * <LI>0.3 [05/04/98]: Added actions for popup menu. Added a toolbar. Converted
+ *     to a JFrame
+ * <LI>0.4 [07/04/98]: Added reply capability
+ * <LI>0.5 [20/04/98]: Checked for References: header before assuming one
+ *     exists (woops).
+ * <LI>0.6 [09/05/98]: Fixed button order
+ * <LI>0.7 [06/06/98]: Added dubh utils import for StringUtils
+ * <LI>0.8 [08/06/98]: Added Send Agent support. Fixed bug where dialogue was
+ *     dismissed when an error occurred sending the message.
+ * <LI>0.9 [10/06/98]: Added support for all the new properties introduced in
+ *    Version 1.02 (quoted text prefix, header and selected text quoting)
+ * <LI>0.10 [11/06/98]: Added ComposerHeaderDisplay and removed old
+ *      implementation.
+ * <LI>0.11 [13/06/98]: Having tested NNTPComposerHeaderDisplay, I've removed
+ *      the old implementation from this class.
+ * <LI>0.12 [30/06/98]: Change to toolbar / popup menu handling - now using
+ *      Dubh Utils JMenuBarResource.
+ * <LI>0.13 [02/07/98]: This is the first version of MessageComposer to support
+ *      The IUpdateableClass interface.
+ * <LI>0.14 [09/11/98]: Gave the Post button an action listener again (whoops)
+ */

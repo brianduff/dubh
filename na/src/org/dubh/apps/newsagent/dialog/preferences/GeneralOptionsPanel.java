@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GeneralOptionsPanel.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   $Id: GeneralOptionsPanel.java,v 1.5 1999-06-01 00:37:14 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -60,26 +60,15 @@ import dubh.apps.newsagent.GlobalState;
  * <TD>How many minutes between updating the message list if AutoUpdate is yes</TD>
  * <TD>5</TD>
  * </TR></TABLE><P>
- * Version History: <UL>
- * <LI>0.1 [24/02/98]: Initial Revision
- * <LI>0.2 [26/02/98]: Added property interface.
- * <LI>0.3 [27/02/98]: Changed to a JPanel so it works in the TabbedPane.
- *       Changed layout managers, things are looking a lot better now. Fixed
- *       repaint bug for slider.
- * <LI>0.4 [03/03/98]: Changed property interface to use GlobalState.
- * <LI>0.5 [07/03/98]: Updated to use GlobalState.getResString() - Internationalised.
- * <LI>0.6 [20/04/98]: Changed to use GridBagLayout rather than VerticalFlow.
- * <LI>0.7 [05/10/98]: Changed to use new resource strings.
- *</UL>
  @author Brian Duff
- @version 0.7 [05/10/98]
+ @version $Id: GeneralOptionsPanel.java,v 1.5 1999-06-01 00:37:14 briand Exp $
  */
 
 public class GeneralOptionsPanel extends PreferencePage {
   JPanel jPanel1 = new JPanel();
  
   public TitledBorder borderGeneral = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("GeneralOptionsPanel.GeneralOptions"));
+   GlobalState.getRes().getString("GeneralOptionsPanel.GeneralOptions"));
   BorderLayout borderLayout1 = new BorderLayout();
   JCheckBox jCheckBox1 = new JCheckBox();
   JSlider updateSlider = new JSlider();
@@ -116,9 +105,10 @@ public class GeneralOptionsPanel extends PreferencePage {
    * button was clicked or the window was closed without OK being clicked.
    */
   public void revert(UserPreferences p) {
-    jCheckBox1.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_AUTOUPDATE, true));
-    jCheckBox2.setSelected(GlobalState.getBoolPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, true));
-    String update = GlobalState.getPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL,"5");
+     UserPreferences prefs = GlobalState.getPreferences();
+    jCheckBox1.setSelected(prefs.getBoolPreference(PreferenceKeys.GENERAL_AUTOUPDATE, true));
+    jCheckBox2.setSelected(prefs.getBoolPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, true));
+    String update = prefs.getPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL,"5");
     updateSlider.setValue(Integer.parseInt(update.trim()));
     valLabel.setText(update+" minutes");
     // Only enable slider if the AutoUpdate checkbox is selected.
@@ -131,9 +121,10 @@ public class GeneralOptionsPanel extends PreferencePage {
    * should call this on all panels, then save the preference file.
    */
   public void save(UserPreferences p) {
-   GlobalState.setPreference(PreferenceKeys.GENERAL_AUTOUPDATE, jCheckBox1.isSelected());
-    GlobalState.setPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, jCheckBox2.isSelected());
-    GlobalState.setPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL, valLabel.getText().substring(0,2));
+     UserPreferences prefs = GlobalState.getPreferences();
+     prefs.setBoolPreference(PreferenceKeys.GENERAL_AUTOUPDATE, jCheckBox1.isSelected());
+     prefs.setBoolPreference(PreferenceKeys.GENERAL_NEWSGROUPNOTIFY, jCheckBox2.isSelected());
+     prefs.setPreference(PreferenceKeys.GENERAL_UPDATEINTERVAL, valLabel.getText().substring(0,2));
   }
 
 
@@ -153,7 +144,7 @@ public class GeneralOptionsPanel extends PreferencePage {
     updateSlider.setPaintTicks(true);
     updateSlider.setMajorTickSpacing(5);
     updateSlider.setPreferredSize(new Dimension(125, 40));
-    updateSlider.setToolTipText(GlobalState.getResString("GeneralOptionsPanel.TickerTip"));
+    updateSlider.setToolTipText(GlobalState.getRes().getString("GeneralOptionsPanel.TickerTip"));
     updateSlider.addChangeListener(new GeneralOptionsPanel_updateSlider_changeAdapter(this));
     updateSlider.addPropertyChangeListener(new GeneralOptionsPanel_updateSlider_propertyChangeAdapter(this));
     updateSlider.addChangeListener(new GeneralOptionsPanel_updateSlider_changeAdapter(this));
@@ -184,7 +175,7 @@ public class GeneralOptionsPanel extends PreferencePage {
   }
 
   void updateSlider_stateChanged(ChangeEvent e) {
-   valLabel.setText(Integer.toString(updateSlider.getValue())+" "+GlobalState.getResString("GeneralOptionsPanel.Minutes"));
+   valLabel.setText(Integer.toString(updateSlider.getValue())+" "+GlobalState.getRes().getString("GeneralOptionsPanel.Minutes"));
   }
 
   void updateSlider_propertyChange(PropertyChangeEvent e) {
@@ -235,3 +226,20 @@ class GeneralOptionsPanel_jCheckBox1_actionAdapter implements java.awt.event.Act
     adaptee.jCheckBox1_actionPerformed(e);
   }
 }
+
+//
+// Old Log
+//
+// <LI>0.1 [24/02/98]: Initial Revision
+// <LI>0.2 [26/02/98]: Added property interface.
+// <LI>0.3 [27/02/98]: Changed to a JPanel so it works in the TabbedPane.
+//       Changed layout managers, things are looking a lot better now. Fixed
+//       repaint bug for slider.
+// <LI>0.4 [03/03/98]: Changed property interface to use GlobalState.
+// <LI>0.5 [07/03/98]: Updated to use GlobalState.getResString() - Internationalised.
+// <LI>0.6 [20/04/98]: Changed to use GridBagLayout rather than VerticalFlow.
+// <LI>0.7 [05/10/98]: Changed to use new resource strings.
+//
+// New Log:
+//
+// $Log: not supported by cvs2svn $

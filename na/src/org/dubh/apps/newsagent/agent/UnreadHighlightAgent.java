@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: UnreadHighlightAgent.java,v 1.3 1999-03-22 23:46:43 briand Exp $
+//   $Id: UnreadHighlightAgent.java,v 1.4 1999-06-01 00:25:16 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,15 +35,12 @@ import dubh.utils.misc.StringUtils;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.apps.newsagent.agent.ISendAgent;
 import java.util.Properties;
+import dubh.utils.misc.Debug;
 
 /**
  * An agent that marks unread messages differently from other messages.
- * Version History: <UL>
- * <LI>0.1 [28/04/98]: Initial Revision
- * <LI>0.2 [06/06/98]: Added dubh utils import for StringUtils
- *</UL>
  @author Brian Duff
- @version 0.2 [06/06/98]
+ @version $Id: UnreadHighlightAgent.java,v 1.4 1999-06-01 00:25:16 briand Exp $
  */
 public class UnreadHighlightAgent implements IListAgent {
 
@@ -131,7 +128,7 @@ public class UnreadHighlightAgent implements IListAgent {
      m_properties.put(propFilterGroups, pan.getNewsgroupText());
      m_properties.put(propColour, encodeColor(pan.getFormatColor()));
    } else {
-     ErrorReporter.debug("Can't apply UnreadHighlightAgent configuration");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Can't apply UnreadHighlightAgent configuration");
    }
  }
 
@@ -241,7 +238,7 @@ public class UnreadHighlightAgent implements IListAgent {
    try {
      return Color.decode(colName);
    } catch (NumberFormatException nfe) {
-     ErrorReporter.debug("Invalid colour for UnreadHighlightAgent: "+colName+". Using black.");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Invalid colour for UnreadHighlightAgent: "+colName+". Using black.");
      return Color.black;
    }
  }
@@ -254,3 +251,12 @@ public class UnreadHighlightAgent implements IListAgent {
  }
 
 }
+//
+// Old History:
+//
+// <LI>0.1 [28/04/98]: Initial Revision
+// <LI>0.2 [06/06/98]: Added dubh utils import for StringUtils
+//
+// New history:
+//
+// $Log: not supported by cvs2svn $

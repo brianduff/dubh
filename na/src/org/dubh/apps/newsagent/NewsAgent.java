@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.5 1999-03-22 23:48:07 briand Exp $
+//   $Id: NewsAgent.java,v 1.6 1999-06-01 00:27:28 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,32 +35,24 @@ import dubh.utils.misc.*;
 import dubh.utils.ui.*;
 
 /**
- * NewsAgent main program
+ * NewsAgent main program. This class initialises NewsAgent, reading in 
+ * various preferences and parsing the command line. It creates the main
+ * window, and displays a splash screen until it appears.
  *
  * @author Brian Duff
- * @version $Id: NewsAgent.java,v 1.5 1999-03-22 23:48:07 briand Exp $
+ * @see dubh.apps.newsagent.GlobalState
+ * @version $Id: NewsAgent.java,v 1.6 1999-06-01 00:27:28 briand Exp $
  */
  public class NewsAgent {
 
    public  static final String DEBUG_FLAG = "-debug";
    public  static final String CONSOLE_FLAG = "-console";
    public  static final String DEBUG_NET_FLAG = "-debugnet";
-   private  static final String DEBUG_PREFIX = "NewsAgent Debug: ";
-   private  static final String DEBUG_CONSOLE = "NewsAgent Debug Console";   
+   private static final String DEBUG_PREFIX = "NewsAgent Debug: ";
+   private static final String DEBUG_CONSOLE = "NewsAgent Debug Console";   
    private static final String DEBUG_NETID = "debugnet";
    private static final String DEBUG_NET = "NewsAgent Network Debug Console";
-   private static final String SPLASH_IMAGE = "dubh/apps/newsagent/images/splash.gif";
-
-   /** User preference that sets debugging on (equivalent to -debug) */
-   public static final String DEBUG_PREFERENCE = PreferenceKeys.DEBUG_DEBUGMESSAGES;
-
-   /** User preference that sets network debugging on (-debugnet) */
-   public static final String DEBUGNET_PREFERENCE = PreferenceKeys.DEBUG_SERVERDUMP;
-
-   /** User preference that causes debugging output (from -debug and -debugnet)
-       to go to a windowed console rather than stderr  (-console)*/
-   public static final String CONSOLE_PREFERENCE = PreferenceKeys.DEBUG_CONSOLE;
-   
+   private static final String SPLASH_IMAGE = "dubh/apps/newsagent/images/splash.gif";   
 
    /** Whether the user specified -debug on the command line */
    public static boolean flagDebug;
@@ -75,50 +67,61 @@ import dubh.utils.ui.*;
    /** The output stream for network debugging. */
    public static PrintWriter pwDebugNet;
 
+   /** Temporary frame for parenting the splashscreen */
    private static Frame frmTemp;
+   /** The splashscreen */
    private static Window winSplash;
    
+   /** Network debugging frame */
    private static DebugFrame m_netDebug;
 
-  public NewsAgent() {
-  }
+   
+   public NewsAgent() {
+   }
 
-  public static void init() {
- /*
-     * Set up debugging before we do appInit(), in case there are any debug
-     * messages during application initialisation
-     */
-    setupDebugging();
-    if (flagDebug)
-        Debug.println("Debugging output was enabled with the "+DEBUG_FLAG+" command line flag.");
+   /**
+    * Initialise the NewsAgent application.
+    */
+   public static void init() 
+   {
+      //
+      // Set up debugging before we do appInit(), in case there are any debug
+      // messages during application initialisation
+      //
+      setupDebugging();
+      if (flagDebug)
+         Debug.println("Debugging output was enabled with the "+DEBUG_FLAG+" command line flag.");
 
-    GlobalState.appInit();
+      GlobalState.appInit();
 
-    checkDebugPreferences();
-    if (debugFromPrefs) setupDebugging();
+      checkDebugPreferences();
+      if (debugFromPrefs) setupDebugging();
 
-    if (flagDebugNet) {
-     setupNetDebugging();
-     if (netDebugFromPrefs)
-        NNTPServer.debugStream.println("Network debugging output was enabled with the "+DEBUGNET_PREFERENCE+" user preference.");
-     else
-        NNTPServer.debugStream.println("Network debugging output was enabled with the "+DEBUG_NET_FLAG+" command line flag.");
-    }
+      if (flagDebugNet) 
+      {
+         setupNetDebugging();
+         if (netDebugFromPrefs)
+           NNTPServer.debugStream.println("Network debugging output was enabled with the "+PreferenceKeys.DEBUG_SERVERDUMP+" user preference.");
+         else
+           NNTPServer.debugStream.println("Network debugging output was enabled with the "+DEBUG_NET_FLAG+" command line flag.");
+      }
     
-    if (debugFromPrefs)
-    {
-        Debug.println("Debugging output was enabled with the "+DEBUG_PREFERENCE+" user preference.");
-    }
+      if (debugFromPrefs)
+      {
+         Debug.println("Debugging output was enabled with the "+PreferenceKeys.DEBUG_DEBUGMESSAGES+" user preference.");
+      }
 
-  }
+   }
 
-  public static void main(String[] args) throws Exception {
+   /**
+    * The main NewsAgent application.
+    */
+   public static void main(String[] args) throws Exception {
 
     NewsAgent newsAgent = new NewsAgent();
      try {
         displaySplashScreen();
         checkCommandLine(args);
-        newsAgent.invokedStandalone = true;
         init();
         hideSplashScreen();
      } catch (ExceptionInInitializerError e) {
@@ -175,14 +178,16 @@ import dubh.utils.ui.*;
    * accordingly.
    */
   private static void checkDebugPreferences() {
+     UserPreferences p = GlobalState.getPreferences();
+     
      if (!flagDebug) {
-        flagDebug = GlobalState.getBoolPreference(DEBUG_PREFERENCE, false);
+        flagDebug = p.getBoolPreference(PreferenceKeys.DEBUG_DEBUGMESSAGES, false);
         debugFromPrefs = true;
      }
      if (!flagConsole)
-        flagConsole = GlobalState.getBoolPreference(CONSOLE_PREFERENCE, false);
+        flagConsole = p.getBoolPreference(PreferenceKeys.DEBUG_CONSOLE, false);
      if (!flagDebugNet)  {
-        flagDebugNet = GlobalState.getBoolPreference(DEBUGNET_PREFERENCE, false);
+        flagDebugNet = p.getBoolPreference(PreferenceKeys.DEBUG_SERVERDUMP, false);
         netDebugFromPrefs = true;
      }
      
@@ -239,6 +244,8 @@ import dubh.utils.ui.*;
      winSplash.dispose();
      frmTemp.dispose();
   }
+}    
 
-  private boolean invokedStandalone = false;
-}
+//
+// $Log: not supported by cvs2svn $
+//

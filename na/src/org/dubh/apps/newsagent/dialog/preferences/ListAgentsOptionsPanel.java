@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: ListAgentsOptionsPanel.java,v 1.4 1999-03-22 23:45:01 briand Exp $
+//   $Id: ListAgentsOptionsPanel.java,v 1.5 1999-06-01 00:36:38 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -39,20 +39,18 @@ import dubh.apps.newsagent.agent.AgentManager;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.utils.ui.preferences.PreferencePage;
 import dubh.utils.misc.UserPreferences;
+import dubh.utils.misc.Debug;
 import dubh.apps.newsagent.PreferenceKeys;
 /**
  * List agents options panel for the list agents tab in the options dialog:<P>
- * Version History: <UL>
- * <LI>0.1 [28/04/98]: Initial Revision
- * <LI>0.2 [08/05/98]: Now extends JPanel, internationalised
  @author Brian Duff
- @version 0.1 [28/04/98]
+ @version $Id: ListAgentsOptionsPanel.java,v 1.5 1999-06-01 00:36:38 briand Exp $
  */
 public class ListAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
+   GlobalState.getRes().getString("AgentsOptionsPanel.AvailableAgents"));
   public TitledBorder borderAgent= new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("AgentsOptionsPanel.AgentName"));
+   GlobalState.getRes().getString("AgentsOptionsPanel.AgentName"));
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JPanel panAvailableAgents = new JPanel();
   JPanel panAgent = new JPanel();
@@ -90,7 +88,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
 //NLS    r.initButton(cmdMoveDown, "AgentsOptionsPanel.MoveDown");
     cmdMoveDown.addActionListener(new ListAgentsOptionsPanel_cmdMoveDown_actionAdapter(this));
 //NLS    r.initButton(cmdAdd, "AgentsOptionsPanel.Add");
-    labDescription.setText(GlobalState.getResString("AgentsOptionsPanel.Description"));
+    labDescription.setText(GlobalState.getRes().getString("AgentsOptionsPanel.Description"));
 //NLS    r.initButton(cmdConfigure, "AgentsOptionsPanel.Configure");
     cmdConfigure.addActionListener(new ListAgentsOptionsPanel_cmdConfigure_actionAdapter(this));
     cmdAdd.addActionListener(new ListAgentsOptionsPanel_cmdAdd_actionAdapter(this));
@@ -127,7 +125,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
      /*
       * No initial selection
       */
-       borderAgent.setTitle(GlobalState.getResString("ListAgentsOptionsPanel.NoSelection"));
+       borderAgent.setTitle(GlobalState.getRes().getString("ListAgentsOptionsPanel.NoSelection"));
        cmdConfigure.setEnabled(false);
        cmdMoveUp.setEnabled(false);
        cmdMoveDown.setEnabled(false);
@@ -239,7 +237,8 @@ public class ListAgentsOptionsPanel extends PreferencePage {
      JPanel optPan = sel.agent.getConfigurationPanel();
      if (optPan == null) {
        // agent doesn't have an options dialogue. Disable the button.
-       ErrorReporter.debug("This agent has no configuration dialogue!");
+       if (Debug.TRACE_LEVEL_1)
+          Debug.println(1, this, "This agent has no configuration dialogue!");
        cmdConfigure.setEnabled(false);
      } else {
        // construct a config dialogue and display it.
@@ -272,7 +271,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
        if (selection >= 0) selectAgent((AgentListEntryL)lmAgents.elementAt(selection));
      } else {
        // nowt selected, clear panels, disable buttons etc.
-       borderAgent.setTitle(GlobalState.getResString("ListAgentsOptionsPanel.NoSelection"));
+       borderAgent.setTitle(GlobalState.getRes().getString("ListAgentsOptionsPanel.NoSelection"));
        cmdConfigure.setEnabled(false);
        cmdMoveUp.setEnabled(false);
        cmdMoveDown.setEnabled(false);
@@ -324,7 +323,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
   private void selectAgent(AgentListEntryL alEntry) {
    if (alEntry.agent == null) {
      borderAgent.setTitle(alEntry.agentClassName);
-     taDescription.setText(GlobalState.getResString("ListAgentsOptionsPanel.BadAgent"));
+     taDescription.setText(GlobalState.getRes().getString("ListAgentsOptionsPanel.BadAgent"));
      cmdConfigure.setEnabled(false);
    } else {
      borderAgent.setTitle(alEntry.agent.getName());
@@ -469,7 +468,7 @@ class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
      AgentListEntryL entry = (AgentListEntryL)value;
      if (entry.agent == null) {
        setText(entry.agentClassName+" - "+
-         GlobalState.getResString("ListAgentsOptionsPanel.NotFound"));
+         GlobalState.getRes().getString("ListAgentsOptionsPanel.NotFound"));
        setSelected(false);
      } else {
        setText(entry.agent.getName());
@@ -486,3 +485,12 @@ class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
       return this;
    }
 }
+
+//
+// Old History:
+//
+// <LI>0.1 [28/04/98]: Initial Revision
+// <LI>0.2 [08/05/98]: Now extends JPanel, internationalised
+// New History:
+//
+// $Log: not supported by cvs2svn $

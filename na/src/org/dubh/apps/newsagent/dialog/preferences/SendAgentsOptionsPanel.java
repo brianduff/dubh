@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SendAgentsOptionsPanel.java,v 1.3 1999-03-22 23:45:01 briand Exp $
+//   $Id: SendAgentsOptionsPanel.java,v 1.4 1999-06-01 00:35:09 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -40,18 +40,15 @@ import dubh.utils.ui.preferences.PreferencePage;
 import dubh.utils.misc.UserPreferences;
 
 /**
- * Send agents options panel for the send agents tab in the options dialog:<P>
- * Version History: <UL>
- * <LI>0.1 [14/04/98]: Initial Revision
- * <LI>0.2 [08/05/98]: Now extends JPanel, internationalised
+ * Send agents options panel for the send agents tab in the options dialog:
  @author Brian Duff
- @version 0.2 [08/05/98]
+ @version $Id: SendAgentsOptionsPanel.java,v 1.4 1999-06-01 00:35:09 briand Exp $
  */
 public class SendAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("AgentsOptionsPanel.AvailableAgents"));
+   GlobalState.getRes().getString("AgentsOptionsPanel.AvailableAgents"));
   public TitledBorder borderAgent= new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("AgentsOptionsPanel.AgentName"));
+   GlobalState.getRes().getString("AgentsOptionsPanel.AgentName"));
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   JPanel panAvailableAgents = new JPanel();
   JPanel panAgent = new JPanel();
@@ -89,7 +86,7 @@ public class SendAgentsOptionsPanel extends PreferencePage {
  //NLS   r.initButton(cmdMoveDown, "AgentsOptionsPanel.MoveDown");
     cmdMoveDown.addActionListener(new SendAgentsOptionsPanel_cmdMoveDown_actionAdapter(this));
  //NLS   r.initButton(cmdAdd, "AgentsOptionsPanel.Add");
-    labDescription.setText(GlobalState.getResString("AgentsOptionsPanel.Description"));
+    labDescription.setText(GlobalState.getRes().getString("AgentsOptionsPanel.Description"));
  //NLS   r.initButton(cmdConfigure, "AgentsOptionsPanel.Configure");
     cmdConfigure.addActionListener(new SendAgentsOptionsPanel_cmdConfigure_actionAdapter(this));
     cmdAdd.addActionListener(new SendAgentsOptionsPanel_cmdAdd_actionAdapter(this));
@@ -127,7 +124,7 @@ public class SendAgentsOptionsPanel extends PreferencePage {
      /*
       * No initial selection
       */
-       borderAgent.setTitle(GlobalState.getResString("SendAgentsOptionsPanel.NoSelection"));
+       borderAgent.setTitle(GlobalState.getRes().getString("SendAgentsOptionsPanel.NoSelection"));
        cmdConfigure.setEnabled(false);
        cmdMoveUp.setEnabled(false);
        cmdMoveDown.setEnabled(false);
@@ -254,7 +251,7 @@ public class SendAgentsOptionsPanel extends PreferencePage {
        if (selection >= 0) selectAgent((AgentListEntry)lmAgents.elementAt(selection));
      } else {
        // nowt selected, clear panels, disable buttons etc.
-       borderAgent.setTitle(GlobalState.getResString("SendAgentsOptionsPanel.NoSelection"));
+       borderAgent.setTitle(GlobalState.getRes().getString("SendAgentsOptionsPanel.NoSelection"));
        cmdConfigure.setEnabled(false);
        cmdMoveUp.setEnabled(false);
        cmdMoveDown.setEnabled(false);
@@ -306,7 +303,7 @@ public class SendAgentsOptionsPanel extends PreferencePage {
   private void selectAgent(AgentListEntry alEntry) {
    if (alEntry.agent == null) {
      borderAgent.setTitle(alEntry.agentClassName);
-     taDescription.setText(GlobalState.getResString("SendAgentsOptionsPanel.BadAgent"));
+     taDescription.setText(GlobalState.getRes().getString("SendAgentsOptionsPanel.BadAgent"));
      cmdConfigure.setEnabled(false);
    } else {
      borderAgent.setTitle(alEntry.agent.getName());
@@ -451,7 +448,7 @@ class SendAgentsListRenderer extends JCheckBox implements ListCellRenderer {
      AgentListEntry entry = (AgentListEntry)value;
      if (entry.agent == null) {
        setText(entry.agentClassName+" - "+
-         GlobalState.getResString("SendAgentsOptionsPanel.NotFound"));
+         GlobalState.getRes().getString("SendAgentsOptionsPanel.NotFound"));
        setSelected(false);
      } else {
        setText(entry.agent.getName());
@@ -468,3 +465,12 @@ class SendAgentsListRenderer extends JCheckBox implements ListCellRenderer {
       return this;
    }
 }
+
+//
+// Old History:
+// <LI>0.1 [14/04/98]: Initial Revision
+// <LI>0.2 [08/05/98]: Now extends JPanel, internationalised
+//
+// New History:
+//
+// $Log: not supported by cvs2svn $

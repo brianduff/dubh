@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SendAgentPreviewDialog.java,v 1.3 1999-03-22 23:46:43 briand Exp $
+//   $Id: SendAgentPreviewDialog.java,v 1.4 1999-06-01 00:25:16 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -31,78 +31,70 @@ import dubh.utils.ui.GridBagConstraints2;
 import javax.swing.*;
 
 import dubh.apps.newsagent.GlobalState;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
 
+import dubh.utils.ui.DubhOkCancelDialog;
+import dubh.utils.misc.UserPreferences;
+import dubh.utils.misc.Debug;
 
 /**
- * This dialogue displays a preview of a message that has been altered by
+ * This dialog displays a preview of a message that has been altered by
  * one or more Send Agents. It also contains a checkbox that the user can
  * use to disable further previews. This affects the
  * <b>newsagent.agents.send.alwayspreview</b> user preference, and saves
- * the preference file on dismissal of the dialogue.<P>
- * Version History: <UL>
- * <LI>0.1 [07/06/98]: Initial Revision
- * <LI>0.2 [08/06/98]: Made preview box non-editable, and enabled the buttons.
- @author Brian Duff
- @version 0.1 [07/06/98]
+ * the preference file on dismissal of the dialogue.
+ *
+ * @author Brian Duff
+ * @version $Id: SendAgentPreviewDialog.java,v 1.4 1999-06-01 00:25:16 briand Exp $
  */
-public class SendAgentPreviewDialog extends JDialog {
-  private JPanel panMain = new JPanel();
-  private GridBagLayout layoutMain = new GridBagLayout();
-  private JLabel labExplanation = new JLabel();
-  private JTextArea taPreview = new JTextArea();
-  private JScrollPane scrollMsgPreview = new JScrollPane(taPreview);
-  private JCheckBox cbAlwaysPreview = new JCheckBox();
-  private JButton cmdPost = new JButton();
-  private JButton cmdCancel = new JButton();
-
-  private boolean m_wasCancelled = true;
-
-  /**
+public class SendAgentPreviewDialog extends DubhOkCancelDialog {
+   private JPanel panMain = new JPanel();
+   private GridBagLayout layoutMain = new GridBagLayout();
+   private JLabel labExplanation = new JLabel();
+   private JTextArea taPreview = new JTextArea();
+   private JScrollPane scrollMsgPreview = new JScrollPane(taPreview);
+   private JCheckBox cbAlwaysPreview = new JCheckBox();
+   
+   private boolean m_wasCancelled = true;
+   
+   /**
    * Construct a Send Agent Preview Dialogue with the speicifed parent frame
    * and the given message header and body.
    @param parent the parent frame
    @param hd the message header to display in the preview
    @param bd the message body to display in the preview
    */
-  public SendAgentPreviewDialog(Frame parent, MessageHeader hd, MessageBody bd) {
-    super(parent, "Post Preview", true);
-    try {
-      jbInit();
+   public SendAgentPreviewDialog(Frame parent, MessageHeader hd, MessageBody bd) {
+      super(parent, GlobalState.getRes().getString("SendAgentPreviewDialog.SendAgentPreviewDialog"), true);
+      init();
       setPreviewMessage(hd, bd);
-      getContentPane().add(panMain);
-      pack();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+   }
 
-  private void jbInit() throws Exception{
-    labExplanation.setText("One or more Send Agents has modified your message. This is how it will be sent:");
-    cbAlwaysPreview.setText("Always show a preview when my messages have been altered");
-    cbAlwaysPreview.setSelected(true);
-    cmdPost.setText("Post");
-    cmdPost.addActionListener(new PostListener());
-    cmdCancel.setText("Cancel");
-    cmdCancel.addActionListener(new CancelListener());
-     panMain.setLayout(layoutMain);
-     taPreview.setColumns(80);
-     taPreview.setLineWrap(true);
-     taPreview.setWrapStyleWord(true);
-     taPreview.setEditable(false);
-    panMain.add(labExplanation, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
+   private void init()
+   {
+      panMain.setName("MainPanel");
+      labExplanation.setName("ExplanationLabel");
+      cbAlwaysPreview.setName("AlwaysPreview");
+      cbAlwaysPreview.setSelected(true);
+      setOKText(GlobalState.getRes().getString("SendAgentPreviewDialog.PostButton.text"));
+      panMain.setLayout(layoutMain);
+      taPreview.setColumns(80);
+      taPreview.setLineWrap(true);
+      taPreview.setWrapStyleWord(true);
+      taPreview.setEditable(false);
+      panMain.add(labExplanation, new GridBagConstraints2(0, 0, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    panMain.add(scrollMsgPreview, new GridBagConstraints2(0, 1, 2, 1, 1.0, 1.0
+      panMain.add(scrollMsgPreview, new GridBagConstraints2(0, 1, 2, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-    panMain.add(cbAlwaysPreview, new GridBagConstraints2(0, 2, 2, 1, 1.0, 0.0
+      panMain.add(cbAlwaysPreview, new GridBagConstraints2(0, 2, 2, 1, 1.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    panMain.add(cmdPost, new GridBagConstraints2(0, 3, 1, 1, 1.0, 0.0
-            ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 5, 5, 2), 0, 0));
-    panMain.add(cmdCancel, new GridBagConstraints2(1, 3, 1, 1, 0.0, 0.0
-            ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
-  }
+      
+      setPanel(panMain);
+      
+      GlobalState.getRes().initComponents(panMain);
+   }
 
   /**
    * Set the message that will be displayed in the preview dialogue.
@@ -124,33 +116,46 @@ public class SendAgentPreviewDialog extends JDialog {
    @return true if it is still ok to post the message
    */
   public boolean isPostingOk() {
-     return !m_wasCancelled;
+     return !isCancelled();
   }
 
 // PRIVATE IMPLEMENTATION
 
   private void checkAlwaysPreview() {
+     UserPreferences prefs = GlobalState.getPreferences();
      if (!cbAlwaysPreview.isSelected()) {
-        GlobalState.setPreference("newsagent.agents.send.alwayspreview", false);
-        GlobalState.savePreferences();
+        prefs.setBoolPreference(PreferenceKeys.AGENTS_SEND_ALWAYSPREVIEW, false);
+        try
+        {
+           prefs.save();
+        }
+        catch (java.io.IOException ioe)
+        {
+           if (Debug.TRACE_LEVEL_1)
+           {
+              Debug.println(1, this, "Unable to save preferences: "+ioe);
+           }
+        }
      }
   }
-
-// EVENT HANDLING
-
-  class PostListener implements ActionListener {
-     public void actionPerformed(ActionEvent e) {
-        m_wasCancelled = false;
-        checkAlwaysPreview();
-        setVisible(false);
-     }
+  
+  public boolean okClicked()
+  {
+     checkAlwaysPreview();
+     return true;
   }
-
-  class CancelListener implements ActionListener {
-     public void actionPerformed(ActionEvent e) {
-        m_wasCancelled = true;
-        checkAlwaysPreview();
-        setVisible(false);
-     }
+  
+  public boolean cancelClicked()
+  {
+     checkAlwaysPreview();
+     return true;
   }
 }
+
+//
+// Old history:
+// <LI>0.1 [07/06/98]: Initial Revision
+// <LI>0.2 [08/06/98]: Made preview box non-editable, and enabled the buttons.
+//
+// New history:
+// $Log: not supported by cvs2svn $

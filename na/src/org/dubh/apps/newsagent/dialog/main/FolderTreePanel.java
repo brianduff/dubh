@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: FolderTreePanel.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: FolderTreePanel.java,v 1.4 1999-06-01 00:32:08 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -40,39 +40,14 @@ import dubh.apps.newsagent.Folder;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 
-// Ugh, undocumented Swing Stuff!!
-//import javax.swing.plaf.basic.BasicTreeCellRenderer;
-
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import dubh.utils.ui.GridBagConstraints2;
 /**
  * A panel containing a tree control, which corresponds to the folders, news
  * servers and newsgroups available to the user.<P>
- * Version History: <UL>
- * <LI>0.1 [22/03/98]: Initial Revision
- * <LI>0.2 [23/03/98]: Implemented tree cell renderer and update methods.
- * <LI>0.3 [24/03/98]: Added popup menus. Added image.
- * <LI>0.4 [30/03/98]: Changed server icon rendering to use a different icon for
- *   disconnected servers.
- * <LI>0.5 [31/03/98]: Added tree selection events.
- * <LI>0.6 [01/04/98]: Added getSelectedServer().
- * <LI>0.7 [02/04/98]: Added binding for Connected pull down menu item.
- * <LI>0.8 [04/04/98]: Added getLastSelectedNewsgroup()
- * <LI>0.9 [07/04/98]: Added setActive()
- * <LI>0.10 [18/04/98]: Fixed a bug in tree Selection event handling.
- * <LI>0.11 [20/04/98]: Changed so that the thread tree is made visible /
- *   invisible depending on the selection.
- * <LI>0.12 [30/06/98]: Now setting the minimum width to 0 on tree expansion /
- *   collapse events, so that the folder tree panel can be resized smaller than
- *   the width of the widest tree node (a really annoying bug that's been
- *   around for ages). Added event hooks to make the panel more "beanlike"
- * <LI>0.13 [03/07/98]: Changed the tree renderer to subclass Swing's (un-
- *   documented) default tree renderer. It should look a bit more natural now.
- * <LI>0.14 [31/01/99]: Changed old default tree cell renderer to new Swing 1.1
- *   version.
- @author Brian Duff
- @version 0.14 [31/01/99]
+ * @author Brian Duff
+ * @version $Id: FolderTreePanel.java,v 1.4 1999-06-01 00:32:08 briand Exp $
  */
 public class FolderTreePanel extends JPanel {
 
@@ -82,8 +57,8 @@ public class FolderTreePanel extends JPanel {
   private DefaultMutableTreeNode sandf;
   private DefaultMutableTreeNode servers;
   private DefaultMutableTreeNode folders;
-  private final static ImageIcon icoNewsagent = new ImageIcon(
-         GlobalState.getImage("newsagent_small.gif"));
+  private final static ImageIcon icoNewsagent = 
+         GlobalState.getRes().getImage("NewsAgent.newsAgentSmall");
   private JTree jtreeFolders = new JTree();
   private JScrollPane scroll = new JScrollPane(jtreeFolders);
   private JLabel lblImage = new JLabel();
@@ -199,8 +174,8 @@ public class FolderTreePanel extends JPanel {
    */
   private void constructTree() {
      sandf = new DefaultMutableTreeNode(null);
-     servers = new DefaultMutableTreeNode(GlobalState.getResString("Servers"));
-     folders = new DefaultMutableTreeNode(GlobalState.getResString("Folders"));
+     servers = new DefaultMutableTreeNode(GlobalState.getRes().getString("Servers"));
+     folders = new DefaultMutableTreeNode(GlobalState.getRes().getString("Folders"));
 
      // Add servers, using user properties.
      Enumeration server_enum = GlobalState.getStorageManager().getServers();
@@ -242,7 +217,7 @@ public class FolderTreePanel extends JPanel {
      if (ourobject instanceof Newsgroup) {
         TreeNode parent = ((DefaultMutableTreeNode)path.getLastPathComponent()).getParent();
         if (parent == null) {
-           ErrorReporter.debug("In FolderTreePanel.treeSelectionEvent, a newsgroup appears to have no parent server.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "In FolderTreePanel.treeSelectionEvent, a newsgroup appears to have no parent server.");
            return;
         }
         NNTPServer server = (NNTPServer) ((DefaultMutableTreeNode)parent).getUserObject();
@@ -271,7 +246,7 @@ public class FolderTreePanel extends JPanel {
    * Called when the user selects a Newsgroup.
    */
   private void newsgroupSelected(Newsgroup ng, NNTPServer server) {
-    // ErrorReporter.debug("Newsgroup "+ng+" selected on "+server);
+    // if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Newsgroup "+ng+" selected on "+server);
     GlobalState.getStorageManager().connectIfNeeded(server);
     m_lastNewsgroup = ng;
     // enable the post action
@@ -280,9 +255,9 @@ public class FolderTreePanel extends JPanel {
      GlobalState.getMainFrame().getThreadTree().setProvider(server);
      m_lastServer = server;
     } catch (java.io.IOException e) {
-     ErrorReporter.debug("IO Exception selecting group "+ng);
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IO Exception selecting group "+ng);
     } catch (NNTPServerException e) {
-        ErrorReporter.debug("NNTPServerException selecting group "+ng);
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "NNTPServerException selecting group "+ng);
     }
 
   }
@@ -305,7 +280,7 @@ public class FolderTreePanel extends JPanel {
      JPopupMenu theMenu;
      if (ourobject != null) {
          if (ourobject instanceof String) {
-           if (ourobject.equals(GlobalState.getResString("Folders")))
+           if (ourobject.equals(GlobalState.getRes().getString("Folders")))
               theMenu = GlobalState.getMainFrame().popupFolders;
            else
               theMenu = GlobalState.getMainFrame().popupServers;
@@ -316,7 +291,7 @@ public class FolderTreePanel extends JPanel {
          } else if (ourobject instanceof Folder)     {
            theMenu = GlobalState.getMainFrame().popupFolder;
          } else {
-           ErrorReporter.debug("Unknown tree item: "+ourobject+" in FolderTreePanel.doPopupMenu");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Unknown tree item: "+ourobject+" in FolderTreePanel.doPopupMenu");
            theMenu = new JPopupMenu();
          }
         // show the popup menu
@@ -339,18 +314,18 @@ public class FolderTreePanel extends JPanel {
  * Draws individual tree items
  */
 class FolderTreeRenderer extends DefaultTreeCellRenderer {
-      private final static ImageIcon icoServers = new ImageIcon(
-         GlobalState.getImage("icoServers.gif"));
-     private final static ImageIcon icoFolders = new ImageIcon(
-         GlobalState.getImage("icoFolders.gif"));
-     private final static ImageIcon icoFolder = new ImageIcon(
-         GlobalState.getImage("icoFolder.gif"));
-     private final static ImageIcon icoServer = new ImageIcon(
-         GlobalState.getImage("icoServer.gif"));
-     private final static ImageIcon icoServerDis = new ImageIcon(
-           GlobalState.getImage("icoServerDis.gif"));
-     private final static ImageIcon icoNewsgroup = new ImageIcon(
-         GlobalState.getImage("icoNewsgroup.gif"));
+      private final static ImageIcon icoServers = 
+         GlobalState.getRes().getImage("FolderTreePanel.servers");
+     private final static ImageIcon icoFolders = 
+         GlobalState.getRes().getImage("FolderTreePanel.folders");
+     private final static ImageIcon icoFolder = 
+         GlobalState.getRes().getImage("FolderTreePanel.folder");
+     private final static ImageIcon icoServer = 
+         GlobalState.getRes().getImage("FolderTreePanel.server");
+     private final static ImageIcon icoServerDis = 
+           GlobalState.getRes().getImage("FolderTreePanel.serverDisconnected");
+     private final static ImageIcon icoNewsgroup = 
+         GlobalState.getRes().getImage("FolderTreePanel.newsgroup");
            
   public FolderTreeRenderer() {
      super();
@@ -368,7 +343,7 @@ class FolderTreeRenderer extends DefaultTreeCellRenderer {
      Object value = ((DefaultMutableTreeNode)v).getUserObject();
      if (value instanceof String) {
         // Either "Servers" or "Folders"
-        if (((String)value).equals(GlobalState.getResString("Folders"))) {
+        if (((String)value).equals(GlobalState.getRes().getString("Folders"))) {
            supComp.setText((String)value);
            supComp.setIcon(icoFolders);
         } else { // Ought to be "Servers"
@@ -436,3 +411,33 @@ class FolderTreePanel_jtreeFolders_mouseAdapter implements java.awt.event.MouseL
      adaptee.treeMouseEvent(e);
   }
 }
+
+//
+// Old History:
+//
+// <LI>0.1 [22/03/98]: Initial Revision
+// <LI>0.2 [23/03/98]: Implemented tree cell renderer and update methods.
+// <LI>0.3 [24/03/98]: Added popup menus. Added image.
+// <LI>0.4 [30/03/98]: Changed server icon rendering to use a different icon for
+//   disconnected servers.
+// <LI>0.5 [31/03/98]: Added tree selection events.
+// <LI>0.6 [01/04/98]: Added getSelectedServer().
+// <LI>0.7 [02/04/98]: Added binding for Connected pull down menu item.
+// <LI>0.8 [04/04/98]: Added getLastSelectedNewsgroup()
+// <LI>0.9 [07/04/98]: Added setActive()
+// <LI>0.10 [18/04/98]: Fixed a bug in tree Selection event handling.
+// <LI>0.11 [20/04/98]: Changed so that the thread tree is made visible /
+//   invisible depending on the selection.
+// <LI>0.12 [30/06/98]: Now setting the minimum width to 0 on tree expansion /
+//   collapse events, so that the folder tree panel can be resized smaller than
+//   the width of the widest tree node (a really annoying bug that's been
+//   around for ages). Added event hooks to make the panel more "beanlike"
+// <LI>0.13 [03/07/98]: Changed the tree renderer to subclass Swing's (un-
+//   documented) default tree renderer. It should look a bit more natural now.
+// <LI>0.14 [31/01/99]: Changed old default tree cell renderer to new Swing 1.1
+//   version.
+
+//
+// New History:
+//
+// $Log: not supported by cvs2svn $

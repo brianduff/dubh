@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: UnreadHighlightAgentPanel.java,v 1.3 1999-03-22 23:46:43 briand Exp $
+//   $Id: UnreadHighlightAgentPanel.java,v 1.4 1999-06-01 00:25:16 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -33,21 +33,12 @@ import javax.swing.border.*;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.utils.misc.StringUtils;
-// EVIL!!!!! Fix when the JColorChooser is finalised
-//import javax.swing.preview.JColorChooser;
-
-
+import dubh.utils.misc.Debug;
 
 /**
  * Panel for the UnreadHighlightAgent
- * Version History: <UL>
- * <LI>0.1 [28/04/98]: Initial Revision
- * <LI>0.2 [29/04/98]: Fixed updating of sample text
- * <LI>0.3 [06/06/98]: Added dubh utils import for StringUtils
- * <LI>0.4 [31/01/99]: Now using "official" Swing 1.1 colorchooser.
- *</UL>
- @author Brian Duff
- @version 0.3 [06/06/98]
+ * @author Brian Duff
+ * @version $Id: UnreadHighlightAgentPanel.java,v 1.4 1999-06-01 00:25:16 briand Exp $
  */
 public class UnreadHighlightAgentPanel extends JPanel {
 
@@ -55,39 +46,39 @@ public class UnreadHighlightAgentPanel extends JPanel {
 
 // UI Vars
 
-  TitledBorder borderHighlight = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("Agents.UnreadHighlight"));
-  TitledBorder borderFormatting= new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("Agents.Formatting"));
-  TitledBorder borderSample = new TitledBorder(new EtchedBorder(),
-   GlobalState.getResString("Agents.Sample"));
-  GridBagLayout gridBagLayout1 = new GridBagLayout();
-  JPanel panHighlight = new JPanel();
-  JPanel panFormatting = new JPanel();
-  JPanel panSample = new JPanel();
-  GridBagLayout gridBagLayout2 = new GridBagLayout();
-  JLabel labIn = new JLabel();
-  JRadioButton optAllNewsgroups = new JRadioButton();
-  JRadioButton optNewsgroupsCont = new JRadioButton();
-  JTextField tfGroups = new JTextField();
-  GridBagLayout gridBagLayout3 = new GridBagLayout();
-  JLabel labFont = new JLabel();
-  JComboBox cmbFont = new JComboBox();
-  JCheckBox chkBold = new JCheckBox();
-  JLabel labSize = new JLabel();
-  JTextField tfSize = new JTextField();
-  JLabel labPt = new JLabel();
-  JCheckBox chkItalic = new JCheckBox();
-  JLabel labColour = new JLabel();
-  JPanel panColour = new JPanel();
-  JButton cmdColour = new JButton();
-  JPanel panSampleText = new SampleHeaderPanel();
-  GridBagLayout gridBagLayout4 = new GridBagLayout();
-  ButtonGroup radioGroup = new ButtonGroup();
-  SampleUpdater updateListener = new SampleUpdater();
+   TitledBorder borderHighlight = new TitledBorder(new EtchedBorder(),
+   GlobalState.getRes().getString("Agents.UnreadHighlight"));
+   TitledBorder borderFormatting= new TitledBorder(new EtchedBorder(),
+   GlobalState.getRes().getString("Agents.Formatting"));
+   TitledBorder borderSample = new TitledBorder(new EtchedBorder(),
+   GlobalState.getRes().getString("Agents.Sample"));
+   GridBagLayout gridBagLayout1 = new GridBagLayout();
+   JPanel panHighlight = new JPanel();
+   JPanel panFormatting = new JPanel();
+   JPanel panSample = new JPanel();
+   GridBagLayout gridBagLayout2 = new GridBagLayout();
+   JLabel labIn = new JLabel();
+   JRadioButton optAllNewsgroups = new JRadioButton();
+   JRadioButton optNewsgroupsCont = new JRadioButton();
+   JTextField tfGroups = new JTextField();
+   GridBagLayout gridBagLayout3 = new GridBagLayout();
+   JLabel labFont = new JLabel();
+   JComboBox cmbFont = new JComboBox();
+   JCheckBox chkBold = new JCheckBox();
+   JLabel labSize = new JLabel();
+   JTextField tfSize = new JTextField();
+   JLabel labPt = new JLabel();
+   JCheckBox chkItalic = new JCheckBox();
+   JLabel labColour = new JLabel();
+   JPanel panColour = new JPanel();
+   JButton cmdColour = new JButton();
+   JPanel panSampleText = new SampleHeaderPanel();
+   GridBagLayout gridBagLayout4 = new GridBagLayout();
+   ButtonGroup radioGroup = new ButtonGroup();
+   SampleUpdater updateListener = new SampleUpdater();
 
-  public UnreadHighlightAgentPanel() {
-    try {
+   public UnreadHighlightAgentPanel() {
+      try {
       jbInit();
     }
     catch (Exception e) {
@@ -174,12 +165,12 @@ public class UnreadHighlightAgentPanel extends JPanel {
    */
   public void setFormatFont(Font f) {
      if (f==null) {
-       ErrorReporter.debug("null font in UnreadHighlightAgentPanel.setFormatFont!");
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "null font in UnreadHighlightAgentPanel.setFormatFont!");
        return;
      }
      chkBold.setSelected(f.isBold());
      chkItalic.setSelected(f.isItalic());
-     ErrorReporter.debug("Font size is "+f.getSize());
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Font size is "+f.getSize());
      tfSize.setText(StringUtils.intToString(f.getSize()));
      cmbFont.setSelectedItem(f.getName());
      panSampleText.repaint();
@@ -333,3 +324,13 @@ class UnreadHighlightAgentPanel_cmdColour_actionAdapter implements java.awt.even
     adaptee.cmdColour_actionPerformed(e);
   }
 }
+
+//
+// Old Version History: <UL>
+// 0.1 [28/04/98]: Initial Revision
+// 0.2 [29/04/98]: Fixed updating of sample text
+// 0.3 [06/06/98]: Added dubh utils import for StringUtils
+// 0.4 [31/01/99]: Now using "official" Swing 1.1 colorchooser.
+//
+// New version history:
+// $Log: not supported by cvs2svn $

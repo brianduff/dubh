@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: AgentManager.java,v 1.3 1999-03-22 23:46:42 briand Exp $
+//   $Id: AgentManager.java,v 1.4 1999-06-01 00:25:16 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -27,6 +27,7 @@ package dubh.apps.newsagent.agent;
 
 import java.util.*;
 import java.io.*;
+import dubh.apps.newsagent.PreferenceKeys;
 import dubh.apps.newsagent.GlobalState;
 import dubh.apps.newsagent.agent.ISendAgent;
 import dubh.apps.newsagent.agent.IListAgent;
@@ -36,21 +37,15 @@ import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
 import dubh.utils.misc.StringUtils;
 import dubh.utils.misc.Debug;
+import dubh.utils.misc.UserPreferences;
 
 
 import java.awt.*;
 /**
  * Agent manager
- * Version History: <UL>
- * <LI>0.1 [14/04/98]: Initial Revision
- * <LI>0.2 [15/04/98]: Added setEnabledSendAgentNames and setAgentsTable
- * <LI>0.3 [28/04/98]: Added support for list agents
- * <LI>0.4 [06/06/98]: Added dubh utils import for StringUtils
- * <LI>0.5 [07/06/98]: Added support for send agents. Moved into the
- *   dubh.apps.newsagent.agent package.
- *</UL>
- @author Brian Duff
- @version 0.5 [07/06/98]
+ *
+ * @author Brian Duff
+ * @version $Id: AgentManager.java,v 1.4 1999-06-01 00:25:16 briand Exp $
  */
 public class AgentManager {
    protected Vector m_activeSendAgents = new Vector();
@@ -209,10 +204,11 @@ public class AgentManager {
    * at some point.
    */ 
   public void saveSendAgents() {
+     UserPreferences prefs = GlobalState.getPreferences();
    /* First, store the names of active agents in order in the
     * newsagent.agents.send.active preference.
     */
-   GlobalState.setPreference("newsagent.agents.send.active",
+   prefs.setPreference(PreferenceKeys.AGENTS_SEND_ACTIVE,
      StringUtils.createSentence(m_activeSendAgents));
    /*
     * Now save preferences for all agents which are really agents.
@@ -234,7 +230,7 @@ public class AgentManager {
      }
    }
    /* Store the newsagent.agents.send.installed property. */
-   GlobalState.setPreference("newsagent.agents.send.installed",
+   prefs.setPreference(PreferenceKeys.AGENTS_SEND_INSTALLED,
      StringUtils.createSentence(installedAgents));
   }
 
@@ -249,10 +245,11 @@ public class AgentManager {
    * at some point.
    */ 
   public void saveListAgents() {
+     UserPreferences prefs = GlobalState.getPreferences();
    /* First, store the names of active agents in order in the
     * newsagent.agents.list.active preference.
     */
-   GlobalState.setPreference("newsagent.agents.list.active",
+   prefs.setPreference(PreferenceKeys.AGENTS_LIST_ACTIVE,
      StringUtils.createSentence(m_activeListAgents));
    /*
     * Now save preferences for all agents which are really agents.
@@ -274,7 +271,7 @@ public class AgentManager {
      }
    }
    /* Store the newsagent.agents.send.installed property. */
-   GlobalState.setPreference("newsagent.agents.list.installed",
+   prefs.setPreference(PreferenceKeys.AGENTS_LIST_INSTALLED,
      StringUtils.createSentence(installedAgents));
   }
 
@@ -362,10 +359,13 @@ public class AgentManager {
       * and post the message only if isPostingOk() on the dialogue returns
       * true after displaying it.
       */
-     boolean ignorewarnings = GlobalState.getBoolPreference(
-           "newsagent.agents.send.ignorewarnings", false);
-     boolean ignoreerrors   = GlobalState.getBoolPreference(
-           "newsagent.agents.send.ignoreerrors", false);
+      
+     UserPreferences prefs = GlobalState.getPreferences();
+      
+     boolean ignorewarnings = prefs.getBoolPreference(
+           PreferenceKeys.AGENTS_SEND_IGNOREWARNINGS, false);
+     boolean ignoreerrors   = prefs.getBoolPreference(
+           PreferenceKeys.AGENTS_SEND_IGNOREERRORS, false);
      if ((!ignorewarnings && wasWarning) || (!ignoreerrors && wasError)) {
         dlgWarnings.setVisible(true);
         postOk = dlgWarnings.isPostingOk();
@@ -378,8 +378,8 @@ public class AgentManager {
       * Display the preview window only if the alwayspreview option is set
       * and the message has been changed and posting is still ok.
       */
-     boolean alwayspreview = GlobalState.getBoolPreference(
-           "newsagent.agents.send.alwayspreview", true);
+     boolean alwayspreview = prefs.getBoolPreference(
+           PreferenceKeys.AGENTS_SEND_ALWAYSPREVIEW, true);
      if (postOk && alwayspreview && wasChanged) {
         SendAgentPreviewDialog dlgPreview = new SendAgentPreviewDialog(fraTmp, hd, bd);
         dlgPreview.setVisible(true);
@@ -396,11 +396,12 @@ public class AgentManager {
   private void initSendAgents() {
    /* Read the default send agents and user installed agents */
 
+     UserPreferences prefs = GlobalState.getPreferences();
      m_activeSendAgents = new Vector();
      m_allSendAgents    = new Hashtable();
      String[] allAgentNames = StringUtils.getWords(
-       GlobalState.getResString("newsagent.agents.send.defaultlist")+" "+
-       GlobalState.getPreference("newsagent.agents.send.installed", ""));
+       GlobalState.getRes().getString("newsagent.agents.send.defaultlist")+" "+
+       prefs.getPreference(PreferenceKeys.AGENTS_SEND_INSTALLED, ""));
      for (int i=0; i< allAgentNames.length; i++) {
        ISendAgent sendAgent;
        sendAgent = (ISendAgent) createClass(allAgentNames[i]);
@@ -414,7 +415,7 @@ public class AgentManager {
 
      /* Read the list of active agents */
 
-     String sActive = GlobalState.getPreference("newsagent.agents.send.active", "");
+     String sActive = prefs.getPreference(PreferenceKeys.AGENTS_SEND_ACTIVE, "");
      String[] active = StringUtils.getWords(sActive);
      for (int i=0;i<active.length;i++) {
        m_activeSendAgents.addElement(active[i]);
@@ -425,11 +426,12 @@ public class AgentManager {
   private void initListAgents() {
    /* Read the default send agents and user installed agents */
 
+     UserPreferences prefs = GlobalState.getPreferences();
      m_activeListAgents = new Vector();
      m_allListAgents    = new Hashtable();
      String[] allAgentNames = StringUtils.getWords(
-       GlobalState.getResString("newsagent.agents.list.defaultlist")+" "+
-       GlobalState.getPreference("newsagent.agents.list.installed", ""));
+       GlobalState.getRes().getString("newsagent.agents.list.defaultlist")+" "+
+       prefs.getPreference(PreferenceKeys.AGENTS_LIST_INSTALLED, ""));
      for (int i=0; i< allAgentNames.length; i++) {
        IListAgent listAgent;
        listAgent = (IListAgent) createClass(allAgentNames[i]);
@@ -443,7 +445,7 @@ public class AgentManager {
 
      /* Read the list of active agents */
 
-     String sActive = GlobalState.getPreference("newsagent.agents.list.active", "");
+     String sActive = prefs.getPreference(PreferenceKeys.AGENTS_LIST_ACTIVE, "");
      String[] active = StringUtils.getWords(sActive);
      for (int i=0;i<active.length;i++) {
        m_activeListAgents.addElement(active[i]);
@@ -460,11 +462,11 @@ public class AgentManager {
        if (GlobalState.isApplet()) return true;
    File agentDir = new File(GlobalState.agentDir);
    if (!agentDir.exists()) {
-     ErrorReporter.debug("Agents directory doesn't exist: creating.");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agents directory doesn't exist: creating.");
      return agentDir.mkdir();
    }
    if (!agentDir.isDirectory()) {
-     ErrorReporter.debug("Agents directory ("+GlobalState.agentDir+") is a file!!!");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agents directory ("+GlobalState.agentDir+") is a file!!!");
      return false;
    }
    /* Agent dir already exists and is a directory, so everything is OK */
@@ -524,13 +526,13 @@ public class AgentManager {
        if (!agentDir.exists()) {
          /* Create the directories up to this dir */
          if (!agentDir.mkdirs()) {
-           ErrorReporter.debug(agentDir+" couldn't be created for agent properties.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, agentDir+" couldn't be created for agent properties.");
            return false;
          }
        } else {
          /* If it already exists, check it's a directory and not a file */
          if (!agentDir.isDirectory()) {
-           ErrorReporter.debug(agentDir+" is a file: agent properties need to be saved in a directory by this name.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, agentDir+" is a file: agent properties need to be saved in a directory by this name.");
            return false;
          }
        }
@@ -541,14 +543,14 @@ public class AgentManager {
            "Properties for NewsAgent Agent "+agentClassName+". DO NOT EDIT!");
          return true;
        } catch (IOException e) {
-         ErrorReporter.debug("IOException saving agent properties for "+agentClassName);
+         if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException saving agent properties for "+agentClassName);
          return false;
 
        }
 
      } else {
        /* The agent class name can't be converted into a file name */
-       ErrorReporter.debug("Properties file couldn't be saved: the agent class has a dodgy class name: "+agentClassName);
+       if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Properties file couldn't be saved: the agent class has a dodgy class name: "+agentClassName);
        return false;
      }
    } // if checkAgentsDir()
@@ -565,14 +567,26 @@ public class AgentManager {
      Object objObject = objClass.newInstance();
      return objObject;
    } catch (ClassNotFoundException cnf) {
-     ErrorReporter.debug("Agent class "+classname+" not found on CLASSPATH");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agent class "+classname+" not found on CLASSPATH");
    } catch (InstantiationException iexp) {
-     ErrorReporter.debug("Agent class "+classname+" couldn't be instantiated");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agent class "+classname+" couldn't be instantiated");
    } catch (IllegalAccessException ilex) {
-     ErrorReporter.debug("Agent class "+classname+" couldn't be accessed.");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Agent class "+classname+" couldn't be accessed.");
    }
    return null;
   }
 
 
 }
+
+//
+// Old history
+// 0.1 [14/04/98]: Initial Revision
+// 0.2 [15/04/98]: Added setEnabledSendAgentNames and setAgentsTable
+// 0.3 [28/04/98]: Added support for list agents
+// 0.4 [06/06/98]: Added dubh utils import for StringUtils
+// 0.5 [07/06/98]: Added support for send agents. Moved into the
+//    dubh.apps.newsagent.agent package.
+// 
+// New history
+// $Log: not supported by cvs2svn $

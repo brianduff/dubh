@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: MsgDisplayPanel.java,v 1.3 1999-03-22 23:46:00 briand Exp $
+//   $Id: MsgDisplayPanel.java,v 1.4 1999-06-01 00:32:08 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -34,24 +34,12 @@ import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
 
 import dubh.apps.newsagent.dialog.ErrorReporter;
+import dubh.utils.misc.Debug;
 
 /**
  * Displays the body of a message
- * <LI>0.1 [05/03/98]: Initial Revision
- * <LI>0.2 [10/03/98]: Set minimum size
- * <LI>0.3 [01/04/98]: Implemented setMessage.
- * <LI>0.4 [02/04/98]: Implemented getMessageBody. Made non editable. Forced
- *   text pane to jump back to start when text is set. Added clear method.
- * <LI>0.5 [07/04/98]: Added setActive();
- * <LI>0.6 [08/05/98]: Added clipboard operations. Well copy anyway.
- * <LI>1.0 [09/05/98]: Major change - now supports a configurable, scrolling
- *   message header part. This is part of my attempts to become more conformant
- *   with the suggested guidelines for USENET readers, the user can now
- *   configure which headers are displayed in this section.
- * <LI>1.1 [10/06/98]: Added getSelectedText() method so that reply quoting
- *   works properly.
  @author Brian Duff
- @version 1.1 [10/06/98]
+ @version $Id: MsgDisplayPanel.java,v 1.4 1999-06-01 00:32:08 briand Exp $
  */
 public class MsgDisplayPanel extends JPanel {
   BorderLayout borderLayout1 = new BorderLayout();
@@ -248,7 +236,7 @@ public class MsgDisplayPanel extends JPanel {
         try {
            ((JLabel)m_hash.get(labelName)).setText(labelName+":");
         } catch (Exception e) {
-           ErrorReporter.debug("Can't find the "+labelName+" header to delete!");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Can't find the "+labelName+" header to delete!");
         }
      }
 
@@ -270,10 +258,31 @@ public class MsgDisplayPanel extends JPanel {
         try {
            ((JLabel)m_hash.get(header)).setText(header+": "+text);
         } catch (Exception e) {
-           ErrorReporter.debug("Can't find the "+header+" header.");
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Can't find the "+header+" header.");
         }
      }
 
   }
 
 }
+
+//
+// Old Log
+//
+// <LI>0.1 [05/03/98]: Initial Revision
+// <LI>0.2 [10/03/98]: Set minimum size
+// <LI>0.3 [01/04/98]: Implemented setMessage.
+// <LI>0.4 [02/04/98]: Implemented getMessageBody. Made non editable. Forced
+//   text pane to jump back to start when text is set. Added clear method.
+// <LI>0.5 [07/04/98]: Added setActive();
+// <LI>0.6 [08/05/98]: Added clipboard operations. Well copy anyway.
+// <LI>1.0 [09/05/98]: Major change - now supports a configurable, scrolling
+//   message header part. This is part of my attempts to become more conformant
+//   with the suggested guidelines for USENET readers, the user can now
+//   configure which headers are displayed in this section.
+// <LI>1.1 [10/06/98]: Added getSelectedText() method so that reply quoting
+//   works properly.
+//
+// New Log:
+//
+// $Log: not supported by cvs2svn $

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NNTPComposerHeaderDisplay.java,v 1.4 1999-03-22 23:46:00 briand Exp $
+//   $Id: NNTPComposerHeaderDisplay.java,v 1.5 1999-06-01 00:31:37 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -37,12 +37,9 @@ import java.beans.*;
 /**
  * A subclass of ComposerDisplay that has a popup menu containing optional
  * headers that can be added or removed from the header display.<BR>
- * Version History: <UL>
- * <LI>0.1 [12/06/98]: Initial Revision
- * <LI>0.2 [13/06/98]: Added property event checking for identity preferences
- *</UL>
- @author Brian Duff
- @version 0.2 [13/06/98]
+ *
+ * @author Brian Duff
+ * @version $Id: NNTPComposerHeaderDisplay.java,v 1.5 1999-06-01 00:31:37 briand Exp $
  */
 class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
 
@@ -106,7 +103,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
 
      addButtonHeader(
         "Newsgroups", "",
-        new ImageIcon(GlobalState.getImage("icoNewsgroup.gif")),
+        GlobalState.getRes().getImage("Composer.newsgroup"),
         new NewsgroupsListener()
      );
      addHeader("Subject", "");
@@ -125,7 +122,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      /*
       * Check preferences to see which optional headers to include
       */
-     words = StringUtils.getWords(GlobalState.getPreference(PreferenceKeys.COMPOSER_ADDITIONALHEADERS, ""));
+     words = StringUtils.getWords(GlobalState.getPreferences().getPreference(PreferenceKeys.COMPOSER_ADDITIONALHEADERS, ""));
      //words = StringUtils.getWords("Distribution additional1 additional2");
      for (int i=0; i<words.length; i++) {
         JCheckBoxMenuItem mi;
@@ -255,7 +252,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      // button nyi
      addButtonHeader(
         "Followup-To", "",
-        new ImageIcon(GlobalState.getImage("icoNewsgroup.gif")),
+        GlobalState.getRes().getImage("Composer.newsgroup"),
         new FollowupToListener()
      );
   }
@@ -269,8 +266,8 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      setFieldEnabled("Sender", false);
      setHeaderValue(
         "Sender",
-        GlobalState.getPreference("newsagent.identity.email") +
-           " (" + GlobalState.getPreference("newsagent.identity.realname") + ")"
+        GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_EMAIL) +
+           " (" + GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_REALNAME) + ")"
      );
    //  setHeaderValue("Sender", "Fix this!!");
      addHeader("From", "");
@@ -310,7 +307,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      // Organization should be initialised to the user property
      addHeader(
         "Organization",
-        GlobalState.getPreference("newsagent.identity.organisation")
+        GlobalState.getPreferences().getPreference(PreferenceKeys.IDENTITY_ORGANISATION)
      );
   }
 
@@ -322,7 +319,7 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
      // nyi
      addButtonHeader(
         "Fcc","",
-        new ImageIcon(GlobalState.getImage("icoFolder.gif")),
+        GlobalState.getRes().getImage("Composer.folder"),
         new FccListener()
      );
   }
@@ -502,3 +499,13 @@ class NNTPComposerHeaderDisplay extends ComposerHeaderDisplay {
 
   
 }
+
+//
+// Old History:
+//
+// <LI>0.1 [12/06/98]: Initial Revision
+// <LI>0.2 [13/06/98]: Added property event checking for identity preferences
+//
+// New History:
+//
+// $Log: not supported by cvs2svn $
