@@ -34,6 +34,7 @@ import org.freeciv.client.ui.*;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.client.action.*;
 import org.freeciv.client.ui.util.*;
+import org.freeciv.common.Factories;
 import org.freeciv.common.Game;
 import org.freeciv.common.Logger;
 /**
@@ -136,9 +137,6 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private SndSystem sound;
   // The dispacher deals with incoming packets from the server.
   private ClientPacketDispacher m_dispacher;
-  // The ruleset manager stores information about rules of the game
-  // that have been received from the server
-  private RulesetManager m_rulesetManager;
   // The options object contains user options
   private Options m_options;
   // Boolean flags to remember bits of our state
@@ -219,8 +217,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   private UnitStackDisplay m_panUnitStack;
   private JPanel panWest;
   // Factories
-  private ConnectionFactory m_connectionFactory = new ConnectionFactory();
-  private PlayerFactory m_playerFactory = new PlayerFactory();
+  private Factories m_factories = new Factories();
   // prob shouldn't instantiate this yet. 
   private Game m_game = new Game();
   private final static String APP_NAME = "Freeciv4J";
@@ -364,17 +361,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     return m_options;
   }
-  /**
-   * Get the ruleset manager
-   */
-  public RulesetManager getRulesetManager()
-  {
-    if( m_rulesetManager == null )
-    {
-      m_rulesetManager = new RulesetManager( this );
-    }
-    return m_rulesetManager;
-  }
+
   /**
    * Get the dialog manager.
    */
@@ -1025,55 +1012,9 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     return m_game;
   }
   // FACTORIES
-  public ClientObjectFactory getPlayerFactory()
+
+  public Factories getFactories()
   {
-    return m_playerFactory;
-  }
-  public ClientObjectFactory getConnectionFactory()
-  {
-    return m_connectionFactory;
-  }
-  private abstract class ClientObjectFactoryImpl implements ClientObjectFactory
-  {
-    // one day, write a more efficient (array based) impelementation
-    ArrayList m_objects = new ArrayList();
-    public ClientObject findById( int id )
-    {
-      Iterator i = m_objects.iterator();
-      while( i.hasNext() )
-      {
-        ClientObject co = (ClientObject)i.next();
-        if( co.getId() == id )
-        {
-          return co;
-        }
-      }
-      return null;
-    }
-    public ClientObject create()
-    {
-      ClientObject o = doCreate();
-      m_objects.add( o );
-      return o;
-    }
-    public void destroy( ClientObject o )
-    {
-      m_objects.remove( o );
-    }
-    protected abstract ClientObject doCreate();
-  }
-  private class PlayerFactory extends ClientObjectFactoryImpl
-  {
-    protected ClientObject doCreate()
-    {
-      return new Player();
-    }
-  }
-  private class ConnectionFactory extends ClientObjectFactoryImpl
-  {
-    protected ClientObject doCreate()
-    {
-      return new Connection();
-    }
+    return m_factories; 
   }
 }
