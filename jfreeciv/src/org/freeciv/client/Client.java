@@ -22,6 +22,7 @@ import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
 import org.freeciv.common.Tile;
 import org.freeciv.common.ErrorHandler;
+import org.freeciv.common.Unit;
 import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.Actions;
 import org.freeciv.client.action.ACTDisconnect;
@@ -90,7 +91,7 @@ public class Client implements Constants
   private MainWindow m_mainWindow;
 
   // The currently focused unit
-  private org.freeciv.common.Unit m_focusUnit;
+  private Unit m_focusUnit;
 
   /**
    * Instantiate the client
@@ -356,8 +357,8 @@ public class Client implements Constants
   /**
    * BD: Sort out unit stacks!
    */
-  public void setUnitStack( Unit u )
-  {
+  //public void setUnitStack( Unit u )
+  //{
 
 
 
@@ -372,7 +373,7 @@ public class Client implements Constants
   }
   unitStack.repaint();
   */
-  }
+  //}
   /**
    * BD: Sort out unit stacks
    */

@@ -1,11 +1,17 @@
 package org.freeciv.client.action;
-import org.freeciv.client.Unit;
-import org.freeciv.client.Client;
-import org.freeciv.client.Localize;
+
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Localize;
+import org.freeciv.common.Unit;
+
+
 /**
- * Actions on units
+ *  This is the superclass of all actions which operate on units
+ *
+ * @author Brian Duff
  */
 abstract class AbstractUnitAction extends AbstractClientAction
 {
