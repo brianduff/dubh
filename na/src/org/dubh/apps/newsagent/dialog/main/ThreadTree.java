@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: ThreadTree.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+//   $Id: ThreadTree.java,v 1.7 2001-02-11 15:48:07 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -49,7 +49,7 @@ import org.dubh.dju.misc.Debug;
 /**
  * Displays a multicolumn tree control.
  * @author Brian Duff
- * @version $Id: ThreadTree.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+ * @version $Id: ThreadTree.java,v 1.7 2001-02-11 15:48:07 briand Exp $
  */
 public class ThreadTree extends JPanel {
 
@@ -198,7 +198,7 @@ public class ThreadTree extends JPanel {
        // Mark the message as read
        ((MessageHeader)ourobject).setRead(true);
        // Reapply agents to the message
-       GlobalState.getAgentManager().callListAgents((MessageHeader)ourobject);
+       //GlobalState.getAgentManager().callListAgents((MessageHeader)ourobject);
      } catch (java.io.IOException ioe) {
        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IO Exception selecting message "+ourobject);
        // GlobalState.getMainFrame().setStatus();
@@ -288,7 +288,7 @@ public class ThreadTree extends JPanel {
            m_tree.clearSelection();
            GlobalState.getMainFrame().getMsgDisplayPanel().clear();
            // Update the app titlebar to show the new provider.
-           GlobalState.getMainFrame().setTitle(GlobalState.appName+" - ["+innerprovider.getProviderName()+"]");
+           GlobalState.getMainFrame().setTitle(GlobalState.getApplicationInfo().getName()+" - ["+innerprovider.getProviderName()+"]");
            GlobalState.getMainFrame().setStatus();
 /*           repaint();
            invalidate();
@@ -692,6 +692,9 @@ class ThreadTree_m_tree_mouseAdapter implements java.awt.event.MouseListener {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2001/02/11 02:51:00  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.5  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //
