@@ -19,7 +19,17 @@ public interface MapView
   void refreshTileMapCanvas( int x, int y );
 
   /**
+   * Initialize the map. You should call this after the MapInfo packet
+   * has been received and the game map knows what size the map is
+   */
+  void initialize();
+
+  void centerOnTile( int tilex, int tiley );
+
+  /**
    * Get the actual physical component for this map view
    */
   JComponent getComponent();
+
+  
 }

@@ -21,6 +21,8 @@ public final class MapViewManager
   private Client m_client;
   private MapView m_mainView;
 
+  private static final boolean DEBUG_MODE = true;
+
   /**
    * The client constructs an instance of this class at startup
    *
@@ -45,6 +47,33 @@ public final class MapViewManager
   }
 
   /**
+   * Initialize the map. You should call this after the MapInfo packet
+   * has been received and the game map knows what size the map is
+   */
+  public void initialize()
+  {
+    Iterator i = iterator();
+    while ( i.hasNext() )
+    {
+      ((MapView)i.next()).initialize();
+    }
+  }
+
+  /**
+   * Center the map view on the specified tile.
+   *
+   * @param tilex the x-coordinate of the tile
+   * @param tiley the y-coordinate of the tile
+   */
+  public void centerOnTile( int tilex, int tiley )
+  {
+    // This only updates the main map view. Maybe in future, this will be a 
+    // view-by-view property (only slaved views will auto-center)
+
+    m_mainView.centerOnTile( tilex, tiley );
+  }
+
+  /**
    * Create or return the main map view
    *
    * @return the main map view
@@ -66,8 +95,12 @@ public final class MapViewManager
   MapView createMapView()
   {
     MapView mv;
-    
-    if ( m_client.getTileSpec().isIsometric() )
+
+    if ( DEBUG_MODE )
+    {
+      mv = new DebugMapView( m_client );
+    }
+    else if ( m_client.getTileSpec().isIsometric() )
     {
       mv = new IsometricMapView( m_client );
     }
