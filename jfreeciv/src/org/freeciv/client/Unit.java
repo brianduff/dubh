@@ -40,9 +40,9 @@ public class Unit extends PktUnitInfo implements FlashingIcon {
 		super.receive(in);
 		prototype = client.getRulesetManager().getRulesetUnit(type);
 		// BD: Need to change the way images work in 1.9.0; uses a string identifier.
-		icon = client.getUnitIcon(0);
-		dimIcon = client.getUnitIconDim(0);
-		flag = client.getFlagForPlayer(owner);
+		//icon = client.getUnitIcon(0);
+		//dimIcon = client.getUnitIconDim(0);
+		//flag = client.getFlagForPlayer(owner);
 	}
 
 	public void setVisible(boolean aVisible)
@@ -72,7 +72,7 @@ public class Unit extends PktUnitInfo implements FlashingIcon {
 		}
 		if ( oldHp != hp )
 		{
-			hpIcon = client.getHpIcon((11*(prototype.hp-hp))/prototype.hp);
+		//	hpIcon = client.getHpIcon((11*(prototype.hp-hp))/prototype.hp);
 			oldHp = hp;
 		}
 		hpIcon.paintIcon(c,g,x,y);
