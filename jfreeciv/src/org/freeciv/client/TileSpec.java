@@ -1,5 +1,7 @@
 package org.freeciv.client;
+
 import org.freeciv.common.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Set;
@@ -125,9 +127,20 @@ public class TileSpec implements Constants
     Logger.log( Logger.LOG_VERBOSE, "tilespec file is " + fname );
 
     Registry r = new Registry();
-    if( !r.loadFile( fname ) )
+    try
+    {
+      r.loadFile( fname );
+    }
+    catch (IOException ioe )
     {
       Logger.log( Logger.LOG_FATAL, "Couldn't open \"" + fname + "\"" );
+      Logger.log( Logger.LOG_FATAL, ioe );
+      System.exit( 1 );
+    }
+    catch (RegistryParseException rpe)
+    {
+      Logger.log( Logger.LOG_FATAL, "Error parsing \""+ fname+"\"");
+      Logger.log( Logger.LOG_FATAL, rpe );
       System.exit( 1 );
     }
 
@@ -352,9 +365,20 @@ public class TileSpec implements Constants
       Logger.log( Logger.LOG_DEBUG, "loading spec " + specFilename );
     }
     Registry file = new Registry();
-    if( !file.loadFile( specFilename ) )
+    try
+    {
+      file.loadFile( specFilename );
+    }
+    catch (IOException ioe )
     {
       Logger.log( Logger.LOG_FATAL, "Could not open " + specFilename );
+      Logger.log( Logger.LOG_FATAL, ioe );
+      System.exit( 1 );
+    }
+    catch ( RegistryParseException rpe )
+    {
+      Logger.log( Logger.LOG_FATAL, "Failed to parse "+ specFilename );
+      Logger.log( Logger.LOG_FATAL, rpe );
       System.exit( 1 );
     }
     checkCapabilities( file, "spec", SPEC_CAPSTR, specFilename );
