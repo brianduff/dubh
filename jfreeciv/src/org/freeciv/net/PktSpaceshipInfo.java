@@ -4,24 +4,25 @@ import org.freeciv.common.CommonConstants;
 
 public class PktSpaceshipInfo extends AbstractPacket implements CommonConstants
 {
-  int player_num;
-  int sship_state;
-  int structurals;
-  int components;
-  int modules;
-  boolean[] structure = new boolean[ NUM_SS_STRUCTURALS + 1 ];
-  int fuel;
-  int propulsion;
-  int habitation;
-  int life_support;
-  int solar_panels;
-  int launch_year;
-  int population;
-  int mass;
-  float support_rate;
-  float energy_rate;
-  float success_rate;
-  float travel_time;
+  public int player_num;
+  public int sship_state;
+  public int structurals;
+  public int components;
+  public int modules;
+  public boolean[] structure = new boolean[ NUM_SS_STRUCTURALS + 1 ];
+  public int fuel;
+  public int propulsion;
+  public int habitation;
+  public int life_support;
+  public int solar_panels;
+  public int launch_year;
+  public int population;
+  public int mass;
+  public float support_rate;
+  public float energy_rate;
+  public float success_rate;
+  public float travel_time;
+  
   public PktSpaceshipInfo() 
   {
     super();
