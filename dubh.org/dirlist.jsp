@@ -6,7 +6,7 @@
 <%= request.getParameter( "title" ) %>
 </title>
 
-<link rel="stylesheet" href="/styles.css" type="text/css" >
+<link rel="stylesheet" href="/styles.css" type="text/css" />
 
 </head>
 <body>
