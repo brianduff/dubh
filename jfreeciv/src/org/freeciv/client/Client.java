@@ -1,42 +1,15 @@
 package org.freeciv.client;
 
-import java.io.*;
-import javax.swing.*;
-import org.freeciv.tile.*;
-import java.awt.*;
-import org.freeciv.client.dialog.*;
-import org.freeciv.client.ui.*;
-import org.freeciv.client.action.*;
-import org.freeciv.client.ui.util.*;
-
-// Tidied up imports from here onwards
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
+import java.awt.AlphaComposite;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.lang.ref.SoftReference;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-
-import javax.swing.border.TitledBorder;
-
-import org.gjt.abies.SystemInfoPanel; // remove me soon bduff
+import javax.swing.Action;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.freeciv.common.Assert;
 import org.freeciv.common.Factories;
@@ -45,8 +18,11 @@ import org.freeciv.common.Logger;
 import org.freeciv.common.Player;
 import org.freeciv.common.Tile;
 import org.freeciv.common.ErrorHandler;
+import org.freeciv.client.action.AbstractClientAction;
+import org.freeciv.client.action.Actions;
+import org.freeciv.client.dialog.DialogManager;
+import org.freeciv.client.dialog.DlgLogin;
 import org.freeciv.client.handler.ClientPacketDispacher;
-import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import org.freeciv.net.InStream;
 import org.freeciv.net.OutStream;
 import org.freeciv.net.Packet;
@@ -55,6 +31,9 @@ import org.freeciv.net.PktReqJoinGame;
 
 /**
  * This is the main class of Freeciv4J.
+ *
+ * @author Artur Abies
+ * @author Brian Duff
  */
 public class Client implements Constants
 {
@@ -194,11 +173,19 @@ public class Client implements Constants
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int width = (int) (.85 * screenSize.width);
     int height = (int) (.85 * screenSize.height);
+    Dimension dim = new Dimension( width, height );
 
-    m_mainWindow.setSize( new Dimension( width, height ) );
-    m_mainWindow.setLocation(
-      (screenSize.width - width) /2, (screenSize.height - height) /2
-    );
+    int winx = (screenSize.width - width) / 2;
+    int winy = (screenSize.height - height ) / 2;
+
+    // Temporary code so that I can watch TV and code at the same time :)
+    //winx = 0;
+    //winy = 0;
+    //dim = new Dimension( screenSize.width / 2 + 85 , screenSize.height - 75 );
+
+
+    m_mainWindow.setSize( dim );
+    m_mainWindow.setLocation( winx, winy );
 
     m_mainWindow.setVisible( true );
 
