@@ -1,11 +1,12 @@
 package org.freeciv.common;
-import org.freeciv.common.XPMFile;
-import java.io.IOException;
+
 import javax.swing.*;
+
+
 import java.awt.image.MemoryImageSource;
 import java.awt.Image;
 import java.awt.Toolkit;
-
+import java.io.IOException;
 
 /**
  * An image icon that is an XPM image file.
