@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+
+<!-- Copyright (C) 2000 Brian Duff / Dubh.org -->
+
+<projectlist>
+
+  <project name="NewsAgent" href="newsagent/index.xml">
+    <description>
+      <p>
+        NewsAgent is a USENET Newsreader written completely in Java. It was
+        originally my final year project at University, but I later released
+        it as open source and have been working on it on and off for two 
+        years.
+      </p>
+    </description>
+  </project>
+  
+  <project name="Java Utilities" href="dju/index.xml">
+    <description>
+      <p>
+        While developing <a href="newsagent/index.xml">NewsAgent</a>, I had
+        some vague general feeling that keeping stuff which might possibly
+        come in useful for other projects in the future separate from the
+        NewsAgent source code would be a good idea. This general code is
+        DJU (the Dubh Java Utilities).
+      </p>
+      <p>
+        DJU contains a number of useful classes for internationalization, 
+        and funky UI widgets using Swing. The code is really due for a big
+        tidyup any time soon.
+      </p>
+    </description>
+  </project>
+  
+  <project name="Mail Providers" href="dmp/index.xml">
+    <description>
+      <p>
+        <a href="http://www.sun.com">Sun</a> didn't announce JavaMail until
+        well after I had finished the first version of NewsAgent. When JavaMail
+        came along, it seemed like a good idea to try to migrate the hyper
+        dodgy networking code in NewsAgent into a nice generic NNTP provider
+        for JavaMail. This took a little longer than I expected, though :)
+      </p>
+    </description>
+  </project>
+  
+  <project name="JFreeCiv" href="jfreeciv/index.xml">
+    <description>
+      <p>
+        I'm completely addicted to strategy games of any kind. But in
+        particular, I've been playing Civilization in various forms since
+        it first came out on the Atari ST many years ago. 
+      </p>
+      <p>
+        <a href="http://www.freeciv.org">FreeCIV</a> is an open source effort
+        to write a replica of Civilization II. Unfortunately it's in C, and I
+        don't really like C much. ..name goes here.. wrote a Java version, and
+        I'm currently maintaining it...
+      </p>
+    </description>
+  </project>
+  
+  <project name="Dev Tools" href="buildtools/index.xml">
+    <description>
+      <p>
+        It can be a bit of a pain to build all these projects using disparate
+        build systems. Javac is great, but it's just a compiler. To get cool
+        automated build systems running or distribute scripts that build your
+        project with the code can sometimes involve writing makefiles or batch/
+        shell scripts.
+      </p>
+      <p>
+        Someone pointed me in the direction of the Apache Jakarta Ant project,
+        just as I was really getting into XML properly. This neatly solved most
+        of my problems. The really nice thing was, I could solve all the other
+        problems, because the authors of Ant made it really easy to hook into.
+        Hence, Dubh Dev Tools are a bunch of "Task"s for Ant, as well as some
+        other useful stuff for building the projects on this site.
+      </p>
+    </description>
+  </project>
+  
+  <project name="EWatcher" href="ewatcher/index.xml">
+    <description>
+      <p>
+        EWatcher is an attempt to define a Java framework for push technology.
+        My original idea was that I'd like to have a ticker-tape-esque application
+        running on my desktop, which was capable of receiving events from a number
+        of sources (e.g. email with a certain subject / sender, updates to web
+        pages, clock events, file changes on the network etc.) and displaying
+        these prioritized in the ticker.
+      </p>
+    </description>
+  </project>
+  
+  <project name="JDav" href="jdav/index.xml">
+    <description>
+      <p>
+        Something I'm doing at work involves <a href="http://www.webdav.org">
+        WebDAV</a>, so I did a little research into it. Then in a furious few 
+        hours coding, I wrote a Java client API for accessing WebDAV resources
+        in a convenient way. I did this at home, rather than at work, so it's
+        all open source, and I'll probably develop it further.
+      </p>
+    </description>
+  </project>
+
+
+</projectlist>

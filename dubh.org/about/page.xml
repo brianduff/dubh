@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+
+<sectionedpage>
+
+  <section id="top" name="What is Dubh.Org?">
+    <html>
+      <p>
+        Dubh.Org is a web server which is mostly dedicated to
+        the development and support of several open source <a
+        href="../projects/index.xml">projects</a> that are hosted on
+        this site.
+      </p>
+      <p>
+        The server is maintained by <a href="../brian/index.xml">
+        Brian Duff</a>. My surname, which has some unfortunate meanings
+        in Northern English slang, as well as being the drink particularly
+        favoured by Homer Simpson &amp; chums is actually derived from the Gaelic
+        Dubh, meaning black. It seemed like a pretty cool name for a web
+        site and no-one else was using it, so I grabbed as many domains
+        involving dubh as possible...
+      </p>
+      <p>
+        This site is a highly evolved version of my homepage, which has been
+        around on the web since about 1994. 
+      </p>
+    </html>
+  </section>
+  
+  <section id="hardware" name="Hardware">
+    <html>
+      <p>
+        Dubh.Org runs on a Cobalt RAQ3 dedicated server running Linux. It
+        has about 64Mb of memory and a pretty large hard disk. I'm actually
+        renting the server from <a href="http://www.uk2net.com">UK2NET.com</a>,
+        whom I heartily recommend if, like me, you want to use up to date 
+        technologies like servlets and xml, but your ISP doesn't allow this
+        kind of thing on their web servers.
+      </p>
+      <p>
+        I mostly develop the site on my Dell Inspiron 7500 laptop at home. Again,
+        I'd recommend <a href="http://www.dell.com">Dell</a> to anyone, my 
+        experiences with the laptop have been nothing but joyous (yes, I'm a sad
+        git).
+      </p>
+    </html>
+  </section>
+  
+  <section id="software" name="Software">
+    <html>
+      <p>
+        <i>Evil Grin...</i> As much as humanly possible, this site is written
+        using XML. I'm using <a href="http://xml.apache.org">Apache Cocoon</a> as
+        a web development framework, which allows me write content in XML which
+        is rendered to HTML using XML Transformations (XSLT). 
+      </p>
+      <p>
+        Cocoon uses the <a href="http://jakarta.apache.org">Tomcat</a> servlet
+        engine to work. Both these technologies are written in <a 
+        href="http://java.sun.com">Java</a>, which is very quickly becoming <i>
+        the</i> language for server side development.
+      </p>
+      <p>
+        I'm also making use of the XSP technology that comes as part of Cocoon.
+        This works a bit like ASP or JSP, allowing you to embed server logic
+        in your HTML code. However, XSP is completely XML based, and results in
+        much cleaner code as a result.
+      </p>
+      <p>
+        All of this may seem like overkill, but it's not. Honest. These
+        technologies allow you to separate content from presentation. Anyone
+        who has developed a web page knows how much of a pain it can be to 
+        preserve the content and change the appearance or style of a page. I
+        can do this really easily by modifying the transforming stylesheets; the
+        XML files that contain the content of the site don't even have to be
+        modified. Likewise, if I need to add or modify content, I don't need
+        to plough through large amounts of formatting code to get to the Real
+        Stuff.
+      </p>
+    </html>
+  </section>
+  
+  <section id="othersites" name="Hosted Sites">
+    <html>
+      <p>
+        I'm hosting a few other sites on this server. I'm happy to do this
+        for people I know who need more space for web pages or want to
+        play with neato technologies on their pages.
+      </p>
+      <p>
+        <b><a href="http://www.betterbites.co.uk">Better Bites</a></b> is
+        the sandwich shop owned by my parents. I wrote a wee web page for them.
+      </p>
+      <p>
+        <b><a href="http://www.leapingfrogs.com">Leaping Frogs</a></b> is
+        a site owned by a mate of mine from University.
+      </p>
+    </html>
+  </section>
+
+</sectionedpage>

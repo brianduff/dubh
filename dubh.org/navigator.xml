@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<!-- Copyright (C) 2000 Brian Duff / Dubh.Org -->
+<!-- The navigator for the toplevel Dubh.Org -->
+
+
+<navigator 
+  title="Dubh.Org"
+  titleimg="/images/dubh.org.tiny.gif" 
+  bgimg="/images/dubh.codebg_green.gif">
+
+  
+  
+
+  <group>
+    <entry id="home" title="Home" href="/index.xml" />
+  </group>
+  
+  <group>
+    <entry id="projects" title="Projects" href="/projects/index.xml">
+      <entry id="newsagent" title="NewsAgent" href="/projects/newsagent/index.xml" />
+      <entry id="dju" title="Java Utilities" href="/projects/dju/index.xml" />
+      <entry id="dmp" title="Mail Providers" href="/projects/dmp/index.xml" />
+      <entry id="jfreeciv" title="JFreeCiv" href="/projects/jfreeciv/index.xml" />
+      <entry id="buildtools" title="Dev Tools" href="/projects/buildtools/index.xml" />
+      <entry id="ewatcher" title="EWatcher" href="/projects/ewatch/index.xml" />
+      <entry id="jdav" title="JDav" href="/projects/jdav/index.xml" />
+    </entry>
+  </group>
+  
+  <group>  
+    <entry id="dnet" title="DubhNET" href="net/index.html">
+      <entry id="music" title="Music" href="net/music/index.html" />
+      <entry id="brian" title="Brian" href="net/brian/index.html" />
+    </entry>
+  </group>
+  
+  <group>
+    <entry id="dtech" title="DubhTECH" href="tech/index.html">
+      <entry id="xml" title="XML" href="tech/xml/index.html" />
+      <entry id="swing" title="Java Swing" href="tech/swing/index.html" />
+      <entry id="servlet" title="Java Servlets" href="tech/servlet/index.html" />
+      <entry id="scm" title="SCM" href="tech/scm/index.html" />
+    </entry>
+  </group>
+  
+  <group>
+    <entry id="dtalk" title="DubhTALK" href="talk/index.html" />
+  </group>
+  
+  <group>
+    <entry id="about" title="About Dubh.Org" href="/about/index.xml" />
+  </group>
+  
+  <group>
+    <entry id="bb" title="Better Bites" href="http://www.betterbites.co.uk" />
+    <entry id="lf" title="Leaping Frogs" href="http://www.leapingfrogs.com" />
+    <entry id="raqfaq" title="RAQ FAQ" href="http://www.raqfaq.org" />
+  </group>
+  
+</navigator>
