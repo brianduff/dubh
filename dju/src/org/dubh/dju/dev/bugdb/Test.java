@@ -1,3 +1,5 @@
+package dubh.utils.dev.bugdb;
+
 import java.sql.*;
 import postgres.util.UnixCrypt;
 
