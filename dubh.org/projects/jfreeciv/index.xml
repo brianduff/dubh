@@ -39,9 +39,9 @@
     <h2>Development</h2>
     
     <p>
-      The freeciv java port was originally developed by Artur Abies, I spent a
-      furious couple of weeks hacking the source to attempt to upgrade it to 
-      support Freeciv 1.10.0 about a year ago, which resulted in rewriting
+      The freeciv java port was originally developed by Artur Biesiadowski, 
+      I spent a furious couple of weeks hacking the source to attempt to upgrade
+      it to support Freeciv 1.10.0 about a year ago, which resulted in rewriting
       various parts of the client and networking code. It has never been in
       an entirely playable state.
     </p>
@@ -127,13 +127,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-10-29 16:42:06 $
+      $Date: 2001-10-31 23:32:32 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.5 $
+      $Revision: 1.6 $
     </revision>
   </cvs-info>  
   
