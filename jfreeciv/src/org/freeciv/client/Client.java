@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.AlphaComposite;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
@@ -56,11 +59,11 @@ public class Client implements Constants
   private InStream in;
   private OutStream out;
   // The name of the server.
-  private String server;
+  private String m_serverHost;
   // Server port number
-  private int port;
-  // ??
-  private String name;
+  private int m_serverPort;
+  // The username the user is connected using
+  private String m_userName;
   // BD: redundant?
   private boolean alive = true;
   // The current state of the client.
@@ -300,13 +303,11 @@ public class Client implements Constants
   {
     unitActions.add( act );
   }
+  
   public void updateOrdersMenu( Unit u )
   {
-
-
-
-  // BD: Does this logic go here?
   }
+  
   /**
    * Display the login dialog, wait for it to return, connect
    * to the server and attempt to join the game.
@@ -315,21 +316,15 @@ public class Client implements Constants
   {
     DlgLogin dlg = getDialogManager().getLoginDialog();
     dlg.display();
-    if( dlg.isOK() )
+
+    if ( !isConnected() )
     {
-      in = new InStream( dlg.getInputStream() );
-      out = new OutStream( dlg.getOutputStream() );
-      server = dlg.getServerName();
-      port = dlg.getPortNumber();
-      name = dlg.getUserName();
-    }
-    else
-    {
-      getMainWindow().setVisible( false ); // ?
+      getMainWindow().setVisible( false );
       return 0;
     }
+
     joinGame();
-    // Redundant?
+
     return 1;
   }
   /**
@@ -362,7 +357,7 @@ public class Client implements Constants
   private boolean joinGame()
   {
     PktReqJoinGame prjg = new PktReqJoinGame();
-    prjg.name = name;
+    prjg.name = m_userName;
     prjg.majorVer = majorVer;
     prjg.minorVer = minorVer;
     prjg.patchVer = patchVer;
@@ -448,28 +443,49 @@ public class Client implements Constants
   {
     return m_bConnected;
   }
+  
   /**
-   * Sets the connected flag. THIS DOESN'T ACTUALLY CONNECT
-   * OR DISCONNECT, AND SHOULD PROBABLY NOT BE PUBLIC.
+   * Sets the connected flag.
    */
-  public synchronized void setConnected( boolean b )
+  private synchronized void setConnected( boolean b )
   {
     m_bConnected = b;
-    if( !b )
-    {
-      disconnect();
-    }
+    getAction( "ACTDisconnect" ).setEnabled( b );
   }
+
+  /**
+   * Connect to the specified host and port
+   * 
+   * @param host the host to connect to 
+   * @param port the port to connect to
+   */
+  public synchronized void connect( String username, String host, int port )
+    throws IOException
+  {
+    Socket civserver = new Socket( host, port );
+    
+    InputStream input = civserver.getInputStream();
+    OutputStream output = civserver.getOutputStream();
+
+    in = new InStream( input );
+    out = new OutStream( output );
+
+    setConnected(true);
+    m_userName = username;
+  }
+
+  /**
+   * Actually disconnect
+   */
   public synchronized void disconnect()
   {
-    try
-    {
-      sendMessage( "remove "+ name );   // Should it remove the player? Make it
-                                        // ai?  JR
-      out.close();
-      in.close();
-    }
-    catch( Exception e ) { e.printStackTrace(); }
+
+    sendMessage( "remove "+ m_userName );// Should it remove the player? Make it
+                                    // ai?  JR
+    out.close();
+    in.close();
+
+    setConnected( false );
   }
   /**
    * The runnable object that receives incoming packets from the server.
