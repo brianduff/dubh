@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
+
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
+
+
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>NewsAgent: Downloads</title>
+  
+  <navigator>
+    <xsql:include-xsql href="navigator.xml?me=downloads" />
+  </navigator>  
+  
+  <content>
+    <h1>NewsAgent Downloads</h1>
+    
+    <p>
+      NewsAgent is in the process of being moved from the 
+      <a href="http://wired.st-and.ac.uk/~briand/newsagent/">
+      old server</a>. 
+    </p>
+  </content>
+  
+</dubhpage>

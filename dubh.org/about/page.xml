@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-
+<?xml-stylesheet type="text/xsl" href="/xsl/sectionedpage.xsl" ?>
 
 <sectionedpage>
 
@@ -13,16 +13,14 @@
       </p>
       <p>
         The server is maintained by <a href="../brian/index.xml">
-        Brian Duff</a>. My surname, which has some unfortunate meanings
-        in Northern English slang, as well as being the drink particularly
-        favoured by Homer Simpson &amp; chums is actually derived from the Gaelic
-        Dubh, meaning black. It seemed like a pretty cool name for a web
-        site and no-one else was using it, so I grabbed as many domains
-        involving dubh as possible...
+        Brian Duff</a>. My surname, as well as being the drink particularly
+        favoured by Homer Simpson &amp; chums is actually derived from the 
+        Gaelic <i>dubh</i>, meaning black. It seemed like as good a name
+        as any for a web site and no-one else was using it, so here we are...
       </p>
       <p>
-        This site is a highly evolved version of my homepage, which has been
-        around on the web since about 1994. 
+        This site is an "evolved" version of my homepage, which has been
+        around since the glorious early web days of mid 1994. 
       </p>
     </html>
   </section>
@@ -30,18 +28,21 @@
   <section id="hardware" name="Hardware">
     <html>
       <p>
-        Dubh.Org runs on a Cobalt RAQ3 dedicated server running Linux. It
-        has about 64Mb of memory and a pretty large hard disk. I'm actually
-        renting the server from <a href="http://www.uk2net.com">UK2NET.com</a>,
-        whom I heartily recommend if, like me, you want to use up to date 
-        technologies like servlets and xml, but your ISP doesn't allow this
-        kind of thing on their web servers.
+        Dubh.Org runs on a Cobalt RAQ3 dedicated server with a T1 connection
+        running Cobalt's
+        slightly modified version of Red Hat Linux.  I'm
+        renting the server from <a href="http://www.powerraq.com">UK2NET</a>,
+        whom I heartily recommend if, like me, you want to mess about with
+        up to date technologies like servlets and xml, but your ISP doesn't
+        allow this kind of thing on their web servers.
       </p>
       <p>
-        I mostly develop the site on my Dell Inspiron 7500 laptop at home. Again,
-        I'd recommend <a href="http://www.dell.com">Dell</a> to anyone, my 
-        experiences with the laptop have been nothing but joyous (yes, I'm a sad
-        git).
+        I divide development of this site at home between my main PC
+        (a 1GHz PIII Dell Dimension 4100 with 256Mb) and my slightly punier
+        650MHz PIII Dell Inspiron 7500 laptop. OK, So I'm showing off. These
+        numbers won't be so impressive in about a years time when I next edit
+        this page :). Again, <a href="http://www.dell.com">Dell</a> did a 
+        great job with both computers.
       </p>
     </html>
   </section>
@@ -49,34 +50,48 @@
   <section id="software" name="Software">
     <html>
       <p>
-        <i>Evil Grin...</i> As much as humanly possible, this site is written
-        using XML. I'm using <a href="http://xml.apache.org">Apache Cocoon</a> as
-        a web development framework, which allows me write content in XML which
-        is rendered to HTML using XML Transformations (XSLT). 
+        I use the <b>Oracle XSQL Servlet</b>,  <b>Oracle XSLT
+        Transformer</b> and <b>Oracle XML Parser</b>
+        to dynamically transform <b>XML</b> documents on the
+        server. This technology lets me just define the content for each
+        page in XML, and dynamically build up all the other stuff (heading, 
+        footer, navigator etc.), the layout and the style.
       </p>
+      
       <p>
-        Cocoon uses the <a href="http://jakarta.apache.org">Tomcat</a> servlet
-        engine to work. Both these technologies are written in <a 
-        href="http://java.sun.com">Java</a>, which is very quickly becoming <i>
-        the</i> language for server side development.
-      </p>
+        The XSQL servlet is also used to pull data out of the 
+        <b>MySQL</b> database I have on my server in XML format and
+        transform it to readable <b>HTML</b>. (I'd use Oracle, but 
+        trying to upload it to my server would be immensely time consuming, 
+        and MySQL came preinstalled on the RAQ. Then there are the licensing
+        issues...). 
+      </p>        
+        
       <p>
-        I'm also making use of the XSP technology that comes as part of Cocoon.
-        This works a bit like ASP or JSP, allowing you to embed server logic
-        in your HTML code. However, XSP is completely XML based, and results in
-        much cleaner code as a result.
+        The XSQL Servlet relies on <b>servlets</b> and <b>JDBC</b>, two
+        integral components of <b>Java 2 Enterprise Edition</b>. The 
+        <b>Tomcat Servlet Engine</b> is a key technology - a cleanly
+        implemented, open source servlet engine, which is now the
+        reference servlet implementation for Java 2 EE. The 
+        <b>Apache Web Server</b> is used to serve static content.
       </p>
+      
       <p>
-        All of this may seem like overkill, but it's not. Honest. These
-        technologies allow you to separate content from presentation. Anyone
-        who has developed a web page knows how much of a pain it can be to 
-        preserve the content and change the appearance or style of a page. I
-        can do this really easily by modifying the transforming stylesheets; the
-        XML files that contain the content of the site don't even have to be
-        modified. Likewise, if I need to add or modify content, I don't need
-        to plough through large amounts of formatting code to get to the Real
-        Stuff.
+        For the online CVS browser, I'm using the <b>JCVS Servlet</b>. 
+        I'm a great believer in <b>SCM</b>, so everything (including all
+        the pages and configurations for this web site) is in a
+        <b>CVS repository</b> on this server.
       </p>
+      
+      <p>
+        Any servlets I develop myself, and any other Java code I write
+        for the site is currently developed using 
+        <b>Oracle JDeveloper 3.2.2</b> (I work on the development team
+        at Oracle for this product). In a few weeks time, I'll probably
+        switch over to the first internal alpha of <b>JDeveloper 9i</b>, 
+        the new all-Java IDE that's under development at Oracle.
+      </p>
+     
     </html>
   </section>
   
@@ -84,7 +99,7 @@
     <html>
       <p>
         I'm hosting a few other sites on this server. I'm happy to do this
-        for people I know who need more space for web pages or want to
+        for people I can trust who need more space for web pages or want to
         play with neato technologies on their pages.
       </p>
       <p>

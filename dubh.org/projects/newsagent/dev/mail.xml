@@ -6,15 +6,18 @@
 
 <dubhpage xmlns:xsql="urn:oracle-xsql">
   
-  <title>Dubh.Org: DJU</title>
+  <title>NewsAgent: CVS Repository</title>
   
   <navigator>
-    <xsql:include-xsql href="/navigator.xml?me=dju" />
+    <xsql:include-xsql href="../navigator.xml?me=maillists" />
   </navigator>  
   
   <content>
-    <h1>Dubh.Org: DJU</h1>
-    <xsql:include-xsql href="page.xml" />
+    <h1>NewsAgent: Mailing Lists</h1>
+    
+    <p>
+      Under construction
+    </p>
   </content>
   
 </dubhpage>

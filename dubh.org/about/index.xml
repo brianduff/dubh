@@ -1,39 +1,20 @@
 <?xml version="1.0"?>
-<?cocoon-process type="xsp"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/dubhpage.xsl" ?>
 
-<!-- Copyright (C) 2000 Brian Duff / Dubh.Org -->
+<!-- Copyright (C) 2000, 2001 Brian Duff / Dubh.Org -->
 
 
-<xsp:page 
-  language="java"
-  xmlns:xsp="http://www.apache.org/1999/XSP/Core"
-  xmlns:dtl="http://www.dubh.org/2000/DubhTagLib"  
->
-  <html>
-    <head>
-      <title>Dubh.org: About</title>
-    </head>
-    <body>
-      <table width="100%" border="0">
-        <tr>
-          <td valign="top">
-            <dtl:apply-xslt xmlfile="../navigator.xml" 
-              xslfile="../xsl/navigator.xsl" 
-              params="me='about'"
-            />
-          </td>
-          <td valign="top" width="100%">
-            
-            <p align="center">
-              <font size="+2" face="tahoma,sans-serif"><b>About</b></font><br/>
-              <img src="/images/dubh.org.small.gif" />
-            </p>
-            <p>
-              <dtl:apply-xslt xmlfile="page.xml" xslfile="../xsl/sectionedpage.xsl" />
-            </p>
-          </td>
-        </tr>
-      </table>
-    </body>
-  </html>
-</xsp:page>
+<dubhpage xmlns:xsql="urn:oracle-xsql">
+  
+  <title>Dubh.Org: About</title>
+  
+  <navigator>
+    <xsql:include-xsql href="../navigator.xml?me=about" />
+  </navigator>  
+  
+  <content>
+    <h1>About Dubh.Org</h1>
+    <xsql:include-xsql href="page.xml" />
+  </content>
+  
+</dubhpage>
