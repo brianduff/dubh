@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.Icon;
 import org.freeciv.net.*;
-import org.freeciv.tile.*;
+
 //// For test harness
 import javax.swing.*;
 import java.awt.BorderLayout;
