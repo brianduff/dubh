@@ -1,6 +1,5 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
 <!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
-<?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
    <defaultPackage>org.freeciv.client</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
@@ -609,9 +608,6 @@
          <URL path="src/org/freeciv/client/Colors.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java" id="0"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/CivMap.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -809,6 +805,21 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/MultiLineTableHeaderRenderer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/MultiLineHeaderJTable.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Client.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>
@@ -834,7 +845,7 @@
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber id="1">1.3.1</jdkVersionNumber>
+                        <jdkVersionNumber id="0">1.3.1</jdkVersionNumber>
                         <libraries>JDeveloper Runtime</libraries>
                      </Value>
                   </Item>
@@ -936,7 +947,7 @@
                         <programArguments class="java.lang.String"/>
                         <runActiveFile>true</runActiveFile>
                         <runDirectoryURL/>
-                        <targetURL idref="0"/>
+                        <targetURL/>
                         <useProxy>false</useProxy>
                      </Value>
                   </Item>
@@ -1011,7 +1022,7 @@
                      <Key>oracle.jdevimpl.config.JProjectLibraries</Key>
                      <Value class="oracle.jdevimpl.config.JProjectLibraries">
                         <jdkName>1.3.1</jdkName>
-                        <jdkVersionNumber idref="1"/>
+                        <jdkVersionNumber idref="0"/>
                         <libraries class="java.lang.String"/>
                      </Value>
                   </Item>

@@ -52,19 +52,19 @@ public class Player implements GameObject, CommonConstants
   private HashMap m_units;
 
   private ArrayList m_cities;
-  
+
   /**
    * The constructor is package protected: only the player factory instantiates
    * players
    */
-  Player(GameObjectFactory playerFactory) 
+  Player(GameObjectFactory playerFactory)
   {
     m_connections = new ArrayList();
     m_playerFactory = playerFactory;
     m_economy = new Economy();
-    m_diplomacyState = 
+    m_diplomacyState =
       new DiplomacyState[ MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ];
-    m_worklists = 
+    m_worklists =
       new WorkList[ MAX_NUM_WORKLISTS ];
     m_research = new Research();
     m_ai = new AI();
@@ -93,13 +93,14 @@ public class Player implements GameObject, CommonConstants
    *
    * @param id the city id
    * @return the specified City, if it belongs to this player, or null
-   *  if the specified city id doesn't exist, or does not belong to this 
+   *  if the specified city id doesn't exist, or does not belong to this
    *  player.
    */
   public City getCity( int id )
   {
-//    City c = City.findById( id ); //no good! see below
-    City c = null; //temp
+
+    City c = City.findById( id );
+
     if ( c != null && ( c.getOwner() == this ) )
     {
       return c;
@@ -112,7 +113,7 @@ public class Player implements GameObject, CommonConstants
    *
    * @param id the city id
    * @return the specified City, if it belongs to this player, or null
-   *  if the specified city id doesn't exist, or does not belong to this 
+   *  if the specified city id doesn't exist, or does not belong to this
    *  player.
    * @deprecated use getCity( int ) instead.
    */
@@ -195,17 +196,17 @@ public class Player implements GameObject, CommonConstants
   {
 
   }
-  
+
   public int getId()
   {
     return getPlayerNumber();
   }
-  
+
   public int getPlayerNumber()
   {
     return m_playerNumber;
   }
-  
+
   public void setPlayerNumber( int number )
   {
     m_playerNumber = number;
@@ -288,7 +289,7 @@ public class Player implements GameObject, CommonConstants
 
   public CityStyle getCityStyle()
   {
-    return (CityStyle) 
+    return (CityStyle)
       m_playerFactory.getParent().getCityStyleFactory().findById( m_cityStyle );
   }
 
@@ -434,12 +435,12 @@ public class Player implements GameObject, CommonConstants
     });
 
     return m_foundCity;
-    
+
   }
 
 
 
-  
+
 
   public static final class Economy
   {
@@ -494,7 +495,7 @@ public class Player implements GameObject, CommonConstants
     private int m_researched;
     private int m_researchPoints;
     private int m_currentlyResearching;
-    private boolean[] m_hasInvention; 
+    private boolean[] m_hasInvention;
 
     private Research()
     {
