@@ -10,52 +10,22 @@ import java.awt.Point;
  * @author Brian Duff
  * @author Luke Lindsay
  */
-interface Painter 
-{
-  /**
-   * Paint the background map at the specified location into the specified
-   * graphics context
-   *
-   * @param g the graphics context to paint into
-   * @param x the pixel offset horizontally to start painting from
-   * @param y the pixel offset vertically to start painting from
-   * @param w the pixel width to paint
-   * @param h the pixel height to paint
-   */
-  public void paintBackground( Graphics g, int x, int y, int width, int height );
+interface Painter {
+    /**
+     * Updates the cached icon of the tile at specified map location if it is
+     * cached.  Use to prevent the offscreen buffer becoming out of sync with the map.
+     * Note, Painter.paint(..) must
+     * be called before the result of the update is seen.
+     *
+     * @param mapCoord the map (tile) co-ordinates of the tile to update
+     */
+    public void updateTile(Point mapCoord);
 
-  /**
-   * Update the tile at the specified map location (?)
-   *
-   * @param mapCoord the map (tile) co-ordinates of the tile to update
-   */
-  public void updateTile( Point mapCoord );
-
-  /**
-   * Refresh the entire background
-   */
-  public void refreshBackground();
-
-  /**
-   * Paint the buffer rectangle??
-   */
-  public void paintBufferRectangle( int x, int y, int width, int height );
-
-  /**
-   * Set the size of the background buffer
-   * 
-   * @param width the new width of the background buffer
-   * @param heigh the new height of the background buffer
-   */
-  public void setBackgroundBufferSize( int width, int height );
-
-  /**
-   * Paint the background buffer into the output graphics context.
-   *
-   * @param outGraphics the output graphics context
-   * @param visibleRect the current visible rectangle.
-   */
-  public void paint( Graphics outGraphics, Rectangle visibleRect );
-  
-  
+    /**
+     * Paint the offscreen buffer into the output graphics context.
+     *
+     * @param outGraphics the output graphics context
+     * @param visibleRect the current visible rectangle.
+     */
+    public void paint(Graphics outGraphics, Rectangle visibleRect);
 }
