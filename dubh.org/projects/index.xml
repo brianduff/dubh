@@ -17,4 +17,6 @@
     <xsql:include-xsql href="projectlist.xml" />
   </content>
   
+  <cvs-info redirect="../projects/projectlist.xml" />
+  
 </dubhpage>
