@@ -2,9 +2,12 @@ package org.freeciv.client.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -32,6 +35,8 @@ public final class MapOverview extends JComponent
 
   private Icon m_introFile;
 
+  private Font m_font;
+
   // The radar.xpm image is 160x100. The default size of the minimap is
   // half this.
   private static final int DEFAULT_WIDTH = 80;  // Change to 80
@@ -44,6 +49,8 @@ public final class MapOverview extends JComponent
     m_client = c;
     setMapDimensions( DEFAULT_WIDTH, DEFAULT_HEIGHT );
     m_introFile = c.getTileSpec().getImage( "minimap_intro_file" );
+
+    m_font =  new Font( "sansserif", Font.BOLD, 13 ) ;
   }
 
   private Client getClient()
@@ -100,11 +107,17 @@ public final class MapOverview extends JComponent
     g.drawString( str, x, y );
   }
 
+  
+
   /**
    * Actually paint the map overview component
    */
   public void paintComponent( Graphics g )
   {
+    // experimental
+    ((Graphics2D)g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, 
+      RenderingHints.VALUE_ANTIALIAS_ON );
+  
     if ( !isDrawingEnabled() )
     {
       // Draw the freeciv small intro screen.
@@ -112,8 +125,9 @@ public final class MapOverview extends JComponent
 
       // We should probably use TextLayout here, but I can't figure out
       // how to center text.
-      FontMetrics fm = g.getFontMetrics( getFont() );
+      FontMetrics fm = g.getFontMetrics( m_font );
       g.setColor( Color.white );
+      g.setFont( m_font );
 
       String lastLine = "version "+m_client.APP_VERSION;
       String javaed = "Java Edition";
@@ -133,6 +147,8 @@ public final class MapOverview extends JComponent
     }
     else
     {
+
+    
       int mapWidth = m_client.getGame().getMap().getWidth();
       int mapHeight = m_client.getGame().getMap().getHeight();
       int upperLeftX = 0;
