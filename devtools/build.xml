@@ -1,0 +1,88 @@
+<!-- $Id: build.xml,v 1.1 2000-08-20 20:22:45 briand Exp $ -->
+  
+<project name="devtools" default="all" basedir=".">
+  <target name="init">
+    <tstamp/>
+    
+    <echo message="Devtools Build Started at ${TODAY} ${TSTAMP}" />
+    
+    <property name="product" value="Dubh Development Tools" />
+    <property name="version" value="1.0" />
+    
+    <property name="cvsmodule" value="devtools" />
+    <property name="srcdir" value="${cvsmodule}/src" />
+    <property name="classdir" value="${cvsmodule}/class" />
+    <property name="jardir" value="${cvsmodule}/lib" />
+    <property name="jarfile" value="${jardir}/${cvsmodule}-${version}.jar" />
+    <property name="cvsroot" value="/usr/local/cvsroot" />
+    <property name="classpath" value="${cvsmodule}/lib/ant.jar" />
+    <property name="snapshot" value="${cvsmodule}/src.zip" />
+    <property name="docdir" value="${cvsmodule}/doc" />    
+    <property name="javadocdir" value="${docdir}/api" />
+    <property name="javadocpkg" value="org.dubh.tool.*" />
+    <property name="javadoctitle" value="${product} ${version}" />
+  </target>
+  
+  
+  <!-- Pull source code from CVS and set up initial dirs -->
+  <target name="pullsrc" depends="init">
+    <cvs  cvsRoot="${cvsroot}"
+          command="export"
+          package="${cvsmodule}"
+          dest="."
+          date="now"
+          quiet="true"
+          failonerror="true"
+    />
+      
+      
+  </target>
+  
+  <!-- Compile all source code -->
+  <target name="src" depends="pullsrc">
+    <mkdir dir="${classdir}" />
+    <javac  srcdir="${srcdir}"
+            destdir="${classdir}"
+            classpath="${classpath}">
+    </javac>            
+  </target>
+
+  <!-- Create the JAR file -->
+  <target name="jar" depends="src">
+    <mkdir dir="${jardir}" />
+    <jar  jarfile="${jarfile}" basedir="${classdir}" />
+  </target>
+
+  <!-- Create a source code snapshot -->
+  <target name="src-snapshot" depends="src">
+    <zip  zipfile="${snapshot}" 
+          basedir="${srcdir}" />
+  </target>
+
+  <!-- Create javadoc -->
+  <target name="javadoc" depends="pullsrc">
+    <mkdir dir="${javadocdir}" />
+
+    <javadoc  sourcepath="${srcdir}"
+              destdir="${javadocdir}"
+              author="true"
+              version="true"
+              use="true"
+              windowtitle="${javadoctitle}"
+              doctitle="&lt;h1&gt;${javadoctitle}&lt;/h1&gt;"
+              packagenames="${javadocpkg}"
+    />
+  </target>
+
+  <!-- The all target -->
+  <target name="all" depends="jar,src-snapshot" />
+
+  <!-- The clean target obliterates all traces of the module from the build dir -->
+  <target name="clean" depends="init">
+    <deltree dir="${cvsmodule}" />
+  </target>
+
+  <!-- The distrib target creates a distribution of the module and zips it up -->
+
+  
+</project>
