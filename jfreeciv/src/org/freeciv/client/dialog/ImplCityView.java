@@ -14,7 +14,7 @@ import org.freeciv.common.CommonConstants;
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.ui.util.*;
-import org.freeciv.net.WorkList;
+import org.freeciv.client.action.*;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktCityRequest;
 
@@ -23,10 +23,11 @@ import org.freeciv.net.PktCityRequest;
  * 
  * @author Ben Mazur
  */
-class ImplCityView extends VerticalFlowPanel 
-  implements DlgCityView, CommonConstants, PacketConstants
+public class ImplCityView extends VerticalFlowPanel 
+  implements DlgCityView, CommonConstants, Constants, PacketConstants
 {
-  public static final int     VISIBLE_LIST_ROWS = 12;
+  private static final int VISIBLE_LIST_ROWS = 8;
+  private static final int NUM_TILES_HP_BAR = 11;
   
   private VerticalFlowPanel m_panMain = new VerticalFlowPanel();
   // main panel stuff
@@ -199,6 +200,7 @@ class ImplCityView extends VerticalFlowPanel
     // building list
     m_lisBuildings.setListData( new String[] { "building", "building", "etc." } );
     m_lisBuildings.setVisibleRowCount( 6 );
+    m_lisBuildings.setPrototypeCellValue( "Really Long Building Name" );
     m_butSellBuilding.addActionListener( new ActionListener() 
     {
       public void actionPerformed( ActionEvent e )
@@ -373,8 +375,11 @@ class ImplCityView extends VerticalFlowPanel
    */
   public void updateUnitDisplays()
   {
-    m_cudPresent.updateFromIterator( getCity().getPresentUnits() );
-    m_cudSupported.updateFromIterator( getCity().getSupportedUnits() );
+    m_cudPresent.updateFromIterator( 
+      getClient().getGame().getMap().getTile( getCity().getX(), getCity().getY() ).getUnits(),
+      true );  
+    m_cudSupported.updateFromIterator( getCity().getSupportedUnits(),
+                                       false );
     // do NOT exceed width of middle panel
     m_panUnits.setPreferredSize(new Dimension(
             m_panMiddle.getPreferredSize().width,
@@ -384,7 +389,7 @@ class ImplCityView extends VerticalFlowPanel
   /**
    * Updates the whole shebang
    */
-  public void updateView()
+  public void updateAll()
   {
     updateTitle();
     updateCitizens();
@@ -476,12 +481,8 @@ class ImplCityView extends VerticalFlowPanel
   {
     PktCityRequest packet = new PktCityRequest();
     packet.setType( PACKET_CITY_BUY );
-    
     packet.city_id = getCity().getId();
     packet.name = "";
-    packet.worklist = new WorkList();
-    packet.worklist.setName( "" );
-    
     getClient().sendToServer( packet );
   }
   
@@ -493,13 +494,9 @@ class ImplCityView extends VerticalFlowPanel
   {
     PktCityRequest packet = new PktCityRequest();
     packet.setType( PACKET_CITY_SELL );
-    
     packet.city_id = getCity().getId();
     packet.build_id = buildingId;
     packet.name = "";
-    packet.worklist = new WorkList();
-    packet.worklist.setName( "" );
-    
     getClient().sendToServer( packet );
   }
   
@@ -511,12 +508,8 @@ class ImplCityView extends VerticalFlowPanel
   {
     PktCityRequest packet = new PktCityRequest();
     packet.setType( PACKET_CITY_RENAME );
-    
     packet.city_id = getCity().getId();
     packet.name = newName;
-    packet.worklist = new WorkList();
-    packet.worklist.setName( "" );
-    
     getClient().sendToServer( packet );
   }
   
@@ -535,7 +528,7 @@ class ImplCityView extends VerticalFlowPanel
     dlg.getContentPane().add( ImplCityView.this, BorderLayout.CENTER );
     m_dialog = dlg;
     
-    updateView();
+    updateAll();
     
     m_dlgManager.showDialog( m_dialog );
   }
@@ -555,7 +548,7 @@ class ImplCityView extends VerticalFlowPanel
    * TODO: show unit health, fortification & shield-use status.
    * TODO: pop-up menu
    */
-  private class CityUnitsDisplay extends JPanel
+  protected class CityUnitsDisplay extends JPanel
   {
     public CityUnitsDisplay()
     {
@@ -566,14 +559,235 @@ class ImplCityView extends VerticalFlowPanel
     /**
      * Clears and adds unit icons 
      */
-    public void updateFromIterator( Iterator iter )
+    public void updateFromIterator( Iterator iter, boolean isPresent )
     {
       this.removeAll();
       while( iter.hasNext() )
       {
         final Unit u = (Unit)iter.next();
-        this.add( new JLabel( u.getSprite() ) );
+        if( isPresent )
+        {
+          this.add( new PresentUnitComponent( u ) );
+        }
+        else
+        {
+          this.add( new SupportedUnitComponent( u ) );
+        }
       }
+    }
+  }
+  
+  /**
+   * Superclass of SupportedUnitComponent & PresentUnitComponent.
+   */
+  public abstract class UnitComponent
+    extends JLabel
+    implements MouseListener
+  {
+    protected Unit m_unit;
+    protected IconStack m_icon;
+    protected JPopupMenu m_popup;
+    
+    public UnitComponent( Unit unit )
+    {
+      super();
+      m_unit = unit;
+      initIcon();
+      initToolTip();
+      initPopup();
+      
+      this.addMouseListener( this );
+    }
+    
+    public  Unit getUnit()
+    {
+      return m_unit;
+    }
+
+    protected void initIcon()
+    {
+      m_icon = new IconStack();
+      
+      m_icon.addIcon( m_unit.getSprite() );
+      
+      if ( m_unit.getActivity() != ACTIVITY_IDLE )
+      {
+        int a = m_unit.getActivity();
+        if ( ACTIVITY_MINE == a )
+          addIcon( "unit.mine" );
+        else if ( ACTIVITY_POLLUTION == a )
+          addIcon( "unit.pollution" );
+        else if ( ACTIVITY_FALLOUT  ==  a )
+          addIcon( "unit.fallout" );
+        else if ( ACTIVITY_PILLAGE == a )
+          addIcon( "unit.pillage" );
+        else if ( ACTIVITY_ROAD == a || ACTIVITY_RAILROAD == a )
+          addIcon( "unit.road" );
+        else if ( ACTIVITY_IRRIGATE == a )
+          addIcon( "unit.irrigate" );
+        else if ( ACTIVITY_EXPLORE == a )
+          addIcon( "unit.explore" );
+        else if ( ACTIVITY_FORTIFIED == a )
+          addIcon( "unit.fortified" );
+        else if ( ACTIVITY_FORTRESS == a )
+          addIcon( "unit.fortress" );
+        else if ( ACTIVITY_FORTIFYING == a )
+          addIcon( "unit.fortifying" );
+        else if ( ACTIVITY_AIRBASE == a )
+          addIcon( "unit.airbase" );
+        else if ( ACTIVITY_SENTRY == a )
+          addIcon( "unit.sentry" );
+        else if ( ACTIVITY_GOTO == a )
+          addIcon( "unit.goto" );
+        else if ( ACTIVITY_TRANSFORM == a )
+          addIcon( "unit.transform" );
+
+      }
+
+      if ( m_unit.getAI().isControlled() )
+      {
+        if ( m_unit.isMilitary() )
+        {
+          addIcon( "unit.auto_attack" );
+        }
+        else
+        {
+          addIcon( "unit.auto_settler" );
+        }
+      }
+
+      if ( m_unit.isConnecting() )
+      {
+        addIcon( "unit.connect" );
+      }
+
+      if ( m_unit.getActivity() == ACTIVITY_PATROL )
+      {
+        addIcon( "unit.patrol" );
+      }
+
+      int ihp = ( ( NUM_TILES_HP_BAR - 1 ) * m_unit.getHitPoints() )  / m_unit.getUnitType().getHitPoints();
+      ihp = clip( 0, ihp, NUM_TILES_HP_BAR - 1 );
+
+      addIcon( "unit.hp_" + ( ihp * 10 ) ); 
+      
+      setIcon( m_icon );
+    }
+    
+    protected int clip(int lower, int thisOne, int upper)
+    {
+      return ( thisOne < lower ? lower : ( thisOne > upper ? upper : thisOne ) );
+    }
+    
+    /**
+     * Adds another icon to the multiicon, specified by key
+     */
+    protected void addIcon( String key )
+    {
+      m_icon.addIcon( getClient().getTileSpec().getImage( key ) );
+    }
+
+    protected void initToolTip()
+    {
+      StringBuffer toolTipBuffer = new StringBuffer();
+      String nationName = m_unit.getOwner().getNation().getName();
+      toolTipBuffer.append( nationName );
+      toolTipBuffer.append( " " );
+      String unitName = m_unit.getUnitType().getName();
+      toolTipBuffer.append( unitName );
+      toolTipBuffer.append( " (" );
+      toolTipBuffer.append( m_unit.getUnitType().getAttackStrength() );
+      toolTipBuffer.append("/");
+      toolTipBuffer.append( m_unit.getUnitType().getDefenseStrength() );
+      toolTipBuffer.append("/");
+      toolTipBuffer.append( m_unit.getUnitType().getMoveRate() );
+      toolTipBuffer.append(")");
+
+      setToolTipText( toolTipBuffer.toString() );
+    }
+    
+    protected abstract void initPopup();
+    
+    protected void addToPopup( Class aClass )
+    {
+      Action a = getClient().getAction( aClass );
+      ActionMenuItem ami = new ActionMenuItem( (AbstractClientAction)a );
+      //m_popup.add( ami );
+      m_popup.add( a );
+    }
+    
+    //
+    // MouseListener
+    //
+    public void mousePressed( MouseEvent e )
+    {
+      maybeShowPopup( e );
+    }
+    public void mouseReleased( MouseEvent e ) 
+    {
+      maybeShowPopup( e );
+    }
+    public void mouseClicked( MouseEvent e ) {}
+    public void mouseEntered( MouseEvent e ) {}
+    public void mouseExited( MouseEvent e ) {}
+    private void maybeShowPopup( MouseEvent e ) {
+      if( e.isPopupTrigger() ) {
+        m_popup.show( e.getComponent(), e.getX(), e.getY() );
+      }
+    }
+  }
+  
+  private class PresentUnitComponent
+    extends UnitComponent
+  {
+    public PresentUnitComponent( Unit unit )
+    {
+      super( unit );
+    }
+    
+    protected void initPopup()
+    {
+      m_popup = new JPopupMenu();
+      
+      addToPopup( UACTActivateUnit.class );
+      addToPopup( UACTActivateCloseDialog.class );
+      addToPopup( UACTSentry.class );
+      addToPopup( UACTFortify.class );
+      addToPopup( UACTDisbandUnit.class );
+      addToPopup( UACTMakeHomeCity.class );
+      addToPopup( UACTUpgrade.class );
+    }
+  }
+  
+  /**
+   * A component to display a supported unit.  Displays the unit icon, with 
+   * the support cost (shield or food) superimposed.
+   */
+  private class SupportedUnitComponent
+    extends UnitComponent
+  {
+    public SupportedUnitComponent( Unit unit )
+    {
+      super( unit );
+      // add upkeep icon(s)      if( unit.getUpkeep() > 0 )      {
+        addIcon( "upkeep.shield" );      }
+      if( unit.getUpkeepFood() == 1 )      {
+        addIcon( "upkeep.food" );      }
+      if( unit.getUpkeepFood() > 1 )      {
+        addIcon( "upkeep.food2" );      }
+      if( unit.getUnhappiness() == 1 )      {
+        addIcon( "upkeep.unhappy" );      }
+      if( unit.getUnhappiness() > 1 )      {
+        addIcon( "upkeep.unhappy2" );      }
+    }
+    
+    protected void initPopup()
+    {
+      m_popup = new JPopupMenu();
+      
+      addToPopup( UACTActivateUnit.class );
+      addToPopup( UACTActivateCloseDialog.class );
+      addToPopup( UACTDisbandUnit.class );
     }
   }
   
@@ -633,7 +847,7 @@ class ImplCityView extends VerticalFlowPanel
   /**
    * A quick class to hold buidings in the building list
    */
-  private class BuildingListItem
+  protected class BuildingListItem
   {
     public int m_id;
     public int m_cost;

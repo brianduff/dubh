@@ -25,7 +25,7 @@ public interface DlgCityView
    * Tells the city view that new city info has been sent and to update
    * accordingly.
    */
-  public abstract void updateView();
+  public abstract void updateAll();
   
   /**
    * Display the dialog. The dialog is modal on the AWT event thread, i.e.
