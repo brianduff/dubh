@@ -251,7 +251,7 @@ public final class City implements CommonConstants
       return ( m_game.getGlobalWonder( id ) != 0 );
     }
 
-    City tmpCity = getOwner().findCityById( 
+    City tmpCity = getOwner().getCity( 
       m_game.getGlobalWonder( id )
     );
 

@@ -108,19 +108,7 @@ public class Player implements GameObject, CommonConstants
     return null;
   }
 
-  /**
-   * Find a city belonging to this player by Id
-   *
-   * @param id the city id
-   * @return the specified City, if it belongs to this player, or null
-   *  if the specified city id doesn't exist, or does not belong to this
-   *  player.
-   * @deprecated use getCity( int ) instead.
-   */
-  public City findCityById( int id )
-  {
-    return getCity( id ); //infinate loop here-somewhere the REAL city has to be called up.
-  }
+
 
   /**
    * Find the city belonging to this player which has a palace (i.e. is the
