@@ -1,51 +1,51 @@
 // ---------------------------------------------------------------------------
-//   Dubh Java Utilities
-//   $Id: StorageManager.java,v 1.5 1999-12-12 01:47:12 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   NewsAgent
+//   $Id: StorageManager.java,v 1.6 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent.nntp;
+
+package org.dubh.apps.newsagent.nntp;
 import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.util.zip.*;
 import javax.swing.ImageIcon;
-import org.javalobby.dju.ui.StatusBar;
+import org.dubh.dju.ui.StatusBar;
 
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.apps.newsagent.dialog.LongOperationDialog;
-import org.javalobby.apps.newsagent.Folder;
-import org.javalobby.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.dialog.LongOperationDialog;
+import org.dubh.apps.newsagent.Folder;
+import org.dubh.apps.newsagent.GlobalState;
 
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.misc.Debug;
 /**
  * Deals with all hard disk storage of messages etc. There is normally only one
  * storage manager, it is initialised at startup, and can be obtained using
  * GlobalState.getStorageManager().<P>
  @author Brian Duff
- @version $Id: StorageManager.java,v 1.5 1999-12-12 01:47:12 briand Exp $
+ @version $Id: StorageManager.java,v 1.6 2001-02-11 02:51:01 briand Exp $
  */
 public class StorageManager {
 
@@ -61,7 +61,7 @@ public class StorageManager {
      deserializeServers();
      // Restore caches from serialised file.
   //   deserializeCaches();
-  } 
+  }
 
   /**
    * Determines all the folders available for storing messages in.
@@ -142,8 +142,8 @@ public class StorageManager {
            if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Creating directory for "+servername);
            serverDir.mkdir();
         }
-        
-        
+
+
      } else {
         if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Server "+servername+" already exists. Not added.");
      }
@@ -224,7 +224,7 @@ public class StorageManager {
      // Disconnect from the server
      NNTPServer theServer = (NNTPServer) nntpServers.get(servername);
      File serverdir = getServerDirectory(theServer);
-     if (serverdir != null && 
+     if (serverdir != null &&
         serverdir.exists() && serverdir.isDirectory()) {
         // Delete all files in the folder
         String files[] = serverdir.list();
@@ -656,6 +656,10 @@ public class StorageManager {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/12/12 01:47:12  briand
+// Fix compilation problems caused by removal of FolderTreePanel and move to
+// javalobby.
+//
 // Revision 1.4  1999/11/09 22:34:43  briand
 // Move NewsAgent source to Javalobby.
 //

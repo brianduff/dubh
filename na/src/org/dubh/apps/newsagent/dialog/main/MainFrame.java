@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: MainFrame.java,v 1.11 2000-08-19 21:22:25 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: MainFrame.java,v 1.12 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,9 +24,10 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.main;
 
-import org.javalobby.dju.ui.*;
+package org.dubh.apps.newsagent.dialog.main;
+
+import org.dubh.dju.ui.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -35,35 +35,35 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.text.MessageFormat;
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.apps.newsagent.NewsAgent;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.HelpSystem;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.apps.newsagent.dialog.FolderSelectorDialog;
-import org.javalobby.apps.newsagent.dialog.NewsServerPropsDlg;
-import org.javalobby.apps.newsagent.dialog.ServerSubscriptions;
-import org.javalobby.apps.newsagent.dialog.composer.MessageComposer;
-import org.javalobby.apps.newsagent.dialog.preferences.NewsAgentPreferences;
-import org.javalobby.apps.newsagent.nntp.NNTPServer;
-import org.javalobby.apps.newsagent.nntp.MessageBody;
-import org.javalobby.apps.newsagent.nntp.MessageHeader;
-import org.javalobby.apps.newsagent.nntp.Newsgroup;
-import org.javalobby.apps.newsagent.Folder;
-import org.javalobby.apps.newsagent.IUpdateableClass;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.NewsAgent;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.HelpSystem;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.dialog.FolderSelectorDialog;
+import org.dubh.apps.newsagent.dialog.NewsServerPropsDlg;
+import org.dubh.apps.newsagent.dialog.ServerSubscriptions;
+import org.dubh.apps.newsagent.dialog.composer.MessageComposer;
+import org.dubh.apps.newsagent.dialog.preferences.NewsAgentPreferences;
+import org.dubh.apps.newsagent.nntp.NNTPServer;
+import org.dubh.apps.newsagent.nntp.MessageBody;
+import org.dubh.apps.newsagent.nntp.MessageHeader;
+import org.dubh.apps.newsagent.nntp.Newsgroup;
+import org.dubh.apps.newsagent.Folder;
+import org.dubh.apps.newsagent.IUpdateableClass;
 
-import org.javalobby.apps.newsagent.navigator.Navigator;
-import org.javalobby.apps.newsagent.navigator.NavigatorServiceList;
-import org.javalobby.apps.newsagent.navigator.PropertiesService;
-import org.javalobby.apps.newsagent.navigator.PropertyFileResolver;
+import org.dubh.apps.newsagent.navigator.Navigator;
+import org.dubh.apps.newsagent.navigator.NavigatorServiceList;
+import org.dubh.apps.newsagent.navigator.PropertiesService;
+import org.dubh.apps.newsagent.navigator.PropertyFileResolver;
 
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.misc.ResourceManager;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.misc.ResourceManager;
 
 /**
  * The main application window <P>
  * @author Brian Duff
- * @version $Id: MainFrame.java,v 1.11 2000-08-19 21:22:25 briand Exp $
+ * @version $Id: MainFrame.java,v 1.12 2001-02-11 02:51:00 briand Exp $
  */
 public class MainFrame extends DubhFrame implements IUpdateableClass {
 
@@ -503,11 +503,11 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public void helpAbout() {
 
-     ResourceManager rm = ResourceManager.getManagerFor("org.javalobby.apps.newsagent.res.Menus");
+     ResourceManager rm = ResourceManager.getManagerFor("org.dubh.apps.newsagent.res.Menus");
      Icon i = rm.getImage("imgAbout");
 
 
-     String pckNewsAgent = "org.javalobby.apps.newsagent";
+     String pckNewsAgent = "org.dubh.apps.newsagent";
 
 
      // Evil hack. This will force the classloader to get stuff from JavaMail
@@ -524,8 +524,8 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
      }
 
      String[] deps = new String[5];
-     deps[0] = "org.javalobby.dju";
-     deps[1] = "org.javalobby.javamail.client";    // Shouldn't have to do this, but can't get package info otherwise
+     deps[0] = "org.dubh.dju";
+     deps[1] = "org.dubh.javamail.client";    // Shouldn't have to do this, but can't get package info otherwise
      deps[2] = "java.lang";
      deps[3] = "javax.mail";
      deps[4] = "javax.activation";
@@ -761,13 +761,16 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 // New history:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2000/08/19 21:22:25  briand
+// Use Java 2 JAR versioning.
+//
 // Revision 1.10  2000/06/14 21:36:45  briand
 // OK, a bit suspicious; cvs diff is finding files that I don't think I've
 // modified. But I'm gonna checkin anyway, and keep a backup.
 //
 // Revision 1.9  1999/12/12 03:31:51  briand
 // More bugfixes necessary due to move to javalobby. Mostly changing path from
-// dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
+// dubh.apps.newsagent to org.dubh.apps.newsagent etc. and new locations of
 // top level properties files.
 //
 // Revision 1.8  1999/11/09 22:34:41  briand

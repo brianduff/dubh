@@ -1,47 +1,47 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: GeneralOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: GeneralOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
-import org.javalobby.dju.misc.ResourceManager;
+import org.dubh.dju.ui.GridBagConstraints2;
+import org.dubh.dju.misc.ResourceManager;
 import javax.swing.*;
-import javax.swing.border.*; 
+import javax.swing.border.*;
 import java.beans.*;
 import javax.swing.event.*;
 
-import org.javalobby.dju.ui.preferences.*;
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.apps.newsagent.GlobalState;
+import org.dubh.dju.ui.preferences.*;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.misc.Debug;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.GlobalState;
 
 /**
  * General Options Panel for the General Tab in the Options dialog box <P>
@@ -63,12 +63,12 @@ import org.javalobby.apps.newsagent.GlobalState;
  * <TD>5</TD>
  * </TR></TABLE><P>
  @author Brian Duff
- @version $Id: GeneralOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
+ @version $Id: GeneralOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
  */
 
 public class GeneralOptionsPanel extends PreferencePage {
   JPanel jPanel1 = new JPanel();
- 
+
   public TitledBorder borderGeneral = new TitledBorder(new EtchedBorder(),
    GlobalState.getRes().getString("GeneralOptionsPanel.GeneralOptions"));
   BorderLayout borderLayout1 = new BorderLayout();
@@ -94,12 +94,12 @@ public class GeneralOptionsPanel extends PreferencePage {
       Debug.printException(1, this, e);
     }
   }
-  
+
   public Container getContent()
   {
      return jPanel1;
   }
-  
+
 
   /**
    * Set all controls to the values from the user preferences. If the preferences
@@ -245,6 +245,9 @@ class GeneralOptionsPanel_jCheckBox1_actionAdapter implements java.awt.event.Act
 // New Log:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.5  1999/06/01 00:37:14  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //

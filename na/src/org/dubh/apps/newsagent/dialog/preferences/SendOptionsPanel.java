@@ -1,31 +1,31 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: SendOptionsPanel.java,v 1.8 1999-12-13 22:32:43 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: SendOptionsPanel.java,v 1.9 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,30 +33,30 @@ import java.util.Hashtable;
 import javax.swing.border.*;
 import javax.swing.*;
 
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
 
-import org.javalobby.dju.ui.*;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.dju.misc.ResourceManager;
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.ui.preferences.PreferencePage;
+import org.dubh.dju.ui.*;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.dju.misc.ResourceManager;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.ui.preferences.PreferencePage;
 
 
 /**
  * Send Options Panel for the Send Tab in the Options dialog box <P>
  * @author Brian Duff
- * @version $Id: SendOptionsPanel.java,v 1.8 1999-12-13 22:32:43 briand Exp $
+ * @version $Id: SendOptionsPanel.java,v 1.9 2001-02-11 02:51:00 briand Exp $
  */
-public class SendOptionsPanel extends PreferencePage 
+public class SendOptionsPanel extends PreferencePage
 {
 
-   private final static String RES = "org.javalobby.apps.newsagent.dialog.preferences.res.SendOptions";
+   private final static String RES = "org.dubh.apps.newsagent.dialog.preferences.res.SendOptions";
    public static final String ID = ResourceManager.getManagerFor(RES).getString("SendOptions.title");
 
    private JPanel panMain = new JPanel();
-   
+
    private IconicPreferencePanel ippQuoting = new IconicPreferencePanel();
    private JLabel labWhenReply = new JLabel();
    private ButtonGroup groupWhenReply = new ButtonGroup();
@@ -72,12 +72,12 @@ public class SendOptionsPanel extends PreferencePage
    private JLabel labPrefixLine = new JLabel();
    private JTextField tfPrefixLine = new JTextField();
    private JPopupMenu popupInsert;
-   
+
    private IconicPreferencePanel ippFormatting = new IconicPreferencePanel();
    private JCheckBox cbUseHardBreaks = new JCheckBox();
    private JCheckBox cbAddAdverts = new JCheckBox();
 
-   public SendOptionsPanel() 
+   public SendOptionsPanel()
    {
       super(ResourceManager.getManagerFor(RES), "SendOptions");
       init();
@@ -89,19 +89,19 @@ public class SendOptionsPanel extends PreferencePage
    {
       initQuoting();
       initFormatting();
-   
+
       panMain.setLayout(new BoxLayout(panMain, BoxLayout.Y_AXIS));
       panMain.setName("MainPanel");
       panMain.add(ippQuoting);
       panMain.add(ippFormatting);
-      panMain.add(Box.createGlue());   
+      panMain.add(Box.createGlue());
    }
-   
+
    private void initQuoting()
    {
       ippQuoting.setName("Quoting");
       VerticalFlowPanel group = ippQuoting.getContainer();
-      
+
       labWhenReply.setName("WhenReply");
       group.addRow(labWhenReply);
 
@@ -114,7 +114,7 @@ public class SendOptionsPanel extends PreferencePage
       groupWhenReply.add(optAll);
       optAll.setName("OptAll");
       group.addIndentRow(optAll);
-      
+
       labPrefix.setName("Prefix");
       group.addRow(labPrefix);
 
@@ -128,13 +128,13 @@ public class SendOptionsPanel extends PreferencePage
       panRight.addRow(cmdInsert);
       panRight.addSpacerRow(new JPanel());
       group.addSpacerRow(panPrefixPanel);
-      
+
       //cmdInsert.setIcon(GlobalState.getRes().getImage("glyphPopup.gif"));
       //cmdInsert.setHorizontalTextPosition(AbstractButton.LEFT);
-     
+
       labPrefixLine.setName("PrefixLine");
       group.addRow(labPrefixLine);
-      
+
       tfPrefixLine.setName("PrefixLineField");
       group.addRow(tfPrefixLine);
 
@@ -147,13 +147,13 @@ public class SendOptionsPanel extends PreferencePage
    {
       ippFormatting.setName("Formatting");
       VerticalFlowPanel group = ippFormatting.getContainer();
-      
+
       cbUseHardBreaks.setName("UseHardBreaks");
       group.addRow(cbUseHardBreaks);
-      
+
       cbAddAdverts.setName("AddAdvert");
       group.addRow(cbAddAdverts);
-      
+
    }
 
   /**
@@ -169,7 +169,7 @@ public class SendOptionsPanel extends PreferencePage
         p.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "selected");
      else if (optAll.isSelected())
         p.setPreference(PreferenceKeys.SEND_INCLUDEBEHAVIOUR, "all");
-        
+
      p.setBoolPreference(PreferenceKeys.SEND_HARDBREAKS, cbUseHardBreaks.isSelected());
      p.setBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, cbAddAdverts.isSelected());
   }
@@ -196,9 +196,9 @@ public class SendOptionsPanel extends PreferencePage
         "In message {message-id}, {x-na-realname} wrote:"));
      tfPrefixLine.setText(s.getPreference(PreferenceKeys.SEND_INCLUDEPREFIX,
         "> "));
-        
+
      cbUseHardBreaks.setSelected(s.getBoolPreference(PreferenceKeys.SEND_HARDBREAKS, true));
-     cbAddAdverts.setSelected(s.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true));   
+     cbAddAdverts.setSelected(s.getBoolPreference(PreferenceKeys.SEND_ADDNEWSAGENTHEADERS, true));
   }
 
   /*
@@ -263,6 +263,12 @@ public class SendOptionsPanel extends PreferencePage
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  1999/12/13 22:32:43  briand
+// Move to Javalobby changed the paths to various resources. Added fixes to that
+// most things work again. Also patched the PropertyFileResolver to create parent
+// directories properly. Managed to get NewsAgent to run with the brand new JRE
+// 1.2.2 for Linux!!
+//
 // Revision 1.7  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //

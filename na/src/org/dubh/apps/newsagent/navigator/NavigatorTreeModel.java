@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorTreeModel.java,v 1.5 2000-06-14 21:36:46 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: NavigatorTreeModel.java,v 1.6 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.navigator;
+
+package org.dubh.apps.newsagent.navigator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +37,9 @@ import javax.swing.Icon;
 
 import javax.mail.*;
 
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.misc.Debug;
 
-import org.javalobby.dju.ui.LazyTreeNode;
+import org.dubh.dju.ui.LazyTreeNode;
 
 /**
  * This is the data model for the navigator tree. A number of
@@ -64,13 +64,13 @@ import org.javalobby.dju.ui.LazyTreeNode;
  * service.folderIcon = dubh/apps/newsagent/navigator/services/nntp/images/folder.gif
  *
  * serviceCommands.count = 1
- * serviceCommands.1 = org.javalobby.apps.newsagent.navigator.services.nntp.command.service.AddServer
+ * serviceCommands.1 = org.dubh.apps.newsagent.navigator.services.nntp.command.service.AddServer
  *
  * providerCommands.count = 1
- * providerCommands.1 = org.javalobby.apps.newsagent.navigator.services.nntp.command.provider.Subscriptions
+ * providerCommands.1 = org.dubh.apps.newsagent.navigator.services.nntp.command.provider.Subscriptions
  *
  * folderCommands.count = 1
- * folderCommands.1 = org.javalobby.apps.newsagent.navigator.services.nntp.command.folder.Unsubscribe
+ * folderCommands.1 = org.dubh.apps.newsagent.navigator.services.nntp.command.folder.Unsubscribe
  *
  * providers.count = 1
  * providers.1 = news.us.oracle.com
@@ -79,7 +79,7 @@ import org.javalobby.dju.ui.LazyTreeNode;
  * about the provider.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorTreeModel.java,v 1.5 2000-06-14 21:36:46 briand Exp $
+ * @version $Id: NavigatorTreeModel.java,v 1.6 2001-02-11 02:51:01 briand Exp $
  */
 public class NavigatorTreeModel extends DefaultTreeModel
 {
@@ -169,6 +169,10 @@ public class NavigatorTreeModel extends DefaultTreeModel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2000/06/14 21:36:46  briand
+// OK, a bit suspicious; cvs diff is finding files that I don't think I've
+// modified. But I'm gonna checkin anyway, and keep a backup.
+//
 // Revision 1.4  1999/12/13 22:32:43  briand
 // Move to Javalobby changed the paths to various resources. Added fixes to that
 // most things work again. Also patched the PropertyFileResolver to create parent

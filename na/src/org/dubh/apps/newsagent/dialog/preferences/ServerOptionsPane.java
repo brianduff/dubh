@@ -1,31 +1,31 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: ServerOptionsPane.java,v 1.7 1999-12-12 01:47:12 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: ServerOptionsPane.java,v 1.8 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -35,16 +35,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.io.IOException;
-import org.javalobby.dju.ui.GridBagConstraints2;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.nntp.NNTPServer;
-import org.javalobby.apps.newsagent.dialog.NewsServerPropsDlg;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.ui.preferences.PreferencePage;
+import org.dubh.dju.ui.GridBagConstraints2;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.nntp.NNTPServer;
+import org.dubh.apps.newsagent.dialog.NewsServerPropsDlg;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.ui.preferences.PreferencePage;
 /**
  * Server Options Panel for the Servers Tab in the Options dialog box <P>
  * The following options are available from this panel:<P>
@@ -61,7 +61,7 @@ import org.javalobby.dju.ui.preferences.PreferencePage;
  * </TR>
  * </TABLE>
  @author Brian Duff
- @version $Id: ServerOptionsPane.java,v 1.7 1999-12-12 01:47:12 briand Exp $
+ @version $Id: ServerOptionsPane.java,v 1.8 2001-02-11 02:51:00 briand Exp $
  */
 public class ServerOptionsPane extends PreferencePage {
   public TitledBorder borderNews = new TitledBorder(new EtchedBorder(),
@@ -239,7 +239,7 @@ public class ServerOptionsPane extends PreferencePage {
     test.dispose();
   }
 
-  
+
   void lstScroll_mouseClicked(MouseEvent e) {
 
   }
@@ -256,7 +256,7 @@ public class ServerOptionsPane extends PreferencePage {
            {
               Debug.println(1, this, "Remove command in ServerOptionsPane: Unable to disconnect.");
            }
-           
+
         }
      }
   }
@@ -399,6 +399,10 @@ class ServerListItem {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  1999/12/12 01:47:12  briand
+// Fix compilation problems caused by removal of FolderTreePanel and move to
+// javalobby.
+//
 // Revision 1.6  1999/11/09 22:34:41  briand
 // Move NewsAgent source to Javalobby.
 //

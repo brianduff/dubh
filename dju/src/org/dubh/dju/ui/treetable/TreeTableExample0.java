@@ -1,27 +1,31 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: TreeTableExample0.java,v 1.3 1999-11-11 21:24:36 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: TreeTableExample0.java,v 1.4 2001-02-11 02:52:12 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
+// Copyright (c) 1997 - 2001 Brian Duff
 //
-//  Copyright 1997, 1998 by Sun Microsystems, Inc.,
-//  901 San Antonio Road, Palo Alto, California, 94303, U.S.A.
-//  All rights reserved.
+// This program is free software.
 //
-//  This software is the confidential and proprietary information
-//  of Sun Microsystems, Inc. ("Confidential Information").  You
-//  shall not disclose such Confidential Information and shall use
-//  it only in accordance with the terms of the license agreement
-//  you entered into with Sun.
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
-//   Original Author: Philip Milne, Sun Microsystems
-//   Contributors: Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui.treetable;
+
+package org.dubh.dju.ui.treetable;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

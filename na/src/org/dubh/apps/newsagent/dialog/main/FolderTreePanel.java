@@ -1,31 +1,31 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: FolderTreePanel.java,v 1.5 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: FolderTreePanel.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.main;
+
+package org.dubh.apps.newsagent.dialog.main;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,23 +33,23 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.tree.*;
 import javax.swing.event.*;
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.misc.Debug;
 
-import org.javalobby.apps.newsagent.nntp.NNTPServer;
-import org.javalobby.apps.newsagent.nntp.NNTPServerException;
-import org.javalobby.apps.newsagent.nntp.Newsgroup;
-import org.javalobby.apps.newsagent.Folder;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.nntp.NNTPServer;
+import org.dubh.apps.newsagent.nntp.NNTPServerException;
+import org.dubh.apps.newsagent.nntp.Newsgroup;
+import org.dubh.apps.newsagent.Folder;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
 
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 /**
  * A panel containing a tree control, which corresponds to the folders, news
  * servers and newsgroups available to the user.<P>
  * @author Brian Duff
- * @version $Id: FolderTreePanel.java,v 1.5 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: FolderTreePanel.java,v 1.6 2001-02-11 02:51:00 briand Exp $
  */
 public class FolderTreePanel extends JPanel {
 
@@ -59,7 +59,7 @@ public class FolderTreePanel extends JPanel {
   private DefaultMutableTreeNode sandf;
   private DefaultMutableTreeNode servers;
   private DefaultMutableTreeNode folders;
-  private final static ImageIcon icoNewsagent = 
+  private final static ImageIcon icoNewsagent =
          GlobalState.getRes().getImage("NewsAgent.newsAgentSmall");
   private JTree jtreeFolders = new JTree();
   private JScrollPane scroll = new JScrollPane(jtreeFolders);
@@ -151,7 +151,7 @@ public class FolderTreePanel extends JPanel {
    * method. If no server has ever been selected, this method will return null.
    */
   public NNTPServer getLastSelectedServer() {
-   return m_lastServer; 
+   return m_lastServer;
   }
 
   /**
@@ -316,19 +316,19 @@ public class FolderTreePanel extends JPanel {
  * Draws individual tree items
  */
 class FolderTreeRenderer extends DefaultTreeCellRenderer {
-      private final static ImageIcon icoServers = 
+      private final static ImageIcon icoServers =
          GlobalState.getRes().getImage("FolderTreePanel.servers");
-     private final static ImageIcon icoFolders = 
+     private final static ImageIcon icoFolders =
          GlobalState.getRes().getImage("FolderTreePanel.folders");
-     private final static ImageIcon icoFolder = 
+     private final static ImageIcon icoFolder =
          GlobalState.getRes().getImage("FolderTreePanel.folder");
-     private final static ImageIcon icoServer = 
+     private final static ImageIcon icoServer =
          GlobalState.getRes().getImage("FolderTreePanel.server");
-     private final static ImageIcon icoServerDis = 
+     private final static ImageIcon icoServerDis =
            GlobalState.getRes().getImage("FolderTreePanel.serverDisconnected");
-     private final static ImageIcon icoNewsgroup = 
+     private final static ImageIcon icoNewsgroup =
          GlobalState.getRes().getImage("FolderTreePanel.newsgroup");
-           
+
   public FolderTreeRenderer() {
      super();
   }
@@ -443,6 +443,9 @@ class FolderTreePanel_jtreeFolders_mouseAdapter implements java.awt.event.MouseL
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:32:08  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //

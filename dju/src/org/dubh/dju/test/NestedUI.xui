@@ -3,7 +3,7 @@
 <?cocoon-process type="xslt"?>
 
 
-<xugen name="NestedUI" package="org.javalobby.dju.test" access="public">
+<xugen name="NestedUI" package="org.dubh.dju.test" access="public">
    <description>The UI for Paths options in the Project Properties dialog</description>
    <author>Brian.Duff@Oracle.com</author>
    

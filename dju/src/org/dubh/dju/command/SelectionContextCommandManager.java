@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: SelectionContextCommandManager.java,v 1.3 2000-06-14 21:25:21 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: SelectionContextCommandManager.java,v 1.4 2001-02-11 02:52:10 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.command;
+
+package org.dubh.dju.command;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ import javax.swing.JTree;
  * The context is then passed into the command invokation.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: SelectionContextCommandManager.java,v 1.3 2000-06-14 21:25:21 briand Exp $
+ * @version $Id: SelectionContextCommandManager.java,v 1.4 2001-02-11 02:52:10 briand Exp $
  */
 public class SelectionContextCommandManager extends CommandManager
    implements TreeSelectionListener, ListSelectionListener
@@ -118,6 +118,9 @@ public class SelectionContextCommandManager extends CommandManager
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2000/06/14 21:25:21  briand
+// Mega checkin of stuff I've been working on (too many things to detail)
+//
 // Revision 1.2  1999/11/11 21:24:34  briand
 // Change package and import to Javalobby JFA.
 //

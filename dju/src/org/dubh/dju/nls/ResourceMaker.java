@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceMaker.java,v 1.4 1999-11-11 21:24:35 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: ResourceMaker.java,v 1.5 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.nls;
+
+package org.dubh.dju.nls;
 
 // Core Java Imports
 import java.io.File;
@@ -54,27 +54,27 @@ import java.util.Date;
  * @author <a href=mailto:dubh@btinternet.com>Brian Duff</a>
  * @version 0.0 (DJU 1.0.01) [27/Oct/1998]
  */
-public class ResourceMaker 
+public class ResourceMaker
 {
 
    /************************************************************************
    *** PUBLIC STATIC CONSTANTS
    *************************************************************************/
-  
-   
+
+
    /************************************************************************
    *** PRIVATE / PROTECTED VARIABLES
    *************************************************************************/
    private static final String VALID_EXTENSION = "properties";
-   private static final String ERR_BADEXTENSION = 
+   private static final String ERR_BADEXTENSION =
       "The file extension is not "+VALID_EXTENSION;
-   private static final String ERR_FILENOTFOUND = 
+   private static final String ERR_FILENOTFOUND =
       "The input file couldn't be found: ";
-   private static final String ERR_CANTREAD = 
+   private static final String ERR_CANTREAD =
       "I don't have permission to read from the input file: ";
-   private static final String ERR_IO = 
+   private static final String ERR_IO =
       "I can't read the input properties file.";
-      
+
 
    /************************************************************************
    *** CONSTRUCTORS
@@ -99,11 +99,11 @@ public class ResourceMaker
     */
    public static void main(String[] args)
    {
-      if (args.length < 1) showUsage();      
-      
+      if (args.length < 1) showUsage();
+
       if (!args[0].endsWith(VALID_EXTENSION))
          terminalError(ERR_BADEXTENSION);
-      
+
       ResourceMaker maker = new ResourceMaker();
       String pkg = (args.length == 2 ? args[1] : null);
       try
@@ -116,7 +116,7 @@ public class ResourceMaker
       }
       catch (FileNotFoundException fnf)
       {
-         terminalError(ERR_FILENOTFOUND + args[0]);   
+         terminalError(ERR_FILENOTFOUND + args[0]);
       }
       catch (SecurityException secex)
       {
@@ -126,7 +126,7 @@ public class ResourceMaker
       {
          terminalError(ERR_IO);
       }
-      
+
    }
 
    /**
@@ -141,46 +141,46 @@ public class ResourceMaker
       StringWriter sOut = new StringWriter();
       PrintWriter output = new PrintWriter(sOut);
       String name = stripFileExtension(f.getName());
-      
+
       doBundle(output, name, packageName, f);
-      
+
       return sOut.getBuffer().toString();
    }
-   
+
    public void writeSource(File f, String packageName, File destFile)
       throws IOException
    {
       PrintWriter out = new PrintWriter(new FileWriter(destFile));
-      
-      doBundle(out, stripFileExtension(f.getName()), packageName, f);   
+
+      doBundle(out, stripFileExtension(f.getName()), packageName, f);
    }
-   
-   
+
+
 
    /************************************************************************
    *** PRIVATE / PROTECTED INTERFACE
    *************************************************************************/
-   
+
    protected void doBundle(PrintWriter output, String name, String pkg, File in)
       throws IOException
    {
       PropertyResourceBundle bundle;
       bundle = new PropertyResourceBundle(new FileInputStream(in));
-   
+
       writeHeader(output, name, pkg);
-      
+
       Enumeration keys = bundle.getKeys();
-      
+
       while (keys.hasMoreElements())
       {
          String thisKey = (String) keys.nextElement();
          writeItem(output, thisKey, bundle.getString(thisKey));
       }
-      writeFooter(output);     
+      writeFooter(output);
       output.flush();
       output.close();
    }
-   
+
    /**
     * Strip the extension from a filename and return its name
     */
@@ -188,7 +188,7 @@ public class ResourceMaker
    {
       return(name.substring(0, name.lastIndexOf('.')));
    }
-   
+
    /**
     * Write an item
     */
@@ -196,13 +196,13 @@ public class ResourceMaker
    {
       p.println("      {\""+key+"\", \""+value+"\"},");
    }
-   
+
    protected void writeFooter(PrintWriter p)
    {
       p.println("   };");
       p.println("}");
    }
-   
+
    /**
     * Write the header
     */
@@ -244,7 +244,7 @@ public class ResourceMaker
       p.println("    */");
       p.println("    static final Object[][] m_contents = {");
    }
-   
+
    /**
     * Dump a friendly "That's not how you use this class" message.
     */
@@ -256,7 +256,7 @@ public class ResourceMaker
       System.err.print("in the same directory\n\r");
       System.exit(1);
    }
-   
+
    /**
     * Dump an error and say bye
     */

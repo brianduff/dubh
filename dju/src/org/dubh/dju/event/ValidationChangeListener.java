@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ValidationChangeListener.java,v 1.4 1999-11-11 21:24:34 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: ValidationChangeListener.java,v 1.5 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.event;
+
+package org.dubh.dju.event;
 /**
  * Fired from validator panels when the valid state of a panel has changed
  *<P>
@@ -34,7 +34,7 @@ package org.javalobby.dju.event;
  * </UL>
  @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
  @version 0.1 [13/12/98]
- * @see org.javalobby.dju.ui.ValidatorPanel
+ * @see org.dubh.dju.ui.ValidatorPanel
  */
 public interface ValidationChangeListener extends java.util.EventListener {
 

@@ -1,28 +1,32 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AbstractCellEditor.java,v 1.3 1999-11-11 21:24:36 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: AbstractCellEditor.java,v 1.4 2001-02-11 02:52:12 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
+// Copyright (c) 1997 - 2001 Brian Duff
 //
-//  Copyright 1997, 1998 by Sun Microsystems, Inc.,
-//  901 San Antonio Road, Palo Alto, California, 94303, U.S.A.
-//  All rights reserved.
+// This program is free software.
 //
-//  This software is the confidential and proprietary information
-//  of Sun Microsystems, Inc. ("Confidential Information").  You
-//  shall not disclose such Confidential Information and shall use
-//  it only in accordance with the terms of the license agreement
-//  you entered into with Sun.
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
-//   Original Author: Philip Milne, Sun Microsystems
-//   Contributors: Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.dju.ui.treetable;
+
+package org.dubh.dju.ui.treetable;
 
 import java.awt.Component;
 import java.awt.event.*;
@@ -33,11 +37,11 @@ import java.util.EventObject;
 import java.io.Serializable;
 
 /**
- * @version %I% %G% 
- * 
- * A base class for CellEditors, providing default implementations for all 
- * methods in the CellEditor interface and support for managing a series 
- * of listeners. 
+ * @version %I% %G%
+ *
+ * A base class for CellEditors, providing default implementations for all
+ * methods in the CellEditor interface and support for managing a series
+ * of listeners.
  *
  * @author Philip Milne
  */
@@ -62,7 +66,7 @@ public class AbstractCellEditor implements CellEditor {
 
     /**
      * Notify all listeners that have registered interest for
-     * notification on this event type.  
+     * notification on this event type.
      * @see EventListenerList
      */
     protected void fireEditingStopped() {
@@ -73,13 +77,13 @@ public class AbstractCellEditor implements CellEditor {
    for (int i = listeners.length-2; i>=0; i-=2) {
        if (listeners[i]==CellEditorListener.class) {
       ((CellEditorListener)listeners[i+1]).editingStopped(new ChangeEvent(this));
-       }        
+       }
    }
     }
 
     /**
      * Notify all listeners that have registered interest for
-     * notification on this event type.  
+     * notification on this event type.
      * @see EventListenerList
      */
     protected void fireEditingCanceled() {
@@ -90,7 +94,7 @@ public class AbstractCellEditor implements CellEditor {
    for (int i = listeners.length-2; i>=0; i-=2) {
        if (listeners[i]==CellEditorListener.class) {
       ((CellEditorListener)listeners[i+1]).editingCanceled(new ChangeEvent(this));
-       }        
+       }
    }
     }
 }

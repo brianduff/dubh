@@ -1,17 +1,31 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: FileExtensionFilter.java,v 1.4 1999-11-11 21:24:35 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: FileExtensionFilter.java,v 1.5 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-//   No license was provided; this is demonstration code
+// Copyright (c) 1997 - 2001 Brian Duff
+//
+// This program is free software.
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://www.dubh.org/license'
+//
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
-//   Original Author: Sun Microsystems
-//   Contributors: Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui;
+
+package org.dubh.dju.ui;
 
 
 import java.io.File;
@@ -23,10 +37,10 @@ import javax.swing.filechooser.*;
 /**
  * A convenience implementation of FileFilter that filters out
  * all files except for those type extensions that it knows about.
- * 
+ *
  * Extensions are of the type ".foo", which is typically found on
  * Windows and Unix boxes, but not on Macinthosh. Case is ignored.
- * 
+ *
  * Example - create a new filter that filerts out all files
  * but gif and jpg image files:
  *
@@ -40,7 +54,7 @@ import javax.swing.filechooser.*;
  * @author Jeff Dinkins
  */
 public class FileExtensionFilter extends FileFilter {
-    
+
     private static String TYPE_UNKNOWN = "Type Unknown";
     private static String HIDDEN_FILE = "Hidden File";
 
@@ -48,7 +62,7 @@ public class FileExtensionFilter extends FileFilter {
     private String description = null;
     private String fullDescription = null;
     private boolean useExtensionsInDescription = true;
-    
+
     /**
      * Creates a file filter. If no filters are added, then all
      * files are accepted.
@@ -120,7 +134,7 @@ public class FileExtensionFilter extends FileFilter {
      *
      * @see #getExtension
      * @see FileFilter#accepts
-     */ 
+     */
     public boolean accept(File f) {
    if(f != null) {
        if(f.isDirectory()) {
@@ -130,12 +144,12 @@ public class FileExtensionFilter extends FileFilter {
        if(extension != null && filters.get(getExtension(f)) != null) {
       return true;
        };
-   } 
+   }
    return false;
     }
 
     /**
-     * Return the extension portion of the file's name . 
+     * Return the extension portion of the file's name .
      *
      * @see #getExtension
      * @see FileFilter#accept
@@ -147,12 +161,12 @@ public class FileExtensionFilter extends FileFilter {
        if(i>0 && i<filename.length()-1) {
       return filename.substring(i+1).toLowerCase();
        };
-   } 
+   }
    return null;
     }
 
     /**
-     * Adds a filetype "dot" extension to filter against. 
+     * Adds a filetype "dot" extension to filter against.
      *
      * For example: the following code will create a filter that filters
      * out all files except those that end in ".jpg" and ".tif":
@@ -200,7 +214,7 @@ public class FileExtensionFilter extends FileFilter {
        } else {
       fullDescription = description;
        }
-   } 
+   }
    return fullDescription;
     }
 

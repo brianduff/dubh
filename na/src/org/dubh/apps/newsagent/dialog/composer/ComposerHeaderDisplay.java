@@ -1,38 +1,38 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: ComposerHeaderDisplay.java,v 1.4 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: ComposerHeaderDisplay.java,v 1.5 2001-02-11 02:50:59 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.composer;
+
+package org.dubh.apps.newsagent.dialog.composer;
 
 import java.util.*;
 import javax.swing.*;
-import org.javalobby.apps.newsagent.nntp.MessageHeader;
-import org.javalobby.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.nntp.MessageHeader;
+import org.dubh.apps.newsagent.GlobalState;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import java.awt.*;
 
 /**
@@ -40,7 +40,7 @@ import java.awt.*;
  * user can change. Intended for the MessageComposer.<P>
  * Version History: <UL>
  * <LI>0.1 [11/06/98]: Initial Revision
- * <LI>0.2 [12/06/98]: Added visibility support. 
+ * <LI>0.2 [12/06/98]: Added visibility support.
  * <LI>0.3 [13/06/98]: Bug fix to applyToHeader. Now sets the header field
  *   to a string, rather than a HeaderLine reference. (duh!). Also, the
  *   message header <b>does not</b> contain fields that are not visible.
@@ -184,7 +184,7 @@ class ComposerHeaderDisplay extends JPanel {
   public String getHeaderValue(String headerName) {
      HeaderLine line = (HeaderLine) m_lines.get(headerName);
 
-     if (line != null) 
+     if (line != null)
         return line.field.getText();
      else
         return "";
@@ -277,7 +277,7 @@ class ComposerHeaderDisplay extends JPanel {
      JLabel lbl = new JLabel();
 
      lbl.setText(label);
-     
+
      this.add(lbl, new GridBagConstraints2(0, y, 1, 1, 0.0, 0.0,
         GridBagConstraints.EAST, GridBagConstraints.NONE,
         new Insets(1,5,1,1), 0, 0));

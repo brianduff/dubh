@@ -1,40 +1,44 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: TreeTableModel.java,v 1.3 1999-11-11 21:24:36 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: TreeTableModel.java,v 1.4 2001-02-11 02:52:12 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
+// Copyright (c) 1997 - 2001 Brian Duff
 //
-//  Copyright 1997, 1998 by Sun Microsystems, Inc.,
-//  901 San Antonio Road, Palo Alto, California, 94303, U.S.A.
-//  All rights reserved.
+// This program is free software.
 //
-//  This software is the confidential and proprietary information
-//  of Sun Microsystems, Inc. ("Confidential Information").  You
-//  shall not disclose such Confidential Information and shall use
-//  it only in accordance with the terms of the license agreement
-//  you entered into with Sun.
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
-//   Original Author: Philip Milne, Sun Microsystems
-//   Contributors: Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui.treetable;
+
+package org.dubh.dju.ui.treetable;
 import javax.swing.tree.TreeModel;
 
 /**
  * TreeTableModel is the model used by a JTreeTable. It extends TreeModel
- * to add methods for getting inforamtion about the set of columns each 
- * node in the TreeTableModel may have. Each column, like a column in 
- * a TableModel, has a name and a type associated with it. Each node in 
- * the TreeTableModel can return a value for each of the columns and 
- * set that value if isCellEditable() returns true. 
+ * to add methods for getting inforamtion about the set of columns each
+ * node in the TreeTableModel may have. Each column, like a column in
+ * a TableModel, has a name and a type associated with it. Each node in
+ * the TreeTableModel can return a value for each of the columns and
+ * set that value if isCellEditable() returns true.
  *
  * @version %I% %G%
  *
- * @author Philip Milne 
+ * @author Philip Milne
  * @author Scott Violet
  */
 public interface TreeTableModel extends TreeModel
@@ -55,19 +59,19 @@ public interface TreeTableModel extends TreeModel
     public Class getColumnClass(int column);
 
     /**
-     * Returns the value to be displayed for node <code>node</code>, 
+     * Returns the value to be displayed for node <code>node</code>,
      * at column number <code>column</code>.
      */
     public Object getValueAt(Object node, int column);
 
     /**
-     * Indicates whether the the value for node <code>node</code>, 
+     * Indicates whether the the value for node <code>node</code>,
      * at column number <code>column</code> is editable.
      */
     public boolean isCellEditable(Object node, int column);
 
     /**
-     * Sets the value for node <code>node</code>, 
+     * Sets the value for node <code>node</code>,
      * at column number <code>column</code>.
      */
     public void setValueAt(Object aValue, Object node, int column);

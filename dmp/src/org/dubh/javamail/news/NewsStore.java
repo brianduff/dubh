@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NewsStore.java,v 1.2 2000-06-14 21:33:01 briand Exp $
-//   Copyright (C) 1997, 1999  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh
+//   $Id: NewsStore.java,v 1.3 2001-02-11 02:52:48 briand Exp $
+//   Copyright (C) 1999 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1999 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -26,7 +25,7 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.javamail.news;
+package org.dubh.javamail.news;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,26 +40,26 @@ import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.InternetHeaders;
 
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.dju.diagnostic.Assert;
-import org.javalobby.dju.progress.ProgressMonitor;
-import org.javalobby.dju.progress.ProgressMonitorSupport;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.dju.diagnostic.Assert;
+import org.dubh.dju.progress.ProgressMonitor;
+import org.dubh.dju.progress.ProgressMonitorSupport;
 
-import org.javalobby.javamail.client.ClientRegistry;
-import org.javalobby.javamail.client.news.NewsClient;
-import org.javalobby.javamail.client.news.NewsClientException;
-import org.javalobby.javamail.client.news.NewsStatusCodes;
+import org.dubh.javamail.client.ClientRegistry;
+import org.dubh.javamail.client.news.NewsClient;
+import org.dubh.javamail.client.news.NewsClientException;
+import org.dubh.javamail.client.news.NewsStatusCodes;
 
 
 
 /**
  * This is a Javamail store that provides access to network news. It sits on
  * top of a real protocol implementation that must implement the
- * org.javalobby.javamail.client.news.NewsClient interface.
+ * org.dubh.javamail.client.news.NewsClient interface.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NewsStore.java,v 1.2 2000-06-14 21:33:01 briand Exp $
+ * @version $Id: NewsStore.java,v 1.3 2001-02-11 02:52:48 briand Exp $
  */
 public class NewsStore extends Store implements NewsStatusCodes,
    ProgressMonitorSupport
@@ -115,7 +114,7 @@ public class NewsStore extends Store implements NewsStatusCodes,
          m_ncClient = (NewsClient)ClientRegistry.getStoreClient(
             PROTOCOL_NAME
          );
-         
+
          if (Assert.ENABLED)
          {
             Assert.that((m_ncClient != null), "Client has not been set");
@@ -466,7 +465,7 @@ public class NewsStore extends Store implements NewsStatusCodes,
    /**
     * Get new messages since the specified date.
     *
-    * Calls {@link #org.javalobby.javamail.client.news.NewsClient.getNewNews(String, Date)}
+    * Calls {@link #org.dubh.javamail.client.news.NewsClient.getNewNews(String, Date)}
     * on the client. The expected return status code is LIST_ARTICLES.
     *
     * @param g The newsgroup to get new messages for
@@ -818,12 +817,12 @@ public class NewsStore extends Store implements NewsStatusCodes,
       NewsResource res = getNewsResource();
 
       int resGroupCount = res.getGroupCount();
-      
+
       if (resGroupCount > 0)
       {
          Newsgroup[] groups = new Newsgroup[resGroupCount];
          Iterator allGroups = res.getAllGroups();
-         int i=0; 
+         int i=0;
          while (allGroups.hasNext())
          {
             groups[i++] = getNewsgroup((String)allGroups.next());
@@ -867,7 +866,7 @@ public class NewsStore extends Store implements NewsStatusCodes,
       }
 
       // Otherwise, we have to go off and ask the client...
-      
+
 
       try
       {
@@ -999,6 +998,9 @@ public class NewsStore extends Store implements NewsStatusCodes,
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2000/06/14 21:33:01  briand
+// Added support for progress monitoring. Numerous fixes & upgrades.
+//
 // Revision 1.1  2000/02/22 23:49:39  briand
 // New news store implementation that sits on top of clients. Initial
 // revision.

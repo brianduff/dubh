@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AppletPreferences.java,v 1.2 1999-11-11 21:24:34 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: AppletPreferences.java,v 1.3 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.misc;
+
+package org.dubh.dju.misc;
 
 import java.util.*;
 import java.io.*;
@@ -38,7 +38,7 @@ import java.applet.Applet;
  * an applet's parameters.
  * @author Brian Duff
  * @since DJU 1.1.0
- * @version $Id: AppletPreferences.java,v 1.2 1999-11-11 21:24:34 briand Exp $
+ * @version $Id: AppletPreferences.java,v 1.3 2001-02-11 02:52:11 briand Exp $
  */
 public class AppletPreferences extends UserPreferences {
 
@@ -47,7 +47,7 @@ public class AppletPreferences extends UserPreferences {
    private Vector    m_paramVec;
 
   /**
-   * 
+   *
    */
   public AppletPreferences(Applet a) {
      super();
@@ -61,7 +61,7 @@ public class AppletPreferences extends UserPreferences {
    * was made.
    @throws java.io.IOException the preferences file couldn't be read
    */
-  public void revert() throws IOException 
+  public void revert() throws IOException
   {
      m_altered = new Hashtable();
   }
@@ -79,28 +79,28 @@ public class AppletPreferences extends UserPreferences {
    * Gets an enumeration of preference key names.
    @return an Enumeration object of preference key names.
    */
-  public Enumeration getKeys() 
+  public Enumeration getKeys()
   {
      String[][] param = m_applet.getParameterInfo();
-     
+
      //
      // Return an empty enumeration if no parameter information
      //
-     if (param == null) 
-        return super.getKeys(); 
-        
+     if (param == null)
+        return super.getKeys();
+
      if (m_paramVec == null)
      {
         m_paramVec = new Vector(param.length);
-        
+
         for (int i=0; i < param.length; i++)
         {
-           m_paramVec.addElement(param[i][0]);   
+           m_paramVec.addElement(param[i][0]);
         }
      }
-     
+
      return m_paramVec.elements();
-     
+
   }
 
   /**
@@ -133,7 +133,7 @@ public class AppletPreferences extends UserPreferences {
    */
   public String getPreference(String key, String def) {
      String result = getPreference(key);
-     
+
      return (result == null ? def : result);
   }
 
@@ -146,7 +146,7 @@ public class AppletPreferences extends UserPreferences {
      String oldVal = getPreference(key);
      m_altered.put(key, value);
      if (oldVal != null) firePropertyChange(key, oldVal, value);
-     else firePropertyChange(key, "", value); 
+     else firePropertyChange(key, "", value);
   }
 
 
@@ -162,6 +162,9 @@ public class AppletPreferences extends UserPreferences {
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/11 21:24:34  briand
+// Change package and import to Javalobby JFA.
+//
 // Revision 1.1  1999/03/22 23:34:41  briand
 // UserPreferences that come from applet parameters.
 //

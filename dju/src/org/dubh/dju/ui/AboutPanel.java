@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: AboutPanel.java,v 1.6 2000-08-19 21:17:38 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: AboutPanel.java,v 1.7 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,11 +24,12 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui;
+
+package org.dubh.dju.ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 
 /**
@@ -38,7 +38,7 @@ import javax.swing.*;
  * in Java 2.
  *
  * @author Brian Duff
- * @version $Id: AboutPanel.java,v 1.6 2000-08-19 21:17:38 briand Exp $
+ * @version $Id: AboutPanel.java,v 1.7 2001-02-11 02:52:11 briand Exp $
  */
 public class AboutPanel extends JPanel {
    private JButton     m_cmdOK;
@@ -60,25 +60,25 @@ public class AboutPanel extends JPanel {
       m_labVersion     = new JLabel();
       m_labVendor   = new JLabel();
       m_lstDepVersions = new JList();
-      m_scrDepVersions = new JScrollPane(m_lstDepVersions);     
-      
+      m_scrDepVersions = new JScrollPane(m_lstDepVersions);
+
    }
-   
+
    private void initLayout() {
-   
+
       setLayout(new GridBagLayout());
       add(m_labIcon, new GridBagConstraints2(
-         0, 0, 1, 3, 0.0, 0.0, GridBagConstraints.EAST, 
+         0, 0, 1, 3, 0.0, 0.0, GridBagConstraints.EAST,
          GridBagConstraints.BOTH, new Insets(5, 5, 5, 5),
          0, 0
       ));
-      
+
       add(m_labVendor, new GridBagConstraints2(
          1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
-      
+
       add(m_labAppName, new GridBagConstraints2(
          1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST,
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
@@ -90,7 +90,7 @@ public class AboutPanel extends JPanel {
          GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 5),
          0, 0
       ));
-      
+
       add(m_scrDepVersions, new GridBagConstraints2(
          0, 3, 2, 1, 1.0, 1.0, GridBagConstraints.CENTER,
          GridBagConstraints.BOTH, new Insets(0, 5, 5, 5),
@@ -128,7 +128,7 @@ public class AboutPanel extends JPanel {
          m_labVersion.setText("Unknown Version");
       }
    }
-  
+
    /**
    * Add a version information for a product on which this
    * product is dependent.
@@ -137,17 +137,17 @@ public class AboutPanel extends JPanel {
    {
       m_lstDepVersions.setModel(new DependenciesListModel(pkglist));
    }
-  
-  
+
+
    class DependenciesListModel extends AbstractListModel
    {
       private String[] m_versions;
-   
+
       public DependenciesListModel(String[] pkglist)
       {
          m_versions = pkglist;
       }
-      
+
       public Object getElementAt(int index)
       {
          Package pck = Package.getPackage(m_versions[index]);
@@ -182,18 +182,18 @@ public class AboutPanel extends JPanel {
          return m_versions.length;
       }
    }
-   
+
    public static AboutPanel doDialog(JFrame parent, String product,
       String[] dependencies)
    {
       return doDialog(parent, product, dependencies, null);
    }
-   
+
    public static AboutPanel doDialog(JFrame parent, String product)
    {
       return doDialog(parent, product, null);
-   }            
-   
+   }
+
    public static AboutPanel doDialog(JFrame parent, String product,
       String[] dependencies, Icon icon)
    {
@@ -208,22 +208,22 @@ public class AboutPanel extends JPanel {
       if (apd.isCancelled())
          return null;
       else
-         return ap;      
+         return ap;
    }
-   
-   
+
+
    /**
-    * Dummy placeholder class so that dialog position gets 
+    * Dummy placeholder class so that dialog position gets
     * stored uniquely.
     */
    class AboutPanelDialog extends DubhOkCancelDialog
    {
-      
+
       public AboutPanelDialog(JFrame parent)
       {
          super(parent, "About", true);
          setButtonVisible(DubhOkCancelDialog.s_CANCEL_BUTTON, false);
       }
    }
-   
+
 }

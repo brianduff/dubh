@@ -1,40 +1,40 @@
 // ---------------------------------------------------------------------------
-//   Dubh Java Utilities
-//   $Id: ServerCache.java,v 1.4 1999-11-09 22:34:42 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   NewsAgent
+//   $Id: ServerCache.java,v 1.5 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent.nntp;
+
+package org.dubh.apps.newsagent.nntp;
 
 import javax.swing.tree.*;
 import java.util.*;
 import java.io.*;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.apps.newsagent.agent.AgentManager;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.apps.newsagent.agent.AgentManager;
 
 /**
  * Represents cached headers and bodies for an NNTPServer.
@@ -57,7 +57,7 @@ public class ServerCache implements Serializable {
    * Use a Hashtable to map Message-Id to DefaultMutableTreeNode. This makes
    * threading and lookup easier. This member is transient, so it is not
    * serialised when this class is (otherwise, we'd have two copies of
-   * all the message headers). 
+   * all the message headers).
    */
   private transient Hashtable m_headers;
   /**
@@ -137,7 +137,7 @@ public class ServerCache implements Serializable {
   /**
    * Adds a set of headers to the cache. The headers will be threaded into the
    * existing cache message thread tree. List Agents are called on the message
-   * headers in this routine. 
+   * headers in this routine.
    @param headers a Vector consisting of MessageHeader objects to add to the
      cache
    @param now The date according to the server in server date format

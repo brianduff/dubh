@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ResourceManager.java,v 1.8 1999-11-11 21:24:34 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: ResourceManager.java,v 1.9 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.misc;
+
+package org.dubh.dju.misc;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
@@ -35,9 +35,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 import java.text.MessageFormat;
 
-import org.javalobby.dju.nls.*;
+import org.dubh.dju.nls.*;
 
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.misc.Debug;
 /**
  * A ResourceManager is associated with a specific resource bundle. You can
  * use the methods of an instance of this class to get locale independent
@@ -57,12 +57,12 @@ public class ResourceManager {
    private Hashtable m_cachedImages;
    /** The resource bundle */
    private ResourceBundle m_bundle;
-   
+
    /** Vector of component handlers */
    private Vector m_handlers;
-  
+
    private static ResourceManager m_shared = null;
-  
+
   /**
    * Construct a ResourceManager for the specified bundle. The name of the
    * bundle is prefixed to ".properties" and the CLASSPATH is searched for
@@ -99,7 +99,7 @@ public class ResourceManager {
      addComponentHandler(JComponentHandler.getInstance());
      addComponentHandler(AbstractButtonHandler.getInstance());
   }
-  
+
   /**
    * Get a shared instance of a resource manager for the specified bundle.
    */
@@ -107,7 +107,7 @@ public class ResourceManager {
      throws MissingResourceException
   {
      ResourceBundle b = ResourceBundle.getBundle(bundleName);
-  
+
      if (m_shared == null)
      {
         m_shared = new ResourceManager(b);
@@ -121,7 +121,7 @@ public class ResourceManager {
      }
      return m_shared;
   }
- 
+
 
   /**
    * Get a string from the resource bundle.
@@ -132,11 +132,11 @@ public class ResourceManager {
   public String getString(String key) throws MissingResourceException {
      return m_bundle.getString(key);
   }
-  
+
   /**
    * Get a string from the resource, substituting variables from an array
    */
-  public String getString(String key, Object[] substitutions) throws MissingResourceException 
+  public String getString(String key, Object[] substitutions) throws MissingResourceException
   {
      return MessageFormat.format(getString(key), substitutions);
   }
@@ -167,7 +167,7 @@ public class ResourceManager {
       * possible, we return a shared instance of an image. If an image is
       * used lots of times, it will only be loaded once and re-used.
       */
-      
+
      ImageIcon ico = (ImageIcon) m_cachedImages.get(key);
      if (ico == null) {
         String filename = getString(key);
@@ -182,47 +182,47 @@ public class ResourceManager {
            }
         }
      }
-     return ico; 
+     return ico;
   }
-   
+
   /**
    * Initialise the components in a container. This enumerates all the
    * components in a container, and sets their NLS properties. You can
-   * register handlers for specific components using the 
+   * register handlers for specific components using the
    * registerComponentHandler() method, passing an object that implements
-   * the org.javalobby.dju.nls.ComponentHandler interface.
+   * the org.dubh.dju.nls.ComponentHandler interface.
    */
   public void initComponents(Container c)
   {
      StringBuffer key = new StringBuffer();
-     doComponent(key, c);     
+     doComponent(key, c);
   }
 
-  
+
   protected void addComponentHandler(ComponentHandler h)
   {
      m_handlers.addElement(h);
   }
-  
-  
+
+
   protected void removeComponentHandler(ComponentHandler h)
   {
      m_handlers.removeElement(h);
   }
-   
-  
+
+
   private void doComponents(StringBuffer prefix, Component[] components)
-  {     
+  {
      for (int i=0; i < components.length; i++)
      {
         doComponent(prefix, components[i]);
      }
-  }   
-  
+  }
+
   /**
    * Handle a component. This can be used in place of the old ResourceManager.initButton,
    * but should be restricted to situations where it is really necessary to
-   * manually set resources for a component. Normally, use the initComponents() 
+   * manually set resources for a component. Normally, use the initComponents()
    * method on a top level container.
    * </p><p>
    */
@@ -230,26 +230,26 @@ public class ResourceManager {
   {
      String oldName = c.getName();
      c.setName(key);
-     
+
      doComponent(new StringBuffer(""), c);
-     
+
      c.setName(oldName);
   }
-  
+
   /**
-   * Handle a component. Prefix should consist of the full path to 
+   * Handle a component. Prefix should consist of the full path to
    * the component eg. MyPanel.MyInnerPanel.MyJButton
-   */ 
+   */
   private void doComponent(StringBuffer prefix, Component c)
   {
      int oldValue = prefix.length();
      prefix.append(c.getName());
-     
-     
+
+
      if (c instanceof Container &&
          ((Container)c).getComponentCount() > 0 && c.getName() != null)
      {
-     
+
         int pf = prefix.length();
         prefix.append(".");
         doComponents(prefix, ((Container)c).getComponents());
@@ -261,9 +261,9 @@ public class ResourceManager {
         {
            for (int i=0; i < m_handlers.size(); i++)
            {
-              ComponentHandler handler = 
+              ComponentHandler handler =
                  (ComponentHandler) m_handlers.elementAt(i);
-                 
+
               if (handler.getHandledClass().isInstance(c))
               {
                  for (int j=0; j < handler.getSupportedProperties().length; j++)
@@ -271,13 +271,13 @@ public class ResourceManager {
                     setComponentProperty(prefix, c, handler.getSupportedProperties()[j]);
                  }
               }
-           
+
            }
         }
      }
      prefix.setLength(oldValue);
   }
-  
+
   private void setComponentProperty(StringBuffer prefix, Component c, String property)
   {
      String methodName = "set"+property.substring(0, 1).toUpperCase()+property.substring(1);
@@ -295,7 +295,7 @@ public class ResourceManager {
         if (property.equals("icon"))
         {
            parameter = getImage(getString(prefix.toString()));
-           method    = c.getClass().getMethod(methodName, new Class[] { 
+           method    = c.getClass().getMethod(methodName, new Class[] {
               Class.forName("javax.swing.Icon")
            });
         }
@@ -305,17 +305,17 @@ public class ResourceManager {
            method    = c.getClass().getMethod(methodName, new Class[] {
               Character.TYPE
            });
-        
+
         }
         else
-        { 
+        {
           parameter = getString(prefix.toString());
            method    = c.getClass().getMethod(methodName, new Class[] {
               Class.forName("java.lang.String")
            });
         }
         method.invoke(c, new Object[] { parameter });
-        
+
      }
      catch (Throwable t)
      {
@@ -324,17 +324,17 @@ public class ResourceManager {
        //    Debug.println(1, this, "Resource key "+prefix+"."+property+" isn't defined");
        // }
      }
-  
+
      prefix.setLength(oldLength);
   }
- /* 
+ /*
   public static void main(String[] args)
   {
      ResourceManager test = new ResourceManager();
      test.addComponentHandler(JLabelHandler.getInstance());
      test.addComponentHandler(JComponentHandler.getInstance());
      test.addComponentHandler(AbstractButtonHandler.getInstance());
-     
+
      JPanel pan = new JPanel();
      pan.setName("panel");
      JButton but = new JButton();
@@ -343,9 +343,9 @@ public class ResourceManager {
      lbl.setName("label");
      pan.add(but);
      pan.add(lbl, BorderLayout.NORTH);
-     
+
      test.doComponent(new StringBuffer(), pan);
-     
+
      JFrame tast = new JFrame();
      tast.getContentPane().add(pan);
      tast.pack();

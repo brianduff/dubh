@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsGroupSubscriptions.java,v 1.1 2000-06-14 21:40:08 briand Exp $
-//   Copyright (C) 1997-2000  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: NewsGroupSubscriptions.java,v 1.2 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (C) 1997-2000  Brian Duff
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -26,7 +25,8 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent.navigator.services.news.ui;
+
+package org.dubh.apps.newsagent.navigator.services.news.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -52,10 +52,10 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import org.javalobby.dju.ui.DubhOkCancelDialog;
-import org.javalobby.dju.ui.VerticalFlowPanel;
+import org.dubh.dju.ui.DubhOkCancelDialog;
+import org.dubh.dju.ui.VerticalFlowPanel;
 
-import org.javalobby.apps.newsagent.navigator.services.news.NewsServerServiceProvider;
+import org.dubh.apps.newsagent.navigator.services.news.NewsServerServiceProvider;
 
 /**
  * This is the UI for news group subscriptions, freshly rewritten for
@@ -207,7 +207,7 @@ public class NewsGroupSubscriptions
       d.setPanel(m_mainPanel);
       d.pack();
       d.setVisible(true);
-      
+
 
       return true;
    }
@@ -235,7 +235,7 @@ public class NewsGroupSubscriptions
       }
 
    }
-   
+
 
 
    class AllGroupsTableModel extends AbstractTableModel
@@ -276,3 +276,6 @@ public class NewsGroupSubscriptions
 
 
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/06/14 21:40:08  briand
+// Initial Revision.
+//

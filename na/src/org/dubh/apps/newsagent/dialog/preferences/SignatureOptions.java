@@ -1,48 +1,48 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: SignatureOptions.java,v 1.5 1999-11-09 22:34:42 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: SignatureOptions.java,v 1.6 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
 import java.util.*;
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.misc.Debug;
 
 /**
  * Edits the user's signatures
  @author Brian Duff
- @version $Id: SignatureOptions.java,v 1.5 1999-11-09 22:34:42 briand Exp $
+ @version $Id: SignatureOptions.java,v 1.6 2001-02-11 02:51:00 briand Exp $
  */
 public class SignatureOptions extends JFrame {
   BorderLayout borderLayout1 = new BorderLayout();
@@ -161,7 +161,7 @@ public class SignatureOptions extends JFrame {
         // The title is zero length
         ErrorReporter.error("SignatureOptions.ZeroLength");
       } else if (StringUtils.getWordCount(newTitle.trim()) > 1) {
-        // The title has more than one word. 
+        // The title has more than one word.
         ErrorReporter.error("SignatureOptions.TooManyWords");
       } else {
             if (!already) {
@@ -207,10 +207,10 @@ public class SignatureOptions extends JFrame {
         String me = (String)(enum.nextElement());
       SignatureEntry newentry = new SignatureEntry(me, p.getProperty(me));
       if (me.equals(defSig))    // This is the default signature
-        newentry.isDefault = true; 
+        newentry.isDefault = true;
       sigEntries.addElement(newentry);
       if (me.equals(defSig))  // And set the list default too.
-        sigList.setDefault(sigEntries.indexOf(newentry)); 
+        sigList.setDefault(sigEntries.indexOf(newentry));
     } */
 
   }
@@ -241,7 +241,7 @@ public class SignatureOptions extends JFrame {
            if (Debug.TRACE_LEVEL_1)
            {
               Debug.println(1, this, "Failed to save preferences:"+ioe);
-           }  
+           }
         }
     }
 //    GlobalState.setSignatures(p);
@@ -275,7 +275,7 @@ public class SignatureOptions extends JFrame {
       sigEntries.setElementAt(newversion, index);
     }
   }
-  
+
 }
 
 
@@ -420,9 +420,9 @@ class SignatureEntry {
 
 // Display an icon and a string for each object in the list.
 class SigOptCellRenderer extends JLabel implements ListCellRenderer {
-    final static ImageIcon defIcon = 
+    final static ImageIcon defIcon =
             GlobalState.getRes().getImage("SignatureOptions.defaultItem");
-    final static ImageIcon nondefIcon = 
+    final static ImageIcon nondefIcon =
             GlobalState.getRes().getImage("SignatureOptions.nonDefaultItem");
 
     public Component getListCellRendererComponent(JList list, Object value,
@@ -447,13 +447,16 @@ class SigOptCellRenderer extends JLabel implements ListCellRenderer {
     }
 }
 
-// Old Version History: 
+// Old Version History:
 // <LI>0.1 [06/03/98]: Initial Revision
 // <LI>0.2 [07/03/98]: Changed to use GlobalState.getImage() for default item
 // <LI>0.3 [06/06/98]: Added dubh utils import for StringUtils
 
 // New History:
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:33:51  briand
 // (this file was automatically updated, but is now obsolete)
 //

@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: Debug.java,v 1.5 1999-11-11 21:24:34 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: Debug.java,v 1.6 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,10 +24,11 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.misc;
+
+package org.dubh.dju.misc;
 
 import java.io.*;
-import org.javalobby.dju.ui.OutputStreamFrame;
+import org.dubh.dju.ui.OutputStreamFrame;
 /**
  * Class containing static methods for displaying debug strings on the console.
  * The output can be switched on or off.<P>
@@ -54,7 +54,7 @@ import org.javalobby.dju.ui.OutputStreamFrame;
  @author Brian Duff
  @version 1.2
  */
-public class Debug {  
+public class Debug {
 
    private static final String DEBUG_WINDOW = "debugout";
 
@@ -86,11 +86,11 @@ public class Debug {
    private static int m_traceLevel = 3;
 
    private static final String ASSERT_FAILED_MSG = "ASSERTION FAILED: ";
-   
+
    private static DebugFrame m_frame;
-   
+
    /**
-   * Sets whether debugging is currently enabled. This has no effect if the 
+   * Sets whether debugging is currently enabled. This has no effect if the
    * TRACE_LEVEL_X constants are all false.
    * @param enabled if true, debuggging messages are displayed. If false, all
    *  debugging output is suppressed.
@@ -116,26 +116,26 @@ public class Debug {
      m_frame.pack();
      m_frame.setVisible(true);
   }
-  
+
   public static void closeWindow()
   {
      if (m_usingFrame)
      {
-        m_frame.setVisible(false);   
+        m_frame.setVisible(false);
      }
   }
 
    /**
     * Set the current trace level. You should use this to change the level of
-    * output at runtime. 
+    * output at runtime.
     * @param trace all messages of level <= trace are displayed.
     */
    public static synchronized void setTraceLevel(int trace)
-   { 
+   {
       println("DEBUG: Set trace level = "+trace);
       m_traceLevel = trace;
    }
-   
+
    public static synchronized int getTraceLevel()
    {
       return m_traceLevel;
@@ -146,7 +146,7 @@ public class Debug {
       println("DEBUG: Set asserts enabled = "+b);
       m_assert = b;
    }
-   
+
    public static synchronized boolean isAssertEnabled()
    {
       return m_assert && ASSERT;
@@ -199,7 +199,7 @@ public class Debug {
 
 
   /**
-   * Display a debug message followed by a carriage return and flush the 
+   * Display a debug message followed by a carriage return and flush the
    * buffer.
    * @param trace The trace level to use
    * @param mess The message to display
@@ -213,7 +213,7 @@ public class Debug {
    }
 
   /**
-   * Display a debug message followed by a carriage return and flush the 
+   * Display a debug message followed by a carriage return and flush the
    * buffer.
    * @param trace The trace level to use
    * @param mess The message to display
@@ -222,11 +222,11 @@ public class Debug {
    {
       println(trace, caller.getClass(), mess);
    }
-   
+
    public static void printException(int trace, Object caller, Throwable t)
    {
       println(trace, caller.getClass(), "Caught exception "+t);
-      t.printStackTrace(getWriter());      
+      t.printStackTrace(getWriter());
       t.printStackTrace(System.err);
       getWriter().flush();
    }
@@ -243,7 +243,7 @@ public class Debug {
         m_outstream.flush();
      }
   }
-  
+
   /**
    * Do an assertion. If the assertion fails, your message will be displayed.
    * See the class description for details on how to call this method.
@@ -258,7 +258,7 @@ public class Debug {
         m_outputprefix = oldPrefix;
      }
   }
-  
+
   /**
    * Do an assertion. If the assertion fails, your message will be displayed.
    * See the class description for details on how to call this method.
@@ -266,21 +266,21 @@ public class Debug {
   public static void assert(boolean condition, Object caller, String message)
   {
      assert(condition, caller.getClass(), message);
-  }  
-  
+  }
+
   private static String getClassName(Class c)
   {
      String fullName = c.getName();
-     
+
      int lastDot = fullName.lastIndexOf('.');
-     
+
      if (lastDot > 0)
      {
         return fullName.substring(lastDot+1);
      }
      return fullName;
   }
-  
+
   public static PrintWriter getWriter() {
      return m_outstream;
   }
@@ -290,7 +290,7 @@ public class Debug {
      Debug.println("Hello");
      Debug.println("Albsdflknweoifn");
   }
-  
+
 
 
 }

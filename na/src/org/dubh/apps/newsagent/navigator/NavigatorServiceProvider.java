@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: NavigatorServiceProvider.java,v 1.4 2000-06-14 21:36:46 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: NavigatorServiceProvider.java,v 1.5 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.navigator;
+
+package org.dubh.apps.newsagent.navigator;
 
 import java.io.IOException;
 
@@ -36,9 +36,9 @@ import javax.mail.Store;
 import javax.swing.Icon;
 import javax.swing.tree.TreeNode;
 
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.ui.LazyTreeNode;
-import org.javalobby.dju.diagnostic.Assert;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.ui.LazyTreeNode;
+import org.dubh.dju.diagnostic.Assert;
 
 /**
  * A navigator service provider contains a (possibly nested)
@@ -49,7 +49,7 @@ import org.javalobby.dju.diagnostic.Assert;
  * Folders are JavaMail Folder objects.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: NavigatorServiceProvider.java,v 1.4 2000-06-14 21:36:46 briand Exp $
+ * @version $Id: NavigatorServiceProvider.java,v 1.5 2001-02-11 02:51:00 briand Exp $
  */
 public abstract class NavigatorServiceProvider extends LazyTreeNode implements NavigatorNode
 {
@@ -134,6 +134,10 @@ public abstract class NavigatorServiceProvider extends LazyTreeNode implements N
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2000/06/14 21:36:46  briand
+// OK, a bit suspicious; cvs diff is finding files that I don't think I've
+// modified. But I'm gonna checkin anyway, and keep a backup.
+//
 // Revision 1.3  1999/11/09 22:34:42  briand
 // Move NewsAgent source to Javalobby.
 //

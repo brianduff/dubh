@@ -1,30 +1,32 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: MultipartViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: MultipartViewer.java,v 1.3 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-//   This program is free software; you can redistribute it and/or modify
-//   it under the terms of the GNU General Public License as published by
-//   the Free Software Foundation; either version 2 of the License, or
-//   (at your option) any later version.
+// Copyright (c) 1997 - 2001 Brian Duff
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
+// This program is free software.
 //
-//   You should have received a copy of the GNU General Public License
-//   along with this program; if not, write to the Free Software
-//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
+// distribution.  If the license is not included with this distribution,
+// you may find a copy on the web at 'http://www.dubh.org/license'
+//
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+// NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+// OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+// CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent.mailviewer.content;
+
+package org.dubh.apps.newsagent.mailviewer.content;
 
 import javax.activation.*;
 import javax.swing.*;
@@ -43,41 +45,41 @@ import java.io.*;
  * as icons with context menus for performing various actions on them.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: MultipartViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: MultipartViewer.java,v 1.3 2001-02-11 02:51:00 briand Exp $
  */
 public class MultipartViewer extends JPanel implements CommandObject
 {
    protected DataHandler m_dhHandler = null;
    protected String m_strVerb = null;
-   
-   public MultipartViewer() 
+
+   public MultipartViewer()
    {
       super(new BorderLayout());
    }
 
-    
-   public void setCommandContext(String verb, DataHandler dh) throws IOException 
+
+   public void setCommandContext(String verb, DataHandler dh) throws IOException
    {
       m_strVerb = verb;
       m_dhHandler = dh;
-   
+
       // get the content, and hope it is a Multipart Object
       Object content = dh.getContent();
-      if (content instanceof Multipart) 
+      if (content instanceof Multipart)
       {
          setupDisplay((Multipart)content);
       }
-      else 
+      else
       {
          setupErrorDisplay(content);
       }
    }
 
-   protected void setupDisplay(Multipart mp) 
+   protected void setupDisplay(Multipart mp)
    {
 
       // get the first part
-      try 
+      try
       {
          BodyPart bp = mp.getBodyPart(0);
          Component comp = getComponent(bp);
@@ -89,17 +91,17 @@ public class MultipartViewer extends JPanel implements CommandObject
       }
 
       // see if there are more than one parts
-      try 
+      try
       {
          int count = mp.getCount();
-         
+
          JPanel panSouth = new JPanel();
          add(panSouth, BorderLayout.SOUTH);
-         
+
          panSouth.setLayout(new FlowLayout());
 
          // for each one we create a button with the content type
-         for(int i = 1; i < count; i++) 
+         for(int i = 1; i < count; i++)
          {
             BodyPart curr = mp.getBodyPart(i);
             String label = null;
@@ -112,7 +114,7 @@ public class MultipartViewer extends JPanel implements CommandObject
             add(but);
          }
       }
-      catch(MessagingException me2) 
+      catch(MessagingException me2)
       {
          me2.printStackTrace();
       }
@@ -121,24 +123,24 @@ public class MultipartViewer extends JPanel implements CommandObject
    /**
     * Get the component used to display a particular bodypart.
     */
-   protected Component getComponent(BodyPart bp) 
+   protected Component getComponent(BodyPart bp)
    {
 
       try
       {
          DataHandler dh = bp.getDataHandler();
          CommandInfo ci = dh.getCommand("view");
-         if (ci == null) 
+         if (ci == null)
          {
             throw new MessagingException(
                "view command failed on: " +
                 bp.getContentType()
              );
          }
-       
+
          Object bean = dh.getBean(ci);
-   
-         if (bean instanceof Component) 
+
+         if (bean instanceof Component)
          {
             return (Component)bean;
          }
@@ -156,15 +158,15 @@ public class MultipartViewer extends JPanel implements CommandObject
                );
          }
       }
-      catch (MessagingException me) 
+      catch (MessagingException me)
       {
          return new Label(me.toString());
       }
    }
-    
 
-    
-   protected void setupErrorDisplay(Object content) 
+
+
+   protected void setupErrorDisplay(Object content)
    {
       String error;
 
@@ -173,23 +175,23 @@ public class MultipartViewer extends JPanel implements CommandObject
       else
          error = "Object not of type Multipart, content class = " +
             content.getClass().toString();
-   
+
       System.out.println(error);
       JLabel lab = new JLabel(error);
       add(lab);
    }
-   
-   class AttachmentViewer implements ActionListener 
+
+   class AttachmentViewer implements ActionListener
    {
-   
+
       BodyPart bp = null;
-   
-      public AttachmentViewer(BodyPart part) 
+
+      public AttachmentViewer(BodyPart part)
       {
          bp = part;
       }
-   
-      public void actionPerformed(ActionEvent e) 
+
+      public void actionPerformed(ActionEvent e)
       {
          ComponentFrame f = new ComponentFrame(
          getComponent(bp), "Attachment");
@@ -197,11 +199,14 @@ public class MultipartViewer extends JPanel implements CommandObject
          f.show();
       }
    }
-   
+
 }
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/10/17 17:03:27  briand
 // Initial revision.
 //

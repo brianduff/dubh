@@ -1,45 +1,45 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: AgentManager.java,v 1.5 1999-11-09 22:34:40 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: AgentManager.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.agent;
+
+package org.dubh.apps.newsagent.agent;
 
 import java.util.*;
 import java.io.*;
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.agent.ISendAgent;
-import org.javalobby.apps.newsagent.agent.IListAgent;
-import org.javalobby.apps.newsagent.agent.SendAgentPreviewDialog;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.apps.newsagent.nntp.MessageHeader;
-import org.javalobby.apps.newsagent.nntp.MessageBody;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.misc.UserPreferences;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.agent.ISendAgent;
+import org.dubh.apps.newsagent.agent.IListAgent;
+import org.dubh.apps.newsagent.agent.SendAgentPreviewDialog;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.nntp.MessageHeader;
+import org.dubh.apps.newsagent.nntp.MessageBody;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.misc.UserPreferences;
 
 
 import java.awt.*;
@@ -47,7 +47,7 @@ import java.awt.*;
  * Agent manager
  *
  * @author Brian Duff
- * @version $Id: AgentManager.java,v 1.5 1999-11-09 22:34:40 briand Exp $
+ * @version $Id: AgentManager.java,v 1.6 2001-02-11 02:50:59 briand Exp $
  */
 public class AgentManager {
    protected Vector m_activeSendAgents = new Vector();
@@ -204,7 +204,7 @@ public class AgentManager {
    * user preference file <b>is not saved</b> by this method. You should be
    * sure to call GlobalState.savePreferences() after calling this method
    * at some point.
-   */ 
+   */
   public void saveSendAgents() {
      UserPreferences prefs = GlobalState.getPreferences();
    /* First, store the names of active agents in order in the
@@ -245,7 +245,7 @@ public class AgentManager {
    * user preference file <b>is not saved</b> by this method. You should be
    * sure to call GlobalState.savePreferences() after calling this method
    * at some point.
-   */ 
+   */
   public void saveListAgents() {
      UserPreferences prefs = GlobalState.getPreferences();
    /* First, store the names of active agents in order in the
@@ -331,12 +331,12 @@ public class AgentManager {
      Enumeration enum = m_activeSendAgents.elements();
      Frame fraTmp = new Frame();
      SendAgentWarningsDialog dlgWarnings = new SendAgentWarningsDialog(fraTmp);
-     
+
      boolean wasWarning = false;
      boolean wasError   = false;
      boolean wasChanged = false;
      boolean postOk     = true;
-     
+
      while (enum.hasMoreElements()) {
         ISendAgent myAgent = getSendAgent((String)enum.nextElement());
         if (myAgent != null) {
@@ -361,9 +361,9 @@ public class AgentManager {
       * and post the message only if isPostingOk() on the dialogue returns
       * true after displaying it.
       */
-      
+
      UserPreferences prefs = GlobalState.getPreferences();
-      
+
      boolean ignorewarnings = prefs.getBoolPreference(
            PreferenceKeys.AGENTS_SEND_IGNOREWARNINGS, false);
      boolean ignoreerrors   = prefs.getBoolPreference(
@@ -588,10 +588,13 @@ public class AgentManager {
 // 0.3 [28/04/98]: Added support for list agents
 // 0.4 [06/06/98]: Added dubh utils import for StringUtils
 // 0.5 [07/06/98]: Added support for send agents. Moved into the
-//    org.javalobby.apps.newsagent.agent package.
-// 
+//    org.dubh.apps.newsagent.agent package.
+//
 // New history
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:40  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:25:16  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //

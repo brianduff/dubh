@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: HelpFrame.java,v 1.4 1999-11-11 21:24:34 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: HelpFrame.java,v 1.5 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,16 +24,17 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.help;
 
-import org.javalobby.dju.ui.*;
+package org.dubh.dju.help;
+
+import org.dubh.dju.ui.*;
 import javax.swing.*;
 import java.net.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.IOException;
-import org.javalobby.dju.html.HTMLParseException;
-import org.javalobby.dju.misc.Debug;
+import org.dubh.dju.html.HTMLParseException;
+import org.dubh.dju.misc.Debug;
 /**
  * An HTML-Based help system. To use this class, you need to have a set of
  * html help files in the CLASSPATH somewhere. You can use local or www
@@ -48,7 +48,7 @@ import org.javalobby.dju.misc.Debug;
  * Valid classes are: dhFolder (for folder items), dhTopic (for topic items),
  * dhNewFolder (for new folder items), dhNewTopic (for new topic items) and
  * dhWebLink (for www links). The class doesn't affect the functionality of the
- * node, it just specifies the icon to use. 
+ * node, it just specifies the icon to use.
  * You just use hyperlinks for nodes that go somewhere. <P>
  * Example: <PRE>
  *   <html>
@@ -87,7 +87,7 @@ public class HelpFrame extends HtmlBrowserFrame {
    * The default constructor doesn't have a document or tree control.
    */
   public HelpFrame() {
-     super();   
+     super();
   }
 
   /**
@@ -161,7 +161,7 @@ public class HelpFrame extends HtmlBrowserFrame {
      public void actionPerformed(ActionEvent e) {
         // e.getSource() is a HelpContentsNode
         String url = ((HelpContentsNode)e.getSource()).getURL();
-        if (url != null) 
+        if (url != null)
            setURL(ClassLoader.getSystemResource(url));
      }
   }

@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: DubhFrame.java,v 1.5 1999-11-11 21:24:35 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: DubhFrame.java,v 1.6 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,14 +24,15 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui;
+
+package org.dubh.dju.ui;
 import javax.swing.*;
 import java.awt.*;
-import org.javalobby.dju.misc.*;
+import org.dubh.dju.misc.*;
 import java.awt.event.*;
 import java.io.*;
 
-import org.javalobby.dju.DubhUtilsPreferences;
+import org.dubh.dju.DubhUtilsPreferences;
 
 /**
  * Subclass of JFrame with some useful utiltity methods.
@@ -62,11 +62,11 @@ public class DubhFrame extends JFrame {
     * Default Constructor. Constructs a frame and moves it to a restored
     * location
     */
-  public DubhFrame() 
+  public DubhFrame()
   {
      this("");
   }
-  
+
   public DubhFrame(String title)
   {
      super(title);
@@ -76,10 +76,10 @@ public class DubhFrame extends JFrame {
         {
            storeLocation();
         }
-     });     
+     });
   }
-  
-  
+
+
    /**
    * Moves the frame to the centre of the screen.
    */
@@ -132,7 +132,7 @@ public class DubhFrame extends JFrame {
      super.pack();
      restoreLocation();
   }
-  
+
 
    /**
     * store our location in the dubhutils properties file.
@@ -141,7 +141,7 @@ public class DubhFrame extends JFrame {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
-      
+
       //
       // If the frame has a name, use that as part of the key
       //
@@ -150,7 +150,7 @@ public class DubhFrame extends JFrame {
       {
          basekey = basekey+"."+name;
       }
-      
+
       dup.getPreferences().setIntPreference(
          basekey+".x", getLocation().x
       );
@@ -172,7 +172,7 @@ public class DubhFrame extends JFrame {
          Debug.println("Can't save dialog location in dubh utils properties.");
       }
    }
-   
+
    /**
     * restore our location from the dubhutils properties file
     */
@@ -180,10 +180,10 @@ public class DubhFrame extends JFrame {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
-      
+
       String name = getName();
       String nameKey;
-      
+
       //
       // If this frame has a name, and their is a preference for that named
       // frame, use this preference. Otherwise, use the generic preference
@@ -195,7 +195,7 @@ public class DubhFrame extends JFrame {
          Object p = dup.getPreference(nameKey+".x");
          if (p != null)   basekey = nameKey;
       }
-      
+
       try
       {
          int x = Math.max(0, dup.getIntPreference(
@@ -210,8 +210,8 @@ public class DubhFrame extends JFrame {
          int h = Math.max(0, dup.getIntPreference(
             basekey+".h"
          ));
-      
-      
+
+
          setLocation(new Point(x, y));
          setSize(new Dimension(w, h));
       }
@@ -219,6 +219,6 @@ public class DubhFrame extends JFrame {
       {
          moveToCenter();
       }
-   }  
+   }
 
 }

@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: CRLFOutputStream.java,v 1.1 2000-02-22 23:47:35 briand Exp $
-//   Copyright (C) 1999  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+//   $Id: CRLFOutputStream.java,v 1.2 2001-02-11 02:52:48 briand Exp $
+//   Copyright (C) 1999 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1999 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -21,18 +20,19 @@
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
 // REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
-//   Original Author: dog@dog.net.uk
-//   Contributors: Brian Duff
+//   Original Author: Brian Duff
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.javamail.client.news;
+
+package org.dubh.javamail.client.news;
 
 import java.io.*;
 
 /**
  * An output stream that filters LFs into CR/LF pairs.
  *
- * @version $Id: CRLFOutputStream.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+ * @version $Id: CRLFOutputStream.java,v 1.2 2001-02-11 02:52:48 briand Exp $
  */
 class CRLFOutputStream extends FilterOutputStream {
 
@@ -40,17 +40,17 @@ class CRLFOutputStream extends FilterOutputStream {
     * The CR octet.
     */
    public static final int CR = 13;
-   
+
    /**
     * The LF octet.
     */
    public static final int LF = 10;
-   
+
    /**
     * The CR/LF pair.
     */
    public static final byte[] CRLF = { CR, LF };
-   
+
    /**
     * The last byte read.
     */
@@ -59,7 +59,7 @@ class CRLFOutputStream extends FilterOutputStream {
    /**
     * Constructs a CR/LF output stream connected to the specified output stream.
     */
-   public CRLFOutputStream(OutputStream out) 
+   public CRLFOutputStream(OutputStream out)
    {
       super(out);
       last = -1;
@@ -69,12 +69,12 @@ class CRLFOutputStream extends FilterOutputStream {
     * Writes a character to the underlying stream.
     * @exception IOException if an I/O error occurred
     */
-   public void write(int ch) throws IOException 
+   public void write(int ch) throws IOException
    {
       if (ch==CR)
          out.write(CRLF);
       else
-         if (ch==LF) 
+         if (ch==LF)
          {
             if (last!=CR)
                out.write(CRLF);
@@ -138,7 +138,7 @@ class CRLFOutputStream extends FilterOutputStream {
    {
       out.write(CRLF);
    }
-   
+
    public void println(String s) throws IOException
    {
       out.write(s.getBytes());
@@ -149,6 +149,9 @@ class CRLFOutputStream extends FilterOutputStream {
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:47:35  briand
+// News client implementation initial revision.
+//
 // Revision 1.2  1999/11/11 21:26:38  briand
 // Change package and import to Javalobby JFA.
 //

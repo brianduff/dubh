@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
-//   Copyright (C) 1999, 2000  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh
+//   $Id: NewsClient.java,v 1.2 2001-02-11 02:52:48 briand Exp $
+//   Copyright (C) 1999 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1999 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -22,26 +21,27 @@
 // REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
-//   Contributors: 
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.javamail.client.news;
+
+package org.dubh.javamail.client.news;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import java.io.InputStream;
 
-import org.javalobby.javamail.client.StoreClient;
+import org.dubh.javamail.client.StoreClient;
 
 /**
  * A news client represents a client for USENET news. This interface defines the
  * fundamental methods which must be implemented by any client implementation
- * that will be used by org.javalobby.javamail.store.NewsStore.
+ * that will be used by org.dubh.javamail.store.NewsStore.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NewsClient.java,v 1.1 2000-02-22 23:47:35 briand Exp $
+ * @version $Id: NewsClient.java,v 1.2 2001-02-11 02:52:48 briand Exp $
  */
 public interface NewsClient extends StoreClient, NewsStatusCodes
 {
@@ -279,4 +279,7 @@ public interface NewsClient extends StoreClient, NewsStatusCodes
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/02/22 23:47:35  briand
+// News client implementation initial revision.
+//
 //

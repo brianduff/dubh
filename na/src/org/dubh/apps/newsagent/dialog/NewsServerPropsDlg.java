@@ -1,51 +1,51 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsServerPropsDlg.java,v 1.5 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: NewsServerPropsDlg.java,v 1.6 2001-02-11 02:50:59 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog;
+
+package org.dubh.apps.newsagent.dialog;
 
 import java.awt.*;
 import java.io.IOException;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import javax.swing.*;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.nntp.NNTPServer;
-import org.javalobby.apps.newsagent.nntp.NNTPServerException;
-import org.javalobby.dju.misc.StringUtils;
-import org.javalobby.dju.misc.ResourceManager;
-import org.javalobby.dju.misc.Debug;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.nntp.NNTPServer;
+import org.dubh.apps.newsagent.nntp.NNTPServerException;
+import org.dubh.dju.misc.StringUtils;
+import org.dubh.dju.misc.ResourceManager;
+import org.dubh.dju.misc.Debug;
 
-import org.javalobby.dju.ui.DubhOkCancelDialog;
+import org.dubh.dju.ui.DubhOkCancelDialog;
 
 /**
  * Edits the preferences of a particular news server.<P>
  *
  * @author Brian Duff
- * @version $Id: NewsServerPropsDlg.java,v 1.5 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: NewsServerPropsDlg.java,v 1.6 2001-02-11 02:50:59 briand Exp $
  */
 public class NewsServerPropsDlg extends DubhOkCancelDialog {
   JPanel panMain = new JPanel();
@@ -64,7 +64,7 @@ public class NewsServerPropsDlg extends DubhOkCancelDialog {
   JTextField tfPort = new JTextField();
   JButton cmdDefault = new JButton();
 
-  public NewsServerPropsDlg(JFrame frame, String title, boolean modal) 
+  public NewsServerPropsDlg(JFrame frame, String title, boolean modal)
   {
      super(frame, title, modal);
      init();
@@ -135,9 +135,9 @@ public class NewsServerPropsDlg extends DubhOkCancelDialog {
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 5, 5), 15, 0));
       panMain.add(cmdDefault, new GridBagConstraints2(2, 2, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 2, 5, 5), 0, 0));
-     
+
      setPanel(panMain);
-  
+
   }
 
   public boolean okClicked()
@@ -199,7 +199,7 @@ public class NewsServerPropsDlg extends DubhOkCancelDialog {
     } catch (NNTPServerException ex) {
        if (Debug.TRACE_LEVEL_1)
        {
-          Debug.println(1, this, "NNTPException in NewsServerPropsDlg.applyProps:"+ex);   
+          Debug.println(1, this, "NNTPException in NewsServerPropsDlg.applyProps:"+ex);
        }
        GlobalState.getStorageManager().nntpException(ex,
            GlobalState.getRes().getString("Action.Connecting"), host);
@@ -327,6 +327,9 @@ class NewsServerPropsDlg_cmdDefault_actionAdapter implements java.awt.event.Acti
 //
 // New version history:
 // $Log: not supported by cvs2svn $
+// Revision 1.5  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.4  1999/06/01 00:23:40  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog.
 //

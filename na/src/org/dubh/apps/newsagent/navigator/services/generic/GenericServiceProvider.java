@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: GenericServiceProvider.java,v 1.1 2000-08-19 21:23:39 briand Exp $
-//   Copyright (C) 1997-2000  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: GenericServiceProvider.java,v 1.2 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.navigator.services.news;
+
+package org.dubh.apps.newsagent.navigator.services.news;
 
 import javax.mail.Store;
 import javax.mail.Folder;
@@ -42,17 +42,17 @@ import java.util.MissingResourceException;
 import java.io.File;
 import java.io.IOException;
 
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.misc.ResourceManager;
-import org.javalobby.dju.diagnostic.Assert;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.misc.ResourceManager;
+import org.dubh.dju.diagnostic.Assert;
 
-import org.javalobby.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.GlobalState;
 
-import org.javalobby.apps.newsagent.navigator.NavigatorServiceProvider;
-import org.javalobby.apps.newsagent.navigator.NavigatorService;
-import org.javalobby.apps.newsagent.navigator.PropertyFileResolver;
+import org.dubh.apps.newsagent.navigator.NavigatorServiceProvider;
+import org.dubh.apps.newsagent.navigator.NavigatorService;
+import org.dubh.apps.newsagent.navigator.PropertyFileResolver;
 
-import org.javalobby.javamail.news.NewsStore;
+import org.dubh.javamail.news.NewsStore;
 
 /**
  * This represents a JavaMail Store in the navigator. It's fairly generic, i.e.
@@ -60,7 +60,7 @@ import org.javalobby.javamail.news.NewsStore;
  * plug in JavaMail stores for any old protocol, and it will just work
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: GenericServiceProvider.java,v 1.1 2000-08-19 21:23:39 briand Exp $
+ * @version $Id: GenericServiceProvider.java,v 1.2 2001-02-11 02:51:01 briand Exp $
  */
 public class GenericServiceProvider extends NavigatorServiceProvider
 {
@@ -77,7 +77,7 @@ public class GenericServiceProvider extends NavigatorServiceProvider
       PREF_PORT     = "port",
       PREF_HOST     = "host";
 
-   private final static String RES = "org.javalobby.apps.newsagent.navigator.services.generic.res.Command";
+   private final static String RES = "org.dubh.apps.newsagent.navigator.services.generic.res.Command";
 
    /**
     * Default constructor
@@ -356,4 +356,7 @@ public class GenericServiceProvider extends NavigatorServiceProvider
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2000/08/19 21:23:39  briand
+// Initial Revision.
+//
 //

@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: ValidatorPanel.java,v 1.5 1999-11-11 21:24:36 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: ValidatorPanel.java,v 1.6 2001-02-11 02:52:12 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui;
+
+package org.dubh.dju.ui;
 
 // Core Java Imports
 import java.awt.*;
@@ -36,7 +36,7 @@ import javax.swing.*;
 
 
 // Dubh Utils Imports
-import org.javalobby.dju.event.*;
+import org.dubh.dju.event.*;
 
 // FESI Imports
 
@@ -46,24 +46,24 @@ import org.javalobby.dju.event.*;
  * register any number of validator objects using the registerValidator
  * method. Then call checkValid() if the validation state may have changed.
  * this will force the validator panel to poll all its validators. If
- * all validators return true, the panel is considered to be in a 
+ * all validators return true, the panel is considered to be in a
  * valid state. You can add event listeners for changes in the valid
  * state of this panel (e.g. the ok cancel dialog adds listeners
  * to any ValidatorPanels it contains to enable or disable the ok button
  * depending on the validity of the panel.)
  * </p>
- * @author <a href=mailto:dubh@btinternet.com>Brian Duff</a>
+ * @author Brian Duff
  * @version 0.0 (DJU 1.1.00) [12/Dec/1998]
  */
 public class ValidatorPanel extends JPanel
 {
-   
+
    private Vector m_validators;
    private Vector m_listeners;
    private Vector m_messageValidators;
    private boolean m_valid;
 
-   
+
    public ValidatorPanel()
    {
       super();
@@ -77,12 +77,12 @@ public class ValidatorPanel extends JPanel
    {
       m_listeners.addElement(l);
    }
-   
+
    public void removeValidationChangeListener(ValidationChangeListener l)
    {
       m_listeners.removeElement(l);
    }
-   
+
    private void fireValidationChange(boolean newState)
    {
       Enumeration enum = m_listeners.elements();
@@ -92,22 +92,22 @@ public class ValidatorPanel extends JPanel
          ((ValidationChangeListener)enum.nextElement()).validationStateChanged(e);
       }
    }
-   
+
    public void registerValidator(Validator v)
    {
       m_validators.addElement(v);
    }
-   
+
    public void unregisterValidator(Validator v)
    {
       m_validators.removeElement(v);
    }
-   
+
    public void registerMessageValidator(MessageValidator v)
    {
       m_messageValidators.addElement(v);
    }
-   
+
    public void unregisterMessageValidator(MessageValidator v)
    {
       m_messageValidators.removeElement(v);
@@ -133,14 +133,14 @@ public class ValidatorPanel extends JPanel
       }
       fireValidationChange(true);
    }
-   
+
    public boolean isValid()
-   {   
+   {
       return m_valid;
-   }   
+   }
 
    /**
-    * Validators should implement this interface. If 
+    * Validators should implement this interface. If
     * you return null from getErrorCode, the DubhOkCancelDialog
     * will disable the Ok button until all validators are
     * happy. If you return an error code, your validator
@@ -148,11 +148,11 @@ public class ValidatorPanel extends JPanel
     * validator fails when the user clicks Ok, your error
     * message is displayed.
     */
-   public interface Validator 
+   public interface Validator
    {
-      public boolean isValid();   
+      public boolean isValid();
    }
-   
+
    public interface MessageValidator extends Validator
    {
       public String getErrorMessage();

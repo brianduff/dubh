@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: DubhDialog.java,v 1.5 1999-11-11 21:24:35 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: DubhDialog.java,v 1.6 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui;
+
+package org.dubh.dju.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,8 +33,8 @@ import java.io.*;
 
 import java.awt.event.*;
 
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.DubhUtilsPreferences;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.DubhUtilsPreferences;
 
 /**
  * Subclass of JDialog with some useful utiltity methods.
@@ -47,13 +47,13 @@ import org.javalobby.dju.DubhUtilsPreferences;
  @version 0.3 [08/12/98]
  */
 public class DubhDialog extends JDialog {
-   
+
    private Frame m_parent;
-   
-   private static final String s_DJUDLGKEY    = 
+
+   private static final String s_DJUDLGKEY    =
       "DialogLocation.";
-  
-   
+
+
    public DubhDialog(Frame frame, String title, boolean modal) {
       super(frame, title, modal);
       m_parent = frame;
@@ -84,7 +84,7 @@ public class DubhDialog extends JDialog {
    public void moveToCentre() {
       Dimension screen = this.getToolkit().getScreenSize();
       Dimension frame  = getSize();
-      setLocation(screen.width/2 - frame.width/2, screen.height/2 - frame.height/2);  
+      setLocation(screen.width/2 - frame.width/2, screen.height/2 - frame.height/2);
    }
 
   /**
@@ -106,21 +106,21 @@ public class DubhDialog extends JDialog {
       //pack();
       setVisible(true);
    }
-   
+
    public void pack()
    {
       super.pack();
       restoreLocation();
    }
-   
+
   public void setVisible(boolean b)
   {
      if (!b)
         storeLocation();
      super.setVisible(b);
   }
-  
-   
+
+
    /**
     * store our location in the dubhutils properties file.
     */
@@ -128,7 +128,7 @@ public class DubhDialog extends JDialog {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
-      
+
       //
       // If the frame has a name, use that as part of the key
       //
@@ -136,8 +136,8 @@ public class DubhDialog extends JDialog {
       if (name != null && !name.equals(""))
       {
          basekey = basekey+"."+name;
-      }      
-      
+      }
+
       dup.getPreferences().setIntPreference(
          basekey+".x", getLocation().x
       );
@@ -159,7 +159,7 @@ public class DubhDialog extends JDialog {
          Debug.println("Can't save dialog location in dubh utils properties.");
       }
    }
-   
+
    /**
     * restore our location from the dubhutils properties file
     */
@@ -167,10 +167,10 @@ public class DubhDialog extends JDialog {
    {
       DubhUtilsPreferences dup = DubhUtilsPreferences.getPreferences();
       String basekey = s_DJUDLGKEY+getClass().toString().substring(6);
-      
+
       String name = getName();
       String nameKey;
-      
+
       //
       // If this frame has a name, and their is a preference for that named
       // frame, use this preference. Otherwise, use the generic preference
@@ -181,8 +181,8 @@ public class DubhDialog extends JDialog {
          nameKey = basekey+"."+name;
          Object p = dup.getPreference(nameKey+".x");
          if (p != null)   basekey = nameKey;
-      }      
-      
+      }
+
       try
       {
          int x = Math.max(0, dup.getIntPreference(
@@ -197,8 +197,8 @@ public class DubhDialog extends JDialog {
          int h = Math.max(0, dup.getIntPreference(
             basekey+".h"
          ));
-      
-      
+
+
          setLocation(new Point(x, y));
          setSize(new Dimension(w, h));
       }
@@ -206,8 +206,8 @@ public class DubhDialog extends JDialog {
       {
          moveToCentre();
       }
-   }  
-   
+   }
+
    public static void main(String[] args)
    {
       FunkyDialog test = new FunkyDialog();

@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: StringUtils.java,v 1.5 1999-11-11 21:24:35 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: StringUtils.java,v 1.6 2001-02-11 02:52:11 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.misc;
+
+package org.dubh.dju.misc;
 
 import java.util.*;
 /**
@@ -42,7 +42,7 @@ import java.util.*;
  * <LI>0.8 [29/04/98]: Added makeDoubleHex.
  * <LI>0.9 [01/05/98]: Added getTokens(). Changed getWords() to use it. Added
  *   countTokens() and modified getWordCount() to use it. Added wildMatch().
- * <LI>1.0 [05/06/98]: Moved package to org.javalobby.dju.misc (was in NewsAgent).
+ * <LI>1.0 [05/06/98]: Moved package to org.dubh.dju.misc (was in NewsAgent).
  *   Added double argument version of stringToInt() and threw exception in
  *   single argument version [THIS WILL CAUSE INTERFACE PROBLEMS WITH EXISTING
  *   CODE THAT DOES NOT CATCH THE EXCEPTION]
@@ -94,7 +94,7 @@ public class StringUtils {
       while (t.hasMoreTokens())
         v.addElement(t.nextToken());
      cmd = new String[v.size()];
-     
+
      for (int i = 0; i < cmd.length; i++)
         cmd[i] = (String) v.elementAt(i);
       return cmd;
@@ -110,7 +110,7 @@ public class StringUtils {
   }
 
   /**
-   * Determines the number of words in a String. 
+   * Determines the number of words in a String.
    @param s the string to count
    @returns the number of words in the string.
   */
@@ -187,7 +187,7 @@ public class StringUtils {
    */
   public static String prefixString(String original, String prefixString) {
      StringBuffer buf = new StringBuffer(original);
-     
+
      int len   = prefixString.length();
      int added = len;
 
@@ -308,7 +308,7 @@ public class StringUtils {
      if ( wTokens != vTokens ) {
         if (wildcard.endsWith(""+sepChar+wChar) && vTokens > wTokens) {// ends with .*
            // can just do a compare with no tokens in the wildcard.
-           stopAt = wTokens;  
+           stopAt = wTokens;
         } else
            return false;
      }
@@ -339,7 +339,7 @@ public class StringUtils {
       int lastspacepos = -1;
       int colpos = 0;
       int curpos;
-      
+
       /*
        * Go through the original, a character at a time. If current character
        * is a space, set lastspacepos = curpos. If we hit columns part way
@@ -369,7 +369,7 @@ public class StringUtils {
                  colpos = 0;
               }
            }
-      
+
       }
       return buf.toString();
 

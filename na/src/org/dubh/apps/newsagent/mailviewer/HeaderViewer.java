@@ -1,32 +1,32 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: HeaderViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: HeaderViewer.java,v 1.3 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent.mailviewer;
+
+package org.dubh.apps.newsagent.mailviewer;
 
 import java.awt.*;
 import javax.swing.*;
@@ -36,7 +36,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 
 /**
  * Displays the headers of a message. Can be used either in composition
@@ -45,9 +45,9 @@ import org.javalobby.dju.ui.GridBagConstraints2;
  * that implements the HeaderEditor interface.
  *
  * @author Brian Duff
- * @version $Id: HeaderViewer.java,v 1.2 1999-11-09 22:34:42 briand Exp $
+ * @version $Id: HeaderViewer.java,v 1.3 2001-02-11 02:51:00 briand Exp $
  */
-public class HeaderViewer extends JPanel 
+public class HeaderViewer extends JPanel
 {
 
    protected final static String DELIMITER = ";";
@@ -58,19 +58,19 @@ public class HeaderViewer extends JPanel
    protected JScrollPane m_scroll;
    protected Hashtable m_hash;
    protected Hashtable m_hashEditors;
-   
+
    protected MimeMessage m_mmMessage;
-   
+
    protected static final String[] DEFAULT_HEADERS = {
       "From",
       "Subject"
-   }; 
+   };
 
    /**
     * Construct the default message header display, which just shows the
     * From: and Subject: headers.
     */
-   public HeaderViewer() 
+   public HeaderViewer()
    {
      this(DEFAULT_HEADERS);
    }
@@ -79,9 +79,9 @@ public class HeaderViewer extends JPanel
    * Construct a message header display, consisting of the specified headers
    * @param headers the header fields to display, if they exist in the message
    */
-  public HeaderViewer(String[] headers) 
+  public HeaderViewer(String[] headers)
   {
-     
+
      m_table = createNewTable();
      m_scroll = new JScrollPane(m_table);
      this.setLayout(new BorderLayout());
@@ -89,7 +89,7 @@ public class HeaderViewer extends JPanel
      m_hashEditors = new Hashtable();
      setHeaderFields(headers);
   }
-  
+
   /**
    * Create a new table, set up defaults.
    */
@@ -98,19 +98,19 @@ public class HeaderViewer extends JPanel
      JTable table = new JTable();
      m_hmDataModel = new HeaderModel();
      table.setModel(m_hmDataModel);
-     
+
      table.setTableHeader(null);
      table.setShowGrid(false);
-     
+
      // Set up renderers
      table.getColumnModel().getColumn(0).setCellRenderer(new HeaderFieldNameRenderer());
      table.getColumnModel().getColumn(1).setCellRenderer(new HeaderFieldValueRenderer());
-          
+
      return table;
   }
-  
+
   /**
-   * This calculates the column width of the first column based on 
+   * This calculates the column width of the first column based on
    * the width of the field name renderers in that column, and
    * makes it non-resizable.
    */
@@ -118,9 +118,9 @@ public class HeaderViewer extends JPanel
   {
       // Calculate the widest renderer in the first column
       int rows = m_table.getModel().getRowCount();
-  
+
       int maxWidth = 100;
-      
+
       for (int i=0; i < rows; i++)
       {
          TableCellRenderer r = m_table.getCellRenderer(i, 0);
@@ -129,9 +129,9 @@ public class HeaderViewer extends JPanel
          );
          maxWidth = Math.max(maxWidth, c.getPreferredSize().width);
       }
-      
+
       TableColumnModel tcm = m_table.getColumnModel();
-      
+
       TableColumn c = tcm.getColumn(0);
       c.setMaxWidth(maxWidth);
       c.setMinWidth(maxWidth);
@@ -139,13 +139,13 @@ public class HeaderViewer extends JPanel
       c.setResizable(false);
   }
 
-   
+
 
   /**
    * Set the headers to use
    * @param headers An array of header fields to be displayed in this panel
    */
-  public void setHeaderFields(String[] headers) 
+  public void setHeaderFields(String[] headers)
   {
      m_headers = headers;
      m_hmDataModel.notifyChange();
@@ -157,7 +157,7 @@ public class HeaderViewer extends JPanel
    * Get the headers this panel is displaying
    * @return an array of header fields
    */
-  public String[] getHeaderFields() 
+  public String[] getHeaderFields()
   {
      return m_headers;
   }
@@ -165,11 +165,11 @@ public class HeaderViewer extends JPanel
   /**
    * Set the message who's header we are to display.
    */
-  public void setMessage(MimeMessage msg) 
+  public void setMessage(MimeMessage msg)
      throws MessagingException
   {
      m_mmMessage = msg;
-     
+
      m_hmDataModel.notifyChange();
   }
 
@@ -180,29 +180,29 @@ public class HeaderViewer extends JPanel
   {
      m_hashEditors.put(header, ed);
   }
-  
+
   /**
    * Get a component responsible for editing the specified header.
-   * Creates a new default editor if a custom one hasn't been 
+   * Creates a new default editor if a custom one hasn't been
    * registered
    */
   protected HeaderEditor getEditorFor(String header)
   {
      HeaderEditor h = (HeaderEditor)m_hashEditors.get(header);
-     
+
      if (h == null)
      {
         h = new DefaultHeaderEditor();
         m_hashEditors.put(header, h);
      }
-     
+
      return h;
   }
 
   /**
    * Used by the table model to get a header value. Should return
    * an empty string if there is no current message.
-   */  
+   */
   protected String getHeaderValue(String headerName)
   {
      try
@@ -217,7 +217,7 @@ public class HeaderViewer extends JPanel
      }
      return "";
   }
-  
+
 
 
    /**
@@ -226,7 +226,7 @@ public class HeaderViewer extends JPanel
     */
    class HeaderModel extends AbstractTableModel
    {
-   
+
       void notifyChange()
       {
          fireTableDataChanged();
@@ -239,7 +239,7 @@ public class HeaderViewer extends JPanel
       {
          return m_headers.length;
       }
-      
+
       /**
        * This is always 2
        */
@@ -247,28 +247,28 @@ public class HeaderViewer extends JPanel
       {
          return 2;
       }
-      
+
       /**
        * Gets the header name (for column 0) or the header
        * value (for column 1)
        */
       public Object getValueAt(int row, int column)
-      {   
+      {
          if (column == 0) return m_headers[row];
          else if (column == 1)
          {
             return getHeaderValue(m_headers[row]);
          }
-         
+
          throw new IllegalArgumentException("Column "+column+" doesn't exist in table!");
       }
-      
+
       /**
        * Set the header value
        */
       public void setValueAt(int row, int column, Object value)
       {
-         if (column != 1) 
+         if (column != 1)
             throw new IllegalArgumentException("Can only edit header values!");
          try
          {
@@ -282,26 +282,26 @@ public class HeaderViewer extends JPanel
    }
 
    /**
-    * Delegates through to custom HeaderEditor instances to 
+    * Delegates through to custom HeaderEditor instances to
     * provide rendering services for a header field.
     */
    class HeaderFieldValueRenderer implements TableCellRenderer
    {
-      public Component getTableCellRendererComponent(JTable table, 
-         Object value, 
-         boolean isSelected, 
-         boolean hasFocus, 
-         int row, 
-         int column) 
+      public Component getTableCellRendererComponent(JTable table,
+         Object value,
+         boolean isSelected,
+         boolean hasFocus,
+         int row,
+         int column)
       {
-         if (column != 1) 
+         if (column != 1)
             throw new IllegalStateException("This renderer is for the value column");
          HeaderEditor ed = getEditorFor(m_headers[row]);
          ed.setReadOnly(true);
          ed.setHeaderValue(value.toString());
          return ed.getComponent();
       }
-   
+
    }
 
    /**
@@ -309,12 +309,12 @@ public class HeaderViewer extends JPanel
     */
    class HeaderFieldNameRenderer extends JLabel implements TableCellRenderer
    {
-      public Component getTableCellRendererComponent(JTable table, 
-         Object value, 
-         boolean isSelected, 
-         boolean hasFocus, 
-         int row, 
-         int column) 
+      public Component getTableCellRendererComponent(JTable table,
+         Object value,
+         boolean isSelected,
+         boolean hasFocus,
+         int row,
+         int column)
       {
          Font f = getFont();
          if (f.getStyle() != Font.BOLD)
@@ -327,8 +327,8 @@ public class HeaderViewer extends JPanel
          setOpaque(true);
          return this;
       }
-      
-      
+
+
    }
 
 }
@@ -336,6 +336,9 @@ public class HeaderViewer extends JPanel
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/09 22:34:42  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.1  1999/10/17 17:02:59  briand
 // Initial revision.
 //

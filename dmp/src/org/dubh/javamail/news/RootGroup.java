@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: RootGroup.java,v 1.2 2000-06-14 21:33:02 briand Exp $
-//   Copyright (C) 1999  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh
+//   $Id: RootGroup.java,v 1.3 2001-02-11 02:52:49 briand Exp $
+//   Copyright (C) 1999 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1999 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -22,11 +21,10 @@
 // REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
-//   Contributors: 
+//   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-
-package org.javalobby.javamail.news;
+package org.dubh.javamail.news;
 
 import javax.mail.*;
 import javax.mail.event.ConnectionEvent;
@@ -37,20 +35,20 @@ import java.util.*;
  * A Javamail folder representing a newsgroup in the NNTP protocol.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: RootGroup.java,v 1.2 2000-06-14 21:33:02 briand Exp $
+ * @version $Id: RootGroup.java,v 1.3 2001-02-11 02:52:49 briand Exp $
  */
 class RootGroup extends Newsgroup
 {
-   
-   
-    
+
+
+
    public RootGroup(Store s)
    {
       super("/", s);
    }
-   
-   
-   
+
+
+
    private NewsStore getServer()
    {
       return (NewsStore)getStore();
@@ -62,8 +60,8 @@ class RootGroup extends Newsgroup
       throws MessagingException
    {
    }
-   
-   
+
+
    /**
     * Does this group exist on the server?
     */
@@ -72,8 +70,8 @@ class RootGroup extends Newsgroup
    {
       return true;
    }
-   
-   
+
+
    /**
     * Get a folder
     */
@@ -82,8 +80,8 @@ class RootGroup extends Newsgroup
    {
       return ((NewsStore)store).getFolder(name);
    }
-   
-   
+
+
    /**
     * Root group doesn't contain messages
     */
@@ -92,7 +90,7 @@ class RootGroup extends Newsgroup
    {
       throw new MessagingException("Root group doesn't contain messages");
    }
-   
+
    /**
     * Get a count of messages in this group
     */
@@ -101,7 +99,7 @@ class RootGroup extends Newsgroup
    {
       return 0;
    }
-   
+
    /**
     * Get all messages in this group. Check for new messages
     * since the last time this method was called and retrieve them
@@ -109,16 +107,16 @@ class RootGroup extends Newsgroup
    public Message[] getMessages()
       throws MessagingException
    {
-      throw new MessagingException("Root doesn't contain messages");      
+      throw new MessagingException("Root doesn't contain messages");
    }
-   
+
 
    public char getSeparator()
       throws MessagingException
    {
       return '.';
    }
-   
+
    /**
     * Type of the root is always HOLDS_FOLDERS
     */
@@ -136,7 +134,7 @@ class RootGroup extends Newsgroup
    {
       throw new MessagingException("Root doesn't contain messages");
    }
-   
+
 
    /**
     * This gets all newsgroups which match the specified pattern.
@@ -156,7 +154,7 @@ class RootGroup extends Newsgroup
    {
       return getServer().getSubscribedGroups();
    }
-   
+
    /**
     * Open the newsgroup
     */
@@ -174,6 +172,9 @@ class RootGroup extends Newsgroup
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2000/06/14 21:33:02  briand
+// Added support for progress monitoring. Numerous fixes & upgrades.
+//
 // Revision 1.1  2000/02/22 23:49:39  briand
 // New news store implementation that sits on top of clients. Initial
 // revision.

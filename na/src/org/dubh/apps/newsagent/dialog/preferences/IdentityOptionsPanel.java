@@ -1,35 +1,35 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: IdentityOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: IdentityOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.awt.event.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.Document;
@@ -37,27 +37,27 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 
 
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.dju.ui.preferences.*;
-import org.javalobby.dju.misc.*;
-import org.javalobby.apps.newsagent.PreferenceKeys;
-import org.javalobby.dju.ui.IconicPreferencePanel;
-import org.javalobby.dju.ui.JTextFieldFixedHeight;
-import org.javalobby.dju.ui.VerticalFlowPanel;
-import org.javalobby.dju.ui.FixedTextArea;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.dju.ui.preferences.*;
+import org.dubh.dju.misc.*;
+import org.dubh.apps.newsagent.PreferenceKeys;
+import org.dubh.dju.ui.IconicPreferencePanel;
+import org.dubh.dju.ui.JTextFieldFixedHeight;
+import org.dubh.dju.ui.VerticalFlowPanel;
+import org.dubh.dju.ui.FixedTextArea;
 
-import org.javalobby.dju.misc.ResourceManager;
+import org.dubh.dju.misc.ResourceManager;
 /**
  * Panel for displaying Identity Options in preferences.
  * @author Brian Duff
- * @version $Id: IdentityOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
+ * @version $Id: IdentityOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
  */
-public class IdentityOptionsPanel extends PreferencePage 
+public class IdentityOptionsPanel extends PreferencePage
 {
-   private final static String RES = "org.javalobby.apps.newsagent.dialog.preferences.res.IdentityOptions";
+   private final static String RES = "org.dubh.apps.newsagent.dialog.preferences.res.IdentityOptions";
 
    private JPanel panMain = new JPanel();
-   
+
    private JLabel labRealName = new JLabel();
    private JTextField tfRealName = new JTextFieldFixedHeight();
    private JLabel labEmail = new JLabel();
@@ -67,23 +67,23 @@ public class IdentityOptionsPanel extends PreferencePage
    private JLabel labOrganisation = new JLabel();
    private JTextField tfOrganisation = new JTextFieldFixedHeight();
    private IconicPreferencePanel ippAboutYou = new IconicPreferencePanel();
-   
+
    private IconicPreferencePanel ippSignatures = new IconicPreferencePanel();
    private JLabel labSigText = new JLabel();
    private FixedTextArea taSigText = new FixedTextArea();
    private JScrollPane staSigText = new JScrollPane(taSigText);
    private JTextField tfSigFile = new JTextFieldFixedHeight();
    private JButton butSigFile = new JButton();
-   
+
    private JFileChooser m_fileDialog = new JFileChooser();
-   
+
 
    public static final String ID = ResourceManager.getManagerFor(RES).getString("IdentityOptions.title");
 
    /**
     * Create an identity options panel.
     */
-   public IdentityOptionsPanel() 
+   public IdentityOptionsPanel()
    {
       super(ResourceManager.getManagerFor(RES), "IdentityOptions");
       init();
@@ -100,7 +100,7 @@ public class IdentityOptionsPanel extends PreferencePage
    {
       initAboutYou();
       initSignatures();
-     
+
       panMain.setLayout(new BoxLayout(panMain, BoxLayout.Y_AXIS));
       panMain.setName("MainPanel");
       panMain.add(ippAboutYou);
@@ -108,7 +108,7 @@ public class IdentityOptionsPanel extends PreferencePage
       panMain.add(Box.createGlue());
 
    }
-   
+
 
    /**
     * Construct the "signatures" panel.
@@ -119,13 +119,13 @@ public class IdentityOptionsPanel extends PreferencePage
       // Signatures panel
       ippSignatures.setName("Signatures");
       VerticalFlowPanel group = ippSignatures.getContainer();
-      
+
       labSigText.setName("SignatureText");
       taSigText.setName("SignatureTextField");
       taSigText.setRows(3);
       group.addRow(labSigText);
       group.addSpacerRow(staSigText);
-      
+
       JPanel grpSigFile = new JPanel();
       grpSigFile.setMaximumSize(new Dimension(grpSigFile.getMaximumSize().width, tfSigFile.getPreferredSize().height));
       grpSigFile.setLayout(new BorderLayout());
@@ -136,7 +136,7 @@ public class IdentityOptionsPanel extends PreferencePage
       grpSigFile.add(tfSigFile, BorderLayout.CENTER);
       grpSigFile.add(butSigFile, BorderLayout.EAST);
       group.addRow(grpSigFile);
-      
+
       butSigFile.addActionListener(new BrowseButtonListener());
       tfSigFile.getDocument().addDocumentListener(new FilenameListener());
    }
@@ -153,17 +153,17 @@ public class IdentityOptionsPanel extends PreferencePage
       //
       ippAboutYou.setName("AboutYou");
       VerticalFlowPanel group = ippAboutYou.getContainer();
-                  
+
       labRealName.setName("RealName");
       tfRealName.setName("RealNameField");
       group.addRow(labRealName);
       group.addRow(tfRealName);
-      
+
       labEmail.setName("Email");
       tfEmail.setName("EmailField");
       group.addRow(labEmail);
-      group.addRow(tfEmail);   
-      
+      group.addRow(tfEmail);
+
       labReplyTo.setName("ReplyTo");
       tfReplyTo.setName("ReplyToField");
       group.addRow(labReplyTo);
@@ -172,7 +172,7 @@ public class IdentityOptionsPanel extends PreferencePage
       labOrganisation.setName("Organization");
       tfOrganisation.setName("OrganizationField");
       group.addRow(labOrganisation);
-      group.addRow(tfOrganisation);  
+      group.addRow(tfOrganisation);
       group.addSpacerRow(new JPanel());
 
    }
@@ -182,7 +182,7 @@ public class IdentityOptionsPanel extends PreferencePage
    * don't exist, use sensible defaults. You should call this if the cancel
    * button was clicked or the window was closed without OK being clicked.
    */
-   public void revert(UserPreferences p) 
+   public void revert(UserPreferences p)
    {
       tfRealName.setText(p.getPreference(PreferenceKeys.IDENTITY_REALNAME, ""));
       tfEmail.setText(p.getPreference(PreferenceKeys.IDENTITY_EMAIL, ""));
@@ -198,14 +198,14 @@ public class IdentityOptionsPanel extends PreferencePage
          taSigText.setEnabled(true);
       }
       taSigText.setText(p.getPreference(PreferenceKeys.SIGNATURE_TEXT, ""));
-      
+
    }
 
    /**
    * Applies the preferences to the user preferences in the GlobalState. You
    * should call this on all panels, then save the preference file.
    */
-   public void save(UserPreferences p) 
+   public void save(UserPreferences p)
    {
       p.setPreference(PreferenceKeys.IDENTITY_REALNAME, tfRealName.getText());
       p.setPreference(PreferenceKeys.IDENTITY_EMAIL, tfEmail.getText());
@@ -216,7 +216,7 @@ public class IdentityOptionsPanel extends PreferencePage
    }
 
 
-   /** 
+   /**
     * Listen out for clicks on the Filename button and bring up the file dialog.
     */
    class BrowseButtonListener implements ActionListener
@@ -229,8 +229,8 @@ public class IdentityOptionsPanel extends PreferencePage
             tfSigFile.setText(m_fileDialog.getSelectedFile().getPath());
          }
       }
-   }   
-   
+   }
+
    /**
     * Listen to the filename text field. If it is blanked out, reenable the text area.
     */
@@ -247,17 +247,17 @@ public class IdentityOptionsPanel extends PreferencePage
             taSigText.setEnabled(false);
          }
       }
-   
+
       public void changedUpdate(DocumentEvent e)
       {
          checkForBlank(e.getDocument());
       }
-      
+
       public void insertUpdate(DocumentEvent e)
       {
          checkForBlank(e.getDocument());
       }
-      
+
       public void removeUpdate(DocumentEvent e)
       {
          checkForBlank(e.getDocument());
@@ -276,6 +276,9 @@ public class IdentityOptionsPanel extends PreferencePage
 // New Log
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.5  1999/06/01 00:37:04  briand
 // Total rewrite. Should now look a lot nicer, and follow a standard format for preference pages.
 //

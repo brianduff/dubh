@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: AddServer.java,v 1.3 2000-06-14 21:36:46 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: AddServer.java,v 1.4 2001-02-11 02:51:01 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
+// Copyright (c) 1997 - 2001 Brian Duff
 //
 // This program is free software.
 //
-// You may redistribute it and/or modify it under the terms of the JFA
+// You may redistribute it and/or modify it under the terms of the
 // license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,26 +24,27 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.navigator.services.news.command.service;
+
+package org.dubh.apps.newsagent.navigator.services.news.command.service;
 
 import java.io.IOException;
 
-import org.javalobby.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.GlobalState;
 
-import org.javalobby.apps.newsagent.navigator.services.news.NewsServerServiceProvider;
-import org.javalobby.apps.newsagent.navigator.NavigatorService;
-import org.javalobby.apps.newsagent.navigator.services.news.ui.NewsServerEditor;
+import org.dubh.apps.newsagent.navigator.services.news.NewsServerServiceProvider;
+import org.dubh.apps.newsagent.navigator.NavigatorService;
+import org.dubh.apps.newsagent.navigator.services.news.ui.NewsServerEditor;
 
-import org.javalobby.dju.command.AbstractCommand;
-import org.javalobby.dju.diagnostic.Assert;
-import org.javalobby.dju.misc.ResourceManager;
+import org.dubh.dju.command.AbstractCommand;
+import org.dubh.dju.diagnostic.Assert;
+import org.dubh.dju.misc.ResourceManager;
 
 /**
  *
  * This command adds a server to the news provider.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: AddServer.java,v 1.3 2000-06-14 21:36:46 briand Exp $
+ * @version $Id: AddServer.java,v 1.4 2001-02-11 02:51:01 briand Exp $
  */
 public class AddServer extends AbstractCommand
 {
@@ -129,6 +129,10 @@ public class AddServer extends AbstractCommand
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2000/06/14 21:36:46  briand
+// OK, a bit suspicious; cvs diff is finding files that I don't think I've
+// modified. But I'm gonna checkin anyway, and keep a backup.
+//
 // Revision 1.2  1999/11/09 22:34:42  briand
 // Move NewsAgent source to Javalobby.
 //

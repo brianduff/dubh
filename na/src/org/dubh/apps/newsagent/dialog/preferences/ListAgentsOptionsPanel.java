@@ -1,52 +1,52 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: ListAgentsOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: ListAgentsOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.apps.newsagent.dialog.preferences;
+
+package org.dubh.apps.newsagent.dialog.preferences;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import org.javalobby.dju.ui.GridBagConstraints2;
+import org.dubh.dju.ui.GridBagConstraints2;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import org.javalobby.apps.newsagent.agent.IListAgent;
-import org.javalobby.apps.newsagent.agent.AgentConfigDialogue;
-import org.javalobby.apps.newsagent.GlobalState;
-import org.javalobby.apps.newsagent.agent.AgentManager;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.dju.ui.preferences.PreferencePage;
-import org.javalobby.dju.misc.UserPreferences;
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.apps.newsagent.PreferenceKeys;
+import org.dubh.apps.newsagent.agent.IListAgent;
+import org.dubh.apps.newsagent.agent.AgentConfigDialogue;
+import org.dubh.apps.newsagent.GlobalState;
+import org.dubh.apps.newsagent.agent.AgentManager;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.dju.ui.preferences.PreferencePage;
+import org.dubh.dju.misc.UserPreferences;
+import org.dubh.dju.misc.Debug;
+import org.dubh.apps.newsagent.PreferenceKeys;
 /**
  * List agents options panel for the list agents tab in the options dialog:<P>
  @author Brian Duff
- @version $Id: ListAgentsOptionsPanel.java,v 1.6 1999-11-09 22:34:41 briand Exp $
+ @version $Id: ListAgentsOptionsPanel.java,v 1.7 2001-02-11 02:51:00 briand Exp $
  */
 public class ListAgentsOptionsPanel extends PreferencePage {
   public TitledBorder borderAvailable = new TitledBorder(new EtchedBorder(),
@@ -84,7 +84,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
   }
 
   public void jbInit() throws Exception{
-    org.javalobby.dju.misc.ResourceManager r = GlobalState.getRes();
+    org.dubh.dju.misc.ResourceManager r = GlobalState.getRes();
 //NLS    r.initButton(cmdMoveUp, "AgentsOptionsPanel.MoveUp");
     cmdMoveUp.addActionListener(new ListAgentsOptionsPanel_cmdMoveUp_actionAdapter(this));
 //NLS    r.initButton(cmdMoveDown, "AgentsOptionsPanel.MoveDown");
@@ -259,7 +259,7 @@ public class ListAgentsOptionsPanel extends PreferencePage {
      if (e.getFirstIndex() >= 0) {
        // dodoebuyg
        // An agent is selected. Display its details.
-       if (listAgents.getSelectedIndex()==0) 
+       if (listAgents.getSelectedIndex()==0)
          cmdMoveUp.setEnabled(false);
        else
          cmdMoveUp.setEnabled(true);
@@ -496,6 +496,9 @@ class ListAgentsListRenderer extends JCheckBox implements ListCellRenderer {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/11/09 22:34:41  briand
+// Move NewsAgent source to Javalobby.
+//
 // Revision 1.5  1999/06/01 00:36:38  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //

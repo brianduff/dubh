@@ -1,19 +1,18 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: PreferencesDialog.java,v 1.2 1999-11-11 21:24:36 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://www.btinternet.com/~dubh/dju
+//   $Id: PreferencesDialog.java,v 1.3 2001-02-11 02:52:12 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
@@ -25,7 +24,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-package org.javalobby.dju.ui.preferences;
+
+package org.dubh.dju.ui.preferences;
 
 
 import javax.swing.*;
@@ -37,16 +37,16 @@ import java.awt.event.*;
 import java.util.*;
 import java.io.IOException;
 
-import org.javalobby.dju.misc.Debug;
-import org.javalobby.dju.ui.*;
-import org.javalobby.dju.event.*;
-import org.javalobby.dju.misc.*;
+import org.dubh.dju.misc.Debug;
+import org.dubh.dju.ui.*;
+import org.dubh.dju.event.*;
+import org.dubh.dju.misc.*;
 /**
  * A Tree style preferences dialog
  * @author Brian Duff
- * @version $Id: PreferencesDialog.java,v 1.2 1999-11-11 21:24:36 briand Exp $
+ * @version $Id: PreferencesDialog.java,v 1.3 2001-02-11 02:52:12 briand Exp $
  */
-public class PreferencesDialog extends DubhOkCancelDialog 
+public class PreferencesDialog extends DubhOkCancelDialog
 {
    private JTree            m_pageList;
    private JScrollPane      m_pageListScroll;
@@ -55,13 +55,13 @@ public class PreferencesDialog extends DubhOkCancelDialog
    private DefaultMutableTreeNode m_rootNode;
    private Hashtable        m_nodes;
    private JPanel           m_dummy;
-   
+
    private Container        m_mainPanel;
-   
+
    private UserPreferences  m_preferences;
-   
+
    private DefaultTreeCellRenderer m_renderer;
-   
+
    private boolean         m_initialised;
    /**
     * Construct a new preferences dialog.
@@ -89,14 +89,14 @@ public class PreferencesDialog extends DubhOkCancelDialog
       m_pageListScroll = new JScrollPane(m_pageList);
       m_pageListLabel = new JLabel("!NLS: Categories");
       m_nodes = new Hashtable(5);
-      
+
       m_dummy = new JPanel();
       m_mainPanel = (Container) m_dummy;
       getPanel().add(m_pageListLabel, BorderLayout.NORTH);
       getPanel().add(m_pageListScroll, BorderLayout.WEST);
       getPanel().add(m_mainPanel, BorderLayout.CENTER);
-      
-      
+
+
       m_pageListScroll.setPreferredSize(new Dimension(150, 0));
       m_pageList.addTreeSelectionListener(new TreeSelectionListener() {
          public void valueChanged(TreeSelectionEvent e)
@@ -104,10 +104,10 @@ public class PreferencesDialog extends DubhOkCancelDialog
             treeSelectionChanged(
                (PreferencePage)((DefaultMutableTreeNode)
                   e.getPath().getLastPathComponent()).getUserObject()
-            ); 
+            );
          }
       });
-      
+
    }
 
    protected void addPage(DefaultMutableTreeNode parent, PreferencePage p)
@@ -116,7 +116,7 @@ public class PreferencesDialog extends DubhOkCancelDialog
       parent.add(n);
       m_nodes.put(p.getTitle(), n);
       int index = parent.getIndex(n);
-      //m_treeModel.nodesWereInserted(parent, new int[] { index });   
+      //m_treeModel.nodesWereInserted(parent, new int[] { index });
       m_treeModel.nodeStructureChanged(parent);
    }
 
@@ -128,30 +128,30 @@ public class PreferencesDialog extends DubhOkCancelDialog
       if (m_nodes.containsKey(p.getTitle()))
          throw new IllegalArgumentException(
             "A page called "+p.getTitle()+" already exists");
-      
+
       addPage(m_rootNode, p);
    }
-   
+
    /**
-    * Add a page with a specified parent. 
+    * Add a page with a specified parent.
     */
    public void addPage(PreferencePage p, String parentPage)
    {
       if (m_nodes.containsKey(p.getTitle()))
          throw new IllegalArgumentException(
             "A page called "+p.getTitle()+" already exists");
-            
-      DefaultMutableTreeNode pnode = 
+
+      DefaultMutableTreeNode pnode =
          (DefaultMutableTreeNode)m_nodes.get(parentPage);
-      
+
       if (pnode == null)
          throw new IllegalArgumentException(
             "Parent page "+parentPage+" doesn't exist.");
-      
+
       addPage(pnode, p);
-   
+
    }
-   
+
    private void treeSelectionChanged(PreferencePage pg)
    {
       getPanel().remove(m_mainPanel);
@@ -160,27 +160,27 @@ public class PreferencesDialog extends DubhOkCancelDialog
       validate();
       repaint();
    }
-   
+
    public PreferencePage getPage(String pageName)
    {
       return (PreferencePage)
          ((DefaultMutableTreeNode)m_nodes.get(pageName)).getUserObject();
    }
-   
+
    public void selectPage(String pageName)
    {
-      DefaultMutableTreeNode n = 
+      DefaultMutableTreeNode n =
          (DefaultMutableTreeNode) m_nodes.get(pageName);
-      
+
       if (n == null)
          return;
-         
+
       TreeNode[] p = n.getPath();
-      
-      m_pageList.setSelectionPath(new TreePath(p));               
+
+      m_pageList.setSelectionPath(new TreePath(p));
    }
 
-   
+
    public void setVisible(boolean b)
    {
       if (b && !m_initialised)
@@ -190,7 +190,7 @@ public class PreferencesDialog extends DubhOkCancelDialog
       }
       super.setVisible(b);
    }
-   
+
    public boolean okClicked()
    {
       try
@@ -206,11 +206,11 @@ public class PreferencesDialog extends DubhOkCancelDialog
          return false;
       }
    }
-   
+
    protected void saveAll()
    {
       Enumeration k = m_nodes.keys();
-      
+
       while (k.hasMoreElements())
       {
          PreferencePage p = getPage((String)k.nextElement());
@@ -218,37 +218,40 @@ public class PreferencesDialog extends DubhOkCancelDialog
       }
 
    }
-   
+
    protected void revertAll()
    {
       Enumeration k = m_nodes.keys();
-      
+
       while (k.hasMoreElements())
       {
          PreferencePage p = getPage((String)k.nextElement());
          p.revert(m_preferences);
-      }      
+      }
    }
-   
+
    class NoIconRenderer extends DefaultTreeCellRenderer
    {
-      public Component getTreeCellRendererComponent(JTree tree, Object value, 
-         boolean sel, boolean expanded, boolean leaf, 
-         int row, boolean hasFocus) 
+      public Component getTreeCellRendererComponent(JTree tree, Object value,
+         boolean sel, boolean expanded, boolean leaf,
+         int row, boolean hasFocus)
       {
          JLabel l = (JLabel) super.getTreeCellRendererComponent(
             tree, value, sel, expanded, leaf, row, hasFocus
          );
-         
+
          l.setIcon(null);
-         
+
          return l;
       }
    }
 }
 
-// 
+//
 // $Log: not supported by cvs2svn $
+// Revision 1.2  1999/11/11 21:24:36  briand
+// Change package and import to Javalobby JFA.
+//
 // Revision 1.1  1999/03/22 23:31:55  briand
 // Dubh utilities preferences dialog.
 //

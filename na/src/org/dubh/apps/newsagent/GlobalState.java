@@ -1,52 +1,52 @@
 // ---------------------------------------------------------------------------
-//   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.11 2000-08-19 21:20:39 briand Exp $
-//   Copyright (C) 1997-9  Brian Duff
-//   Email: dubh@btinternet.com
-//   URL:   http://wired.st-and.ac.uk/~briand/newsagent/
+//   NewsAgent
+//   $Id: GlobalState.java,v 1.12 2001-02-11 02:50:58 briand Exp $
+//   Copyright (C) 1997 - 2001  Brian Duff
+//   Email: Brian.Duff@oracle.com
+//   URL:   http://www.dubh.org
 // ---------------------------------------------------------------------------
-// Copyright (c) 1998 by the Java Lobby
-// <mailto:jfa@javalobby.org>  <http://www.javalobby.org>
-// 
+// Copyright (c) 1997 - 2001 Brian Duff
+//
 // This program is free software.
-// 
-// You may redistribute it and/or modify it under the terms of the JFA
-// license as described in the LICENSE file included with this 
+//
+// You may redistribute it and/or modify it under the terms of the
+// license as described in the LICENSE file included with this
 // distribution.  If the license is not included with this distribution,
-// you may find a copy on the web at 'http://javalobby.org/jfa/license.html'
+// you may find a copy on the web at 'http://www.dubh.org/license'
 //
 // THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
 // NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
 // OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
 // CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE. 
+// REDISTRIBUTION OF THIS SOFTWARE.
 // ---------------------------------------------------------------------------
 //   Original Author: Brian Duff
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package org.javalobby.apps.newsagent;
+
+package org.dubh.apps.newsagent;
 
 import java.util.*;
 import java.io.*;
 import java.awt.*;
 import java.applet.Applet;
 
-import org.javalobby.apps.newsagent.agent.AgentManager;
-import org.javalobby.apps.newsagent.dialog.ErrorReporter;
-import org.javalobby.apps.newsagent.dialog.main.MainFrame;
-import org.javalobby.apps.newsagent.nntp.StorageManager;
+import org.dubh.apps.newsagent.agent.AgentManager;
+import org.dubh.apps.newsagent.dialog.ErrorReporter;
+import org.dubh.apps.newsagent.dialog.main.MainFrame;
+import org.dubh.apps.newsagent.nntp.StorageManager;
 
 import javax.swing.JApplet;
 import javax.swing.UIManager;
 import java.net.URL;
-import org.javalobby.dju.misc.*;
+import org.dubh.dju.misc.*;
 
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.11 2000-08-19 21:20:39 briand Exp $
+ * @version $Id: GlobalState.java,v 1.12 2001-02-11 02:50:58 briand Exp $
  */
 public class GlobalState {
 
@@ -63,46 +63,46 @@ public class GlobalState {
   private static AgentManager m_agentManager;
    /** The name of the bundle containing application strings */
   public static final String stringBundle = "org/javalobby/apps/newsagent/res/Strings";
-  private static ResourceManager m_resManager = 
+  private static ResourceManager m_resManager =
      new ResourceManager(ResourceBundle.getBundle(stringBundle));
 
 
 
 // Public Attributes
- 
+
    /** Whether NewsAgent is currently in debug mode. This field is no longer
     *  in use, and should be ignored.*/
    public static boolean  debugOn = true;
 
   /** The name of this application. */
    public static  String appName;
-   
-   
+
+
   /** The version of the app */
   public static  String appVersion;
-  
-  
+
+
   /** The "long" version of this app */
   public static  String appVersionLong;
-  
-  
+
+
   /** The directory in which the application stores its data. This is
    * currently defined as $HOME/.appname/ (where appname is the lowercase
    * version of GlobalState.appName). E.g. ~bd/.newsagent/ or
    *  C:\progra~1\jbuilder\java\.newsagent\
    */
   public static String dataDir;
-  
+
   /** The full pathname to the preferences file.
       Currently dataDir/appname.ini. (e.g. ~bd/.newsagent/properties)*/
   public static  String prefFile;
-  
+
   /** The full pathname to the signatures file. */
-  public static  String sigFile; 
-  
+  public static  String sigFile;
+
   /** The full pathname to the servers file. */
   public static  String serversFile;
-  
+
   /** The full pathname to the folders directory. */
   public static  String foldersDir;
   /** The full pathname to the servers directory */
@@ -133,16 +133,16 @@ public class GlobalState {
   private static HelpSystem m_helpSystem;
 
   private static String m_myVersion;
-    
-    
-   private static boolean m_isApplet = false;    
+
+
+   private static boolean m_isApplet = false;
 // Static Methods
 
    public static boolean isApplet()
    {
       return m_isApplet;
    }
-   
+
    public static void setApplet(boolean b)
    {
       m_isApplet = b;
@@ -168,7 +168,7 @@ public class GlobalState {
    * Get the user preferences instance for this application. In
    * Applet mode, this is a session only user preference set,
    * which is initialised from the parameters passed into the
-   * applet. 
+   * applet.
    */
   public static UserPreferences getPreferences() {
         return m_userprefs;
@@ -187,28 +187,44 @@ public class GlobalState {
    * user directory doesn't exist and cannot be created for some reason.
    */
   public static void appInit(Applet a) {
-      if (a != null) 
-      {  
+      if (a != null)
+      {
          setApplet(true);
       }
       m_myVersion = null;
 
-      Package p = Package.getPackage("org.javalobby.apps.newsagent");
+      Package p = Package.getPackage("org.dubh.apps.newsagent");
 
       m_myVersion =  p.getSpecificationVersion();
       appName = p.getSpecificationTitle();
       appVersion = p.getSpecificationVersion();
       appVersionLong = p.getSpecificationVersion() + p.getImplementationVersion();
 
+      // Set defaults in case package version is not available
+      if (appName == null)
+      {
+         appName = "UnknownApplication";
+      }
+
+      if (appVersion == null)
+      {
+         appVersion = "?.?.?";
+      }
+
+      if (appVersionLong == null)
+      {
+         appVersionLong = "Unknown Version";
+      }
+
       if (!isApplet())
       {
-      
+
          dataDir = System.getProperty("user.home") +
            System.getProperty("file.separator") +  "."+appName.toLowerCase();
          prefFile = dataDir + File.separator + "user.properties";
          sigFile = dataDir + File.separator + "signatures.properties";
          serversFile = dataDir + File.separator + "servers.dat";
-      
+
         /** The full pathname to the folders directory. */
         foldersDir = dataDir + File.separator + "folders" + File.separator;
         /** The full pathname to the servers directory */
@@ -217,7 +233,7 @@ public class GlobalState {
         agentDir  = dataDir + File.separator + "agents";
      }
      xmailer = appName+" for Java Version "+appVersion;
-     
+
      checkDataDir();
      if (isApplet())
         initPreferences(a);
@@ -248,14 +264,14 @@ public class GlobalState {
   public static ResourceManager getRes() {
      return m_resManager;
   }
-    
+
   /**
    * Get the NewsAgent configuration directory root.
-   */  
+   */
   public static String getDataDirectory()
   {
      return dataDir;
-  }  
+  }
 
   /**
    * Set the application default Locale (Locale.setDefault() doesn't work).
@@ -316,7 +332,7 @@ public class GlobalState {
            }
         }
      }
-     
+
      m_storageManager = new StorageManager();
 
   }
@@ -342,7 +358,7 @@ public class GlobalState {
         ErrorReporter.error("CantReadProps");
      }
   }
-  
+
   /**
    * Initialise preferences from the parameters to an applet
    */
@@ -355,14 +371,14 @@ public class GlobalState {
    * Checks to make sure the dataDir exists, and creates it if not.
    * Program <b>will terminate</b> if the dataDir cannot be found or created.
    */
-  private static void checkDataDir() 
+  private static void checkDataDir()
   {
       if (!isApplet())
       {
          File ddir = new File(dataDir);
-         if (!ddir.exists()) 
+         if (!ddir.exists())
          {
-            if (!ddir.mkdir()) 
+            if (!ddir.mkdir())
             {
                ErrorReporter.fatality("CantCreateDir",
                new String[] { dataDir, GlobalState.appName });
@@ -375,17 +391,17 @@ public class GlobalState {
   /**
    * Initialises the Swing User Interface
    */
-  private static void initLookAndFeel() 
+  private static void initLookAndFeel()
   {
      String laf="";
      try
      {
         laf = getPreferences().getPreference(PreferenceKeys.UI_LOOKANDFEEL);
-        if (laf == null) 
-           laf = UIManager.getSystemLookAndFeelClassName();   
-        
+        if (laf == null)
+           laf = UIManager.getSystemLookAndFeelClassName();
+
         UIManager.setLookAndFeel(laf);
-        
+
      }
      catch (Exception e)
      {
@@ -394,7 +410,7 @@ public class GlobalState {
            Debug.println(2, GlobalState.class, "Unable to set look and feel to "+laf);
            Debug.printException(2, GlobalState.class, e);
         }
-     } 
+     }
 
   }
 
@@ -449,6 +465,9 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2000/08/19 21:20:39  briand
+// Use Java 2 JAR versioning.
+//
 // Revision 1.10  1999/12/13 22:32:43  briand
 // Move to Javalobby changed the paths to various resources. Added fixes to that
 // most things work again. Also patched the PropertyFileResolver to create parent
@@ -457,7 +476,7 @@ public class GlobalState {
 //
 // Revision 1.9  1999/12/12 03:31:51  briand
 // More bugfixes necessary due to move to javalobby. Mostly changing path from
-// dubh.apps.newsagent to org.javalobby.apps.newsagent etc. and new locations of
+// dubh.apps.newsagent to org.dubh.apps.newsagent etc. and new locations of
 // top level properties files.
 //
 // Revision 1.8  1999/11/09 22:34:40  briand
