@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: NewsAgent.java,v 1.7 1999-10-24 00:41:58 briand Exp $
+//   $Id: NewsAgent.java,v 1.8 1999-11-09 22:04:57 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -24,7 +24,7 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 
-package dubh.apps.newsagent;
+package org.javalobby.apps.newsagent;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -41,7 +41,7 @@ import dubh.utils.ui.*;
  *
  * @author Brian Duff
  * @see dubh.apps.newsagent.GlobalState
- * @version $Id: NewsAgent.java,v 1.7 1999-10-24 00:41:58 briand Exp $
+ * @version $Id: NewsAgent.java,v 1.8 1999-11-09 22:04:57 briand Exp $
  */
  public class NewsAgent {
 
@@ -251,6 +251,9 @@ import dubh.utils.ui.*;
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  1999/10/24 00:41:58  briand
+// Nothing has changed. Honest guv.
+//
 // Revision 1.6  1999/06/01 00:27:28  briand
 // Change to use DJU ResourceManager, UserPreferences, DubhOkCancelDialog, Debug.
 //
