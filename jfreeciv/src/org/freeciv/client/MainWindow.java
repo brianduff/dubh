@@ -16,7 +16,7 @@ import org.freeciv.client.action.AbstractClientAction;
 import org.freeciv.client.action.AbstractToggleAction;
 import org.freeciv.client.ui.CivInfoPanel;
 import org.freeciv.client.ui.UnitInfoPanel;
-import org.freeciv.client.ui.UnitStackDisplay;  // needed for compile -JR
+import org.freeciv.client.ui.UnitStackDisplay;
 import org.freeciv.client.ui.Console;
 import org.freeciv.client.ui.QuickCommand;
 import org.freeciv.client.ui.util.ActionMenuItem;

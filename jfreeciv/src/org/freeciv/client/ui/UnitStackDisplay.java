@@ -1,4 +1,6 @@
-package org.freeciv.client;
+package org.freeciv.client.ui;
+
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +11,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import org.freeciv.client.Client;
+import org.freeciv.client.Unit;
+
 public class UnitStackDisplay extends JComponent
 {
   int unitWidth;

@@ -13,6 +13,19 @@ public class InStream
   {
     input = anInput;
   }
+
+  public void close()
+  {
+    try
+    {
+      input.close();
+    }
+    catch (IOException ioe )
+    {
+      // Ignore
+    }
+  }
+  
   public boolean hasMoreData()
   {
     return inPtr < inputPacketLength;

@@ -94,4 +94,16 @@ public class OutStream
       clearOut();
     }
   }
+
+  public void close()
+  {
+    try
+    {
+      output.close();
+    }
+    catch (IOException ioe)
+    {
+      // Ignore for now
+    }
+  }  
 }

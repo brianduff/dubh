@@ -485,6 +485,7 @@ public class Client implements Constants
       sendMessage( "remove "+ name );   // Should it remove the player? Make it
                                         // ai?  JR
       out.close();
+      in.close();
     }
     catch( Exception e ) { e.printStackTrace(); }
   }
@@ -534,13 +535,16 @@ public class Client implements Constants
         }
         catch( IOException e )
         {
-          System.err.println( "Server io exception" + e );
-          e.printStackTrace();
-          // Need to do these in an invokeLater
-          //JOptionPane.showMessageDialog(c,
-          //   e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
-          //c.hideAllWindows();
-          return ;
+          if ( m_client.isConnected() )
+          {
+            System.err.println( "Server io exception" + e );
+            e.printStackTrace();
+            // Need to do these in an invokeLater
+            //JOptionPane.showMessageDialog(c,
+            //   e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
+            //c.hideAllWindows();
+            return ;
+          }
         }
       }
     }
