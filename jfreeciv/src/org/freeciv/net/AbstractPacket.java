@@ -99,12 +99,23 @@ abstract class AbstractPacket implements
    */
   protected void putWorkList( OutStream os, WorkList wl )
   {
-    os.writeByte( wl.isValid() ? 1 : 0 );
-    os.writeZeroString( wl.getName() );
-    for( int i = 0;i < MAX_LEN_WORKLIST;i++ )
+    if( wl != null )
     {
-      os.writeByte( wl.getEfs()[ i ] );
-      os.writeByte( wl.getIds()[ i ] );
+      os.writeByte( wl.isValid() ? 1 : 0 );
+      os.writeZeroString( wl.getName() );
+      for( int i = 0;i < MAX_LEN_WORKLIST;i++ )
+      {
+        os.writeByte( wl.getEfs()[ i ] );
+        os.writeByte( wl.getIds()[ i ] );
+      }
+    } else {
+      os.writeByte( 1 );
+      os.writeZeroString( "" );
+      for( int i = 0;i < MAX_LEN_WORKLIST;i++ )
+      {
+        os.writeByte( 0 );
+        os.writeByte( 0 );
+      }
     }
   }
   protected int[] getTechList( InStream is, int[] tl )  throws NetworkProtocolException
