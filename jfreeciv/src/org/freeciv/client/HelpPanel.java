@@ -159,6 +159,7 @@ public class HelpPanel extends JPanel implements ListSelectionListener
   public void loadDataFrom( File helpDataFile )
                throws IOException
   {
+    /*
     LineNumberReader br = new LineNumberReader( new BufferedReader( new FileReader( helpDataFile ) ) );
     String line;
     String group = DEFAULT_GROUP;
@@ -254,6 +255,7 @@ public class HelpPanel extends JPanel implements ListSelectionListener
       currentEntry.append( line );
       currentEntry.append( '\n' );
     }
+    */
   }
   private static void addSorted( Vector v, Object obj )
   {
