@@ -8,8 +8,10 @@ import org.freeciv.net.InStream;
 import org.freeciv.net.PktUnitInfo;
 import org.freeciv.net.PktRulesetUnit;
 import org.freeciv.tile.FlashingIcon;
-public class Unit extends PktUnitInfo implements FlashingIcon
+public class Unit
 {
+  // THIS CLASS IS IN THE PROCESS OF BEING OBSOLETED 
+  /*
   Client client;
   Icon icon;
   Icon dimIcon;
@@ -119,4 +121,5 @@ public class Unit extends PktUnitInfo implements FlashingIcon
   {
     return prototype.isGroundMoving();
   }
+  */
 }
