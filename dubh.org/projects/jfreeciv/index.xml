@@ -17,6 +17,15 @@
   <content>
     <h1>JFreeCiv</h1>
     
+    
+    <h2>Breaking News [1 Dec 2002]: JFreeCiv is Moving!</h2>
+    
+    <p>
+    	In an effort to rejuvinate and raise the profile of JFreeCiv, the
+    	project's offical home and CVS repository is moving to 
+    	<a href="http://www.sf.net">SourceForge</a>. More details soon...
+    </p>
+    
     <h2>About JFreeCiv</h2>
   
     <p>
@@ -182,13 +191,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2002-04-01 06:33:30 $
+      $Date: 2002-12-01 03:38:02 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.13 $
+      $Revision: 1.14 $
     </revision>
   </cvs-info>  
   
