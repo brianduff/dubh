@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: Folder.java,v 1.3 1999-03-22 23:48:28 briand Exp $
+//   $Id: Folder.java,v 1.4 1999-06-01 00:30:52 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,10 +35,14 @@ import dubh.apps.newsagent.dialog.ErrorReporter;
 import dubh.apps.newsagent.nntp.MessageProvider;
 import dubh.apps.newsagent.nntp.MessageHeader;
 import dubh.apps.newsagent.nntp.MessageBody;
+
+
+import dubh.utils.misc.Debug;
+
 /**
  * Represents a folder containing messages in permanent storage.
  * @author Brian Duff
- * @version $Id: Folder.java,v 1.3 1999-03-22 23:48:28 briand Exp $
+ * @version $Id: Folder.java,v 1.4 1999-06-01 00:30:52 briand Exp $
  */
 public class Folder implements MessageProvider {
 // Private instance variables
@@ -99,7 +103,7 @@ public class Folder implements MessageProvider {
         m_messages.put(head, body);
         storeMessages();
      } else {
-        ErrorReporter.debug("Message not saved: already exists in folder");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Message not saved: already exists in folder");
      }
   }
 
@@ -201,7 +205,7 @@ public class Folder implements MessageProvider {
         out.flush();
         out.close();
      } catch (IOException e) {
-        ErrorReporter.debug("IOException writing folder: "+e);
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException writing folder: "+e);
         ErrorReporter.error("CantSaveToFolder", new String[] {getName()});
      }
   }
@@ -217,7 +221,7 @@ public class Folder implements MessageProvider {
      File test = new File(fileName);
      if (test.exists()) {
         if (test.isDirectory()) {
-           ErrorReporter.debug("User has replaced serialised object with a folder: "+getName());
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "User has replaced serialised object with a folder: "+getName());
         } else {
            try {
               FileInputStream fis = new FileInputStream(fileName);
@@ -226,10 +230,10 @@ public class Folder implements MessageProvider {
               m_messages = (Hashtable) in.readObject();
               in.close();
            } catch (IOException e) {
-              ErrorReporter.debug("IOException reading from folder: "+e);
+              if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException reading from folder: "+e);
               ErrorReporter.error("CantReadFromFolder", new String[] {getName()});
            } catch (ClassNotFoundException ce) {
-              ErrorReporter.debug("IOException reading from folder: "+ce);
+              if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "IOException reading from folder: "+ce);
               ErrorReporter.error("CantReadFromFolder", new String[] {getName()});
            }
         }
@@ -285,8 +289,8 @@ public class Folder implements MessageProvider {
    * Test harness method.
    */
   public void doTest() {
-     ErrorReporter.debug("***Folder.doTest");
-     ErrorReporter.debug("Folder name is "+getName());
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "***Folder.doTest");
+     if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Folder name is "+getName());
      // Create two simple messages.
      MessageHeader headone = new MessageHeader();
      headone.setField("Subject", "Test Message");
@@ -312,10 +316,10 @@ public class Folder implements MessageProvider {
         Enumeration enum = v.elements();
         while (enum.hasMoreElements()) {
            MessageHeader h = (MessageHeader) enum.nextElement();
-           ErrorReporter.debug(h.getFieldValue("Subject"));
+           if (Debug.TRACE_LEVEL_1) Debug.println(1, this, h.getFieldValue("Subject"));
         }
      } catch (Exception e) {
-        ErrorReporter.debug("Error getting headers.");
+        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "Error getting headers.");
      }
 
 
@@ -335,3 +339,6 @@ public class Folder implements MessageProvider {
 // 0.7 [08/04/98]: Changed to JProgressBar
 // New Log:
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/03/22 23:48:28  briand
+// New headers
+//
