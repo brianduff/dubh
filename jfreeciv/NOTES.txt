@@ -1,16 +1,4 @@
+NOTES for JFreeCiv Developers
+-----------------------------
 
-
-
-
-blabblabla
-
-
-
-
-
-Do not use alpha composite explicitly for drawings in Graphics2D-
-it should be a lot faster to use premade icons with alpha channel.
-
-
---------------
-
+o There are none. Yet.
