@@ -28,6 +28,67 @@ public class ClientPacketDispacher
   // *TILE_INFO
   //
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /**
    * This array must have a one to one correspondence with
    * the packet number. It contains instances of all handlers
@@ -101,12 +162,30 @@ public class ClientPacketDispacher
     new PHRulesetBuilding(), /*RULESET_BUILDING*/ 
     null, /*CITY_OPTIONS*/ 
     new PHSpaceshipInfo(), /*SPACESHIP_INFO*/ 
-    null, /*SPACESHIP_ACTION*/ null, /*UNIT_NUKE*/ new PHRulesetTerrain(), /*RULESET_TERRAIN*/ 
-    new PHRulesetTerrainControl(), /*RULESET_TERRAIN_CONTROL*/ new PHRulesetGovernment(), /*RULESET_GOVERNMENT*/ 
-    new PHRulesetGovernmentRulerTitle(), /*RULESET_GOVERNMENT_RULER_TITLE*/ new PHRulesetControl(), /*RULESET_CONTROL*/ 
-    null, /*CITY_NAME_SUGGEST_REQ*/ null, /*CITY_NAME_SUGGESTION*/ new PHRulesetNation(), /*RULESET_NATION*/ null, /*UNIT_PARADROP_TO*/ new PHRulesetCity(), /*RULESET_CITY             */ 
-    null, /*UNIT_CONNECT*/ null, /*PACKET_SABOTAGE_LIST */ null, /* PACKET_ADVANCE_FOCUS */ new PHRulesetGame(), /*PACKET_RULESET_GAME*/ new PHConnInfo(), /* PACKET_CONN_INFO */ 
-    null, /* PACKET_SHORT_CITY*/ null, /* PACKET_PLAYER_REMOVE_VISION */ null, /* PACKET_GOTO_ROUTE*/ null, /* PACKET_PATROL_ROUTE*/ new PHConnPing(), /* PACKET_CONN_PING*/ null, /* PACKET_CONN_PONG*/ null, // PACKET_UNIT_AIRLIFT
+    null, /*SPACESHIP_ACTION*/ 
+    null, /*UNIT_NUKE*/ 
+    new PHRulesetTerrain(), /*RULESET_TERRAIN*/ 
+    new PHRulesetTerrainControl(), /*RULESET_TERRAIN_CONTROL*/ 
+    new PHRulesetGovernment(), /*RULESET_GOVERNMENT*/ 
+    new PHRulesetGovernmentRulerTitle(), /*RULESET_GOVERNMENT_RULER_TITLE*/ 
+    new PHRulesetControl(), /*RULESET_CONTROL*/ 
+    null, /*CITY_NAME_SUGGEST_REQ*/ 
+    null, /*CITY_NAME_SUGGESTION*/ 
+    new PHRulesetNation(), /*RULESET_NATION*/ 
+    null, /*UNIT_PARADROP_TO*/ 
+    new PHRulesetCity(), /*RULESET_CITY             */ 
+    null, /*UNIT_CONNECT*/ 
+    null, /*PACKET_SABOTAGE_LIST */ 
+    null, /* PACKET_ADVANCE_FOCUS */ 
+    new PHRulesetGame(), /*PACKET_RULESET_GAME*/ 
+    new PHConnInfo(), /* PACKET_CONN_INFO */ 
+    null, /* PACKET_SHORT_CITY*/ 
+    null, /* PACKET_PLAYER_REMOVE_VISION */ 
+    null, /* PACKET_GOTO_ROUTE*/ 
+    null, /* PACKET_PATROL_ROUTE*/ 
+    new PHConnPing(), /* PACKET_CONN_PING*/ 
+    null, /* PACKET_CONN_PONG*/ 
+    null, // PACKET_UNIT_AIRLIFT
   };
   private Client m_client;
   public ClientPacketDispacher( Client c ) 
