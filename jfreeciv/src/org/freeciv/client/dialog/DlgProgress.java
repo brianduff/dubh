@@ -8,9 +8,4 @@ public interface DlgProgress
    public void undisplay();
 
    public void updateProgress(ProgressItem pi);
-
-   public interface ProgressItem
-   {
-      public String getProgressString();
-   }
 }

@@ -61,7 +61,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 					if ( obj == null )
 						return;
 					// add confirm dialog for tech change
-					if ( client.currentPlayer.researchpoints > 0 )
+					if ( client.getCurrentPlayer().researchpoints > 0 )
 					{
 						int result = JOptionPane.showInternalConfirmDialog(ResearchDialog.this,
 									_("You will be penalized by cutting science in half\nDo you want to change ?"),
@@ -69,7 +69,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 								if ( result != JOptionPane.YES_OPTION )
 									return;
 					}
-					client.commandChangeResearch((PktRulesetTech)obj);
+					//client.commandChangeResearch((PktRulesetTech)obj);
 				}
 			}
 		} );
@@ -77,9 +77,9 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 		changeGoal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				PktRulesetTech t = new GoalPanel(client).showDialog();
-				if ( t != null )
-					client.commandChangeTechGoal(t);
+				//PktRulesetTech t = new GoalPanel(client).showDialog();
+				//if ( t != null )
+				//	client.commandChangeTechGoal(t);
 			}
 		});
 
@@ -89,11 +89,12 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 
 	public void updateComponents()
 	{
-		PktPlayerInfo player =client.currentPlayer;
-		currentlyResearching.setText(_("Currently researching ") +
-			client.rulesetTechArr[player.researching].name.toUpperCase());
-		goal.setText(
-			client.rulesetTechArr[player.tech_goal].name.toUpperCase() );
+      /*
+		PktPlayerInfo player =client.getCurrentPlayer();
+		//currentlyResearching.setText(_("Currently researching ") +
+		//	client.rulesetTechArr[player.researching].name.toUpperCase());
+		//goal.setText(
+		//	client.rulesetTechArr[player.tech_goal].name.toUpperCase() );
 		Vector v = new Vector();
 		// i = 1 to skip NONE
 		for ( int i =1; i < Constants.A_LAST; i++ )
@@ -110,6 +111,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 				v.add(client.rulesetTechArr[i]);
 		}
 		advancesChoice.setListData(v);
+      */
 	}
 
 	public boolean canDiscover(PktPlayerInfo player, PktRulesetTech tech)
@@ -135,9 +137,9 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 
 	public void internalFrameClosed(InternalFrameEvent e)
 	{
-		client.researchDialog = null;
+	//	client.researchDialog = null;
 //		client.desktop.remove(this); // is this needed ?
-		client.map.requestFocus();
+	//	client.map.requestFocus();
 	}
 
 	public void internalFrameIconified(InternalFrameEvent e)
@@ -160,6 +162,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 
 	class GoalPanel extends JPanel {
 
+      /*
 		JDialog dialog;
 		Client client;
 
@@ -235,6 +238,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
 			dialog.show();
 			return returnValue;
 		}
+      */
 	}
 
 

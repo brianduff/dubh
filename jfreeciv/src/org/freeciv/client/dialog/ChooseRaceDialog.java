@@ -56,8 +56,8 @@ implements ActionListener, ChangeListener {
 		if ( i == radios.length )
 			return;
 
-		client.setRaceInfo(i,races[i],name.getText());
-		client.sendRaceInfo();
+		//client.setRaceInfo(i,races[i],name.getText());
+		//client.sendRaceInfo();
 	}
 
 	public void toggleAvailableRace(int bitfield)

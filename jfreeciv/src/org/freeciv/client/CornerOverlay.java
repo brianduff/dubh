@@ -13,18 +13,18 @@ public class CornerOverlay implements FlashingIcon  {
 	public CornerOverlay(Client c, int corners, boolean nriver,
 								boolean eriver, boolean sriver, boolean wriver) {
 
-		if ( corners > 0 )
-			cornerIcon = c.getTerrain(c.BORDER_TILES, corners-1);
-		else
-			cornerIcon = c.getEmptyIcon();
-		if ( nriver )
-			n = c.getRiverDelta(0);
-		if ( eriver )
-			e = c.getRiverDelta(3);
-		if (sriver )
-			s = c.getRiverDelta(2);
-		if (wriver )
-			w = c.getRiverDelta(1);
+		//if ( corners > 0 )
+		//	cornerIcon = c.getTerrain(c.BORDER_TILES, corners-1);
+		// else
+		//	cornerIcon = c.getEmptyIcon();
+		//if ( nriver )
+		//	n = c.getRiverDelta(0);
+		//if ( eriver )
+		//	e = c.getRiverDelta(3);
+		//if (sriver )
+		//	s = c.getRiverDelta(2);
+		//if (wriver )
+		//	w = c.getRiverDelta(1);
 	}
 
 	public void setVisible(boolean aVisible) {

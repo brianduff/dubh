@@ -464,9 +464,9 @@ public class TileSpec
 
       if (Logger.DEBUG)
       {
-         Logger.log(Logger.LOG_DEBUG,
-            "Looked up image >>"+key+"<< found: "+i
-         );
+//         Logger.log(Logger.LOG_DEBUG,
+//            "Looked up image >>"+key+"<< found: "+i
+//         );
       }
 
       return i;
@@ -705,11 +705,11 @@ public class TileSpec
 			if ( update )
 			   computeAndSetOverlayTerrain(pkt.x,pkt.y);
 
-			l.set(RESOURCE_LAYER,
+			/*l.set(CivMap.RESOURCE_LAYER,
 				( (pkt.special & Constants.S_SPECIAL) != 0 ) ?
 				client.getTerrainSpecial(pkt.type):
 				null);
-
+         */
 			//l.set(HUT_LAYER,
 			//	((pkt.special & Constants.S_HUT) != 0)  ?
 			//	client.getHutIcon() :

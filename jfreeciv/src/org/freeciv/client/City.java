@@ -53,8 +53,8 @@ public class City extends PktCityInfo implements FlashingIcon {
 		super();
 		client = c;
 		receive(in);
-		icon = client.getCityIcon(); 
-		flag = client.getFlagForPlayer(owner);
+		//icon = client.getCityIcon(); 
+		//flag = client.getFlagForPlayer(owner);
 	}
 
 	public void receive(InStream in)
@@ -112,23 +112,26 @@ public class City extends PktCityInfo implements FlashingIcon {
 	{
 		if ( unit.tech_requirement == Constants.A_LAST )
 			return false;
-		if ( !client.currentPlayer.inventions[unit.tech_requirement] )
+		if ( !client.getCurrentPlayer().inventions[unit.tech_requirement] )
 			return false;
 		return true;
 	}
 
 	public boolean canBuild(PktRulesetBuilding bl)
 	{
-
+    /*
 		if ( bl.tech_requirement == Constants.A_LAST )
 			return false;
-		if ( !client.currentPlayer.inventions[bl.tech_requirement] )
+		if ( !client.getCurrentPlayer().inventions[bl.tech_requirement] )
 			return false;
 		if ( improvements[bl.id] )
 			return false;
-		if ( bl.is_wonder && (client.gameInfo.global_wonders[bl.id] != 0))
+		if ( bl.is_wonder && (client.getGameInfo().global_wonders[bl.id] != 0))
 			return false;
 		return true;
+    */
+
+    return false; // fixme
 	}
 
 
@@ -155,8 +158,8 @@ public class City extends PktCityInfo implements FlashingIcon {
 			super(name,false,true,false,true);
 			setContentPane(new JPanel());
 			reshape(200,200,1,1);// later will be packed
-			c.desktop.add(this,c.CITY_DIALOG_LAYER);
-			bigMap = c.map;
+			//c.desktop.add(this,c.CITY_DIALOG_LAYER);
+			bigMap = c.getMap();
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			for ( int x=0; x < 5; x++ )
 			{
@@ -177,11 +180,11 @@ public class City extends PktCityInfo implements FlashingIcon {
 			tm.addMouseListener( new MouseAdapter() {
 				public void mouseClicked(MouseEvent e)
 				{
-					Coords p = tm.toTileCoordinates(e.getX(),e.getY());
-					if ( city_map[p.x+p.y*5] == Constants.C_TILE_WORKER )
-						client.commandMakeSpecialist(City.this,p.x,p.y);
-					else if ( city_map[p.x+p.y*5] == Constants.C_TILE_EMPTY )
-						client.commandMakeWorker(City.this,p.x,p.y);
+					//Coords p = tm.toTileCoordinates(e.getX(),e.getY());
+					//if ( city_map[p.x+p.y*5] == Constants.C_TILE_WORKER )
+					//	client.commandMakeSpecialist(City.this,p.x,p.y);
+					//else if ( city_map[p.x+p.y*5] == Constants.C_TILE_EMPTY )
+					//	client.commandMakeWorker(City.this,p.x,p.y);
 				}
 			});
 
@@ -293,11 +296,11 @@ public class City extends PktCityInfo implements FlashingIcon {
 								{
 									scrap = true;
 								}
-								else  if (((PktRulesetBuilding)obj).is_wonder !=
-									client.rulesetBuildingArr[currently_building].is_wonder)
-								{
-									scrap = true;
-								}
+								//else  if (((PktRulesetBuilding)obj).is_wonder !=
+								//	client.rulesetBuildingArr[currently_building].is_wonder)
+								//{
+								//	scrap = true;
+								//}
 							}
 
 							if ( scrap )
@@ -315,10 +318,10 @@ public class City extends PktCityInfo implements FlashingIcon {
 							}
 						}
 
-						if ( obj instanceof PktRulesetUnit )
-							client.commandChangeCityProduction(City.this,(PktRulesetUnit)obj);
-						else
-							client.commandChangeCityProduction(City.this,(PktRulesetBuilding)obj);
+						//if ( obj instanceof PktRulesetUnit )
+						//	client.commandChangeCityProduction(City.this,(PktRulesetUnit)obj);
+						//else
+						//	client.commandChangeCityProduction(City.this,(PktRulesetBuilding)obj);
 					}
 				}
 			} );
@@ -375,8 +378,8 @@ public class City extends PktCityInfo implements FlashingIcon {
 					to.set(C_RESOURCE_LAYER, from.get(bigMap.RESOURCE_LAYER));
 					if ( (ax == 2) && (ay == 2) )
 						to.set(C_WORKER_LAYER,City.this);
-					else if ( city_map[ax+ay*5] == Constants.C_TILE_WORKER )
-						to.set(C_WORKER_LAYER,client.getWorkerIcon()); //toChange
+					//else if ( city_map[ax+ay*5] == Constants.C_TILE_WORKER )
+					//	to.set(C_WORKER_LAYER,client.getWorkerIcon()); //toChange
 					else
 						to.set(C_WORKER_LAYER,null);
 				}
@@ -384,21 +387,21 @@ public class City extends PktCityInfo implements FlashingIcon {
 			tm.repaint();
 			if ( is_building_unit )
 			{
-				PktRulesetUnit unit = client.rulesetUnitArr[currently_building];
-				currentProd.setText(_("Prod: ") + unit.name + " " +shield_stock + "/" + unit.build_cost);
+				//PktRulesetUnit unit = client.rulesetUnitArr[currently_building];
+				//currentProd.setText(_("Prod: ") + unit.name + " " +shield_stock + "/" + unit.build_cost);
 
 			}
 			else
 			{
-				PktRulesetBuilding bld = client.rulesetBuildingArr[currently_building];
-				currentProd.setText(_("Prod: ") + bld.name + " " +shield_stock + "/" + bld.build_cost);
+				//PktRulesetBuilding bld = client.rulesetBuildingArr[currently_building];
+				//currentProd.setText(_("Prod: ") + bld.name + " " +shield_stock + "/" + bld.build_cost);
 			}
 
 			ArrayList al = new ArrayList(100);
 			for ( int i =0; i < Constants.B_LAST; i++ )
 			{
-				if (improvements[i])
-					al.add(client.rulesetBuildingArr[i]);
+			//	if (improvements[i])
+			//		al.add(client.rulesetBuildingArr[i]);
 			}
 			Object[] arr = al.toArray();
 			java.util.Arrays.sort(arr, new Comparator() {
@@ -419,8 +422,8 @@ public class City extends PktCityInfo implements FlashingIcon {
 
 			foodData.setText(_("Food prod:") + food_prod + _(", surp:") + food_surplus +
 				_(", stock:") + food_stock);
-			population.setPeople(size, ppl_happy,ppl_content,ppl_unhappy, ppl_elvis,
-				ppl_scientist, ppl_taxman);
+			//population.setPeople(size, ppl_happy,ppl_content,ppl_unhappy, ppl_elvis,
+			//	ppl_scientist, ppl_taxman);
 
 			updateBuildList(defaultBL);
 
@@ -435,14 +438,14 @@ public class City extends PktCityInfo implements FlashingIcon {
 			{
 				for ( int i =0; i < Constants.B_LAST; i++ )
 				{
-					PktRulesetBuilding building = client.rulesetBuildingArr[i];
-					if ( canBuild(building) )
-					{
-						if ( building.is_wonder && ((mode&BL_WONDER) != 0) )
-							v.add(building);
-						else if ( !building.is_wonder && ((mode&BL_BUILDING) != 0) )
-							v.add(building);
-					}
+				//	PktRulesetBuilding building = client.rulesetBuildingArr[i];
+				//	if ( canBuild(building) )
+				//	{
+				//		if ( building.is_wonder && ((mode&BL_WONDER) != 0) )
+				//			v.add(building);
+				//		else if ( !building.is_wonder && ((mode&BL_BUILDING) != 0) )
+				//			v.add(building);
+				//	}
 				}
 			}
 
@@ -450,11 +453,11 @@ public class City extends PktCityInfo implements FlashingIcon {
 			{
 				for ( int i =0; i < Constants.U_LAST; i++ )
 				{
-					PktRulesetUnit unit = client.rulesetUnitArr[i];
-					if ( canBuild(unit) )
-					{
-						v.add(unit);
-					}
+			//		PktRulesetUnit unit = client.rulesetUnitArr[i];
+			//		if ( canBuild(unit) )
+			//		{
+			//			v.add(unit);
+			//		}
 				}
 			}
 
@@ -509,7 +512,7 @@ public class City extends PktCityInfo implements FlashingIcon {
 		{
 			cityDialog = null;
 	//		client.desktop.remove(this); // is this needed ?
-			client.map.requestFocus();
+			client.getMap().requestFocus();
 		}
 
 		public void internalFrameIconified(InternalFrameEvent e)
@@ -683,37 +686,37 @@ public class City extends PktCityInfo implements FlashingIcon {
 			types.clear();
 			while ( happy-- > 0 )
 			{
-				icons.add(client.getHappyCitizenIcon(happy%2!=0));
+			//	icons.add(client.getHappyCitizenIcon(happy%2!=0));
 				types.add(Ni);
 			}
 
 			while ( content-- > 0 )
 			{
-				icons.add(client.getNormalCitizenIcon(content%2!=0));
+			//	icons.add(client.getNormalCitizenIcon(content%2!=0));
 				types.add(Ni);
 			}
 
 			while ( angry-- > 0 )
 			{
-				icons.add(client.getAngryCitizenIcon(angry%2!=0));
+			//	icons.add(client.getAngryCitizenIcon(angry%2!=0));
 				types.add(Ni);
 			}
 
 			while ( elvis-- > 0 )
 			{
-				icons.add(client.getElvisIcon());
+			//	icons.add(client.getElvisIcon());
 				types.add(Ei);
 			}
 
 			while ( sciencist-- > 0 )
 			{
-				icons.add(client.getSciencistIcon());
+			//	icons.add(client.getSciencistIcon());
 				types.add(Si);
 			}
 
 			while ( taxmen-- > 0 )
 			{
-				icons.add(client.getTaxmanIcon());
+			//	icons.add(client.getTaxmanIcon());
 				types.add(Ti);
 			}
 
@@ -736,10 +739,11 @@ public class City extends PktCityInfo implements FlashingIcon {
 
 		public Dimension getMinimumSize()
 		{
-			Insets b = getInsets();
-			Icon icon = client.getNormalCitizenIcon(false);
-			return new Dimension(b.left+b.right+size*icon.getIconWidth(),
-				b.top+b.bottom+icon.getIconHeight());
+         return new Dimension(100, 100); // ??
+		//	Insets b = getInsets();
+		//	Icon icon = client.getNormalCitizenIcon(false);
+		//	return new Dimension(b.left+b.right+size*icon.getIconWidth(),
+		//		b.top+b.bottom+icon.getIconHeight());
 		}
 
 		public Dimension getPreferredSize()

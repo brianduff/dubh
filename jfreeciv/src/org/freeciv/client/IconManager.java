@@ -5,7 +5,7 @@ package org.freeciv.client;
 class IconManager
 {
 
-
+/*
 
    private SoftReference[] tileIcons = new SoftReference[400];
    private SoftReference[] unitIcons = new SoftReference[60];
@@ -437,6 +437,6 @@ class IconManager
 
 
 
-
+*/
 
 }

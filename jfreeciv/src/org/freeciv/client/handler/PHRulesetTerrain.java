@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 /**
  * Ruleset control packet handler.
  */
-public class PHRulesetTerrain implements ClientPacketHandler, DlgProgress.ProgressItem
+public class PHRulesetTerrain implements ClientPacketHandler, ProgressItem
 {
 
   public String getPacketClass()
