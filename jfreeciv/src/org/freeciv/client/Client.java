@@ -102,8 +102,7 @@ public class Client implements Constants
   // private PktPlayerInfo currentPlayer;
   //////////////////////// UI Components
   // The main map component
-  private CivMap map;
-  private JComponent mapPanel;
+
   // The desktop and MDI stuff
 
 
@@ -121,7 +120,6 @@ public class Client implements Constants
   private boolean m_recycInit = false;
   private int m_lastContinentNumber = 0;
 
-  private MapView m_mapView = new MapView(this);
 
   // prob shouldn't instantiate this yet.
   private Game m_game = new Game(m_factories);
@@ -188,6 +186,7 @@ public class Client implements Constants
     }
 
 
+
     m_mainWindow = new MainWindow( this );
     m_mainWindow.pack();
 
@@ -214,15 +213,14 @@ public class Client implements Constants
     return m_mainWindow;
   }
 
+
+
   public String getCapabilities()
   {
     return CAPABILITIES;
   }
 
-  public MapView getMapView()
-  {
-    return m_mapView;
-  }
+
 
   public void initContinents()
   {
@@ -231,12 +229,6 @@ public class Client implements Constants
     // No idea what this is doing - mem mgmt crap from c.
 
   }
-
-  public CivMap getMap()
-  {
-    return map;
-  }
-
   
   public TileSpec getTileSpec()
   {
@@ -776,7 +768,7 @@ public class Client implements Constants
       {
         // Actually, we should refresh all views here, but currently there is
         // only one view.
-        getMapView().refreshTileMapCanvas( x, y );
+        getMainWindow().getMapViewManager().refreshTileMapCanvas( x, y );
         getMainWindow().getMapOverview().refresh( x, y );
       }
     });
