@@ -1,7 +1,8 @@
 package org.freeciv.client.handler;
+
 import org.freeciv.client.*;
 import org.freeciv.net.*;
-import javax.swing.JOptionPane;
+
 /**
  * Ruleset control packet handler.
  */
