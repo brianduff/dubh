@@ -37,22 +37,6 @@ import oracle.ide.model.ElementAttributes;
  */
 public class PythonNode extends DeployableTextNode
 {
-  private static final Icon s_icon;
-
-  static 
-  {
-    ImageIcon i = new ImageIcon(
-      org.dubh.jdev.addin.python.PythonNode.class.getResource( "pythonnode.png" )
-    );
-    if ( i.getImageLoadStatus() == MediaTracker.COMPLETE )
-    {
-      s_icon = i;
-    }
-    else
-    {
-      s_icon = null;
-    }
-  }
 
   /**
    * Construct a python node
@@ -68,9 +52,9 @@ public class PythonNode extends DeployableTextNode
 
   public Icon getIcon()
   {
-    if ( s_icon != null )
+    if ( PythonAddin.PYTHON_FILE_ICON != null )
     {
-      return s_icon;
+      return PythonAddin.PYTHON_FILE_ICON;
     }
     else
     {

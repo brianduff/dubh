@@ -66,6 +66,9 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/dubh/jdev/addin/python/PythonConsoleOptions.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/dubh/jdev/addin/python/NewPythonFileWizard.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>

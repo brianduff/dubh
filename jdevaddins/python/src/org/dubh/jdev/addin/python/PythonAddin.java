@@ -24,8 +24,15 @@
 
 package org.dubh.jdev.addin.python;
 
+import java.awt.BorderLayout;
+import java.awt.MediaTracker;
 import java.io.InputStream;
 import java.io.IOException;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import oracle.ide.ContextMenu;
 import oracle.ide.Ide;
@@ -36,9 +43,14 @@ import oracle.ide.addin.Context;
 import oracle.ide.addin.ContextMenuListener;
 import oracle.ide.config.IdeSettings;
 import oracle.ide.docking.DockStation;
+import oracle.ide.gallery.GalleryElement;
+import oracle.ide.gallery.GalleryFolder;
+import oracle.ide.gallery.ObjectGallery;
+import oracle.ide.gallery.ObjectGalleryAddin;
 import oracle.ide.net.URLFileSystem;
 import oracle.ide.net.URLRecognizer;
 import oracle.ide.panels.Navigable;
+import oracle.ide.util.Assert;
 
 import oracle.jdeveloper.model.JProjectFilter;
 
@@ -46,9 +58,7 @@ import org.python.util.PythonInterpreter;
 
 import org.dubh.jdev.addin.python.PythonNode;
 import org.dubh.jdev.language.python.PythonLanguageModule;
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+
 
 
 
@@ -63,6 +73,8 @@ import javax.swing.JScrollPane;
  *  <li>A python console, which can be used to type in interactive commands
  *      which are interpreted by jython</li>
  *  <li>A preferences page for the console</li>
+ *  <li>A Python category in the Object Gallery and a "wizard" which allows you 
+ *      to create a new Python file.</li>
  * </ul>
  * 
  * @author Brian.Duff@oracle.com
@@ -74,11 +86,29 @@ public final class PythonAddin extends BaseController
   private PythonLog m_log;
   private PythonIDEInterpreter m_interpreter;
   private ConsoleDockable m_consoleDockable;
+  private GalleryFolder m_galleryFolder;
 
   private IdeAction m_interpretAction;
   private IdeAction m_viewConsoleAction;
 
   static final String CONSOLE_SETTINGS_KEY = "org.dubh.jdev.addin.python.PythonConsoleOptions";
+
+  static final Icon PYTHON_FILE_ICON;
+
+  static 
+  {
+    ImageIcon i = new ImageIcon(
+      org.dubh.jdev.addin.python.PythonAddin.class.getResource( "pythonnode.png" )
+    );
+    if ( i.getImageLoadStatus() == MediaTracker.COMPLETE )
+    {
+      PYTHON_FILE_ICON = i;
+    }
+    else
+    {
+      PYTHON_FILE_ICON = null;
+    }
+  }
 
   /**
    * Is the specified context a valid context for operations on python files?
@@ -118,7 +148,32 @@ public final class PythonAddin extends BaseController
       Ide.getMainWindow().View,
       Ide.getMainWindow().Toolbar
     );
-    
+  }
+
+  /**
+   * Insert items into the Object gallery
+   */
+  private void populateGallery()
+  {
+    ObjectGalleryAddin galleryAddin = (ObjectGalleryAddin)
+      Ide.getAddinManager().getAddin(
+        ObjectGalleryAddin.class
+      );
+    if ( galleryAddin == null )
+    {
+      Assert.println(
+        "The object gallery appears to be missing. Unable to register python "+
+        "gallery folder."
+      );
+      return;
+    }
+
+    m_galleryFolder = new GalleryFolder( "Python" );
+    galleryAddin.getGallery().getModel().add( m_galleryFolder );
+    GalleryElement galleryElement = new GalleryElement( 
+      new NewPythonFileWizard(), "Python Script", null, PYTHON_FILE_ICON
+    );
+    m_galleryFolder.add( galleryElement );
     
   }
 
@@ -186,6 +241,8 @@ public final class PythonAddin extends BaseController
       m_consoleDockable, true
     );
 
+    // Install the Object gallery category
+    populateGallery();
 
   }
 
