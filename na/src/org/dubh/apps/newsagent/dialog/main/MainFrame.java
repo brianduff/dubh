@@ -1,23 +1,28 @@
-/*   NewsAgent: A Java USENET Newsreader
- *   Copyright (C) 1997-8  Brian Duff
- *   Email: bduff@uk.oracle.com
- *   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-
+// ---------------------------------------------------------------------------
+//   NewsAgent: A Java USENET Newsreader
+//   $Id: MainFrame.java,v 1.5 1999-03-22 23:46:00 briand Exp $
+//   Copyright (C) 1997-9  Brian Duff
+//   Email: bduff@uk.oracle.com
+//   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
+// ---------------------------------------------------------------------------
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation; either version 2 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program; if not, write to the Free Software
+//   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// ---------------------------------------------------------------------------
+//   Original Author: Brian Duff
+//   Contributors:
+// ---------------------------------------------------------------------------
+//   See bottom of file for revision history
 package dubh.apps.newsagent.dialog.main;
 
 import dubh.utils.ui.*;
@@ -36,7 +41,7 @@ import dubh.apps.newsagent.dialog.FolderSelectorDialog;
 import dubh.apps.newsagent.dialog.NewsServerPropsDlg;
 import dubh.apps.newsagent.dialog.ServerSubscriptions;
 import dubh.apps.newsagent.dialog.composer.MessageComposer;
-import dubh.apps.newsagent.dialog.preferences.OptionsFrame;
+import dubh.apps.newsagent.dialog.preferences.NewsAgentPreferences;
 import dubh.apps.newsagent.nntp.NNTPServer;
 import dubh.apps.newsagent.nntp.MessageBody;
 import dubh.apps.newsagent.nntp.MessageHeader;
@@ -297,8 +302,9 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
 
   public void editPreferences() {
      // TODO: Change OptionsFrame to a DubhFrame
-     OptionsFrame options = new OptionsFrame();
-     options.showAtStoredLocation("preferences");
+     //OptionsFrame options = new OptionsFrame();
+     //options.showAtStoredLocation("preferences");
+     NewsAgentPreferences.showDialog();
   }
 
   public void serversAdd() {
@@ -359,9 +365,7 @@ public class MainFrame extends DubhFrame implements IUpdateableClass {
   }
 
   public void serversPrefs() {
-     // TODO: Make OptionsFrame a DubhFrame
-     OptionsFrame opt = new OptionsFrame(OptionsFrame.TAB_SERVERS);
-     opt.showAtStoredLocation("preferences");
+     NewsAgentPreferences.showDialog();
   }
 
   public void serversSubscriptions() {
