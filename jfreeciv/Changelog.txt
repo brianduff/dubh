@@ -1,4 +1,16 @@
-08.07.02 [bduff]
+09.07.01 [bduff]
+
+Have obsoleted the ruleset manager, introduced the concept of
+game object factories in its place and migrated all the old 
+handler code. Now the client should be suitably distanced 
+from the network packets themselves, e.g. deals with abstract
+Nation objects instead of PktRulesetNations.
+
+I think it's probably more efficient too..
+
+Visibly, nothing is different.
+
+08.07.01 [bduff]
 
 Many more updates. You can actually connect and start a game now, 
 it gets as far as displaying the map, then there are a bunch of
@@ -14,7 +26,7 @@ bit wider...
 Anyway, back where we were in April 2000, but with 1.11.7-devel, 
 which is a step forward, imho. ;)
 
-01.07.02 [bduff]
+01.07.01 [bduff]
 
 (I am a lazy git)
 
