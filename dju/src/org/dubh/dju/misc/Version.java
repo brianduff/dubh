@@ -45,28 +45,32 @@ import java.util.Date;
  */
 public class Version implements Serializable, ReadOnlyVersion
 {
-   private final static String SHORT_FORMAT = "{3}.{4}.{5} (build {6})";
-   private final static String LONG_FORMAT  = "{0} {3}.{4}.{5} (build {6} [{2}] - {7}) {1}";
+   protected final static String SHORT_FORMAT = "{3}.{4}.{5} (build {6})";
+   protected final static String LONG_FORMAT  = "{0} {3}.{4}.{5} (build {6} [{2}] - {7}) {1}";
 
 
-   private int m_major;
-   private int m_minor;
-   private int m_micro;
+   protected int m_major;
+   protected int m_minor;
+   protected int m_micro;
    
-   private int m_build;
+   protected int m_build;
    
-   private String m_buildLabel;
+   protected String m_buildLabel;
    
-   private String m_productName;
-   private String m_productCopyright;
-   private Date   m_releaseDate;
+   protected String m_productName;
+   protected String m_productCopyright;
+   protected Date   m_releaseDate;
    
    public Version()
    {
-      m_buildLabel="";
+      m_buildLabel="unknown";
       m_releaseDate = new Date();
-      m_productName = "";
-      m_productCopyright = "";
+      m_productName = "Unknown Product";
+      m_productCopyright = "(C) 1999 Brian Duff";
+      m_major = 0;
+      m_minor = 0;
+      m_micro = 0;
+      m_build = 0;
    }
    
    public void setMajorVersion(int i) { m_major = i; }
