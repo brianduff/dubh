@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: StorageManager.java,v 1.6 2001-02-11 02:51:01 briand Exp $
+//   $Id: StorageManager.java,v 1.7 2001-02-11 15:47:29 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -44,8 +44,10 @@ import org.dubh.dju.misc.Debug;
  * Deals with all hard disk storage of messages etc. There is normally only one
  * storage manager, it is initialised at startup, and can be obtained using
  * GlobalState.getStorageManager().<P>
+ *
+ * THIS CLASS IS OBSOLETE
  @author Brian Duff
- @version $Id: StorageManager.java,v 1.6 2001-02-11 02:51:01 briand Exp $
+ @version $Id: StorageManager.java,v 1.7 2001-02-11 15:47:29 briand Exp $
  */
 public class StorageManager {
 
@@ -68,26 +70,8 @@ public class StorageManager {
    @return an Enumeration consisting entirely of Folder objects.
    */
   public Enumeration getFolders() {
-     if (GlobalState.isApplet())
-     {
-        // Empty enumeration
-        Vector v = new Vector();
-        return v.elements();
-     }
-     // all folders are subdirectories of GlobalState.foldersDir
-     Vector folders = new Vector();
-     File foldersDir = new File(GlobalState.foldersDir);
-     String foldernames[] = foldersDir.list();
-     // In case the user creates files or whatnot in this directory, only include
-     // items which are really folders.
-     for (int i=0;i<foldernames.length;i++) {
-        File currentFile = new File(GlobalState.foldersDir+foldernames[i]);
-        if (currentFile.isDirectory())
-           folders.addElement(new Folder(foldernames[i]));
-        else
-           if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Non-directory "+foldernames[i]+" found in "+GlobalState.foldersDir);
-     }
-     return folders.elements();
+
+      return null;
   }
 
   /**
@@ -115,9 +99,9 @@ public class StorageManager {
    @return a File object which will be a directory.
    */
   public File getServerDirectory(NNTPServer server) {
-     if (GlobalState.isApplet()) return null;
+      return null;
      // the directory is GlobalState.serversDir+server.getHostName()+File.sep
-     return new File(GlobalState.serversDir+File.separator+server.getHostName());
+ //    return new File(GlobalState.serversDir+File.separator+server.getHostName());
   }
 
   /**
@@ -253,8 +237,7 @@ public class StorageManager {
    */
   public void createFolder(String name) {
      // Check that the folder doesn't already exist
-     if (!GlobalState.isApplet())
-     {
+/*
         if (name != null) {
            File newFolder = new File(GlobalState.foldersDir+name);
            if (newFolder.exists()) {
@@ -265,7 +248,7 @@ public class StorageManager {
               }
            }
         }
-     }
+*/
   }
 
   /**
@@ -273,7 +256,7 @@ public class StorageManager {
    @param folder The Folder object to delete.
    */
   public void deleteFolder(Folder folder) {
-     if (GlobalState.isApplet()) return;
+
      File theFolder = folder.getFile();
      if (theFolder.exists()) {
         // First delete all the files in the folder.
@@ -347,7 +330,8 @@ public class StorageManager {
    * Deserialize (read in) the nntpServers.
    */
   private void deserializeServers() {
-     if (GlobalState.isApplet()) return;
+
+  /*
      File f = new File(GlobalState.serversFile);
      if (!f.exists())  {
         serializeServers();   // If file doesn't exist, create it.
@@ -370,6 +354,7 @@ public class StorageManager {
 
         }
      }
+     */
   }
 
   /**
@@ -378,7 +363,7 @@ public class StorageManager {
    * method is synchronized (atomic)
    */
   public synchronized void serializeServers() {
-     if (GlobalState.isApplet()) return;
+/*
     final Hashtable finalServers = nntpServers;
     Thread serialiserThread = new Thread() {
      public void run() {
@@ -396,6 +381,7 @@ public class StorageManager {
       } // run
      }; // thread object
      serialiserThread.start(); // fork the serialiser
+*/
   }
 
   /**
@@ -432,7 +418,7 @@ public class StorageManager {
    * caches, so should only be called at the end of the program
    */
   public void serializeCaches() {
-     if (GlobalState.isApplet()) return;
+
     // needsSaved
   /*  final ProgressDialog csProgress = new ProgressDialog(GlobalState.getMainFrame(), true);
     csProgress.setMinimum(0);
@@ -478,7 +464,7 @@ public class StorageManager {
    * newsgroup, an empty cache is created.
    */
   public void deserializeCaches() {
-     if (GlobalState.isApplet()) return;
+
     /*
      * Hack to get the number of servers*newsgroups we will have to go thru
      */
@@ -530,7 +516,7 @@ public class StorageManager {
    * Serialise one cache object
    */
   private void serializeCache(File cacheFile, ServerCache cache) {
-     if (GlobalState.isApplet()) return;
+
    if (cache.needsSaved()) {
      try {
        FileOutputStream fos = new FileOutputStream(cacheFile);
@@ -551,7 +537,7 @@ public class StorageManager {
      the cache couldn't be deserialized.
    */
   private ServerCache deserializeCache(File cacheFile) {
-     if (GlobalState.isApplet()) return new ServerCache();
+
      if (!cacheFile.exists()) {
 
        return new ServerCache();
@@ -581,47 +567,7 @@ public class StorageManager {
    * about), then delete all the folders.
    */
   public void doTest() {
-       if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"***StorageManager.doTest");
-     // Create a few folders, list them and then delete them.
-     createFolder("TestHarnessOne");
-     createFolder("Another Folder");
-     createFolder("Third Test Folder");
-     // Try creating a folder with a silly name
-     createFolder("(£*RH(//\\\\/*HVD::");
-     // Try creating a duplicate folder
-     createFolder("TestHarnessOne");
-     // Create a file, to check that files are not included in the list of folders
-     try {
-        PrintWriter test = new PrintWriter(new FileOutputStream(GlobalState.foldersDir+"testFile.tst"));
-        test.println("I am a file.");
-        test.flush();
-        test.close();
-     } catch (IOException e) {
-        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Error in StorageManager.doTest");
-     }
 
-     // List all the folders, and delete them
-
-     Enumeration e = getFolders();
-     while (e.hasMoreElements()) {
-        Folder f = (Folder) e.nextElement();
-        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,f.getName());
-        deleteFolder(f);
-     }
-     // Delete the file we created.
-     File temp = new File(GlobalState.foldersDir+"testFile.tst");
-     if (!temp.delete())
-        if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"Can't delete test file");
-
-     // Create some NNTPServers, and add them, then serialise.
-     try {
-        addServer("calvin.st-and.ac.uk");
-        addServer("wiredsoc.ml.org");
-        serializeServers();
-     } catch (Exception er) {
-        if (Debug.TRACE_LEVEL_1) Debug.println(1, this, "An error occurred in StorageManager.doTest: "+er);
-
-     }
      }
 
 }
@@ -656,6 +602,9 @@ public class StorageManager {
 // New History:
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2001/02/11 02:51:01  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.5  1999/12/12 01:47:12  briand
 // Fix compilation problems caused by removal of FolderTreePanel and move to
 // javalobby.

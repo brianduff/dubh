@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: ServerCache.java,v 1.5 2001-02-11 02:51:01 briand Exp $
+//   $Id: ServerCache.java,v 1.6 2001-02-11 15:47:19 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -149,7 +149,7 @@ public class ServerCache implements Serializable {
      MessageHeader thisHeader = (MessageHeader)enum.nextElement();
      // Call the list agents, and add the message only if it isn't rejected
      // by any of the agents.
-     if (GlobalState.getAgentManager().callListAgents(thisHeader))
+     //if (GlobalState.getAgentManager().callListAgents(thisHeader))
        insertHeader(thisHeader);
    }
 
