@@ -1,4 +1,9 @@
 package org.freeciv.tile;
+
+
+/**
+ * Uh remove this class and replace with Location
+ */
 public class Coords
 {
   public int x;
