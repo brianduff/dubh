@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: Version.java,v 1.5 1999-11-11 21:24:35 briand Exp $
+//   $Id: Version.java,v 1.6 1999-12-13 22:33:49 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -63,7 +63,7 @@ public class Version implements Serializable, ReadOnlyVersion
    {
       m_buildLabel="unknown";
       m_releaseDate = new Date();
-      m_productName = "Unknown Product";
+      m_productName = "UnknownProduct";
       m_productCopyright = "(C) 1999 Brian Duff";
       m_major = 0;
       m_minor = 0;
