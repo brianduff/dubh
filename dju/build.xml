@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.25 2000-08-23 22:28:38 briand Exp $ -->
+<!-- $Id: build.xml,v 1.26 2000-08-23 23:52:37 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -14,6 +14,7 @@
     <!-- The buildnumber task is in the devtools CVS module. It must be in -->
     <!-- the classpath before building any other module -->
     <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
+    <taskdef name="grabdeps" classname="org.dubh.tool.ant.GrabDependencies" />    
 
     <!-- The name and main version number of this project. -->
     <property name="product" value="Dubh Java Utilities" />
@@ -36,8 +37,6 @@
     <property name="modulelong" value="${moduleshort}.${dubh.buildnumber}" />
     <property name="jarfile" value="${jardir}/${moduleshort}.jar" />
 
-    <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
-    <property name="classpath" value="" />
     <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
     <property name="docdir" value="${cvsmodule}/doc" />    
     <property name="javadocdir" value="${docdir}/api" />
@@ -60,6 +59,8 @@
 
     <!-- Comma separated list of xml files that should be converted to Java using the xrts transforming stylesheet -->
     <property name="xrtsfiles" value="" />
+
+    <grabdeps />
 
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
