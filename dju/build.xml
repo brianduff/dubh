@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.19 2000-08-20 23:04:26 briand Exp $ -->
+<!-- $Id: build.xml,v 1.20 2000-08-20 23:09:41 briand Exp $ -->
 
 <!-- This is a build file which can be used with the Jakarta Ant tool to -->
 <!-- build various Dubh libraries / applications. It's written to be fairly -->
@@ -48,7 +48,8 @@
     <property name="distribtmp" value="distribtmp" />
     <property name="distribname" value="${cvsmodule}/${modulelong}-bin.zip" />
 
-    <property name="xslthome" value="devtools/xslt" />
+    <!-- Gotcha: this is relative to the srcdir , sigh... -->
+    <property name="xslthome" value="../../devtools/xslt" />
     <property name="xugenxsl" value="${xslthome}/xugen.xsl" />
     <property name="xrtsxsl" value="${xslthome}/xrts.xsl" />
 

@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="xugen.xsl" type="text/xsl"?>
+<?cocoon-process type="xslt"?>
+
+
+<xugen name="PathsOptions" package="org.javalobby.dju.test" access="public">
+   <description>The UI for Paths options in the Project Properties dialog</description>
+   <author>Brian.Duff@Oracle.com</author>
+   
+   <import>javax.swing.JComboBox</import>
+   <import>javax.swing.JTextField</import>
+   <import>java.awt.event.ActionListener</import>
+   <import>java.awt.event.ActionEvent</import>
+   
+   <table name="MainTable" cellspacing="1" class="JPanel">
+      <tr>
+         <td width="1.0">
+            <table name="TargetJDK" class="JPanel" cellspacing="2">
+               <tr>
+                  <td colspan="2" width="1.0">
+                     <jlabel name="TargetJDKLabel" text='"Target JDK"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JComboBox" name="TargetJDKCombo" />
+                  </td>
+                  <td>
+                     <jbutton name="DefineJDKButton" text='"Define..."' />
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td width="1.0">
+            <table name="JavaPaths" class="JPanel" cellspacing="2" borderTitle='"Java Paths"'>
+               <!-- Source root directories -->
+               <tr>
+                  <td width="1.0">
+                     <jlabel name="SourceRootDirLabel" text='"Source Root Directory"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JTextField" name="SourceRootField" />
+                  </td>
+                  <td>
+                     <jbutton name="EditSourceRootButton" text='"Edit..."' />
+                  </td>
+               </tr>
+               
+               <!-- Output root directory -->
+               <tr>
+                  <td width="1.0">
+                     <jlabel name="OutputRootDir" text='"Output Root Directory"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JTextField" name="OutputRootField" />
+                  </td>
+                  <td>
+                     <jbutton name="BrowseOutputRoot" text='"Browse..."' />
+                  </td>
+               </tr>
+
+               <!-- Run/Debug working directory -->
+               <tr>
+                  <td width="1.0">
+                     <jlabel name="RunDebugDir" text='"Run / Debug Working Directory"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JTextField" name="RunDebugField" />
+                  </td>
+                  <td>
+                     <jbutton name="BrowseRunDebugDir" text='"Browse..."' />
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td width="1.0">
+            <table name="HTMLPaths" class="JPanel" cellspacing="2" borderTitle='"HTML Paths"'>
+               <!-- HTML root directory -->
+               <tr>
+                  <td width="1.0">
+                     <jlabel name="HTMLRootDir" text='"HTML Root Directory"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JTextField" name="HTMLRootDirField" />
+                  </td>
+                  <td>
+                     <jbutton name="BrowseHTMLRoot" text='"Browse..."' />
+                  </td>
+               </tr>
+
+               <!-- HTML source directory -->
+               <tr>
+                  <td width="1.0">
+                     <jlabel name="HTMLSourceDir" text='"HTML Source Directory"' />
+                  </td>
+               </tr>
+               <tr>
+                  <td width="1.0">
+                     <component class="JTextField" name="HTMLSourceDirField" />
+                  </td>
+                  <td>
+                     <jbutton name="BrowseHTMLSourceDir" text='"Browse..."' />
+                  </td>
+               </tr>               
+            </table>
+         </td>
+      </tr>
+     
+   
+   </table>
+  
+   
+   <init>
+   initListeners();
+   </init>
+   
+   <method name="initListeners" declarators="public final"
+           description="Initialize listeners for all components in this UI">
+      getBrowseOutputRoot().addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e)
+         {
+            System.out.println("Clicked on browse");   
+         }
+      });
+   </method>
+   
+   <method name="test" declarators="public final static" return="boolean"
+      description="Just Testing">
+      <param name="funky" type="String" description="A funky parameter" />
+      <param name="isRandom" type="boolean" description="another random parameter" />
+      // do something
+      return true;
+   </method>
+   
+   <field name="m_testField" type="String" description="testing" declarators="private"/>
+</xugen>
