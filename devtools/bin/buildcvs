@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Id: buildcvs,v 1.1 2000-08-23 22:40:27 briand Exp $
+# $Id: buildcvs,v 1.2 2000-09-14 22:41:09 buildman Exp $
 #
 # Runs the Jakarta ANT tool to build a specified module.
 # (C) 2000 Brian Duff / www.dubh.org
@@ -11,7 +11,6 @@
 #
 # This version requires CVS and pulls the code before building
 
-BUILD_DIR=~admin/build
 CVSROOT=/usr/local/cvsroot
 
 
@@ -24,7 +23,6 @@ ANT_MAIN=org.apache.tools.ant.Main
 
 #ANT_OPTIONS="-logfile $1.build.log"
 
-cd $BUILD_DIR
 rm -rf $1
 cvs -d /usr/local/cvsroot checkout $1/build.xml
 CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
