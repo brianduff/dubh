@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: dubhsnapshots.cgi,v 1.3 1999-06-08 23:51:24 briand Exp $
+# $Id: dubhsnapshots.cgi,v 1.4 1999-06-08 23:54:23 briand Exp $
 
 DOWNLOAD_DIR=/home/briand/public_html/newsagent/developer/download
 NAID=na.1.1.0
@@ -59,7 +59,7 @@ echo "</ul>"
 
 echo "<h2>Dubh Java Utilities (DJU)</h2>"
 
-DJUSIZE=`ls -l $DUJAR.zip | cut -f13 -d " "`
+DJUSIZE=`ls -l $DUJAR.zip | cut -b31-40`
 KDJUSIZE=$[$DJUSIZE/1024]
 
 echo "<p>Latest compiled <a href=$DUJAR.zip>$DUJAR</a> (zipped, $KDJUSIZE k)</p>"
@@ -83,7 +83,7 @@ echo "</ul>"
 
 echo "<h2>Dubh Mail Protocols (DMP)</h2>"
 
-DMPSIZE=`ls -l $DMPJAR.zip | cut -f13 -d " "`
+DMPSIZE=`ls -l $DMPJAR.zip | cut -b31-40`
 KDMPSIZE=$[$DMPSIZE/1024]
 
 echo "<p>Latest compiled <a href=$DMPJAR.zip>$DMPJAR</a> (zipped, $KDMPSIZE k)</p>"
@@ -105,6 +105,9 @@ echo "</body></html>"
 
 #
 # $Log: not supported by cvs2svn $
+# Revision 1.3  1999/06/08 23:51:24  briand
+# Change command to retrieve file size.
+#
 # Revision 1.2  1999/06/08 22:42:35  briand
 # Add DMP module and filesize of ZIPped JARs.
 #
