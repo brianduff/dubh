@@ -25,6 +25,26 @@ Welcome to Contributor Central.
 
 <h2>News</h2>
 
+<h3>[23 October 1999]: Navigator &amp; Command System</h3>
+<p>Another massive coding session today. Good news is that the navigator is working, 
+  and is all funky and dynamic. I even felt so confident that I put it in the 
+  main window of NewsAgent for the whole world to see. Gone forever is the old 
+  FolderTreePanel. If you feel like trying this out on another system, you might 
+  find it slightly fiddly at the moment, because the property file lookup isn't 
+  entirely flexible (and there may be some hard coded paths at the moment). Oh, 
+  also, the navigator doesn't talk to the rest of NewsAgent yet, so the application 
+  is pretty useless until I rewrite the ThreadTree and integrate the new MessageViewer 
+  stuff.</p>
+<p>There is now a new package in DJU called dubh.utils.command. This contains 
+  various classes and interfaces to support the general idea of a command in an 
+  application. The commands support undo and redo and integrate with JFC Actions. 
+  I've used these commands in the navigator extensively, this means that the user 
+  can just plug in new commands for things in the navigator by providing the classname 
+  of an object that implements dubh.utils.command.Command. There is only one command 
+  in existence at the moment (Add Server... on the News Server service). It doesn't 
+  do anything other than print out it's name, but I should have it invoking the 
+  (new and improved) Server properties dialog tomorrow.</p>
+<p>&nbsp; </p>
 <h3>[17 October 1999]: Navigator and Viewer</h3>
 <p>Well, with DMP in a testable (but not entirely complete) state, I've temporarily 
   switched back to doing stuff for NewsAgent itself again. </p>
