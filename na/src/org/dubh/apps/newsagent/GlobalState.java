@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: GlobalState.java,v 1.6 1999-06-01 00:30:25 briand Exp $
+//   $Id: GlobalState.java,v 1.7 1999-10-24 00:41:30 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -44,7 +44,7 @@ import dubh.utils.misc.*;
 /**
  * Describes the global state of the application
  * @author Brian Duff
- * @version $Id: GlobalState.java,v 1.6 1999-06-01 00:30:25 briand Exp $
+ * @version $Id: GlobalState.java,v 1.7 1999-10-24 00:41:30 briand Exp $
  */
 public class GlobalState {
 
@@ -250,7 +250,14 @@ public class GlobalState {
   public static ResourceManager getRes() {
      return m_resManager;
   }
-
+    
+  /**
+   * Get the NewsAgent configuration directory root.
+   */  
+  public static String getDataDirectory()
+  {
+     return dataDir;
+  }  
 
   /**
    * Set the application default Locale (Locale.setDefault() doesn't work).
@@ -428,6 +435,13 @@ public class GlobalState {
 //
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  1999/06/01 00:30:25  briand
+// Removed all static methods that get resources of various types.
+// These were delegating to the ResourceManager. The preferred
+// way to get resources now is to call GlobalState.getRes() which
+// returns a ResourceManager. This was a major interface change
+// with impact on almost every file in NewsAgent.
+//
 // Revision 1.5  1999/03/23 01:29:59  briand
 // Fix to comments (checking autobuild works).
 //
