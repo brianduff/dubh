@@ -17,4 +17,6 @@
     <xsql:include-xsql href="page.xml" />
   </content>
   
+  <cvs-info redirect="../about/page.xml" />
+  
 </dubhpage>
