@@ -38,6 +38,11 @@ public class PktConnInfo extends AbstractPacket
   public String addr;
   public String capability;
 
+
+  public PktConnInfo()
+  {
+    super();
+  }
 	
 	public PktConnInfo(InStream in) 
   {

@@ -27,7 +27,13 @@ public class PktGameInfo extends AbstractPacket
 	public int spacerace;
   public int seconds_to_turndone;
 
-	public PktGameInfo(InStream in) {
+  public PktGameInfo()
+  {
+
+  }
+
+	public PktGameInfo(InStream in) 
+  {
 	  super(in);
 	}
 	
