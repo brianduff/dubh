@@ -8,17 +8,15 @@ import org.freeciv.net.PktMapInfo;
 /**
  * Map info handler
  */
-public class PHMapInfo implements ClientPacketHandler
+public class PHMapInfo extends AbstractHandler
 {
 
   public String getPacketClass()
   {
     return "org.freeciv.net.PktMapInfo";
   }
-  
-  /**
-   */
-  public void handle( Client c, Packet pkt )
+
+  void handleOnEventThread( Client c, Packet pkt )
   {
     PktMapInfo pmi = (PktMapInfo)pkt;
 
@@ -31,9 +29,11 @@ public class PHMapInfo implements ClientPacketHandler
     map.allocate();
     c.initContinents();
 
-    c.createMap( pmi.xsize, pmi.ysize, pmi.isEarth );
-    
 
-    
+    c.getMainWindow().getMapViewManager().initialize();
+    c.getMainWindow().getMapOverview().setMapDimensions( 
+      pmi.xsize, pmi.ysize
+    ); 
   }
+
 }
