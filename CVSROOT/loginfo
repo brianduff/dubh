@@ -23,4 +23,5 @@
 # For example:
 #DEFAULT (echo ""; id; echo %s; date; cat) >> $CVSROOT/CVSROOT/commitlog
 # or
-DEFAULT (echo ""; echo $CVS_USER; echo %{sVv}; date; cat) >> /home/sites/balveda.dubh.org/web/build/jfreeciv/commitlog.txt
+#DEFAULT (echo ""; echo $CVS_USER; echo %{sVv}; date; cat) >> /home/sites/balveda.dubh.org/web/build/jfreeciv/commitlog.txt
+DEFAULT /usr/local/bin/cvs-log /home/sites/balveda.dubh.org/web/build/jfreeciv/commitlog.txt
