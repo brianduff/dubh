@@ -335,8 +335,7 @@ public class PythonLexer extends AbstractLexer
           case '\'':
           case '\"':
             // Triple quoted string?
-            if ( textBuffer.getChar( currentPos ) == c && textBuffer.getChar( currentPos + 1 ) == c &&
-              !Character.isWhitespace( textBuffer.getChar( currentPos + 2 ) ) )   // This last requirement is strictly speaking wrong, but it helps the lexer.
+            if ( textBuffer.getChar( currentPos ) == c && textBuffer.getChar( currentPos + 1 ) == c  )   
             {
               lastToken = STRING_LITERAL;
               currentPos++;
