@@ -8,6 +8,8 @@
   
   <title>Dubh.Org: Projects</title>
   
+  <xsql:include-xml href="../trail.xml" />  
+  
   <navigator>
     <xsql:include-xsql href="/navigator.xml?me=projects" />
   </navigator>  

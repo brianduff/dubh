@@ -14,7 +14,40 @@
   
   <content>
     <h1>NewsAgent</h1>
-    <xsql:include-xsql href="page.xml" />
+    
+    <h2>What is NewsAgent?</h2>
+    <p>
+      NewsAgent is a completely free Java USENET Newsreader. It was 
+      written by Brian Duff and is currently in development as an
+      open source project.
+    </p>
+    <p align="center">
+      <img src="images/na_mainwindow.gif" alt="NewsAgent ScreenShot" />
+    </p>
+    <p>
+      As well as being a fully featured News reader, the program also has
+      support for Agents: plugin modules which can affect the way messages
+      are processed when reading or posting news articles.
+    </p>
+  
+  
+    <h2>NewsAgent Developement Terminated [03 June 2001]</h2>
+      <p>
+        As of this month, I'm no longer actively developing NewsAgent.
+        The source code for NewsAgent will remain on the dubh.org cvs
+        repository for the forseeable future.
+      </p>
+      <p>
+        Instead, I'm switching my development effort to the Mozilla
+        <a href="http://www.mozilla.org/projects/grendel">Grendel</a>
+        project. Grendel aims to be a Java mail/news client, and is 
+        already far more fully featured than NewsAgent ever was.
+      </p>
+      <p>
+        If you have comments or queries about NewsAgent, you should
+        post them to the Grendel Development forum on 
+        <a href="http://talk.dubh.org">talk.dubh.org</a>.
+      </p>
   </content>
   
 </dubhpage>

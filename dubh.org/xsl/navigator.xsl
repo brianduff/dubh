@@ -19,10 +19,10 @@
         </td>
       </tr>
       <tr>
-        <td background="{@bgimg}">
-          <font face="tahoma,arial,helvetica,sans-serif" size="-1">
+        <td style="background: url(&quot;{@bgimg}&quot;)">
+          <div class="navbar">
             <xsl:apply-templates select="group" />
-          </font>
+          </div>
         </td>
       </tr>
     </table>
@@ -31,7 +31,7 @@
 
 
   <xsl:template match="group">
-    <p class="navbar">
+    <p>
       <xsl:apply-templates select="entry" />
     </p>
   </xsl:template>

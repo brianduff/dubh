@@ -23,7 +23,7 @@
         <td width="1%" valign="top" align="left" bgcolor="{$TitleColor}">
           <img src="/images/TL.gif" width="15" height="15" alt="Rounded Corner, Top Left" />
         </td>
-        <th nowrap="" width="97%" align="left" valign="center" bgcolor="{$TitleColor}">
+        <th nowrap="nowrap" width="97%" align="left" valign="middle" bgcolor="{$TitleColor}">
          
           <xsl:text>&#160;&#160;</xsl:text>
           
