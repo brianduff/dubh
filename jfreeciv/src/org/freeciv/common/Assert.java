@@ -31,4 +31,9 @@ public final class Assert
   {
     that(false);
   }
+
+  public static void fail( String message )
+  {
+    that( false, message );
+  }
 }
