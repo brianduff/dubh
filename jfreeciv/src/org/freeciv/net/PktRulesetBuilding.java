@@ -27,11 +27,11 @@ public class PktRulesetBuilding extends AbstractPacket
   {
     super();
   }
-  public PktRulesetBuilding( InStream in ) 
+  public PktRulesetBuilding( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     tech_req = in.readUnsignedByte();

@@ -411,6 +411,68 @@ public final class Game implements CommonConstants
   }
 
   /**
+   * Determine what the next year after the specified year
+   * is
+   * 
+   * @param year a year
+   * @return the next game year after the specified year
+   */
+  public int nextYear( int year )
+  {
+    int spaceshipparts;
+    int parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
+
+    if ( year == 1 )
+    {
+      year = 0;
+    }
+
+    spaceshipparts = 0;
+
+    if ( isSpaceRace() )
+    {
+/*      for ( int i = 0; parts[i] < B_LAST; i++ )
+      {
+        // TODO: Count the number of spaceship parts 
+        // see game.c: game_next_year()
+      }
+*/
+    }
+
+    if ( year >= 1900 || ( spaceshipparts >= 3 && year > 0 ) )
+    {
+      year += 1;
+    }
+    else if ( year >= 1750 || spaceshipparts >= 2 )
+    {
+      year += 2;
+    }
+    else if ( year >= 1500 || spaceshipparts >= 1 )
+    {
+      year += 5;
+    }
+    else if ( year >= 1000 )
+    {
+      year += 20;
+    }
+    else if ( year >= -1000 )
+    {
+      year += 25;
+    }
+    else
+    {
+      year += 50;
+    }
+
+    if ( year == 0 )
+    {
+      year = 1;
+    }
+
+    return year;
+  }
+
+  /**
    * Call this to initialize the parts of Game that are configured using 
    * rulesetControl packets.
    *

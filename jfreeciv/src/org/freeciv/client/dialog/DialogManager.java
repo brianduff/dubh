@@ -133,17 +133,44 @@ public class DialogManager
     public void run()
     {
       JOptionPane.showMessageDialog(
-        m_client.getMainWindow(), m_title, m_message, JOptionPane.ERROR_MESSAGE
+        m_client.getMainWindow(), m_title, m_message, JOptionPane.WARNING_MESSAGE
       );
     }
   }
+
+  /**
+   * Display a message dialog, and return immediately
+   *
+   * @param message the message to display in the dialog
+   */
+  public void showMessageDialogNonBlocking( String message )
+  {
+    showMessageDialogNonBlocking( m_client.APP_NAME, message );
+  }
+
+  /**
+   * Display a message dialog. Block until the user dismisses the dialog
+   *
+   * @param message the message to display
+   */
+  public void showMessageDialog( String message )
+  {
+    showMessageDialogBlocking( m_client.APP_NAME, message );
+  }
+
+  /**
+   * @deprecated use showMessageDialogNonBlocking( String )
+   */
   public void showMessageDialogNonBlocking( String title, String message )
   {
     SwingUtilities.invokeLater( new MessageDialogRunnable( title, message ) );
   }
+  /**
+   * @deprecated use showMessageDialog( String )
+   */
   public void showMessageDialogBlocking( String title, String message )
   {
     JOptionPane.showMessageDialog(
-      m_client.getMainWindow(), title, message, JOptionPane.ERROR_MESSAGE );
+      m_client.getMainWindow(), message, title, JOptionPane.WARNING_MESSAGE );
   }
 }

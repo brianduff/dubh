@@ -48,6 +48,7 @@ import org.freeciv.client.dialog.DlgLogin;
 import org.freeciv.client.handler.ClientPacketDispacher;
 import org.freeciv.net.InStream;
 import org.freeciv.net.OutStream;
+import org.freeciv.net.NetworkProtocolException;
 import org.freeciv.net.Packet;
 import org.freeciv.net.PktGenericMessage;
 import org.freeciv.net.PktReqJoinGame;
@@ -59,7 +60,7 @@ import org.freeciv.net.PktReqJoinGame;
  * @author Artur Biesiadowski
  * @author Brian Duff
  */
-public class Client implements Constants
+public final class Client implements Constants
 {
 
   // The tile spec holds all the images that the client uses
@@ -495,15 +496,22 @@ public class Client implements Constants
   /**
    * Actually disconnect
    */
-  public synchronized void disconnect()
+  public synchronized void disconnect() throws IOException
   {
 
-    sendMessage( "remove "+ m_userName );// Should it remove the player? Make it
-                                    // ai?  JR
+    sendMessage( "remove "+ m_userName ); // ? is this right?
+
     out.close();
     in.close();
+    out = null;
+    in = null;
 
     setConnected( false );
+
+    
+
+    getDialogManager().hideAllDialogs();
+
   }
   /**
    * The runnable object that receives incoming packets from the server.
@@ -553,14 +561,15 @@ public class Client implements Constants
         {
           if ( m_client.isConnected() )
           {
-            System.err.println( "Server io exception" + e );
-            e.printStackTrace();
-            // Need to do these in an invokeLater
-            //JOptionPane.showMessageDialog(c,
-            //   e.toString(),_("Server connection error"),JOptionPane.ERROR_MESSAGE);
-            //c.hideAllWindows();
+            Logger.log( Logger.LOG_ERROR, "Server IO Exception" );
+            Logger.log( Logger.LOG_ERROR, e );
             return ;
           }
+        }
+        catch ( NetworkProtocolException nep )
+        {
+          Logger.log( Logger.LOG_ERROR, "Network protocol exception" );
+          Logger.log( Logger.LOG_ERROR, nep );
         }
       }
     }

@@ -14,11 +14,11 @@ public class PktRulesetNation extends AbstractPacket
   {
     super();
   }
-  public PktRulesetNation( InStream in ) 
+  public PktRulesetNation( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     name = in.readZeroString();

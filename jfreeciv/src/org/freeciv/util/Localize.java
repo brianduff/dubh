@@ -10,11 +10,23 @@ import java.util.HashMap;
 import java.util.Locale;
 
 /**
- * Support for localization. The correct .po file for  the current locale
- * is read on initialization. If not found, no translation takes place. The
- * .po files should exist on the CLASSPATH in the po path.
+ * Support for localization (language independent strings)
  *
- * To translate a string, call translate(String message, Object[] args).
+ * JFreeciv's strings are stored in unix po format files. We decided to use
+ * this mechanism rather than the standard java properties files so that
+ * Freeciv's translated resources could be used in JFreeciv whenever possible.
+ *
+ * Nevertheless, it would be too limiting to just use the translated resources
+ * from freeciv, so there is an extended jfreeciv specific set of po files.
+ *
+ * To translate a string, call translate(String message, Object[] args) or
+ * translate( String )
+ *
+ * If the message is located in the jfreeciv po file, the translated result
+ * is returned, failing that the freeciv po file is examined, and finally, if
+ * all else fails, the original string is returned.
+ *
+ * @author Brian Duff
  */
 public final class Localize
 {
@@ -28,6 +40,9 @@ public final class Localize
 
   private static HashMap m_poMap = null;
 
+  /**
+   * This class cannot be instantiated
+   */
   private Localize() {}
 
   static
@@ -40,6 +55,9 @@ public final class Localize
 
   public static void loadPO()
   {
+
+    // TODO load jfreeciv po
+    
     Locale l = Locale.getDefault();
 
     String language = l.getLanguage();
@@ -63,7 +81,9 @@ public final class Localize
     }
     else
     {
-      System.out.println("No .po file for default locale: "+l.getDisplayName()+". Using English (United States)");
+      System.out.println(
+        "No .po file for default locale: "+l.getDisplayName()+
+        ". Using English (United States)");
     }
   }
 

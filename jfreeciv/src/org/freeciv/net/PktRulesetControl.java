@@ -32,11 +32,11 @@ public class PktRulesetControl extends AbstractPacket
   {
     super();
   }
-  public PktRulesetControl( InStream in ) 
+  public PktRulesetControl( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     aqueduct_size = in.readUnsignedByte();
     sewer_size = in.readUnsignedByte();

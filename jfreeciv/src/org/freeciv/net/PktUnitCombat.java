@@ -11,11 +11,11 @@ public class PktUnitCombat extends AbstractPacket
   {
     super();
   }
-  public PktUnitCombat( InStream in ) 
+  public PktUnitCombat( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     attacker_unit_id = in.readShort();
     defender_unit_id = in.readShort();

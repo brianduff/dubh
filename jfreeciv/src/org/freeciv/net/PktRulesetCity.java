@@ -11,11 +11,11 @@ public class PktRulesetCity extends AbstractPacket
   {
     super();
   }
-  public PktRulesetCity( InStream in ) 
+  public PktRulesetCity( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     style_id = in.readUnsignedByte();
     techreq = in.readUnsignedByte();

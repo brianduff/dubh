@@ -10,7 +10,10 @@ import org.freeciv.client.map.MapLayer;
 
 /**
  * Superclass for layers on the grid map which deal with tiles. Provides some
- * useful translations between screen and map coordinates
+ * useful translations between screen and map coordinates.
+ *
+ * paint() is declared final in this class. You should implement the
+ * paintTile() method to paint for a single tile.
  *
  * @author Brian Duff
  */
@@ -45,7 +48,7 @@ abstract class GridMapTileLayer implements MapLayer
    * @param rect a rectangular region within g to paint to
    * @param mvi information about the view
    */
-  public void paint( Graphics g, Rectangle rect, MapViewInfo mvi )
+  public final void paint( Graphics g, Rectangle rect, MapViewInfo mvi )
   {
     // Figure out which tiles are visible, and only paint those tiles which
     // are both visible and fall within the specified rectangle.

@@ -27,11 +27,11 @@ public class PktSpaceshipInfo extends AbstractPacket implements CommonConstants
   {
     super();
   }
-  public PktSpaceshipInfo( InStream in ) 
+  public PktSpaceshipInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     player_num = in.readUnsignedByte();
     sship_state = in.readUnsignedByte();

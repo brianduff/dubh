@@ -46,11 +46,11 @@ public class PktRulesetGovernment extends AbstractPacket
   {
     super();
   }
-  public PktRulesetGovernment( InStream in ) 
+  public PktRulesetGovernment( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     required_tech = in.readUnsignedByte();

@@ -1,5 +1,10 @@
 package org.freeciv.common;
 
+import java.awt.Component;
+import javax.swing.JOptionPane;
+
+import org.freeciv.util.Localize;
+
 /**
  * The error handler abstracts away the mechanism by which errors are reported
  * by the application. At startup, the server or client registers a subclass
@@ -26,6 +31,16 @@ public abstract class ErrorHandler
    */
   public abstract void internalError( Throwable t );
 
+
+  /**
+   * Report an error.
+   *
+   * @param parent a parent component for any error UI the handler chooses
+   *    to use
+   *
+   * @param message the actual message to display
+   */
+  public abstract void error( Component parent, String message );
 
   /**
    * Get the registered handler instance.
@@ -66,6 +81,12 @@ public abstract class ErrorHandler
     {
       System.err.println( "INTERNAL ERROR!" );    
       t.printStackTrace();
+    }
+
+    public void error( Component c, String message )
+    {
+      JOptionPane.showMessageDialog( c, message, 
+        Localize.translate( "JFreeciv" ), JOptionPane.WARNING_MESSAGE );
     }
   }
 }

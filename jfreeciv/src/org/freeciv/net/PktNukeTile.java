@@ -7,11 +7,11 @@ public class PktNukeTile extends AbstractPacket
   {
     super();
   }
-  public PktNukeTile( InStream in ) 
+  public PktNukeTile( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     x = in.readUnsignedByte();
     y = in.readUnsignedByte();

@@ -9,11 +9,11 @@ public class PktSabotageList extends AbstractPacket
   {
     super();
   }
-  public PktSabotageList( InStream in ) 
+  public PktSabotageList( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     diplomat_id = in.readShort();
     city_id = in.readShort();

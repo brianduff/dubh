@@ -11,11 +11,11 @@ public class PktGenericMessage extends AbstractPacket
   {
     super();
   }
-  public PktGenericMessage( InStream in ) 
+  public PktGenericMessage( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     x = in.readUnsignedByte();
     y = in.readUnsignedByte();

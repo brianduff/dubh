@@ -10,7 +10,7 @@ public class PktUnitRequest extends AbstractPacket
   {
     super();
   }
-  public PktUnitRequest( InStream in ) 
+  public PktUnitRequest( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -30,7 +30,7 @@ public class PktUnitRequest extends AbstractPacket
     out.writeZeroString( name );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     type = in.getInputPacketType();
     unit_id = in.readShort();

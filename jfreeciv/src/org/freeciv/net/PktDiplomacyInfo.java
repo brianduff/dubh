@@ -16,7 +16,7 @@ public class PktDiplomacyInfo extends AbstractPacket implements org.freeciv.clie
   {
     super();
   }
-  public PktDiplomacyInfo( InStream in ) 
+  public PktDiplomacyInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -30,7 +30,7 @@ public class PktDiplomacyInfo extends AbstractPacket implements org.freeciv.clie
     out.writeInt( value );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     plrno0 = in.readInt();
     plrno1 = in.readInt();

@@ -36,7 +36,7 @@ public class PktConnInfo extends AbstractPacket
   {
     super();
   }
-  public PktConnInfo( InStream in ) 
+  public PktConnInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -55,7 +55,7 @@ public class PktConnInfo extends AbstractPacket
     out.writeZeroString( addr );
     out.writeZeroString( capability );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readInt();
     int data = in.readUnsignedByte();

@@ -34,11 +34,11 @@ public class PktUnitInfo extends AbstractPacket
   {
     super();
   }
-  public PktUnitInfo( InStream in ) 
+  public PktUnitInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readShort();
     owner = in.readUnsignedByte();

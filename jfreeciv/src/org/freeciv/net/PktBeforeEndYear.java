@@ -5,7 +5,7 @@ public class PktBeforeEndYear extends AbstractPacket
   {
     super();
   }
-  public PktBeforeEndYear( InStream in ) 
+  public PktBeforeEndYear( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }

@@ -30,6 +30,11 @@ public class Building implements GameObject
     m_ruleset = (PktRulesetBuilding) p;
   }
 
+  public String getName()
+  {
+    return m_ruleset.name;
+  }
+
   public int getId()
   {
     return m_ruleset.id;

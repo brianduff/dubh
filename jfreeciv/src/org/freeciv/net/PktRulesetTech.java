@@ -14,12 +14,12 @@ public class PktRulesetTech extends AbstractPacket
     super();
   }
   
-  public PktRulesetTech( InStream in ) 
+  public PktRulesetTech( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
   
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     req[ 0 ] = in.readUnsignedByte();

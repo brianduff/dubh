@@ -17,11 +17,11 @@ public class PktShortCity extends AbstractPacket
   public boolean happy;
   public boolean capital;
   public boolean walls;
-  public PktShortCity( InStream in ) 
+  public PktShortCity( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readShort();
     owner = in.readUnsignedByte();

@@ -11,11 +11,11 @@ public class PktTileInfo extends AbstractPacket
   {
     super();
   }
-  public PktTileInfo( InStream in ) 
+  public PktTileInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     x = in.readUnsignedByte();
     y = in.readUnsignedByte();

@@ -10,7 +10,7 @@ public class PktUnitConnect extends AbstractPacket
   {
     super();
   }
-  public PktUnitConnect( InStream in ) 
+  public PktUnitConnect( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -23,7 +23,7 @@ public class PktUnitConnect extends AbstractPacket
     out.writeShort( dest_y );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     activity_type = in.readUnsignedByte();
     unit_id = in.readShort();

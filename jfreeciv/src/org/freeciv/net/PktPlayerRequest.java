@@ -10,7 +10,7 @@ public class PktPlayerRequest extends AbstractPacket
   {
     super();
   }
-  public PktPlayerRequest( InStream in ) 
+  public PktPlayerRequest( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -32,7 +32,7 @@ public class PktPlayerRequest extends AbstractPacket
     out.writeUnsignedByte( wl_idx );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     pktType = in.getInputPacketType();
     tax = in.readUnsignedByte();

@@ -12,7 +12,7 @@ public class PktCityRequest extends AbstractPacket
   {
     super();
   }
-  public PktCityRequest( InStream in ) 
+  public PktCityRequest( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -36,7 +36,7 @@ public class PktCityRequest extends AbstractPacket
     out.writeZeroString( name );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     pktType = in.getInputPacketType();
     city_id = in.readShort();

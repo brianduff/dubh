@@ -15,6 +15,10 @@ public final class City implements CommonConstants
 {
   private static HashMap s_cities = new HashMap();
 
+  private static final int 
+    TYPE_UNIT = 0,
+    TYPE_NORMAL_IMPROVEMENT = 1,
+    TYPE_WONDER = 2;
 
   private List m_presentUnits;
   private int m_id;
@@ -311,6 +315,13 @@ public final class City implements CommonConstants
       m_game.getFactories().getBuildingFactory().findById( buildingId );
   }
 
+  private UnitType getUnitType( int unitId )
+  {
+    return (UnitType) 
+      m_game.getFactories().getUnitTypeFactory().findById( unitId );
+  }
+
+
   /**
    * Returns true if either this city has city walls, or the city is affected
    * by a wonder that provides it with city walls
@@ -366,6 +377,132 @@ public final class City implements CommonConstants
   public int getCurrentlyBuildingId()
   {
     return m_currentlyBuilding;
+  }
+
+  /**
+   * Compute the change production penalty for the given production change
+   * (target, is_unit) in this city.
+   *
+   */
+  private int getChangeProductionCharge( int target, boolean isUnit )
+  {
+    int shieldStockAfterAdjustment;
+    int origClass;
+    int newClass;
+    boolean putPenalty;
+
+    if ( m_changedFromIsUnit )
+    {
+      origClass = TYPE_UNIT;
+    }
+    else if ( getBuilding( m_changedFromId ).isWonder() )
+    {
+      origClass = TYPE_WONDER;
+    }
+    else
+    {
+      origClass = TYPE_NORMAL_IMPROVEMENT;
+    }
+
+    if ( isUnit )
+    {
+      newClass = TYPE_UNIT;
+    }
+    else if ( getBuilding( target ).isWonder() )
+    {
+      newClass = TYPE_WONDER;
+    }
+    else
+    {
+      newClass = TYPE_NORMAL_IMPROVEMENT;
+    }
+
+    putPenalty = ( origClass != newClass &&
+      m_game.nextYear( m_turnLastBuilt ) < m_game.getYear() );
+
+    if ( putPenalty )
+    {
+      shieldStockAfterAdjustment = 
+        m_beforeChangeShields / 2;
+    }
+    else
+    {
+      shieldStockAfterAdjustment = 
+        m_beforeChangeShields;
+    }
+
+    shieldStockAfterAdjustment += m_disbandedShields;
+
+    if ( newClass == TYPE_WONDER )
+    {
+      shieldStockAfterAdjustment 
+        += m_caravanShields;
+    }
+    else
+    {
+      shieldStockAfterAdjustment += 
+        m_caravanShields / 2;
+    }
+
+    return shieldStockAfterAdjustment;
+    
+  }
+
+  /**
+   * Get the number of turns before the unit or building being built will 
+   * be complete
+   *
+   * @return the number of turns until the building is complete
+   */
+  public int getTurnsToBuild()
+  {
+
+    int improvement_cost = isBuildingUnit() ? 
+      getUnitType( getCurrentlyBuildingId() ).getBuildCost() :
+      getBuilding( getCurrentlyBuildingId() ).getBuildCost();
+
+    if ( m_shieldStock >= improvement_cost )
+    {
+      return 1;
+    }
+  
+    int city_shield_surplus = m_shieldSurplus;
+    int city_shield_stock = getChangeProductionCharge( 
+      getCurrentlyBuildingId(), isBuildingUnit()
+    );
+
+    if ( city_shield_surplus > 0 )
+    {
+      return
+        (improvement_cost - city_shield_stock + 
+          city_shield_surplus - 1 ) /
+            city_shield_surplus;
+    }
+    else
+    {
+      return 999;
+    }
+  
+  }
+
+  /**
+   * Get a description of what is currently being built in this city
+   */
+  public String getCurrentlyBuildingDescription()
+  {
+    if ( isBuildingUnit() )
+    {
+      UnitType ut = 
+        (UnitType)m_game.getFactories().getUnitTypeFactory().findById( getCurrentlyBuildingId() );
+
+      return ut.getName();
+    }
+    else
+    {
+      Building b = 
+        (Building) m_game.getFactories().getBuildingFactory().findById( getCurrentlyBuildingId() );
+      return b.getName();
+    }
   }
 
   /**

@@ -11,11 +11,11 @@ public class PktRulesetGovernmentRulerTitle extends AbstractPacket
   {
     super();
   }
-  public PktRulesetGovernmentRulerTitle( InStream in ) 
+  public PktRulesetGovernmentRulerTitle( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     gov = in.readUnsignedByte();
     id = in.readUnsignedByte();

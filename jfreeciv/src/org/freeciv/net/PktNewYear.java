@@ -6,11 +6,11 @@ public class PktNewYear extends AbstractPacket
   {
     super();
   }
-  public PktNewYear( InStream in ) 
+  public PktNewYear( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     year = in.readInt();
   }

@@ -28,7 +28,7 @@ public class PktGameInfo extends AbstractPacket
   {
     
   }
-  public PktGameInfo( InStream in ) 
+  public PktGameInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -69,7 +69,7 @@ public class PktGameInfo extends AbstractPacket
     out.writeUnsignedByte( spacerace ? 1 : 0 );
     out.writeInt( seconds_to_turndone );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     gold = in.readShort();
     tech = in.readInt();

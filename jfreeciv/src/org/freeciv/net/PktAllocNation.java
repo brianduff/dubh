@@ -15,7 +15,7 @@ public class PktAllocNation extends AbstractPacket
   {
     super();
   }
-  public PktAllocNation( InStream in ) 
+  public PktAllocNation( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -29,7 +29,7 @@ public class PktAllocNation extends AbstractPacket
     out.writeUnsignedByte( city_style );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     nation_no = in.readInt();
     name = in.readZeroString();

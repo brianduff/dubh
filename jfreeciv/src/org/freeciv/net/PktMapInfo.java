@@ -9,11 +9,11 @@ public class PktMapInfo extends AbstractPacket
   {
     super();
   }
-  public PktMapInfo( InStream in ) 
+  public PktMapInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     xsize = in.readUnsignedByte();
     ysize = in.readUnsignedByte();

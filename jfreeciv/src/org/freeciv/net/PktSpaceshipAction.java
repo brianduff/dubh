@@ -7,11 +7,11 @@ public class PktSpaceshipAction extends AbstractPacket
   {
     super();
   }
-  public PktSpaceshipAction( InStream in ) 
+  public PktSpaceshipAction( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     action = in.readUnsignedByte();
     num = in.readUnsignedByte();

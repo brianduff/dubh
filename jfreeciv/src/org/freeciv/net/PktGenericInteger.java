@@ -6,11 +6,11 @@ public class PktGenericInteger extends AbstractPacket
   {
     super();
   }
-  public PktGenericInteger( InStream in ) 
+  public PktGenericInteger( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     value = in.readInt();
   }

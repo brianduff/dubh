@@ -4,7 +4,7 @@ public class PktMoveUnit extends AbstractPacket
   public int unitId;
   public int nx;
   public int ny;
-  public PktMoveUnit( InStream in ) 
+  public PktMoveUnit( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -17,7 +17,7 @@ public class PktMoveUnit extends AbstractPacket
     out.writeShort( (short)unitId );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     nx = in.readUnsignedByte();
     ny = in.readUnsignedByte();

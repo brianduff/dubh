@@ -6,10 +6,12 @@ import java.io.IOException;
 /**
  * All packets subclass from abstract packet and implement the send
  * and recieve methods. AbstractPacket provides some utility methods.
+ *
  * @author Brian Duff
  * @since 1.10.0
  */
-abstract class AbstractPacket implements Packet, CommonConstants
+abstract class AbstractPacket implements 
+  Packet, PacketConstants, CommonConstants
 {
   private int m_type = -1;
   
@@ -21,6 +23,13 @@ abstract class AbstractPacket implements Packet, CommonConstants
   {
     
   }
+
+  /**
+   * Construct an abstract packet that is going to be used to receive a packet
+   * of the specified type
+   *
+   * @param type the type of packet this class will receive
+   */
   public AbstractPacket( int type ) 
   {
     m_type = type;
@@ -34,48 +43,22 @@ abstract class AbstractPacket implements Packet, CommonConstants
   {
     return m_type;
   }
+
+  // REMOVE ME?  
   public void setType( int type )
   {
-    
+  
   }
   
   /**
    * Construct an abstract packet and initialize it by reading from
    * the in stream
    */
-  public AbstractPacket( InStream is ) 
+  public AbstractPacket( InStream is )  throws NetworkProtocolException
   {
     receive( is );
   }
-  /*
-  public static void main( String[] args )
-  {
-    printBits( 256 );
-    printBits( 65536 );
-    printBits( 2097152 );
-    printBits( 1048576 );
-  }
-  */
-  public static void printBits( int val )
-  {
-    int mask = 1;
-    long[] bitVals = new long[ 32 ];
-    for( int i = 0;i < 32;i++ )
-    {
-      bitVals[ i ] = ( val & mask );
-      mask <<= 1;
-    }
-    for( int i = 31;i >= 0;i-- )
-    {
-      if( ( i % 8 ) == 7 )
-      {
-        System.out.print( " " );
-      }
-      System.out.print( bitVals[ i ] != 0 ? "1" : "0" );
-    }
-    System.out.print( " = " + val );
-    System.out.println();
-  }
+
   
   /**
    * Recieve a worklist from the peer.
@@ -86,7 +69,7 @@ abstract class AbstractPacket implements Packet, CommonConstants
    * @return either a new WorkList instance or the wl parameter, with its
    *    values set based on recieved data from the peer.
    */
-  protected WorkList getWorkList( InStream is, WorkList wl )
+  protected WorkList getWorkList( InStream is, WorkList wl ) throws NetworkProtocolException
   {
     boolean valid = ( is.readByte() > 0 );
     String name = is.readZeroString();
@@ -120,7 +103,7 @@ abstract class AbstractPacket implements Packet, CommonConstants
       os.writeShort( wl.getIds()[ i ] );
     }
   }
-  protected int[] getTechList( InStream is, int[] tl )
+  protected int[] getTechList( InStream is, int[] tl )  throws NetworkProtocolException
   {
     if( tl == null )
     {

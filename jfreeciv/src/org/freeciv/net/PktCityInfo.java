@@ -41,7 +41,7 @@ public class PktCityInfo extends AbstractPacket
   {
     super();
   }
-  public PktCityInfo( InStream in ) 
+  public PktCityInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -52,7 +52,7 @@ public class PktCityInfo extends AbstractPacket
   
   // TODO
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readShort();
     owner = in.readUnsignedByte();

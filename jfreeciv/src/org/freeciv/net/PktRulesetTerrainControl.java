@@ -28,11 +28,11 @@ public class PktRulesetTerrainControl extends AbstractPacket
   {
     super();
   }
-  public PktRulesetTerrainControl( InStream in ) 
+  public PktRulesetTerrainControl( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     river_style = in.readUnsignedByte();
     may_road = in.readUnsignedByte() != 0;

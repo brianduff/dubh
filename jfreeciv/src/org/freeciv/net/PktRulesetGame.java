@@ -15,11 +15,11 @@ public class PktRulesetGame extends AbstractPacket
   {
     super();
   }
-  public PktRulesetGame( InStream in ) 
+  public PktRulesetGame( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     min_city_center_food = in.readUnsignedByte();
     min_city_center_shield = in.readUnsignedByte();

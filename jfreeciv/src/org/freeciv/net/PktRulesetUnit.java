@@ -31,7 +31,7 @@ public class PktRulesetUnit extends AbstractPacket
   public int paratroopers_mr_sub;
   public String helptext;
   
-  public PktRulesetUnit( InStream in ) 
+  public PktRulesetUnit( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -41,7 +41,7 @@ public class PktRulesetUnit extends AbstractPacket
     super();
   }
   
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     move_type = in.readUnsignedByte();

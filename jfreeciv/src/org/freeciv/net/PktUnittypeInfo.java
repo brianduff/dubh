@@ -7,11 +7,11 @@ public class PktUnittypeInfo extends AbstractPacket
   {
     super();
   }
-  public PktUnittypeInfo( InStream in ) 
+  public PktUnittypeInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     type = in.readUnsignedByte();
     action = in.readUnsignedByte();

@@ -13,7 +13,7 @@ public class PktReqJoinGame extends AbstractPacket
   {
     super();
   }
-  public PktReqJoinGame( InStream in ) 
+  public PktReqJoinGame( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }

@@ -11,6 +11,7 @@ import org.freeciv.client.Client;
 import org.freeciv.client.Colors;
 import org.freeciv.client.map.AbstractMapView;
 import org.freeciv.client.map.BufferLayer;
+import org.freeciv.client.map.MapLayer;
 import org.freeciv.common.MapPosition;
 import org.freeciv.common.Player;
 
@@ -33,6 +34,26 @@ public class GridMapView extends AbstractMapView
   public GridMapView( Client c )
   {
     super( c );
+  }
+
+  public void repaintTile( int tilex, int tiley )
+  {
+    if ( isTileVisible(tilex, tiley) )
+    {
+      Point pos = new Point();
+      getCanvasPosition( tilex, tiley , pos );
+
+      //getMapComponent().repaint( pos.x, pos.y, getNormalTileWidth(), getNormalTileHeight() );
+      
+    }
+  }
+
+  /**
+   * Paint a single layer
+   */
+  void paintLayer( MapLayer l )
+  {
+    //getMapComponent().paintSingleLayer( l );
   }
 
   protected Collection getLayers()

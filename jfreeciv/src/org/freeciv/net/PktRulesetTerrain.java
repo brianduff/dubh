@@ -42,11 +42,11 @@ public class PktRulesetTerrain extends AbstractPacket
   {
     super();
   }
-  public PktRulesetTerrain( InStream in ) 
+  public PktRulesetTerrain( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readUnsignedByte();
     terrain_name = in.readZeroString();

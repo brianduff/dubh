@@ -45,7 +45,7 @@ public class PktPlayerInfo extends AbstractPacket
   {
     super();
   }
-  public PktPlayerInfo( InStream in ) 
+  public PktPlayerInfo( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -89,7 +89,7 @@ public class PktPlayerInfo extends AbstractPacket
     }
     out.writeInt( gives_shared_vision );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     playerno = in.readUnsignedByte();
     name = in.readZeroString();

@@ -7,11 +7,11 @@ public class PktCityNameSuggestion extends AbstractPacket
   {
     super();
   }
-  public PktCityNameSuggestion( InStream in ) 
+  public PktCityNameSuggestion( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     id = in.readShort();
     name = in.readZeroString();

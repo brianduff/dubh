@@ -10,11 +10,11 @@ public class PktJoinGameReply extends AbstractPacket
   {
     super();
   }
-  public PktJoinGameReply( InStream in ) 
+  public PktJoinGameReply( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     youCanJoin = in.readInt() > 0;
     message = in.readZeroString();

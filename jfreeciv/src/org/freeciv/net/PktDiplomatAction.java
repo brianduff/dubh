@@ -16,7 +16,7 @@ public class PktDiplomatAction extends AbstractPacket
   {
     super();
   }
-  public PktDiplomatAction( InStream in ) 
+  public PktDiplomatAction( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
@@ -29,7 +29,7 @@ public class PktDiplomatAction extends AbstractPacket
     out.writeShort( value );
     out.sendPacket();
   }
-  public void receive( InStream in )
+  public void receive( InStream in ) throws NetworkProtocolException
   {
     action_type = in.readUnsignedByte();
     diplomat_id = in.readShort();

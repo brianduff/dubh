@@ -7,7 +7,7 @@ public class PktGotoRoute extends AbstractPacket
   {
     super();
   }
-  public PktGotoRoute( InStream in ) 
+  public PktGotoRoute( InStream in )  throws NetworkProtocolException
   {
     super( in );
   }
