@@ -17,47 +17,99 @@
   <content>
     <h1>JFreeCiv</h1>
     
-		<h2>About JFreeCiv</h2>
-	
-		<p>
-			JFreeCiv is a Java clone of <a href="http://www.freeciv.org">FreeCiv</a>,
-			an open source version of the immensely popular strategy game 
-			<a href="http://www.apolyton.net">Civilization</a>.
-		</p>
-		
-		<h2>Development History</h2>
-		
-		<p>
-			The freeciv java port was originally developed by Artur Abies, I spent a
-			furious couple of weeks hacking the source to attempt to upgrade it to 
-			support Freeciv 1.10.0 about a year ago, which resulted in rewriting
-			various parts of the client and networking code. It has never been in
-			an entirely playable state.
-		</p>
-		
-		<h2>Current Status</h2>
-		
-		<p>
-			As I said, it's not playable yet. I'd like to find more time to work on
-			it, but I've too many other projects on the go at the moment. One day...
-			Anyway, the code is in the dubh.org <a href="http://cvs.dubh.org">CVS
-			Repository</a>. You can also download a 
-			<a href="http://balveda.dubh.org/freeciv-20010626.tar.gz">
-			source code snapshot</a> [gzipped	tarball, 1.14MB]. I haven't tried to
-			build this for several months, so I've no idea what state it's in.
-		</p>
-	
+    <h2>About JFreeCiv</h2>
+  
+    <p>
+      JFreeCiv is a Java clone of <a href="http://www.freeciv.org">FreeCiv</a>,
+      an open source version of the immensely popular strategy game 
+      <a href="http://www.apolyton.net">Civilization</a>.
+    </p>
+    
+    <h2>Development History</h2>
+    
+    <p>
+      The freeciv java port was originally developed by Artur Abies, I spent a
+      furious couple of weeks hacking the source to attempt to upgrade it to 
+      support Freeciv 1.10.0 about a year ago, which resulted in rewriting
+      various parts of the client and networking code. It has never been in
+      an entirely playable state.
+    </p>
+    
+    <h2>Current Status</h2>
+    
+    <p>
+      Currently (July 2001), I'm working on updating the client to support the
+      forthcoming 1.12.0 release of Freeciv. I've basically got back to where
+      I was with 1.10.0 but can now connect to a server compiled from a recent
+      CVS snapshot of 1.11.7-devel.
+    </p>
+    
+    <p>
+      If you want to see what I've been working on recently, as well as an 
+      overview of the current status, have a look at the 
+      <a href="http://cvs.dubh.org/JCVSlet/log/jfreeciv/jfreeciv/Changelog.txt/0">
+      Changelog</a>.
+    </p>
+    
+    <h2>Downloads</h2>
+    
+    <p>
+      A binary distribution of JFreeCiv is not yet available. A source code
+      snapshot is available on request, but the preferred method of getting
+      the code is to check it out from cvs. 
+    </p>
+    
+    <p>
+      The code is in the jfreeciv module on the dubh.org cvs server. Details
+      on accessing and downloading the code is available from 
+      <a href="http://cvs.dubh.org">http://cvs.dubh.org</a>.
+    </p>
+    
+    <h2>Screenshots</h2>
+    
+    <p>
+      These screenshots show how unfinished JFreeCiv is at present... :) Click
+      on the images to expand them to full size.
+    </p>
+    
+    <h3>Connect Dialog</h3>
+    
+    <p align="center">
+      <a href="images/jfreeciv_connect_full.png" target="imgWindow"> 
+        <img src="images/jfreeciv_connect_small.png" border="0" width="250" height="156"
+        alt="JFreeCiv Connect Dialog" />
+      </a>
+    </p>
+    
+    <h3>Nation Select Dialog</h3>
+    
+    <p align="center">
+      <a href="images/jfreeciv_nation_full.png" target="imgWindow"> 
+        <img src="images/jfreeciv_nation_small.png" border="0" width="250" height="187"
+        alt="JFreeCiv Nation Dialog" />
+      </a>
+    </p>    
+  
+    <h3>Map After Starting a Game</h3>
+
+    <p align="center">
+      <a href="images/jfreeciv_map_full.png" target="imgWindow"> 
+        <img src="images/jfreeciv_map_small.png" border="0" width="250" height="187"
+        alt="JFreeCiv Map" />
+      </a>
+    </p>    
+  
   </content>
   
   <cvs-info>
     <date>
-      $Date: 2001-06-26 23:06:37 $
+      $Date: 2001-07-08 02:47:30 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.1 $
+      $Revision: 1.2 $
     </revision>
   </cvs-info>  
   
