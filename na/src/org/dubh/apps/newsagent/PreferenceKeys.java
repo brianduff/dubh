@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: PreferenceKeys.java,v 1.7 2001-02-11 02:50:58 briand Exp $
+//   $Id: PreferenceKeys.java,v 1.8 2001-02-11 15:45:51 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -44,7 +44,7 @@ import org.dubh.dju.misc.Debug;
 *
 * @author Brian Duff
 * @since NewsAgent 1.1.0
-* @version $Id: PreferenceKeys.java,v 1.7 2001-02-11 02:50:58 briand Exp $
+* @version $Id: PreferenceKeys.java,v 1.8 2001-02-11 15:45:51 briand Exp $
 */
 public class PreferenceKeys
 {
@@ -132,7 +132,7 @@ public class PreferenceKeys
    public static void convertPreferences(UserPreferences up)
    {
       String pref = up.getPreference(PREFERENCES_VERSION, "?.?.?");
-      String version = GlobalState.getVersion();
+      String version = GlobalState.getApplicationInfo().getShortVersion();
 
       //
       // In future, will need to check version for other versions.
@@ -201,6 +201,9 @@ public class PreferenceKeys
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2001/02/11 02:50:58  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.6  2000/08/19 21:21:23  briand
 // Use Java 2 JAR versioning.
 //
