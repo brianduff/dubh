@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.12 2001-11-12 03:14:17 briand Exp $ -->
+<!-- $Id: build.xml,v 1.13 2001-11-12 03:20:48 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
@@ -106,7 +106,7 @@
     </javadoc>
   </target>
   
-  <target name="dist" depends="jar,javadoc">
+  <target name="dist" depends="jar">
 
     <mkdir dir="${distdir}" />
 
@@ -115,15 +115,19 @@
       <fileset dir="${jardir}" includes="*.jar" />
     </copy>
 
+    <!--
     <mkdir dir="${distdir}/src" />
     <copy todir="${distdir}/src">
       <fileset dir="${srcdir}" />
     </copy>
+    -->
 
+    <!--
     <mkdir dir="${distdir}/doc/api" />
     <copy todir="${distdir}/doc/api">
       <fileset dir="${javadocdir}" />
     </copy>
+    -->
 
     <copy todir="${distdir}">
       <fileset dir=".">

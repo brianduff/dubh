@@ -48,12 +48,11 @@ already be the case on most operating systems)
 
 o Run a command prompt (DOS prompt), or bring up a UNIX shell.
 
-o Change into the directory containing the jfreeciv-1.0.jar file from the
-binary distribution
+o Change into the top directory (the directory containing this readme file)
 
 o Type:
 
-java -cp jfreeciv-1.0.jar -Dfreeciv.datadir=path/to/datadir org.freeciv.client.Client
+java -cp lib/jfreeciv-1.0.jar -Dfreeciv.datadir=path/to/datadir org.freeciv.client.Client
 
 That's all one line, and you need to replace path/to/datadir with the 
 directory you downloaded the data files to ( see "What Do I Need to Run 
