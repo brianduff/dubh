@@ -1,4 +1,4 @@
-package org.freeciv.client;
+package org.freeciv.client.map;
 
 import javax.swing.JComponent;
 
@@ -7,7 +7,7 @@ import javax.swing.JComponent;
  *
  * @author Brian.Duff@dubh.org
  */
-public interface MapView 
+public interface MapView
 {
   /**
    * Refresh the tile at the specified location if it is visible through this
@@ -31,5 +31,6 @@ public interface MapView
    */
   JComponent getComponent();
 
-  
+
+
 }

@@ -2,7 +2,6 @@ package org.freeciv.client.ui.util;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -62,6 +61,7 @@ public class HyperlinkButton extends JLabel
   {
     this();
     setText( (String) a.getValue( Action.NAME ) );
+    setIcon( (Icon) a.getValue( Action.SMALL_ICON ) );
     a.addPropertyChangeListener( new ActionPropertyChangeListener() );
     addActionListener( a );
   }
@@ -183,7 +183,10 @@ public class HyperlinkButton extends JLabel
     {
       if ( m_mouseInside )
       {
-        doAction();
+        if ( (e.getModifiers() & e.BUTTON1_MASK) != 0 )
+        {
+          doAction();
+        }
       }
       m_armed = false;
     }

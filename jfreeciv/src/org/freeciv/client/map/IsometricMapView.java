@@ -1,10 +1,13 @@
-package org.freeciv.client;
+package org.freeciv.client.map;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
+import org.freeciv.client.Client;
+
 /**
- * A map view that uses isometric tiles. 
+ * A map view that uses isometric tiles.
  *
  * @author Brian Duff
  */
@@ -17,38 +20,24 @@ class IsometricMapView extends AbstractMapView
     super( c );
   }
 
-  /**
-   * Update the visible map canvas. Called on paint events on the map component
-   * when the map has been resized
-   */
-  protected final void updateVisibleMap()
+  protected Painter createPainter()
   {
-    int width, height;
-    width = height = getBufferTileWidth() + getBufferTileHeight();
-    updateMapBuffer( 
-      getViewTileOriginX(), getViewTileOriginY() - getBufferTileWidth(), 
-      width, height, true 
-    );
+    return new SquareTiledPainter(this);
+  }
 
-    showCityDescriptions();      
-  }
-  
-  protected void updateMapBufferImpl( int x, int y, int width, int height )
-  {
-    System.out.println( "updateMapBuffer (isometric) "+x+", "+y+", "+width+", "+height );
-    // TODO
-  }
 
   protected boolean isTileVisible( int x, int y )
   {
     return getCanvasPosition(x, y, new Point());
-  } 
+  }
 
   protected void centerOnTileImpl( int x, int y )
   {
   }
 
-
+  protected void paintTile( Graphics2D g, Point tilePos, Point screenPos )
+  {
+  }
   /**
    * Find the pixel co-ordinates of a tile.
    *
@@ -60,7 +49,7 @@ class IsometricMapView extends AbstractMapView
   protected boolean getCanvasPosition( int map_x, int map_y, Point canvasPos )
   {
     int x0 = getViewTileOriginX();
-  
+
     // canvasPos is the top corner of the tile.
     int diff_xy, diff_x, diff_y;
     int width, height;
@@ -96,6 +85,6 @@ class IsometricMapView extends AbstractMapView
       && canvasPos.x < (width + getNormalTileWidth()/2)
       && (canvasPos.y > -getNormalTileHeight())
       && ( canvasPos.y < height );
-  }  
-  
+  }
+
 }

@@ -1,9 +1,10 @@
-package org.freeciv.client;
+package org.freeciv.client.map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.freeciv.client.Client;
 import org.freeciv.common.Assert;
 
 /**
@@ -21,14 +22,14 @@ public final class MapViewManager
   private Client m_client;
   private MapView m_mainView;
 
-  private static final boolean DEBUG_MODE = true;
+  private static final boolean DEBUG_MODE = false;
 
   /**
    * The client constructs an instance of this class at startup
    *
    * @param c the client
    */
-  MapViewManager( Client c )
+  public MapViewManager( Client c )
   {
     m_client = c;
     m_mapViews = new ArrayList();
@@ -37,7 +38,7 @@ public final class MapViewManager
   /**
    * Refresh the map canvas of all views
    */
-  void refreshTileMapCanvas( int x, int y )
+  public void refreshTileMapCanvas( int x, int y )
   {
     Iterator i = iterator();
     while ( i.hasNext() )
@@ -67,7 +68,7 @@ public final class MapViewManager
    */
   public void centerOnTile( int tilex, int tiley )
   {
-    // This only updates the main map view. Maybe in future, this will be a 
+    // This only updates the main map view. Maybe in future, this will be a
     // view-by-view property (only slaved views will auto-center)
 
     m_mainView.centerOnTile( tilex, tiley );
@@ -78,7 +79,7 @@ public final class MapViewManager
    *
    * @return the main map view
    */
-  MapView getMainMapView()
+  public MapView getMainMapView()
   {
     if ( m_mainView == null )
     {
@@ -110,7 +111,7 @@ public final class MapViewManager
     }
 
     m_mapViews.add( mv );
-    
+
     return mv;
   }
 
@@ -149,5 +150,5 @@ public final class MapViewManager
     }
     m_mapViews.remove( mv );
   }
-  
+
 }

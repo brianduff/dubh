@@ -5,14 +5,14 @@ package org.freeciv.common;
  * there are a large number of "globals", mostly initialized from ruleset
  * packets. In JFreeciv, we handle all these objects via factories. There 
  * are a number of factories in the game: the Factories object holds references
- * to all the factories. Usually the Client (or potentially the Server) will
- * instantiate a Factories object on startup and retrieve most of its data
- * through the relevant factories exposed in this class.
+ * to all the factories.
  *
  * @author Brian.Duff@dubh.org
  */
 public final class Factories 
 {
+  Game m_game;
+
   private GameObjectFactory m_connectionFactory = 
     new AbstractGameObjectFactory(this)
     {
@@ -89,8 +89,14 @@ public final class Factories
   /**
    * Construct a factories object
    */
-  public Factories()
+  Factories( Game g )
   {
+    m_game = g;
+  }
+
+  Game getGame()
+  {
+    return m_game;
   }
 
   public GameObjectFactory getConnectionFactory()

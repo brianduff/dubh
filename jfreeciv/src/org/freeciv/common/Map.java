@@ -163,12 +163,23 @@ public final class Map implements CommonConstants
         );
       }
 
-      if (y < 0 || y > getHeight())
+      if (y < 0 || y >= getHeight())
       {
         return m_voidTile;
       }
 
-      return m_tiles[ getTileArrayIndex( x, y ) ];
+      x = adjustX( x );
+
+      try
+      {
+        return m_tiles[ getTileArrayIndex( x, y ) ];
+      }
+      catch (ArrayIndexOutOfBoundsException aioobe)
+      {
+        System.err.println(" Attempted to get invalid tile at "+x+", "+y);
+        System.err.println(" Map size is "+getWidth()+", "+getHeight());
+        return m_voidTile;
+      }
     }
   }
 
@@ -225,6 +236,46 @@ public final class Map implements CommonConstants
     }
     return getTile( x, y ).getTerrain();
   }
+
+
+  /**
+   * Iterate a city radius in map co-ordinates, skip non-existant squares
+   *
+   * @param startx the grid pos to start
+   * @param starty the grid pos to start
+   * @param iter the iterator
+   */
+  void iterateMapCityRadius( int startx, int starty, 
+    MapPositionIterator iter )
+  {
+    // city.h: map_city_radius_iterate
+
+    int x_itr, y_itr;
+    int MCMI_x, MCMI_y;
+    MapPosition mp = new MapPosition();
+
+    for ( MCMI_x = 0;  MCMI_x < City.MAP_SIZE; MCMI_x++ )
+    {
+      for ( MCMI_y = 0; MCMI_y < City.MAP_SIZE; MCMI_y++ )
+      {
+        if ( iter.isFinished() ) return;
+      
+        if ( !( ( MCMI_x == 0 || MCMI_x == City.MAP_SIZE-1 ) &&
+                ( MCMI_y == 0 || MCMI_y == City.MAP_SIZE-1 ) ) )
+        {
+          y_itr = startx + MCMI_y - CITY_MAP_SIZE/2;
+          if ( y_itr < 0 || y_itr >= getHeight() )
+          {
+            continue;
+          }
+          x_itr = adjustX( startx + MCMI_x - City.MAP_SIZE/2 );
+          mp.x = x_itr;
+          mp.y = y_itr;
+          iter.iteratePosition( mp );
+        }
+      }
+    }
+  }  
 
   /**
     * This iterates outwards from the starting point (Duh?).

@@ -1,4 +1,4 @@
-package org.freeciv.client.ui;
+package org.freeciv.client.panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

@@ -1889,21 +1889,6 @@ public class TileSpec implements Constants
 
   }
 
-  public static void main( String[] args )
-  {
-    // Test harness
-    TileSpec t = new TileSpec( null );
-    t.loadTileset( args[ 0 ] );
-    JFrame f = new JFrame();
-    f.getContentPane().setLayout( new BorderLayout() );
-    JLabel l = new JLabel();
-    l.setIcon( t.getImage( args[ 1 ] ) );
-    f.getContentPane().add( l, BorderLayout.CENTER );
-    f.pack();
-    f.setLocation( 100, 100 );
-    f.setVisible( true );
-  }
-
   public void setTerrain( PktTileInfo pkt, boolean update )
   {
      // TODO

@@ -1,4 +1,4 @@
-package org.freeciv.client;
+package org.freeciv.client.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 
+import org.freeciv.client.Client;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.common.Map;
 import org.freeciv.common.Tile;
@@ -16,7 +17,7 @@ import org.freeciv.common.Tile;
 
 /**
  * The map overview component. There is usually only one MapOverview component
- * on the screen at a time. It provides a miniature version of the map, and 
+ * on the screen at a time. It provides a miniature version of the map, and
  * provides eventing so that mouse clicks on the overview map translate to
  * jumps on the associated map view.
  *
@@ -38,7 +39,7 @@ public final class MapOverview extends JComponent
 
   private static final int SCALE = 2;
 
-  MapOverview( Client c )
+  public MapOverview( Client c )
   {
     m_client = c;
     setMapDimensions( DEFAULT_WIDTH, DEFAULT_HEIGHT );
@@ -59,7 +60,7 @@ public final class MapOverview extends JComponent
     if ( getParent() != null )
     {
       // Force the parent to lay itself out again. Maybe we ought to reduce
-      // the scale when the map gets over a certain size, as the minimap 
+      // the scale when the map gets over a certain size, as the minimap
       // sure makes the main window look ugly at the 200x100 maximum size.
       getParent().invalidate();
       getParent().validate();
@@ -116,7 +117,7 @@ public final class MapOverview extends JComponent
 
       String lastLine = "version "+m_client.APP_VERSION;
       String javaed = "Java Edition";
-      
+
       int strWid = fm.stringWidth( lastLine );
       int tx = (getWidth() - strWid) / 2;
       int ty = getHeight() - 1 - fm.getDescent() - fm.getLeading();
@@ -128,7 +129,7 @@ public final class MapOverview extends JComponent
       ty = ty - fm.getHeight();
 
       paintShadowText( g, javaed, tx, ty );
-      
+
     }
     else
     {
@@ -139,7 +140,7 @@ public final class MapOverview extends JComponent
 
       Rectangle r = g.getClipBounds();
       Rectangle bounds = new Rectangle( r );
-      
+
 
       int align = ( r.x + upperLeftX ) % SCALE;
       r.x -= align;
@@ -173,7 +174,7 @@ public final class MapOverview extends JComponent
       {
         currentXtile -= mapWidth;
       }
-      int xcoord = bounds.x;   
+      int xcoord = bounds.x;
 
       while( columnsToPaint > 0 )
       {
@@ -184,14 +185,14 @@ public final class MapOverview extends JComponent
           currentYtile = 0;
         }
         int ycoord = bounds.y;
-        
+
         while( currentRowsToPaint > 0 )
         {
           Color c = getTileColor( currentXtile, currentYtile );
 
           g.setColor( c );
           g.fillRect( xcoord, ycoord, SCALE, SCALE );
-          
+
           currentRowsToPaint--;
           currentYtile++;
           if( currentYtile >= mapHeight )
@@ -207,7 +208,7 @@ public final class MapOverview extends JComponent
           currentXtile = 0;
         }
         xcoord += SCALE;
-      }  
+      }
     }
   }
 

@@ -2,10 +2,12 @@ package org.freeciv.client;
 
 import java.awt.Color;
 
+import org.freeciv.common.Player;
+
 /**
  * Colors for the client
  */
-class Colors 
+public class Colors 
 {
 
   public static final int COLOR_STD_BLACK = Enum.start(0);
@@ -61,5 +63,13 @@ class Colors
   public static final Color getStandardColor( int colIdx )
   {
     return STANDARD_COLORS[ colIdx ];
+  }
+
+  public static final Color getPlayerColor( Player p )
+  {
+    return STANDARD_COLORS[
+      COLOR_STD_RACE0 + 
+        ( p.getPlayerNumber() % 
+          ( COLOR_STD_RACE12 - COLOR_STD_RACE0 + 1 ) ) ];
   }
 }

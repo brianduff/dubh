@@ -1,9 +1,9 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
-<?Oracle-JDeveloper Object2Dom = '1.0'?>
+<?Oracle-JDeveloper Object2Dom = '1.0'?><!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.client</defaultPackage>
+   <defaultPackage>org.freeciv.client.map</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
+      <Item class="java.lang.String">org.freeciv.client.map</Item>
       <Item class="java.lang.String">org.freeciv.client</Item>
       <Item class="java.lang.String">org.freeciv.common</Item>
       <Item class="java.lang.String">package4</Item>
@@ -16,580 +16,289 @@
    <j2eeWebContextRoot>/freeciv_jdev9i</j2eeWebContextRoot>
    <listOfChildren class="oracle.ide.model.DataList">
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/City.java"/>
+         <URL path="src/org/gjt/abies/VectorListModel.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/CivMap.java"/>
+         <URL path="src/org/gjt/abies/TriangleSlider.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java" id="0"/>
+         <URL path="src/org/gjt/abies/TranslationFile.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Constants.java"/>
+         <URL path="src/org/gjt/abies/TranslationEditor.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/CornerOverlay.java"/>
+         <URL path="src/org/gjt/abies/SystemInfoPanel.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/util/Enum.java"/>
+         <URL path="src/org/gjt/abies/StdIn.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/HelpItem.java"/>
+         <URL path="src/org/gjt/abies/Localize.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/HelpPanel.java"/>
+         <URL path="src/org/gjt/abies/Dirs.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/IconManager.java"/>
+         <URL path="src/org/gjt/abies/ArrayMangler.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/LabelledMenuItem.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Localize.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Options.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/RealSndSystem.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ResearchDialog.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/RoadOverlay.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/SndSystem.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Terrain.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/TileSpec.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/TransparentPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Unit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/UnitDescription.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/UnknownTerrain.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/AbstractClientAction.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/AbstractToggleAction.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/AbstractUnitAction.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTCenterView.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTCityReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTClearLog.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTDemographics.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTDisconnect.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTExportLog.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTFindCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/Actions.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTLocalOptions.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTMapGrid.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTMessageOptions.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTMessages.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTMilitaryReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTPlayers.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTQuit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTRevolution.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTSaveSettings.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTScienceReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTSendAllocNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTServerOptInitial.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTServerOptOngoing.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTSpaceship.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTTaxRates.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTTopFiveCities.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTTradeReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTWondersOfTheWorld.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/ACTWorklists.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTAutoAttack.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTAutoExplore.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTAutoSettler.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTBuildAirbase.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTBuildCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTBuildFortress.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTBuildIrrigation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTBuildRoad.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTCleanPollution.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTConnect.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTDisbandUnit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTDone.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTExplodeNuclear.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTFortify.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTGoTo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTGoToCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTHelpBuildWonder.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTMakeHomeCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTMakeTradeRoute.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTMine.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTPillage.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTSentry.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTTransformTerrain.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTUnload.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTWait.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DlgLogin.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DlgNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DlgNotifyGoto.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DlgProgress.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ImplLogin.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ImplNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ImplNotifyGoto.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ImplProgress.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/util/GridBagConstraints2.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/util/VerticalFlowPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/AbstractHandler.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/ClientPacketDispacher.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/ClientPacketHandler.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHChatMsg.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHEmpty.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHGameInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHGenericMessage.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHGenericValues.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHJoinGameReply.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHMapInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHPlayerInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetBuilding.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetControl.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetGovernment.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetGovernmentRulerTitle.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetTech.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetTerrain.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetTerrainControl.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetUnit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHSelectNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHServerShutdown.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHTileInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/CivInfoPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/CivStatusPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/UndockablePanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/UnitInfoPanel.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/UnitStackDisplay.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/util/ActionButton.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/util/ActionMenuItem.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/util/ToggleActionMenuItem.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/InputFile.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Logger.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Registry.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Shared.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Sprite.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/XPMFile.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/XPMImageIcon.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/AbstractPacket.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/InStream.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/OutStream.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktAllocNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktBeforeEndYear.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktCityInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktCityNameSuggestion.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktCityRequest.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktDiplomacyInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktDiplomatAction.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktGameInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktGenericInteger.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktGenericMessage.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktGenericValues.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktJoinGameReply.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktMapInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktMoveUnit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktNewYear.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktNukeTile.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktPlayerInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktPlayerRequest.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktReqJoinGame.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetBuilding.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetCity.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetControl.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetGovernment.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetGovernmentRulerTitle.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetNation.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetTech.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetTerrain.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetTerrainControl.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktRulesetUnit.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktSpaceshipAction.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktSpaceshipInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktTileInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktUnitCombat.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktUnitConnect.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktUnitInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktUnitRequest.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktUnittypeInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/WorkList.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/Coords.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/FileImageSource.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/FlashingIcon.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/FlashingImageIcon.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/GenericMap.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/HexMap.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/ImageSplitter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/TileMap.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/tile/TripletCoords.java"/>
+         <URL path="src/org/freeciv/util/Localize.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/util/EnumParser.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ProgressItem.java"/>
+         <URL path="src/org/freeciv/util/Enum.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/TripletCoords.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/TileMap.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/ImageSplitter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/HexMap.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/GenericMap.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/FlashingImageIcon.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/FlashingIcon.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/FileImageSource.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/tile/Coords.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/WorkList.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PlayerDiplomacyState.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktConnInfo.java"/>
+         <URL path="src/org/freeciv/net/PktUnittypeInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktUnitRequest.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktUnitInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktUnitConnect.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktUnitCombat.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktTileInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktSpaceshipInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktSpaceshipAction.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktShortCity.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/ImprovementEffect.java"/>
+         <URL path="src/org/freeciv/net/PktSabotageList.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/EffectType.java"/>
+         <URL path="src/org/freeciv/net/PktRulesetUnit.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/EffectRange.java"/>
+         <URL path="src/org/freeciv/net/PktRulesetTerrainControl.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/UnitClass.java"/>
+         <URL path="src/org/freeciv/net/PktRulesetTerrain.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/TypesafeEnum.java"/>
+         <URL path="src/org/freeciv/net/PktRulesetTech.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktRulesetNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktRulesetGovernmentRulerTitle.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktRulesetGovernment.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktRulesetGame.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktSabotageList.java"/>
+         <URL path="src/org/freeciv/net/PktRulesetControl.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktRulesetCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktRulesetBuilding.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktReqJoinGame.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktPlayerRequest.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktPlayerInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktNukeTile.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktNewYear.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktMoveUnit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktMapInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktJoinGameReply.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PktGotoRoute.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
+         <URL path="src/org/freeciv/net/PktGenericValues.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktGenericMessage.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktGenericInteger.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktGenericEmpty.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktGameInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktDiplomatAction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktDiplomacyInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktConnInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktCityRequest.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktCityNameSuggestion.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktCityInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktBeforeEndYear.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PktAllocNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PacketConstants.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/Packet.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/OutStream.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/InStream.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/ImprovementEffect.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/AbstractPacket.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/XPMImageIcon.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/XPMFile.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/UnitType.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/UnitClass.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/UnitAI.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Unit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/TypesafeEnum.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Tile.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/TerrainType.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/TerrainRules.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Sprite.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Spaceship.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Shared.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/RulerTitle.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Registry.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Player.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Nation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/MapPositionIterator.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/MapPosition.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Map.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Logger.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/InputFile.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Government.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/GameObjectFactory.java"/>
@@ -598,28 +307,43 @@
          <URL path="src/org/freeciv/common/GameObject.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Player.java"/>
+         <URL path="src/org/freeciv/common/Game.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Factories.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/ErrorHandler.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/EffectType.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/EffectRange.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/DiplomacyState.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Connection.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Game.java"/>
+         <URL path="src/org/freeciv/common/CommonConstants.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHConnPing.java"/>
+         <URL path="src/org/freeciv/common/CityStyle.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/Packet.java"/>
+         <URL path="src/org/freeciv/common/City.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PktGenericEmpty.java"/>
+         <URL path="src/org/freeciv/common/Building.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHRulesetGame.java"/>
+         <URL path="src/org/freeciv/common/Assert.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/net/PacketConstants.java"/>
+         <URL path="src/org/freeciv/common/AI.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Advance.java"/>
@@ -628,97 +352,451 @@
          <URL path="src/org/freeciv/common/AbstractGameObjectFactory.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Factories.java"/>
+         <URL path="src/org/freeciv/client/UnknownTerrain.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Government.java"/>
+         <URL path="src/org/freeciv/client/UnitDescription.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/RulerTitle.java"/>
+         <URL path="src/org/freeciv/client/Unit.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Unit.java"/>
+         <URL path="src/org/freeciv/client/ui/util/ToolButton.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Building.java"/>
+         <URL path="src/org/freeciv/client/ui/util/ToggleActionMenuItem.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/TerrainRules.java"/>
+         <URL path="src/org/freeciv/client/ui/util/ThinBevelBorder.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/TerrainType.java"/>
+         <URL path="src/org/freeciv/client/ui/util/HyperlinkButton.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Nation.java"/>
+         <URL path="src/org/freeciv/client/ui/util/DockPanel.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/CityStyle.java"/>
+         <URL path="src/org/freeciv/client/ui/util/DockedPanelCaption.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ui/util/ActionMenuItem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ui/util/ActionButton.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/TransparentPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/TileSpec.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Terrain.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/SndSystem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/RoadOverlay.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ResearchDialog.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/RealSndSystem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/UnitStackDisplay.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/UnitInfoPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/QuickCommand.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/MapOverview.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/Console.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/CivStatusPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/panel/CivInfoPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Options.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/NamedSprites.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/CommonConstants.java"/>
+         <URL path="src/org/freeciv/client/map/MapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHSpaceshipInfo.java"/>
+         <URL path="src/org/freeciv/client/map/MapComponent.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/DiplomacyState.java"/>
+         <URL path="src/org/freeciv/client/map/IsometricMapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/AI.java"/>
+         <URL path="src/org/freeciv/client/map/GridMapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHGameState.java"/>
+         <URL path="src/org/freeciv/client/map/DebugMapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/City.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Spaceship.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Map.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/MapPosition.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Tile.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/MapView.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/MapOverview.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/common/Assert.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHUnitInfo.java"/>
+         <URL path="src/org/freeciv/client/map/AbstractMapView.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/MainWindow.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Localize.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/LabelledMenuItem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/IconManager.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/HelpPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/HelpItem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHUnitInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHTileInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHSpaceshipInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHServerShutdown.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHSelectNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetUnit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetTerrainControl.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetTerrain.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetTech.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetGovernmentRulerTitle.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetGovernment.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetGame.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetControl.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHRulesetBuilding.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHPlayerInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHMapInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHJoinGameReply.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHGenericValues.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHGenericMessage.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHGameState.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHGameInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHEmpty.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHConnPing.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHChatMsg.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/ClientPacketHandler.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/ClientPacketDispacher.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/AbstractHandler.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Enum.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/VerticalFlowPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/GridBagConstraints2.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ProgressItem.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplProgress.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplNotifyGoto.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplLogin.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgProgress.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgNotifyGoto.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgLogin.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/CornerOverlay.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Constants.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/Colors.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/AbstractMapView.java"/>
+         <URL path="src/org/freeciv/client/Client.java" id="0"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/IsometricMapView.java"/>
+         <URL path="src/org/freeciv/client/CivMap.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/GridMapView.java"/>
+         <URL path="src/org/freeciv/client/City.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/MapViewManager.java"/>
+         <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTWait.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTUnload.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTTransformTerrain.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTSentry.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTPillage.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMine.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMakeTradeRoute.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTMakeHomeCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTHelpBuildWonder.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTGoToCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTGoTo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTFortify.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTExplodeNuclear.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTDone.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTDisbandUnit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTConnect.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTCleanPollution.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTBuildRoad.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTBuildIrrigation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTBuildFortress.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTBuildCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTBuildAirbase.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTAutoSettler.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTAutoExplore.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/UACTAutoAttack.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTWorklists.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTWondersOfTheWorld.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTTradeReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTTopFiveCities.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTTaxRates.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTSpaceship.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTServerOptOngoing.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTServerOptInitial.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTSendAllocNation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTScienceReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTSaveSettings.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTRevolution.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTQuit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTPlayers.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTMilitaryReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTMessages.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTMessageOptions.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTMapGrid.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTLocalOptions.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/Actions.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTFindCity.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTExportLog.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/ACTEndTurn.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTDisconnect.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTDemographics.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTClearLog.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTCenterView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/AbstractUnitAction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/AbstractToggleAction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/AbstractClientAction.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/MapViewManager.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/Painter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/TiledPainter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/SquareTiledPainter.java"/>
       </Item>
    </listOfChildren>
    <ownerMap/>

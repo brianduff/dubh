@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.9 2001-10-31 22:17:56 briand Exp $ -->
+<!-- $Id: build.xml,v 1.10 2001-11-04 02:10:35 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
@@ -42,7 +42,7 @@
 
 
     <!-- Comma separated list of files that should be copied from the source path into the classpath. You can use wildcards -->
-    <property name="copypatterns" value="**/*.gif,**/*.properties" />
+    <property name="copypatterns" value="**/*.gif,**/*.properties,**/*.png" />
 
     <echo message="${cvsmodule} build started ${TODAY} at ${TSTAMP}" />
   </target>

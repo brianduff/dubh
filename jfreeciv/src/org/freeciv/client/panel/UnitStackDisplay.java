@@ -1,4 +1,4 @@
-package org.freeciv.client.ui;
+package org.freeciv.client.panel;
 
 
 import java.awt.AlphaComposite;
@@ -23,7 +23,7 @@ public class UnitStackDisplay extends JComponent
   int horizontalUnits;
   Client client;
   static final int GAP = 5;
-  public UnitStackDisplay( Icon aSampleIcon, int hCount, Client c ) 
+  public UnitStackDisplay( Icon aSampleIcon, int hCount, Client c )
   {
     horizontalUnits = hCount;
     sampleIcon = aSampleIcon;

@@ -1,4 +1,5 @@
-package org.freeciv.client.ui;
+package org.freeciv.client.panel;
+
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import javax.swing.*;
@@ -10,21 +11,21 @@ public class UnitInfoPanel extends VerticalFlowPanel
   private Client m_client;
   private JLabel m_labMoves, m_labTerrain, m_labHomeCity;
 
-  private static final Color TEXT_COLOR = 
+  private static final Color TEXT_COLOR =
     UIManager.getLookAndFeelDefaults().getColor("infoText");
 
   private static final Color WINDOW_COLOR =
     UIManager.getLookAndFeelDefaults().getColor("info");
-  
-  public UnitInfoPanel( Client c ) 
+
+  public UnitInfoPanel( Client c )
   {
     m_client = c;
     m_labMoves = new JLabel( );
     m_labMoves.setForeground( TEXT_COLOR );
     m_labTerrain = new JLabel( );
-    m_labTerrain.setForeground( TEXT_COLOR );    
+    m_labTerrain.setForeground( TEXT_COLOR );
     m_labHomeCity = new JLabel( );
-    m_labHomeCity.setForeground( TEXT_COLOR );    
+    m_labHomeCity.setForeground( TEXT_COLOR );
     addRow( m_labMoves );
     addRow( m_labTerrain );
     addRow( m_labHomeCity );

@@ -1,13 +1,16 @@
-package org.freeciv.client.ui;
+package org.freeciv.client.panel;
+
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import javax.swing.*;
 import java.awt.*;
+
+
 public class CivStatusPanel extends VerticalFlowPanel
 {
   private Client m_client;
   private JLabel m_labTemp;
-  public CivStatusPanel( Client c ) 
+  public CivStatusPanel( Client c )
   {
     m_client = c;
     m_labTemp = new JLabel( "Temp" );

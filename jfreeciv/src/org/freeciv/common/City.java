@@ -17,6 +17,9 @@ public final class City
   private int m_x;
   private int m_y;
 
+  // city.h: CITY_MAP_SIZE
+  public static final int MAP_SIZE = 5;
+
   /**
    * Find the city with the specified id
    */

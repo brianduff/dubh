@@ -69,9 +69,9 @@ public final class Game implements CommonConstants
    *
    * @param f the factories object for this client / server
    */
-  public Game(Factories f) 
+  public Game( ) 
   {
-    m_factories = f;
+    m_factories = new Factories( this );
     m_allConnections = new ArrayList();
     m_establishedConnections = new ArrayList();
     m_gameConnections = new ArrayList();
@@ -81,6 +81,11 @@ public final class Game implements CommonConstants
     m_globalAdvances = new int[ A_LAST ];
     m_globalWonders = new int[ B_LAST ];
     m_map = new Map();
+  }
+
+  public Factories getFactories()
+  {
+    return m_factories;
   }
 
   /**
@@ -111,11 +116,6 @@ public final class Game implements CommonConstants
     }
 
     return count;
-  }
-
-  Factories getFactories()
-  {
-    return m_factories;
   }
 
   /**

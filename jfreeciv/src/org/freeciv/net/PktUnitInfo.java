@@ -41,6 +41,7 @@ public class PktUnitInfo extends AbstractPacket
   public void receive( InStream in )
   {
     id = in.readShort();
+    owner = in.readUnsignedByte();
     int pack = in.readUnsignedByte();
     veteran = ( ( pack & 0x10 ) != 0 );
     ai = ( ( pack & 0x20 ) != 0 );

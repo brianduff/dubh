@@ -18,6 +18,7 @@ abstract class AbstractGameObjectFactory implements GameObjectFactory
   // Should try to enhance this by not fixing the array size.
   private GameObject[] m_objects;
   private Factories m_factories;
+  private Game m_game;
 
   AbstractGameObjectFactory(Factories parent)
   {

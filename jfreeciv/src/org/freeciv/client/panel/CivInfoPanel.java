@@ -1,4 +1,5 @@
-package org.freeciv.client.ui;
+package org.freeciv.client.panel;
+
 import org.freeciv.client.*;
 import org.freeciv.client.dialog.util.VerticalFlowPanel;
 import javax.swing.*;
@@ -12,13 +13,13 @@ public class CivInfoPanel extends VerticalFlowPanel
   private Client m_client;
   private JLabel m_labNation, m_labPopulation, m_labYear, m_labGold, m_labTax;
 
-  private static final Color TEXT_COLOR = 
+  private static final Color TEXT_COLOR =
     UIManager.getLookAndFeelDefaults().getColor("infoText");
 
   private static final Color WINDOW_COLOR =
     UIManager.getLookAndFeelDefaults().getColor("info");
-  
-  public CivInfoPanel( Client c ) 
+
+  public CivInfoPanel( Client c )
   {
     m_client = c;
     m_labNation = new JLabel( );
@@ -54,12 +55,12 @@ public class CivInfoPanel extends VerticalFlowPanel
     m_labGold.setText( " " );
     m_labTax.setText( " " );
   }
-  
+
   public void setGold( int gold )
   {
     setAndValidate( m_labGold, "Gold: " + gold );
   }
-  
+
   public void setYear( int year )
   {
     StringBuffer yearString = new StringBuffer(8);
@@ -73,32 +74,32 @@ public class CivInfoPanel extends VerticalFlowPanel
     {
       yearString.append( "A.D." );
     }
-    
+
     setAndValidate( m_labYear, yearString.toString() );
   }
-  
+
   public void setTax( int tax, int science, int luxury )
   {
     setAndValidate( m_labTax, "Tax: " + tax + " Lux: " + luxury + " Sci: " + science );
   }
-  
+
   public void setPop( int pop )
   {
     setAndValidate( m_labPopulation, "Population: " + String.valueOf( pop ) );
   }
-  
+
   public void setNationName( String nationName )
   {
     m_labNation.setText( nationName );
     this.validate();
   }
-  
+
   private void setAndValidate( JLabel lab, String value )
   {
     lab.setText( value );
     this.validate();
   }
-  
+
   private static String _( String txt )
   {
     return Localize.translation.translate( txt );

@@ -12,6 +12,10 @@
          <URL idref="0"/>
          <nodeClass idref="1"/>
       </Item>
+      <Item class="oracle.ide.model.Reference">
+         <URL path="Project1/Project1.jpr"/>
+         <nodeClass idref="1"/>
+      </Item>
    </listOfChildren>
    <packageCounter>5</packageCounter>
 </workspace>

@@ -14,14 +14,16 @@ import org.freeciv.net.PktUnitInfo;
  */
 public class PHUnitInfo extends AbstractHandler implements Constants
 {
-  // Check these
-  private static final int UNIT_INFO_CITY_SUPPORTED = 0;
-  private static final int UNIT_INFO_CITY_PRESENT = 1;
+  private static final int UNIT_INFO_IDENTITY = 0;
+  private static final int UNIT_INFO_CITY_SUPPORTED = 1;
+  private static final int UNIT_INFO_CITY_PRESENT = 2;
 
   public String getPacketClass()
   {
     return "org.freeciv.net.PktUnitInfo";
   }
+
+  static int last_serial_num = 0;
 
   /**
    */
@@ -35,7 +37,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
     if ( (packet.packet_use == UNIT_INFO_CITY_SUPPORTED) ||
          (packet.packet_use == UNIT_INFO_CITY_PRESENT) )
     {
-      int last_serial_num = 0;
+     // hummm. int last_serial_num = 0;
 
       try
       {

@@ -24,6 +24,18 @@ import org.freeciv.net.PktUnitCombat;
 import org.freeciv.tile.Coords;
 import org.freeciv.tile.FlashingIcon;
 import org.freeciv.tile.TileMap;
+
+
+
+
+
+//
+// THIS IS THE OLD MAP IMPLEMENTATION AND IS BEING PHASED OUT
+//
+
+
+
+
 public class CivMap extends TileMap implements Constants,ComponentListener
 {
   Client client;

@@ -90,18 +90,13 @@ public class Client implements Constants
   // BD: Same as clientGameState???
   int gameState;
 
-  // Factories
-  private Factories m_factories = new Factories();
-
-
-
   // recyc_init in climisc.c
   private boolean m_recycInit = false;
   private int m_lastContinentNumber = 0;
 
 
   // prob shouldn't instantiate this yet.
-  private Game m_game = new Game(m_factories);
+  private Game m_game = new Game();
   public final static String APP_NAME = "Freeciv4J";
   public final static String APP_VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION + VERSION_LABEL;
   private final static String PROP_FREECIV_TILESET = "freeciv.tileset";
@@ -668,7 +663,7 @@ public class Client implements Constants
 
   public Factories getFactories()
   {
-    return m_factories;
+    return getGame().getFactories();
   }
 
   /**

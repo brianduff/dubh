@@ -313,6 +313,41 @@ public class Player implements GameObject, CommonConstants
     return true;
   }
 
+  private boolean m_foundCity = false;
+
+  /**
+   * Returns true if the tile at the specified location is inside the city
+   * radius of one of this player's cities
+   *
+   * @param x a horizontal tile coordinate
+   * @param y a vertical tile coordinate
+   * @return true if the specified tile is inside the radius of one of this
+   * player's cities
+   */
+  public boolean inCityRadius( int x, int y )
+  {
+    // player.c:player_in_city_radius()
+    final Map map = m_playerFactory.getParent().getGame().getMap();
+
+    m_foundCity = false;
+    map.iterateMapCityRadius( x, y, new MapPositionIterator() {
+      public void iteratePosition( MapPosition mp )
+      {
+        City c = map.getCity( mp.x, mp.y );
+        if ( c != null && c.getOwner() == Player.this )
+        {
+          m_foundCity = true;
+          setFinished( true );
+        }
+      }
+    });
+
+    return m_foundCity;
+    
+  }
+
+
+
   
 
   public static final class Economy
