@@ -10,6 +10,13 @@ import java.util.List;
 import javax.swing.Icon;
 import org.freeciv.net.*;
 
+import java.awt.AlphaComposite;
+import java.awt.Composite;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 //// For test harness
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -170,6 +177,9 @@ public class TileSpec implements Constants
 
     m_normalTileWidth = r.lookupInt( "tilespec.normal_tile_width" );
     m_normalTileHeight = r.lookupInt( "tilespec.normal_tile_height" );
+
+    // Won't work this way for isometric!!
+    s_fogImage = new AlphaFogOfWar( m_normalTileWidth, m_normalTileHeight );
 
     if (m_isIsometric)
     {
@@ -473,15 +483,7 @@ public class TileSpec implements Constants
       throw new IllegalArgumentException( "Key must != null" );
     }
     Icon i = (Icon)m_images.get( key );
-    if( Logger.DEBUG )
-    {
 
-
-
-    //         Logger.log(Logger.LOG_DEBUG,
-    //            "Looked up image >>"+key+"<< found: "+i
-    //         );
-    }
     return i;
   }
   private Sprite loadImage( String filename )
@@ -1050,19 +1052,19 @@ public class TileSpec implements Constants
 
       if ( (tspecial_north & S_RIVER) != 0 || ttype_north == T_RIVER )
       {
-        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_NORTH ] ) );
+        l.add( getImage( "tx.s_river_outlet_"+NSEW_STRINGS[ DIR_NORTH ] ) );
       }
       if ( (tspecial_west&S_RIVER) != 0 || ttype_west == T_RIVER )
       {
-        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_WEST ] ) );
+        l.add( getImage( "tx.s_river_outlet_"+NSEW_STRINGS[ DIR_WEST ] ) );
       }
       if ( (tspecial_south&S_RIVER) != 0 || ttype_south == T_RIVER )
       {
-        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_SOUTH ] ) );
+        l.add( getImage( "tx.s_river_outlet_"+NSEW_STRINGS[ DIR_SOUTH ] ) );
       }
       if ( (tspecial_east&S_RIVER) != 0 || ttype_east == T_RIVER )
       {
-        l.add( getImage( "tx.s_river_"+NSEW_STRINGS[ DIR_EAST ] ) );
+        l.add( getImage( "tx.s_river_outlet_"+NSEW_STRINGS[ DIR_EAST ] ) );
       }
 
 
@@ -1190,9 +1192,15 @@ public class TileSpec implements Constants
 
     if ( getClient().getOptions().drawSpecials )
     {
+      TerrainType tt = (TerrainType)
+        getClient().getFactories().getTerrainTypeFactory().findById( ttype );    
       if ( (tspecial&S_SPECIAL_1) != 0 )
       {
-        // TODO
+        l.add( tt.getSpecialSprite( 0 ) );
+      }
+      else if ( (tspecial&S_SPECIAL_2) != 0 )
+      {
+        l.add( tt.getSpecialSprite( 1 ) );
       }
     }
 
@@ -1258,7 +1266,8 @@ public class TileSpec implements Constants
     }
     if (tile.getKnown() == TILE_KNOWN_FOGGED && getOptions().drawFogOfWar )
     {
-      l.add( getImage( "tx.fog" ) );
+      //l.add( getImage( "tx.fog" ) );
+      l.add( s_fogImage );
     }
 
     if (!cityMode)
@@ -1916,5 +1925,59 @@ public class TileSpec implements Constants
   public void setTerrain( PktTileInfo pkt, boolean update )
   {
      // TODO
+  }
+
+  private static AlphaComposite s_ac =
+    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f );
+
+  // Black with an alpha channel
+  private static Color s_fogColor = 
+    new Color( 0.0f, 0.0f, 0.0f, 1.0f );
+
+  private static Icon s_fogImage;
+
+  /**
+   * Experimental: Fog of war using alpha transparency rather than ugly
+   * dithering
+   */
+  private class AlphaFogOfWar implements Icon
+  {
+    private int m_tw;
+    private int m_th;
+
+    
+    public AlphaFogOfWar( int tilewidth, int tileheight )
+    {
+      m_tw = tilewidth;
+      m_th = tileheight;
+    }
+
+    public int getIconWidth()
+    {
+      return m_tw;
+    }
+
+    public int getIconHeight()
+    {
+      return m_th;
+    }
+
+    public void paintIcon(Component c, Graphics g, int x, int y)
+    {
+      Graphics2D g2d = (Graphics2D)g;
+
+      Color oldColor = g2d.getColor();
+      Composite oldComposite = g2d.getComposite();
+
+      
+      g2d.setColor( s_fogColor );
+      g2d.setComposite( s_ac );
+
+      g2d.fillRect( x, y, getIconWidth(), getIconHeight() );
+
+      g2d.setColor( oldColor );
+      g2d.setComposite( oldComposite );
+      
+    }
   }
 }
