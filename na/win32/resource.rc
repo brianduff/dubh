@@ -1,0 +1,132 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,2,0
+ PRODUCTVERSION 1,0,2,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904b0"
+        BEGIN
+            VALUE "CompanyName", "Dubh Software\0"
+            VALUE "FileDescription", "NewsAgent Win32 Launcher\0"
+            VALUE "FileVersion", "1.0.2\0"
+            VALUE "InternalName", "nawin32\0"
+            VALUE "LegalCopyright", "Copyright © 1997-8 Brian Duff\0"
+            VALUE "OriginalFilename", "nawin32.exe\0"
+            VALUE "ProductName", "NewsAgent\0"
+            VALUE "ProductVersion", "1.0.2 Prerelease\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    NA_ERR_NOJDKORJRE       "You do not have the Java Runtime Environment\nor Java Development Kit installed on your system.\n\nA Java Runtime system is required to run NewsAgent."
+    NA_ERR_JAVAVERSION      "The latest version of the Java Runtime installed on\nyour system is %i.%i.%i.\n\nA Java Runtime version %i.%i.%i or later is required\nto run NewsAgent. Please upgrade your Java\ninstallation."
+    NA_ERR_REGISTRY         "An error occurred trying to access the registry.\nNewsAgent uses the registry to determine which\nversion of Java you have installed on your computer\nand where it is located.\n\nPlease try reinstalling the JDK or JRE."
+    NA_ERR_NAINSTALL        "NewsAgent does not appear to have been installed\nproperly, or NewsAgent's registry entries may have\nbeen corrupted.\n\nPlease run the NewsAgent Setup Program again."
+    NA_ERR_SWINGINSTALL     "The location of the Swing (JFC) toolkit has not been\nproperly set during installation. NewsAgent needs to know\nthe location of the swingall.jar file before it can proceed.\n\nPlease re-run the NewsAgent Setup Program and specify\nthe location of Swing."
+    NA_ERR_RUN              "An error occurred trying to run NewsAgent. This could\nbe caused if any of the Java Runtime, Swing or NewsAgent class archives have been moved.\n\nIt's also possible that there aren't enough resources on your\ncomputer to run NewsAgent.\n\nPlease check that Swing, the Java Runtime and NewsAgent\nare installed correctly."
+    NA_ERR_JDK12            "The only version of Java found on your computer was\nJava 1.2 or above. This version of NewsAgent does not\ncurrently support this version of Java.\nPlease install Java 1.1.5, 6, 7 or 8 and run newsagent.exe again. "
+    NA_ERR_JDKVERS          "NewsAgent was unable to determine the version\nof Java you have installed on your computer. Please\nreinstall Java to update the registry."
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
