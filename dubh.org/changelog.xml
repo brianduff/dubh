@@ -124,4 +124,15 @@
     </description>
   </change>
   
+  <change>
+    <date year="2001" month="07" day="08" />
+      
+    <description>
+      <p>
+        Updated information on <a href="/projects/jfreeciv/index.xml">JFreeCiv</a>
+        project page. Added some screenshots. Eye candy. Nice.
+      </p>
+    </description>
+  </change>
+  
 </changelog>
