@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.7 2000-08-20 19:05:29 briand Exp $ -->
+<!-- $Id: build.xml,v 1.8 2000-08-20 19:18:17 briand Exp $ -->
   
 <project name="dju" default="all" basedir=".">
   <target name="init">
@@ -44,8 +44,6 @@
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
             classpath="${classpath}">
-      <exclude name="org/javalobby/dju/ui/commander/**" />
-      <exclude name="org/javalobby/dju/dev/**" />
       <exclude name="org/javalobby/dju/ui/treetable/**" />
 
     </javac>            
