@@ -2,7 +2,7 @@
 <!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.net</defaultPackage>
+   <defaultPackage>org.freeciv.common</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
       <Item class="java.lang.String">package4</Item>
       <Item class="java.lang.String">org.freeciv.client.handler</Item>
@@ -58,9 +58,6 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/RoadOverlay.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/RulesetManager.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/SndSystem.java"/>
@@ -594,16 +591,16 @@
          <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ClientObjectFactory.java"/>
+         <URL path="src/org/freeciv/common/GameObjectFactory.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ClientObject.java"/>
+         <URL path="src/org/freeciv/common/GameObject.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Player.java"/>
+         <URL path="src/org/freeciv/common/Player.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Connection.java"/>
+         <URL path="src/org/freeciv/common/Connection.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/common/Game.java"/>
@@ -622,6 +619,39 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/net/PacketConstants.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Advance.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/AbstractGameObjectFactory.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Factories.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Government.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/RulerTitle.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Unit.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Building.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/TerrainRules.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/TerrainType.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/Nation.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/common/CityStyle.java"/>
       </Item>
    </listOfChildren>
    <ownerMap/>
