@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: UserPreferences.java,v 1.9 2000-06-14 21:25:21 briand Exp $
+//   $Id: UserPreferences.java,v 1.10 2000-08-19 20:48:25 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -42,7 +42,7 @@ import java.text.ParseException;
  * <br>
  * <b>The event handling for this class is not thread safe.</b>
  * @author Brian Duff
- * @version $Id: UserPreferences.java,v 1.9 2000-06-14 21:25:21 briand Exp $
+ * @version $Id: UserPreferences.java,v 1.10 2000-08-19 20:48:25 briand Exp $
  */
 public class UserPreferences implements Serializable {
 
@@ -193,6 +193,42 @@ public class UserPreferences implements Serializable {
    }
 
    /**
+    * The same as getMultiKeyList, except that, if UserPreferences knows
+    * how to decode the string property into a class of type clazz, it will
+    * do so, and the objects in the array list will be of type clazz. This
+    * isn't guaranteed, so you may find that they are still strings as
+    * always.
+    */
+   public ArrayList getMultiKeyList(String baseKey, Class clazz)
+   {
+      if (m_hashListCache == null)
+         m_hashListCache = new Hashtable();
+      if (m_hashListIndices == null)
+         m_hashListIndices = new Hashtable();
+
+      ArrayList values = (ArrayList)m_hashListCache.get(baseKey);
+
+      if (values == null)
+      {
+         ArrayList keys = getSortedKeyList(baseKey);
+         values = new ArrayList(keys.size());
+         ArrayList indices = new ArrayList(keys.size());
+
+         for (int i=0; i < keys.size(); i++)
+         {
+            String key = (String)keys.get(i);
+            String index = key.substring(key.indexOf('.')+1);
+            indices.add(new Integer(index));
+            // BD: NYI
+            values.add(getPreference((String)keys.get(i)));
+         }
+         m_hashListCache.put(baseKey, values);
+         m_hashListIndices.put(baseKey, indices);
+      }
+      return values;
+   }
+
+   /**
     * Provides support for a list of values in a properties file
     * that take the form: <pre>
     *  some.key.1 = value
@@ -217,30 +253,7 @@ public class UserPreferences implements Serializable {
     */
    public ArrayList getMultiKeyList(String baseKey)
    {
-      if (m_hashListCache == null)
-         m_hashListCache = new Hashtable();
-      if (m_hashListIndices == null)
-         m_hashListIndices = new Hashtable();
-
-      ArrayList values = (ArrayList)m_hashListCache.get(baseKey);
-
-      if (values == null)
-      {
-         ArrayList keys = getSortedKeyList(baseKey);
-         values = new ArrayList(keys.size());
-         ArrayList indices = new ArrayList(keys.size());
-
-         for (int i=0; i < keys.size(); i++)
-         {
-            String key = (String)keys.get(i);
-            String index = key.substring(key.indexOf('.')+1);
-            indices.add(new Integer(index));
-            values.add(getPreference((String)keys.get(i)));
-         }
-         m_hashListCache.put(baseKey, values);
-         m_hashListIndices.put(baseKey, indices);
-      }
-      return values;
+      return getMultiKeyList(baseKey, null);
    }
 
    /**
@@ -737,6 +750,9 @@ public class UserPreferences implements Serializable {
 // New Log
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2000/06/14 21:25:21  briand
+// Mega checkin of stuff I've been working on (too many things to detail)
+//
 // Revision 1.8  1999/11/11 21:24:35  briand
 // Change package and import to Javalobby JFA.
 //
