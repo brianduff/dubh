@@ -31,7 +31,7 @@
   </group>
   
   <group>
-    <entry id="cvs" title="Browse CVS" href="/servlet/jcvs/index.html" />
+    <entry id="cvs" title="Browse CVS" href="/cvsoffline.xml" />
   </group>
   
   <group>  

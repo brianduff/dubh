@@ -8,7 +8,7 @@
   <title>Dubh.Org Home</title>
   
   <navigator>
-    <xsql:include-xsql href="navigator.xml?me=home" />
+    <xsql:include-xsql href="navigator.xml?me=home" />   
   </navigator>
   
   <content>
@@ -39,6 +39,7 @@
     <p>
       Come back soon, and hopefully more stuff will be here.
     </p>
-  </content>
+  
+    </content>
     
 </dubhpage>
