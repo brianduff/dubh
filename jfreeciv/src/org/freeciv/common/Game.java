@@ -1,13 +1,17 @@
 package org.freeciv.common;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+import java.util.Iterator;
+
 import org.freeciv.net.PktRulesetGame;
 import org.freeciv.net.PktRulesetControl;
+
 /**
  * A freeciv game.
  */
-public final class Game
+public final class Game implements CommonConstants
 {
   // game.h struct civ_game
   
@@ -27,16 +31,312 @@ public final class Game
   /** Ruleset control. Used for various properties */
   private PktRulesetControl m_rulesetControl;
 
-  
-  public Game() 
+  private int m_gold;
+  private int m_tech;
+  private int m_researchCost;
+  private int m_skillLevel;
+  private boolean m_timeout;
+
+  private int m_endYear;
+  private int m_year;
+  private int m_minPlayers;
+  private int m_maxPlayers;
+  private int m_numPlayers;
+  private int m_globalWarming;
+  private int m_heating;
+  private int m_nuclearWinter;
+  private int m_cooling;
+
+  private int[] m_globalAdvances;
+  private int[] m_globalWonders;
+
+  private int m_techPenalty;
+  private int m_foodBox;
+  private int m_civStyle;
+  private int m_unhappySize;
+  private int m_cityFactor;
+
+  private boolean m_spaceRace;
+
+  private Factories m_factories;
+
+  private int m_currentPlayer;
+
+  /**
+   * Construct the game
+   *
+   * @param f the factories object for this client / server
+   */
+  public Game(Factories f) 
   {
+    m_factories = f;
     m_allConnections = new ArrayList();
     m_establishedConnections = new ArrayList();
     m_gameConnections = new ArrayList();
     m_rules = new GameRules();
     m_terrainRules = new TerrainRules();
+
+    m_globalAdvances = new int[ A_LAST ];
+    m_globalWonders = new int[ B_LAST ];
   }
 
+  private Factories getFactories()
+  {
+    return m_factories;
+  }
+
+  /**
+   * Get a player by number
+   *
+   * @param playerNumber the player number
+   * @return a Player
+   */
+  public Player getPlayer(int playerNumber)
+  {
+    try
+    {
+      return (Player) getFactories().getPlayerFactory().findById( playerNumber );
+    }
+    catch (IllegalArgumentException ille)
+    {
+      // not sure about this at all.
+      return (Player) getFactories().getPlayerFactory().create(playerNumber);
+    }
+  }
+
+
+  public Player getCurrentPlayer()
+  {
+    return (Player)
+      getFactories().getPlayerFactory().findById( m_currentPlayer );
+  }
+
+  public boolean isCurrentPlayer(Player p)
+  {
+    return p == getCurrentPlayer();
+  }
+
+  public void setCurrentPlayer(int playerNo)
+  {
+    m_currentPlayer = playerNo;
+  }
+
+  public void setCurrentPlayer(Player p)
+  {
+    m_currentPlayer = p.getId();
+  }
+
+  public void setGold(int gold)
+  {
+    m_gold = gold;
+  }
+
+  public int getGold()
+  {
+    return m_gold;
+  }
+
+  public void setTech(int tech)
+  {
+    m_tech = tech;
+  }
+
+  public int getTech()
+  {
+    return m_tech;
+  }
+
+  public void setResearchCost( int researchCost )
+  {
+    m_researchCost = researchCost;
+  }
+
+  public int getResearchCost()
+  {
+    return m_researchCost;
+  }
+
+  public void setSkillLevel( int level )
+  {
+    m_skillLevel = level;
+  }
+
+  public int getSkillLevel()
+  {
+    return m_skillLevel;
+  }
+
+  public void setTimeout( boolean timeout )
+  {
+    m_timeout = timeout;
+  }
+
+  public boolean isTimeout()
+  {
+    return m_timeout;
+  }
+
+  public void setEndYear( int endYear )
+  {
+    m_endYear = endYear;
+  }
+
+  public int getEndYear()
+  {
+    return m_endYear;
+  }
+
+  public void setMinPlayers( int minPlayers)
+  {
+    m_minPlayers = minPlayers;
+  }
+
+  public int getMinPlayers()
+  {
+    return m_minPlayers;
+  }
+
+  public void setMaxPlayers( int maxPlayers )
+  {
+    m_maxPlayers = maxPlayers;
+  }
+
+  public int getMaxPlayers()
+  {
+    return m_maxPlayers;
+  }
+
+  public void setNumberOfPlayers( int numPlayers )
+  {
+    m_numPlayers = numPlayers;
+  }
+
+  public int getNumberOfPlayers()
+  {
+    return m_numPlayers;
+  }
+
+  public void setGlobalWarming( int globalWarming )
+  {
+    m_globalWarming = globalWarming;
+  }
+
+  public int getGlobalWarming()
+  {
+    return m_globalWarming;
+  }
+
+  public void setHeating( int heating )
+  {
+    m_heating = heating;
+  }
+
+  public int getHeating()
+  {
+    return m_heating;
+  }
+
+  public void setNuclearWinter( int nuclearWinter )
+  {
+    m_nuclearWinter = nuclearWinter;
+  }
+
+  public int getNuclearWinter()
+  {
+    return m_nuclearWinter;
+  }
+
+  public void setCooling( int cooling )
+  {
+    m_cooling = cooling;
+  }
+
+  public int getCooling()
+  {
+    return m_cooling;
+  }
+
+  public void setGlobalAdvance( int idx, int advanceId )
+  {
+    m_globalAdvances[ idx ] = advanceId;
+  }
+
+  public Advance getGlobalAdvance( int idx )
+  {
+    int advanceNum = m_globalAdvances[ idx ];
+    return (Advance) getFactories().getAdvanceFactory().findById( advanceNum );
+  }
+
+  public void setGlobalWonder( int idx, int wonderId )
+  {
+    m_globalWonders[ idx ] = wonderId;
+  }
+
+  public int getGlobalWonder( int idx )
+  {
+    return m_globalWonders[ idx ];
+  }
+
+  public void setTechPenalty( int penalty )
+  {
+    m_techPenalty = penalty;
+  }
+
+  public int getTechPenalty()
+  {
+    return m_techPenalty;
+  }
+
+  public void setFoodBox( int foodBox )
+  {
+    m_foodBox = foodBox;
+  }
+
+  public int getFoodBox()
+  {
+    return m_foodBox;
+  }
+
+  public void setCivStyle( int civStyle )
+  {
+    m_civStyle = civStyle;
+  }
+
+  public int getCivStyle()
+  {
+    return m_civStyle;
+  }
+
+  public void setUnhappySize( int unhappy )
+  {
+    m_unhappySize = unhappy;
+  }
+
+  public int getUnhappySize()
+  {
+    return m_unhappySize;
+  }
+
+  public void setCityFactor( int cityFactor )
+  {
+    m_cityFactor = cityFactor;
+  }
+
+  public int getCityFactor()
+  {
+    return m_cityFactor;
+  }
+
+  public void setSpaceRace( boolean spaceRace )
+  {
+    m_spaceRace = spaceRace;
+  }
+
+  public boolean isSpaceRace()
+  {
+    return m_spaceRace;
+  }
+  
   public TerrainRules getTerrainRules()
   {
     return m_terrainRules;
@@ -56,9 +356,20 @@ public final class Game
   {
     return m_gameConnections;
   }
+  
   public GameRules getGameRules()
   {
     return m_rules;
+  }
+
+  public void setYear(int year)
+  {
+    m_year = year;
+  }
+
+  public int getYear()
+  {
+    return m_year;
   }
 
   /**
@@ -134,17 +445,21 @@ public final class Game
   /**
    * Which government is "anarchy"
    */
-  public int getGovernmentWhenAnarchy() // return Government
+  public Government getGovernmentWhenAnarchy() // return Government
   {
-    return m_rulesetControl.government_when_anarchy;
+    return (Government) getFactories().getGovernmentFactory().findById(
+      m_rulesetControl.government_when_anarchy
+    );
   }
 
   /**
    * Which government is the default government
    */
-  public int getDefaultGovernment() // return Government
+  public Government getDefaultGovernment() // return Government
   {
-    return m_rulesetControl.default_government;
+    return (Government) getFactories().getGovernmentFactory().findById(
+      m_rulesetControl.default_government
+    );
   }
 
   public int getNumberOfUnitTypes()
