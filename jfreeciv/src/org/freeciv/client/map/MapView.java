@@ -28,6 +28,11 @@ public interface MapView extends MapOverviewJumpListener
     boolean repaint );
 
   /**
+   * Refresh the visible region of the map buffer
+   */
+  void updateMapBufferVisible();
+
+  /**
    * Initialize the map. You should call this after the MapInfo packet
    * has been received and the game map knows what size the map is
    */

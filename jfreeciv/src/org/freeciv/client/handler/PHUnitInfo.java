@@ -100,7 +100,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
              && c.getGame().isCurrentPlayer( unit.getOwner() )
              && unit.getActivity() == ACTIVITY_SENTRY)
         {
-          // c.setUnitFocus( unit );
+          c.setUnitFocus( unit );
         }
 
         unit.setActivity( packet.activity );
@@ -284,13 +284,13 @@ public class PHUnitInfo extends AbstractHandler implements Constants
 
     if ( unit != null && c.isUnitInFocus( unit ) )
     {
-      // c.updateUnitInfoLabel( unit );
+      c.updateUnitInfoLabel( unit );
     }
     else if ( c.getUnitInFocus() != null &&
               c.getUnitInFocus().getX() == unit.getX() &&
               c.getUnitInFocus().getY() == unit.getY() )
     {
-      // c.updateUnitInfoLabel( c.getUnitInFocus() );
+      c.updateUnitInfoLabel( c.getUnitInFocus() );
     }
 
     if ( repaintUnit )
@@ -304,7 +304,7 @@ public class PHUnitInfo extends AbstractHandler implements Constants
     }
     else
     {
-      // c.updateUnitFocus();
+      c.updateUnitFocus();
     }
 
   }

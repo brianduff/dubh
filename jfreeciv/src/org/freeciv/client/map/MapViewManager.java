@@ -77,6 +77,17 @@ public final class MapViewManager
       }
     });
   }
+  
+  /**
+   * Refresh the visible areas of all map views
+   */
+  public void updateMapBuffersVisible()
+  {
+    for ( Iterator i = iterator(); i.hasNext(); )
+    {
+      ( (MapView)i.next() ).updateMapBufferVisible();
+    }
+  }
 
   /**
    * Initialize the map. You should call this after the MapInfo packet

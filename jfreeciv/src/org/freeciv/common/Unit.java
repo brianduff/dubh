@@ -552,4 +552,21 @@ public final class Unit implements CommonConstants
     return getUnitType().getSprite();
   }
   
+  
+  /**
+   * Removes this unit from the game
+   */
+  public void removeFromGame()
+  {
+    Tile tile = m_game.getMap().getTile( getX(), getY() );
+    
+    if ( getHomeCity() != null )
+    {
+      getHomeCity().removeSupportedUnit( this );
+    }
+    tile.removeUnit( this );
+    getOwner().removeUnit( this );
+    
+    // remove from owner units list
+  }
 }

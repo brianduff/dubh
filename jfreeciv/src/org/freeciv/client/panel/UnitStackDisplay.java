@@ -46,6 +46,7 @@ public final class UnitStackDisplay extends JPanel
   public void update(int gridx, int gridy, Unit focusUnit)
   {
     this.removeAll();
+    this.repaint();
 
     this.add( new UnitComponent(focusUnit) );
     Iterator tileUnits = 

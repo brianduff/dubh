@@ -326,7 +326,14 @@ public final class Client implements Constants
         
         // set menu item dis/enabled
         JMenuItem item = m_mainWindow.getJMenuBar().getMenu( ORDERS_MENU ).getItem( i - 1 );
-        item.setEnabled( aua.isEnabledFor( u ) ); 
+        if( u != null )
+        {
+          item.setEnabled( aua.isEnabledFor( u ) ); 
+        }
+        else
+        {
+          item.setEnabled( false );
+        }
       }
     }
   }
@@ -926,7 +933,7 @@ public final class Client implements Constants
    *
    * @param u the new focused unit
    */
-  public void setUnitFocus( org.freeciv.common.Unit u )
+  public void setUnitFocus( Unit u )
   {
     org.freeciv.common.Unit oldFocus = m_focusUnit;
 
@@ -952,7 +959,7 @@ public final class Client implements Constants
   }
 
 
-  private void autoCenterOnFocusUnit()
+  public void autoCenterOnFocusUnit()
   {
     // control.c: auto_center_on_focus_unit()
 
@@ -1111,6 +1118,54 @@ public final class Client implements Constants
     }
     city.removeFromGame();
     // TODO: update city report dialog
+    refreshTileMapCanvas( x, y, true );
+  }
+  
+  /**
+   * Remove the specified unit from the map and game
+   */
+  public void removeUnit( Unit unit )
+  {
+    int x = unit.getX();
+    int y = unit.getY();
+    City city;
+    
+    Logger.log( Logger.LOG_DEBUG,
+      "Removing unit " + unit.getId() + ", "
+      + unit.getOwner().getNation().getName() + " "
+      + unit.getUnitType().getName()
+      + "(" + x + " " + y + ")"
+      + " hcity " + unit.getHomeCity() );
+    
+    if ( isUnitInFocus( unit ) )
+    {
+      // setUnitFocusNoCenter( 0 );
+      unit.removeFromGame();
+      advanceUnitFocus();
+    }
+    else
+    {
+      boolean update = ( m_focusUnit != null 
+                        && m_focusUnit.getX() == unit.getX()
+                        && m_focusUnit.getY() == unit.getY() );
+      unit.removeFromGame();
+      if( update ) {
+        updateUnitInfoLabel( m_focusUnit );
+      }
+    }
+    
+    city = getGame().getMap().getCity( x, y );
+    if( city != null )
+    {
+      getDialogManager().refreshCityDialog( city );
+    }
+    
+    city = unit.getHomeCity();
+    if( city != null )
+    {
+      getDialogManager().refreshCityDialog( city );
+    }
+    
     refreshTileMapCanvas( x, y, true );
   }
 

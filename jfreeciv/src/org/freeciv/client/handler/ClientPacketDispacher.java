@@ -128,7 +128,7 @@ public class ClientPacketDispacher
     null, /*PLAYER_WORKLIST*/ 
     null, /*UNIT_BUILD_CITY*/ 
     null, /*UNIT_DISBAND 30*/ 
-    null, /*REMOVE_UNIT*/ 
+    new PHRemoveUnit(), /*REMOVE_UNIT*/ 
     null, /*REMOVE_CITY*/ 
     null, /*UNIT_CHANGE_HOMECITY*/ 
     null, /*UNIT_COMBAT*/ 
@@ -170,7 +170,7 @@ public class ClientPacketDispacher
     new PHRulesetGovernmentRulerTitle(), /*RULESET_GOVERNMENT_RULER_TITLE*/ 
     new PHRulesetControl(), /*RULESET_CONTROL*/ 
     null, /*CITY_NAME_SUGGEST_REQ*/ 
-    null, /*CITY_NAME_SUGGESTION*/ 
+    new PHCityNameSuggestion(), /*CITY_NAME_SUGGESTION*/ 
     new PHRulesetNation(), /*RULESET_NATION*/ 
     null, /*UNIT_PARADROP_TO*/ 
     new PHRulesetCity(), /*RULESET_CITY             */ 

@@ -53,6 +53,11 @@ public final  class Tile
     m_units.add( u );
   }
 
+  public void removeUnit( Unit u )
+  {
+    m_units.remove( u );
+  }
+
   public boolean isKnown()
   {
     return m_known >= CommonConstants.TILE_KNOWN_FOGGED;

@@ -162,6 +162,12 @@ public abstract class AbstractMapView implements MapView, Constants
      // m_component.updateTileAt( tilex, tiley, tilew, tileh, repaint );
     //}
   }
+  
+  public void updateMapBufferVisible()
+  {
+    updateMapBuffer( getViewTileOriginX(), getViewTileOriginY(), 
+                     getBufferTileWidth(), getBufferTileHeight(), true );
+  }
 
   public final void initialize()
   {
