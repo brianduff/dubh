@@ -34,7 +34,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   Object nukingWait = new Object();
   boolean showingCityRanges = true;
   boolean gotoMode = false;
-  public CivMap( Client c, int aHorizontalTiles, int aVerticalTiles, int aSingleTileWidth, int aSingleTileHeight, boolean aHorizontalWrap, boolean aVerticalWrap ) 
+  public CivMap( Client c, int aHorizontalTiles, int aVerticalTiles, int aSingleTileWidth, int aSingleTileHeight, boolean aHorizontalWrap, boolean aVerticalWrap )
   {
     super( aHorizontalTiles, aVerticalTiles, aSingleTileWidth, aSingleTileHeight, aHorizontalWrap, aVerticalWrap );
     //setDoubleBuffered(false);
@@ -53,7 +53,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
         tiles[ x ][ y ] = l;
       }
     }
-    addMouseListener( new MouseAdapter() 
+    addMouseListener( new MouseAdapter()
     {
       public void mouseClicked( MouseEvent e )
       {
@@ -99,15 +99,15 @@ public class CivMap extends TileMap implements Constants,ComponentListener
                 deactivateUnit();
                 if( gm )
                 {
-                  
-                
+
+
 
                 //client.commandGotoUnit(u,p.x,p.y);
                 }
                 else
                 {
-                  
-                
+
+
 
                 //client.commandMoveUnit(u, p.x, p.y);
                 }
@@ -132,7 +132,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   int cnt;
   Cursor defaultCursor = Cursor.getDefaultCursor();
   Cursor oddCursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
-  
+
   public void mouseMoved(MouseEvent evt)
   {
   Coords p = toTileCoordinates(evt.getX(), evt.getY());
@@ -219,7 +219,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   if ( n == null || nw == null || ne == null )
   return null;
   }
-  
+
   if ( y < verticalTiles-1 )
   {
   s = getTerrain(x,y+1);
@@ -230,17 +230,17 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   if ( s == null || sw == null || se == null )
   return null;
   }
-  
+
   w = (x > 0) ? getTerrain(x-1,y) :
   (hWrap ? getTerrain(horizontalTiles-1,y):null);
   e = (x< horizontalTiles-1 ) ? getTerrain(x+1,y) :
   (hWrap ? getTerrain(0,y):null);
-  
+
   if ( w == null || e == null)
   return null;
-  
+
   int cornerVariation = 0;
-  
+
   if ( (ne != null) && (ne.getId() != T_OCEAN) && (n.getId() == T_OCEAN) && (e.getId() == T_OCEAN) )
   cornerVariation += 1;
   if ( (se != null) && (se.getId() != T_OCEAN)&& (s.getId() == T_OCEAN) && (e.getId() == T_OCEAN) )
@@ -255,7 +255,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   boolean wriver = ((w!= null) && (w.getId() == T_RIVER) );
   if ( cornerVariation == 0 && !nriver && !eriver && !sriver && !wriver )
   return null;
-  
+
   return  new CornerOverlay(client,
   cornerVariation,nriver, eriver,sriver,wriver
   );    */
@@ -272,7 +272,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     int variation = whatVariation(x,y,current.getId());
     l.set(TERRAIN_LAYER,client.getTerrain(current.getId(), variation ));     */
-    
+
   }
   /**
    * Set the terrain for one tile. This method is normally called
@@ -296,11 +296,11 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     smallMap.updateAll();
     repaint();     */
-    
+
   }
   public synchronized void addUnit( Unit unit )
   { /*
-    //		System.out.println("added " + unit);
+    //      System.out.println("added " + unit);
     List l = tiles[unit.x][unit.y];
     unit.nextInStack = (Unit)l.get(UNIT_LAYER);
     l.set(UNIT_LAYER, unit);
@@ -310,11 +310,11 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     {
     activateUnit(unit);
     }                        */
-    
+
   }
   public synchronized void removeUnit( Unit unit )
   { /*
-    //		System.out.println("removed " + unit);
+    //      System.out.println("removed " + unit);
     if ( unit == activeUnit )
     deactivateUnit();
     List l = tiles[unit.x][unit.y];
@@ -340,17 +340,17 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     stackU = stackU.nextInStack;
     }
     }
-    
+
     if ( activeUnit != null && activeUnit.x == unit.x &&
     activeUnit.y == unit.y )
     client.changedActiveUnit(activeUnit);   */
-    
+
   }
   public synchronized void deactivateUnit()
   { /*
     if ( activeUnit != null )
     {
-    //			System.out.println("deactivated " + activeUnit);
+    //         System.out.println("deactivated " + activeUnit);
     Unit u = activeUnit;
     activeUnit = null;
     stopFlashing(u);
@@ -364,25 +364,25 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     setGotoMode(false);
     client.changedActiveUnit(null);
     }        */
-    
+
   }
   public synchronized void activateUnit( Unit u )
   {
-    
-  
-  
+
+
+
   /*
   weaklyCenterOnTile(u.x,u.y);
-  
+
   if ( activeUnit == u )
   {
   return;
   }
   deactivateUnit();
-  //		System.out.println("activated " + u);
+  //     System.out.println("activated " + u);
   if ( u == null )
   return;
-  
+
   Unit top = getUnit(u.x,u.y);
   if ( top != u )
   {
@@ -408,7 +408,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   }
   tiles[u.x][u.y].set(UNIT_LAYER,u);
   }
-  
+
   startFlashing(u.x, u.y, u);
   activeUnit = u;
   lastActiveUnitId = u.id;
@@ -430,7 +430,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     starty = -1;
     endy = 2;
     }
-    
+
     for ( int ay=starty; ay < endy; ay++ )
     {
     List l = getTileList(x+ax,y+ay);
@@ -441,8 +441,8 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     repaintTwoTilesAround(x,y);
     }
-    
-    
+
+
     public void addCityRangeGlass(int x, int y)
     {
     for ( int ax=-2; ax < 3; ax++ )
@@ -454,7 +454,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     starty = -1;
     endy = 2;
     }
-    
+
     for ( int ay=starty; ay < endy; ay++ )
     {
     List l = getTileList(x+ax,y+ay);
@@ -463,7 +463,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     }
     repaintTwoTilesAround(x,y);     */
-    
+
   }
   public void addCityRangeGlassRedOverlap( int x, int y )
   { /*
@@ -476,7 +476,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     starty = -1;
     endy = 2;
     }
-    
+
     for ( int ay=starty; ay < endy; ay++ )
     {
     List l = getTileList(x+ax,y+ay);
@@ -490,7 +490,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     }
     repaintTwoTilesAround(x,y);    */
-    
+
   }
   public synchronized void addCity( City c )
   { /*
@@ -503,9 +503,9 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     {
     repaintOneTile(c.x,c.y);
     }
-    
+
     smallMap.updateMap(c.x,c.y);     */
-    
+
   }
   public synchronized void removeCity( City c )
   { /*
@@ -521,7 +521,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     repaintOneTile(c.x,c.y);
     }
     smallMap.updateMap(c.x,c.y);    */
-    
+
   }
   public void setUpperLeftXY( int x, int y )
   {
@@ -530,8 +530,8 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   }
   protected void paintBackground( Graphics g, Rectangle bounds )
   {
-    
-  
+
+
 
   // do nothing (leave black);
   }
@@ -588,11 +588,11 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     Unit u =(Unit)flashing.get(i);
     u.setVisible(flashVisible);
     repaintOneTile(u.x,u.y);
-    
+
     }
     flashVisible = !flashVisible;
     }            */
-    
+
   }
   public void centerOnTile( int x, int y )
   {
@@ -612,7 +612,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
     else
     this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)); */
-    
+
   }
   public boolean isShowingCityRanges()
   {
@@ -651,7 +651,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     if ( u != null )
     activateUnit(u);  */
-    
+
   }
   public void showUnitCombat( final PktUnitCombat unitCombat )
   { /*
@@ -704,7 +704,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     if ( unitCombat.make_winner_veteran )
     att.veteran = true;
     }
-    
+
     synchronized( unitCombat )
     {
     unitCombat.notifyAll();
@@ -712,7 +712,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     }
     }
     });
-    
+
     synchronized( unitCombat )
     {
     try {
@@ -720,7 +720,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     } catch ( InterruptedException e)
     {}
     }    */
-    
+
   }
   public static final int START_NUKE_DELAY = -60;
   public static final int NUKE_UPDATE_MS = 60;
@@ -747,7 +747,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     START_NUKE_DELAY : 0;
     client.playSound("nuclear");
     repaint();           */
-    
+
   }
   /*
   int centerX;
@@ -755,7 +755,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   int nukeY;
   int centerY;
   int nukeRadius;
-  
+
   Runnable nukeRepainter = new Runnable() {
   public void run()
   {
@@ -767,9 +767,9 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   repaintTilesAround(nukeX,nukeY);
   }
   };
-  
-  
-  
+
+
+
   int NUKE_TRESHOLD = (singleTileWidth*3)/2;
   static final int NUKE_PEN_WIDTH = 15;
   final int NUKE_PEN_DROPOFF = (NUKE_TRESHOLD/2)/NUKE_PEN_WIDTH;
@@ -779,15 +779,15 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   strokes = new BasicStroke[NUKE_PEN_WIDTH+1];
   for ( int i=0; i < NUKE_PEN_WIDTH+1; i++ )
   strokes[i] = new BasicStroke((float)i+1);
-  
+
   }
-  
+
   */
   private void paintNukeStep( Graphics g )
   {
-    
-  
-  
+
+
+
   /*
   if ( nukeRadius > 0 )
   {
@@ -801,7 +801,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
   0.70f - (0.30f*(float)nukeRadius/(float)NUKE_TRESHOLD)
   ));
-  
+
   int x = (nukeRadius-(NUKE_TRESHOLD/2))/NUKE_PEN_DROPOFF;
   if ( x<0 )
   {
@@ -814,7 +814,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   x = Math.max(0,x);
   g2.setStroke(strokes[x]);
   }
-  
+
   g2.drawOval(centerX-nukeRadius-upperLeftX,centerY-nukeRadius-upperLeftY,
   nukeRadius*2,nukeRadius*2);
   Toolkit.getDefaultToolkit().sync();
@@ -836,25 +836,22 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   javax.swing.SwingUtilities.invokeLater(nukeRepainter);
   */
   }
-  public boolean isManagingFocus()
-  {
-    return true;
-  }
+
   public void componentResized( ComponentEvent e )
   {
     smallMap.updateView();
   }
   public void componentMoved( ComponentEvent e )
   {
-    
+
   }
   public void componentShown( ComponentEvent e )
   {
-    
+
   }
   public void componentHidden( ComponentEvent e )
   {
-    
+
   }
   public static final int TERRAIN_LAYER = 0;
   public static final int TERRAIN_OVERLAY_LAYER = 1;
@@ -875,7 +872,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   int data[] = new int[vt*ht];
   MemoryImageSource mis = new MemoryImageSource(ht,vt,data,0,ht);
   Image img;
-  
+
   private Insets insets;
   Color[] colors = new Color[]
   {
@@ -884,13 +881,13 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   Color.blue,
   Color.green
   };
-  
+
   int oldX,oldY,oldW,oldH;
   int sizeH,sizeV;
-  
+
   int pixelSize = 2;
-  
-  
+
+
   public SmallMap()
   {
   mis.setAnimated(true);
@@ -903,9 +900,9 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   data[i] = Color.green.getRGB();
   mis.newPixels();
   insets = getInsets();
-  
+
   }
-  
+
   public void updateMapInternal(int x, int y)
   {
   List l = getTileList(x,y);
@@ -930,9 +927,9 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   }
   }
   data[x+y*ht] = pixel;
-  
+
   }
-  
+
   public void updateMap(int x, int y)
   {
   updateMapInternal(x,y);
@@ -941,7 +938,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   repaint(x*pixelSize+insets.left,y*pixelSize+insets.top,
   pixelSize,pixelSize);
   }
-  
+
   public void updateAll()
   {
   for ( int x =0; x < ht; x++ )
@@ -951,18 +948,18 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   mis.newPixels();
   repaint();
   }
-  
-  
-  
-  
+
+
+
+
   public void updateView()
   {
   }
-  
+
   public void paintComponent(Graphics g)
   {
-  //			g.setColor(Color.black);
-  //			g.fillRect(0,0,ht,vt);
+  //        g.setColor(Color.black);
+  //        g.fillRect(0,0,ht,vt);
   g.drawImage(img,0,0,this);
   }
   }
@@ -981,11 +978,11 @@ public class CivMap extends TileMap implements Constants,ComponentListener
     int oldX, oldY, oldW, oldH;
     int sizeH, sizeV;
     int pixelSize = 2;
-    public SmallMap() 
+    public SmallMap()
     {
       setSizes();
       setOpaque( false );
-      addMouseListener( new MouseAdapter() 
+      addMouseListener( new MouseAdapter()
       {
         public void mouseClicked( MouseEvent e )
         {
@@ -1001,8 +998,8 @@ public class CivMap extends TileMap implements Constants,ComponentListener
           }
           else
           {
-            
-          
+
+
 
           //changeMode();
           }
@@ -1090,7 +1087,7 @@ public class CivMap extends TileMap implements Constants,ComponentListener
       int maxX = Math.min( sizeH + insets.left, r.x + r.width );
       int maxY = Math.min( sizeV + insets.top, r.y + r.height );
       g.clipRect( insets.left, insets.top, maxX, maxY );
-      //			((Graphics2D)g).setComposite(alpha);
+      //       ((Graphics2D)g).setComposite(alpha);
       g.setColor( c );
       g.fillRect( minX, minY, maxX - minX, maxY - minY );
       for( int x = minX;x < maxX;x += pixelSize )
@@ -1124,14 +1121,14 @@ public class CivMap extends TileMap implements Constants,ComponentListener
         g.drawRect( x, y - sizeV, oldW, oldH );
         g.drawRect( x, y + sizeV, oldW, oldH );
       }
-    //			g.setPaintMode();
+    //         g.setPaintMode();
     }
   }
   class GlassTile implements Icon
   {
     AlphaComposite alpha;
     Color color;
-    public GlassTile( Color c, float anAlpha ) 
+    public GlassTile( Color c, float anAlpha )
     {
       color = c;
       alpha = AlphaComposite.getInstance( AlphaComposite.SRC_OVER, anAlpha );
@@ -1155,11 +1152,5 @@ public class CivMap extends TileMap implements Constants,ComponentListener
   }
   public Icon grayGlassTile = new GlassTile( Color.gray, 0.50f );
   public Icon redGlassTile = new GlassTile( Color.red, 0.30f );
-  public static void assert( boolean condition )
-  {
-    if( !condition )
-    {
-      throw new RuntimeException( "Assertion failed" );
-    }
-  }
+
 }

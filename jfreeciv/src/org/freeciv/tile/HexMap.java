@@ -18,12 +18,14 @@ import java.util.Random;
 import javax.swing.*;
 
 
+import org.freeciv.common.Assert;
+
 /*
 * Hexes vertically flattened (fit in square), rows are aligned
 */
 public class HexMap extends TileMap
 {
-  
+
   // hex fits in square 4*sh x 4*sh
   int sh, sh2, sh3, sh4, sh5, sh6;
   int iconULXoffset;
@@ -33,15 +35,15 @@ public class HexMap extends TileMap
   int leftCondition;
   int rightCondition;
   Polygon hexShape;
-  
+
 
   // offsets can be only very specific, and BRY offset must be 0...
-  
+
   /*
   There is not BRYoffset. In fact it defaults to tileSmallLength and cannot
   be larger nor smaller.
   */
-  public HexMap( int aHorizontalTiles, int aVerticalTiles, int tileSmallLength, boolean aHorizontalWrap, boolean aVerticalWrap, boolean anUpperRowLeft, int anIconULXOffset, int anIconULYOffset, int anIconBRXOffset ) 
+  public HexMap( int aHorizontalTiles, int aVerticalTiles, int tileSmallLength, boolean aHorizontalWrap, boolean aVerticalWrap, boolean anUpperRowLeft, int anIconULXOffset, int anIconULYOffset, int anIconBRXOffset )
   {
     super( aHorizontalTiles, aVerticalTiles, tileSmallLength * 4, tileSmallLength * 3, aHorizontalWrap, aVerticalWrap );
     sh = tileSmallLength;
@@ -50,8 +52,8 @@ public class HexMap extends TileMap
     sh4 = sh * 4;
     sh5 = sh * 5;
     sh6 = sh * 6;
-    assert( !hWrap || ( aHorizontalTiles % 2 == 0 ) );
-    assert( !vWrap || ( aVerticalTiles % 2 == 0 ) );
+    Assert.that( !hWrap || ( aHorizontalTiles % 2 == 0 ) );
+    Assert.that( !vWrap || ( aVerticalTiles % 2 == 0 ) );
     upperRowLeft = anUpperRowLeft;
     if( upperRowLeft )
     {
@@ -137,7 +139,7 @@ public class HexMap extends TileMap
     {
       int xoffs, yoffs;
       yoffs = y % sh3;
-      assert( yoffs < sh );
+      Assert.that( yoffs < sh );
       if( isLeft( ycell2 ) ) // upper row moved left
       {
         xoffs = ( x + sh2 ) % sh4; // it is opposite to condition on purpose
@@ -146,7 +148,7 @@ public class HexMap extends TileMap
       {
         xoffs = x % sh4;
       }
-      
+
       // add check for negative and too large cells (wrap or return null)
       if( yoffs - ( Math.abs( xoffs - sh2 ) / 2 ) < 0 )
       {
@@ -283,7 +285,7 @@ public class HexMap extends TileMap
     g.setColor( voidColor );
     g.fillRect( r.x, r.y, r.width, r.height );
   }
-  
+
 
   // x and y are topleft of 4x4 hex square
   protected void paint3DHexOutline( Graphics g, int x, int y )
@@ -305,14 +307,14 @@ public class HexMap extends TileMap
   {
     paint3DHexOutline( g, x, y );
   }
-  
-  
+
+
   /*
   Bounds have x,y always at top of 4x5 tile
   Width = sh4 + n*sh2 (n=0,1,...)
   Height = sh6 + n*sh3 (n=0,1,...)
   */
-  
+
   // NOT USED
   protected void paintOneTileStack( Graphics g, List list, int x, int y )
   {
@@ -338,7 +340,7 @@ public class HexMap extends TileMap
   {
     throw new UnsupportedOperationException( "Grids are painted together with tiles" );
   }
-  
+
 
 
   // old method left for testing - now use paintTilesByLayer
@@ -409,7 +411,7 @@ public class HexMap extends TileMap
     if( gridlineColor != null )
     {
       g.setColor( gridlineColor );
-      //			((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.50f));
+      //       ((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.50f));
       boolean odd = false;
       for( int y = r.y;y <= endY;y += sh3 )
       {
@@ -426,7 +428,7 @@ public class HexMap extends TileMap
         }
         odd = !odd;
       }
-    //			g.setPaintMode();
+    //         g.setPaintMode();
     }
     System.out.println( "Repaint in " + ( System.currentTimeMillis() - start ) );
   }
@@ -467,7 +469,7 @@ public class HexMap extends TileMap
       repaintOneTile( xcell + 1, ycell + 1 );
     }
   }
-  
+
 
   // not tested
   public void repaintTwoTilesAround( int xcell, int ycell )
@@ -488,9 +490,9 @@ public class HexMap extends TileMap
   {
     g.translate( -upperLeftX, -upperLeftY );
     Rectangle r = g.getClipBounds();
-    //		Insets insets = getInsets();
-    //		System.out.println(r);
-    //		System.out.println(insets);
+    //      Insets insets = getInsets();
+    //      System.out.println(r);
+    //      System.out.println(insets);
     paintVoid( g, r );
     if( hWrap )
     {
@@ -528,7 +530,7 @@ public class HexMap extends TileMap
     r.height += align;
     align = ( sh3 - ( r.y + r.height + sh ) % sh3 ) % sh3;
     r.height += align;
-    
+
     // maybe should compute max change from ul and bl corners ?
     if( isLeft( ( r.y + sh2 ) / sh3 ) )
     {
@@ -540,7 +542,7 @@ public class HexMap extends TileMap
     }
     r.x -= align;
     r.width += align;
-    
+
     // BUGS ???
     if( isLeft( ( r.y ) / sh3 ) )
     {
@@ -556,19 +558,12 @@ public class HexMap extends TileMap
     paintTilesByLayer( g, r );
     g.translate( upperLeftX, upperLeftY );
   }
-  public static void assert( boolean condition )
-  {
-    if( !condition )
-    {
-      throw new RuntimeException( "Assertion failed" );
-    }
-  }
 
   static class HCoordIcon implements Icon
   {
     int aa;
     int bb;
-    HCoordIcon( int a, int b ) 
+    HCoordIcon( int a, int b )
     {
       aa = a;
       bb = b;
@@ -592,7 +587,7 @@ public class HexMap extends TileMap
     int aa;
     int bb;
     int cc;
-    HTripletIcon( int a, int b, int c ) 
+    HTripletIcon( int a, int b, int c )
     {
       aa = a;
       bb = b;
@@ -612,24 +607,24 @@ public class HexMap extends TileMap
       return 75;
     }
   }
-  
+
 
 
 
   // SOME TRIPLET COORD CODE - in work
   int tripletSum = horizontalTiles + verticalTiles - 2;
-  //	int verticalTiles1_2 = verticalTiles/2;
+  //  int verticalTiles1_2 = verticalTiles/2;
   int tripletSumLessvt1_2 = tripletSum - verticalTiles / 2;
-  
+
   // x,y has to be already adjusted for wrapping
   public TripletCoords coordsToTriplet( int x, int y, TripletCoords answer )
   {
     int b = y;
-    
-    //		int c = tripletSum +1 -(2*x+y+1)/2 -verticalTiles1_2;
+
+    //      int c = tripletSum +1 -(2*x+y+1)/2 -verticalTiles1_2;
     //    int c = tripletSum -(2*x+y-1)/2 -verticalTiles1_2;
-    //		int c = tripletSum - x -(y-1)/2 -verticalTiles1_2; // error for 0,0
-    //		int c = tripletSumLessvt1_2 - x -(y-1)/2; // error for 0,0
+    //      int c = tripletSum - x -(y-1)/2 -verticalTiles1_2; // error for 0,0
+    //      int c = tripletSumLessvt1_2 - x -(y-1)/2; // error for 0,0
     int c = tripletSumLessvt1_2 + 1 - ( 2 * x + y + 1 ) / 2;
     int a = tripletSum - c - b;
     answer.a = a;
@@ -642,7 +637,7 @@ public class HexMap extends TileMap
     int x;
     int y;
     y = b;
-    //		x = (tripletSum-c+a-verticalTiles+2)/2;
+    //      x = (tripletSum-c+a-verticalTiles+2)/2;
     x = ( horizontalTiles - c + a ) / 2;
     answer.x = x;
     answer.y = y;

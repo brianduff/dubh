@@ -6,45 +6,45 @@ import java.io.*;
 /**
  A low-level object for reading a registry-format file.
  original author: David Pfitzner <dwp@mso.anu.edu.au>
- Converted to Java: Brian Duff <bri@dubh.co.uk>
+ Converted to Java: Brian Duff <Brian.Duff@dubh.org>
  From freeciv common/inputfile.c
- 
+
  This module implements an object which is useful for reading/parsing
  a file in the registry format of registry.c.  It takes care of the
  low-level file-reading details, and provides functions to return
  specific "tokens" from the file.
- 
+
  When the user tries to read a token, we return a (const char*)
  pointing to some data if the token was found, or NULL otherwise.
  The data pointed to should not be modified.  The retuned pointer
  is valid _only_ until another inputfile is performed.  (So should
  be used immediately, or mystrdup-ed etc.)
- 
+
  The tokens recognised are as follows:
  (Single quotes are delimiters used here, but are not part of the
  actual tokens/strings.)
  Most tokens can be preceeded by optional whitespace; exceptions
  are section_name and entry_name.
- 
+
  section_name:  '[foo]'
  returned token: 'foo'
- 
+
  entry_name:  'foo =' (optional whitespace allowed before '=')
  returned token: 'foo'
- 
+
  end_of_line: newline, or optional '#' or ';' (comment characters)
  followed by any other chars, then newline.
  returned token: should not be used except to check non-NULL.
- 
+
  table_start: '{'
  returned token: should not be used except to check non-NULL.
- 
+
  table_end: '}'
  returned token: should not be used except to check non-NULL.
- 
+
  comma:  literal ','
  returned token: should not be used except to check non-NULL.
- 
+
  value:  a signed integer, or a double-quoted string, or a
  gettext-marked double quoted string.  Strings _may_ contain
  raw embedded newlines, and escaped doublequotes, or \.
@@ -53,11 +53,11 @@ import java.io.*;
  starting at first doublequote for strings, but ommiting
  trailing double-quote.  Note this does _not_ translate
  escaped doublequotes etc back to normal.
- 
+
  ***********************************************************************/
 public class InputFile
 {
-  public static final boolean ASSERT_ON = true;
+
   private static final boolean DEBUG = false;
   private interface TokenGetter
   {
@@ -73,34 +73,24 @@ public class InputFile
   int m_lineNum;
   String m_token = "";
   String m_partial = "";
+
   public InputFile( String filename )
-          throws IOException 
+          throws IOException
   {
     open( filename );
   }
-  private void assert( boolean b )
-  {
-    if( ASSERT_ON )
-    {
-      if( !b )
-      {
-        throw new IllegalStateException( "Assertion Failed" );
-      }
-    }
-  }
+
   private void assertSanity()
   {
-    if( ASSERT_ON )
-    {
-      assert( ( m_filename != null ) );
-      assert( ( m_is != null ) );
-      assert( ( m_lineNum >= 0 ) );
-      assert( ( m_curLinePos >= 0 ) );
-      assert( ( m_curLine.length() >= 0 ) );
-      assert( ( m_copyLine.length() >= 0 ) );
-      assert( ( m_token.length() >= 0 ) );
-      assert( ( m_partial.length() >= 0 ) );
-    }
+    Assert.that( ( m_filename != null ) );
+    Assert.that( ( m_is != null ) );
+    Assert.that( ( m_lineNum >= 0 ) );
+    Assert.that( ( m_curLinePos >= 0 ) );
+    Assert.that( ( m_curLine.length() >=  0 ) );
+    Assert.that( ( m_copyLine.length() >= 0 ) );
+    Assert.that( ( m_token.length() >= 0 ) );
+    Assert.that( ( m_partial.length() >= 0 ) );
+
   }
   private boolean isComment( char c )
   {
@@ -138,7 +128,7 @@ public class InputFile
     }
     initZeros();
   }
-  
+
   /**
    * Return true if have data for current line
    */
@@ -147,14 +137,14 @@ public class InputFile
     assertSanity();
     return ( m_curLine.length() > 0 );
   }
-  
+
   /**
    * Return true if current pos is at end of line
    */
   private boolean atEol()
   {
     assertSanity();
-    assert( ( m_curLinePos <= m_curLine.length() ) );
+    Assert.that( ( m_curLinePos <= m_curLine.length() ) );
     return ( m_curLinePos >= m_curLine.length() );
   }
   public boolean atEof()
@@ -162,7 +152,7 @@ public class InputFile
     assertSanity();
     return m_eof;
   }
-  
+
   /**
    * Read a new line into cur_line; also copy to copy_line.
    * Increments line_num and cur_line_pos.
@@ -202,17 +192,17 @@ public class InputFile
   }
   private void assignFlagToken( String str, char val )
   {
-    
-  
+
+
   // Don't know what this does.
   }
-  
+
   /**
    * For compatibility, currently does nothing.,
    */
   private void infLog( int loglevel, String message )
   {
-    
+
   }
   private void infDie( String message )
   {
@@ -220,7 +210,7 @@ public class InputFile
   }
   private void infWarn( String message )
   {
-    
+
   }
   private String getToken( TokenGetter type, boolean required )
   {
@@ -265,7 +255,7 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      inf.assert( inf.haveLine() );
+      Assert.that( inf.haveLine() );
       int c = inf.m_curLinePos;
       if( inf.m_curLine.charAt( c++ ) != '[' )
       {
@@ -289,7 +279,7 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      inf.assert( inf.haveLine() );
+      Assert.that( inf.haveLine() );
       int c = inf.m_curLinePos;
       while( c < inf.m_curLine.length() && Character.isWhitespace( inf.m_curLine.charAt( c ) ) )
       {
@@ -327,7 +317,7 @@ public class InputFile
     public String getToken( InputFile inf )
     {
       int c;
-      inf.assert( inf.haveLine() );
+      Assert.that( inf.haveLine() );
       if( !inf.atEol() )
       {
         inf.debug( "Trying to get EOL. Not currently at EOL: " + inf.m_curLine + " at pos " + inf.m_curLinePos );
@@ -354,7 +344,7 @@ public class InputFile
       }
       inf.m_curLine = "";
       inf.m_curLinePos = 0;
-      
+
       // assign flag token???
       inf.m_token = " ";
       return inf.m_token;
@@ -364,14 +354,14 @@ public class InputFile
   {
     public String getToken( InputFile inf )
     {
-      inf.assert( inf.haveLine() );
+      Assert.that( inf.haveLine() );
       int c = inf.m_curLinePos;
       inf.debug( "Curline is " + inf.m_curLine );
       while( c < inf.m_curLine.length() && Character.isWhitespace( inf.m_curLine.charAt( c ) ) )
       {
         c++;
       }
-      
+
       // Reached end of line, with no sign of the required target
       if( c >= inf.m_curLine.length() )
       {
@@ -382,7 +372,7 @@ public class InputFile
         return null;
       }
       inf.m_curLinePos = c + 1;
-      
+
       // assign flag token???
       inf.m_token = "" + getTarget();
       return inf.m_token;
@@ -413,7 +403,7 @@ public class InputFile
     }
     ;
   }
-  
+
   // Fun fun fun
   private static class ValueGetter implements TokenGetter
   {
@@ -424,24 +414,24 @@ public class InputFile
       boolean has_i18n_marking = false;
       int start_line;
       StringBuffer partial;
-      inf.assert( inf.haveLine() );
+      Assert.that( inf.haveLine() );
       int c = inf.m_curLinePos;
       int start;
       inf.debug( "In VALUEGETTER getToken. line is " + ln );
-      
+
       // Skip any initial whitespace
       while( c < ln.length() && Character.isWhitespace( ln.charAt( c ) ) )
       {
         c++;
       }
-      
+
       // If reached end of line, no value was found, return null.
       if( c >= ln.length() )
       {
         return null;
       }
       inf.debug( "Char at " + c + " is " + ln.charAt( c ) );
-      
+
       // Check for numerical value
       if( ln.charAt( c ) == '-' || Character.isDigit( ln.charAt( c ) ) )
       {
@@ -451,14 +441,14 @@ public class InputFile
         {
           c++;
         }
-        
+
         /* check that the trailing stuff is ok: */
         if( !( !( c < ln.length() ) || ln.charAt( c ) == ',' || Character.isWhitespace( ln.charAt( c ) ) || inf.isComment( ln.charAt( c ) ) ) )
         {
           inf.debug( "Returning null bigcond" );
           return null;
         }
-        
+
         /* If its a comma, we don't want to obliterate it permanently,
         * so rememeber it: */
         if( c < ln.length() )
@@ -471,7 +461,7 @@ public class InputFile
         inf.debug( "Returning numerical value " + inf.m_token );
         return inf.m_token;
       }
-      
+
       /* allow gettext marker: */
       if( ln.charAt( c ) == '_' && ln.charAt( c + 1 ) == '(' )
       {
@@ -492,7 +482,7 @@ public class InputFile
         inf.debug( "Returning null c != \"" );
         return null;
       }
-      
+
       /* From here, we know we have a string, we just have to find the
       trailing (un-escaped) double-quote.  We read in extra lines if
       necessary to find it.  If we _don't_ find the end-of-string
@@ -501,11 +491,11 @@ public class InputFile
       current point.  (That would be more difficult, and probably
       not necessary: at that point we probably have a malformed
       string/file.)
-      
+
       As we read extra lines, the string value from previous
       lines is placed in partial.
       */
-      
+
       /* prepare for possibly multi-line string: */
       start_line = inf.m_lineNum;
       partial = new StringBuffer();
@@ -520,8 +510,8 @@ public class InputFile
         {
           break; /* found end of string*/
         }
-        
-        
+
+
         /* Accumulate to partial string and try more lines;
         * note partial->n must be _exactly_ the right size, so we
         * can strcpy instead of strcat-ing all the way to the end
@@ -537,7 +527,7 @@ public class InputFile
         c = start = 0;
         ln = inf.m_curLine;
       }
-      
+
       /* found end of string */
       inf.m_curLinePos = c + 1;
       inf.m_token = partial.toString();

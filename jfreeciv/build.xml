@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.8 2001-10-29 15:42:16 buildman Exp $ -->
+<!-- $Id: build.xml,v 1.9 2001-10-31 22:17:56 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
@@ -76,7 +76,8 @@
     <mkdir dir="${classdir}" />
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
-            classpath="${classpath}">
+            classpath="${classpath}"
+            deprecation="true" >
 
     </javac>            
   </target>

@@ -1,77 +1,66 @@
-- check if there is a race possibility in outstream when sending few packets at once
-- make keys etc configurable from file
-? gray out hp display if unit itself is grayed
-- change ResearchDialog.GoalDialog to InternalFrame to get uniform
-	l&f
-- b appears on name city dialog - it is not consumed ??
-- implement modes for minimap
-	a) normal
-	b) terrain types + cities?
-	c) units+cities one color for player (with only land/ocean difference)
-- do not create new unit every time, only update, as with cities
-? make sound system use soft references and/or link unit instances to sounds ??
-? add red glass for attack movement
-- not-so-small map in window ?
-- change LoginPanel to use internal frame -but how to make it modal ?
-- some way to move map with mouse without deactivating unit (for goto)
-- add Goto tag over destination point for units on goto ?
-- added progress dialog to icon scale; wait till images load on scale
-- make settings persistent - sizes of dialogs, interface options, etc
-- make keybindings settable either online or in file
-- correct UnitStack display - reintroduce ScrollPane ?
+TODO: 30-OCT-2001
 
 
-What still needs to be done? [bduff, April 2000]
-----------------------------
+Most of this stuff is front-end UI stuff, but a lot of it also probably 
+involves testing the network code and writing packet handlers, since the
+server is pretty central to the way freeciv works.
 
-o Dialogs
+o Options
 
-Most of the dialogs in freeciv haven't been implemented, or need looking
-at:
-  - City Screen
-  - Worklists
-  - Message Window
-  - Advances
-  - Numerous others that I don't have a clear idea of yet.
+The Game->Local Options and Game->Message Options should be available 
+after connecting and need dialogs hooked up and some way of storing 
+and saving client options.
 
-o UI
+o Other Game menu items
 
-In general there are some UI improvements we'd like to see in freeciv4j.
+Server Opt Initial / Ongoing and Export / Clear Log need to be 
+implemented. The first one probably involves some work on the network 
+code.
+
+o The Help System
+
+The help system is mostly driven by help information sent to the client 
+from the rulesets at game startup, but there is some static content too.
+
+We need to put some UI on this. It would be cool if this was a dockable
+pane, and even cooler if it were hyperlinked somehow. Quite a lot of work 
+here.
+
+o The Unit Stack / Unit code in general
+
+The way in which the client tracks unit focus is a bit er.. unfinished at
+the moment. Maybe a bit of design work involved in this.
+
+The unit stack is the control on the left of the freeciv window which contains
+icons for all units on the same tile as the active unit. This needs to be 
+implemented, but may eventually need code from the map to render the units 
+properly.
+
+o Reports
+
+Could make a start on implementing the report dialogs in the Reports menu. 
+Again, this is a lot of UI stuff (dialogs), but a bit of network interaction 
+probably needed too.
+
+o Other dialogs:
+
+Kingdom Menu:
+- Tax Rates
+- Worklists
+- Find City
+
+Can't get to them yet:
+- Unit selection (appears when you double click a unit stack on the map, 
+or from the city dialog)
+- City creation dialog
+- City dialog (will need map code but lots to do first)
+- City dialog worklist
+- City dialog configure
+- City dialog production change
+- Message dialog ( this is a popup dialog on the freeciv c client, maybe
+we can find a nicer way of doing this - something like the icon messages
+in Call to Power??)
+- Science dialog
 
 
-    - textured dialog backgrounds would be quite nice and would give
-things more of a "civ2" feel.
 
-    - .. other stuff to follow
-
-o Networking
-
-Packets involved past the very start of the game still need to be
-tested.
-
-Handlers need to be written for a large number of incoming packets that
-can be received after the game has been launched on the server.
-
-o Infrastructure
-
-The interface to Client.java needs to be properly pinned down. At the
-moment, lots of stuff is exposed that shouldn't be, and there are
-screeds of redundant code.
-
-Need to write some documentation on the internals.
-
-Need to set up a web site.
-
-Need to branch the CVS code so that other people can access this code;
-also need to provide access to old (1.8) stable code from the web site,
-ideally with a compiled version.
-
-o I18n
-
-I may have un-internationalized some stuff while I've been working; need
-to go through and check that strings are properly _()ed.
-
-o Other stuff
-
-I'm sure there's a huge amount of other stuff to be done; I'll add it as
-I think of it.
