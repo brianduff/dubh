@@ -1,5 +1,5 @@
 /* 
- * $Id: styles.css,v 1.9 2001-04-16 02:52:38 briand Exp $
+ * $Id: styles.css,v 1.10 2001-04-29 17:56:43 briand Exp $
  *
  * Defines common styles that apply to all pages on dubh.org
  *  
@@ -10,6 +10,7 @@ h1 {
   font-size:25pt;
   font-weight:bold;
   color:#000088;
+  background-color: #ffffff;
   font-family: Garamond, Times;
 }
 
@@ -54,11 +55,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10pt;
   background-color: #ffffff;
+  color: #000000;
 }
 
 p.dubhPageFooter {
    font-size: 8pt;
    color: #505050;
+   background-color: #ffffff;
 }
 
 .hintText {
@@ -71,7 +74,8 @@ p.dubhPageFooter {
   padding-top: 2px;  
   
   font-size: 8pt;
-  background: #ffffcc;
+  background-color: #ffffcc;
+  color: #000000;
   border-left: darkgray 1px solid;
   border-bottom: darkgray 1px solid;
   font-family: Tahoma, Helvetica, Arial;
