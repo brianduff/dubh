@@ -52,19 +52,19 @@ public class Player implements GameObject, CommonConstants
   private HashMap m_units;
 
   private ArrayList m_cities;
-  
+
   /**
    * The constructor is package protected: only the player factory instantiates
    * players
    */
-  Player(GameObjectFactory playerFactory) 
+  Player(GameObjectFactory playerFactory)
   {
     m_connections = new ArrayList();
     m_playerFactory = playerFactory;
     m_economy = new Economy();
-    m_diplomacyState = 
+    m_diplomacyState =
       new DiplomacyState[ MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ];
-    m_worklists = 
+    m_worklists =
       new WorkList[ MAX_NUM_WORKLISTS ];
     m_research = new Research();
     m_ai = new AI();
@@ -74,58 +74,6 @@ public class Player implements GameObject, CommonConstants
     m_units = new HashMap();
   }
 
-  /**
-   * Initialize the focus status of all units belonging to this player
-   * to FOCUS_AVAIL
-   */
-  public void initUnitFocusStatus()
-  {
-    // player.c: player_set_unit_focus_status()
-    Iterator i = getUnits();
-    while ( i.hasNext() )
-    {
-      ((Unit)i.next()).setFocusStatus( Unit.FOCUS_AVAIL );
-    }
-  }
-
-  /**
-   * Find a city belonging to this player by Id
-   *
-   * @param id the city id
-   * @return the specified City, if it belongs to this player, or null
-   *  if the specified city id doesn't exist, or does not belong to this 
-   *  player.
-   */
-  public City findCityById( int id )
-  {
-    City c = City.findById( id );
-    if ( c != null && ( c.getOwner() == this ) )
-    {
-      return c;
-    }
-    return null;
-  }
-
-  /**
-   * Find the city belonging to this player which has a palace (i.e. is the
-   * capital city
-   *
-   * @return the capital city for this player, null if there is no capital
-   */
-  public City findPalace()
-  {
-    Iterator i = getCities();
-    while ( i.hasNext() )
-    {
-      City c = (City)i.next();
-      if ( c.hasBuilding( B_PALACE ) )
-      {
-        return c;
-      }
-    }
-    return null;
-  }
-
   public Unit getUnit( int id )
   {
     Unit unit = (Unit) m_units.get( new Integer( id ) );
@@ -133,27 +81,9 @@ public class Player implements GameObject, CommonConstants
     return unit;
   }
 
-  /**
-   * Get an iterator over all units belonging to this player
-   */
-  public Iterator getUnits()
-  {
-    return m_units.values().iterator();
-  }
-
-  public int getUnitCount()
-  {
-    return m_units.keySet().size();
-  }
-
   public void addUnit( Unit u )
   {
     m_units.put( new Integer( u.getId() ), u );
-  }
-
-  public void addCity( City c )
-  {
-    m_cities.add( c );
   }
 
   public Spaceship getSpaceship()
@@ -171,26 +101,26 @@ public class Player implements GameObject, CommonConstants
     return m_cities.iterator();
   }
 
-  public int getCityCount()
+  public City getCity( int id )
   {
-    return m_cities.size();
+    return (City) m_cities.get( id );
   }
 
   public void initFromPacket(Packet p)
   {
 
   }
-  
+
   public int getId()
   {
     return getPlayerNumber();
   }
-  
+
   public int getPlayerNumber()
   {
     return m_playerNumber;
   }
-  
+
   public void setPlayerNumber( int number )
   {
     m_playerNumber = number;
@@ -271,10 +201,9 @@ public class Player implements GameObject, CommonConstants
     m_cityStyle = cityStyle;
   }
 
-  public CityStyle getCityStyle()
+  public int getCityStyle()
   {
-    return (CityStyle) 
-      m_playerFactory.getParent().getCityStyleFactory().findById( m_cityStyle );
+    return m_cityStyle;
   }
 
   public Economy getEconomy()
@@ -389,42 +318,7 @@ public class Player implements GameObject, CommonConstants
     return true;
   }
 
-  private boolean m_foundCity = false;
 
-  /**
-   * Returns true if the tile at the specified location is inside the city
-   * radius of one of this player's cities
-   *
-   * @param x a horizontal tile coordinate
-   * @param y a vertical tile coordinate
-   * @return true if the specified tile is inside the radius of one of this
-   * player's cities
-   */
-  public boolean inCityRadius( int x, int y )
-  {
-    // player.c:player_in_city_radius()
-    final Map map = m_playerFactory.getParent().getGame().getMap();
-
-    m_foundCity = false;
-    map.iterateMapCityRadius( x, y, new MapPositionIterator() {
-      public void iteratePosition( MapPosition mp )
-      {
-        City c = map.getCity( mp.x, mp.y );
-        if ( c != null && c.getOwner() == Player.this )
-        {
-          m_foundCity = true;
-          setFinished( true );
-        }
-      }
-    });
-
-    return m_foundCity;
-    
-  }
-
-
-
-  
 
   public static final class Economy
   {
@@ -479,7 +373,7 @@ public class Player implements GameObject, CommonConstants
     private int m_researched;
     private int m_researchPoints;
     private int m_currentlyResearching;
-    private boolean[] m_hasInvention; 
+    private boolean[] m_hasInvention;
 
     private Research()
     {
