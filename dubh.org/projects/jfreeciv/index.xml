@@ -82,6 +82,23 @@
       <a href="downloads.xml">here</a>.
     </p>
     
+    <h2>Architecture</h2>
+    
+    <p>
+      One day :) In the meantime, here's a UML diagram to look at
+      (created with <a href="http://otn.oracle.com/products/jdev">
+      Oracle9i JDeveloper</a>:
+    </p>
+    
+    <p align="center">
+      <a href="images/map_uml.png" target="imgWindow">
+        <img src="images/map_uml_small.png" 
+          alt="UML Diagram describing the relationship between map classes in JFreeciv"
+          border="0" width="250" height="160" />
+      </a>
+    </p>
+    
+    
     <h2>New Screenshots</h2>
     
     <p>
@@ -165,13 +182,13 @@
   
   <cvs-info>
     <date>
-      $Date: 2001-12-02 08:24:37 $
+      $Date: 2001-12-02 09:53:58 $
     </date>
     <author>
       $Author: briand $
     </author>
     <revision>
-      $Revision: 1.10 $
+      $Revision: 1.11 $
     </revision>
   </cvs-info>  
   
