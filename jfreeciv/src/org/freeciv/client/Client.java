@@ -324,6 +324,27 @@ public class Client implements Constants
 
     return 1;
   }
+
+  /**
+   * Create a new packet of the specified class. 
+   */
+  public Packet createPacket( Class packetClass )
+  {
+    try
+    {
+      Packet p = (Packet) packetClass.getDeclaredConstructors()[0].newInstance( 
+        new Object[] { in } 
+      );
+      return p;
+    }
+    catch (Exception e)
+    {
+      Assert.fail( e );
+    }
+
+    return null;
+  }
+  
   /**
    * Send the specified packet to the server.
    * Returns false if the send failed. This normally means
