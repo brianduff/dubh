@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Id: buildmodule,v 1.5 2000-08-20 22:56:43 briand Exp $
+# $Id: buildmodule,v 1.6 2000-08-23 22:31:12 briand Exp $
 #
 # Runs the Jakarta ANT tool to build a specified module.
 # (C) 2000 Brian Duff / www.dubh.org
@@ -21,7 +21,7 @@ ANT_MAIN=org.apache.tools.ant.Main
 #ANT_OPTIONS="-logfile $1.build.log"
 
 cd $BUILD_DIR
-rm -rf $1
+#rm -rf $1
 cvs -d /usr/local/cvsroot checkout $1/build.xml
 CLASSPATH=$EXTRA_CLASSPATH:$CLASSPATH
 java -Dant.home=$ANT_HOME $ANT_MAIN $ANT_OPTIONS -buildfile $1/build.xml $2
