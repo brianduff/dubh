@@ -38,7 +38,6 @@ public class PktRulesetGovernment extends AbstractPacket /* should also be a hel
   public int flags;
   public int hints;
   public int num_ruler_titles;
-  public PktRulesetGovernmentRulerTitle[] ruler_titles;
   public String name;
   public String graphic_str;
   public String graphic_alt;
@@ -90,7 +89,6 @@ public class PktRulesetGovernment extends AbstractPacket /* should also be a hel
     flags = in.readUnsignedByte();
     hints = in.readUnsignedByte();
     num_ruler_titles = in.readUnsignedByte();
-    ruler_titles = new PktRulesetGovernmentRulerTitle[ num_ruler_titles ];
     name = in.readZeroString();
     graphic_str = in.readZeroString();
     graphic_alt = in.readZeroString();
