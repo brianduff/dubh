@@ -1,4 +1,4 @@
-<!-- $Id: build.xml,v 1.10 2001-11-04 02:10:35 briand Exp $ -->
+<!-- $Id: build.xml,v 1.11 2001-11-04 02:15:00 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
@@ -131,6 +131,7 @@
         <include name="NOTES.txt" />
         <include name="Readme.txt" />
         <include name="TODO.txt" />
+        <include name="credits.txt" />
       </fileset>
     </copy>
 
@@ -157,6 +158,7 @@
         <include name="NOTES.txt" />
         <include name="Readme.txt" />
         <include name="TOTO.txt" />
+        <include name="credits.txt" />
       </fileset>
     </copy>
 
