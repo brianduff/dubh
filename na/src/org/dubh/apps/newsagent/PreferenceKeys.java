@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: PreferenceKeys.java,v 1.3 1999-06-01 00:26:31 briand Exp $
+//   $Id: PreferenceKeys.java,v 1.4 1999-06-01 17:58:12 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -42,7 +42,7 @@ import dubh.utils.misc.Debug;
 *  
 * @author Brian Duff
 * @since NewsAgent 1.1.0
-* @version $Id: PreferenceKeys.java,v 1.3 1999-06-01 00:26:31 briand Exp $
+* @version $Id: PreferenceKeys.java,v 1.4 1999-06-01 17:58:12 briand Exp $
 */
 public class PreferenceKeys
 {
@@ -108,6 +108,7 @@ public class PreferenceKeys
       SCRIPTING_EXITSCRIPTS     = "newsagent.scripting.ExitScripts",      // since 1.1.0 nyi
     
       VIEWER_DISPLAYEDHEADERS   = "newsagent.viewer.DisplayedHeaders",    // since 1.1.0
+      VIEWER_SHOWHEADERS        = "newsagent.viewer.ShowHeaders",         // since 1.1.0
       VIEWER_NORMALFONT         = "newsagent.viewer.NormalFont",          // since 1.1.0
       VIEWER_NORMALCOLOR        = "newsagent.viewer.NormalColor",         // since 1.1.0
       VIEWER_QUOTEDFONT         = "newsagent.viewer.QuotedFont",          // since 1.1.0
@@ -116,6 +117,9 @@ public class PreferenceKeys
       VIEWER_SIGCOLOR           = "newsagent.viewer.SigColor",            // since 1.1.0
       VIEWER_WRAPPING           = "newsagent.viewer.Wrapping",            // since 1.1.0
       VIEWER_HIDESIG            = "newsagent.viewer.HideSig",             // since 1.1.0
+      VIEWER_SHOWVCARD          = "newsagent.viewer.ShowVCard",           // since 1.1.0
+      VIEWER_ALLOWHTML          = "newsagent.viewer.AllowHTML",           // since 1.1.0
+      VIEWER_WRAP               = "newsagent.viewer.WrapLongLines",       // since 1.1.0
       VIEWER_HYPERLINKS         = "newsagent.viewer.Hyperlinks";          // since 1.1.0
       
       
@@ -198,4 +202,7 @@ public class PreferenceKeys
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/06/01 00:26:31  briand
+// Add lots of new preferences. Many don't work yet, or can't be set through the UI.
+//
 //
