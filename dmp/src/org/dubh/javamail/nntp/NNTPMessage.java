@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Mail Providers
-//   $Id: NNTPMessage.java,v 1.3 1999-10-16 16:46:17 briand Exp $
+//   $Id: NNTPMessage.java,v 1.4 1999-10-17 17:07:04 briand Exp $
 //   Copyright (C) 1999  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh
@@ -30,13 +30,14 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 import java.util.Date;
+import java.util.Enumeration;
 import java.io.IOException;
 
 /**
  * A USENET news article for JavaMail.
  *
  * @author <a href="mailto:dubh@btinternet.com">Brian Duff</a>
- * @version $Id: NNTPMessage.java,v 1.3 1999-10-16 16:46:17 briand Exp $
+ * @version $Id: NNTPMessage.java,v 1.4 1999-10-17 17:07:04 briand Exp $
  */
 class NNTPMessage extends MimeMessage
 {
@@ -154,6 +155,13 @@ class NNTPMessage extends MimeMessage
    }   
    
    
+   public Enumeration getAllHeaderLines()
+      throws MessagingException
+   {
+      loadHeader(null);
+      return super.getAllHeaderLines();
+   }
+   
    /**
     * Fetch article headers from the server if necessary. Not required
     * if X-Over headers have already been fetched, but only if the
@@ -186,6 +194,9 @@ class NNTPMessage extends MimeMessage
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  1999/10/16 16:46:17  briand
+// Sort out constructors.
+//
 // Revision 1.2  1999/06/08 22:45:58  briand
 // First compiling version of the message class.
 //
