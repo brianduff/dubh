@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="xsl/testroundedbox.xsl" ?>
+
+<!-- Simple XML document to test the rounded box stylesheet   -->
+
+<testrb>
+
+  <box>
+    <title>Test Box</title>
+    <contents>
+      <ul>
+        <li>First</li>
+        <li>Second</li> 
+        <li>Third</li>
+        <li>Fourth</li>
+      </ul>
+    </contents>
+  </box>
+
+  <box>
+    <title>Another Funky Box</title>
+    <contents>
+      <b>Some Heading</b>
+      <p>
+        Well interesting text.  A paragraph of not very interesting text.  A paragraph of not very interesting text.  
+        A paragraph of not very interesting text.  A paragraph of not very interesting text.  A paragraph of not very interesting text.  
+      </p> 
+    </contents>
+  </box>
+
+</testrb>
