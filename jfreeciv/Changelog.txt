@@ -1,3 +1,18 @@
+29.10.01 [bduff]
+
+Removed the old map implementation because it's not working.
+Added the new map implementation, which isn't finished yet.
+
+Altered MainWindow so that it supports switchable MDI support.
+By default, the main window is now SDI, and the
+main map view takes all the central space in
+the main window, but there is now a programmatic toggle to switch
+to MDI mode, where multiple views on the map could be displayed
+in individual MDI child windows.
+
+On startup, the main "'cause civilization should be free"
+image is now displayed in the main window.
+
 28.10.01 [bduff]
 
 Major change to the Client.java and MainWindow.java code with

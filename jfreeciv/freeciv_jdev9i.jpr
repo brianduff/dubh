@@ -1,5 +1,6 @@
 <?xml version = '1.0' encoding = 'windows-1252'?>
-<?Oracle-JDeveloper Object2Dom = '1.0'?><!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
+<!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
+<?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
    <defaultPackage>org.freeciv.client</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
@@ -704,6 +705,21 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/Colors.java"/>
       </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/AbstractMapView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/IsometricMapView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/GridMapView.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/MapViewManager.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/action/ACTEndTurn.java"/>
+      </Item>
    </listOfChildren>
    <ownerMap/>
    <projectSettings>
@@ -846,14 +862,14 @@
                            <Item>.xml</Item>
                            <Item>-apf.xml</Item>
                         </copyRes>
-                        <currentEncoding/>
+                        <currentEncoding>Cp1252</currentEncoding>
                         <debugInformation>true</debugInformation>
                         <excludedClasses class="[Ljava.lang.String;"/>
                         <obfuscate>false</obfuscate>
                         <showCompileProgress>true</showCompileProgress>
                         <showDeprecations>true</showDeprecations>
                         <showPartialImportWarnings>false</showPartialImportWarnings>
-                        <showUnusedImportWarnings>false</showUnusedImportWarnings>
+                        <showUnusedImportWarnings>true</showUnusedImportWarnings>
                         <showWarnings>true</showWarnings>
                         <updateImports>false</updateImports>
                         <updateZipJarImports>false</updateZipJarImports>
