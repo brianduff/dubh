@@ -13,6 +13,7 @@ import org.freeciv.common.City;
 import org.freeciv.common.Player;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.client.*;
+import org.freeciv.client.map.*;
 import org.freeciv.client.dialog.util.*;
 import org.freeciv.client.ui.util.*;
 import org.freeciv.client.action.*;
@@ -38,6 +39,7 @@ public class ImplCityView extends VerticalFlowPanel
   private JPanel m_panButtons = new JPanel();
   // middle panel stuff
   private VerticalFlowPanel m_panCityStats = new VerticalFlowPanel();
+  private MapView m_mapView;
   private VerticalFlowPanel m_panCityMap = new VerticalFlowPanel();
   private JPanel m_panMap = new JPanel();
   private VerticalFlowPanel m_panBuildings = new VerticalFlowPanel();
@@ -136,18 +138,20 @@ public class ImplCityView extends VerticalFlowPanel
    */
   private void setupMiddlePanel()
   {
-    // fake map
-    JComponent m_comMap = new JPanel();
+    // the map
+    m_mapView = getClient().getMainWindow().getMapViewManager().getCityMapView( getCity() );
+    JComponent m_comMap = m_mapView.getComponent();
     m_comMap.setPreferredSize( new Dimension( 
             m_client.getTileSpec().getNormalTileWidth() * 5,
             m_client.getTileSpec().getNormalTileHeight() * 5 ) );
-    m_comMap.setBackground( Color.black );
+    getClient().getMainWindow().getMapViewManager().initialize(); // ???
     
     m_panMap.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
     m_panMap.add( m_comMap );
 
     m_panCityMap.addRow( m_panMap );
     
+    // the other components have seperate setups
     m_panMiddle.setLayout( new BorderLayout() );
     setupCityStatsPanel();
     m_panMiddle.add( m_panCityMap, BorderLayout.CENTER );
@@ -299,7 +303,15 @@ public class ImplCityView extends VerticalFlowPanel
     m_panMain.setBorder( BorderFactory.createTitledBorder( 
             _( m_city.getName() + " - " + m_city.getPopulation() ) ) );
   }
-
+  
+  /**
+   * Updates the map view
+   */
+  public void updateCityMap()
+  {
+    getClient().getMainWindow().getMapViewManager().setCityViewCity( getCity() );
+  }
+  
   /**
    * Updates the display of citizen icons
    */
@@ -481,13 +493,10 @@ public class ImplCityView extends VerticalFlowPanel
             _( "What should we rename the city to?" ),
             getCity().getName() );
     
-    if( newName != null && newName.length() > 0 )
+    if( newName != null && newName.length() > 0 
+        && !newName.equalsIgnoreCase( "uninitializedValue" ) ) // XXX
     {
       requestRename( newName );
-    }
-    else 
-    {
-      System.err.println( "##### didn't get any name from rename city" );
     }
   }
   
@@ -549,6 +558,8 @@ public class ImplCityView extends VerticalFlowPanel
     refresh();
     
     m_dlgManager.showDialog( m_dialog );
+    
+    getClient().getMainWindow().getMapViewManager().setCityViewCity( getCity() ); //XXX
   }
   
   public void undisplay()

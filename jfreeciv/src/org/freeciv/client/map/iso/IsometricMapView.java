@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.freeciv.client.Client;
 import org.freeciv.client.map.AbstractMapView;
+import org.freeciv.common.City;
 
 /**
  * A map view that uses isometric tiles.
@@ -20,6 +21,11 @@ public class IsometricMapView extends AbstractMapView
   public IsometricMapView( Client c )
   {
     super( c );
+  }
+
+  public IsometricMapView( Client c, City city )
+  {
+    super( c, city );
   }
 
   protected Collection getLayers()

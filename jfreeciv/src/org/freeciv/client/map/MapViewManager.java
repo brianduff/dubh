@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.freeciv.client.Client;
 import org.freeciv.common.Assert;
+import org.freeciv.common.City;
 import org.freeciv.client.map.grid.GridMapView;
 import org.freeciv.client.map.iso.IsometricMapView;
 
@@ -24,6 +25,7 @@ public final class MapViewManager
   private List m_mapViews;
   private Client m_client;
   private MapView m_mainView;
+  private MapView m_cityView;
 
   private static final boolean DEBUG_MODE = false;
 
@@ -102,6 +104,17 @@ public final class MapViewManager
 
     m_mainView.centerOnTile( tilex, tiley );
   }
+  
+  /**
+   * Center the city map view on the specified city
+   * 
+   * @param city the city to show
+   */
+  public void setCityViewCity( City city )
+  {
+    m_cityView.setCity( city );
+    m_cityView.centerOnTile( city.getX(), city.getY() );
+  }
 
   /**
    * Create or return the main map view
@@ -118,7 +131,24 @@ public final class MapViewManager
     }
     return m_mainView;
   }
-
+  
+  
+  /**
+   * Create or return the city map view
+   *
+   * @return the city map view
+   */
+  public MapView getCityMapView( City city )
+  {
+    if ( m_cityView == null )
+    {
+      MapView mv = createMapView( city );
+      m_cityView = mv;
+      m_mapViews.add( mv );
+    }
+    return m_cityView;
+  }
+  
   /**
    * Create a default map view
    */
@@ -138,6 +168,27 @@ public final class MapViewManager
     else
     {
       mv = new GridMapView( m_client );
+    }
+
+    m_mapViews.add( mv );
+
+    return mv;
+  }
+  
+  /**
+   * Create a city map view showing the specified city
+   */
+  MapView createMapView( City city )
+  {
+    MapView mv;
+
+    if ( m_client.getTileSpec().isIsometric() )
+    {
+      mv = new IsometricMapView( m_client, city );
+    }
+    else
+    {
+      mv = new GridMapView( m_client, city );
     }
 
     m_mapViews.add( mv );

@@ -14,6 +14,7 @@ import org.freeciv.client.map.BufferLayer;
 import org.freeciv.client.map.MapLayer;
 import org.freeciv.common.MapPosition;
 import org.freeciv.common.Player;
+import org.freeciv.common.City;
 
 /**
  * A map view that uses square grid tiles.
@@ -34,6 +35,11 @@ public class GridMapView extends AbstractMapView
   public GridMapView( Client c )
   {
     super( c );
+  }
+
+  public GridMapView( Client c, City city )
+  {
+    super( c, city );
   }
 
   public void repaintTile( int tilex, int tiley )
@@ -76,7 +82,14 @@ public class GridMapView extends AbstractMapView
       l.add( new FogOfWarLayer( this ) );
 
     }
-    m_layers.add( new CityNamesLayer( this ) );
+    if ( isCityView() )
+    {
+      // production
+    }
+    else
+    {
+      m_layers.add( new CityNamesLayer( this ) );
+    }
     m_layers.add( new UnitLayer( this ) );
     return m_layers;
   }

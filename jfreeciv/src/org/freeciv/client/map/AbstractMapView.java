@@ -37,6 +37,7 @@ import org.freeciv.client.Options;
 import org.freeciv.client.panel.MapOverviewJumpEvent;
 import org.freeciv.common.Assert;
 import org.freeciv.common.Map;
+import org.freeciv.common.City;
 import org.freeciv.common.Player;
 import org.freeciv.common.TerrainType;
 import org.freeciv.common.Tile;
@@ -68,6 +69,9 @@ public abstract class AbstractMapView implements MapView, Constants
    * the actual map component itself.
    */
   private JScrollPane m_scrollPane;
+  
+  private boolean m_isCityView;
+  private City m_city;
 
   private Dimension m_tileSize;
   private Dimension m_mapSize;
@@ -96,6 +100,21 @@ public abstract class AbstractMapView implements MapView, Constants
 
 
 
+
+  }
+  
+  /**
+   * Contruct a city view.
+   */
+  protected AbstractMapView( Client c, City city )
+  {
+    this( c );
+    m_isCityView = true;
+    m_city = city;
+    m_scrollPane.setVerticalScrollBarPolicy(
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER );
+    m_scrollPane.setHorizontalScrollBarPolicy(
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
   }
 
@@ -172,7 +191,21 @@ public abstract class AbstractMapView implements MapView, Constants
 
     updateScrollbars();
   }
+  
+  public final boolean isCityView()
+  {
+    return m_isCityView;
+  }
+  
+  protected final City getCity()
+  {
+    return m_city;
+  }
 
+  public final void setCity( City city )
+  {
+    m_city = city;
+  }
 
   /**
    * Get the client

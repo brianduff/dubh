@@ -3,6 +3,7 @@ package org.freeciv.client.map;
 import javax.swing.JComponent;
 
 import org.freeciv.client.panel.MapOverviewJumpListener;
+import org.freeciv.common.City;
 
 /**
  * The external interface to a single view on the map.
@@ -39,6 +40,14 @@ public interface MapView extends MapOverviewJumpListener
    */
   JComponent getComponent();
 
-
-
+  /**
+   * Is this map a city view?
+   */
+  boolean isCityView();
+  
+  /**
+   * If this is a city view, set the city being viewed
+   */
+  void setCity( City city );
+  
 }

@@ -169,7 +169,7 @@ public final  class Tile
    * @param c a city which is working this tile. Can be null to clear the
    *    working city.
    */
-  void setWorkedBy( City c )
+  public void setWorkedBy( City c )
   {
     m_worked = c;
   }
@@ -180,7 +180,7 @@ public final  class Tile
    * @return a city which is working this tile, or null if no city is working
    *    it
    */
-  City getWorkedBy( )
+  public City getWorkedBy( )
   {
     return m_worked;
   }
