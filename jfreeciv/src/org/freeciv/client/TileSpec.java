@@ -18,7 +18,8 @@ public class TileSpec implements Constants
   // roughly corresponds to tilespec.c
 
   private final static String XPM_EXT = "xpm";
-  private final static String EXTENSIONS = XPM_EXT;
+  // We try all these extensions in order.
+  private final static String EXTENSIONS = "png gif jpg jpeg xpm";
   private final static String TILESET_DEFAULT = "trident";
   private final static String TILESET_ISOMETRIC_DEFAULT = "hires";
 
@@ -495,7 +496,9 @@ public class TileSpec implements Constants
     {
       return new XPMFile( url );
     }
-    return null;
+
+    // For all other image extensions, try the java built in image handler
+    return new JavaImageSprite( url );
   }
 
   //

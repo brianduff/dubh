@@ -27,14 +27,13 @@ public class XPMFile implements Sprite
   //   int[] COLOR_MAP = new int[256];
   private String m_transparentColor;
   private int[] data;
-  public XPMFile() 
+
+  XPMFile( String filename )
   {
-    
-  }
-  public XPMFile( String filename ) 
-  {
+    m_filename = filename;
     loadFile( filename );
   }
+  
   public XPMFile( URL url )
   {
     m_filename = url.toString();
@@ -58,7 +57,7 @@ public class XPMFile implements Sprite
     }
   }
   
-  public boolean loadFile( String filename )
+  private boolean loadFile( String filename )
   {
     try
     {
