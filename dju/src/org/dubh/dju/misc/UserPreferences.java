@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: UserPreferences.java,v 1.4 1999-03-22 23:37:17 briand Exp $
+//   $Id: UserPreferences.java,v 1.5 1999-06-01 17:56:55 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -30,25 +30,20 @@ import java.io.*;
 import java.beans.*;
 import java.awt.*;
 /**
- * Represents a set of user preferences for an application.<P>
- * Version History: <UL>
- * <LI>0.1 [05/06/98]: Initial Revision
- * <LI>0.2 [13/06/98]: Added colour, font and string array preference methods.
- *   added property change event support.
- * <LI>0.3 [18/06/98]: Added empty constructor. Made serializable.
- * <LI>0.4 [08/12/98]: Changed to use a buffered output stream for saving props
- * <LI>1.0 [26/01/99]: Now requires JDK 1.2. (Properties.save() changed to 
- *                     Properties.store() )
- *</UL>
- @author Brian Duff
- @version 1.0 [26/01/99]
+ * Represents a set of user preferences for an application. The methods in this
+ * class allow you to store preferences of a variety of different types in a 
+ * properties file or object.
+ * <br>
+ * <b>The event handling for this class is not thread safe.</b>
+ * @author Brian Duff
+ * @version $Id: UserPreferences.java,v 1.5 1999-06-01 17:56:55 briand Exp $
  */
 public class UserPreferences implements Serializable {
 
   private           Properties m_props;
   private transient File       m_propsfile= null;
   private transient String     m_header = "";
-  private transient Vector     m_proplisteners = new Vector();
+  private transient ArrayList  m_proplisteners = new ArrayList();
 
   /**
    * Create a new UserPreferences object that can't be saved or loaded. This
@@ -265,51 +260,63 @@ public class UserPreferences implements Serializable {
   public void setYesNoPreference(String key, boolean value) {
      setPreference(key, booleanToYesNoString(value));
   }
+  
 
   /**
-   * Sets a Font preference using Font.toString()
+   * Sets a Font preference. The font is stored as a string in the form
+   * <pre><i>name</i>-{bold | italic | plain | bolditalic}-<i>size</i></pre>,
+   * which is the format understood by {@link #java.awt.Font.decode(String)}.
    */
   public void setFontPreference(String key, Font pref) {
-     setPreference(key, pref.toString());
+     setPreference(key, encodeFont(pref));
   }
 
   /**
-   * Gets a Font preference
+   * Gets a Font preference.
+   * @see setFontPreference(String, Font)
    */
   public Font getFontPreference(String key) {
-     return Font.getFont(getPreference(key));
-  }
-
-  public Font getFontPreference(String key, Font def) {
-     return Font.getFont(getPreference(key, def.toString()));
+     return Font.decode(getPreference(key));
   }
 
   /**
-   * Sets a colour preference
+   * Get a Font preference with a default.
+   * @see setFontPreference(String, Font)
+   */
+  public Font getFontPreference(String key, Font def) {
+     return Font.decode(getPreference(key, encodeFont(def)));
+  }
+
+  /**
+   * Sets a colour preference. The preference is stored as a 
+   * six digit hexadecimal number prefixed by a hash character, i.e.
+   * <pre>#rrggbb</pre>. 
    */
   public void setColorPreference(String key, Color col) {
-     setPreference(key, col.toString());
+     setPreference(key, encodeColor(col));
   }
 
   /**
    * Gets a color preference
+   * @see setColorPreference(String, Color)
    */
   public Color getColorPreference(String key) {
-     return Color.getColor(getPreference(key));
+     return Color.decode(getPreference(key));
   }
 
   /**
    * Gets a color preference using the specified default
+   * @see setColorPreference(String, Color)
    */
   public Color getColorPreference(String key, Color def) {
-     return Color.getColor(getPreference(key, def.toString()));
+     return Color.decode(getPreference(key, encodeColor(def)));
   }
 
   /**
    * Sets an array preference. The individual array elements should be
-   * strings that don't contain spaces.
+   * objects with sensible toString()s that contain no spaces.
    */
-  public void setStringArrayPreference(String key, String[] value) {
+  public void setStringArrayPreference(String key, Object[] value) {
      setPreference(key, StringUtils.createSentence(value));
   }
 
@@ -338,21 +345,25 @@ public class UserPreferences implements Serializable {
 
 // Event handling stuff
 
-  public synchronized void addPropertyChangeListener(PropertyChangeListener p) {
-     m_proplisteners.addElement(p);
+  /**
+   * Add a listener that will be informed when a property value changes.
+   */
+  public void addPropertyChangeListener(PropertyChangeListener p) {
+     m_proplisteners.add(p);
   }
 
   public void removePropertyChangeListener(PropertyChangeListener p) {
-     m_proplisteners.removeElement(p);
+     m_proplisteners.remove(p);
   }
  
 
   protected void firePropertyChange(String propname, Object oldVal, Object newVal) {
-     Enumeration enum = m_proplisteners.elements();
+     
      PropertyChangeEvent e = new PropertyChangeEvent(this, propname, oldVal, newVal);
 
-     while (enum.hasMoreElements()) {
-        ((PropertyChangeListener)enum.nextElement()).propertyChange(e);   
+     for (int i=0; i < m_proplisteners.size(); i++)
+     {
+        ((PropertyChangeListener)m_proplisteners.get(i)).propertyChange(e);
      }
   }
 
@@ -380,6 +391,71 @@ public class UserPreferences implements Serializable {
   private String booleanToTrueFalseString(boolean b) {
    return (b ? "true" : "false");
   }
+  
+  /**
+   * Can't seem to find a way to encode fonts in the format that Font.decode()
+   * expects in the AWT toolkit. One would assume Font.toString() would do this, 
+   * but it doesn't. D'oh!.
+   * Another good example of the shoddy quality of documentation for Java, I had to 
+   * actually look at the source code to figure out what format decode expects
+   * the font string to be in. It would have been so easy for Sun to add a description to
+   * the javadoc.
+   */
+  private String encodeFont(Font f)
+  {
+     StringBuffer sbFontCode = new StringBuffer(10);
+     
+     sbFontCode.append(f.getName());
+     sbFontCode.append("-");
+     
+     int style = f.getStyle();
+     
+     if (style == Font.PLAIN) sbFontCode.append("plain");
+     else if (style == Font.BOLD) sbFontCode.append("bold");
+     else if (style == Font.ITALIC) sbFontCode.append("italic");
+     else if (style == Font.BOLD + Font.ITALIC) sbFontCode.append("bolditalic");
+
+     sbFontCode.append("-"+f.getSize());
+     
+     return sbFontCode.toString();
+     
+  }
+
+  private String encodeColor(Color c)
+  {
+     StringBuffer sbColorCode = new StringBuffer(7);
+     
+     sbColorCode.append('#');
+     
+     sbColorCode.append(StringUtils.makeDoubleHex(c.getRed()));
+     sbColorCode.append(StringUtils.makeDoubleHex(c.getGreen()));
+     sbColorCode.append(StringUtils.makeDoubleHex(c.getBlue()));
+     
+     return sbColorCode.toString();
+     
+  }
+
 
 
 }
+
+//
+// Old Log
+//
+/*
+ * Version History: <UL>
+ * <LI>0.1 [05/06/98]: Initial Revision
+ * <LI>0.2 [13/06/98]: Added colour, font and string array preference methods.
+ *   added property change event support.
+ * <LI>0.3 [18/06/98]: Added empty constructor. Made serializable.
+ * <LI>0.4 [08/12/98]: Changed to use a buffered output stream for saving props
+ * <LI>1.0 [26/01/99]: Now requires JDK 1.2. (Properties.save() changed to 
+ *                     Properties.store() )
+ *</UL>
+ */
+
+//
+// New Log
+//
+// $Log: not supported by cvs2svn $
+//
