@@ -380,6 +380,9 @@
          <URL path="src/org/freeciv/client/ui/util/DockedPanelCaption.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/ui/util/BusyCursor.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/ui/util/ActionMenuItem.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -432,6 +435,21 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/NamedSprites.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/TiledPainter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/SquareTiledPainter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/Painter.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/map/MapViewManager.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/map/MapView.java"/>
@@ -548,6 +566,9 @@
          <URL path="src/org/freeciv/client/handler/PHConnInfo.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/handler/PHCityInfo.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHChatMsg.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -564,6 +585,12 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/util/VerticalFlowPanel.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/MultiLineTableHeaderRenderer.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/util/MultiLineHeaderJTable.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/util/GridBagConstraints2.java"/>
@@ -584,6 +611,9 @@
          <URL path="src/org/freeciv/client/dialog/ImplLogin.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/ImplCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DlgProgress.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -596,6 +626,9 @@
          <URL path="src/org/freeciv/client/dialog/DlgLogin.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/dialog/DlgCityReport.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
@@ -606,6 +639,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/Colors.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/client/Client.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/CivMap.java"/>
@@ -784,41 +820,8 @@
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/AbstractClientAction.java"/>
       </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/MapViewManager.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/Painter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/TiledPainter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/map/SquareTiledPainter.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/ui/util/BusyCursor.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/handler/PHCityInfo.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/MenuDefinitions.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/util/MultiLineTableHeaderRenderer.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/util/MultiLineHeaderJTable.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ImplCityReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/DlgCityReport.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Client.java"/>
+      <Item class="oracle.jdeveloper.model.PngImageNode">
+         <URL path="src/org/freeciv/client/action/res/endturn.png"/>
       </Item>
    </listOfChildren>
    <ownerMap/>
