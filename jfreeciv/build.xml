@@ -1,8 +1,10 @@
-<!-- $Id: build.xml,v 1.13 2001-11-12 03:20:48 briand Exp $ -->
+<!-- $Id: build.xml,v 1.14 2001-11-26 01:06:23 briand Exp $ -->
 
 <!-- Just Testing -->
 <!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
+
+
 
 <project name="jfreeciv" default="src" basedir=".">
   <target name="init">
