@@ -14,6 +14,12 @@ public class OutStream {
 	}
 
 
+	public void writeBitString(boolean[] bs)
+	{
+    // TODO> Whew. pointer arithmetic. ouch.
+	}  
+
+
 	public void writeInt( int i )
 	{
 		outData[outPtr++] = (byte)(i>>24);
