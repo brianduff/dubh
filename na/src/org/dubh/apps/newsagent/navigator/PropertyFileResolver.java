@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent
-//   $Id: PropertyFileResolver.java,v 1.5 2001-02-11 02:51:01 briand Exp $
+//   $Id: PropertyFileResolver.java,v 1.6 2001-02-11 15:46:42 briand Exp $
 //   Copyright (C) 1997 - 2001  Brian Duff
 //   Email: Brian.Duff@oracle.com
 //   URL:   http://www.dubh.org
@@ -47,7 +47,7 @@ import javax.swing.ImageIcon;
  * Utility class to find a property file.
  *
  * @author Brian Duff (dubh@btinternet.com)
- * @version $Id: PropertyFileResolver.java,v 1.5 2001-02-11 02:51:01 briand Exp $
+ * @version $Id: PropertyFileResolver.java,v 1.6 2001-02-11 15:46:42 briand Exp $
  */
 public class PropertyFileResolver
 {
@@ -163,7 +163,8 @@ public class PropertyFileResolver
     * copy the file to newsagent-dir/storagePath/fileName.
     * May return null if the file doesn't exist in the CLASSPATH
     */
-   public static UserPreferences getDefaultedProperties(String storagePath, String fileName, String defaultPath, String defaultFile)
+   public static UserPreferences getDefaultedProperties(String storagePath,
+      String fileName, String defaultPath, String defaultFile)
    {
       // First look in local storage
       String dir = GlobalState.getDataDirectory();
@@ -266,20 +267,14 @@ public class PropertyFileResolver
             }
 
 
-
-
             // Ok, got some properties. Now write them out to the localfile.
             FileOutputStream fos = new FileOutputStream(localFileName);
 
-            //p.save(fos, "Automatically generated from default "+resourceName);
 
             if (Debug.TRACE_LEVEL_3)
             {
                Debug.println(3, PropertyFileResolver.class, "Attempting to save to "+localFileName);
             }
-
-            File f = new File(localFileName);
-            f.createNewFile();
 
             p.setFile(new File(localFileName));
             p.save();
@@ -310,6 +305,9 @@ public class PropertyFileResolver
 
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2001/02/11 02:51:01  briand
+// Repackaged from org.javalobby to org.dubh
+//
 // Revision 1.4  1999/12/13 22:32:43  briand
 // Move to Javalobby changed the paths to various resources. Added fixes to that
 // most things work again. Also patched the PropertyFileResolver to create parent
