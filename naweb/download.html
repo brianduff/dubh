@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!-- $Id: download.html,v 1.5 1999-03-24 22:08:32 briand Exp $ -->
+<!-- $Id: download.html,v 1.6 1999-06-13 21:39:48 briand Exp $ -->
 <!-- (C) 1997-1999 Brian Duff -->
 <HTML>
 <HEAD>
@@ -19,119 +19,131 @@
 NewsAgent Downloads</H1>
 
 <TABLE BORDER=0 WIDTH="95%" >
-<TR>
-<TD ALIGN=LEFT VALIGN=TOP WIDTH="25%" HEIGHT="335" BGCOLOR="#FFFFCC"><SPAN class="wee"><A HREF="index.html">Main
-Page</A></SPAN>
-<P><SPAN class="wee"><A HREF="screenshots.html">Screenshots</A></SPAN>
-<P><SPAN class="weeselected">Downloads</SPAN>
-<P><SPAN class="wee"><A HREF="userdoc/index.html">User Documentation</A></SPAN>
-<P><SPAN class="wee"><A HREF="bugs/index.html">Bug Information</A></SPAN>
-<P><SPAN class="wee"><A HREF="links.html" target="">Links</A></SPAN>
-<BR>&nbsp;
-<TABLE BORDER=0 WIDTH="96%" >
-<TR>
-<TD ALIGN=CENTER VALIGN=TOP HEIGHT="105" BGCOLOR="#D0D0D0">
-<CENTER><B><FONT COLOR="#FF0000">NEW in Downloads</FONT></B>
-<P><I>[05 Mar 1999]</I>
-<BR>Development source snapshots for 1.1.0 now available.
-<P><I>[10 Jan 1999]</I>
-<BR><A HREF="dl_changes.html#102" target="">New Version (1.0.2) </A>available.</CENTER>
-</TD>
-</TR>
-</TABLE>
-</TD>
-
-<TD VALIGN=TOP WIDTH="75%" HEIGHT="335">
-<H2>
-How to Download</H2>
-<P>
-First, read the <A HREF="download/licence.html">license agreement</A> and
-make sure you agree to it. By downloading any item related to NewsAgent,
-you are agreeing to the terms set out in the GNU General Public License.</P>
-<P>Next, fill in the form below. This is just to let me know who is downloading
-NewsAgent. Mandatory fields are in red.&nbsp;</P>
-<BR><FORM method="post" action="/~briand/cgi-bin/mailform.cgi"><INPUT type="hidden" name="xxrecipient" value="dubh@btinternet.com">
-<INPUT type="hidden" name="xxsubject" value="NewsAgent Download">
-<INPUT type="hidden" name="xxtitle" value="NewsAgent Download">
-<INPUT type="hidden" name="xxmessage" value="Thanks for providing this information. 
+  <TR> 
+    <TD ALIGN=LEFT VALIGN=TOP WIDTH="25%" HEIGHT="335" BGCOLOR="#FFFFCC"><SPAN class="wee"><A HREF="index.html">Main 
+      Page</A></SPAN> 
+      <P><SPAN class="wee"><A HREF="screenshots.html">Screenshots</A></SPAN> 
+      <P><SPAN class="weeselected">Downloads</SPAN> 
+      <P><SPAN class="wee"><A HREF="userdoc/index.html">User Documentation</A></SPAN> 
+      <P><SPAN class="wee"><A HREF="bugs/index.html">Bug Information</A></SPAN> 
+      <P><SPAN class="wee"><A HREF="links.html" target="">Links</A></SPAN> <BR>
+        &nbsp; 
+      <TABLE BORDER=0 WIDTH="96%" >
+        <TR> 
+          <TD ALIGN=CENTER VALIGN=TOP HEIGHT="105" BGCOLOR="#D0D0D0"> 
+            <CENTER>
+              <B><FONT COLOR="#FF0000">NEW in Downloads</FONT></B> 
+              <P><I>[05 Mar 1999]</I> <BR>
+                Development source snapshots for 1.1.0 now available. 
+              <P><I>[10 Jan 1999]</I> <BR>
+                <A HREF="dl_changes.html#102" target="">New Version (1.0.2) </A>available.
+            </CENTER>
+          </TD>
+        </TR>
+      </TABLE>
+    </TD>
+    <TD VALIGN=TOP WIDTH="75%" HEIGHT="335"> 
+      <H2> How to Download</H2>
+      <P> First, read the <A HREF="download/licence.html">license agreement</A> 
+        and make sure you agree to it. By downloading any item related to NewsAgent, 
+        you are agreeing to the terms set out in the GNU General Public License.</P>
+      <P>Next, fill in the form below. Information you enter is only stored if 
+        you choose to subscribe to one of the mailing lists, and is never passed 
+        on to third parties (except egroups.com for the mailing lists). Mandatory 
+        fields are in red.<BR>                                                                                                                                                                                                
+      </P>
+      <FORM method="post" action="/~briand/cgi-bin/mailform.cgi">
+        <INPUT type="hidden" name="xxrecipient" value="dubh@btinternet.com">
+        <INPUT type="hidden" name="xxsubject" value="NewsAgent Download">
+        <INPUT type="hidden" name="xxtitle" value="NewsAgent Download">
+        <INPUT type="hidden" name="xxmessage" value="Thanks for providing this information. 
 We hope you enjoy using NewsAgent. Click on the link below to proceed with the download.">
-<INPUT type="hidden" name="xxlinkurl" value="../newsagent/download/index.html">
-<INPUT type="hidden" name="xxlinktext" value="Proceed to the Download File List">
-
-<TABLE COLS=2 WIDTH="100%" >
-<TR>
-<TD><B><FONT COLOR="#FF6666">Name:</FONT></B></TD>
-
-<TD><INPUT type="text" name="realName" cols="50"></TD>
-</TR>
-
-<TR>
-<TD><B>Email Address:</B></TD>
-
-<TD><INPUT type="text" name="emailAddress" cols="50"></TD>
-</TR>
-
-<TR>
-<TD><B>Country:</B></TD>
-
-<TD><INPUT type="text" name="country" cols="50"></TD>
-</TR>
-
-<TR>
-<TD><B>Platform / OS:</B></TD>
-
-<TD><INPUT type="text" name="platform" cols="50"></TD>
-</TR>
-
-<TR>
-<TD><B>Subscibe to the list? </B>[see below]</TD>
-
-<TD><SELECT name="subscribeToList"><OPTION value="yes">Yes please</OPTION><OPTION value="no">No
-thank you</OPTION></SELECT></TD>
-</TR>
-
-<TR>
-<TD></TD>
-
-<TD><input type="submit" value="Download"></TD>
-</TR>
-
-<TR>
-<TD></TD>
-
-<TD></TD>
-</TR>
-</TABLE>
-
-<P></FORM>
-<H2>
-The Mailing List</H2>
-<P>
-The NewsAgent mailing list is a moderated list; you will receive email
-about new versions of NewsAgent. Only the author and contributors can mail
-out to the list . Your email address will not be forwarded to third parties
-(other than the group hosting service ww.egroups.com). You can also subscribe
-/ unsubscribe / view archived messages on the web at <A HREF="http://www.egroups.com/list/newsagent-announce">http://www.egroups.com/list/newsagent-announce</A>.
-</P>
-<H2>
-Current Version</H2>
-<P>The latest version of NewsAgent is: <B>1.0.2&nbsp; [February 1999]</B></P>
-<H2>
-Development Code</H2>
-<P>
-You can now dowload code that is under development for NewsAgent 1.1.0.
-This code is automatically uploaded to the web every night if the source
-code has changed since the previous night. There are no guarantees that
-it works (or, at the moment, even compiles). This is intended to give contributors
-early access to source code. N.b. NewsAgent 1.1.0 requires Java 1.2.&nbsp;
-</P>
-<UL>
-<LI>
-<A HREF="developer/download/dubhsnapshots.cgi">List source code snapshots</A></LI>
-</UL>
-<P>More information on becoming a contributor is available from the <A HREF="developer/contributors/">Contributors
-Page</A>.</P></TD>
-</TR>
+        <INPUT type="hidden" name="xxlinkurl" value="../newsagent/download/index.html">
+        <INPUT type="hidden" name="xxlinktext" value="Proceed to the Download File List">
+        <TABLE COLS=2 WIDTH="100%" >
+          <TR> 
+            <TD><B><font color="#FF0000">Name:</font></B></TD>
+            <TD> 
+              <INPUT type="text" name="realName" cols="50">
+            </TD>
+          </TR>
+          <TR> 
+            <TD><B>Email Address:</B></TD>
+            <TD> 
+              <INPUT type="text" name="emailAddress" cols="50">
+            </TD>
+          </TR>
+          <TR> 
+            <TD><B>Country:</B></TD>
+            <TD> 
+              <INPUT type="text" name="country" cols="50">
+            </TD>
+          </TR>
+          <TR> 
+            <TD><B>Platform / OS:</B></TD>
+            <TD> 
+              <INPUT type="text" name="platform" cols="50">
+            </TD>
+          </TR>
+          <TR> 
+            <TD><B>Subscibe to newsagent-announce?</B>[see below]</TD>
+            <TD> 
+              <select name="subscribeToAnnounce">
+                <option value="yes">Yes please</option>
+                <option value="no">No thank you</option>
+              </select>
+            </TD>
+          </TR>
+          <TR> 
+            <TD><b>Subscribe to newsagent-discuss? </b>[see below]</TD>
+            <TD> 
+              <select name="subscribeToDiscuss">
+                <option value="yes">Yes please</option>
+                <option value="no">No thank you</option>
+              </select>
+            </TD>
+          </TR>
+          <TR> 
+            <TD></TD>
+            <TD> 
+              <input type="submit" value="Download">
+            </TD>
+          </TR>
+          <TR> 
+            <TD></TD>
+            <TD></TD>
+          </TR>
+        </TABLE>
+        <P>
+      </FORM>
+      <H2> The Mailing Lists</H2>
+      <P> There are two NewsAgent mailing lists which you can subscribe to from 
+        this form. <b>newsagent-announce</b> is a low volume list that recieves 
+        email when announcements or new versions of NewsAgent become available. 
+        Only the author and contributors to NewsAgent can post to this list.</P>
+      <P><b>newsagent-discuss</b> is an open email list which can be used for 
+        general discussions about NewsAgent, reporting bugs, making suggestions 
+        and asking for help. Any member of this list can send messages to it.</P>
+      <P>You can easily change your subscription to these lists from the egroups 
+        web site. See:</P>
+      <p><a href="http://www.egroups.com/list/newsagent-announce">http://www.egroups.com/list/newsagent-announce</a></p>
+      <p><a href="http://www.egroups.com/list/newsagent-discuss">http://www.egroups.com/list/newsagent-discuss</a></p>
+      <H2> Current Version</H2>
+      <P>The latest version of NewsAgent is: <B>1.0.2&nbsp; [February 1999]</B></P>
+      <H2> Development Code</H2>
+      <P> You can now dowload code that is under development for NewsAgent 1.1.0. 
+        This code is automatically uploaded to the web every night if the source 
+        code has changed since the previous night. There are no guarantees that 
+        it works (or, at the moment, even compiles). This is intended to give 
+        contributors early access to source code. N.b. NewsAgent 1.1.0 requires 
+        Java 1.2.&nbsp; </P>
+      <UL>
+        <LI> <A HREF="developer/download/dubhsnapshots.cgi">List source code snapshots</A></LI>
+      </UL>
+      <P>More information on becoming a contributor is available from the <A HREF="developer/contributors/">Contributors 
+        Page</A>.</P>
+    </TD>
+  </TR>
 </TABLE>
 <!--#include virtual="/~briand/footer.html" -->
 </BODY>
