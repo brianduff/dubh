@@ -1,9 +1,12 @@
 package org.freeciv.client.action;
 
-import org.freeciv.client.Client;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Event;
+
+import org.freeciv.client.Client;
+import org.freeciv.common.Unit;
+import org.freeciv.common.CommonConstants;
 
 public class UACTPillage extends AbstractUnitAction
 {
@@ -14,8 +17,22 @@ public class UACTPillage extends AbstractUnitAction
     setAccelerator( KeyEvent.VK_P, Event.SHIFT_MASK );
     setEnabled( false );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
-    
+    Unit unit = getClient().getUnitInFocus();
+    if ( unit != null )
+    {
+      if ( unit.canDoActivity( CommonConstants.ACTIVITY_PILLAGE ) )
+      {
+        // TODO
+      }
+    }
   }
+  
+  public boolean isEnabledFor( Unit u )
+  {
+    return u.canDoActivity( CommonConstants.ACTIVITY_PILLAGE );
+  }
+
 }

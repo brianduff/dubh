@@ -455,6 +455,36 @@ public final class Map implements CommonConstants
     }
   }
  
+  /**
+   * from map.c:can_reclaim_ocean()
+   * 
+   * This function returns true if the tile at the given location can be
+   * "reclaimed" from ocean into land.  This is the case only when there are
+   * a sufficient number of adjacent tiles that are not ocean.
+   */
+  public boolean canReclaimOcean( int x, int y )
+  {
+    //TODO
+    return false;
+  }
 
+  /**
+   * from map.c:can_channel_land()
+   * 
+   * This function returns true if the tile at the given location can be
+   * "channeled" from land into ocean.  This is the case only when there are
+   * a sufficient number of adjacent tiles that are ocean.
+   */
+  public boolean canChannelLand( int x, int y )
+  {
+    //TODO
+    return false;
+  }
+
+  public boolean isWaterAdjacentTo( int x, int y ) 
+  {
+    //TODO
+    return false;
+  }
   
 }

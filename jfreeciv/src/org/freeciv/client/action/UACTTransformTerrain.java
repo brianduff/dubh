@@ -16,9 +16,17 @@ public class UACTTransformTerrain extends AbstractUnitAction
     putValue( NAME, _( "Transform Terrain" ) ); // Needs to be able to change
     setAccelerator( KeyEvent.VK_O );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
-    
+    Unit unit = getClient().getUnitInFocus();
+    if ( unit != null )
+    {
+      if ( unit.canDoActivity( CommonConstants.ACTIVITY_TRANSFORM ) )
+      {
+        requestNewUnitActivity( unit, CommonConstants.ACTIVITY_TRANSFORM );
+      }
+    }
   }
   
   public boolean isEnabledFor( Unit u )

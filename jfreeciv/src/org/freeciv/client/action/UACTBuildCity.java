@@ -7,7 +7,6 @@ import java.awt.Event;
 import org.freeciv.client.Client;
 import org.freeciv.common.Unit;
 import org.freeciv.common.CommonConstants;
-
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktGenericInteger;
 import org.freeciv.net.PktUnitRequest;

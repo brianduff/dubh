@@ -16,11 +16,16 @@ public class UACTBuildFortress extends AbstractUnitAction
     putValue( NAME, _( "Build Fortress" ) ); // Needs to be able to change
     setAccelerator( KeyEvent.VK_F, Event.SHIFT_MASK );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
-    
+    Unit unit = getClient().getUnitInFocus();
+    if ( unit != null && isEnabledFor( unit ) )
+    {
+      requestNewUnitActivity( unit, CommonConstants.ACTIVITY_FORTRESS );
+    }
   }
-
+  
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_FORTRESS );

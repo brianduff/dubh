@@ -16,9 +16,14 @@ public class UACTCleanPollution extends AbstractUnitAction
     putValue( NAME, _( "Clean Pollution" ) );
     setAccelerator( KeyEvent.VK_P );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
-    
+    Unit unit = getClient().getUnitInFocus();
+    if ( unit != null && isEnabledFor( unit ) )
+    {
+      requestNewUnitActivity( unit, CommonConstants.ACTIVITY_POLLUTION );
+    }
   }
 
   public boolean isEnabledFor( Unit u )

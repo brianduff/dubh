@@ -16,9 +16,14 @@ public class UACTBuildIrrigation extends AbstractUnitAction
     putValue( NAME, _( "Build Irrigation" ) );
     setAccelerator( KeyEvent.VK_I );
   }
+  
   public void actionPerformed( ActionEvent e )
   {
-    
+    Unit unit = getClient().getUnitInFocus();
+    if ( unit != null && isEnabledFor( unit ) )
+    {
+      requestNewUnitActivity( unit, CommonConstants.ACTIVITY_IRRIGATE );
+    }
   }
   
   public boolean isEnabledFor( Unit u )

@@ -395,6 +395,15 @@ public class Player implements GameObject, CommonConstants
   }
   
   /**
+   * Returns true if the player knows any techs with the flag
+   */
+  public boolean knowsTechsWithFlag( int flag )
+  {
+    //TODO
+    return false;
+  }
+  
+  /**
    * Returns number of turns to complete an advance   * (assuming current state of civilization)   *    * tech.c:tech_turns_to_advance()
    */
   public int getTurnsToAdvance()

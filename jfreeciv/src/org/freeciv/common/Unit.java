@@ -1,6 +1,7 @@
 package org.freeciv.common;
 
 import javax.swing.Icon;
+import java.util.Iterator;
 
 import org.freeciv.net.PktUnitInfo;
 
@@ -319,7 +320,26 @@ public final class Unit implements CommonConstants
   {
     return getUnitType().getTransportCapacity();
   }
+  
+  /**
+   * Does this unit move on the ground?
+   */
+  public boolean isGroundUnit()
+  {
+    return getUnitType().getMoveType() == LAND_MOVING;
+  }
 
+  /**
+   * Does this unit sail on the seas?
+   */
+  public boolean isSailingUnit()
+  {
+    return getUnitType().getMoveType() == SEA_MOVING;
+  }
+
+  /**
+   * Is the specified unit flag set for this unit type?
+   */
   public boolean isFlagSet( int flag )
   {
     Assert.that( flag >= 0 && flag < F_LAST );
@@ -372,24 +392,41 @@ public final class Unit implements CommonConstants
     return false;
   }
   
+  public boolean canChangeHomecity()
+  {
+    City city = m_game.getMap().getCity( getX(), getY() );
+    return city != null && city.getOwner() == this.getOwner();
+  }
+  
+  public boolean canDoAutoSettler()
+  {
+    return isFlagSet( CommonConstants.F_SETTLERS );
+  }
+  
+  public boolean canDoAutoAttack()
+  {
+    return isMilitary() && m_game.getMap().getCity( getX(), getY() ) != null;
+  }
+  
   public boolean canDoActivity( int activity )
   {
     return canDoActivity( activity, 0 );
   }
 
   /**
-   * Checks whether the unit can perform an activity.  See ACTIVITY_ flags
-   * in CommonConstants.
+   * Checks whether this unit can perform an activity.
    * 
+   * All these large, unreadable code blocks are courtesy of:
    * unit.c:can_unit_do_activity_targeted()
    * 
-   * @return true if the unit can perform the specified activity
+   * @return true if this unit can perform the specified activity
    */
   public boolean canDoActivity( int activity, int target )
   {
-    Tile tile = m_game.getMap().getTile( getX(), getY() );
+    Map map = m_game.getMap();
+    Tile tile = map.getTile( getX(), getY() );
+    TerrainType tType = tile.getTerrainType();
     
-    //TODO
     if( activity == ACTIVITY_IDLE || activity == ACTIVITY_GOTO
        || activity == ACTIVITY_PATROL )
     {
@@ -398,24 +435,105 @@ public final class Unit implements CommonConstants
     if( activity == ACTIVITY_POLLUTION )
     {
       return isFlagSet( F_SETTLERS ) 
-        && ( tile.getSpecial() & CommonConstants.S_POLLUTION ) != 0;
+        && ( tile.getSpecial() & S_POLLUTION ) != 0;
     }
     if( activity == ACTIVITY_FALLOUT )
     {
       return isFlagSet( F_SETTLERS )
-        && ( tile.getSpecial() & CommonConstants.S_FALLOUT ) != 0;
+        && ( tile.getSpecial() & S_FALLOUT ) != 0;
     }
     if( activity == ACTIVITY_ROAD )
     {
       return m_game.getTerrainRules().isRoadAllowed()
         && isFlagSet( F_SETTLERS )
-        && ( tile.getSpecial() & CommonConstants.S_ROAD ) == 0
-        && tile.getTerrainType().getRoadTime() != 0
-        && ( ( tile.getTerrain() != CommonConstants.T_RIVER 
-              || ( tile.getSpecial() & CommonConstants.S_RIVER ) != 0 )
-            //|| getOwner().knowsTechsWithFlag( TF_BRIDGE )
-            );
+        && ( tile.getSpecial() & S_ROAD ) == 0
+        && tType.getRoadTime() != 0
+        && ( ( tile.getTerrain() != T_RIVER 
+              || ( tile.getSpecial() & S_RIVER ) != 0 )
+              || getOwner().knowsTechsWithFlag( TF_BRIDGE ) );
     }
+    if( activity == ACTIVITY_MINE )
+    {
+      if( m_game.getTerrainRules().isMineAllowed()         && isFlagSet( F_SETTLERS )         && ( ( tile.getTerrain() == tType.getMiningResult()               && ( tile.getSpecial() & S_MINE ) == 0 )
+             || ( tile.getTerrain() != tType.getMiningResult()                 && tType.getMiningResult() != T_LAST                 && ( tile.getTerrain() != T_OCEAN                     || tType.getMiningResult() == T_OCEAN                     || map.canReclaimOcean( getX(), getY() ) )                 && ( tile.getTerrain() == T_OCEAN                     || tType.getMiningResult() != T_OCEAN                     || map.canChannelLand( getX(), getY() ) )
+                 && ( tType.getMiningResult() != T_OCEAN
+                     || map.getCity( getX(), getY() ) != null ) ) ) )
+      {        // Don't allow it if someone else is irrigating this tile.
+        // *Do* allow it if they're transforming - the mine may survive        for ( Iterator i = tile.getUnits(); i.hasNext(); )        {
+          if ( ((Unit)i.next()).getActivity() == ACTIVITY_IRRIGATE )
+          {            return false;
+          }        }        return true;
+      }
+      else
+      {        return false;
+      }    }
+    if( activity == ACTIVITY_IRRIGATE )
+    {
+      if( m_game.getTerrainRules().isIrrigateAllowed()         && isFlagSet( F_SETTLERS )         && ( ( tile.getTerrain() == tType.getIrrigationResult()               && ( ( tile.getSpecial() & S_IRRIGATION ) == 0
+                   || ( ( tile.getSpecial() & S_FARMLAND ) == 0
+                       && getOwner().knowsTechsWithFlag( TF_FARMLAND ) ) ) )             && ( ( tile.getTerrain() == tType.getIrrigationResult()                   && map.isWaterAdjacentTo( getX(), getY() ) )
+                 || ( tile.getTerrain() != tType.getIrrigationResult()                     && tType.getIrrigationResult() != T_LAST                     && ( tile.getTerrain() != T_OCEAN                         || tType.getIrrigationResult() == T_OCEAN                         || map.canReclaimOcean( getX(), getY() ) )                     && ( tile.getTerrain() == T_OCEAN                         || tType.getIrrigationResult() != T_OCEAN                         || map.canChannelLand( getX(), getY() ) )
+                     && ( tType.getIrrigationResult() != T_OCEAN
+                         || map.getCity( getX(), getY() ) != null ) ) ) ) )
+      {        // Don't allow it if someone else is mining this tile.
+        // *Do* allow it if they're transforming - the irrigation may survive        for ( Iterator i = tile.getUnits(); i.hasNext(); )        {
+          if ( ((Unit)i.next()).getActivity() == ACTIVITY_MINE )
+          {            return false;
+          }        }        return true;
+      }
+      else
+      {        return false;
+      }    }
+    if( activity == ACTIVITY_FORTIFYING )
+    {
+      return isGroundUnit() && getActivity() != ACTIVITY_FORTIFIED
+        && !isFlagSet( F_SETTLERS ) && tile.getTerrain() != T_OCEAN;
+    }
+    if( activity == ACTIVITY_FORTIFIED )
+    {
+      return false;
+    }
+    if( activity == ACTIVITY_FORTRESS )
+    {
+      return  isFlagSet( F_SETTLERS ) && map.getCity( getX(), getY() ) == null
+        && getOwner().knowsTechsWithFlag( TF_FORTRESS )
+        && ( tile.getSpecial() & S_FORTRESS ) == 0
+        && tile.getTerrain() != T_OCEAN;
+    }
+    if( activity == ACTIVITY_AIRBASE )
+    {
+      return  isFlagSet( F_AIRBASE )
+        && getOwner().knowsTechsWithFlag( TF_AIRBASE )
+        && ( tile.getSpecial() & S_AIRBASE ) == 0
+        && tile.getTerrain() != T_OCEAN;
+    }
+    if( activity == ACTIVITY_SENTRY )
+    {
+      return true;
+    }
+    if( activity == ACTIVITY_RAILROAD )
+    {
+      // TODO
+      return false;
+    }
+    if( activity == ACTIVITY_PILLAGE )
+    {
+      // TODO (I don't understand this one in the c code --ben)
+      return false;
+    }
+    if( activity == ACTIVITY_EXPLORE )
+    {
+      return isGroundUnit() || isSailingUnit();
+    }
+    if( activity == ACTIVITY_TRANSFORM )
+    {
+      // TODO
+      return false;
+    }
+    
+    
+    //TODO : the rest
+
     
     return false;
   }
