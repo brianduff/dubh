@@ -84,7 +84,7 @@
 				:) ).
 			</p>
 			<p>
-				The "what's new" stuff has been externalized into it's own
+				The "what's new" stuff has been externalized into its own
 				separate XML document, and only the first 3 entries from the
 				changelog are displayed on the index page. The rest are on a 
 				separate page. Stylesheets kick ass.
@@ -92,5 +92,19 @@
 		</description>
 	</change>
 	
+	
+	<change>
+		<date year="2001" month="06" day="26" />
+		
+		<description>
+			<p>
+				Some cosmetic stylesheet changes (fonts)
+			</p>
+			<p>
+				Created the <a href="/projects/jfreeciv/index.xml">JFreeCiv</a>
+				page.
+			</p>
+		</description>
+	</change>	
 	
 </changelog>
