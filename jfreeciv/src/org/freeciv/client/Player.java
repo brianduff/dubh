@@ -1,8 +1,6 @@
 package org.freeciv.client;
-
 import java.util.ArrayList;
 import java.util.Collection;
-
 /**
  * Class representing a player in Freeciv. You can't directly instantiate this
  * class: instances of this object are
@@ -11,7 +9,6 @@ import java.util.Collection;
  */
 public class Player implements ClientObject
 {
-
   private int playerNumber;
   private String name;
   private String username;
@@ -43,33 +40,27 @@ public class Player implements ClientObject
   // private PlayerTile[] privateMap;
   private int givesSharedVision;
   private int reallyGivesSharedVision;
-
   /**
    * The constructor is package protected: only the player factory instantiates
    * players
    */
-  Player()
+  Player() 
   {
     connections = new ArrayList();
-
-    // TODO: other defaults? (player.c)
+  // TODO: other defaults? (player.c)
   }
-
   public int getId()
   {
     return getPlayerNumber();
   }
-
   public int getPlayerNumber()
   {
     return playerNumber;
   }
-
-  public void setPlayerNumber(int number)
+  public void setPlayerNumber( int number )
   {
     playerNumber = number;
   }
-
   /**
    * Get the connections for this player
    *
@@ -79,6 +70,4 @@ public class Player implements ClientObject
   {
     return connections;
   }
-
-  
 }

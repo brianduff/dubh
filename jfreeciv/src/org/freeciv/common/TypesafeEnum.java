@@ -14,41 +14,39 @@ package org.freeciv.common;
 public final class TypesafeEnum
 {
   private Object[] m_sorted;
-  
-  public TypesafeEnum(Object[] sortedList)
+  public TypesafeEnum( Object[] sortedList ) 
   {
     m_sorted = sortedList;
   }
-
+  
   /**
    * The subclass should call this to convert a typed enum into an integer
    */
-  public int _toInt(Object o)
+  public int _toInt( Object o )
   {
-    for (int i=0; i < m_sorted.length; i++)
+    for( int i = 0;i < m_sorted.length;i++ )
     {
-      if (o == m_sorted[i])
+      if( o == m_sorted[ i ] )
       {
         return i;
       }
     }
-
-    throw new IllegalArgumentException("Invalid Enumeration Object "+o);
+    throw new IllegalArgumentException( "Invalid Enumeration Object " + o );
   }
-
+  
   /**
    * The subclass should call this to convert an integer into a type enum
    * value
    */
-  public Object _fromInt(int i)
+  public Object _fromInt( int i )
   {
     try
     {
-      return m_sorted[i];
+      return m_sorted[ i ];
     }
-    catch (ArrayIndexOutOfBoundsException aioobe)
+    catch( ArrayIndexOutOfBoundsException aioobe )
     {
-      throw new IllegalArgumentException("Invalid Enumeration value:"+i);
+      throw new IllegalArgumentException( "Invalid Enumeration value:" + i );
     }
   }
 }

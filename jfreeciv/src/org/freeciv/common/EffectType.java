@@ -8,95 +8,8 @@ package org.freeciv.common;
  */
 public final class EffectType
 {
-
+  
   // from freeciv/common/improvement.h
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   public static final EffectType EFT_ADV_PARASITE = new EffectType();
   public static final EffectType EFT_AIRLIFT = new EffectType();
   public static final EffectType EFT_ANY_GOVERNMENT = new EffectType();
@@ -169,116 +82,39 @@ public final class EffectType
   public static final EffectType EFT_UPGRADE_ALL_LEAP = new EffectType();
   public static final EffectType EFT_UPKEEP_FREE = new EffectType();
   public static final EffectType EFT_LAST = new EffectType();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  private static final TypesafeEnum ENUM = new TypesafeEnum(
-    new EffectType[] {
-        EFT_ADV_PARASITE,
-        EFT_AIRLIFT,
-        EFT_ANY_GOVERNMENT,
-        EFT_BARB_ATTACK,
-        EFT_BARB_DEFEND,
-        EFT_CAPITAL_CITY,
-        EFT_CAPITAL_EXISTS,
-        EFT_ENABLE_NUKE,
-        EFT_ENABLE_SPACE,
-        EFT_ENEMY_PEACEFUL,
-        EFT_FOOD_ADD_TILE,
-        EFT_FOOD_BONUS,
-        EFT_FOOD_INC_TILE,
-        EFT_FOOD_PER_TILE,
-        EFT_GIVE_IMM_ADV,
-        EFT_GROWTH_FOOD,
-        EFT_HAVE_EMBASSIES,
-        EFT_IMPROVE_REP,
-        EFT_LUXURY_BONUS,
-        EFT_LUXURY_PCT,
-        EFT_MAKE_CONTENT,
-        EFT_MAKE_CONTENT_MIL,
-        EFT_MAKE_CONTENT_PCT,
-        EFT_MAKE_HAPPY,
-        EFT_MAY_DECLARE_WAR,
-        EFT_NO_ANARCHY,
-        EFT_NO_SINK_DEEP,
-        EFT_NUKE_PROOF,
-        EFT_POLLU_ADJ,
-        EFT_POLLU_ADJ_POP,
-        EFT_POLLU_ADJ_PROD,
-        EFT_POLLU_SET,
-        EFT_POLLU_SET_POP,
-        EFT_POLLU_SET_PROD,
-        EFT_PROD_ADD_TILE,
-        EFT_PROD_BONUS,
-        EFT_PROD_INC_TILE,
-        EFT_PROD_PER_TILE,
-        EFT_PROD_TO_GOLD,
-        EFT_REDUCE_CORRUPT,
-        EFT_REDUCE_WASTE,
-        EFT_REVEAL_CITIES,
-        EFT_REVEAL_MAP,
-        EFT_REVOLT_DIST,
-        EFT_SCIENCE_BONUS,
-        EFT_SCIENCE_PCT,
-        EFT_SIZE_UNLIMIT,
-        EFT_SLOW_NUKE_WINTER,
-        EFT_SLOW_GLOBAL_WARM,
-        EFT_SPACE_PART,
-        EFT_SPY_RESISTANT,
-        EFT_TAX_BONUS,
-        EFT_TAX_PCT,
-        EFT_TRADE_ADD_TILE,
-        EFT_TRADE_BONUS,
-        EFT_TRADE_INC_TILE,
-        EFT_TRADE_PER_TILE,
-        EFT_TRADE_ROUTE_PCT,
-        EFT_UNIT_DEFEND,
-        EFT_UNIT_MOVE,
-        EFT_UNIT_NO_LOSE_POP,
-        EFT_UNIT_RECOVER,
-        EFT_UNIT_REPAIR,
-        EFT_UNIT_VET_COMBAT,
-        EFT_UNIT_VETERAN,
-        EFT_UPGRADE_UNITS,
-        EFT_UPGRADE_ONE_STEP,
-        EFT_UPGRADE_ONE_LEAP,
-        EFT_UPGRADE_ALL_STEP,
-        EFT_UPGRADE_ALL_LEAP,
-        EFT_UPKEEP_FREE,
-        EFT_LAST
-    }
-  );
-
-  public static EffectType fromInt(int i)
+  private static final TypesafeEnum ENUM = new TypesafeEnum( new EffectType[]
   {
-    return (EffectType)ENUM._fromInt(i);
+    EFT_ADV_PARASITE, EFT_AIRLIFT, EFT_ANY_GOVERNMENT, 
+    EFT_BARB_ATTACK, EFT_BARB_DEFEND, EFT_CAPITAL_CITY, 
+    EFT_CAPITAL_EXISTS, EFT_ENABLE_NUKE, EFT_ENABLE_SPACE, 
+    EFT_ENEMY_PEACEFUL, EFT_FOOD_ADD_TILE, EFT_FOOD_BONUS, 
+    EFT_FOOD_INC_TILE, EFT_FOOD_PER_TILE, EFT_GIVE_IMM_ADV, 
+    EFT_GROWTH_FOOD, EFT_HAVE_EMBASSIES, EFT_IMPROVE_REP, 
+    EFT_LUXURY_BONUS, EFT_LUXURY_PCT, EFT_MAKE_CONTENT, 
+    EFT_MAKE_CONTENT_MIL, EFT_MAKE_CONTENT_PCT, EFT_MAKE_HAPPY, 
+    EFT_MAY_DECLARE_WAR, EFT_NO_ANARCHY, EFT_NO_SINK_DEEP, 
+    EFT_NUKE_PROOF, EFT_POLLU_ADJ, EFT_POLLU_ADJ_POP, EFT_POLLU_ADJ_PROD, 
+    EFT_POLLU_SET, EFT_POLLU_SET_POP, EFT_POLLU_SET_PROD, 
+    EFT_PROD_ADD_TILE, EFT_PROD_BONUS, EFT_PROD_INC_TILE, 
+    EFT_PROD_PER_TILE, EFT_PROD_TO_GOLD, EFT_REDUCE_CORRUPT, 
+    EFT_REDUCE_WASTE, EFT_REVEAL_CITIES, EFT_REVEAL_MAP, 
+    EFT_REVOLT_DIST, EFT_SCIENCE_BONUS, EFT_SCIENCE_PCT, 
+    EFT_SIZE_UNLIMIT, EFT_SLOW_NUKE_WINTER, EFT_SLOW_GLOBAL_WARM, 
+    EFT_SPACE_PART, EFT_SPY_RESISTANT, EFT_TAX_BONUS, EFT_TAX_PCT, 
+    EFT_TRADE_ADD_TILE, EFT_TRADE_BONUS, EFT_TRADE_INC_TILE, 
+    EFT_TRADE_PER_TILE, EFT_TRADE_ROUTE_PCT, EFT_UNIT_DEFEND, 
+    EFT_UNIT_MOVE, EFT_UNIT_NO_LOSE_POP, EFT_UNIT_RECOVER, 
+    EFT_UNIT_REPAIR, EFT_UNIT_VET_COMBAT, EFT_UNIT_VETERAN, 
+    EFT_UPGRADE_UNITS, EFT_UPGRADE_ONE_STEP, EFT_UPGRADE_ONE_LEAP, 
+    EFT_UPGRADE_ALL_STEP, EFT_UPGRADE_ALL_LEAP, EFT_UPKEEP_FREE, 
+    EFT_LAST
+  } );
+  public static EffectType fromInt( int i )
+  {
+    return (EffectType)ENUM._fromInt( i );
   }
-
-  public static int toInt(EffectType et)
+  public static int toInt( EffectType et )
   {
-    return ENUM._toInt(et);
+    return ENUM._toInt( et );
   }
 }

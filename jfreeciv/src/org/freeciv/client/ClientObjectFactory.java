@@ -1,12 +1,11 @@
 package org.freeciv.client;
-
 /**
  * The client has a number of factories which create objects and can retrieve
  * objects by id. These factories implement the ClientObjectFactory interface
  *
  * @author Brian.Duff@dubh.org
  */
-public interface ClientObjectFactory 
+public interface ClientObjectFactory
 {
   /**
    * Find the client object with the specified id
@@ -15,15 +14,13 @@ public interface ClientObjectFactory
    * @return a ClientObject with the specified id, or null if no such
    *    object exists
    */
-  public ClientObject findById(int id);
-
+  public ClientObject findById( int id );
   /**
    * Create a new, uninitialized client object
    *
    * @return a new ClientObject
    */
   public ClientObject create();
-
   /**
    * Destroy a client object.
    *
@@ -31,5 +28,5 @@ public interface ClientObjectFactory
    *    from the factory. The caller should release any other references to
    *    the object to allow the garbage collector to dispose of it.
    */
-  public void destroy(ClientObject o);
+  public void destroy( ClientObject o );
 }

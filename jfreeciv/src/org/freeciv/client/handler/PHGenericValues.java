@@ -1,5 +1,4 @@
 package org.freeciv.client.handler;
-
 import org.freeciv.client.Client;
 import org.freeciv.net.Packet;
 /**
@@ -20,5 +19,5 @@ abstract class PHGenericValues implements ClientPacketHandler
    * Your handler should implement this method to actually
    * handle an incoming packet.
    */
-  public abstract void handle(Client c, Packet pkt);
+  public abstract void handle( Client c, Packet pkt );
 }

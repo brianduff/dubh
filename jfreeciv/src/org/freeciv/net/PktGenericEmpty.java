@@ -1,5 +1,4 @@
 package org.freeciv.net;
-
 import java.io.IOException;
 
 /**
@@ -10,27 +9,24 @@ import java.io.IOException;
  */
 public class PktGenericEmpty extends AbstractPacket
 {
-
-  public PktGenericEmpty()
+  public PktGenericEmpty() 
   {
     super();
   }
-
-	public PktGenericEmpty(int type)
-	{
-	  super(type);
-	}
-
-	public void receive(InStream in)
-	{
-    //
-	}
-
-	public void send( OutStream out ) throws IOException
-	{
-		out.setType( getType() );
-		out.sendPacket();
-	}
-
-
+  public PktGenericEmpty( int type ) 
+  {
+    super( type );
+  }
+  public void receive( InStream in )
+  {
+    
+  
+  //
+  }
+  public void send( OutStream out )
+               throws IOException
+  {
+    out.setType( getType() );
+    out.sendPacket();
+  }
 }

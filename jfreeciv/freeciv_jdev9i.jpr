@@ -2,7 +2,7 @@
 <!DOCTYPE project PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Java Project//EN" "">
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <project class="oracle.jdeveloper.model.JProject">
-   <defaultPackage>org.freeciv.client.handler</defaultPackage>
+   <defaultPackage>org.freeciv.net</defaultPackage>
    <defaultPackages class="java.util.ArrayList">
       <Item class="java.lang.String">package4</Item>
       <Item class="java.lang.String">org.freeciv.client.handler</Item>
@@ -30,7 +30,7 @@
          <URL path="src/org/freeciv/client/CornerOverlay.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/Enum.java"/>
+         <URL path="src/org/freeciv/util/Enum.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/HelpItem.java"/>
@@ -250,9 +250,6 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/action/UACTWakeUpOthers.java"/>
-      </Item>
-      <Item class="oracle.jdeveloper.model.JavaSourceNode">
-         <URL path="src/org/freeciv/client/dialog/ChooseRaceDialog.java"/>
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/dialog/DialogManager.java"/>
@@ -622,6 +619,9 @@
       </Item>
       <Item class="oracle.jdeveloper.model.JavaSourceNode">
          <URL path="src/org/freeciv/client/handler/PHRulesetGame.java"/>
+      </Item>
+      <Item class="oracle.jdeveloper.model.JavaSourceNode">
+         <URL path="src/org/freeciv/net/PacketConstants.java"/>
       </Item>
    </listOfChildren>
    <ownerMap/>

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: VerticalFlowPanel.java,v 1.1.1.1 2000-08-21 22:26:46 briand Exp $
+//   $Id: VerticalFlowPanel.java,v 1.2 2001-07-08 01:36:52 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -26,10 +26,8 @@
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
 package org.freeciv.client.dialog.util;
-
 import java.awt.*;
 import javax.swing.*;
-
 /**
  * A panel that lays out its contents in a vertical flow. Each row fills to take
  * all available space horizontally, and its preferred size vertically. You can
@@ -37,77 +35,55 @@ import javax.swing.*;
  * add one of these.
  *
  * @author Brian Duff
- * @version $Id: VerticalFlowPanel.java,v 1.1.1.1 2000-08-21 22:26:46 briand Exp $
+ * @version $Id: VerticalFlowPanel.java,v 1.2 2001-07-08 01:36:52 briand Exp $
  */
-public class VerticalFlowPanel extends JPanel 
+public class VerticalFlowPanel extends JPanel
 {
-   private int m_currentRow = 0;
-   private int m_padding    = 1;
-   
-   private static final int INDENT_AMOUNT = 20;
-
-   public VerticalFlowPanel()
-   {
-      setLayout(new GridBagLayout());
-   }
-   
-   /**
-    * Add a normal row. This row takes all available space horizontally, its preferred
-    * size vertically.
-    */
-   public void addRow(Component c)
-   {
-      add(c, new GridBagConstraints2(0, m_currentRow++, 1, 1,  1.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, 
-         new Insets(m_padding, m_padding, m_padding, m_padding), 0, 0));  
-   }
-   
-   /**
-    * Add a row that is indented by a certain amount. This is for groups of radio buttons or
-    * other items that are related.
-    */
-   public void addIndentRow(Component c)
-   {
-      add(c, new GridBagConstraints2(0, m_currentRow++, 1, 1,  1.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, 
-         new Insets(m_padding, m_padding+INDENT_AMOUNT, m_padding, m_padding), 0, 0));     
-   }
-   
-   /**
-    * Add a row that expands vertically to fill remaining space. It takes all available
-    * space horizontally and all available space vertically.
-    */
-   public void addSpacerRow(Component c)
-   {
-      add(c, new GridBagConstraints2(0, m_currentRow++, 1, 1,  1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, 
-         new Insets(m_padding, m_padding, m_padding, m_padding), 0, 0));  
-   
-   }
-   
-   /**
-    * Add a blank area of a specific height.
-    */
-   public void addFixedGap(int pixels)
-   {
-      addRow(Box.createRigidArea(new Dimension(0, pixels)));
-   }
-   
-   /**
-    * Set the space around components. Affects all components added after you call this
-    * method.
-    */
-   public void setSpacing(int spacing)
-   {
-      m_padding = spacing;
-   }
-   
-
-}
-
-//
-// $Log: not supported by cvs2svn $
-// Revision 1.2  1999/11/11 21:24:36  briand
-// Change package and import to Javalobby JFA.
-//
-// Revision 1.1  1999/06/01 00:17:35  briand
-// Assorted user interface utility code. Mostly for making layout easier.
-//
-//
+  private int m_currentRow = 0;
+  private int m_padding = 1;
+  private static final int INDENT_AMOUNT = 20;
+  public VerticalFlowPanel() 
+  {
+    setLayout( new GridBagLayout() );
+  }
+  /**
+   * Add a normal row. This row takes all available space horizontally, its preferred
+   * size vertically.
+   */
+  public void addRow( Component c )
+  {
+    add( c, new GridBagConstraints2( 0, m_currentRow++, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( m_padding, m_padding, m_padding, m_padding ), 0, 0 ) );
+  }
+  /**
+   * Add a row that is indented by a certain amount. This is for groups of radio buttons or
+   * other items that are related.
+   */
+  public void addIndentRow( Component c )
+  {
+    add( c, new GridBagConstraints2( 0, m_currentRow++, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( m_padding, m_padding + INDENT_AMOUNT, m_padding, m_padding ), 0, 0 ) );
+  }
+  /**
+   * Add a row that expands vertically to fill remaining space. It takes all available
+   * space horizontally and all available space vertically.
+   */
+  public void addSpacerRow( Component c )
+  {
+    add( c, new GridBagConstraints2( 0, m_currentRow++, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( m_padding, m_padding, m_padding, m_padding ), 0, 0 ) );
+  }
+  /**
+   * Add a blank area of a specific height.
+   */
+  public void addFixedGap( int pixels )
+  {
+    addRow( Box.createRigidArea( new Dimension( 0, pixels ) ) );
+  }
+  /**
+   * Set the space around components. Affects all components added after you call this
+   * method.
+   */
+  public void setSpacing( int spacing )
+  {
+    m_padding = spacing;
+  }
+} /**/ /* $Log: not supported by cvs2svn $*/ /* Revision 1.1.1.1  2000/08/21 22:26:46  briand*/ /* Put jfreeciv into dubh.org CVS*/ /**/ /* Revision 1.2  1999/11/11 21:24:36  briand*/ /* Change package and import to Javalobby JFA.*/ /**/ /* Revision 1.1  1999/06/01 00:17:35  briand*/ /* Assorted user interface utility code. Mostly for making layout easier.*/ /**/
+  //

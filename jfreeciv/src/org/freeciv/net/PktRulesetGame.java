@@ -1,5 +1,4 @@
 package org.freeciv.net;
-
 public class PktRulesetGame extends AbstractPacket
 {
   public int min_city_center_food;
@@ -12,19 +11,16 @@ public class PktRulesetGame extends AbstractPacket
   public int nuke_contamination;
   public int granary_food_ini;
   public int granary_food_inc;
-
-  public PktRulesetGame()
-	{
-	  super();
-	}
-	
-	public PktRulesetGame(InStream in)
-	{
-	  super(in);
-	}
-	
-	public void receive(InStream in)
-	{
+  public PktRulesetGame() 
+  {
+    super();
+  }
+  public PktRulesetGame( InStream in ) 
+  {
+    super( in );
+  }
+  public void receive( InStream in )
+  {
     min_city_center_food = in.readUnsignedByte();
     min_city_center_shield = in.readUnsignedByte();
     min_city_center_trade = in.readUnsignedByte();
@@ -35,10 +31,10 @@ public class PktRulesetGame extends AbstractPacket
     nuke_contamination = in.readUnsignedByte();
     granary_food_ini = in.readUnsignedByte();
     granary_food_inc = in.readUnsignedByte();
-	}
-	
-	public void send(OutStream out) throws java.io.IOException
-	{
-	
-	}
+  }
+  public void send( OutStream out )
+               throws java.io.IOException
+  {
+    
+  }
 }

@@ -12,28 +12,21 @@ public final class UnitClass
   public static final UnitClass UCL_NUCLEAR = new UnitClass();
   public static final UnitClass UCL_SEA = new UnitClass();
   public static final UnitClass UCL_LAST = new UnitClass();
-
-  private static final TypesafeEnum ENUM = new TypesafeEnum(
-    new UnitClass[] {
-      UCL_AIR,
-      UCL_HELICOPTER,
-      UCL_LAND,
-      UCL_MISSILE,
-      UCL_NUCLEAR,
-      UCL_SEA,
-      UCL_LAST
-  });
-
-  public static UnitClass fromInt(int i)
+  private static final TypesafeEnum ENUM = new TypesafeEnum( new UnitClass[]
   {
-    return (UnitClass)ENUM._fromInt(i);
-  }
-
-  public static int toInt(UnitClass c)
+    UCL_AIR, UCL_HELICOPTER, UCL_LAND, UCL_MISSILE, UCL_NUCLEAR, 
+    UCL_SEA, UCL_LAST
+  } );
+  public static UnitClass fromInt( int i )
   {
-    return ENUM._toInt(c);
+    return (UnitClass)ENUM._fromInt( i );
   }
-
-  private UnitClass() {}
-
+  public static int toInt( UnitClass c )
+  {
+    return ENUM._toInt( c );
+  }
+  private UnitClass() 
+  {
+    
+  }
 }

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   Dubh Java Utilities
-//   $Id: GridBagConstraints2.java,v 1.1.1.1 2000-08-21 22:26:46 briand Exp $
+//   $Id: GridBagConstraints2.java,v 1.2 2001-07-08 01:36:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: dubh@btinternet.com
 //   URL:   http://www.btinternet.com/~dubh/dju
@@ -25,11 +25,8 @@
 //   Contributors:
 // ---------------------------------------------------------------------------
 //   See bottom of file for revision history
-
 package org.freeciv.client.dialog.util;
-
 import java.awt.*;
-
 /**
  * Provides a simpler way to initialise a GridBagConstaints object. (from an
  * original Borland JBuilder class)<P>
@@ -39,19 +36,20 @@ import java.awt.*;
  @author <A HREF="http://wiredsoc.ml.org/~briand/">Brian Duff</A>
  @version 0.1 [07/06/98]
  */
-public class GridBagConstraints2 extends GridBagConstraints {
-
-  public GridBagConstraints2(int gridx, int gridy, int gridwidth, int gridheight,
-     double weightx, double weighty, int anchor, int fill, Insets insets,
-     int ipadx, int ipady) {
-
-     this.gridx = gridx; this.gridy = gridy;
-     this.gridwidth = gridwidth; this.gridheight = gridheight;
-     this.weightx = weightx; this.weighty = weighty;
-     this.anchor = anchor;
-     this.fill   = fill;
-     this.insets = insets;
-     this.ipadx  = ipadx;
-     this.ipady  = ipady;
+public class GridBagConstraints2 extends GridBagConstraints
+{
+  public GridBagConstraints2( int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor, int fill, Insets insets, int ipadx, int ipady ) 
+  {
+    this.gridx = gridx;
+    this.gridy = gridy;
+    this.gridwidth = gridwidth;
+    this.gridheight = gridheight;
+    this.weightx = weightx;
+    this.weighty = weighty;
+    this.anchor = anchor;
+    this.fill = fill;
+    this.insets = insets;
+    this.ipadx = ipadx;
+    this.ipady = ipady;
   }
 }
