@@ -1,3 +1,9 @@
+25.10.01 [bduff]
+
+Checked in org.freeciv.util.Localize, which adds localization
+support using the .po files that the main Freeciv uses. This
+class isn't being used anywhere yet, though...
+
 15.07.01 [bduff]
 
 The overview window (minimap) now works. Rewrote PHTileInfo and
