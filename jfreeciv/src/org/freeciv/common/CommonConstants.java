@@ -427,10 +427,10 @@ public interface CommonConstants
   public static final int L_BARBARIAN_SEA_TECH = Enum.get();
   public static final int L_LAST = Enum.get();
   public static final int MAJOR_VERSION = 1;
-  public static final int MINOR_VERSION = 11;
-  public static final int PATCH_VERSION = 7;
-  public static final String VERSION_LABEL = "-devel";
-  public static final int IS_DEVEL_VERSION = 1;    
+  public static final int MINOR_VERSION = 12;
+  public static final int PATCH_VERSION = 0;
+  public static final String VERSION_LABEL = "";
+  public static final int IS_DEVEL_VERSION = 0;    
 
   public static final int TILE_UNKNOWN = Enum.start( 0 );
   public static final int TILE_KNOWN_FOGGED = Enum.get();

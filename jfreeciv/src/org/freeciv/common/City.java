@@ -22,14 +22,7 @@ public final class City
    */
   public static City findById(int id)
   {
-    try
-    {
-      return (City) s_cities.get( new Integer(id) );
-    }
-    catch (ArrayIndexOutOfBoundsException aioobe)
-    {
-      throw new IllegalArgumentException("City with id "+id+" doesn't exist!");
-    }
+    return (City) s_cities.get( new Integer(id) );
   }
 
   public City(int id)

@@ -50,21 +50,30 @@ public class PHUnitInfo extends AbstractHandler implements Constants
       {
         last_serial_num = packet.serial_num;
 
-        city.clearAllSupportedUnits();
-        city.clearAllPresentUnits();
+        if ( city != null )
+        {
+          city.clearAllSupportedUnits();
+          city.clearAllPresentUnits();
+        }
       }
 
       if ( packet.packet_use == UNIT_INFO_CITY_SUPPORTED )
       {
         unit = new Unit( c.getGame() );
         unit.unpackage( packet );
-        city.addSupportedUnit( unit );
+        if ( city != null )
+        {
+          city.addSupportedUnit( unit );
+        }
       }
       else if ( packet.packet_use == UNIT_INFO_CITY_PRESENT )
       {
         unit = new Unit( c.getGame() );
         unit.unpackage( packet );
-        city.addPresentUnit( unit );
+        if ( city != null )
+        {
+          city.addPresentUnit( unit );
+        }
       }
 
       return;

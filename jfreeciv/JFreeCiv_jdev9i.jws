@@ -1,5 +1,5 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!DOCTYPE workspace>
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<!DOCTYPE workspace PUBLIC "-//Oracle9i JDeveloper Release 9.0.0//Workspace//EN" "">
 <?Oracle-JDeveloper Object2Dom = '1.0'?>
 <workspace class="oracle.ide.model.Workspace">
    <activeProjectURL path="freeciv_jdev9i.jpr" id="0"/>

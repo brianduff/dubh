@@ -115,6 +115,14 @@ public final class Map implements CommonConstants
   }
 
   /**
+   * Is the map empty? The map is empty if it is size (0,0)
+   */
+  public boolean isEmpty()
+  {
+    return (getWidth() == 0 && getHeight() == 0);
+  }
+
+  /**
    * This should be called to allocate space for the tiles on the map.
    */
   public void allocate()

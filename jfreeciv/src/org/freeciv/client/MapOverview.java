@@ -12,45 +12,52 @@ import javax.swing.JComponent;
 import org.freeciv.common.CommonConstants;
 import org.freeciv.common.Map;
 import org.freeciv.common.Tile;
+
+
 /**
- * The map overview component
+ * The map overview component. There is usually only one MapOverview component
+ * on the screen at a time. It provides a miniature version of the map, and 
+ * provides eventing so that mouse clicks on the overview map translate to
+ * jumps on the associated map view.
  *
  * @author Brian.Duff@dubh.org
  */
-final class MapOverview
+public final class MapOverview extends JComponent
 {
-  private MapView m_mapView;
   private int m_width;
   private int m_height;
-  private int m_mapWidth;
-  private int m_mapHeight;
+
+  private Client m_client;
+
+  // The radar.xpm image is 160x100. The default size of the minimap is
+  // half this.
+  private static final int DEFAULT_WIDTH = 80;  // Change to 80
+  private static final int DEFAULT_HEIGHT = 50;
 
   private static final int SCALE = 2;
 
-  private JComponent m_overviewComponent;
-
-  MapOverview(MapView mapView)
+  MapOverview( Client c )
   {
-    m_mapView = mapView;
+    m_client = c;
+    setMapDimensions( DEFAULT_WIDTH, DEFAULT_HEIGHT );
   }
 
-  JComponent getComponent()
+  private Client getClient()
   {
-    if (m_overviewComponent == null)
-    {
-      m_overviewComponent = new OverviewComponent();
-    }
-    return m_overviewComponent;
+    return m_client;
   }
 
-  public void setDimensions(int x, int y)
+  public void setMapDimensions(int x, int y)
   {
     m_width = x*SCALE;
     m_height = y*SCALE;
-    getComponent().setPreferredSize(new Dimension( m_width, m_height ));
-    getComponent().setMinimumSize(new Dimension( m_width, m_height ));
-    m_mapWidth = x;
-    m_mapHeight = y;
+    setPreferredSize(new Dimension( m_width, m_height ));
+    setMinimumSize(new Dimension( m_width, m_height ));
+    if ( getParent() != null )
+    {
+      // Doesn't work...
+      getParent().validate();
+    }
   }
 
   /**
@@ -59,25 +66,40 @@ final class MapOverview
    * @param mapx the x-coordinate of the tile that has changed
    * @param mapy the y-coordinate of the tile that has changed
    */
-  public void repaint( int mapx, int mapy )
+  public void refresh(int mapx, int mapy )
   {
     int x = mapx * SCALE;
     int y = mapy * SCALE;
 
-    m_overviewComponent.repaint(x, y, 2, 2);
+    repaint(x, y, 2, 2);
   }
 
 
   public void refresh()
   {
-    getComponent().repaint();
+    repaint();
   }
 
-  private class OverviewComponent extends JComponent
+  private boolean isDrawingEnabled()
   {
-    public void paintComponent( Graphics g )
-    {
+    return !m_client.getGame().getMap().isEmpty();
+  }
 
+  /**
+   * Actually paint the map overview component
+   */
+  public void paintComponent( Graphics g )
+  {
+    if ( !isDrawingEnabled() )
+    {
+      g.setColor( Colors.getStandardColor( Colors.COLOR_STD_BLACK ) );
+      g.fillRect( g.getClipBounds().x, g.getClipBounds().y, 
+        g.getClipBounds().width, g.getClipBounds().height );
+    }
+    else
+    {
+      int mapWidth = m_client.getGame().getMap().getWidth();
+      int mapHeight = m_client.getGame().getMap().getHeight();
       int upperLeftX = 0;
       int upperLeftY = 0;
 
@@ -107,15 +129,15 @@ final class MapOverview
       bounds.setBounds( r );
 
 
-      int firstXtile = ( ( upperLeftX + bounds.x ) / SCALE ) % m_mapWidth;
-      int firstYtile = ( ( upperLeftY + bounds.y ) / SCALE ) % m_mapHeight;
+      int firstXtile = ( ( upperLeftX + bounds.x ) / SCALE ) % mapWidth;
+      int firstYtile = ( ( upperLeftY + bounds.y ) / SCALE ) % mapHeight;
       int columnsToPaint = bounds.width / SCALE;
       int rowsToPaint = bounds.height / SCALE;
 
       int currentXtile = firstXtile;
-      if( currentXtile >= m_mapWidth )
+      if( currentXtile >= mapWidth )
       {
-        currentXtile -= m_mapWidth;
+        currentXtile -= mapWidth;
       }
       int xcoord = bounds.x;   
 
@@ -123,7 +145,7 @@ final class MapOverview
       {
         int currentRowsToPaint = rowsToPaint;
         int currentYtile = firstYtile;
-        if( currentYtile >= m_mapHeight )
+        if( currentYtile >= mapHeight )
         {
           currentYtile = 0;
         }
@@ -138,7 +160,7 @@ final class MapOverview
           
           currentRowsToPaint--;
           currentYtile++;
-          if( currentYtile >= m_mapHeight )
+          if( currentYtile >= mapHeight )
           {
             currentYtile = 0;
           }
@@ -146,19 +168,20 @@ final class MapOverview
         }
         columnsToPaint--;
         currentXtile++;
-        if( currentXtile >= m_mapWidth )
+        if( currentXtile >= mapWidth )
         {
           currentXtile = 0;
         }
         xcoord += SCALE;
-      }         
+      }  
     }
   }
+
 
   public Color getTileColor( int x, int y )
   {
     // tilespec.c: overview_tile_color(int x, int y)
-    Map map = m_mapView.getClient().getGame().getMap();
+    Map map = getClient().getGame().getMap();
     Tile t = map.getTile( x, y );
 
     if ( !t.isKnown() )
@@ -167,7 +190,7 @@ final class MapOverview
     }
     else if ( t.hasCity() )
     {
-      if (m_mapView.getClient().getGame().isCurrentPlayer(t.getCity().getOwner()))
+      if (getClient().getGame().isCurrentPlayer(t.getCity().getOwner()))
       {
         return Color.white;
       }
@@ -178,7 +201,7 @@ final class MapOverview
     }
     else if ( t.hasVisibleUnit() )
     {
-      //if (m_mapView.getClient().getGame().isCurrentPlayer(t.getVisibleUnit().getOwner()))
+      //if (getClient().getGame().isCurrentPlayer(t.getVisibleUnit().getOwner()))
       //{
       //  return Color.yellow;
       //}

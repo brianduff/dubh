@@ -39,8 +39,7 @@ public class PHGameState implements ClientPacketHandler,  Constants
 
     if (c.getGameState() == CLIENT_GAME_RUNNING_STATE)
     {
-      // refresh_overview_canvas()
-      // refresh_overview_viewrect()
+      c.getMainWindow().getMapOverview().refresh();
       // enable_turn_done_button()
       // player_set_unit_focus_status()
 

@@ -21,7 +21,7 @@ public class PHMapInfo implements ClientPacketHandler
   public void handle( Client c, Packet pkt )
   {
     PktMapInfo pmi = (PktMapInfo)pkt;
-  //  c.createMap( pmi.xsize, pmi.ysize, pmi.isEarth );
+
     Map map = c.getGame().getMap();
     
     map.setWidth( pmi.xsize );
@@ -31,14 +31,9 @@ public class PHMapInfo implements ClientPacketHandler
     map.allocate();
     c.initContinents();
 
-    c.getMapView().setOverviewDimensions( pmi.xsize, pmi.ysize );
-
-
-    // How is this done in the c client???
-    c.showOverviewMap();
-    
-    // Remove me 
     c.createMap( pmi.xsize, pmi.ysize, pmi.isEarth );
+    
+
     
   }
 }

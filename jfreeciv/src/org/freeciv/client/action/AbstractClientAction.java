@@ -15,7 +15,6 @@ public abstract class AbstractClientAction extends AbstractAction
   public static final String VISIBLE = "visibile";
   public AbstractClientAction() 
   {
-    
   }
   void setClient( Client c )
   {

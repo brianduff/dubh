@@ -255,12 +255,19 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   public static final Integer ADVISOR_DIALOG_LAYER = new Integer( 3 );
   public static final Integer HELP_DIALOG_LAYER = new Integer( 4 );
   public static final Integer SYSTEM_INFO_DIALOG_LAYER = new Integer( 5 );
+
+
+  private MainWindow m_mainWindow;
+  
   /**
    * Instantiate the client
    */
   public Client()
   {
     super( APP_NAME + " ver " + APP_VERSION ); // !NLS
+
+
+    
     // Take a hit right now and load the images etc.
     // BD: Need to do most of this in a different thread so connection
     // dialog appears sharpish.
@@ -318,7 +325,20 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     emptyRail.setVisible(false);
     */
     // BD: ?????
+
+    m_mainWindow = new MainWindow( this );
+    m_mainWindow.pack();
+    m_mainWindow.setVisible( true );    
     addComponentListener( this );
+  }
+
+
+  /**
+   * Get the main window
+   */
+  public MainWindow getMainWindow()
+  {
+    return m_mainWindow;
   }
 
   public String getCapabilities()
@@ -556,7 +576,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
       }
       jmb.add( menu );
     }
-    mapFrame.setJMenuBar( jmb );
+    this.setJMenuBar( jmb );
   // TODO: Register keyboard actions
   }
   // BD: Did I do this?????
@@ -730,7 +750,7 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   }
   /**
    * Sets the connected flag. THIS DOESN'T ACTUALLY CONNECT
-   * OR DISCONNECT.
+   * OR DISCONNECT, AND SHOULD PROBABLY NOT BE PUBLIC.
    */
   public synchronized void setConnected( boolean b )
   {
@@ -794,10 +814,10 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
     }
   }
 
-  public void showOverviewMap()
-  {
-    m_upMiniMap.setContent( _( "Mini Map"), getMapView().getOverviewComponent(), this );
-  }
+ // public void showOverviewMap()
+ // {
+    //m_upMiniMap.setContent( _( "Mini Map"), getMapView().getOverviewComponent(), this );
+ // }
 
   /**
    * Creates the map
@@ -806,11 +826,12 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
   {
     // map.isEarth ??
     // set map display
-    // BD: Looks ok at the mo' need to change the tile sizes, tho'.
     SwingUtilities.invokeLater( new Runnable()
     {
       public void run()
       {
+        getMainWindow().getMapOverview().setMapDimensions( xsize, ysize );
+      
         map = new CivMap( Client.this, xsize, ysize, getTileSpec().getNormalTileWidth(), getTileSpec().getNormalTileHeight(), true, false );
         map.setSize( mapFrame.getContentPane().getSize() );
         JScrollPane scroller = new JScrollPane( map );
@@ -1067,20 +1088,19 @@ public class Client extends JFrame implements ComponentListener,UndockablePanel.
 
   public void refreshTileMapCanvas( final int x, final int y, final boolean updateView )
   {
-    if (EventQueue.isDispatchThread())
-    {
-      getMapView().refreshTileMapCanvas( x, y, updateView );
-    }
-    else
-    {
-      SwingUtilities.invokeLater(new Runnable() {
-        public void run()
-        {
-          getMapView().refreshTileMapCanvas( x, y, updateView );
-        }
-      });
-    }
+    // Not sure this method belongs in Client.java...
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run()
+      {
+        // Actually, we should refresh all views here, but currently there is
+        // only one view.
+        getMapView().refreshTileMapCanvas( x, y );
+        getMainWindow().getMapOverview().refresh( x, y );
+      }
+    });
+
   }
+
 
   /**
    * Update status information on the main window. It is safe to call this

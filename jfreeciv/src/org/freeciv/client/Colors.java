@@ -8,28 +8,28 @@ import java.awt.Color;
 class Colors 
 {
 
-  private static final int COLOR_STD_BLACK = Enum.start(0);
-  private static final int COLOR_STD_WHITE = Enum.get();
-  private static final int COLOR_STD_RED = Enum.get();
-  private static final int COLOR_STD_YELLOW = Enum.get();
-  private static final int COLOR_STD_CYAN = Enum.get();
-  private static final int COLOR_STD_GROUND = Enum.get();
-  private static final int COLOR_STD_OCEAN = Enum.get();
-  private static final int COLOR_STD_BACKGROUND = Enum.get();
-  private static final int COLOR_STD_RACE0 = Enum.get();
-  private static final int COLOR_STD_RACE1 = Enum.get();
-  private static final int COLOR_STD_RACE2 = Enum.get();
-  private static final int COLOR_STD_RACE3 = Enum.get();
-  private static final int COLOR_STD_RACE4 = Enum.get();
-  private static final int COLOR_STD_RACE5 = Enum.get();
-  private static final int COLOR_STD_RACE6 = Enum.get();
-  private static final int COLOR_STD_RACE7 = Enum.get();
-  private static final int COLOR_STD_RACE8 = Enum.get();
-  private static final int COLOR_STD_RACE9 = Enum.get();
-  private static final int COLOR_STD_RACE10 = Enum.get();
-  private static final int COLOR_STD_RACE11 = Enum.get();
-  private static final int COLOR_STD_RACE12 = Enum.get();
-  private static final int COLOR_STD_RACE13 = Enum.get();
+  public static final int COLOR_STD_BLACK = Enum.start(0);
+  public static final int COLOR_STD_WHITE = Enum.get();
+  public static final int COLOR_STD_RED = Enum.get();
+  public static final int COLOR_STD_YELLOW = Enum.get();
+  public static final int COLOR_STD_CYAN = Enum.get();
+  public static final int COLOR_STD_GROUND = Enum.get();
+  public static final int COLOR_STD_OCEAN = Enum.get();
+  public static final int COLOR_STD_BACKGROUND = Enum.get();
+  public static final int COLOR_STD_RACE0 = Enum.get();
+  public static final int COLOR_STD_RACE1 = Enum.get();
+  public static final int COLOR_STD_RACE2 = Enum.get();
+  public static final int COLOR_STD_RACE3 = Enum.get();
+  public static final int COLOR_STD_RACE4 = Enum.get();
+  public static final int COLOR_STD_RACE5 = Enum.get();
+  public static final int COLOR_STD_RACE6 = Enum.get();
+  public static final int COLOR_STD_RACE7 = Enum.get();
+  public static final int COLOR_STD_RACE8 = Enum.get();
+  public static final int COLOR_STD_RACE9 = Enum.get();
+  public static final int COLOR_STD_RACE10 = Enum.get();
+  public static final int COLOR_STD_RACE11 = Enum.get();
+  public static final int COLOR_STD_RACE12 = Enum.get();
+  public static final int COLOR_STD_RACE13 = Enum.get();
     
 
   private static final Color[] STANDARD_COLORS = new Color[] 
