@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SignatureOptions.java,v 1.3 1999-03-22 23:45:01 briand Exp $
+//   $Id: SignatureOptions.java,v 1.4 1999-06-01 00:33:51 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -35,18 +35,12 @@ import dubh.apps.newsagent.GlobalState;
 import dubh.utils.misc.StringUtils;
 import dubh.apps.newsagent.dialog.ErrorReporter;
 import java.util.*;
-
+import dubh.utils.misc.Debug;
 
 /**
  * Edits the user's signatures
- *
- * Version History: <UL>
- * <LI>0.1 [06/03/98]: Initial Revision
- * <LI>0.2 [07/03/98]: Changed to use GlobalState.getImage() for default item
- * <LI>0.3 [06/06/98]: Added dubh utils import for StringUtils
- *</UL>
  @author Brian Duff
- @version 0.3 [06/06/98]
+ @version $Id: SignatureOptions.java,v 1.4 1999-06-01 00:33:51 briand Exp $
  */
 public class SignatureOptions extends JFrame {
   BorderLayout borderLayout1 = new BorderLayout();
@@ -67,7 +61,7 @@ public class SignatureOptions extends JFrame {
   JPanel panButtons = new JPanel();
   //VerticalFlowLayout panButtonsLayout = new VerticalFlowLayout();
   public TitledBorder borderSig = new TitledBorder(new EtchedBorder(),
-    GlobalState.getResString("SignatureOptions.Caption"));
+    GlobalState.getRes().getString("SignatureOptions.Caption"));
   GridBagLayout gridBagLayout1 = new GridBagLayout();
   GridBagLayout gridBagLayout2 = new GridBagLayout();
   GridBagLayout gridBagLayout3 = new GridBagLayout();
@@ -84,10 +78,10 @@ public class SignatureOptions extends JFrame {
 
   private void jbInit() throws Exception{
     this.setSize(new Dimension(425, 300));
-    this.setTitle(GlobalState.getResString("SignatureOptions.Caption"));
-    jButton1.setText(GlobalState.getResString("GeneralOK"));
+    this.setTitle(GlobalState.getRes().getString("SignatureOptions.Caption"));
+    jButton1.setText(GlobalState.getRes().getString("GeneralOK"));
     jButton1.addActionListener(new SignatureOptions_jButton1_actionAdapter(this));
-    jButton2.setText(GlobalState.getResString("GeneralCancel"));
+    jButton2.setText(GlobalState.getRes().getString("GeneralCancel"));
     jButton2.addActionListener(new SignatureOptions_jButton2_actionAdapter(this));
     scrollList.setPreferredSize(new Dimension(200, 100));
     sigList.addListSelectionListener(new SignatureOptions_sigList_listSelectionAdapter(this));
@@ -105,29 +99,29 @@ public class SignatureOptions extends JFrame {
     panButtons.setLayout(gridBagLayout3);
     panButtons.add(cmdAdd, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 2, 0, 0), 0, 0));
-    cmdAdd.setText(GlobalState.getResString("SignatureOptions.Add"));
-    cmdAdd.setToolTipText(GlobalState.getResString("SignatureOptions.AddTip"));
+    cmdAdd.setText(GlobalState.getRes().getString("SignatureOptions.Add"));
+    cmdAdd.setToolTipText(GlobalState.getRes().getString("SignatureOptions.AddTip"));
     cmdAdd.addActionListener(new SignatureOptions_cmdAdd_actionAdapter(this));
-    cmdAdd.setMnemonic(GlobalState.getResString("SignatureOptions.AddTip").charAt(0));
+    cmdAdd.setMnemonic(GlobalState.getRes().getString("SignatureOptions.AddTip").charAt(0));
     panButtons.add(cmdRemove, new GridBagConstraints2(0, 1, 1, 1, 1.0, 0.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 2, 0, 0), 0, 0));
-    cmdRemove.setText(GlobalState.getResString("SignatureOptions.Remove"));
-    cmdRemove.setToolTipText(GlobalState.getResString("SignatureOptions.RemoveTip"));
+    cmdRemove.setText(GlobalState.getRes().getString("SignatureOptions.Remove"));
+    cmdRemove.setToolTipText(GlobalState.getRes().getString("SignatureOptions.RemoveTip"));
     cmdRemove.addActionListener(new SignatureOptions_cmdRemove_actionAdapter(this));
-    cmdRemove.setMnemonic(GlobalState.getResString("SignatureOptions.RemoveAccelerator").charAt(0));
+    cmdRemove.setMnemonic(GlobalState.getRes().getString("SignatureOptions.RemoveAccelerator").charAt(0));
     panButtons.add(cmdDefault, new GridBagConstraints2(0, 2, 1, 1, 1.0, 1.0
             ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 0, 0), 0, 0));
-    cmdDefault.setText(GlobalState.getResString("SignatureOptions.Default"));
-    cmdDefault.setToolTipText(GlobalState.getResString("SignatureOptions.DefaultTip"));
+    cmdDefault.setText(GlobalState.getRes().getString("SignatureOptions.Default"));
+    cmdDefault.setToolTipText(GlobalState.getRes().getString("SignatureOptions.DefaultTip"));
     cmdDefault.addActionListener(new SignatureOptions_cmdDefault_actionAdapter(this));
-    cmdDefault.setMnemonic(GlobalState.getResString("SignatureOptions.DefaultAccelerator").charAt(0));
+    cmdDefault.setMnemonic(GlobalState.getRes().getString("SignatureOptions.DefaultAccelerator").charAt(0));
     jPanel3.add(scrollList, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
     jPanel3.add(panButtons, new GridBagConstraints2(1, 0, 1, 1, 0.0, 0.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
     jPanel2.add(jPanel3, new GridBagConstraints2(0, 0, 1, 1, 1.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-    sigList.setToolTipText(GlobalState.getResString("SignatureOptions.ListTip"));
+    sigList.setToolTipText(GlobalState.getRes().getString("SignatureOptions.ListTip"));
     //jPanel2.add(jPanel4, null);
     cmdRemove.setEnabled(false);
     cmdDefault.setEnabled(false);
@@ -235,8 +229,18 @@ public class SignatureOptions extends JFrame {
     int def = sigList.getDefault();
     if (def >= 0) {
         String itemName = ((SignatureEntry)(sigEntries.getElementAt(def))).title;
-        GlobalState.setPreference("newsagent.signature.default", itemName);
-      GlobalState.savePreferences();
+        GlobalState.getPreferences().setPreference("newsagent.signature.default", itemName);
+        try
+        {
+           GlobalState.getPreferences().save();
+        }
+        catch (java.io.IOException ioe)
+        {
+           if (Debug.TRACE_LEVEL_1)
+           {
+              Debug.println(1, this, "Failed to save preferences:"+ioe);
+           }  
+        }
     }
 //    GlobalState.setSignatures(p);
 //    GlobalState.saveSignatures();
@@ -414,10 +418,10 @@ class SignatureEntry {
 
 // Display an icon and a string for each object in the list.
 class SigOptCellRenderer extends JLabel implements ListCellRenderer {
-    final static ImageIcon defIcon = new ImageIcon(
-            GlobalState.getImage("defaultitem.gif"));
-    final static ImageIcon nondefIcon = new ImageIcon(
-            GlobalState.getImage("nondefaultitem.gif"));
+    final static ImageIcon defIcon = 
+            GlobalState.getRes().getImage("SignatureOptions.defaultItem");
+    final static ImageIcon nondefIcon = 
+            GlobalState.getRes().getImage("SignatureOptions.nonDefaultItem");
 
     public Component getListCellRendererComponent(JList list, Object value,
                 int index, boolean isSelected, boolean cellHasFocus)
@@ -440,3 +444,11 @@ class SigOptCellRenderer extends JLabel implements ListCellRenderer {
         return this;
     }
 }
+
+// Old Version History: 
+// <LI>0.1 [06/03/98]: Initial Revision
+// <LI>0.2 [07/03/98]: Changed to use GlobalState.getImage() for default item
+// <LI>0.3 [06/06/98]: Added dubh utils import for StringUtils
+
+// New History:
+// $Log: not supported by cvs2svn $

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //   NewsAgent: A Java USENET Newsreader
-//   $Id: SignatureAdd.java,v 1.3 1999-03-22 23:45:01 briand Exp $
+//   $Id: SignatureAdd.java,v 1.4 1999-06-01 00:33:59 briand Exp $
 //   Copyright (C) 1997-9  Brian Duff
 //   Email: bduff@uk.oracle.com
 //   URL:   http://st-and.compsoc.org.uk/~briand/newsagent/
@@ -30,17 +30,14 @@ import java.awt.event.*;
 import dubh.utils.ui.GridBagConstraints2;
 import javax.swing.*;
 import dubh.apps.newsagent.GlobalState;
+import dubh.utils.ui.DubhDialog;
 
 /**
  * Displayed when the user clicks Add.. on the SignatureOptions pane.
- *
- * Version History: <UL>
- * <LI>0.1 [06/03/98]: Initial Revision
- *</UL>
  @author Brian Duff
- @version 0.1 [06/03/98]
+ @version $Id: SignatureAdd.java,v 1.4 1999-06-01 00:33:59 briand Exp $
  */
-public class SignatureAdd extends JDialog {
+public class SignatureAdd extends DubhDialog {
   JPanel panel1 = new JPanel();
   JLabel jLabel1 = new JLabel();
   JTextField jTextField1 = new JTextField();
@@ -77,14 +74,14 @@ public class SignatureAdd extends JDialog {
   }
 
   private void jbInit() throws Exception{
-    jLabel1.setText(GlobalState.getResString("SignatureAdd.Title"));
-    jTextField1.setToolTipText(GlobalState.getResString("SignatureAdd.TitleTip"));
-    jLabel2.setText(GlobalState.getResString("SignatureAdd.Sig"));
+    jLabel1.setText(GlobalState.getRes().getString("SignatureAdd.Title"));
+    jTextField1.setToolTipText(GlobalState.getRes().getString("SignatureAdd.TitleTip"));
+    jLabel2.setText(GlobalState.getRes().getString("SignatureAdd.Sig"));
     jTextArea1.setRows(5);
     jScroll1.setPreferredSize(new Dimension(390, 75));
-    jTextArea1.setToolTipText(GlobalState.getResString("SignatureAdd.SigTip"));
+    jTextArea1.setToolTipText(GlobalState.getRes().getString("SignatureAdd.SigTip"));
     jPanel1.setLayout(flowLayout1);
-    jButton1.setText(GlobalState.getResString("GeneralOK"));
+    jButton1.setText(GlobalState.getRes().getString("GeneralOK"));
     jButton1.addActionListener(new SignatureAdd_jButton1_actionAdapter(this));
     panel1.setLayout(gridBagLayout1);
     panel1.add(jLabel1, new GridBagConstraints2(0, 0, 1, 1, 1.0, 0.0
@@ -152,3 +149,7 @@ class SignatureAdd_jButton1_actionAdapter implements java.awt.event.ActionListen
     adaptee.jButton1_actionPerformed(e);
   }
 }
+
+//
+// $Log: not supported by cvs2svn $
+//
