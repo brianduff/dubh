@@ -1,14 +1,9 @@
-<!-- $Id: build.xml,v 1.5 2001-10-25 23:13:27 briand Exp $ -->
+<!-- $Id: build.xml,v 1.6 2001-10-25 23:26:01 briand Exp $ -->
 
-<!-- This is a build file which can be used with the Jakarta Ant tool to -->
-<!-- build various Dubh libraries / applications. It's written to be fairly -->
-<!-- generic; in theory, only the init target should need to be changed for -->
-<!-- each project. When xml inclusions are supported by various xml parsers -->
-<!-- I'll probably just include all the other stuff from somewhere common -->
-
+<!-- Build file for JFreeCiv -->
 <!-- More information on Ant can be found at http://jakarta.apache.org -->
 
-<project name="jfreeciv" default="all" basedir=".">
+<project name="jfreeciv" default="src" basedir=".">
   <target name="init">
     <tstamp/>
     <!-- The buildnumber task is in the devtools CVS module. It must be in -->
@@ -34,14 +29,12 @@
 
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
     <property name="classpath" value="" />
-    <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
-    <property name="docdir" value="${cvsmodule}/doc" />    
-    <property name="javadocdir" value="${docdir}/api" />
+    <property name="snapshot" value="${modulelong}-src.zip" />
+    <property name="docdir" value="doc" />    
+    <property name="javadocdir" value="javadoc" />
     <property name="javadocpkg" value="${toppackage}.*" />
     <property name="javadoctitle" value="${product} ${modulelong}" />
-    <!-- Used to temporarily build a distribution of the module for zipping -->
-    <property name="distribtmp" value="distribtmp" />
-    <property name="distribname" value="${cvsmodule}/${modulelong}-bin.zip" />
+
 
     <!-- Comma separated list of files that should be copied from the source path into the classpath. You can use wildcards -->
     <property name="copypatterns" value="**/*.gif,**/*.properties" />
@@ -110,40 +103,15 @@
               packagenames="${javadocpkg}"
     />
   </target>
-
-  <!-- The all target -->
-  <target name="all" depends="jar,src-snapshot,javadoc" />
+  
+  <target name="release" depends="jar,src-snapshot,javadoc" />
 
   <!-- The clean target obliterates all traces of the module from the build dir -->
   <target name="clean" depends="init">
-    <deltree dir="${cvsmodule}" />
-  </target>
-
-  <!-- The distrib target creates a binary distribution of the module and zips it up. -->
-  <!-- The distribution consists of all the directories after building, -->
-  <!-- excluding the srcdir and classdir. -->
-  <target name="distrib" depends="all">
-    <!-- Remove any existing distribution -->
-    <delete file="${distribname}" />
-    <!-- Remove any existing distribtmp -->
-    <deltree dir="${distribtmp}" />
-    <mkdir dir="${distribtmp}/${modulelong}" />
-
-    <copydir  src="${cvsmodule}"
-              dest="${distribtmp}/${modulelong}"
-              excludes="${srcbase}/**,${classbase}/**"
-    />
-
-    <!-- Get rid of empty directories in case they exist -->
-    <deltree dir="${distribtmp}/${modulelong}/${srcbase}" />
-    <deltree dir="${distribtmp}/${modulelong}/${classbase}" />
-
-    <zip      zipfile="${distribname}"
-              basedir="${distribtmp}"
-    />
-
-    <!-- And get rid of the temporary directory -->
-    <deltree dir="${distribtmp}" />
+    <delete dir="${classdir}" />
+    <delete dir="${jardir}" />
+    <delete dir="${javadocdir}" />
+    <delete file="${snapshot}" />
   </target>
 
   
