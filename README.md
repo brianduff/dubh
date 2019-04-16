@@ -1,4 +1,4 @@
-This is all stuff I wrote either at University in 1997/8 or in the subsequent few years up to 2002 or thereabouts. It was imported from a CVS repository backup I've been keeping around in Google Drive for many years which I just recently figured out how to import into github via cvs2svn and svn2git.
+This is all stuff I wrote either in my final year at University in 1997/8 or in the subsequent few years after graduating up to 2002 or thereabouts. It was imported from a CVS repository backup I've been keeping around in Google Drive for many years which I just recently figured out how to import into github via cvs2svn and svn2git.
 
 It's all horribly outdated, but some of the more ahem... interesting bits... are probably:
 
