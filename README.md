@@ -8,6 +8,3 @@ It's all horribly outdated, but some of the more ahem... interesting bits... are
 * dju: A variety of utilities for Java, mostly focussed on UI coding. As with everything here, grossly outdated.
 
 I thought I'd share this on github for no particular reason other than the fact that it's a nice place to keep it beyond my backup :D
-
-
-test
