@@ -1,4 +1,0 @@
-Main-Class: org.freeciv.client.Client
-Implementation-Title: Freeciv for Java
-Implementation-Version: 1.0
-Implementation-Vendor: The JFreeciv Team
