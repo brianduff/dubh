@@ -16,14 +16,14 @@ public class UACTMoveNorthWest extends UACTMove
    * Creates an instance of UACTMoveNorthWest.
    * (Called by BasicMoveFactory)
    */
-  public UACTMoveNorthWest() 
+  public UACTMoveNorthWest()
   {
     super();
-    setName( _( "Move NorthWest" ) );
+    setName( translate( "Move NorthWest" ) );
     addAccelerator( KeyEvent.VK_HOME );
     addAccelerator( KeyEvent.VK_NUMPAD7 );
   }
-  
+
   /**
    * Moves the currently focused unit one tile up and left.
    */

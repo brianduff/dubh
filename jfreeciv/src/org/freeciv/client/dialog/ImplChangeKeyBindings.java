@@ -43,33 +43,33 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
  private javax.swing.KeyStroke m_KeyStrokeSelected;
  private BaseDialog m_dialog;
  private final JPanel m_panButtons = new JPanel();
- private final JLabel m_labelKeyBinding = new JLabel( _("Key binding:") );
+ private final JLabel m_labelKeyBinding = new JLabel( translate("Key binding:") );
  private final JTextField m_TextFieldKeyBinding = new JTextField(20);
- private final JButton m_ButtonChangeKeyBinding = new JButton(_("Change"));
+ private final JButton m_ButtonChangeKeyBinding = new JButton(translate("Change"));
  private final JTable m_TableActions = new JTable(m_actionsTableModel);
- 
+
  public ImplChangeKeyBindings(DialogManager mgr, Client c)
  {
   m_client = c;
   m_dlgManager = mgr;
-  
+
   setupActionsTable();
   setupKeyBindingPanel();
  }
- 
+
   public void display()
   {
-    BaseDialog dlg = BaseDialog.createDialog( 
-      m_client.getMainWindow(), _( "Key Bindings" ) );
+    BaseDialog dlg = BaseDialog.createDialog(
+      m_client.getMainWindow(), translate( "Key Bindings" ) );
     dlg.setContent( this );
 
     m_dialog = dlg;
-  
+
     resetActionsList();
-  
-    // Fixme. we should either support OK/ cancel properly, or only have 
+
+    // Fixme. we should either support OK/ cancel properly, or only have
     // one button.
-  
+
     m_dialog.getOKButton().addActionListener( new ActionListener() {
        public void actionPerformed( ActionEvent e )
        {
@@ -77,36 +77,36 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
         undisplay();
        }
       } );
-  
+
     m_dialog.getCancelButton().addActionListener( new ActionListener() {
        public void actionPerformed( ActionEvent e )
        {
         undisplay();
        }
       } );
-  
+
 
     m_dlgManager.showDialog( m_dialog );
   }
- 
+
  public void undisplay()
  {
   m_dlgManager.hideDialog( m_dialog );
  }
- 
+
  /**
   */
  void resetActionsList()
  {
   m_actionsTableModel.refresh();
  }
- 
+
  /**
   */
  void setSelectedKeyStroke(KeyStroke keystroke)
  {
   m_KeyStrokeSelected = keystroke;
-  
+
   StringBuffer element = new StringBuffer();
   if( m_KeyStrokeSelected != null )
   {
@@ -121,7 +121,7 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
   }
   m_TextFieldKeyBinding.setText(element.toString());
  }
- 
+
  /**
   * Initialization function; sets up the city list panel and adds it to the
   * main dialog panel.
@@ -153,9 +153,9 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
    });
   this.addSpacerRow(new javax.swing.JScrollPane(m_TableActions));
  }
- 
 
- 
+
+
  /**
   */
  private void setupKeyBindingPanel()
@@ -163,7 +163,7 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
   JPanel panel = new JPanel();
   FlowLayout fl = new FlowLayout( SwingConstants.WEST, 5, 5 );
   panel.setLayout( fl );
-  
+
   panel.add( m_labelKeyBinding  );
   m_labelKeyBinding.setLabelFor( m_TextFieldKeyBinding );
 
@@ -182,7 +182,7 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
      }
     });
   panel.add(m_TextFieldKeyBinding);
-  
+
   m_ButtonChangeKeyBinding.addActionListener(new ActionListener() {
      public void actionPerformed(ActionEvent e)
      {
@@ -194,15 +194,15 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
      }
     });
   panel.add(m_ButtonChangeKeyBinding);
-  
+
   this.addRow( panel );
  }
- 
+
  private class ActionsTableModel extends AbstractTableModel
  {
   List m_actions;
-  private String[] m_columns = {_("Action"), _("Key Binding")};
-  
+  private String[] m_columns = {translate("Action"), translate("Key Binding")};
+
   public void refresh()
   {
    if( m_actions != null )
@@ -222,7 +222,7 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
      });
    fireTableRowsInserted(0, m_actions.size());
   }
-  
+
   public AbstractClientAction getAction(int row)
   {
    AbstractClientAction action = null;
@@ -232,12 +232,12 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
    }
    return action;
   }
-  
+
   public int getRowCount()
   {
    return m_actions!=null?m_actions.size():0;
   }
-  
+
   public Object getValueAt(int row, int col)
   {
    AbstractClientAction action = getAction(row);
@@ -267,20 +267,20 @@ class ImplChangeKeyBindings extends VerticalFlowPanel
    }
    else return null;
   }
-  
+
   public int getColumnCount()
   {
    return m_columns.length;
   }
-  
+
   public String getColumnName(int column)
   {
    return m_columns[column];
   }
  }
- 
+
  // localization
- private static String _( String txt )
+ private static String translate( String txt )
  {
   return org.freeciv.util.Localize.translate( txt );
  }

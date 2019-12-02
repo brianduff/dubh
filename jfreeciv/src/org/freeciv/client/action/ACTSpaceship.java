@@ -3,14 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 public class ACTSpaceship extends AbstractClientAction
 {
-  public ACTSpaceship() 
+  public ACTSpaceship()
   {
     super();
-    setName( _( "Spaceship" ) );
+    setName( translate( "Spaceship" ) );
     addAccelerator( KeyEvent.VK_F12 );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

@@ -23,14 +23,14 @@ public class PHRulesetNation implements ClientPacketHandler,ProgressItem
     Nation n = (Nation) c.getFactories().getNationFactory().create(pkt);
 
     c.getTileSpec().setupNationFlag( n );
-    
+
   }
   public String getProgressString()
   {
-    return _( "Receiving nations..." );
+    return translate( "Receiving nations..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

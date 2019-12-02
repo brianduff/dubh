@@ -8,13 +8,13 @@ import org.freeciv.common.CommonConstants;
 
 public class UACTMine extends AbstractUnitAction
 {
-  public UACTMine() 
+  public UACTMine()
   {
     super();
-    setName( _( "Mine" ) ); // Needs to be able to change
+    setName( translate( "Mine" ) ); // Needs to be able to change
     addAccelerator( KeyEvent.VK_M );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -23,7 +23,7 @@ public class UACTMine extends AbstractUnitAction
       requestNewUnitActivity( unit, CommonConstants.ACTIVITY_MINE );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_MINE );

@@ -3,12 +3,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 public class ACTCityReport extends AbstractClientAction
 {
-  public ACTCityReport() 
+  public ACTCityReport()
   {
     super();
-    setName( _( "City Report" ) );
+    setName( translate( "City Report" ) );
     addAccelerator( KeyEvent.VK_F1 );
-    
+
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

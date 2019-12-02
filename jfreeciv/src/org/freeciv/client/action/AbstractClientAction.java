@@ -20,7 +20,7 @@ public abstract class AbstractClientAction extends AbstractAction
   /*
    * Creates an ACAction.
    */
-  public AbstractClientAction(Client client) 
+  public AbstractClientAction(Client client)
   {
     this.client = client;
   }
@@ -61,7 +61,7 @@ public abstract class AbstractClientAction extends AbstractAction
   {
     addAccelerator( vcode , 0 );
   }
-  
+
   /*
    * Adds an accelerator for this ACAction.
    */
@@ -71,11 +71,11 @@ public abstract class AbstractClientAction extends AbstractAction
     //If there's nothing in the ACCELERATOR_KEY field this
     // accelerator is put in there.
     if( getFirstAccelerator() == null )
-	setFirstAccelerator( vcode , mod );  
+	setFirstAccelerator( vcode , mod );
     ActionManager.actionManager.add(this);
   }
 
-  /*  
+  /*
    * Puts an accelerator in the ACCELERATOR_KEY field and adds it
    * to the Set of accelerators.
    */
@@ -102,7 +102,7 @@ public abstract class AbstractClientAction extends AbstractAction
   {
       return (KeyStroke)getValue( ACCELERATOR_KEY );
   }
-  
+
   /*
    * Sets the NAME of this ACAction. The name is shown on
    * the Button, MenuItems... that represent this ACAction.
@@ -112,7 +112,7 @@ public abstract class AbstractClientAction extends AbstractAction
     putValue( NAME , string );
   }
 
-  /* 
+  /*
    * Returns the NAME of this ACAction.
    */
   public final String getName()
@@ -162,7 +162,7 @@ public abstract class AbstractClientAction extends AbstractAction
   }
   public final void removeComponent(Component c)
   {
-      Logger.log( Logger.LOG_ERROR , 
+      Logger.log( Logger.LOG_ERROR ,
 		  "AbstractClientAction.removeComponent() - "+
 		  "not yet implemented" );
   }
@@ -176,7 +176,7 @@ public abstract class AbstractClientAction extends AbstractAction
   {
       return visible;
   }
-  
+
   /*
    * Set the visibility of the Components which are representing this
    * ACAction.
@@ -188,8 +188,8 @@ public abstract class AbstractClientAction extends AbstractAction
     visible = b;
     firePropertyChange( "visible" , oldValue , newValue );
   }
-  
-  protected static String _( String txt )
+
+  protected static String translate( String txt )
   {
     return Localize.translate( txt );
   }

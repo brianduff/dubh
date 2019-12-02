@@ -23,10 +23,10 @@ public class PHRulesetBuilding implements ClientPacketHandler,ProgressItem
   }
   public String getProgressString()
   {
-    return _( "Receiving units..." );
+    return translate( "Receiving units..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

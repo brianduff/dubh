@@ -63,7 +63,7 @@ public class UnitInfoPanel extends VerticalFlowPanel
     }
     else
     {
-  
+
       StringBuffer sb = new StringBuffer();
       sb.append( "Type: " );
       sb.append( unit.getUnitType().getName() );
@@ -109,10 +109,10 @@ public class UnitInfoPanel extends VerticalFlowPanel
       validate();
     }
 
-    
+
   }
 
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTBuildIrrigation extends AbstractUnitAction
 {
-  public UACTBuildIrrigation() 
+  public UACTBuildIrrigation()
   {
     super();
-    setName( _( "Build Irrigation" ) );
+    setName( translate( "Build Irrigation" ) );
     addAccelerator( KeyEvent.VK_I );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -23,7 +23,7 @@ public class UACTBuildIrrigation extends AbstractUnitAction
       requestNewUnitActivity( unit, CommonConstants.ACTIVITY_IRRIGATE );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_IRRIGATE );

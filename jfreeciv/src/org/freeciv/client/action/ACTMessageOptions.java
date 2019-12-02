@@ -2,10 +2,10 @@ package org.freeciv.client.action;
 import java.awt.event.ActionEvent;
 public class ACTMessageOptions extends AbstractClientAction
 {
-  public ACTMessageOptions() 
+  public ACTMessageOptions()
   {
     super();
-    setName( _( "Message Options" ) );
+    setName( translate( "Message Options" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {
@@ -19,8 +19,8 @@ public class ACTMessageOptions extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

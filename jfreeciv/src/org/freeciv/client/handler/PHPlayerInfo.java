@@ -19,13 +19,13 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
   {
     return PktPlayerInfo.class;
   }
-  
+
   /**
    */
   public void handle( final Client c, Packet pkt )
   {
     PktPlayerInfo pinfo = (PktPlayerInfo) pkt;
-    
+
     Player p = c.getGame().getPlayer( pinfo.playerno );
 
     p.setPlayerNumber( pinfo.playerno );
@@ -67,9 +67,9 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     {
       p.getResearch().setHasInvention( i, pinfo.inventions[ i ] ); // ?
     }
-    
+
     //?
-    boolean popTechUp = p.getResearch().getCurrentlyResearching().getId() != 
+    boolean popTechUp = p.getResearch().getCurrentlyResearching().getId() !=
       pinfo.researching;
 
     p.getResearch().setResearched( pinfo.researched );
@@ -79,7 +79,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
     p.setFutureTech( pinfo.future_tech );
     p.getAI().setTechGoal( pinfo.tech_goal );
 
-    if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE && 
+    if ( c.getGameState() == CLIENT_GAME_RUNNING_STATE &&
       c.getGame().isCurrentPlayer( p ) )
     {
       if (popTechUp)
@@ -90,7 +90,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
           {
             c.getDialogManager().getScienceReportDialog().refresh();
           }
-          else 
+          else
           {
             c.getDialogManager().getScienceReportDialog().display();
           }
@@ -100,7 +100,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
 
         // if we just learned bridge building and focus is on a settler on
         // a river, the road menu item will remain disabled unless we do
-        // this. 
+        // this.
 
         // if (c.isUnitFocused())
         // {
@@ -126,7 +126,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
       // set... Commented out for now...
 //      if ( c.getGame().isCurrentPlayer( p ) )
 //      {
-//        c.getMainWindow().getConsole().println( 
+//        c.getMainWindow().getConsole().println(
 //          "AI Mode is now "+
 //            (p.getAI().isControlled() ? "ON" : "OFF")
 //        );
@@ -137,7 +137,7 @@ public class PHPlayerInfo implements ClientPacketHandler, Constants
          c.getGame().isCurrentPlayer( p ) &&
          (p.getRevolution() < 1 || p.getRevolution() > 5) &&
          p.getGovernment() == c.getGame().getGovernmentWhenAnarchy() &&
-         (!p.getAI().isControlled() || true )  // ai_popup_windows
+         (true )  // ai_popup_windows
           )
     {
       // c.popupGovernmentDialog();

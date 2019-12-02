@@ -11,13 +11,13 @@ import org.freeciv.net.PktUnitRequest;
 
 public class UACTBuildCity extends AbstractUnitAction
 {
-  public UACTBuildCity() 
+  public UACTBuildCity()
   {
     super();
-    setName( _( "Build City" ) );
+    setName( translate( "Build City" ) );
     addAccelerator( KeyEvent.VK_B );
   }
-  
+
   /**
    * Player pressed 'b' or otherwise instructed unit to build or add to city.
    * If the unit can build a city, we popup the appropriate dialog.
@@ -29,7 +29,7 @@ public class UACTBuildCity extends AbstractUnitAction
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
-    if( unit != null ) 
+    if( unit != null )
     {
       if ( unit.canBuildCity() )
       {
@@ -47,7 +47,7 @@ public class UACTBuildCity extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canBuildCity()

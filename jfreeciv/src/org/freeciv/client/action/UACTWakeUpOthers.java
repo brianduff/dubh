@@ -11,19 +11,19 @@ import org.freeciv.common.Unit;
 
 public class UACTWakeUpOthers extends AbstractUnitAction
 {
-  public UACTWakeUpOthers() 
+  public UACTWakeUpOthers()
   {
     super();
-    setName( _( "Wake up Others" ) );
+    setName( translate( "Wake up Others" ) );
     addAccelerator( KeyEvent.VK_W, Event.SHIFT_MASK );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
     if ( unit != null && isEnabledFor( unit ) )
     {
-      for ( Iterator i = getClient().getGame().getMap().getTile( 
+      for ( Iterator i = getClient().getGame().getMap().getTile(
               unit.getX(), unit.getY() ).getUnits();
             i.hasNext(); )
       {
@@ -32,7 +32,7 @@ public class UACTWakeUpOthers extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     //TODO: is_unit_activity_on_tile(ACTIVITY_SENTRY, u.getX(), u.getY() );

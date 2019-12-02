@@ -6,10 +6,10 @@ import java.awt.Event;
 
 public class ACTTaxRates extends AbstractClientAction
 {
-  public ACTTaxRates() 
+  public ACTTaxRates()
   {
     super();
-    setName( _( "Tax Rates" ) );
+    setName( translate( "Tax Rates" ) );
     setMnemonic( 'T' );
     addAccelerator( KeyEvent.VK_T, Event.SHIFT_MASK );
     setEnabled( true );

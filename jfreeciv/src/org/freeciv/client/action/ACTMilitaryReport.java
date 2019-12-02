@@ -3,12 +3,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 public class ACTMilitaryReport extends AbstractClientAction
 {
-  public ACTMilitaryReport() 
+  public ACTMilitaryReport()
   {
     super();
-    setName( _( "Military Report" ) );
+    setName( translate( "Military Report" ) );
     addAccelerator( KeyEvent.VK_F2 );
-    
+
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

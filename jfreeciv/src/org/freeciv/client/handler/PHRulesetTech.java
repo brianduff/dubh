@@ -23,10 +23,10 @@ public class PHRulesetTech implements ClientPacketHandler,ProgressItem
   }
   public String getProgressString()
   {
-    return _( "Receiving technologies..." );
+    return translate( "Receiving technologies..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

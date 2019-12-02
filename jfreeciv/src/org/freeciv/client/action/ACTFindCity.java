@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Event;
 public class ACTFindCity extends AbstractClientAction
 {
-  public ACTFindCity() 
+  public ACTFindCity()
   {
     super();
-    setName( _( "Find City" ) );
+    setName( translate( "Find City" ) );
     setMnemonic( 'F' );
     addAccelerator( KeyEvent.VK_F, Event.CTRL_MASK );
     setEnabled( true );

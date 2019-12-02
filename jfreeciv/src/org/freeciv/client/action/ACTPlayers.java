@@ -4,10 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 public class ACTPlayers extends AbstractClientAction
 {
-  public ACTPlayers() 
+  public ACTPlayers()
   {
     super();
-    setName( _( "Players" ) );
+    setName( translate( "Players" ) );
     addAccelerator( KeyEvent.VK_F3, 0 );
     setEnabled( true );
   }

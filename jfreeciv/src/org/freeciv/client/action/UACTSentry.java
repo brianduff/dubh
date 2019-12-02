@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTSentry extends AbstractUnitAction
 {
-  public UACTSentry() 
+  public UACTSentry()
   {
     super();
-    setName( _( "Sentry" ) );
+    setName( translate( "Sentry" ) );
     addAccelerator( KeyEvent.VK_S );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -26,7 +26,7 @@ public class UACTSentry extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_SENTRY );

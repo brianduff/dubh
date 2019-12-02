@@ -10,13 +10,13 @@ import org.freeciv.net.PktUnitRequest;
 
 public class UACTDisbandUnit extends AbstractUnitAction
 {
-  public UACTDisbandUnit() 
+  public UACTDisbandUnit()
   {
     super();
-    setName( _( "Disband Unit" ) );
+    setName( translate( "Disband Unit" ) );
     addAccelerator( KeyEvent.VK_D, Event.SHIFT_MASK );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -28,7 +28,7 @@ public class UACTDisbandUnit extends AbstractUnitAction
       getClient().sendToServer( pkt );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return true;

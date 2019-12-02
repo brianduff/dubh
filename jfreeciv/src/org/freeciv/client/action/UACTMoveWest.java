@@ -16,14 +16,14 @@ public class UACTMoveWest extends UACTMove
    * Creates an instance of UACTMoveWest.
    * (Called by BasicMoveFactory)
    */
-  public UACTMoveWest() 
+  public UACTMoveWest()
   {
     super();
-    setName( _( "Move West" ) );
+    setName( translate( "Move West" ) );
     addAccelerator( KeyEvent.VK_KP_LEFT );
     addAccelerator( KeyEvent.VK_NUMPAD4 );
   }
-  
+
   /**
    * Moves the currently focused unit one tile left.
    */

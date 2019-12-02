@@ -19,13 +19,13 @@ import java.awt.event.FocusEvent;
 import java.awt.Component;
 
 /**
- * This class manages all AbstractClientActions and their 
+ * This class manages all AbstractClientActions and their
  * appropriate accelerators. It is especially important
- * for those ACActions which dont have representing MenuItems, 
+ * for those ACActions which dont have representing MenuItems,
  * like UACTMove*, as they hace no accelerators provided by
  * the MenuItems.
  *
- * @author Julian Rüth
+ * @author Julian Rth
  */
 public final class ActionManager
 {
@@ -49,7 +49,7 @@ public final class ActionManager
   protected final class AccelListener implements KeyListener
   {
     /**
-     * After some keyEvent this method is called. It looks up the 
+     * After some keyEvent this method is called. It looks up the
      * appropriate ACAction for the keyCode and tests if this keyCode
      * is already handled by some regular acceleration (JMenuItem).
      * Otherwise it calls the actionPerformed() of the ACAction.

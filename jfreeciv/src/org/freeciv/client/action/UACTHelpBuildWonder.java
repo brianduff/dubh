@@ -6,14 +6,14 @@ import java.awt.Event;
 
 public class UACTHelpBuildWonder extends AbstractUnitAction
 {
-  public UACTHelpBuildWonder() 
+  public UACTHelpBuildWonder()
   {
     super();
-    setName( _( "Help Build Wonder" ) );
+    setName( translate( "Help Build Wonder" ) );
     addAccelerator( KeyEvent.VK_B, Event.SHIFT_MASK );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

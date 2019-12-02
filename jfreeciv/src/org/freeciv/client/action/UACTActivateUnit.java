@@ -5,13 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.Event;
 public class UACTActivateUnit extends AbstractUnitAction
 {
-  public UACTActivateUnit() 
+  public UACTActivateUnit()
   {
     super();
-    setName( _( "Activate Unit" ) );
+    setName( translate( "Activate Unit" ) );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

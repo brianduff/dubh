@@ -2,10 +2,10 @@ package org.freeciv.client.action;
 import java.awt.event.ActionEvent;
 public class ACTClearLog extends AbstractClientAction
 {
-  public ACTClearLog() 
+  public ACTClearLog()
   {
     super();
-    setName( _( "Clear Log" ) );
+    setName( translate( "Clear Log" ) );
     setEnabled( true );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {
@@ -19,8 +19,8 @@ public class ACTClearLog extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

@@ -21,12 +21,12 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   Client client;
   JLabel currentlyResearching = new JLabel();
   JLabel goal = new JLabel();
-  JButton changeGoal = new JButton( _( "Goal" ) );
+  JButton changeGoal = new JButton( translate( "Goal" ) );
   JList knownAdvancesList = new JList();
   JList advancesChoice = new JList();
-  public ResearchDialog( Client c ) 
+  public ResearchDialog( Client c )
   {
-    super( _( "Research" ), true, true, false, false );
+    super( translate( "Research" ), true, true, false, false );
     client = c;
     getContentPane().setLayout( new BorderLayout() );
     JPanel west = new JPanel();
@@ -36,9 +36,9 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
     JPanel south = new JPanel();
     south.setLayout( new BoxLayout( south, BoxLayout.X_AXIS ) );
     updateComponents();
-    west.add( new JLabel( _( "Known advances" ) ) );
+    west.add( new JLabel( translate( "Known advances" ) ) );
     west.add( new JScrollPane( knownAdvancesList ) );
-    center.add( new JLabel( _( "Research" ) ) );
+    center.add( new JLabel( translate( "Research" ) ) );
     // scrollpane below is not needed, but is used to get identical
     // look as list above
     center.add( new JScrollPane( advancesChoice ) );
@@ -50,7 +50,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
     getContentPane().add( BorderLayout.WEST, west );
     getContentPane().add( BorderLayout.CENTER, center );
     pack();
-    advancesChoice.addMouseListener( new MouseAdapter() 
+    advancesChoice.addMouseListener( new MouseAdapter()
     {
       public void mouseClicked( MouseEvent e )
       {
@@ -64,7 +64,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
           // add confirm dialog for tech change
           //if( client.getCurrentPlayer().researchpoints > 0 )
           //{
-          //  int result = JOptionPane.showInternalConfirmDialog( ResearchDialog.this, _( "You will be penalized by cutting science in half\nDo you want to change ?" ), _( "Scrap research" ), JOptionPane.YES_NO_OPTION );
+          //  int result = JOptionPane.showInternalConfirmDialog( ResearchDialog.this, translate( "You will be penalized by cutting science in half\nDo you want to change ?" ), translate( "Scrap research" ), JOptionPane.YES_NO_OPTION );
           //  if( result != JOptionPane.YES_OPTION )
           //  {
           //    return ;
@@ -74,12 +74,12 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
         }
       }
     } );
-    changeGoal.addActionListener( new ActionListener() 
+    changeGoal.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
-        
-      
+
+
 
       //PktRulesetTech t = new GoalPanel(client).showDialog();
       //if ( t != null )
@@ -90,12 +90,12 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   }
   public void updateComponents()
   {
-    
-  
-  
+
+
+
   /*
   PktPlayerInfo player =client.getCurrentPlayer();
-  //currentlyResearching.setText(_("Currently researching ") +
+  //currentlyResearching.setText(translate("Currently researching ") +
   //	client.rulesetTechArr[player.researching].name.toUpperCase());
   //goal.setText(
   //	client.rulesetTechArr[player.tech_goal].name.toUpperCase() );
@@ -136,16 +136,16 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   */
   public void internalFrameOpened( InternalFrameEvent e )
   {
-    
+
   }
   public void internalFrameClosing( InternalFrameEvent e )
   {
-    
+
   }
   public void internalFrameClosed( InternalFrameEvent e )
   {
-    
-  
+
+
 
   //	client.researchDialog = null;
   //		client.desktop.remove(this); // is this needed ?
@@ -153,41 +153,41 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   }
   public void internalFrameIconified( InternalFrameEvent e )
   {
-    
+
   }
   public void internalFrameDeiconified( InternalFrameEvent e )
   {
-    
+
   }
   public void internalFrameActivated( InternalFrameEvent e )
   {
-    
+
   }
   public void internalFrameDeactivated( InternalFrameEvent e )
   {
-    
+
   }
   class GoalPanel extends JPanel
   {
-    
-  
-  
+
+
+
   /*
   JDialog dialog;
   Client client;
-  
-  JButton ok = new JButton(_("OK"));
-  JButton cancel = new JButton(_("Cancel"));
-  
+
+  JButton ok = new JButton(translate("OK"));
+  JButton cancel = new JButton(translate("Cancel"));
+
   PktRulesetTech returnValue;
   JList goal = new JList();
-  
+
   public GoalPanel(Client c) {
   client = c;
   setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
   Vector v = new Vector(100);
   PktRulesetTech[] techs = client.rulesetTechArr;
-  
+
   techloop:
   for ( int i=1; i < techs.length;i++)
   {
@@ -214,7 +214,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   dialog.dispose();
   }
   } );
-  
+
   ok.addActionListener( new ActionListener() {
   public void actionPerformed(ActionEvent evt)
   {
@@ -222,7 +222,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   dialog.setVisible(false);
   dialog.dispose();
   }
-  
+
   } );
   goal.addMouseListener( new MouseAdapter() {
   public void mouseClicked(MouseEvent e)
@@ -233,16 +233,16 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   }
   }
   } );
-  
+
   }
-  
+
   public PktRulesetTech showDialog()
   {
-  dialog = new JDialog(client, _("Choose research goal"), true);
+  dialog = new JDialog(client, translate("Choose research goal"), true);
   java.awt.Container contentPane = dialog.getContentPane();
   contentPane.setLayout(new BorderLayout());
   contentPane.add(this, BorderLayout.CENTER);
-  
+
   dialog.pack();
   dialog.setLocationRelativeTo(client);
   dialog.show();
@@ -250,7 +250,7 @@ public class ResearchDialog extends JInternalFrame implements InternalFrameListe
   }
   */
   }
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

@@ -8,10 +8,10 @@ import org.freeciv.common.Logger;
 
 public class ACTDisconnect extends AbstractClientAction
 {
-  public ACTDisconnect() 
+  public ACTDisconnect()
   {
     super();
-    setName( _( "Disconnect" ) );
+    setName( translate( "Disconnect" ) );
     setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )

@@ -22,14 +22,14 @@ public class PHRulesetUnit implements ClientPacketHandler,ProgressItem
     c.getDialogManager().getProgressDialog().updateProgress( this );
     UnitType ut = (UnitType)c.getFactories().getUnitTypeFactory().create(pkt);
     c.getTileSpec().setupUnitType( ut );
-    
+
   }
   public String getProgressString()
   {
-    return _( "Receiving units..." );
+    return translate( "Receiving units..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

@@ -6,16 +6,16 @@ import org.freeciv.common.CommonConstants;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktGenericInteger;
 
-public class ACTDemographics extends AbstractClientAction 
+public class ACTDemographics extends AbstractClientAction
   implements PacketConstants, CommonConstants
 {
 
   private PktGenericInteger m_packet;
-  
-  public ACTDemographics() 
+
+  public ACTDemographics()
   {
     super();
-    setName( _( "Demographics" ) );
+    setName( translate( "Demographics" ) );
     addAccelerator( KeyEvent.VK_F11 );
     setEnabled( true );
   }
@@ -27,7 +27,7 @@ public class ACTDemographics extends AbstractClientAction
     }
     m_packet.setType( PACKET_REPORT_REQUEST );
     m_packet.value = REPORT_DEMOGRAPHIC;
-    
+
     getClient().sendToServer( m_packet );
   }
 }

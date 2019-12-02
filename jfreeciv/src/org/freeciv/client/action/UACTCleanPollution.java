@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTCleanPollution extends AbstractUnitAction
 {
-  public UACTCleanPollution() 
+  public UACTCleanPollution()
   {
     super();
-    setName( _( "Clean Pollution" ) );
+    setName( translate( "Clean Pollution" ) );
     addAccelerator( KeyEvent.VK_P );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();

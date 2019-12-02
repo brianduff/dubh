@@ -2,10 +2,10 @@ package org.freeciv.client.action;
 import java.awt.event.ActionEvent;
 public class ACTSaveSettings extends AbstractClientAction
 {
-  public ACTSaveSettings() 
+  public ACTSaveSettings()
   {
     super();
-    setName( _( "Save Settings" ) );
+    setName( translate( "Save Settings" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {
@@ -19,8 +19,8 @@ public class ACTSaveSettings extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

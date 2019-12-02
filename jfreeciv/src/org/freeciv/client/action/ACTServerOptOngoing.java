@@ -5,16 +5,16 @@ import org.freeciv.common.CommonConstants;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktGenericInteger;
 
-public class ACTServerOptOngoing extends AbstractClientAction 
+public class ACTServerOptOngoing extends AbstractClientAction
   implements PacketConstants, CommonConstants
 {
 
   private PktGenericInteger m_packet;
-  
-  public ACTServerOptOngoing() 
+
+  public ACTServerOptOngoing()
   {
     super();
-    setName( _( "Server Opt ongoing" ) );
+    setName( translate( "Server Opt ongoing" ) );
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )
@@ -25,7 +25,7 @@ public class ACTServerOptOngoing extends AbstractClientAction
     }
     m_packet.setType( PACKET_REPORT_REQUEST );
     m_packet.value = REPORT_SERVER_OPTIONS2;
-    
+
     getClient().sendToServer( m_packet );
   }
 }

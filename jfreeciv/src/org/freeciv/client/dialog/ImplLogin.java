@@ -48,7 +48,7 @@ class ImplLogin extends JPanel implements DlgLogin
   private JTextField name = new JTextField( "", 10 );
   private JTextField server = new JTextField();
   private JTextField port = new JTextField();
-  private JButton ok = new JButton( _( "Connect" ) );
+  private JButton ok = new JButton( translate( "Connect" ) );
   private ActionButton cancel;
   private InputStream input;
   private OutputStream output;
@@ -56,10 +56,10 @@ class ImplLogin extends JPanel implements DlgLogin
   private DialogManager m_dlgManager;
   private Client m_client;
   private BusyCursor m_busy;
-  
 
-  
-  public ImplLogin( DialogManager mgr, Client c ) 
+
+
+  public ImplLogin( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
@@ -69,12 +69,12 @@ class ImplLogin extends JPanel implements DlgLogin
     JPanel p = new JPanel();
     p.setLayout( new BoxLayout( p, BoxLayout.X_AXIS ) );
 
-    m_tbTabs.add( m_panServer, _( "Freeciv Server Selection" ) );
-    m_tbTabs.add( m_panMetaServer, _( "Metaserver" ) );
+    m_tbTabs.add( m_panServer, translate( "Freeciv Server Selection" ) );
+    m_tbTabs.add( m_panMetaServer, translate( "Metaserver" ) );
     this.setLayout( new BorderLayout() );
     this.add( m_tbTabs, BorderLayout.CENTER );
     this.add( p, BorderLayout.SOUTH );
-    ok.addActionListener( new ActionListener() 
+    ok.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent evt )
       {
@@ -82,7 +82,7 @@ class ImplLogin extends JPanel implements DlgLogin
       }
     } );
 
-    
+
   }
 
 
@@ -95,14 +95,14 @@ class ImplLogin extends JPanel implements DlgLogin
     }
     catch( NumberFormatException e )
     {
-      JOptionPane.showMessageDialog( dialog, _( "Port is not a number" ), _( "Error" ), JOptionPane.WARNING_MESSAGE );
+      JOptionPane.showMessageDialog( dialog, translate( "Port is not a number" ), translate( "Error" ), JOptionPane.WARNING_MESSAGE );
       return;
     }
 
     if ( iport < 0 || iport > 65535 )
     {
-      JOptionPane.showMessageDialog( dialog, 
-        _( "The specified port number is invalid." ), 
+      JOptionPane.showMessageDialog( dialog,
+        translate( "The specified port number is invalid." ),
         m_client.APP_NAME,
         JOptionPane.WARNING_MESSAGE
       );
@@ -130,7 +130,7 @@ class ImplLogin extends JPanel implements DlgLogin
   {
     private String m_host;
     private int m_port;
-    
+
     private ConnectRunnable( String host, int port )
     {
       m_host = host;
@@ -146,7 +146,7 @@ class ImplLogin extends JPanel implements DlgLogin
       }
       catch (UnknownHostException host)
       {
-        JOptionPane.showMessageDialog( dialog, 
+        JOptionPane.showMessageDialog( dialog,
           "Unknown host "+ m_host,
           m_client.APP_NAME,
           JOptionPane.WARNING_MESSAGE
@@ -154,7 +154,7 @@ class ImplLogin extends JPanel implements DlgLogin
       }
       catch (IOException ioe)
       {
-        JOptionPane.showMessageDialog( dialog, 
+        JOptionPane.showMessageDialog( dialog,
           "Unable to connect to a Freeciv server on "+ m_host,
           m_client.APP_NAME,
           JOptionPane.WARNING_MESSAGE
@@ -168,20 +168,20 @@ class ImplLogin extends JPanel implements DlgLogin
             ok.setEnabled( true );
             cancel.setEnabled( true );
           }
-        });        
+        });
       }
     }
 
-    
+
   }
 
   private void reset()
   {
-    name.setText( _( "YourName" ) );
-    server.setText( _( "localhost" ) );
-    port.setText( _( "5555" ) );
+    name.setText( translate( "YourName" ) );
+    server.setText( translate( "localhost" ) );
+    port.setText( translate( "5555" ) );
   }
-  
+
   private JPanel createLabelField( String label, JTextField tf )
   {
     JPanel pan = new JPanel();
@@ -194,35 +194,35 @@ class ImplLogin extends JPanel implements DlgLogin
     pan.add( tf, BorderLayout.CENTER );
     return pan;
   }
-  
+
   private void setupServerPanel()
   {
-    m_panServer.addRow( createLabelField( _( "Name:" ), name ) );
-    m_panServer.addRow( createLabelField( _( "Host:" ), server ) );
-    m_panServer.addRow( createLabelField( _( "Port:" ), port ) );
+    m_panServer.addRow( createLabelField( translate( "Name:" ), name ) );
+    m_panServer.addRow( createLabelField( translate( "Host:" ), server ) );
+    m_panServer.addRow( createLabelField( translate( "Port:" ), port ) );
     m_panServer.addSpacerRow( new JPanel() );
   }
-  
+
   private void setupMetaServerPanel()
   {
     m_metaTable.setModel( new MetaServerTableModel() );
     JScrollPane scr = new JScrollPane( m_metaTable );
     scr.setPreferredSize( new Dimension( TABLE_WIDTH, TABLE_HEIGHT ) );
     m_panMetaServer.addSpacerRow( scr );
-    m_panMetaServer.addRow( new JButton( _( "Update" ) ) );
+    m_panMetaServer.addRow( new JButton( translate( "Update" ) ) );
   }
-  
+
   private int showDialog( JFrame jf )
   {
-    dialog = BaseDialog.createDialog( jf, _( "Choose Server" ), false );
-    
+    dialog = BaseDialog.createDialog( jf, translate( "Choose Server" ), false );
+
     dialog.setContent( this );
-    
+
     dialog.addButton( cancel );
     dialog.addButton( ok );
-  
+
     dialog.getRootPane().setDefaultButton( ok );
-  
+
     reset();
 
 
@@ -238,16 +238,16 @@ class ImplLogin extends JPanel implements DlgLogin
 
     dialog.pack();
     dialog.setLocationRelativeTo( jf );
-    dialog.show();    
-    
+    dialog.show();
+
     return returnValue;
   }
   class MetaServerTableModel extends AbstractTableModel
   {
-    private final String[] COLUMN_NAMES = 
+    private final String[] COLUMN_NAMES =
     {
-      _( "Server Name" ), _( "Port" ), _( "Version" ), _( "Status" ), 
-      _( "Players" ), _( "Comment" )
+      translate( "Server Name" ), translate( "Port" ), translate( "Version" ), translate( "Status" ),
+      translate( "Players" ), translate( "Comment" )
     };
     public String getColumnName( int column )
     {
@@ -281,7 +281,7 @@ class ImplLogin extends JPanel implements DlgLogin
   }
 
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

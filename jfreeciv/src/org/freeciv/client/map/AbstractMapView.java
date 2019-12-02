@@ -49,7 +49,7 @@ public abstract class AbstractMapView implements MapView, Constants
    * the actual map component itself.
    */
   private JScrollPane m_scrollPane;
-  
+
   private boolean m_isCityView;
   private City m_city;
 
@@ -68,8 +68,8 @@ public abstract class AbstractMapView implements MapView, Constants
     m_tileSize = new Dimension( c.getTileSpec().getNormalTileWidth(),
       c.getTileSpec().getNormalTileHeight()
     );
-    m_scrollPane = new JScrollPane();    
-    
+    m_scrollPane = new JScrollPane();
+
     m_component = new MapComponent( getLayers(), new InnerMapViewInfo() );
 
 
@@ -136,7 +136,7 @@ public abstract class AbstractMapView implements MapView, Constants
     }
   }
 
-  public void updateMapBuffer( int tilex, int tiley, int tilew, int tileh, 
+  public void updateMapBuffer( int tilex, int tiley, int tilew, int tileh,
     boolean repaint )
   {
     tilex = getMap().adjustX( tilex );
@@ -154,10 +154,10 @@ public abstract class AbstractMapView implements MapView, Constants
      // m_component.updateTileAt( tilex, tiley, tilew, tileh, repaint );
     //}
   }
-  
+
   public void updateMapBufferVisible()
   {
-    updateMapBuffer( getViewTileOriginX(), getViewTileOriginY(), 
+    updateMapBuffer( getViewTileOriginX(), getViewTileOriginY(),
                      getBufferTileWidth(), getBufferTileHeight(), true );
   }
 
@@ -189,12 +189,12 @@ public abstract class AbstractMapView implements MapView, Constants
 
     updateScrollbars();
   }
-  
+
   public final boolean isCityView()
   {
     return m_isCityView;
   }
-  
+
   protected final City getCity()
   {
     return m_city;
@@ -394,13 +394,13 @@ public abstract class AbstractMapView implements MapView, Constants
 
 
 
-  protected final String _(String s)
+  protected final String translate(String s)
   {
     return Localize.translate( s );
   }
 
   /*
-  protected final String _(String s, Object[] args)
+  protected final String translate(String s, Object[] args)
   {
     return Localize.translate( s, args );
   }
@@ -412,7 +412,7 @@ public abstract class AbstractMapView implements MapView, Constants
      * Get the portion of the map component which is visible to the user through
      * this view.
      *
-     * @return a rectangle indicating (in pixels) the portion of the map 
+     * @return a rectangle indicating (in pixels) the portion of the map
      *    component which the user can currently see
      */
     public Rectangle getVisibleRectangle()

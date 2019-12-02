@@ -18,39 +18,39 @@ import org.freeciv.client.ui.util.*;
 /**
  * Implementation of the Military dialog.  Shows active and in-progress
  * units and their upkeep.
- * 
+ *
  * @author Ben Mazur
  */
-class ImplMilitaryReport extends VerticalFlowPanel 
+class ImplMilitaryReport extends VerticalFlowPanel
   implements DlgMilitaryReport, CommonConstants
 {
-  private JLabel m_labMilitary = new JLabel( _( "Military" ), JLabel.CENTER );
-  private JLabel m_labGovt = new JLabel( _( "<Gov't> of the <Nation>" ), JLabel.CENTER );
-  private JLabel m_labYear = new JLabel( _( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
+  private JLabel m_labMilitary = new JLabel( translate( "Military" ), JLabel.CENTER );
+  private JLabel m_labGovt = new JLabel( translate( "<Gov't> of the <Nation>" ), JLabel.CENTER );
+  private JLabel m_labYear = new JLabel( translate( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
   private UnitsTableModel m_unitsModel;
   private JTable m_tabUnits;
   private JPanel m_panButtons = new JPanel();
-  private JButton m_butClose = new JButton( _( "Close" ) );
-  private JButton m_butUpgrade = new JButton( _( "Upgrade" ) );
-  private JButton m_butRefresh = new JButton( _( "Refresh" ) );
-  
+  private JButton m_butClose = new JButton( translate( "Close" ) );
+  private JButton m_butUpgrade = new JButton( translate( "Upgrade" ) );
+  private JButton m_butRefresh = new JButton( translate( "Refresh" ) );
+
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
-    
-  public ImplMilitaryReport( DialogManager mgr, Client c ) 
+
+  public ImplMilitaryReport( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
-    
+
     addRow( m_labMilitary );
     addRow( m_labGovt );
     addRow( m_labYear );
-    
+
     setupUnitsTable();
     setupButtonPanel();
   }
-  
+
   /**
    * for consistancy
    */
@@ -58,7 +58,7 @@ class ImplMilitaryReport extends VerticalFlowPanel
   {
     return m_client;
   }
-  
+
   /**
    * Shortcut to getClient().getGame().getCurrentPlayer()
    */
@@ -74,13 +74,13 @@ class ImplMilitaryReport extends VerticalFlowPanel
   {
     m_unitsModel = new UnitsTableModel();
     m_tabUnits = new JTable( m_unitsModel );
-    
+
     m_tabUnits.setRowSelectionAllowed( true );
     m_tabUnits.setColumnSelectionAllowed( false );
     m_tabUnits.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
     m_tabUnits.setShowHorizontalLines( false );
     m_tabUnits.setShowVerticalLines( false );
-    
+
     this.addSpacerRow( new JScrollPane( m_tabUnits ) );
   }
 
@@ -90,14 +90,14 @@ class ImplMilitaryReport extends VerticalFlowPanel
    */
   private void setupButtonPanel()
   {
-    m_butClose.addActionListener( new ActionListener() 
+    m_butClose.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
         undisplay();
       }
     } );
-    m_butRefresh.addActionListener( new ActionListener() 
+    m_butRefresh.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -112,29 +112,29 @@ class ImplMilitaryReport extends VerticalFlowPanel
     m_panButtons.add( m_butRefresh );
     this.addRow( m_panButtons );
   }
-  
-  
+
+
   /**
    * Re-populates the combo box and lists, as well as updates the labels
    * with new info from the client
    */
   public void refresh()
   {
-    m_labGovt.setText( _( 
+    m_labGovt.setText( translate(
             getPlayer().getGovernment().getName()
             + " of the "
             + getPlayer().getNation().getPluralName()
             ) );
-    m_labYear.setText( _( 
+    m_labYear.setText( translate(
             getPlayer().getRulerTitle() + " "
             + getPlayer().getName()
             + " : " + getClient().getGame().getYearString()
             ) );
-    
+
     updateUnits();
     resizeTable( m_tabUnits );
   }
-  
+
   /**
    * Repopulate the units table with data from the client
    */
@@ -143,7 +143,7 @@ class ImplMilitaryReport extends VerticalFlowPanel
     ArrayList uList = new ArrayList();
     // [ unittype.id ][ { inprod, active, food, shields } ]
     int[][] unitTotals = new int[ CommonConstants.U_LAST ][ 4 ];
-    
+
     for( Iterator i = getPlayer().getUnits(); i.hasNext(); )
     {
       Unit unit = (Unit)i.next();
@@ -151,7 +151,7 @@ class ImplMilitaryReport extends VerticalFlowPanel
       unitTotals[unit.getType()][2] += unit.getUpkeepFood();
       unitTotals[unit.getType()][3] += unit.getUpkeep();
     }
-    
+
     for( Iterator i = getPlayer().getCities(); i.hasNext(); )
     {
       City city = (City)i.next();
@@ -160,17 +160,17 @@ class ImplMilitaryReport extends VerticalFlowPanel
          unitTotals[city.getCurrentlyBuildingId()][0]++;
       }
     }
-    
+
     int totalInprog = 0, totalActive = 0, totalShields = 0, totalFood = 0;
     for( int i = 0; i < unitTotals.length; i++ )
     {
       if( unitTotals[i][0] == 0 && unitTotals[i][1] == 0 )
       {
         continue;
-      }      
+      }
       final UnitType unitType = (UnitType)getClient().getFactories().getUnitTypeFactory().findById( i );
       Object[] datum = new Object[7];
-      
+
       datum[0] = unitType.getName();
       datum[1] = "?";  //TODO: can_upgrade_unittype() ? "*" : "-"
       datum[2] = new Integer( unitTotals[i][0] );
@@ -178,18 +178,18 @@ class ImplMilitaryReport extends VerticalFlowPanel
       datum[4] = new Integer( unitTotals[i][2] );
       datum[5] = new Integer( unitTotals[i][3] );
       datum[6] = new Integer( i );
-      
+
       totalInprog += unitTotals[i][0];
       totalActive += unitTotals[i][1];
       totalShields += unitTotals[i][2];
       totalFood += unitTotals[i][3];
-      
+
       uList.add( datum );
     }
-    
+
     //TODO: make totals stick to the bottom of the table, yet align each
     // value with the appropriate column.
-    
+
     Object[] datum = new Object[7];
     datum[0] = "Totals:";
     datum[1] = "";
@@ -199,20 +199,20 @@ class ImplMilitaryReport extends VerticalFlowPanel
     datum[5] = new Integer( totalFood );
     datum[6] = new Integer( CommonConstants.U_LAST );
     uList.add( datum );
-    
+
     Object[][] newData = new Object[uList.size()][7];
     uList.toArray( newData );
     m_unitsModel.data = newData;
- 
+
   }
-  
+
   /**
    * Attempt to resize a table's PreferredScrollableViewportSize based on the
    * size of the headers and data within it.  Isn't there some way to do this
    * automatically?  There should be.
-   * 
+   *
    * TableColumn.sizeWidthToFit() seems inadequate.
-   * 
+   *
    * This method might be better off in some utility class.
    */
   private static void resizeTable( JTable table )
@@ -234,7 +234,7 @@ class ImplMilitaryReport extends VerticalFlowPanel
     }
 
     int height = Math.min( 12, table.getRowCount() ) * table.getRowHeight();
-    table.setPreferredScrollableViewportSize( 
+    table.setPreferredScrollableViewportSize(
       new Dimension( totalWidth, height )
     );
   }
@@ -242,38 +242,38 @@ class ImplMilitaryReport extends VerticalFlowPanel
   public void display()
   {
     JDialog dlg = new JDialog(
-      m_client.getMainWindow(), _( "Military" ), true 
+      m_client.getMainWindow(), translate( "Military" ), true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplMilitaryReport.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    
+
     refresh();
-    
+
     m_dlgManager.showDialog( m_dialog );
   }
-  
+
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
-   * A nice, if unoriginal, class representing the columns and data in the 
+   * A nice, if unoriginal, class representing the columns and data in the
    * units table
    */
   class UnitsTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _( "Unit Type" ), _( "U" ), 
-                             _( "In-Prog" ), _( "Active" ), 
-                             _( "Shields" ), _( "Food" ) };
-    Object[][] data = { { _("Phalanx"), _( "-" ), 
-                          new Integer( 0 ), new Integer( 2 ), 
-                          new Integer( 2 ), new Integer( 0 ) }, 
-                        { _("Settlers"), _( "-" ), 
-                          new Integer( 2 ), new Integer( 2 ), 
+    String[] columnNames = { translate( "Unit Type" ), translate( "U" ),
+                             translate( "In-Prog" ), translate( "Active" ),
+                             translate( "Shields" ), translate( "Food" ) };
+    Object[][] data = { { translate("Phalanx"), translate( "-" ),
+                          new Integer( 0 ), new Integer( 2 ),
+                          new Integer( 2 ), new Integer( 0 ) },
+                        { translate("Settlers"), translate( "-" ),
+                          new Integer( 2 ), new Integer( 2 ),
                           new Integer( 0 ), new Integer( 2 ) } };
-    
+
     public int getColumnCount()
     {
       return columnNames.length;
@@ -295,11 +295,11 @@ class ImplMilitaryReport extends VerticalFlowPanel
       return getValueAt( 0, col ).getClass();
     }
   }
-  
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
-  
+
 }

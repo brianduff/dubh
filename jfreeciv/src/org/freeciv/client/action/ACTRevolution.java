@@ -5,14 +5,14 @@ import java.awt.event.ActionEvent;
 
 public class ACTRevolution extends AbstractClientAction
 {
-  public ACTRevolution() 
+  public ACTRevolution()
   {
     super();
-    setName( _( "Revolution" ) );
+    setName( translate( "Revolution" ) );
     setEnabled( false );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

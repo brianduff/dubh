@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 
 public class ACTLocalOptions extends AbstractClientAction
 {
-  public ACTLocalOptions() 
+  public ACTLocalOptions()
   {
     super();
-    setName( _( "Local Options" ) );
+    setName( translate( "Local Options" ) );
     setEnabled( false );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {
@@ -22,8 +22,8 @@ public class ACTLocalOptions extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

@@ -7,10 +7,10 @@ import java.awt.event.KeyEvent;
  */
 public class ACTMapGrid extends AbstractToggleAction
 {
-  public ACTMapGrid() 
+  public ACTMapGrid()
   {
     super();
-    setName( _( "Map Grid" ) );
+    setName( translate( "Map Grid" ) );
     addAccelerator( KeyEvent.VK_G, Event.CTRL_MASK );
   }
   /**
@@ -18,6 +18,6 @@ public class ACTMapGrid extends AbstractToggleAction
    */
   protected void toggleStateChanged()
   {
-    
+
   }
 }

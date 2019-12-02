@@ -19,10 +19,10 @@ public class ACTCenterView extends AbstractClientAction
    * Creates a new ACTCenterView instance.
    *
    */
-  public ACTCenterView() 
+  public ACTCenterView()
   {
     super();
-    setName( _( "Center View" ) );
+    setName( translate( "Center View" ) );
     addAccelerator( KeyEvent.VK_C, 0 );
     setEnabled( true );
   }

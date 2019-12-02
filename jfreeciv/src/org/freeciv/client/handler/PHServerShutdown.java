@@ -27,19 +27,19 @@ class PHServerShutdown extends PHGenericMessage
     catch ( IOException ioe )
     {
       c.getDialogManager().showMessageDialog(
-        _( "An error occurred disconnecting from the server" )
+        translate( "An error occurred disconnecting from the server" )
       );
       Logger.log( Logger.LOG_ERROR, ioe );
     }
-    
-    c.getDialogManager().showMessageDialog( 
-      _( "Lost connection to server!")
+
+    c.getDialogManager().showMessageDialog(
+      translate( "Lost connection to server!")
     );
 
-    
+
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return Localize.translate( txt );
   }

@@ -24,7 +24,7 @@ import org.freeciv.common.Player;
 /**
  * Implementation of the players dialog.  This has some nice buttons
  * for diplomacy & stuff that sure aren't implemented yet.
- * 
+ *
  * @author Ben Mazur
  */
 class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
@@ -32,26 +32,26 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   private PlayerTableModel m_playerTableModel;
   private JTable m_tabPlayers;
   private JPanel m_panButtons = new JPanel();
-  private JButton m_butClose = new JButton( _( "Close" ) );
-  private JButton m_butIntelligence = new JButton( _( "Intelligence" ) );
-  private JButton m_butMeet = new JButton( _( "Meet" ) );
-  private JButton m_butCancelTreaty = new JButton( _( "Cancel Treaty" ) );
-  private JButton m_butWithdrawVision = new JButton( _( "Withdraw Vision" ) );
-  private JButton m_butSpaceship = new JButton( _( "Spaceship" ) );
-  
+  private JButton m_butClose = new JButton( translate( "Close" ) );
+  private JButton m_butIntelligence = new JButton( translate( "Intelligence" ) );
+  private JButton m_butMeet = new JButton( translate( "Meet" ) );
+  private JButton m_butCancelTreaty = new JButton( translate( "Cancel Treaty" ) );
+  private JButton m_butWithdrawVision = new JButton( translate( "Withdraw Vision" ) );
+  private JButton m_butSpaceship = new JButton( translate( "Spaceship" ) );
+
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
-    
-  public ImplPlayers( DialogManager mgr, Client c ) 
+
+  public ImplPlayers( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
-    
+
     setupPlayerTable();
     setupButtonPanel();
-    
-    m_butClose.addActionListener( new ActionListener() 
+
+    m_butClose.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -60,7 +60,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
     } );
     addRow( m_butClose );
   }
-  
+
   private Client getClient()
   {
     return m_client;
@@ -73,19 +73,19 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   {
     m_playerTableModel = new PlayerTableModel();
     m_tabPlayers = new JTable( m_playerTableModel );
-    
+
     m_tabPlayers.setRowSelectionAllowed( true );
     m_tabPlayers.setColumnSelectionAllowed( false );
     m_tabPlayers.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
     m_tabPlayers.setShowHorizontalLines( false );
     m_tabPlayers.setShowVerticalLines( false );
-    
+
     this.addSpacerRow( new JScrollPane( m_tabPlayers ) );
   }
-  
+
   /**
    * Sets up the button panel.
-   * 
+   *
    * TODO: these buttons need to do things!  important things!
    */
   private void setupButtonPanel()
@@ -101,14 +101,14 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
     m_panButtons.add( m_butCancelTreaty );
     m_panButtons.add( m_butWithdrawVision );
     m_panButtons.add( m_butSpaceship );
-    
+
     this.addRow( m_panButtons );
   }
-  
+
   /**
-   * Returns a (non-translated) string indicating the embassy 
+   * Returns a (non-translated) string indicating the embassy
    * status of me and them
-   * 
+   *
    * climisc.c:get_embassy_status()
    */
   private String getEmbassyStatus( Player me, Player them )
@@ -136,11 +136,11 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       }
     }
   }
-  
+
   /**
-   * Returns a (non-translated) string indicating the shared 
+   * Returns a (non-translated) string indicating the shared
    * vision status of me and them
-   * 
+   *
    * climisc.c:get_vision_status()
    */
   private String getVisionStatus( Player me, Player them )
@@ -168,7 +168,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       }
     }
   }
-  
+
   /**
    * Clear and re-populate the player table with fresh data from the client.
    */
@@ -176,7 +176,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   {
     ArrayList pList = new ArrayList();
     final int myID = getClient().getGame().getCurrentPlayer().getId();
-    
+
     for( int i = 0; i < getClient().getGame().getNumberOfPlayers(); i++ ) {
       final Player player = getClient().getGame().getPlayer( i );
       // skip barbarians
@@ -186,32 +186,32 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       }
       String[] datum = new String[9];
       // text for name, plus AI marker
-      datum[0] = _( ( player.getAI().isControlled() ? "*" : "" ) + player.getName() );
+      datum[0] = translate( ( player.getAI().isControlled() ? "*" : "" ) + player.getName() );
       // text for nation
-      datum[1] = _( player.getNation().getName() );
+      datum[1] = translate( player.getNation().getName() );
       // text for embassy
-      datum[2] = _( getEmbassyStatus( getClient().getGame().getCurrentPlayer(), player ) );
+      datum[2] = translate( getEmbassyStatus( getClient().getGame().getCurrentPlayer(), player ) );
       // text for diplomacy state and turns, ignoring me.
       if( i == myID )
       {
-        datum[3] = _( "-" );
+        datum[3] = translate( "-" );
       }
       else
       {
         final DiplomacyState pds = getClient().getGame().getCurrentPlayer().getDiplomacyState( i );
         if( pds.getType() == pds.DS_CEASEFIRE )
         {
-          datum[3] = _( pds.getName() + " (" + pds.getTurnsLeft() + ")" );
+          datum[3] = translate( pds.getName() + " (" + pds.getTurnsLeft() + ")" );
         }
         else
         {
-          datum[3] = _( pds.getName() );
+          datum[3] = translate( pds.getName() );
         }
       }
       // text for shared vision
-      datum[4] = _( getVisionStatus( getClient().getGame().getCurrentPlayer(), player ) );
+      datum[4] = translate( getVisionStatus( getClient().getGame().getCurrentPlayer(), player ) );
       // test for reputation
-      datum[5] = _( player.getReputationName() );
+      datum[5] = translate( player.getReputationName() );
       // text for state
       if( player.isAlive() )
       {
@@ -219,51 +219,51 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
         {
           if( player.isTurnDone() )
           {
-            datum[6] = _( "done" );
+            datum[6] = translate( "done" );
           }
           else
           {
-            datum[6] = _( "moving" );
+            datum[6] = translate( "moving" );
           }
         }
         else
         {
-          datum[6] = _( "" );
+          datum[6] = translate( "" );
         }
       }
       else
       {
-        datum[6] = _( "R.I.P." );
+        datum[6] = translate( "R.I.P." );
       }
       // text for conn. address
-      datum[7] = _( "?" );
+      datum[7] = translate( "?" );
       // text for idleness
       if( player.getNumberOfIdleTurns() > 3 )
       {
-        datum[8] = _( "(idle " + ( player.getNumberOfIdleTurns() - 1 ) + " turns)" );
-      } 
+        datum[8] = translate( "(idle " + ( player.getNumberOfIdleTurns() - 1 ) + " turns)" );
+      }
       else
       {
         datum[8] = "";
       }
-      
+
       pList.add( datum );
     }
-    
+
     String[][] newData = new String[pList.size()][9];
     pList.toArray( newData );
     m_playerTableModel.data = newData;
-    
+
     resizeTable( m_tabPlayers );
   }
-  
+
   /**
    * Attempt to resize a table's PreferredScrollableViewportSize based on the
    * size of the headers and data within it.  Isn't there some way to do this
    * automatically?  There should be.
-   * 
+   *
    * TableColumn.sizeWidthToFit() seems inadequate.
-   * 
+   *
    * This method might be better off in some utility class.
    */
   private static void resizeTable( JTable table )
@@ -284,7 +284,7 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       totalWidth += width;
     }
 
-    table.setPreferredScrollableViewportSize( 
+    table.setPreferredScrollableViewportSize(
       new Dimension( totalWidth, table.getRowCount() * table.getRowHeight() )
     );
   }
@@ -292,38 +292,38 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
   public void display()
   {
     JDialog dlg = new JDialog(
-      m_client.getMainWindow(), _( "Players" ), true 
+      m_client.getMainWindow(), translate( "Players" ), true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplPlayers.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    
+
     refresh();
-    
+
     m_dlgManager.showDialog( m_dialog );
   }
-  
+
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
-   * A nice, if unoriginal, class representing the columns and data in the 
+   * A nice, if unoriginal, class representing the columns and data in the
    * player table
    */
   class PlayerTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _( "Name" ), _( "Nation" ), _( "Embassy" ),
-                             _( "Dipl. State" ), _( "Vision" ), _( "Reputation" ),
-                             _( "State" ), _( "Host" ), _( "Idle" ) };
-    String[][] data = { { _("Robert the Bruce"), _("Scottish"), _("?"), 
-                          _( "No Contact" ), _( "?" ), _( "Spotless" ),
-                          _( "moving" ), _( "localhost" ), _( "(idle 103 turns" ) },
-                        { _("Clint Eastwood the Long Named"), _("Kalamazooean"), _("embassy:Maybe"), 
-                          _( "No Contact" ), _( "vision:Perhaps" ), _( "Dastardly" ),
-                          _( "moving" ), _( "345.134.126.432" ), _( "(idle 2 turns" ) } };
-    
+    String[] columnNames = { translate( "Name" ), translate( "Nation" ), translate( "Embassy" ),
+                             translate( "Dipl. State" ), translate( "Vision" ), translate( "Reputation" ),
+                             translate( "State" ), translate( "Host" ), translate( "Idle" ) };
+    String[][] data = { { translate("Robert the Bruce"), translate("Scottish"), translate("?"),
+                          translate( "No Contact" ), translate( "?" ), translate( "Spotless" ),
+                          translate( "moving" ), translate( "localhost" ), translate( "(idle 103 turns" ) },
+                        { translate("Clint Eastwood the Long Named"), translate("Kalamazooean"), translate("embassy:Maybe"),
+                          translate( "No Contact" ), translate( "vision:Perhaps" ), translate( "Dastardly" ),
+                          translate( "moving" ), translate( "345.134.126.432" ), translate( "(idle 2 turns" ) } };
+
     public int getColumnCount()
     {
       return columnNames.length;
@@ -341,9 +341,9 @@ class ImplPlayers extends VerticalFlowPanel implements DlgPlayers
       return data[row][col];
     }
   }
- 
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

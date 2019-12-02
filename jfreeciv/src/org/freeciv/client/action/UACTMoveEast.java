@@ -16,10 +16,10 @@ public class UACTMoveEast extends UACTMove
    * Creates an instance of UACTMoveEast.
    * (Called by BasicMoveFactory)
    */
-  public UACTMoveEast() 
+  public UACTMoveEast()
   {
     super();
-    setName( _( "Move East" ) );
+    setName( translate( "Move East" ) );
     addAccelerator( KeyEvent.VK_KP_RIGHT );
     addAccelerator( KeyEvent.VK_NUMPAD6 );
   }

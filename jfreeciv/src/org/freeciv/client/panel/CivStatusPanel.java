@@ -19,7 +19,7 @@ public class CivStatusPanel extends VerticalFlowPanel
   }
   // TODO: Add listeners to client for changes in pop, year, gold and tax. (and
   // game state)
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return Localize.translate( txt );
   }

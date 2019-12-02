@@ -31,7 +31,7 @@ public final class MenuFactory{
     JMenuBar jmb = new JMenuBar();
     for( int i = 0;i < MenuDefinitions.MENUS.length;i++ )
     {
-      JMenu menu = new JMenu( _( (String) MenuDefinitions.MENUS[ i ][ 0 ] ) );
+      JMenu menu = new JMenu( translate( (String) MenuDefinitions.MENUS[ i ][ 0 ] ) );
       for( int j = 1;j < MenuDefinitions.MENUS[ i ].length;j++ )
 	{
 	  if( MenuDefinitions.MENUS[ i ][ j ] == null )
@@ -58,7 +58,7 @@ public final class MenuFactory{
     mainWindow.setJMenuBar( jmb );
   }
   private MenuFactory(){}
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return Localize.translate( txt );
   }

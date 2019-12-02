@@ -16,14 +16,14 @@ public class UACTMoveSouthWest extends UACTMove
    * Creates an instance of UACTMoveSouthWest.
    * (Called by BasicMoveFactory)
    */
-  public UACTMoveSouthWest() 
+  public UACTMoveSouthWest()
   {
     super();
-    putValue( NAME, _( "Move SouthWest" ) );
+    putValue( NAME, translate( "Move SouthWest" ) );
     addAccelerator( KeyEvent.VK_END );
     addAccelerator( KeyEvent.VK_NUMPAD1 );
   }
-  
+
   /**
    * Moves the currently focused unit one tile down and left.
    */

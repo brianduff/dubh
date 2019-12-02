@@ -10,13 +10,13 @@ import org.freeciv.net.PktUnitRequest;
 
 public class UACTMakeHomeCity extends AbstractUnitAction
 {
-  public UACTMakeHomeCity() 
+  public UACTMakeHomeCity()
   {
     super();
-    setName( _( "Make Home City" ) );
+    setName( translate( "Make Home City" ) );
     addAccelerator( KeyEvent.VK_H );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -33,7 +33,7 @@ public class UACTMakeHomeCity extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canChangeHomecity();

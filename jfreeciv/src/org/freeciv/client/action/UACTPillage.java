@@ -9,14 +9,14 @@ import org.freeciv.common.CommonConstants;
 
 public class UACTPillage extends AbstractUnitAction
 {
-  public UACTPillage() 
+  public UACTPillage()
   {
     super();
-    setName( _( "Pillage" ) );
+    setName( translate( "Pillage" ) );
     addAccelerator( KeyEvent.VK_P, Event.SHIFT_MASK );
     setEnabled( false );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -28,7 +28,7 @@ public class UACTPillage extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_PILLAGE );

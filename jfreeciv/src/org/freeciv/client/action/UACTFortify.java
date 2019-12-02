@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTFortify extends AbstractUnitAction
 {
-  public UACTFortify() 
+  public UACTFortify()
   {
     super();
-    setName( _( "Fortify" ) );
-    addAccelerator( KeyEvent.VK_F );    
+    setName( translate( "Fortify" ) );
+    addAccelerator( KeyEvent.VK_F );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -23,7 +23,7 @@ public class UACTFortify extends AbstractUnitAction
       requestNewUnitActivity( unit, CommonConstants.ACTIVITY_FORTIFYING );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_FORTIFYING );

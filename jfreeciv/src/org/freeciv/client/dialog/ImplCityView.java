@@ -54,15 +54,15 @@ import org.freeciv.net.PktCityRequest;
 
 /**
  * Implementation of the main city view.
- * 
+ *
  * @author Ben Mazur
  */
-public class ImplCityView extends VerticalFlowPanel 
+public class ImplCityView extends VerticalFlowPanel
   implements DlgCityView, CommonConstants, Constants, PacketConstants
 {
   private static final int VISIBLE_LIST_ROWS = 8;
   private static final int NUM_TILES_HP_BAR = 11;
-  
+
   private VerticalFlowPanel m_panMain = new VerticalFlowPanel();
   // main panel stuff
   private CityCitizensDisplay m_citizensDisplay = new CityCitizensDisplay();
@@ -80,43 +80,43 @@ public class ImplCityView extends VerticalFlowPanel
   private VerticalFlowPanel m_panTrade = new VerticalFlowPanel();
   private VerticalFlowPanel m_panMisc = new VerticalFlowPanel();
   // city stats labels
-  private JLabel m_labFood = new JLabel( _( "Food : x (+-x)" ) );
-  private JLabel m_labShields = new JLabel( _( "Shields : x (+-x)" ) );
-  private JLabel m_labTrade = new JLabel( _( "Trade : x (+-x)" ) );
-  private JLabel m_labGold = new JLabel( _( "Gold (xx%) : x (+-x)" ) );
-  private JLabel m_labScience = new JLabel( _( "Science (xx%) : x" ) );
-  private JLabel m_labLuxury = new JLabel( _( "Luxury (xx%) : x" ) );
-  private JLabel m_labGranary = new JLabel( _( "Granary : x / y" ) );
-  private JLabel m_labPollution = new JLabel( _( "Pollution : x" ) );
+  private JLabel m_labFood = new JLabel( translate( "Food : x (+-x)" ) );
+  private JLabel m_labShields = new JLabel( translate( "Shields : x (+-x)" ) );
+  private JLabel m_labTrade = new JLabel( translate( "Trade : x (+-x)" ) );
+  private JLabel m_labGold = new JLabel( translate( "Gold (xx%) : x (+-x)" ) );
+  private JLabel m_labScience = new JLabel( translate( "Science (xx%) : x" ) );
+  private JLabel m_labLuxury = new JLabel( translate( "Luxury (xx%) : x" ) );
+  private JLabel m_labGranary = new JLabel( translate( "Granary : x / y" ) );
+  private JLabel m_labPollution = new JLabel( translate( "Pollution : x" ) );
   // buildings (and constructing) panel stuff
   private VerticalFlowPanel m_panConstructing = new VerticalFlowPanel();
   private JList m_lisBuildings = new JList();
-  private JButton m_butSellBuilding = new JButton( _( "Sell" ) );
+  private JButton m_butSellBuilding = new JButton( translate( "Sell" ) );
   // producing panel stuff
   private JProgressBar m_pbarConstructing = new JProgressBar();
   private JPanel m_panConstructingButtons = new JPanel();
-  private JButton m_butBuyConstructing = new JButton( _( "Buy (X gold)" ) );
-  private JButton m_butChangeConstructing = new JButton( _( "Change" ) );
+  private JButton m_butBuyConstructing = new JButton( translate( "Buy (X gold)" ) );
+  private JButton m_butChangeConstructing = new JButton( translate( "Change" ) );
   // units panel
   private JScrollPane m_panUnitsPresent;
   private JScrollPane m_panUnitsSupported;
   private CityUnitsDisplay m_cudPresent = new CityUnitsDisplay();
   private CityUnitsDisplay m_cudSupported = new CityUnitsDisplay();
   private VerticalFlowPanel m_panUnitButtons = new VerticalFlowPanel();
-  private JButton m_butActivateUnits = new JButton( _( "Activate All" ) );
-  private JButton m_butUnitList = new JButton( _( "Unit List" ) );
+  private JButton m_butActivateUnits = new JButton( translate( "Activate All" ) );
+  private JButton m_butUnitList = new JButton( translate( "Unit List" ) );
   // button panel buttons
-  private JButton m_butClose = new JButton( _( "Close" ) );
-  private JButton m_butRename = new JButton( _( "Rename" ) );
-  private JButton m_butTrade = new JButton( _( "Trade" ) );
-  private JButton m_butConfigure = new JButton( _( "Configure" ) );
-  
+  private JButton m_butClose = new JButton( translate( "Close" ) );
+  private JButton m_butRename = new JButton( translate( "Rename" ) );
+  private JButton m_butTrade = new JButton( translate( "Trade" ) );
+  private JButton m_butConfigure = new JButton( translate( "Configure" ) );
+
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
   private City m_city;
-    
-  public ImplCityView( DialogManager mgr, Client c ) 
+
+  public ImplCityView( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
@@ -132,7 +132,7 @@ public class ImplCityView extends VerticalFlowPanel
   {
     return m_client;
   }
-  
+
   /**
    * Shortcut (sort of) to m_city
    */
@@ -140,7 +140,7 @@ public class ImplCityView extends VerticalFlowPanel
   {
     return m_city;
   }
-  
+
   /**
    * Shortcut to getClient().getGame().getCurrentPlayer()
    */
@@ -148,23 +148,23 @@ public class ImplCityView extends VerticalFlowPanel
   {
     return getClient().getGame().getCurrentPlayer();
   }
-  
+
   /**
-   * Sets up the main panel that contains all the other panels except 
+   * Sets up the main panel that contains all the other panels except
    * the buttons
    */
   private void setupMainPanel()
   {
-    m_panMain.setBorder( BorderFactory.createTitledBorder( _( "name - pop" ) ) );
-    
+    m_panMain.setBorder( BorderFactory.createTitledBorder( translate( "name - pop" ) ) );
+
     m_panMain.addRow( m_citizensDisplay );
     setupMiddlePanel();
     setupUnitsPanel();
-    
-    
+
+
     this.addSpacerRow( m_panMain );
   }
-  
+
   /**
    * Sets up the middle panel that displays city stats, map and buildings
    */
@@ -173,69 +173,69 @@ public class ImplCityView extends VerticalFlowPanel
     // the map
     m_mapView = getClient().getMainWindow().getMapViewManager().getCityMapView( getCity() );
     JComponent m_comMap = m_mapView.getComponent();
-    m_comMap.setPreferredSize( new Dimension( 
+    m_comMap.setPreferredSize( new Dimension(
             m_client.getTileSpec().getNormalTileWidth() * 5,
             m_client.getTileSpec().getNormalTileHeight() * 5 ) );
     getClient().getMainWindow().getMapViewManager().initialize(); // ???
-    
+
     m_panMap.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
     m_panMap.add( m_comMap );
 
     m_panCityMap.addRow( m_panMap );
-    
+
     // the other components have seperate setups
     m_panMiddle.setLayout( new BorderLayout() );
     setupCityStatsPanel();
     m_panMiddle.add( m_panCityMap, BorderLayout.CENTER );
     setupBuildingsPanel();
-    
+
     m_panMain.addSpacerRow( m_panMiddle );
   }
-  
+
   /**
    * Sets up the city stats panel that displays the city's tile production,
    * trade, granary and pollution.
    */
   private void setupCityStatsPanel()
   {
-    m_panProduction.setBorder( BorderFactory.createTitledBorder( _( "Production" ) ) );
+    m_panProduction.setBorder( BorderFactory.createTitledBorder( translate( "Production" ) ) );
     m_panProduction.addRow( m_labFood );
     m_panProduction.addRow( m_labShields );
     m_panProduction.addRow( m_labTrade );
-    
-    m_panTrade.setBorder( BorderFactory.createTitledBorder( _( "Trade Output" ) ) );
+
+    m_panTrade.setBorder( BorderFactory.createTitledBorder( translate( "Trade Output" ) ) );
     m_panTrade.addRow( m_labGold );
     m_panTrade.addRow( m_labScience );
     m_panTrade.addRow( m_labLuxury );
 
-    m_panMisc.setBorder( BorderFactory.createTitledBorder( _( "Misc" ) ) );
+    m_panMisc.setBorder( BorderFactory.createTitledBorder( translate( "Misc" ) ) );
     m_panMisc.addRow( m_labGranary );
     m_panMisc.addRow( m_labPollution );
-    
+
     m_panCityStats.addSpacerRow( m_panProduction );
     m_panCityStats.addSpacerRow( m_panTrade );
     m_panCityStats.addSpacerRow( m_panMisc );
-    
+
     m_panMiddle.add( m_panCityStats, BorderLayout.WEST );
   }
-  
+
   /**
    * sets up the buildings and producing panel
    */
   private void setupBuildingsPanel()
   {
     // progress bar
-    m_pbarConstructing.setString( _( "xx / xx X Turns" ) );
+    m_pbarConstructing.setString( translate( "xx / xx X Turns" ) );
     m_pbarConstructing.setStringPainted( true );
     // button panel
-    m_butBuyConstructing.addActionListener( new ActionListener() 
+    m_butBuyConstructing.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
         actionBuy();
       }
     } );
-    m_butChangeConstructing.addActionListener( new ActionListener() 
+    m_butChangeConstructing.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -245,14 +245,14 @@ public class ImplCityView extends VerticalFlowPanel
     m_panConstructingButtons.add( m_butBuyConstructing );
     m_panConstructingButtons.add( m_butChangeConstructing );
     // construction panel
-    m_panConstructing.setBorder( BorderFactory.createTitledBorder( _( "Constructing : ?" ) ) );
+    m_panConstructing.setBorder( BorderFactory.createTitledBorder( translate( "Constructing : ?" ) ) );
     m_panConstructing.addSpacerRow( m_pbarConstructing );
     m_panConstructing.addSpacerRow( m_panConstructingButtons );
     // building list
     m_lisBuildings.setListData( new String[] { "building", "building", "etc." } );
     m_lisBuildings.setVisibleRowCount( 6 );
     m_lisBuildings.setPrototypeCellValue( "Really Long Building Name" );
-    m_butSellBuilding.addActionListener( new ActionListener() 
+    m_butSellBuilding.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -263,57 +263,57 @@ public class ImplCityView extends VerticalFlowPanel
     m_panBuildings.addRow( m_panConstructing );
     m_panBuildings.addSpacerRow( new JScrollPane( m_lisBuildings ) );
     m_panBuildings.addRow( m_butSellBuilding );
-  
+
     m_panMiddle.add( m_panBuildings, BorderLayout.EAST );
   }
-  
+
   /**
    * sets up the units panel
    */
   private void setupUnitsPanel()
   {
-    m_panUnitsPresent = new JScrollPane( m_cudPresent, 
-            JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+    m_panUnitsPresent = new JScrollPane( m_cudPresent,
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
             JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
-    m_panUnitsPresent.setBorder( BorderFactory.createTitledBorder( _( "Units Present" ) ) );
-    m_panUnitsSupported = new JScrollPane( m_cudSupported, 
-            JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+    m_panUnitsPresent.setBorder( BorderFactory.createTitledBorder( translate( "Units Present" ) ) );
+    m_panUnitsSupported = new JScrollPane( m_cudSupported,
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
             JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
-    m_panUnitsSupported.setBorder( BorderFactory.createTitledBorder( _( "Units Supported" ) ) );
-    
+    m_panUnitsSupported.setBorder( BorderFactory.createTitledBorder( translate( "Units Supported" ) ) );
+
     m_butActivateUnits.setEnabled( false );
     m_butUnitList.setEnabled( false );
     m_panUnitButtons.addRow( m_butActivateUnits );
     m_panUnitButtons.addRow( m_butUnitList );
-      
+
     m_panUnits.setLayout( new GridBagLayout() );
     m_panUnits.add( m_panUnitsPresent, new GridBagConstraints2( 0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
     m_panUnits.add( m_panUnitsSupported, new GridBagConstraints2( 1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
     m_panUnits.add( m_panUnitButtons, new GridBagConstraints2( 2, 0, 1, 1, 0.0, 1.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets( 0, 1, 0, 1 ), 0, 0 ) );
-    
+
     m_panMain.addRow( m_panUnits );
   }
-  
+
   /**
    * Initialization function; sets up the button panel
    */
   private void setupButtonPanel()
   {
-    m_butClose.addActionListener( new ActionListener() 
+    m_butClose.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
         undisplay();
       }
     } );
-    m_butRename.addActionListener( new ActionListener() 
+    m_butRename.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
         actionRename();
       }
     } );
-    
+
     //TODO: other buttons
     m_butTrade.setEnabled( false );
     m_butConfigure.setEnabled( false );
@@ -325,17 +325,17 @@ public class ImplCityView extends VerticalFlowPanel
     m_panButtons.add( m_butConfigure );
     this.addRow( m_panButtons );
   }
-  
+
   /**
    * Updates the title (name and population) in various places
    */
   public void updateTitle()
   {
-    m_dialog.setTitle( _( m_city.getName() + " - " + m_city.getPopulation() ) );
-    m_panMain.setBorder( BorderFactory.createTitledBorder( 
-            _( m_city.getName() + " - " + m_city.getPopulation() ) ) );
+    m_dialog.setTitle( translate( m_city.getName() + " - " + m_city.getPopulation() ) );
+    m_panMain.setBorder( BorderFactory.createTitledBorder(
+            translate( m_city.getName() + " - " + m_city.getPopulation() ) ) );
   }
-  
+
   /**
    * Updates the map view
    */
@@ -343,7 +343,7 @@ public class ImplCityView extends VerticalFlowPanel
   {
     getClient().getMainWindow().getMapViewManager().setCityViewCity( getCity() );
   }
-  
+
   /**
    * Updates the display of citizen icons
    */
@@ -359,46 +359,46 @@ public class ImplCityView extends VerticalFlowPanel
   public void updateCityStats()
   {
     // production
-    m_labFood.setText( _( 
-            "Food : " + m_city.getFoodProduction() 
+    m_labFood.setText( translate(
+            "Food : " + m_city.getFoodProduction()
             + " (" + ( m_city.getFoodSurplus() > 0 ? "+" : "" )
             + m_city.getFoodSurplus() + ")" ) );
-    m_labShields.setText( _( 
-            "Shields : " + m_city.getShieldProduction() 
+    m_labShields.setText( translate(
+            "Shields : " + m_city.getShieldProduction()
             + " (" + ( m_city.getShieldSurplus() > 0 ? "+" : "" )
             + m_city.getShieldSurplus() + ")" ) );
-    m_labTrade.setText( _( 
+    m_labTrade.setText( translate(
             "Trade : " + ( m_city.getTradeProduction() + m_city.getCorruption() )
-            + " (" + ( m_city.getTradeProduction() > 0 ? "+" : "" ) 
+            + " (" + ( m_city.getTradeProduction() > 0 ? "+" : "" )
             + m_city.getTradeProduction() + ")" ) );
     // trade
-    m_labGold.setText( _( "Gold ("
+    m_labGold.setText( translate( "Gold ("
             + getPlayer().getEconomy().getTax()
-            + "%) : " + m_city.getTaxTotal() 
-            + " (" + ( m_city.getGoldSurplus() > 0 ? "+" : "" ) 
+            + "%) : " + m_city.getTaxTotal()
+            + " (" + ( m_city.getGoldSurplus() > 0 ? "+" : "" )
             + m_city.getGoldSurplus() + ")" ) );
-    m_labScience.setText( _( "Science ("
+    m_labScience.setText( translate( "Science ("
             + getPlayer().getEconomy().getScience()
             + "%) : " + m_city.getScienceTotal() ) );
-    m_labLuxury.setText( _( "Luxury ("
+    m_labLuxury.setText( translate( "Luxury ("
             + getPlayer().getEconomy().getLuxury()
             + "%) : " + m_city.getLuxuryTotal() ) );
     // misc
-    m_labGranary.setText( _( "Granary : " 
+    m_labGranary.setText( translate( "Granary : "
             + ( m_city.hasEffect( B_GRANARY) ? "*" : "" )
             + m_city.getFoodStock() + " / "
             + m_city.getGranarySize() ) );
-    m_labPollution.setText( _( "Pollution : " + m_city.getPollution() ) );
+    m_labPollution.setText( translate( "Pollution : " + m_city.getPollution() ) );
 
   }
-  
+
   /**
    * Updates the constructing panel
    */
   public void updateConstructing()
   {
-    m_panConstructing.setBorder( BorderFactory.createTitledBorder( 
-                                _( "Constructing : " 
+    m_panConstructing.setBorder( BorderFactory.createTitledBorder(
+                                translate( "Constructing : "
                                    + m_city.getCurrentlyBuildingDescription() ) ) );
     final int stock = m_city.getShieldStock();
     final int cost = m_city.getCurrentProductionCost();
@@ -407,13 +407,13 @@ public class ImplCityView extends VerticalFlowPanel
     m_pbarConstructing.setValue( stock );
     m_pbarConstructing.setMaximum( cost );
     m_pbarConstructing.setString( stock + " / " + cost
-                                  + "    " + turns + _( " turns" ) );
-    m_butBuyConstructing.setText( _( "Buy" ) );
+                                  + "    " + turns + translate( " turns" ) );
+    m_butBuyConstructing.setText( translate( "Buy" ) );
   }
-  
+
   /**
    * Updates the buildings list
-   * 
+   *
    * TODO: keep track of these somehow so when they click "sell" we know what to do.
    */
   public void updateBuildingsList()
@@ -422,22 +422,22 @@ public class ImplCityView extends VerticalFlowPanel
     for( int i = 0; i < getClient().getGame().getNumberOfImprovementTypes(); i++ ) {
       if( m_city.hasBuilding( i ) ) {
         final Building bld = getClient().getGame().getBuilding( i );
-        bList.add( new BuildingListItem( bld.getId(), 
-                                         bld.getBuildCost(), 
+        bList.add( new BuildingListItem( bld.getId(),
+                                         bld.getBuildCost(),
                                          bld.getName() ) );
       }
     }
     m_lisBuildings.setListData( bList.toArray() );
   }
-  
+
   /**
    * Updates the unit displays
    */
   public void updateUnitDisplays()
   {
-    m_cudPresent.updateFromIterator( 
+    m_cudPresent.updateFromIterator(
       getClient().getGame().getMap().getTile( getCity().getX(), getCity().getY() ).getUnits(),
-      true );  
+      true );
     m_cudSupported.updateFromIterator( getCity().getSupportedUnits(),
                                        false );
     // do NOT exceed width of middle panel
@@ -447,7 +447,7 @@ public class ImplCityView extends VerticalFlowPanel
     m_cudPresent.validate();
     m_cudSupported.validate();
   }
-  
+
   /**
    * Updates the whole shebang
    */
@@ -460,7 +460,7 @@ public class ImplCityView extends VerticalFlowPanel
     updateBuildingsList();
     updateUnitDisplays();
   }
-  
+
   /**
    * The user has clicked the "Buy" button for Construction
    */
@@ -470,8 +470,8 @@ public class ImplCityView extends VerticalFlowPanel
     int treasury = getPlayer().getEconomy().getGold();
     if( treasury >= cost )
     {
-      int result = m_dlgManager.showConfirmationDialog( 
-              _( "Buy " + getCity().getCurrentlyBuildingDescription() 
+      int result = m_dlgManager.showConfirmationDialog(
+              translate( "Buy " + getCity().getCurrentlyBuildingDescription()
                  + " for " + cost + " gold?\n"
                  + "Treasury contains " + treasury + " gold." ) );
       if( result == JOptionPane.YES_OPTION )
@@ -481,13 +481,13 @@ public class ImplCityView extends VerticalFlowPanel
     }
     else
     {
-      m_dlgManager.showMessageDialog( 
-              _( getCity().getCurrentlyBuildingDescription() 
+      m_dlgManager.showMessageDialog(
+              translate( getCity().getCurrentlyBuildingDescription()
                  + " costs " + cost + " gold.\n"
                  + "Treasury contains " + treasury + " gold." ) );
     }
   }
-  
+
   /**
    * The user has clicked to change construction
    */
@@ -495,7 +495,7 @@ public class ImplCityView extends VerticalFlowPanel
   {
     m_dlgManager.getCityChangeConstructionDialog().display( getCity() );
   }
-  
+
   /**
    * The user has clicked to "Sell" a building
    */
@@ -505,38 +505,38 @@ public class ImplCityView extends VerticalFlowPanel
     {
       return;
     }
-    
+
     BuildingListItem bli = (BuildingListItem)m_lisBuildings.getSelectedValue();
-    int result = m_dlgManager.showConfirmationDialog( 
-            _( "Sell " + bli.m_name + " for " + bli.m_cost
+    int result = m_dlgManager.showConfirmationDialog(
+            translate( "Sell " + bli.m_name + " for " + bli.m_cost
                + " gold?" ) );
     if( result == JOptionPane.YES_OPTION )
     {
       requestSell( bli.m_id );
     }
   }
-  
+
   /**
    * The user has clicked to rename the city.
    */
   private void actionRename()
   {
-    String newName = m_dlgManager.showInputDialog( 
-            _( "What should we rename the city to?" ),
+    String newName = m_dlgManager.showInputDialog(
+            translate( "What should we rename the city to?" ),
             getCity().getName() );
-    
-    if( newName != null && newName.length() > 0 
+
+    if( newName != null && newName.length() > 0
         && !newName.equalsIgnoreCase( "uninitializedValue" ) ) // XXX
     {
       requestRename( newName );
     }
   }
-  
+
   /**
-   * Sends a packet indicating that the city should buy its current 
+   * Sends a packet indicating that the city should buy its current
    * construction
    */
-  private void requestBuy() 
+  private void requestBuy()
   {
     PktCityRequest packet = new PktCityRequest();
     packet.setType( PACKET_CITY_BUY );
@@ -544,9 +544,9 @@ public class ImplCityView extends VerticalFlowPanel
     packet.name = "";
     getClient().sendToServer( packet );
   }
-  
+
   /**
-   * Sends a packet indicating that the user wants to sell the 
+   * Sends a packet indicating that the user wants to sell the
    * specified building
    */
   private void requestSell( int buildingId )
@@ -558,7 +558,7 @@ public class ImplCityView extends VerticalFlowPanel
     packet.name = "";
     getClient().sendToServer( packet );
   }
-  
+
   /**
    * Sends a packet indicating that the user wants to rename the
    * city to the specified new name
@@ -571,41 +571,41 @@ public class ImplCityView extends VerticalFlowPanel
     packet.name = newName;
     getClient().sendToServer( packet );
   }
-  
+
   /**
    * Sets the Dialog visible with teh specified city displayed in it.
    */
   public void display( City city )
   {
     m_city = city;
-    JDialog dlg = new JDialog( 
-      m_client.getMainWindow(), 
-      _( m_city.getName() + " - " + m_city.getPopulation() ), 
-      true 
+    JDialog dlg = new JDialog(
+      m_client.getMainWindow(),
+      translate( m_city.getName() + " - " + m_city.getPopulation() ),
+      true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplCityView.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    
+
     refresh();
-    
+
     m_dlgManager.showDialog( m_dialog );
-    
+
     getClient().getMainWindow().getMapViewManager().setCityViewCity( getCity() ); //XXX
   }
-  
+
   public void undisplay()
   {
     m_city = null;
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
    * A class to display icons of all the units, either present or supported.
-   * 
+   *
    * I think it will be okay to let the units be just icons and to make
    * a right click menu to do all the actions on them.
-   * 
+   *
    * TODO: show unit health, fortification & shield-use status.
    * TODO: pop-up menu
    */
@@ -616,9 +616,9 @@ public class ImplCityView extends VerticalFlowPanel
       super();
       this.setLayout( new FlowLayout() );
     }
-    
+
     /**
-     * Clears and adds unit icons 
+     * Clears and adds unit icons
      */
     public void updateFromIterator( Iterator iter, boolean isPresent )
     {
@@ -637,7 +637,7 @@ public class ImplCityView extends VerticalFlowPanel
       }
     }
   }
-  
+
   /**
    * Superclass of SupportedUnitComponent & PresentUnitComponent.
    */
@@ -648,7 +648,7 @@ public class ImplCityView extends VerticalFlowPanel
     protected Unit m_unit;
     protected IconStack m_icon;
     protected JPopupMenu m_popup;
-    
+
     public UnitComponent( Unit unit )
     {
       super();
@@ -656,10 +656,10 @@ public class ImplCityView extends VerticalFlowPanel
       initIcon();
       initToolTip();
       initPopup();
-      
+
       this.addMouseListener( this );
     }
-    
+
     public  Unit getUnit()
     {
       return m_unit;
@@ -668,9 +668,9 @@ public class ImplCityView extends VerticalFlowPanel
     protected void initIcon()
     {
       m_icon = new IconStack();
-      
+
       m_icon.addIcon( m_unit.getSprite() );
-      
+
       if ( m_unit.getActivity() != ACTIVITY_IDLE )
       {
         int a = m_unit.getActivity();
@@ -730,16 +730,16 @@ public class ImplCityView extends VerticalFlowPanel
       int ihp = ( ( NUM_TILES_HP_BAR - 1 ) * m_unit.getHitPoints() )  / m_unit.getUnitType().getHitPoints();
       ihp = clip( 0, ihp, NUM_TILES_HP_BAR - 1 );
 
-      addIcon( "unit.hp_" + ( ihp * 10 ) ); 
-      
+      addIcon( "unit.hp_" + ( ihp * 10 ) );
+
       setIcon( m_icon );
     }
-    
+
     protected int clip(int lower, int thisOne, int upper)
     {
       return ( thisOne < lower ? lower : ( thisOne > upper ? upper : thisOne ) );
     }
-    
+
     /**
      * Adds another icon to the multiicon, specified by key
      */
@@ -766,9 +766,9 @@ public class ImplCityView extends VerticalFlowPanel
 
       setToolTipText( toolTipBuffer.toString() );
     }
-    
+
     protected abstract void initPopup();
-    
+
     protected void addToPopup( Class aClass )
     {
       Action a = getClient().getAction( aClass );
@@ -776,7 +776,7 @@ public class ImplCityView extends VerticalFlowPanel
       //m_popup.add( ami );
       m_popup.add( a );
     }
-    
+
     //
     // MouseListener
     //
@@ -784,7 +784,7 @@ public class ImplCityView extends VerticalFlowPanel
     {
       maybeShowPopup( e );
     }
-    public void mouseReleased( MouseEvent e ) 
+    public void mouseReleased( MouseEvent e )
     {
       maybeShowPopup( e );
     }
@@ -797,7 +797,7 @@ public class ImplCityView extends VerticalFlowPanel
       }
     }
   }
-  
+
   private class PresentUnitComponent
     extends UnitComponent
   {
@@ -805,11 +805,11 @@ public class ImplCityView extends VerticalFlowPanel
     {
       super( unit );
     }
-    
+
     protected void initPopup()
     {
       m_popup = new JPopupMenu();
-      
+
       addToPopup( UACTActivateUnit.class );
       addToPopup( UACTActivateCloseDialog.class );
       addToPopup( UACTSentry.class );
@@ -819,9 +819,9 @@ public class ImplCityView extends VerticalFlowPanel
       addToPopup( UACTUpgrade.class );
     }
   }
-  
+
   /**
-   * A component to display a supported unit.  Displays the unit icon, with 
+   * A component to display a supported unit.  Displays the unit icon, with
    * the support cost (shield or food) superimposed.
    */
   private class SupportedUnitComponent
@@ -852,20 +852,20 @@ public class ImplCityView extends VerticalFlowPanel
         addIcon( "upkeep.unhappy2" );
       }
     }
-    
+
     protected void initPopup()
     {
       m_popup = new JPopupMenu();
-      
+
       addToPopup( UACTActivateUnit.class );
       addToPopup( UACTActivateCloseDialog.class );
       addToPopup( UACTDisbandUnit.class );
     }
   }
-  
+
   /**
    * Displays icons of all the citizens in the city
-   * 
+   *
    * TODO: change citizen type w/ click
    * TODO: maybe even a pop-up menu
    */
@@ -876,10 +876,10 @@ public class ImplCityView extends VerticalFlowPanel
       super();
       this.setLayout( new FlowLayout() );
     }
-    
+
     /**
      * Clears & re-adds citizen icons from the info in City
-     * 
+     *
      * Ugh, voodoo constants.  Watch out.
      */
     public void updateFromCity()
@@ -892,43 +892,43 @@ public class ImplCityView extends VerticalFlowPanel
       for(int i = 0; i < getCity().getHappyCitizens( 4 ); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 5 + i % 2 ) );
-        citizen.setToolTipText( _( "A Happy " + nation + " Citizen" ) );
+        citizen.setToolTipText( translate( "A Happy " + nation + " Citizen" ) );
         this.add( citizen );
       }
       for(int i = 0; i < getCity().getContentCitizens( 4 ); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 3 + i % 2 ) );
-        citizen.setToolTipText( _( "A Content " + nation + " Citizen" ) );
+        citizen.setToolTipText( translate( "A Content " + nation + " Citizen" ) );
         this.add( citizen );
       }
       for(int i = 0; i < getCity().getUnhappyCitizens( 4 ); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 7 + i % 2 ) );
-        citizen.setToolTipText( _( "An Unhappy " + nation + " Citizen" ) );
+        citizen.setToolTipText( translate( "An Unhappy " + nation + " Citizen" ) );
         this.add( citizen );
       }
       // specialists
       for(int i = 0; i < getCity().getElvises(); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 0 ) );
-        citizen.setToolTipText( _( nation + " Entertainer" ) );
+        citizen.setToolTipText( translate( nation + " Entertainer" ) );
         this.add( citizen );
       }
       for(int i = 0; i < getCity().getScientists(); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 1 ) );
-        citizen.setToolTipText( _( nation + " Scientist" ) );
+        citizen.setToolTipText( translate( nation + " Scientist" ) );
         this.add( citizen );
       }
       for(int i = 0; i < getCity().getTaxmen(); i++ )
       {
         JLabel citizen = new JLabel( spec.getCitizenSprite( 2 ) );
-        citizen.setToolTipText( _( nation + " Taxman" ) );
+        citizen.setToolTipText( translate( nation + " Taxman" ) );
         this.add( citizen );
       }
     }
   }
-  
+
   /**
    * A quick class to hold buidings in the building list
    */
@@ -937,22 +937,22 @@ public class ImplCityView extends VerticalFlowPanel
     public int m_id;
     public int m_cost;
     public String m_name;
-    
+
     public BuildingListItem( int id, int cost, String name )
     {
       m_id = id;
       m_cost = cost;
       m_name = name;
     }
-    
+
     public String toString()
     {
       return m_name;
     }
   }
- 
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

@@ -9,13 +9,13 @@ import org.freeciv.common.CommonConstants;
 
 public class UACTExplodeNuclear extends AbstractUnitAction
 {
-  public UACTExplodeNuclear() 
+  public UACTExplodeNuclear()
   {
     super();
-    setName( _( "Explode Nuclear" ) );
+    setName( translate( "Explode Nuclear" ) );
     addAccelerator( KeyEvent.VK_N, Event.SHIFT_MASK );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -32,7 +32,7 @@ public class UACTExplodeNuclear extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.isFlagSet( CommonConstants.F_NUCLEAR );

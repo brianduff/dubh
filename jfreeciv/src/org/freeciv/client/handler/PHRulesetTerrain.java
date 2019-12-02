@@ -26,10 +26,10 @@ public class PHRulesetTerrain implements ClientPacketHandler,ProgressItem
   }
   public String getProgressString()
   {
-    return _( "Receiving terrain..." );
+    return translate( "Receiving terrain..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

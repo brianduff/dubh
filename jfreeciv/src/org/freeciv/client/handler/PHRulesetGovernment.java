@@ -22,17 +22,17 @@ public class PHRulesetGovernment implements ClientPacketHandler,ProgressItem
   {
     PktRulesetGovernment prt = (PktRulesetGovernment)pkt;
     c.getDialogManager().getProgressDialog().updateProgress( this );
-    Government gov = (Government) 
+    Government gov = (Government)
       c.getFactories().getGovernmentFactory().create(prt);
 
     c.getTileSpec().setupGovernment( gov );
   }
   public String getProgressString()
   {
-    return _( "Receiving governments..." );
+    return translate( "Receiving governments..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

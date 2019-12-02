@@ -48,7 +48,7 @@ import java.io.*;
  value:  a signed integer, or a double-quoted string, or a
  gettext-marked double quoted string.  Strings _may_ contain
  raw embedded newlines, and escaped doublequotes, or \.
- eg:  '123', '-999', '"foo"', '_("foo")'
+ eg:  '123', '-999', '"foo"', 'translate("foo")'
  returned token: string containing number, for numeric, or string
  starting at first doublequote for strings, but ommiting
  trailing double-quote.  Note this does _not_ translate
@@ -63,14 +63,14 @@ public class InputFile
   {
     public String getToken( InputFile file );
   }
-  
-  static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(), 
-  INF_TOK_ENTRY_NAME = new EntryNameGetter(), INF_TOK_EOL = new EOLGetter(), 
-  INF_TOK_TABLE_START = new TableStartGetter(), 
-  INF_TOK_TABLE_END = new TableEndGetter(), 
-  INF_TOK_COMMA = new CommaGetter(), 
+
+  static final TokenGetter INF_TOK_SECTION_NAME = new SectionNameGetter(),
+  INF_TOK_ENTRY_NAME = new EntryNameGetter(), INF_TOK_EOL = new EOLGetter(),
+  INF_TOK_TABLE_START = new TableStartGetter(),
+  INF_TOK_TABLE_END = new TableEndGetter(),
+  INF_TOK_COMMA = new CommaGetter(),
   INF_TOK_VALUE = new ValueGetter();
-  
+
   private BufferedReader m_is;
   private boolean m_eof;
   private String m_curLine = "";
@@ -98,17 +98,17 @@ public class InputFile
     assert (m_is != null);
     assert ( m_lineNum >= 0 ) ;
     assert ( m_curLinePos >= 0 );
-    assert ( m_curLine.length() >=  0 );
-    assert ( m_copyLine.length() >= 0 ) ;
-    assert ( m_token.length() >= 0 ) ;
-    assert ( m_partial.length() >= 0 );
+    assert ( !m_curLine.isEmpty() );
+    assert ( !m_copyLine.isEmpty() ) ;
+    assert ( !m_token.isEmpty() ) ;
+    assert ( !m_partial.isEmpty() );
   }
-  
+
   private boolean isComment( char c )
   {
     return ( c == '#' || c == ';' );
   }
-  
+
   private void initZeros()
   {
     m_is = null;
@@ -128,16 +128,16 @@ public class InputFile
   private void open( BufferedReader br )
   {
     initZeros();
-    m_is = br; 
+    m_is = br;
   }
-  
-  
+
+
   public void open( String filename )
                throws IOException
   {
     open( new BufferedReader( new FileReader( filename ) ) );
   }
-  
+
   public void close()
   {
     assertSanity();

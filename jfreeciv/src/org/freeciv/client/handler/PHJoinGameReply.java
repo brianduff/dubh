@@ -22,24 +22,24 @@ public class PHJoinGameReply implements ClientPacketHandler
   {
     return PktJoinGameReply.class;
   }
-  
+
   /**
    */
   public void handle( Client c, Packet pkt )
   {
     PktJoinGameReply p = (PktJoinGameReply)pkt;
-    
+
     if( !p.youCanJoin )
     {
-      JOptionPane.showMessageDialog( 
-        c.getMainWindow(), 
+      JOptionPane.showMessageDialog(
+        c.getMainWindow(),
         "Your request to join the game was refused: \n"+
         p.message,
         c.APP_NAME,
-        JOptionPane.WARNING_MESSAGE 
+        JOptionPane.WARNING_MESSAGE
       );
-      c.getMainWindow().getConsole().println( 
-        "You were rejected from the game: " + p.message 
+      c.getMainWindow().getConsole().println(
+        "You were rejected from the game: " + p.message
       );
 
       try
@@ -50,11 +50,11 @@ public class PHJoinGameReply implements ClientPacketHandler
       catch ( IOException ioe )
       {
         c.getDialogManager().showMessageDialog(
-          _( "An error occurred disconnecting from the server" )
+          translate( "An error occurred disconnecting from the server" )
         );
         Logger.log( Logger.LOG_ERROR, ioe );
       }
-      
+
       return ;
     }
 
@@ -64,13 +64,13 @@ public class PHJoinGameReply implements ClientPacketHandler
     {
       return;
     }
-    
+
     c.getMainWindow().getConsole().println( "Client capability string: "+ c.getCapabilities() );
-    c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities );     
+    c.getMainWindow().getConsole().println( "Server capability string: "+ p.capabilities );
 
   }
 
-  private static String _(String s)
+  private static String translate(String s)
   {
     return Localize.translate( s );
   }

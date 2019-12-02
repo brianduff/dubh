@@ -5,13 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.Event;
 public class UACTUpgrade extends AbstractUnitAction
 {
-  public UACTUpgrade() 
+  public UACTUpgrade()
   {
     super();
-    setName( _( "Upgrade" ) );
+    setName( translate( "Upgrade" ) );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

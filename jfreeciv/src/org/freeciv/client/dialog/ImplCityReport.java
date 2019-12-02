@@ -31,9 +31,9 @@ import org.freeciv.client.dialog.util.MultiLineHeaderJTable;
 
 public class ImplCityReport extends JDialog implements DlgCityReport
 {
-  private static String[] buttonLabels = { _("Close"), _("Center"), _("Popup"),
-                                      _("Buy"), _("Change"), _("Change All"),
-                                      _("Refresh"), _("Select"), _("Configure") };
+  private static String[] buttonLabels = { translate("Close"), translate("Center"), translate("Popup"),
+                                      translate("Buy"), translate("Change"), translate("Change All"),
+                                      translate("Refresh"), translate("Select"), translate("Configure") };
 
   private Client m_client;
   private FlowLayout layout = new FlowLayout();
@@ -56,28 +56,28 @@ public class ImplCityReport extends JDialog implements DlgCityReport
   private void setupHeader()
   {
     Box box = new Box( BoxLayout.Y_AXIS );
-    JTextField text1 = new JTextField( _("Cities") );
-    JTextField text2 = new JTextField( _("Democracy of the Americans") );
-    JTextField text3 = new JTextField( _("George W Bush: 2001 AD") );
+    JTextField text1 = new JTextField( translate("Cities") );
+    JTextField text2 = new JTextField( translate("Democracy of the Americans") );
+    JTextField text3 = new JTextField( translate("George W Bush: 2001 AD") );
     text1.setEditable( false );
     text1.setOpaque( false );
     text1.setHorizontalAlignment( JTextField.CENTER );
     text1.setBorder( null );
-    box.add( _("Cities"), text1 );
+    box.add( translate("Cities"), text1 );
 
     text2.setEditable( false );
     text2.setOpaque( false );
     text2.setHorizontalAlignment( JTextField.CENTER );
     text2.setBorder( null );
-    box.add( _("<Goverment> of the <Country>"), text2 );
+    box.add( translate("<Goverment> of the <Country>"), text2 );
 
     text3.setEditable( false );
     text3.setOpaque( false );
     text3.setHorizontalAlignment( JTextField.CENTER );
     text3.setBorder( null );
-    box.add( _("<Leader>: <Date>"), text3 );
+    box.add( translate("<Leader>: <Date>"), text3 );
 
-    layout.addLayoutComponent( _("Header"), box );
+    layout.addLayoutComponent( translate("Header"), box );
     getContentPane().add( box );
   }
 
@@ -94,7 +94,7 @@ public class ImplCityReport extends JDialog implements DlgCityReport
     table.setShowGrid( false );
     JScrollPane scroll = new JScrollPane( table );
     scroll.setPreferredSize( new Dimension( 696, 300 ) );
-    layout.addLayoutComponent( _("Table"), scroll );
+    layout.addLayoutComponent( translate("Table"), scroll );
     getContentPane().add( scroll );
   }
 
@@ -169,11 +169,11 @@ public class ImplCityReport extends JDialog implements DlgCityReport
 
 
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
-  
+
   public void refresh()
   {
     ;
@@ -191,13 +191,13 @@ public class ImplCityReport extends JDialog implements DlgCityReport
 
   private class MyTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _("Name"), _("State"), _("Workers\nH/C/U"), _("Surplus\nF/P/T"),
-                            _("Economy\nG/L/S"), _("Food\nStock"),
-                            _("Currently Building\n(Stock, Target, Turns, Buy)") };
-    Object[][] data = { { _("New York"), _("War"), _("0/5/1"), _("23/15/31"), _("3/6/1"),
-                            _("97/120"), _("(La,la,la,la)") },
-                        { _("San Diego"), _("Peace"), _("9/2/5"), _("3/5/2"),
-                            _("2/6/8"), _("30/40"), _("(A,a,fl,al)") } };
+    String[] columnNames = { translate("Name"), translate("State"), translate("Workers\nH/C/U"), translate("Surplus\nF/P/T"),
+                            translate("Economy\nG/L/S"), translate("Food\nStock"),
+                            translate("Currently Building\n(Stock, Target, Turns, Buy)") };
+    Object[][] data = { { translate("New York"), translate("War"), translate("0/5/1"), translate("23/15/31"), translate("3/6/1"),
+                            translate("97/120"), translate("(La,la,la,la)") },
+                        { translate("San Diego"), translate("Peace"), translate("9/2/5"), translate("3/5/2"),
+                            translate("2/6/8"), translate("30/40"), translate("(A,a,fl,al)") } };
 
     public int getColumnCount()
     {

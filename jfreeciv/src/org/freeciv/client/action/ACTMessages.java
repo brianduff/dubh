@@ -3,10 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 public class ACTMessages extends AbstractClientAction
 {
-  public ACTMessages() 
+  public ACTMessages()
   {
     super();
-    setName( _( "Messages" ) );
+    setName( translate( "Messages" ) );
     addAccelerator( KeyEvent.VK_F10, 0 );
     setEnabled( false );
   /**
@@ -21,8 +21,8 @@ public class ACTMessages extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

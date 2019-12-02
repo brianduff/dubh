@@ -8,22 +8,22 @@ import java.util.Iterator;
 
 
 /**************************************************************************
- 
+
  Java conversion: Brian Duff <bri@dubh.co.uk> from common/registry.c
- 
+
  Description of the file format:
  (This is based on a format by the original authors, with
  various incremental extensions. --dwp)
- 
+
  - Whitespace lines are ignored, as are lines where the first
  non-whitespace character is ';' (comment lines).
  Optionally '#' can also be used for comments.
- 
+
  - A line with "[name]" labels the start of a section with
  that name; one of these must be the first non-comment line in
  the file.  Any spaces within the brackets are included in the
  name, but this feature (?) should probably not be used...
- 
+
  - Within a section, lines have one of the following forms:
  subname = "stringvalue"
  subname = -digits
@@ -35,26 +35,26 @@ import java.util.Iterator;
  can, but they have no particular significance.  There can be
  optional whitespace before and/or after the equals sign.
  You can put a newline after (but not before) the equals sign.
- 
+
  Backslash is an escape character in strings (double-quoted strings
  only, not names); recognised escapes are \n, \\, and \".
  (Any other \<char> is just treated as <char>.)
- 
+
  - Gettext markings:  You can surround strings like so:
- foo = _("stringvalue")
+ foo = translate("stringvalue")
  The registry just ignores these extra markings, but this is
  useful for marking strings for translations via gettext tools.
- 
+
  - Multiline strings:  Strings can have embeded newlines, eg:
- foo = _("
+ foo = translate("
  This is a string
  over multiple lines
  ")
  This is equivalent to:
- foo = _("\nThis is a string\nover multiple lines\n")
+ foo = translate("\nThis is a string\nover multiple lines\n")
  Note that if you missplace the trailing doublequote you can
  easily end up with strange errors reading the file...
- 
+
  - Vector format: An entry can have multiple values separated
  by commas, eg:
  foo = 10, 11, "x"
@@ -70,7 +70,7 @@ import java.util.Iterator;
  not there are subsequent elements.  However as a convenience, if
  you try to lookup "foo,0" then you get back "foo".  (So you should
  never have "foo,0" as a real name in the datafile.)
- 
+
  - Tabular format:  The lines:
  foo = { "bar",  "baz",   "bax"
  "wow",   10,     -5
@@ -96,18 +96,18 @@ import java.util.Iterator;
  If a row has more entries than column headings, the last column is
  treated as a vector (as above).  You can optionally put a newline
  after '=' and/or after '{'.
- 
+
  The equivalence above between the new and old formats is fairly
  direct: internally, data is converted to the old format.
  In principle it could be a good idea to represent the data
  as a table (2-d array) internally, but the current method
  seems sufficient and relatively simple...
- 
+
  There is a limited ability to save data in tabular:
  So long as the section_file is constructed in an expected way,
  tabular data (with no missing or extra values) can be saved
  in tabular form.  (See section_file_save().)
- 
+
  - Multiline vectors: if the last non-comment non-whitespace
  character in a line is a comma, the line is considered to
  continue on to the next line.  Eg:
@@ -117,7 +117,7 @@ import java.util.Iterator;
  This is equivalent to the original "vector format" example above.
  Such multi-lines can occur for column headings, vectors, or
  table rows, again with some potential for strange errors...
- 
+
  ***************************************************************************/
 public class Registry
 {
@@ -127,18 +127,18 @@ public class Registry
   private ArrayList sections;
   private HashMap hashd;
   private Object sbuffer; //?
-  
+
   private class Entry
   {
     public String name;
     public int ivalue;
     public String svalue;
     public int used;
-    public Entry() 
+    public Entry()
     {
-      
+
     }
-    public Entry( String name, String tok ) 
+    public Entry( String name, String tok )
     {
       this.name = name;
       if( tok.charAt( 0 ) == '\"' )
@@ -171,11 +171,11 @@ public class Registry
    * Construct a Registry. To actually parse a file, use the loadFile()
    * method.
    */
-  public Registry() 
+  public Registry()
   {
     init();
   }
-  
+
   private void init()
   {
     filename = null;
@@ -184,7 +184,7 @@ public class Registry
     hashd = null;
   // sb = sbuf_new();
   }
-  
+
   private String getFilename()
   {
     if( filename == null )
@@ -196,7 +196,7 @@ public class Registry
       return filename;
     }
   }
-  
+
   /**
    *   Print log messages for any entries in the file which have
    * not been looked up -- ie, unused or unrecognised entries.
@@ -206,7 +206,7 @@ public class Registry
    */
   private void fileCheckUnused()
   {
-    
+
   }
 
   /**
@@ -218,7 +218,7 @@ public class Registry
    * @throws org.freeciv.common.RegistryParseException if the file is
    *    badly formed and could not be parsed
    */
-//  public void loadFile( String filename ) throws IOException, 
+//  public void loadFile( String filename ) throws IOException,
 //    RegistryParseException
 //  {
 //    this.filename = filename;
@@ -226,7 +226,7 @@ public class Registry
 //  }
 
   /**
-   * Load and parse the specified InputStream. 
+   * Load and parse the specified InputStream.
    *
    * @param is the input stream to read from
    * @throws java.io.IOException if an error occurs reading from the stream
@@ -242,7 +242,7 @@ public class Registry
   private void loadFile( InputFile input ) throws IOException,
       RegistryParseException
   {
-  
+
     InputFile inf;
     Section psection = null;
     Entry pentry = null;
@@ -263,7 +263,7 @@ public class Registry
     inf = input;
 
     init();
-    
+
     // ath_init(...)
     // sb = sf->sb;  // ln 380
     while( !inf.atEof() )
@@ -452,7 +452,7 @@ public class Registry
   {
     return lookupString( path, (Object[])null );
   }
-  
+
   /**
    * Look up a string in the file, substituting the specified array of
    * parameters into the path before the lookup
@@ -484,18 +484,18 @@ public class Registry
     }
     return pentry.svalue;
   }
-  
+
   private class StringOrInt
   {
     public String string;
     public int integer;
   }
-  
+
   public StringOrInt lookupStringOrInt( String path )
   {
     return lookupStringOrInt( path, null );
   }
-  
+
   /**
    * Convenient in C. messy in java.
    */
@@ -607,7 +607,7 @@ public class Registry
   {
     return lookupListDimensions( path, null );
   }
-  
+
   /**
    * Returns the number of elements in a "vector".
    * That is, returns the number of consecutive entries in the sequence:
@@ -631,7 +631,7 @@ public class Registry
   {
     return lookupStringList( path, null );
   }
-  
+
   /**
    *  Return a pointer for a list of integers for a "vector".
    * The return value is malloced here, and should be freed by the user.
@@ -717,7 +717,7 @@ public class Registry
         pentry = new Entry();
         pentry.name = ent_name;
         psection.entries.add( pentry );
-        
+
         // Add to hash
         hashd.put( psection.name + "." + pentry.name, pentry );
         return pentry;
@@ -733,7 +733,7 @@ public class Registry
     hashd.put( psection.name + "." + pentry.name, pentry );
     return pentry;
   }
-  
+
   /**
    * Get all section names with the specified prefix. Returns null
    * if none match. Case insensitive.
@@ -776,7 +776,7 @@ public class Registry
 
     return listCopy.iterator();
   }
-  
+
   /**
    * Substitutes % parameters in the original string with object values.
    * Unlike the C version, this doesn't care what the letter after the
@@ -808,7 +808,7 @@ public class Registry
       lastPos = nextPos;
       nextPos = original.indexOf( '%', lastPos + 2 );
     }
-    
+
 
     // append any remaining bits of the string.
     int lastSubst = original.lastIndexOf( '%' );
@@ -824,23 +824,23 @@ public class Registry
     {
       "just", "something"
     } ) );
-  
+
   /*
   Registry r = new Registry();
-  
+
   if (args.length < 2)
   {
   System.err.println("Please specify a filename and a key to look up");
   System.exit(1);
   }
-  
+
   String fname = args[0];
   String key = args[1];
-  
+
   r.loadFile(fname);
-  
+
   System.out.println(r.lookupString(key));
-  
+
   */
   }
 }

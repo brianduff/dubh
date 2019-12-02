@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.Event;
 public class UACTConnect extends AbstractUnitAction
 {
-  public UACTConnect() 
+  public UACTConnect()
   {
     super();
-    setName( _( "Connect" ) );
+    setName( translate( "Connect" ) );
     addAccelerator( KeyEvent.VK_C, Event.SHIFT_MASK );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

@@ -8,13 +8,13 @@ import org.freeciv.common.CommonConstants;
 
 public class UACTAutoExplore extends AbstractUnitAction
 {
-  public UACTAutoExplore() 
+  public UACTAutoExplore()
   {
     super();
-    setName( _( "Auto Explore" ) );
+    setName( translate( "Auto Explore" ) );
     addAccelerator( KeyEvent.VK_X );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -23,7 +23,7 @@ public class UACTAutoExplore extends AbstractUnitAction
       requestNewUnitActivity( unit, CommonConstants.ACTIVITY_EXPLORE );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_EXPLORE );

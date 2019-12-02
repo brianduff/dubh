@@ -19,53 +19,53 @@ import org.freeciv.net.WorkList;
 /**
  * Implementation of the science dialog.  Used to view/change current
  * research or reserach goal.
- * 
+ *
  * @author Ben Mazur
  */
-class ImplScienceReport extends VerticalFlowPanel 
+class ImplScienceReport extends VerticalFlowPanel
   implements DlgScienceReport, CommonConstants, ItemListener
 {
   private final static int KNOWN_COLUMNS = 4;
   private final static String PROTOTYPE_STRING = "A Long Tech Name XXX";
-  
+
   // top-level
-  private JLabel m_labScience = new JLabel( _( "Science" ), JLabel.CENTER );
-  private JLabel m_labGovt = new JLabel( _( "<Gov't> of the <Nation>" ), JLabel.CENTER );
-  private JLabel m_labYear = new JLabel( _( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
-  private JLabel m_labTurns = new JLabel( _( "(X turns/advance)" ), JLabel.CENTER );
+  private JLabel m_labScience = new JLabel( translate( "Science" ), JLabel.CENTER );
+  private JLabel m_labGovt = new JLabel( translate( "<Gov't> of the <Nation>" ), JLabel.CENTER );
+  private JLabel m_labYear = new JLabel( translate( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
+  private JLabel m_labTurns = new JLabel( translate( "(X turns/advance)" ), JLabel.CENTER );
   private JPanel m_panResearch = new JPanel();
   private JPanel m_panGoal = new JPanel();
   private JPanel m_panKnown = new JPanel();
-  private JButton m_butClose = new JButton( _( "Close" ) );
+  private JButton m_butClose = new JButton( translate( "Close" ) );
   // current research
   private JComboBox m_cmbResearch;
   private JProgressBar m_pbrResearch= new JProgressBar();
-  private JCheckBox m_chkHelp = new JCheckBox( _( "Help" ) );
+  private JCheckBox m_chkHelp = new JCheckBox( translate( "Help" ) );
   // research goal
   private JComboBox m_cmbGoal;
-  private JLabel m_labGoalSteps = new JLabel( _( "(X steps)" ) );
+  private JLabel m_labGoalSteps = new JLabel( translate( "(X steps)" ) );
   // known techs
   private JList m_lstKnownTechs;
-  
+
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
-    
-  public ImplScienceReport( DialogManager mgr, Client c ) 
+
+  public ImplScienceReport( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
-    
+
     addRow( m_labScience );
     addRow( m_labGovt );
     addRow( m_labYear );
     addRow( m_labTurns );
-    
+
     setupResearchPanel();
     setupGoalPanel();
     setupKnownTechs();
-    
-    m_butClose.addActionListener( new ActionListener() 
+
+    m_butClose.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -74,7 +74,7 @@ class ImplScienceReport extends VerticalFlowPanel
     } );
     addRow( m_butClose );
   }
-  
+
   private Client getClient()
   {
     return m_client;
@@ -93,89 +93,89 @@ class ImplScienceReport extends VerticalFlowPanel
    */
   private void setupResearchPanel()
   {
-    m_panResearch.setBorder( BorderFactory.createTitledBorder( _( "Researching" ) ) );
+    m_panResearch.setBorder( BorderFactory.createTitledBorder( translate( "Researching" ) ) );
 
     m_cmbResearch = new JComboBox();
     m_cmbResearch.addItemListener( this );
-    //m_cmbResearch.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
-    
+    //m_cmbResearch.setPrototypeDisplayValue( translate( PROTOTYPE_STRING ) );
+
     m_pbrResearch.setStringPainted( true );
     m_pbrResearch.setString( "X / X" );
-    
+
     m_chkHelp.setEnabled( false );
-    
+
     m_panResearch.setLayout( new FlowLayout() );
     m_panResearch.add( m_cmbResearch );
     m_panResearch.add( m_pbrResearch );
     m_panResearch.add( m_chkHelp );
-    
+
     this.addSpacerRow( m_panResearch );
   }
-  
+
   /**
    * Sets up the research goal panel
    */
   private void setupGoalPanel()
   {
-    m_panGoal.setBorder( BorderFactory.createTitledBorder( _( "Goal" ) ) );
+    m_panGoal.setBorder( BorderFactory.createTitledBorder( translate( "Goal" ) ) );
 
     m_cmbGoal = new JComboBox();
     m_cmbGoal.addItemListener( this );
-    //m_cmbGoal.setPrototypeDisplayValue( _( PROTOTYPE_STRING ) );
+    //m_cmbGoal.setPrototypeDisplayValue( translate( PROTOTYPE_STRING ) );
 
     m_panGoal.setLayout( new FlowLayout() );
     m_panGoal.add( m_cmbGoal );
     m_panGoal.add( m_labGoalSteps );
-    
+
     this.addSpacerRow( m_panGoal );
   }
 
   /**
    * Sets up the known advances panels
-   * 
+   *
    * Note: uses 1.4 method JList.setLayoutOrientation()
    */
   private void setupKnownTechs()
   {
     m_lstKnownTechs = new JList();
-    
+
     m_lstKnownTechs.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
     //m_lstKnownTechs.setLayoutOrientation( JList.HORIZONTAL_WRAP );
     m_lstKnownTechs.setEnabled( false );
-    m_lstKnownTechs.setPrototypeCellValue( _( PROTOTYPE_STRING ) );
-    
+    m_lstKnownTechs.setPrototypeCellValue( translate( PROTOTYPE_STRING ) );
+
     m_panKnown.setLayout( new BorderLayout() );
     m_panKnown.add( new JScrollPane( m_lstKnownTechs ), BorderLayout.CENTER );
     this.addSpacerRow( m_panKnown );
   }
-  
+
   /**
    * Re-populates the combo box and lists, as well as updates the labels
    * with new info from the client
    */
   public void refresh()
   {
-    m_labGovt.setText( _( 
+    m_labGovt.setText( translate(
             getPlayer().getGovernment().getName()
             + " of the "
             + getPlayer().getNation().getPluralName()
             ) );
-    m_labYear.setText( _( 
+    m_labYear.setText( translate(
             getPlayer().getRulerTitle() + " "
             + getPlayer().getName()
             + " : " + getClient().getGame().getYearString()
             ) );
-    m_labTurns.setText( _( "("
+    m_labTurns.setText( translate( "("
                           + getPlayer().getTurnsToAdvance()
                            + " turns/advance)" ) );
-   
+
     updateResearchList();
     updateResearchBar();
     updateGoalList();
     updateGoalLabel();
     updateKnownTechs();
   }
-  
+
   /**
    * Refresh the research combo box.  This contains a stupid workaround to the
    * problem where when you clear a combo box and start adding new items, the
@@ -185,11 +185,11 @@ class ImplScienceReport extends VerticalFlowPanel
   {
     m_cmbResearch.removeItemListener( this );  // XXX
     m_cmbResearch.removeAllItems();
-    for( int i = A_FIRST; 
-         i < getClient().getGame().getNumberOfTechnologyTypes(); 
+    for( int i = A_FIRST;
+         i < getClient().getGame().getNumberOfTechnologyTypes();
          i++ )
     {
-      if( getClient().getGame().advanceExists( i ) 
+      if( getClient().getGame().advanceExists( i )
          && !getPlayer().getResearch().hasInvention( i ) )
       {
         final Advance adv = (Advance)getClient().getGame().getFactories().getAdvanceFactory().findById( i );
@@ -212,7 +212,7 @@ class ImplScienceReport extends VerticalFlowPanel
     }
     m_cmbResearch.addItemListener( this );  // XXX
   }
-    
+
   /**
    * Refresh the research progress bar
    */
@@ -235,11 +235,11 @@ class ImplScienceReport extends VerticalFlowPanel
   {
     m_cmbGoal.removeItemListener( this );  // XXX
     m_cmbGoal.removeAllItems();
-    for( int i = A_FIRST; 
-         i < getClient().getGame().getNumberOfTechnologyTypes(); 
+    for( int i = A_FIRST;
+         i < getClient().getGame().getNumberOfTechnologyTypes();
          i++ )
     {
-      if( getClient().getGame().advanceExists( i ) 
+      if( getClient().getGame().advanceExists( i )
          && !getPlayer().getResearch().hasInvention( i )
          && getPlayer().getResearch().getTechGoalSteps( i ) < 11 )
       {
@@ -254,15 +254,15 @@ class ImplScienceReport extends VerticalFlowPanel
     }
     m_cmbGoal.addItemListener( this );  // XXX
   }
-  
+
   /**
    * Refresh the goal steps label
    */
   private void updateGoalLabel()
   {
     int steps = getPlayer().getResearch().getTechGoalSteps( getGoal() );
-    
-    m_labGoalSteps.setText( _( "(" + steps + " steps)" ) );
+
+    m_labGoalSteps.setText( translate( "(" + steps + " steps)" ) );
   }
 
   /**
@@ -271,11 +271,11 @@ class ImplScienceReport extends VerticalFlowPanel
   private void updateKnownTechs()
   {
     ArrayList kList = new ArrayList();
-    for( int i = A_FIRST; 
-         i < getClient().getGame().getNumberOfTechnologyTypes(); 
+    for( int i = A_FIRST;
+         i < getClient().getGame().getNumberOfTechnologyTypes();
          i++ )
     {
-      if( getClient().getGame().advanceExists( i ) 
+      if( getClient().getGame().advanceExists( i )
          && getPlayer().getResearch().hasInvention( i ) )
       {
         final Advance adv = (Advance)getClient().getGame().getFactories().getAdvanceFactory().findById( i );
@@ -283,10 +283,10 @@ class ImplScienceReport extends VerticalFlowPanel
       }
     }
     m_lstKnownTechs.setListData( kList.toArray() );
-    m_lstKnownTechs.setVisibleRowCount( (int)Math.ceil( kList.size() 
+    m_lstKnownTechs.setVisibleRowCount( (int)Math.ceil( kList.size()
                                                         / (float)KNOWN_COLUMNS ) );
   }
-  
+
   /**
    * Changes the goal to whatever's displayed on the goal list
    */
@@ -298,7 +298,7 @@ class ImplScienceReport extends VerticalFlowPanel
       requestChangeGoal( getGoal() );
     }
   }
-  
+
   /**
    * Changes the current research to whatever's displayed on the research list
    */
@@ -311,31 +311,31 @@ class ImplScienceReport extends VerticalFlowPanel
       requestChangeResearch( getResearch() );
     }
   }
-  
+
   /**
    * Sends a packet indicating that the player should change its current
    * research to the specified one
    */
-  private void requestChangeResearch( int research ) 
+  private void requestChangeResearch( int research )
   {
     PktPlayerRequest packet = new PktPlayerRequest();
     packet.setType( PacketConstants.PACKET_PLAYER_RESEARCH );
     packet.tech = research;
     getClient().sendToServer( packet );
   }
-  
+
   /**
    * Sends a packet indicating that the player should change its current tech
    * goal to the specified one
    */
-  private void requestChangeGoal( int goal ) 
+  private void requestChangeGoal( int goal )
   {
     PktPlayerRequest packet = new PktPlayerRequest();
     packet.setType( PacketConstants.PACKET_PLAYER_TECH_GOAL );
     packet.tech = goal;
     getClient().sendToServer( packet );
   }
-  
+
   /**
    * Returns the goal selected on the goal list
    */
@@ -344,7 +344,7 @@ class ImplScienceReport extends VerticalFlowPanel
     return ( (AdvanceListItem)m_cmbGoal.getSelectedItem() ).m_advance.getId();
   }
 
-  
+
   /**
    * Returns the research selected on the research list
    */
@@ -356,46 +356,46 @@ class ImplScienceReport extends VerticalFlowPanel
   public void display()
   {
     JDialog dlg = new JDialog(
-      m_client.getMainWindow(), _( "Science" ), true 
+      m_client.getMainWindow(), translate( "Science" ), true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplScienceReport.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    
+
     refresh();
-    
+
     m_dlgManager.showDialog( m_dialog );
   }
-  
+
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
    * A class to hold techs within the confines of a list item
    */
   private class AdvanceListItem
   {
     public Advance m_advance;
-    
+
     public AdvanceListItem( Advance adv )
     {
       m_advance = adv;
     }
-    
+
     public String toString()
     {
       return m_advance.getName();
     }
   }
- 
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
-  
+
   //
   // ItemListener
   //

@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTTransformTerrain extends AbstractUnitAction
 {
-  public UACTTransformTerrain() 
+  public UACTTransformTerrain()
   {
     super();
-    setName( _( "Transform Terrain" ) ); // Needs to be able to change
+    setName( translate( "Transform Terrain" ) ); // Needs to be able to change
     addAccelerator( KeyEvent.VK_O );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -26,7 +26,7 @@ public class UACTTransformTerrain extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_TRANSFORM );

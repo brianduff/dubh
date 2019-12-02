@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 
 public class ACTQuit extends AbstractClientAction
 {
-  public ACTQuit() 
+  public ACTQuit()
   {
     super();
-    setName( _( "Quit" ) );
+    setName( translate( "Quit" ) );
     addAccelerator( KeyEvent.VK_Q, Event.CTRL_MASK );
     setEnabled( true );
   }

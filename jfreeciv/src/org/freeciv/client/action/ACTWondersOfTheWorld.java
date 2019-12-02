@@ -6,16 +6,16 @@ import org.freeciv.common.CommonConstants;
 import org.freeciv.net.PacketConstants;
 import org.freeciv.net.PktGenericInteger;
 
-public class ACTWondersOfTheWorld extends AbstractClientAction 
+public class ACTWondersOfTheWorld extends AbstractClientAction
   implements PacketConstants, CommonConstants
 {
 
   private PktGenericInteger m_packet;
-  
-  public ACTWondersOfTheWorld() 
+
+  public ACTWondersOfTheWorld()
   {
     super();
-    setName( _( "Wonders of the World" ) );
+    setName( translate( "Wonders of the World" ) );
     addAccelerator( KeyEvent.VK_F7 );
     setEnabled( true );
   }
@@ -27,7 +27,7 @@ public class ACTWondersOfTheWorld extends AbstractClientAction
     }
     m_packet.setType( PACKET_REPORT_REQUEST );
     m_packet.value = REPORT_WONDERS_OF_THE_WORLD;
-    
+
     getClient().sendToServer( m_packet );
   }
 }

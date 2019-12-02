@@ -13,7 +13,7 @@ public final class RealSndSystem extends SndSystem
   HashMap sndMap = new HashMap( 100 );
   String dir;
   public RealSndSystem( String aDir )
-          throws IOException 
+          throws IOException
   {
     dir = aDir;
     BufferedReader br = new BufferedReader( new FileReader( new File( dir, "sndconf" ) ) );
@@ -54,7 +54,7 @@ public final class RealSndSystem extends SndSystem
         }
         else
         {
-          System.out.println( _( "Illegal sound name used: " ) + id );
+          System.out.println( translate( "Illegal sound name used: " ) + id );
         }
         sndMap.put( id, ac );
       }
@@ -74,7 +74,7 @@ public final class RealSndSystem extends SndSystem
       ac.play();
     }
   }
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

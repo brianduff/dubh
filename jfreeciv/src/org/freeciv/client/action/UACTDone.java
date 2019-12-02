@@ -6,13 +6,13 @@ import java.awt.event.KeyEvent;
 import org.freeciv.common.Unit;
 public class UACTDone extends AbstractUnitAction
 {
-  public UACTDone() 
+  public UACTDone()
   {
     super();
-    setName( _( "Done" ) );
+    setName( translate( "Done" ) );
     addAccelerator( KeyEvent.VK_SPACE );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -25,7 +25,7 @@ public class UACTDone extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return true;

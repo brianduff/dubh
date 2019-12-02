@@ -2,10 +2,10 @@ package org.freeciv.client.action;
 import java.awt.event.ActionEvent;
 public class ACTExportLog extends AbstractClientAction
 {
-  public ACTExportLog() 
+  public ACTExportLog()
   {
     super();
-    setName( _( "Export Log" ) );
+    setName( translate( "Export Log" ) );
     setEnabled( true );
   /**
    c.addStateChangeListener(new ClientStateChangeListener() {
@@ -19,8 +19,8 @@ public class ACTExportLog extends AbstractClientAction
   }
   public void actionPerformed( ActionEvent e )
   {
-    
-  
+
+
 
   // NYI
   }

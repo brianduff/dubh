@@ -72,7 +72,7 @@ public final class MainWindow extends JFrame
   MainWindow( Client c )
   {
     m_desktop = new JDesktopPane();
-    m_mapOverview = new MapOverview( 
+    m_mapOverview = new MapOverview(
       c.getGame(),  c.getTileSpec().getImage( "minimap_intro_file" )
     );
     m_mapOverview.setVersion( c.APP_VERSION );
@@ -268,7 +268,7 @@ public final class MainWindow extends JFrame
     MenuFactory.createMenus( m_client , this );
     BasicMoveFactory.createBasicMoves( m_client );
   }
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

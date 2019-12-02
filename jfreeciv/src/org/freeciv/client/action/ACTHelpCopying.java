@@ -10,10 +10,10 @@ public final class ACTHelpCopying extends AbstractClientAction
   private static final String COPYING_TOPIC = "help_copying";
 
 
-  public ACTHelpCopying() 
+  public ACTHelpCopying()
   {
     super();
-    setName( _( "Copying" ) );
+    setName( translate( "Copying" ) );
     setEnabled( true );
   }
 

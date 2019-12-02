@@ -19,47 +19,47 @@ import org.freeciv.net.PacketConstants;
 /**
  * Implementation of the Trade dialog.  Shows owned buildings and their
  * upkeep costs.  "Trade" is a strange name for this dialog.
- * 
+ *
  * @author Ben Mazur
  */
-class ImplTradeReport extends VerticalFlowPanel 
+class ImplTradeReport extends VerticalFlowPanel
   implements DlgTradeReport, CommonConstants
 {
-  private JLabel m_labTrade = new JLabel( _( "Trade" ), JLabel.CENTER );
-  private JLabel m_labGovt = new JLabel( _( "<Gov't> of the <Nation>" ), JLabel.CENTER );
-  private JLabel m_labYear = new JLabel( _( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
+  private JLabel m_labTrade = new JLabel( translate( "Trade" ), JLabel.CENTER );
+  private JLabel m_labGovt = new JLabel( translate( "<Gov't> of the <Nation>" ), JLabel.CENTER );
+  private JLabel m_labYear = new JLabel( translate( "<Title> <Name> : XXXX BC/AD" ), JLabel.CENTER );
   private BuildingsTableModel m_buildingsModel;
   private JTable m_tabBuildings;
   private JPanel m_panEcon = new JPanel();
   private JPanel m_panButtons = new JPanel();
   // econ panel
-  private JLabel m_labIncome = new JLabel( _( "Income:" ), JLabel.RIGHT );
+  private JLabel m_labIncome = new JLabel( translate( "Income:" ), JLabel.RIGHT );
   private JLabel m_labIncomeValue = new JLabel( "X", JLabel.LEFT );
-  private JLabel m_labCosts = new JLabel( _( "Total Costs:" ), JLabel.RIGHT );
+  private JLabel m_labCosts = new JLabel( translate( "Total Costs:" ), JLabel.RIGHT );
   private JLabel m_labCostsValue = new JLabel( "X", JLabel.LEFT );
   // buttons panel
-  private JButton m_butClose = new JButton( _( "Close" ) );
-  private JButton m_butSellObsolete = new JButton( _( "Sell Obsolete" ) );
-  private JButton m_butSellAll = new JButton( _( "Sell All" ) );
-  
+  private JButton m_butClose = new JButton( translate( "Close" ) );
+  private JButton m_butSellObsolete = new JButton( translate( "Sell Obsolete" ) );
+  private JButton m_butSellAll = new JButton( translate( "Sell All" ) );
+
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
-    
-  public ImplTradeReport( DialogManager mgr, Client c ) 
+
+  public ImplTradeReport( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
-    
+
     addRow( m_labTrade );
     addRow( m_labGovt );
     addRow( m_labYear );
-    
+
     setupBuildingsTable();
     setupEconPanel();
     setupButtonPanel();
   }
-  
+
   /**
    * for consistancy
    */
@@ -67,7 +67,7 @@ class ImplTradeReport extends VerticalFlowPanel
   {
     return m_client;
   }
-  
+
   /**
    * Shortcut to getClient().getGame().getCurrentPlayer()
    */
@@ -83,28 +83,28 @@ class ImplTradeReport extends VerticalFlowPanel
   {
     m_buildingsModel = new BuildingsTableModel();
     m_tabBuildings = new JTable( m_buildingsModel );
-    
+
     m_tabBuildings.setRowSelectionAllowed( true );
     m_tabBuildings.setColumnSelectionAllowed( false );
     m_tabBuildings.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
     m_tabBuildings.setShowHorizontalLines( false );
     m_tabBuildings.setShowVerticalLines( false );
-    
+
     this.addSpacerRow( new JScrollPane( m_tabBuildings ) );
   }
-  
+
   /**
    * Sets up the economics panel
    */
   private void setupEconPanel()
   {
     m_panEcon.setLayout( new FlowLayout() );
-    
+
     m_panEcon.add( m_labIncome );
     m_panEcon.add( m_labIncomeValue );
     m_panEcon.add( m_labCosts );
     m_panEcon.add( m_labCostsValue );
-    
+
     this.addRow( m_panEcon );
   }
 
@@ -114,7 +114,7 @@ class ImplTradeReport extends VerticalFlowPanel
    */
   private void setupButtonPanel()
   {
-    m_butClose.addActionListener( new ActionListener() 
+    m_butClose.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -130,29 +130,29 @@ class ImplTradeReport extends VerticalFlowPanel
     m_panButtons.add( m_butSellAll );
     this.addRow( m_panButtons );
   }
-  
-  
+
+
   /**
    * Re-populates the combo box and lists, as well as updates the labels
    * with new info from the client
    */
   public void refresh()
   {
-    m_labGovt.setText( _( 
+    m_labGovt.setText( translate(
             getPlayer().getGovernment().getName()
             + " of the "
             + getPlayer().getNation().getPluralName()
             ) );
-    m_labYear.setText( _( 
+    m_labYear.setText( translate(
             getPlayer().getRulerTitle() + " "
             + getPlayer().getName()
             + " : " + getClient().getGame().getYearString()
             ) );
-    
+
     updateBuildingsAndEcon();
     resizeTable( m_tabBuildings );
   }
-  
+
   /**
    * Repopulate the buildings table with data from the client.  As a bonus,
    * updates the cost and income data too.
@@ -164,12 +164,12 @@ class ImplTradeReport extends VerticalFlowPanel
     for( int i = 0; i < getClient().getGame().getNumberOfImprovementTypes(); i++ )
     {
       final Building building = (Building)getClient().getFactories().getBuildingFactory().findById( i );
-      
+
       if( building.isWonder() )
       {
         continue;
       }
-      
+
       int count = 0, cost = 0, uTotal = 0;
       for( Iterator j = getPlayer().getCities(); j.hasNext(); )
       {
@@ -182,7 +182,7 @@ class ImplTradeReport extends VerticalFlowPanel
            totalCost += uTotal;
         }
       }
-      
+
       if( count == 0 )
       {
         continue;
@@ -196,34 +196,34 @@ class ImplTradeReport extends VerticalFlowPanel
       datum[4] = new Integer( i );
       bList.add( datum );
     }
-    
+
     Object[][] newData = new Object[bList.size()][5];
     bList.toArray( newData );
     m_buildingsModel.data = newData;
-    
+
     int totalTax = 0;
     for( Iterator i = getPlayer().getCities(); i.hasNext(); )
     {
       City city = (City)i.next();
       totalTax += city.getTaxTotal();
-      if( !city.isBuildingUnit() 
+      if( !city.isBuildingUnit()
           && city.getCurrentlyBuildingId() == CommonConstants.B_CAPITAL )
       {
          totalTax += city.getShieldSurplus();
       }
     }
-    
+
     m_labIncomeValue.setText( new Integer( totalTax ).toString() );
     m_labCostsValue.setText( new Integer( totalCost ).toString() );
   }
-  
+
   /**
    * Attempt to resize a table's PreferredScrollableViewportSize based on the
    * size of the headers and data within it.  Isn't there some way to do this
    * automatically?  There should be.
-   * 
+   *
    * TableColumn.sizeWidthToFit() seems inadequate.
-   * 
+   *
    * This method might be better off in some utility class.
    */
   private static void resizeTable( JTable table )
@@ -245,7 +245,7 @@ class ImplTradeReport extends VerticalFlowPanel
     }
 
     int height = Math.min( 12, table.getRowCount() ) * table.getRowHeight();
-    table.setPreferredScrollableViewportSize( 
+    table.setPreferredScrollableViewportSize(
       new Dimension( totalWidth, height )
     );
   }
@@ -253,35 +253,35 @@ class ImplTradeReport extends VerticalFlowPanel
   public void display()
   {
     JDialog dlg = new JDialog(
-      m_client.getMainWindow(), _( "Trade" ), true 
+      m_client.getMainWindow(), translate( "Trade" ), true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplTradeReport.this, BorderLayout.CENTER );
     m_dialog = dlg;
-    
+
     refresh();
-    
+
     m_dlgManager.showDialog( m_dialog );
   }
-  
+
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
-   * A nice, if unoriginal, class representing the columns and data in the 
+   * A nice, if unoriginal, class representing the columns and data in the
    * units table
    */
   class BuildingsTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _( "Building Name" ), _( "Count" ), 
-                             _( "Cost" ), _( "U Total" ) };
-    Object[][] data = { { _( "Barracks" ), new Integer( 2 ), 
-                          new Integer( 1 ), new Integer( 2 ) }, 
-                        { _( "Palace" ), new Integer( 30 ), 
+    String[] columnNames = { translate( "Building Name" ), translate( "Count" ),
+                             translate( "Cost" ), translate( "U Total" ) };
+    Object[][] data = { { translate( "Barracks" ), new Integer( 2 ),
+                          new Integer( 1 ), new Integer( 2 ) },
+                        { translate( "Palace" ), new Integer( 30 ),
                           new Integer( 0 ), new Integer( 0 ) } };
-    
+
     public int getColumnCount()
     {
       return columnNames.length;
@@ -303,11 +303,11 @@ class ImplTradeReport extends VerticalFlowPanel
       return getValueAt( 0, col ).getClass();
     }
   }
-  
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
-  
+
 }

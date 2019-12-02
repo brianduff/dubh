@@ -8,13 +8,13 @@ public class ACTSendAllocNation extends AbstractClientAction
 {
 
   private PktAllocNation m_packet;
-  
-  public ACTSendAllocNation() 
+
+  public ACTSendAllocNation()
   {
     super();
-    setName( _( "Choose Nation" ) );
+    setName( translate( "Choose Nation" ) );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     if( m_packet == null )
@@ -28,6 +28,6 @@ public class ACTSendAllocNation extends AbstractClientAction
     m_packet.city_style = dn.getCityStyle();
     getClient().sendToServer( m_packet );
   }
-  
+
 
 }

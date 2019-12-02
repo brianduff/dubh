@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 
 public class ACTTradeReport extends AbstractClientAction
 {
-  public ACTTradeReport() 
+  public ACTTradeReport()
   {
     super();
-    setName( _( "Trade Report" ) );
+    setName( translate( "Trade Report" ) );
     addAccelerator( KeyEvent.VK_F5 );
-    
+
     setEnabled( true );
   }
   public void actionPerformed( ActionEvent e )

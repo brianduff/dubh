@@ -8,13 +8,13 @@ import org.freeciv.common.Unit;
 
 public class UACTBuildRoad extends AbstractUnitAction
 {
-  public UACTBuildRoad() 
+  public UACTBuildRoad()
   {
     super();
-    setName( _( "Build Road" ) );
+    setName( translate( "Build Road" ) );
     addAccelerator( KeyEvent.VK_R );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -30,7 +30,7 @@ public class UACTBuildRoad extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_ROAD )

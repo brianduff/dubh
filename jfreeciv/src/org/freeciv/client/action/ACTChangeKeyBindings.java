@@ -11,8 +11,8 @@ public class ACTChangeKeyBindings extends AbstractClientAction
   public ACTChangeKeyBindings()
   {
     super();
-    setName( _( "Key Bindings..." ) );
-    
+    setName( translate( "Key Bindings..." ) );
+
     setEnabled( true );
   }
   public void actionPerformed( java.awt.event.ActionEvent e )

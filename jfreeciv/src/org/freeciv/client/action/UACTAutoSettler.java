@@ -9,13 +9,13 @@ import org.freeciv.net.PktUnitRequest;
 
 public class UACTAutoSettler extends AbstractUnitAction
 {
-  public UACTAutoSettler() 
+  public UACTAutoSettler()
   {
     super();
-    setName( _( "Auto Settler" ) );
+    setName( translate( "Auto Settler" ) );
     addAccelerator( KeyEvent.VK_A );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -28,7 +28,7 @@ public class UACTAutoSettler extends AbstractUnitAction
     }
     // else, maybe print a message about invalid auto moding?
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoAutoSettler();

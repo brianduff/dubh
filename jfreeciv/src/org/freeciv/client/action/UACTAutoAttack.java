@@ -10,13 +10,13 @@ import org.freeciv.net.PktUnitRequest;
 
 public class UACTAutoAttack extends AbstractUnitAction
 {
-  public UACTAutoAttack() 
+  public UACTAutoAttack()
   {
     super();
-    setName( _( "Auto Attack" ) );
+    setName( translate( "Auto Attack" ) );
     addAccelerator( KeyEvent.VK_A, Event.SHIFT_MASK );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -29,7 +29,7 @@ public class UACTAutoAttack extends AbstractUnitAction
     }
     // else, maybe print a message about invalid auto moding?
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoAutoAttack();

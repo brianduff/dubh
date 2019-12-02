@@ -7,13 +7,13 @@ import org.freeciv.common.Unit;
 
 public class UACTWait extends AbstractUnitAction
 {
-  public UACTWait() 
+  public UACTWait()
   {
     super();
-    setName( _( "Wait" ) );
+    setName( translate( "Wait" ) );
     addAccelerator( KeyEvent.VK_W );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -26,7 +26,7 @@ public class UACTWait extends AbstractUnitAction
       }
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return true;

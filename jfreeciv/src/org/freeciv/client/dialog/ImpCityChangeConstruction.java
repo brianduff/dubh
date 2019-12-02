@@ -30,26 +30,26 @@ import org.freeciv.net.WorkList;
 /**
  * Implementation of the tax rate panel.  This updates the economy values
  * itself when "Okay" is pressed, or simply hides when "Cancel" is pressed.
- * 
+ *
  * Maybe the economy values should be updated by another class, but where?
- * 
+ *
  * @author Ben Mazur
  */
-class ImplCityChangeConstruction extends VerticalFlowPanel 
+class ImplCityChangeConstruction extends VerticalFlowPanel
   implements DlgCityChangeConstruction, CommonConstants
 {
   private ConstructionTableModel m_targetModel;
   private JTable m_tabTargets;
   private JPanel m_panButtons = new JPanel();
-  private JButton m_butChange = new JButton( _( "Change" ) );
-  private JButton m_butCancel = new JButton( _( "Cancel" ) );
-  
+  private JButton m_butChange = new JButton( translate( "Change" ) );
+  private JButton m_butCancel = new JButton( translate( "Cancel" ) );
+
   private City m_city;
   private Client m_client;
   JDialog m_dialog;
   private DialogManager m_dlgManager;
-    
-  public ImplCityChangeConstruction( DialogManager mgr, Client c ) 
+
+  public ImplCityChangeConstruction( DialogManager mgr, Client c )
   {
     m_client = c;
     m_dlgManager = mgr;
@@ -62,12 +62,12 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
   {
     return m_client;
   }
-  
+
   private City getCity()
   {
     return m_city;
   }
-  
+
   /**
    * Initialization function; sets up the city list panel and adds it to the
    * main dialog panel.
@@ -76,30 +76,30 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
   {
     m_targetModel = new ConstructionTableModel();
     m_tabTargets = new JTable( m_targetModel );
-    
+
     m_tabTargets.setRowSelectionAllowed( true );
     m_tabTargets.setColumnSelectionAllowed( false );
     m_tabTargets.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
     m_tabTargets.setShowHorizontalLines( false );
     m_tabTargets.setShowVerticalLines( false );
-    
+
     this.addSpacerRow( new JScrollPane( m_tabTargets ) );
   }
-  
+
   /**
    * Initialization function; sets up the button panel and adds it to the
    * main dialog panel.
    */
   private void setupButtonPanel()
   {
-    m_butChange.addActionListener( new ActionListener() 
+    m_butChange.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
         actionChange();
       }
     } );
-    m_butCancel.addActionListener( new ActionListener() 
+    m_butCancel.addActionListener( new ActionListener()
     {
       public void actionPerformed( ActionEvent e )
       {
@@ -112,7 +112,7 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
     m_panButtons.add( m_butCancel );
     this.addRow( m_panButtons );
   }
-  
+
   /**
    * Resets the city list from the client in case it's out of date.
    */
@@ -125,20 +125,20 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       {
         final Building bld = getClient().getGame().getBuilding( i );
         Object[] datum = new Object[6];
-        
+
         datum[0] = bld.getName();
-        if( bld.isWonder() ) 
+        if( bld.isWonder() )
         {
-          datum[1] = _( "Wonder" );
-          if( bld.isWonderObsolete() ) 
+          datum[1] = translate( "Wonder" );
+          if( bld.isWonderObsolete() )
           {
             // um but getCity().canBuildImprovement( i ) shouldn't allow this??
-            datum[1] = _( "Obsolete" );
+            datum[1] = translate( "Obsolete" );
           }
-          if( getClient().getGame().getGlobalWonder( i ) != 0 ) 
+          if( getClient().getGame().getGlobalWonder( i ) != 0 )
           {
             // um but getCity().canBuildImprovement( i ) shouldn't allow this??
-            datum[1] = _( "Built" );
+            datum[1] = translate( "Built" );
           }
         }
         else
@@ -148,17 +148,17 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
         if( i != B_CAPITAL )
         {
           datum[2] = new Integer( bld.getBuildCost() );
-          datum[3] = new Integer( 
+          datum[3] = new Integer(
                   getCity().getTurnsToBuild( i, false ) );
         }
-        else 
+        else
         {
           datum[2] = "--";
           datum[3] = "--";
         }
         datum[4] = new Integer( i );
         datum[5] = new Boolean( false );
-        
+
         tList.add( datum );
       }
     }
@@ -168,9 +168,9 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       {
         final UnitType unt = getClient().getGame().getUnitType( i );
         Object[] datum = new Object[6];
-        
+
         datum[0] = unt.getName();
-        if( unt.getFuel() > 0 ) 
+        if( unt.getFuel() > 0 )
         {
           datum[1] = unt.getAttackStrength() + "/" + unt.getDefenseStrength()
             + "/" + ( unt.getMoveRate() / 3 ) + "/"
@@ -185,18 +185,18 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
         datum[3] = new Integer( getCity().getTurnsToBuild( i, true ) );
         datum[4] = new Integer( i );
         datum[5] = new Boolean( true );
-        
+
         tList.add( datum );
       }
     }
-    
+
     Object[][] newData = new Object[tList.size()][6];
     tList.toArray( newData );
     m_targetModel.data = newData;
-    
+
     resizeTable( m_tabTargets );
   }
-  
+
   /**
    * Called when "Change" is pressed
    */
@@ -204,7 +204,7 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
   {
     if( m_tabTargets.getSelectedRow() != -1 )
     {
-      requestChange( 
+      requestChange(
               ( (Integer)m_targetModel.data[m_tabTargets.getSelectedRow()][4]
               ).intValue(),
               ( (Boolean)m_targetModel.data[m_tabTargets.getSelectedRow()][5]
@@ -212,35 +212,35 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       undisplay();
     }
   }
-  
+
   /**
    * Sends a packet indicating that the city should change contruction
-   * 
+   *
    * @param id the id to change to
    * @param isUnit is the new target a unit?
    */
-  private void requestChange( int id, boolean isUnit ) 
+  private void requestChange( int id, boolean isUnit )
   {
     PktCityRequest packet = new PktCityRequest();
     packet.setType( PacketConstants.PACKET_CITY_CHANGE );
-    
+
     packet.city_id = getCity().getId();
     packet.name = "";
     packet.build_id = id;
     packet.is_build_id_unit_id = isUnit;
     packet.worklist = new WorkList();
     packet.worklist.setName( "" );
-    
+
     getClient().sendToServer( packet );
   }
-  
+
   /**
    * Attempt to resize a table's PreferredScrollableViewportSize based on the
    * size of the headers and data within it.  Isn't there some way to do this
    * automatically?  There should be.
-   * 
+   *
    * TableColumn.sizeWidthToFit() seems inadequate.
-   * 
+   *
    * This method might be better off in some utility class.
    */
   private static void resizeTable( JTable table )
@@ -262,47 +262,47 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
     }
 
     int height = Math.min( 20, table.getRowCount() ) * table.getRowHeight();
-    table.setPreferredScrollableViewportSize( 
+    table.setPreferredScrollableViewportSize(
       new Dimension( totalWidth, height )
     );
   }
 
   public void display( City city )
   {
-    JDialog dlg = new JDialog( 
-      m_client.getMainWindow(), _( "Change Construction" ), true 
+    JDialog dlg = new JDialog(
+      m_client.getMainWindow(), translate( "Change Construction" ), true
     );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( ImplCityChangeConstruction.this, BorderLayout.CENTER );
     m_dialog = dlg;
     m_city = city;
-    
+
     resetTargetList();
 
     m_dlgManager.showDialog( m_dialog );
   }
-  
+
   public void undisplay()
   {
     m_dlgManager.hideDialog( m_dialog );
   }
-  
+
   /**
    * Stores all the things you can make.
-   * 
+   *
    * Note the super-secret index and isUnit "columns".
    */
   private class ConstructionTableModel extends AbstractTableModel
   {
-    String[] columnNames = { _( "Type" ), _( "Info" ), 
-                             _( "Cost" ), _( "Turns" ) };
-    Object[][] data = { { _( "Barracks" ), _( "" ), 
-                          new Integer( 40 ), new Integer( 14 ), 
+    String[] columnNames = { translate( "Type" ), translate( "Info" ),
+                             translate( "Cost" ), translate( "Turns" ) };
+    Object[][] data = { { translate( "Barracks" ), translate( "" ),
+                          new Integer( 40 ), new Integer( 14 ),
                           new Integer( 2 ), new Boolean( false ) },
-                        { _( "Super-warriors" ), _( "50/1/1" ), 
-                          new Integer( 10 ), new Integer( 4 ), 
+                        { translate( "Super-warriors" ), translate( "50/1/1" ),
+                          new Integer( 10 ), new Integer( 4 ),
                           new Integer( 2 ), new Boolean( true ) } };
-    
+
     public int getColumnCount()
     {
       return columnNames.length;
@@ -324,9 +324,9 @@ class ImplCityChangeConstruction extends VerticalFlowPanel
       return getValueAt( 0, col ).getClass();
     }
   }
- 
+
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

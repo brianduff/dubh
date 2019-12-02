@@ -5,13 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.Event;
 public class UACTActivateCloseDialog extends AbstractUnitAction
 {
-  public UACTActivateCloseDialog() 
+  public UACTActivateCloseDialog()
   {
     super();
-    setName( _( "Activate, Close Dialog" ) );
+    setName( translate( "Activate, Close Dialog" ) );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

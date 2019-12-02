@@ -16,14 +16,14 @@ public class UACTMoveNorth extends UACTMove
    * Creates an instance of UACTMoveNorth.
    * (Called by BasicMoveFactory)
    */
-  public UACTMoveNorth() 
+  public UACTMoveNorth()
   {
     super();
-    setName( _( "Move North" ) );
+    setName( translate( "Move North" ) );
     addAccelerator( KeyEvent.VK_KP_UP );
     addAccelerator( KeyEvent.VK_NUMPAD8 );
   }
-  
+
   /**
    * Moves the currently focused unit one tile up.
    */

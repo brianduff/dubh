@@ -161,7 +161,7 @@ public final class Client implements Constants
       }
       catch( IOException e )
       {
-        System.out.println( _( "Sound init failed\n" ) + e );
+        System.out.println( translate( "Sound init failed\n" ) + e );
       }
     }
 
@@ -254,7 +254,7 @@ public final class Client implements Constants
   {
     return m_actions.getAllActions();
   }
-  
+
   /**
    * Enables or disables an action. Guaranteed to take place on
    * the UI thread.
@@ -334,7 +334,7 @@ public final class Client implements Constants
   /**
    * Go thru the orders menu and de/activate the items based on whether
    * the currently focused unit can perform them.
-   * 
+   *
    * It is sort of painful associating the UnitAction with the MenuItem this
    * way.  Is there a better way? --Ben
    */
@@ -348,12 +348,12 @@ public final class Client implements Constants
       {
         // retrieve appropriate class...
         AbstractUnitAction aua = (AbstractUnitAction)getAction( (Class)MenuDefinitions.MENUS[ 3 ][ i ] );
-        
+
         // set menu item dis/enabled
         JMenuItem item = m_mainWindow.getJMenuBar().getMenu( ORDERS_MENU ).getItem( i - 1 );
         if( u != null )
         {
-          item.setEnabled( aua.isEnabledFor( u ) ); 
+          item.setEnabled( aua.isEnabledFor( u ) );
         }
         else
         {
@@ -429,7 +429,7 @@ public final class Client implements Constants
     {
       JOptionPane.showMessageDialog(
         getMainWindow(),
-        _( "Error connection to server lost??" ), _( "Fatal Error" ),
+        translate( "Error connection to server lost??" ), translate( "Fatal Error" ),
         JOptionPane.ERROR_MESSAGE
       );
     }
@@ -694,7 +694,7 @@ public final class Client implements Constants
   private void serverError( IOException e )
   {
     JOptionPane.showMessageDialog(
-      getMainWindow(), e.toString(), _( "Fatal Server Connection Error" ),
+      getMainWindow(), e.toString(), translate( "Fatal Server Connection Error" ),
       JOptionPane.ERROR_MESSAGE );
     System.exit( 1 ); // ??
   }
@@ -733,7 +733,7 @@ public final class Client implements Constants
 
     }
   }
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
@@ -940,7 +940,7 @@ public final class Client implements Constants
   public void updateUnitInfoLabel( org.freeciv.common.Unit u )
   {
     // TODO
-    
+
     // this is called with null when the player controls no units that are
     // active on the map -- BenM
     if(u != null)
@@ -1128,7 +1128,7 @@ public final class Client implements Constants
     return bestCandidate;
 
   }
-  
+
   /**
    * Handles moving the unit from its current position to the new
    * position in the unit info packet.
@@ -1142,12 +1142,12 @@ public final class Client implements Constants
     //unit.setX( -1 ); // focus hack?
 
     getGame().getMap().getTile( x, y ).removeUnit( unit );
-    
+
     if( !packet.carried )
     {
       refreshTileMapCanvas( x, y, wasTeleported );
     }
-    
+
     if( getGame().isCurrentPlayer( unit.getOwner() )
        && unit.getActivity() != ACTIVITY_GOTO
        // && !tile_visible_and_not_on_border_mapcanvas( packet.x, packet.y )
@@ -1155,11 +1155,11 @@ public final class Client implements Constants
     {
       getMainWindow().getMapViewManager().centerOnTile( packet.x, packet.y );
     }
-    
+
     if( !packet.carried && !wasTeleported )
     {
       int dx = packet.x - x;
-      if ( dx > 1 ) 
+      if ( dx > 1 )
       {
         dx = -1;
       }
@@ -1173,13 +1173,13 @@ public final class Client implements Constants
       }
       refreshTileMapCanvas( x, y, true );
     }
-    
+
     unit.setX( packet.x );
     unit.setY( packet.y );
     unit.setFuel( packet.fuel );
     unit.setHitPoints( packet.hp );
     getGame().getMap().getTile( unit.getX(), unit.getY() ).addUnit( unit );
-    
+
     for ( y = unit.getY() - 2; y < unit.getY() + 3; ++y )
     {
       if (y < 0 || y > getGame().getMap().getHeight() )
@@ -1191,19 +1191,19 @@ public final class Client implements Constants
         for( Iterator i = getGame().getMap().getTile( x, y ).getUnits();
              i.hasNext(); )
         {
-          refreshTileMapCanvas( 
+          refreshTileMapCanvas(
                 getGame().getMap().adjustX( ( (Unit)i.next() ).getX() ),
                 y, true );
         }
       }
     }
-    
-    if( !packet.carried 
+
+    if( !packet.carried
         && getGame().getMap().getTile( unit.getX(), unit.getY() ).getKnown() == TILE_KNOWN )
     {
       refreshTileMapCanvas( unit.getX(), unit.getY(), true );
     }
-    
+
     // if ( isFocusUnit( unit ) )
     // {
     //   updateMenus();
@@ -1226,7 +1226,7 @@ public final class Client implements Constants
       city.getOwner().getNation().getName() + "(" +
       x + " " + y + ")");
 
-    if( getDialogManager().getCityViewDialog().isShowing() 
+    if( getDialogManager().getCityViewDialog().isShowing()
         && city.equals( getDialogManager().getCityViewDialog().getCity() ) )
     {
       getDialogManager().getCityViewDialog().undisplay();
@@ -1235,7 +1235,7 @@ public final class Client implements Constants
     // TODO: update city report dialog
     refreshTileMapCanvas( x, y, true );
   }
-  
+
   /**
    * Remove the specified unit from the map and game
    */
@@ -1244,14 +1244,14 @@ public final class Client implements Constants
     int x = unit.getX();
     int y = unit.getY();
     City city;
-    
+
     Logger.log( Logger.LOG_DEBUG,
       "Removing unit " + unit.getId() + ", "
       + unit.getOwner().getNation().getName() + " "
       + unit.getUnitType().getName()
       + "(" + x + " " + y + ")"
       + " hcity " + unit.getHomeCity() );
-    
+
     if ( isUnitInFocus( unit ) )
     {
       // setUnitFocusNoCenter( 0 );
@@ -1260,7 +1260,7 @@ public final class Client implements Constants
     }
     else
     {
-      boolean update = ( m_focusUnit != null 
+      boolean update = ( m_focusUnit != null
                         && m_focusUnit.getX() == unit.getX()
                         && m_focusUnit.getY() == unit.getY() );
       unit.removeFromGame();
@@ -1268,13 +1268,13 @@ public final class Client implements Constants
         updateUnitInfoLabel( m_focusUnit );
       }
     }
-    
+
     city = getGame().getMap().getCity( x, y );
     if( city != null )
     {
       getDialogManager().refreshCityDialog( city );
     }
-    
+
     city = unit.getHomeCity();
     if( city != null )
     {

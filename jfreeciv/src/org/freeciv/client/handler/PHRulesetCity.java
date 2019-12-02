@@ -26,10 +26,10 @@ public class PHRulesetCity implements ClientPacketHandler,ProgressItem
   }
   public String getProgressString()
   {
-    return _( "Receiving city styles..." );
+    return translate( "Receiving city styles..." );
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }

@@ -12,18 +12,18 @@ import org.freeciv.net.PktGenericMessage;
  */
 public class ACTEndTurn extends AbstractClientAction
 {
-  public ACTEndTurn() 
+  public ACTEndTurn()
   {
     super();
-    setName( _( "End Turn" ) );
+    setName( translate( "End Turn" ) );
     setEnabled( false );
 
-    URL imgURL = ACTEndTurn.class.getResource( 
+    URL imgURL = ACTEndTurn.class.getResource(
       "res/endturn.png"
     );
     putValue( SMALL_ICON, new ImageIcon( imgURL ) );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     setEnabled( false );

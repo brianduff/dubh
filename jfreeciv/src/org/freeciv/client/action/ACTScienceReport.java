@@ -3,10 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 public class ACTScienceReport extends AbstractClientAction
 {
-  public ACTScienceReport() 
+  public ACTScienceReport()
   {
     super();
-    setName( _( "Science Report" ) );
+    setName( translate( "Science Report" ) );
     addAccelerator( KeyEvent.VK_F6 );
     setEnabled( true );
   }

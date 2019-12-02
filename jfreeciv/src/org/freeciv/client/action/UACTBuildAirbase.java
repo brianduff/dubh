@@ -8,13 +8,13 @@ import org.freeciv.common.CommonConstants;
 
 public class UACTBuildAirbase extends AbstractUnitAction
 {
-  public UACTBuildAirbase() 
+  public UACTBuildAirbase()
   {
     super();
-    setName( _( "Build Airbase" ) );
+    setName( translate( "Build Airbase" ) );
     addAccelerator( KeyEvent.VK_E );
   }
-  
+
   public void actionPerformed( ActionEvent e )
   {
     Unit unit = getClient().getUnitInFocus();
@@ -23,7 +23,7 @@ public class UACTBuildAirbase extends AbstractUnitAction
       requestNewUnitActivity( unit, CommonConstants.ACTIVITY_AIRBASE );
     }
   }
-  
+
   public boolean isEnabledFor( Unit u )
   {
     return u.canDoActivity( CommonConstants.ACTIVITY_AIRBASE );

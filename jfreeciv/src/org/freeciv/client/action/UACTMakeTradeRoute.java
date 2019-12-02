@@ -6,14 +6,14 @@ import java.awt.Event;
 
 public class UACTMakeTradeRoute extends AbstractUnitAction
 {
-  public UACTMakeTradeRoute() 
+  public UACTMakeTradeRoute()
   {
     super();
-    setName( _( "Make Trade Route" ) );
+    setName( translate( "Make Trade Route" ) );
     addAccelerator( KeyEvent.VK_R, Event.SHIFT_MASK );
   }
   public void actionPerformed( ActionEvent e )
   {
-    
+
   }
 }

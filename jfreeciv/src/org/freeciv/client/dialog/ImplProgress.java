@@ -23,7 +23,7 @@ class ImplProgress extends JPanel implements DlgProgress
     m_pbProgress = new JProgressBar();
     m_pbProgress.setStringPainted( true );
     m_labMainMessage = new JLabel();
-    m_butCancel = new JButton( _( "Cancel" ) );
+    m_butCancel = new JButton( translate( "Cancel" ) );
     setLayout( new BorderLayout() );
     add( m_labMainMessage, BorderLayout.NORTH );
     add( m_pbProgress, BorderLayout.CENTER );
@@ -39,7 +39,7 @@ class ImplProgress extends JPanel implements DlgProgress
         catch (IOException ioe)
         {
           ErrorHandler.getHandler().error( ImplProgress.this,
-            _("Failed to disconnect")
+            translate("Failed to disconnect")
           );
           ioe.printStackTrace();
         }
@@ -49,7 +49,7 @@ class ImplProgress extends JPanel implements DlgProgress
   // DlgProgressDialog interface
   public void display( String baseMessage, int numSteps )
   {
-    JDialog dlg = new JDialog( m_client.getMainWindow(), _( "Progress" ), true );
+    JDialog dlg = new JDialog( m_client.getMainWindow(), translate( "Progress" ), true );
     dlg.getContentPane().setLayout( new BorderLayout() );
     dlg.getContentPane().add( this, BorderLayout.CENTER );
     m_dialog = dlg;
@@ -89,7 +89,7 @@ class ImplProgress extends JPanel implements DlgProgress
     }
   }
   // localization
-  private static String _( String txt )
+  private static String translate( String txt )
   {
     return org.freeciv.util.Localize.translate( txt );
   }
