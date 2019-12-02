@@ -281,9 +281,9 @@ public class Folder implements MessageProvider {
      }
      int count = 0;
      DefaultMutableTreeNode root = new DefaultMutableTreeNode(null);
-     Enumeration enum = m_messages.keys();
-     while (enum.hasMoreElements()) {
-        root.add(new DefaultMutableTreeNode(enum.nextElement()));
+     Enumeration en = m_messages.keys();
+     while (en.hasMoreElements()) {
+        root.add(new DefaultMutableTreeNode(en.nextElement()));
         if (monitor != null) {
          count++;
          monitor.setValue(count);
@@ -320,9 +320,9 @@ public class Folder implements MessageProvider {
      try {
        // Vector v = getHeaders();
        Vector v = new Vector();
-        Enumeration enum = v.elements();
-        while (enum.hasMoreElements()) {
-           MessageHeader h = (MessageHeader) enum.nextElement();
+        Enumeration en = v.elements();
+        while (en.hasMoreElements()) {
+           MessageHeader h = (MessageHeader) en.nextElement();
            if (Debug.TRACE_LEVEL_1) Debug.println(1, this, h.getFieldValue("Subject"));
         }
      } catch (Exception e) {

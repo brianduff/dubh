@@ -1,0 +1,9 @@
+java_library(
+  name="dmp",
+  deps=[
+    "//dju:dju",
+    "@maven//:javax_mail_mail"
+  ],
+  visibility=["//visibility:public"],
+  srcs=glob(["src/**/*.java"])
+)

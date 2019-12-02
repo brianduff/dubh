@@ -100,9 +100,9 @@ public class HTMLDoc {
 
   public String toString() {
      StringBuffer result = new StringBuffer();
-     Enumeration enum = m_parts.elements();
-     while (enum.hasMoreElements()) {
-        result.append(enum.nextElement().toString());
+     Enumeration e = m_parts.elements();
+     while (e.hasMoreElements()) {
+        result.append(e.nextElement().toString());
      }
      return result.toString();
   }

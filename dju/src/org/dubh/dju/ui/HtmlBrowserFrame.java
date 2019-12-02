@@ -133,11 +133,11 @@ public class HtmlBrowserFrame extends JFrame {
   private void printHistory() {
      System.out.println("---");
      int i=0;
-     Enumeration enum = history.elements();
-     while (enum.hasMoreElements()) {
+     Enumeration e = history.elements();
+     while (e.hasMoreElements()) {
         if (i == historyIndex) System.out.print("-->");
         if (i == historyStop) System.out.print("!");
-        System.out.println(enum.nextElement().toString());
+        System.out.println(e.nextElement().toString());
         i++;
      }
   }

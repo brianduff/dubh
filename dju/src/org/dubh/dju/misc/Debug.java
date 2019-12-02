@@ -248,7 +248,7 @@ public class Debug {
    * Do an assertion. If the assertion fails, your message will be displayed.
    * See the class description for details on how to call this method.
    */
-  public static void assert(boolean condition, Class caller, String message)
+  public static void _assert(boolean condition, Class caller, String message)
   {
      if (m_assert && !condition)
      {
@@ -263,9 +263,9 @@ public class Debug {
    * Do an assertion. If the assertion fails, your message will be displayed.
    * See the class description for details on how to call this method.
    */
-  public static void assert(boolean condition, Object caller, String message)
+  public static void _assert(boolean condition, Object caller, String message)
   {
-     assert(condition, caller.getClass(), message);
+     _assert(condition, caller.getClass(), message);
   }
 
   private static String getClassName(Class c)

@@ -304,9 +304,9 @@ public class ListAgentsOptionsPanel extends PreferencePage {
 
   private boolean isAgentAlreadyInList(String agentClassName) {
    if (agentClassName == null) return false;
-   Enumeration enum = lmAgents.elements();
-   while (enum.hasMoreElements()) {
-       AgentListEntryL thisEntry = (AgentListEntryL) enum.nextElement();
+   Enumeration en = lmAgents.elements();
+   while (en.hasMoreElements()) {
+       AgentListEntryL thisEntry = (AgentListEntryL) en.nextElement();
        if (thisEntry.agentClassName.equals(agentClassName))
          return true;
    }
@@ -338,11 +338,11 @@ public class ListAgentsOptionsPanel extends PreferencePage {
   private void populateAgentsList() {
    /*AgentManager am = GlobalState.getAgentManager();
    Vector activeAgents = am.getEnabledListAgentNames();
-   Enumeration enum = activeAgents.elements();
+   Enumeration en = activeAgents.elements();
    Enumeration allAgentNames = am.getAllListAgentNames();
 
-   while (enum.hasMoreElements()) {
-     String thisAgentName =  (String)enum.nextElement();
+   while (en.hasMoreElements()) {
+     String thisAgentName =  (String)en.nextElement();
      IListAgent agent = am.getListAgent(thisAgentName);
      if (agent == null)
        lmAgents.addElement(new AgentListEntryL(agent, false, thisAgentName));

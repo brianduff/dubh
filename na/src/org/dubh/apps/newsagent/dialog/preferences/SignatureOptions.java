@@ -202,9 +202,9 @@ public class SignatureOptions extends JFrame {
     String defSig = GlobalState.getPreference("newsagent.signature.default", "NONE");
     sigEntries.clear();
     // Enter all the signatures
-    Enumeration enum = p.propertyNames();
-    while (enum.hasMoreElements()) {
-        String me = (String)(enum.nextElement());
+    Enumeration en = p.propertyNames();
+    while (en.hasMoreElements()) {
+        String me = (String)(en.nextElement());
       SignatureEntry newentry = new SignatureEntry(me, p.getProperty(me));
       if (me.equals(defSig))    // This is the default signature
         newentry.isDefault = true;
@@ -222,9 +222,9 @@ public class SignatureOptions extends JFrame {
   private void updatePrefs() {
     Properties p = new Properties();
     // enter all items into the Properties object
-    Enumeration enum = sigEntries.elements();
-    while(enum.hasMoreElements()) {
-        SignatureEntry entry = (SignatureEntry)(enum.nextElement());
+    Enumeration en = sigEntries.elements();
+    while(en.hasMoreElements()) {
+        SignatureEntry entry = (SignatureEntry)(en.nextElement());
       p.put(entry.title, entry.sig);
     }
     // Set the default item property

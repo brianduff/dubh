@@ -318,32 +318,32 @@ public class ServerSubscriptions extends DubhOkCancelDialog {
                  allGroups = theServer.getAllNewsgroups();
                  subGroups = theServer.getSubscriptions();
                  // Populate the three list models.
-                 Enumeration enum;
+                 Enumeration en;
                  lmAllGroups.clear();
                  lmNewGroups.clear();
                  lmSubscribedGroups.clear();
-                 enum = newGroups.elements();
+                 en = newGroups.elements();
 
                  longop.setText(GlobalState.getRes().getString("ServerSubscriptions.UpdatingList"));
-                 while (enum.hasMoreElements()) {
-                    Object obj = enum.nextElement();
+                 while (en.hasMoreElements()) {
+                    Object obj = en.nextElement();
                     lmNewGroups.addElement(obj);
                  }
                  if (newGroups.size() == allGroups.size()) {
                     lmAllGroups = lmNewGroups;
                  } else {
-                    enum = allGroups.elements();
-                    while (enum.hasMoreElements()) {
-                       lmAllGroups.addElement(enum.nextElement());
+                    en = allGroups.elements();
+                    while (en.hasMoreElements()) {
+                       lmAllGroups.addElement(en.nextElement());
                     }
                  }
-                 enum = subGroups.elements();
+                 en = subGroups.elements();
                  if (Debug.ASSERT)
                  {
-                    Debug.assert((enum != null), this, "null group list");
+                    Debug._assert((en != null), this, "null group list");
                  }
-                 while (enum.hasMoreElements()) {
-                    lmSubscribedGroups.addElement(enum.nextElement());
+                 while (en.hasMoreElements()) {
+                    lmSubscribedGroups.addElement(en.nextElement());
                  }
                  setCorrectListModel();
                  longop.setVisible(false);

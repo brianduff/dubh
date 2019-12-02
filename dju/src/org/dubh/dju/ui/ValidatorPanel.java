@@ -85,11 +85,11 @@ public class ValidatorPanel extends JPanel
 
    private void fireValidationChange(boolean newState)
    {
-      Enumeration enum = m_listeners.elements();
+      Enumeration en = m_listeners.elements();
       ValidationChangeEvent e = new ValidationChangeEvent(this, newState);
-      while (enum.hasMoreElements())
+      while (en.hasMoreElements())
       {
-         ((ValidationChangeListener)enum.nextElement()).validationStateChanged(e);
+         ((ValidationChangeListener)en.nextElement()).validationStateChanged(e);
       }
    }
 

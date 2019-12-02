@@ -144,9 +144,9 @@ public class ServerCache implements Serializable {
      (yymmddhhmmss)
    */
   public void addHeaders(Vector headers, String now) {
-   Enumeration enum = headers.elements();
-   while (enum.hasMoreElements()) {
-     MessageHeader thisHeader = (MessageHeader)enum.nextElement();
+   Enumeration en = headers.elements();
+   while (en.hasMoreElements()) {
+     MessageHeader thisHeader = (MessageHeader)en.nextElement();
      // Call the list agents, and add the message only if it isn't rejected
      // by any of the agents.
      //if (GlobalState.getAgentManager().callListAgents(thisHeader))
@@ -272,9 +272,9 @@ public class ServerCache implements Serializable {
    if (obj != null)
      m_headers.put(((MessageHeader)obj).getFieldValue("Message-Id"), node);
    if (node.getChildCount() > 0) {
-     Enumeration enum = node.children();
-     while (enum.hasMoreElements()) {
-       hashNode((DefaultMutableTreeNode)enum.nextElement());
+     Enumeration en = node.children();
+     while (en.hasMoreElements()) {
+       hashNode((DefaultMutableTreeNode)en.nextElement());
      }
    }
 
@@ -324,9 +324,9 @@ public class ServerCache implements Serializable {
      System.out.println(obj.toString());
    if (node.getChildCount() > 0) {
      System.out.println("CHILDREN:");
-     Enumeration enum = node.children();
-     while (enum.hasMoreElements()) {
-       dumpTreeNode((DefaultMutableTreeNode)enum.nextElement());
+     Enumeration en = node.children();
+     while (en.hasMoreElements()) {
+       dumpTreeNode((DefaultMutableTreeNode)en.nextElement());
      }
      System.out.println("---");
    }

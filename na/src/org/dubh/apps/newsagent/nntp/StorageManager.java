@@ -281,10 +281,10 @@ public class StorageManager {
    * the UI or anything.
    */
   public void disconnectFromAllServers() {
-       Enumeration enum = getServers();
-       while (enum.hasMoreElements()) {
+       Enumeration en = getServers();
+       while (en.hasMoreElements()) {
          try {
-           ((NNTPServer)enum.nextElement()).closeConnection();
+           ((NNTPServer)en.nextElement()).closeConnection();
          } catch (IOException ioe) {
            if (Debug.TRACE_LEVEL_1) Debug.println(1, this,"IO Exception disconnecting from a server in GoOffline");
          }
@@ -388,9 +388,9 @@ public class StorageManager {
    * Determine whether a server already exists.
    */
   private boolean doesServerExist(String serverName) {
-     Enumeration enum = nntpServers.keys();
-     while (enum.hasMoreElements()) {
-        if (((String)enum.nextElement()).equals(serverName))
+     Enumeration en = nntpServers.keys();
+     while (en.hasMoreElements()) {
+        if (((String)en.nextElement()).equals(serverName))
            return true;
      }
      return false;

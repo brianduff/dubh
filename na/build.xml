@@ -11,9 +11,6 @@
 <project name="dmp" default="all" basedir=".">
   <target name="init">
     <tstamp/>
-    <!-- The buildnumber task is in the devtools CVS module. It must be in -->
-    <!-- the classpath before building any other module -->
-    <taskdef name="buildnumber" classname="org.dubh.tool.ant.BuildNumber" />
 
     <!-- The name and main version number of this project. -->
     <property name="product" value="NewsAgent" />
@@ -23,8 +20,6 @@
 
     <!-- The CVS module for this project. This should usually be a single top level directory -->
     <property name="cvsmodule" value="na" />
-    <!-- Runs the buildnumber task which will generate a unique build number and make it available to the rest of this build file -->
-    <buildnumber propertyfile="${cvsmodule}-build.properties" />
     <property file="${cvsmodule}-build.properties" />
 
     <property name="srcbase" value="src" />
@@ -40,7 +35,7 @@
     <!-- The classpath. You should really only include things that are guaranteed to be in the jardir at build time -->
     <property name="classpath" value="${jardir}/mail.jar:${jardir}/activation.jar:${jardir}/dju-2.0.jar:${jardir}/dmp-1.0.jar" />
     <property name="snapshot" value="${cvsmodule}/${modulelong}-src.zip" />
-    <property name="docdir" value="${cvsmodule}/doc" />    
+    <property name="docdir" value="${cvsmodule}/doc" />
     <property name="javadocdir" value="${docdir}/api" />
     <property name="javadocpkg" value="${toppackage}.*" />
     <property name="javadoctitle" value="${product} ${modulelong}" />
@@ -57,15 +52,15 @@
     <property name="copyfiles" value="**/*.gif,**/*.properties" />
 
     <!-- Comma separated list of xml files that should be converted to Java using the xui transforming stylesheet -->
-    <property name="xuifiles" value="**/*.xui" /> 
+    <property name="xuifiles" value="**/*.xui" />
 
     <!-- Comma separated list of xml files that should be converted to Java using the xrts transforming stylesheet -->
     <property name="xrtsfiles" value="" />
 
     <echo message="${cvsmodule} build number ${dubh.buildnumber} started ${TODAY} at ${TSTAMP}" />
   </target>
-  
-  
+
+
   <!-- Pull source code from CVS and set up initial dirs -->
   <target name="pullsrc" depends="init">
     <cvs  cvsRoot="${cvsroot}"
@@ -76,24 +71,22 @@
           quiet="true"
           failonerror="true"
     />
-      
-      
+
+
   </target>
 
   <!-- grabs the latest built Dubh Java Utilities -->
   <target name="grabdeps" depends="init">
-    <copydir src="dju/lib"
-             dest="${jardir}"
-             includes="**/*.jar"
-    />
-    <copydir src="dmp/lib"
-             dest="${jardir}"
-             includes="**/*.jar"
-    />
+    <copy todir="${jardir}">
+      <fileset dir="dju/lib" />
+    </copy>
+    <copy todir="${jardir}">
+      <fileset dir="dmp/lib" />
+    </copy>
   </target>
 
   <!-- Copy files from the source tree to the output path -->
-  <target name="copyfiles" depends="pullsrc">
+  <target name="copyfiles">
     <copydir  src="${srcdir}"
               dest="${classdir}"
               includes="${copyfiles}"
@@ -103,7 +96,7 @@
   <!-- Apply the XUI transforming stylesheet to all files defined in the xuifiles -->
   <!-- property. This requires the xugen.xsl file to be present in devtools/xslt -->
   <!-- and the xalan XSLT engine to be in your ant CLASSPATH -->
-  <target name="xui" depends="pullsrc" if="xuifiles">
+  <target name="xui"  if="xuifiles">
     <style  basedir="${srcdir}"
             destdir="${srcdir}"
             extension=".java"
@@ -112,18 +105,18 @@
     />
   </target>
 
-  <target name="xrts" depends="pullsrc" if="xrtsfiles">
+  <target name="xrts" if="xrtsfiles">
 
   </target>
-  
+
   <!-- Compile all source code -->
-  <target name="src" depends="pullsrc,grabdeps,copyfiles,xrts,xui">
+  <target name="src" depends="grabdeps,copyfiles,xrts,xui">
     <mkdir dir="${classdir}" />
     <javac  srcdir="${srcdir}"
             destdir="${classdir}"
             classpath="${classpath}">
 
-    </javac>            
+    </javac>
   </target>
 
   <!-- Create the JAR file -->
@@ -134,12 +127,12 @@
 
   <!-- Create a source code snapshot -->
   <target name="src-snapshot" depends="src">
-    <zip  zipfile="${snapshot}" 
+    <zip  zipfile="${snapshot}"
           basedir="${srcdir}" />
   </target>
 
   <!-- Create javadoc -->
-  <target name="javadoc" depends="pullsrc">
+  <target name="javadoc">
     <mkdir dir="${javadocdir}" />
 
     <javadoc  sourcepath="${srcdir}"
@@ -189,5 +182,5 @@
     <deltree dir="${distribtmp}" />
   </target>
 
-  
+
 </project>

@@ -205,9 +205,9 @@ public class ServerOptionsPane extends PreferencePage {
    */
   private void refreshServerList() {
     listItems.clear();
-    Enumeration enum = GlobalState.getStorageManager().getServers();
-    while(enum.hasMoreElements()) {
-        NNTPServer thisserver = (NNTPServer)enum.nextElement();
+    Enumeration en = GlobalState.getStorageManager().getServers();
+    while(en.hasMoreElements()) {
+        NNTPServer thisserver = (NNTPServer)en.nextElement();
          listItems.addElement(new ServerListItem(thisserver.getHostName(),
             thisserver.getNiceName()));
     }

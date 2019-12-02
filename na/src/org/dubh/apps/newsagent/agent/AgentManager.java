@@ -285,10 +285,10 @@ public class AgentManager {
   public boolean callListAgents(MessageHeader hd) {
    hd.setFont(new Font("Dialog", Font.PLAIN, 12));
    hd.setForeground(Color.black);
-   Enumeration enum = m_activeListAgents.elements();
+   Enumeration en = m_activeListAgents.elements();
    boolean keepMessage = true;
-   while (enum.hasMoreElements()) {
-     IListAgent myAgent = getListAgent((String)enum.nextElement());
+   while (en.hasMoreElements()) {
+     IListAgent myAgent = getListAgent((String)en.nextElement());
      if (myAgent != null) {
        keepMessage = !myAgent.checkMessage(hd).isDelete();
      }
@@ -328,7 +328,7 @@ public class AgentManager {
    @return true if it is still ok to send the message.
    */
   public boolean callSendAgents(MessageHeader hd, MessageBody bd) {
-     Enumeration enum = m_activeSendAgents.elements();
+     Enumeration en = m_activeSendAgents.elements();
      Frame fraTmp = new Frame();
      SendAgentWarningsDialog dlgWarnings = new SendAgentWarningsDialog(fraTmp);
 
@@ -337,8 +337,8 @@ public class AgentManager {
      boolean wasChanged = false;
      boolean postOk     = true;
 
-     while (enum.hasMoreElements()) {
-        ISendAgent myAgent = getSendAgent((String)enum.nextElement());
+     while (en.hasMoreElements()) {
+        ISendAgent myAgent = getSendAgent((String)en.nextElement());
         if (myAgent != null) {
            SendAgentMessage msg = myAgent.checkMessage(hd, bd);
            if (msg.isErrorMessage()) {
@@ -493,7 +493,7 @@ public class AgentManager {
    */
   private boolean saveAgentProperties(String agentClassName,
        Properties agentProperties) {
-       
+
    return false;
 
   }

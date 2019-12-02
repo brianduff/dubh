@@ -71,7 +71,7 @@ class ComposerHeaderDisplay extends JPanel {
      be the empty String ("").
    */
   public void addHeader(String headerName, String initialValue) {
-     if (!m_lines.contains(headerName)) {
+     if (!m_lines.containsValue(headerName)) {
         int item = m_lines.size();
         HeaderLine line = new HeaderLine(
            addLabel(headerName+":", item),
@@ -104,7 +104,7 @@ class ComposerHeaderDisplay extends JPanel {
    */
   public void addButtonHeader(String headerName, String initialValue,
      Icon buttonIcon, ActionListener buttonListener) {
-     if (!m_lines.contains(headerName)) {
+     if (!m_lines.containsValue(headerName)) {
         int item = m_lines.size();
         HeaderLine line = new HeaderLine(
            addLabel(headerName+":", item),

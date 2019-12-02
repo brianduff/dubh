@@ -143,9 +143,9 @@ public class FolderSelectorDialog extends DubhDialog {
 
   private void fillList() {
     lmFolders.removeAllElements();
-    Enumeration enum = GlobalState.getStorageManager().getFolders();
-    while (enum.hasMoreElements())
-     lmFolders.addElement(enum.nextElement());
+    Enumeration en = GlobalState.getStorageManager().getFolders();
+    while (en.hasMoreElements())
+     lmFolders.addElement(en.nextElement());
   }
 
 

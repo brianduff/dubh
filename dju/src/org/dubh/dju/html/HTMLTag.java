@@ -232,10 +232,10 @@ public class HTMLTag {
      if (isClosingTag()) result.append(CLOSE);
      result.append(m_command);
      if (!isClosingTag()) {
-        Enumeration enum = getAttributes();
-        while (enum.hasMoreElements()) {
+        Enumeration e = getAttributes();
+        while (e.hasMoreElements()) {
            result.append(" ");
-           String attrib = (String) enum.nextElement();
+           String attrib = (String) e.nextElement();
            String value = getAttribute(attrib);
            result.append(attrib);
            result.append("=\"");

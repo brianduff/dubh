@@ -324,9 +324,9 @@ public class NNTPServer implements MessageProvider, Serializable {
          sendMessage(cmdBody+" "+head.getFieldValue("Message-Id"));
       getReply(); // Should be 222 Body
       v = getMessage();
-      Enumeration enum = v.elements();
-      while (enum.hasMoreElements()) {
-         s = s + (String) enum.nextElement() + "\n";
+      Enumeration en = v.elements();
+      while (en.hasMoreElements()) {
+         s = s + (String) en.nextElement() + "\n";
       }
       return new MessageBody(s);
    }
@@ -833,9 +833,9 @@ public class NNTPServer implements MessageProvider, Serializable {
    * Appends a vector of Newsgroup objects to the server's list of newsgroups.
    */
   private void appendNewsgroups(Vector newGroups) {
-     Enumeration enum = newGroups.elements();
-     while (enum.hasMoreElements()) {
-        allNewsgroups.addElement(enum.nextElement());
+     Enumeration en = newGroups.elements();
+     while (en.hasMoreElements()) {
+        allNewsgroups.addElement(en.nextElement());
      }
   }
 
@@ -893,9 +893,9 @@ public class NNTPServer implements MessageProvider, Serializable {
      // not yet implemented, just return all the messages in the root.
      DefaultMutableTreeNode root = new DefaultMutableTreeNode(null);
      DefaultTreeModel model = new DefaultTreeModel(root);
-     Enumeration enum = collection.elements();
-     while (enum.hasMoreElements())
-        root.add(new DefaultMutableTreeNode(enum.nextElement()));
+     Enumeration en = collection.elements();
+     while (en.hasMoreElements())
+        root.add(new DefaultMutableTreeNode(en.nextElement()));
      return model;
    }
 
